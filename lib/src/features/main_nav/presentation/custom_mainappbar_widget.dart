@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:module_bps/src/configs/navigations/routes.dart';
-import 'package:module_bps/src/features/telematry/infrastructure/repositories/telematry.repositories.dart';
-import 'package:module_bps/src/features/telematry/presentation/controller/telematry.controller.dart';
-import 'package:module_bps/src/shared_component/connection_listener_widget.dart';
-import 'package:module_bps/src/shared_component/icon_notification_widget.dart';
 import 'package:module_shared/module_shared.dart';
+
+import '../../../../module_etamkawa.dart';
+import '../../../shared_component/connection_listener_widget.dart';
+import '../../../shared_component/icon_notification_widget.dart';
 
 class CustomMainAppbarWidget extends StatelessWidget
     implements PreferredSizeWidget {
@@ -37,11 +36,6 @@ class CustomMainAppbarWidget extends StatelessWidget
             children: [
               InkWell(
                 onTap: () {
-                  ref
-                      .read(telematryControllerProvider.notifier)
-                      .sendTelematryInBackground();
-
-                  ref.invalidate(getUserInfosRemoteProvider);
                   context.pop();
                 },
                 child: Padding(

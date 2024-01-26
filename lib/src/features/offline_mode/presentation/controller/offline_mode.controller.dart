@@ -1,5 +1,6 @@
-import 'package:module_bps/src/features/offline_mode/infrastructure/repositories/isar.repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../infrastructure/repositories/isar.repository.dart';
 
 part 'offline_mode.controller.g.dart';
 

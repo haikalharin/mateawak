@@ -4,19 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazy_load_indexed_stack/lazy_load_indexed_stack.dart';
-import 'package:module_bps/module_bps.dart';
-import 'package:module_bps/src/constants/image.constant.dart';
-import 'package:module_bps/src/features/main_nav/presentation/controller/main_nav.controller.dart';
-import 'package:module_bps/src/features/setting/presentation/controller/setting.controller.dart';
-import 'package:module_bps/src/features/site_perform/presentation/site_perform.screen.dart';
-import 'package:module_bps/src/features/telematry/infrastructure/repositories/telematry.repositories.dart';
-import 'package:module_bps/src/features/telematry/presentation/controller/telematry.controller.dart';
-import 'package:module_bps/src/shared_component/async_value_widget.dart';
-import 'package:module_bps/src/shared_component/empty_state_widget.dart';
+
 import 'package:module_etamkawa/module_etamkawa.dart';
 import 'package:module_shared/module_shared.dart';
 
+import '../../../constants/image.constant.dart';
 import '../../overview/presentation/overview.screen.dart';
+import 'controller/main_nav.controller.dart';
 
 class MainNavScreen extends ConsumerStatefulWidget {
   const MainNavScreen({super.key, required this.currentIndex});
@@ -38,9 +32,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
 
   Future<void> initBps() async {
     WidgetsFlutterBinding.ensureInitialized();
-    await intializedBackgroundService();
 
-    await ref.read(telematryControllerProvider.notifier).getLocation();
   }
 
   @override
@@ -52,39 +44,17 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.inactive) {
-      ref
-          .read(telematryControllerProvider.notifier)
-          .sendTelematryInBackground();
+
     }
     super.didChangeAppLifecycleState(state);
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(activeWidgetProvider, (previous, now) {
-      /* final prev = previous?.split('#');
-      final next = now?.split('#');
-      print('mydebug widgetname ${prev?[2]} ===> ${next?[2]}'); */
-      if (previous != now) {
-        if (now != null) {
-          ref
-              .read(telematryControllerProvider.notifier)
-              .insertInitTelematryData(now);
-        }
-        if (previous != null) {
-          ref
-              .read(telematryControllerProvider.notifier)
-              .completeTelematryDataThenSend(previous);
-        }
-      }
-    });
 
     return WillPopScope(
       onWillPop: () {
-        ref.invalidate(getUserInfosRemoteProvider);
-        ref
-            .read(telematryControllerProvider.notifier)
-            .sendTelematryInBackground();
+
         return Future.value(true);
       },
       child: MainWidget(
@@ -135,25 +105,22 @@ class MainWidget extends ConsumerWidget {
   final bool isAbleAccessLineupSpv;
   final bool isRoleSPV;
 
-  LazyLoadIndexedStack _buildBody(int currentIndex, USERROLE? userRole) {
+  LazyLoadIndexedStack _buildBody(int currentIndex, {USERROLE? userRole}) {
     return LazyLoadIndexedStack(index: currentIndex, children:  const [
       OverviewScreen(),
       // OverviewScreen(),
       // LiveScreen(),
-      SitePerformScreen(),
-      // const LineupSPVScreen(),
       // if (isAbleAccessLineupOperator) const LineupScreen()
     ]);
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const userRole = USERROLE.foremanSupervisor;
     // ref.watch(userRoleProvider);
-    final menusLength = _buildBody(currentIndex, userRole).children.length;
+    final menusLength = _buildBody(currentIndex).children.length;
 
     return Scaffold(
-        body: _buildBody(currentIndex, userRole),
+        body: _buildBody(currentIndex),
         bottomNavigationBar: menusLength == 0
             ? Padding(
                 padding: const EdgeInsets.all(16),
@@ -175,11 +142,11 @@ class MainWidget extends ConsumerWidget {
                       items: [
                           BottomNavigationBarItem(
                             icon: SvgPicture.asset(ImageConstant.iconOverview,
-                                package: 'module_bps'),
+                                package: 'module_etamkawa'),
                             label: 'Overview',
                             activeIcon: SvgPicture.asset(
                               ImageConstant.iconOverview,
-                              package: 'module_bps',
+                              package: 'module_etamkawa',
                               colorFilter: ColorFilter.mode(
                                   ColorTheme.primary500, BlendMode.srcIn),
                             ),
@@ -187,11 +154,11 @@ class MainWidget extends ConsumerWidget {
 
                           BottomNavigationBarItem(
                             icon: SvgPicture.asset(ImageConstant.iconLive,
-                                package: 'module_bps'),
+                                package: 'module_etamkawa'),
                             label: 'Live',
                             activeIcon: SvgPicture.asset(
                               ImageConstant.iconLive,
-                              package: 'module_bps',
+                              package: 'module_etamkawa',
                               colorFilter: ColorFilter.mode(
                                   ColorTheme.primary500, BlendMode.srcIn),
                             ),
@@ -200,11 +167,11 @@ class MainWidget extends ConsumerWidget {
                           BottomNavigationBarItem(
                             icon: SvgPicture.asset(
                                 ImageConstant.iconSiteperform,
-                                package: 'module_bps'),
+                                package: 'module_etamkawa'),
                             label: 'Site Perform',
                             activeIcon: SvgPicture.asset(
                               ImageConstant.iconSiteperform,
-                              package: 'module_bps',
+                              package: 'module_etamkawa',
                               colorFilter: ColorFilter.mode(
                                   ColorTheme.primary500, BlendMode.srcIn),
                             ),
@@ -212,11 +179,11 @@ class MainWidget extends ConsumerWidget {
                         if (isAbleAccessLineupOperator)
                           BottomNavigationBarItem(
                             icon: SvgPicture.asset(ImageConstant.iconLineup,
-                                package: 'module_bps'),
+                                package: 'module_etamkawa'),
                             label: 'Lineup',
                             activeIcon: SvgPicture.asset(
                               ImageConstant.iconLineup,
-                              package: 'module_bps',
+                              package: 'module_etamkawa',
                               colorFilter: ColorFilter.mode(
                                   ColorTheme.primary500, BlendMode.srcIn),
                             ),
@@ -224,11 +191,11 @@ class MainWidget extends ConsumerWidget {
                         if (isAbleAccessLineupSpv)
                           BottomNavigationBarItem(
                             icon: SvgPicture.asset(ImageConstant.iconLineup,
-                                package: 'module_bps'),
+                                package: 'module_etamkawa'),
                             label: 'Lineup',
                             activeIcon: SvgPicture.asset(
                               ImageConstant.iconLineup,
-                              package: 'module_bps',
+                              package: 'module_etamkawa',
                               colorFilter: ColorFilter.mode(
                                   ColorTheme.primary500, BlendMode.srcIn),
                             ),

@@ -2,6 +2,7 @@ import 'package:isar/isar.dart';
 import 'package:module_etamkawa/src/features/main_nav/presentation/controller/main_nav.controller.dart';
 import 'package:module_etamkawa/src/features/overview/domain/unit_breakdown_request.remote.dart';
 import 'package:module_etamkawa/src/features/overview/domain/unit_breakdown_response.remote.dart';
+import 'package:module_etamkawa/src/features/telematry/infrastructure/repositories/telematry_local.repository.dart';
 import 'package:module_shared/module_shared.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -22,7 +23,7 @@ Future<AchievementProduksiResponseRemote> getAchievementProduksiRemote(
     required List<String>? areas}) async {
   final isAll = areas?.contains(Constant.all);
 
-  final userInfo = await ref.read(getUserInfosProvider.future);
+  final userInfo = await ref.read(getUserInfosLocalProvider.future);
 
   final data = AchievementProduksiRequestRemote(
       siteId: userInfo?.siteId,

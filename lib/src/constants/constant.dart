@@ -1,4 +1,5 @@
-import 'package:module_bps/src/features/telematry/domain/user_infos_response.remote.dart';
+
+import '../features/telematry/domain/user_infos_response.remote.dart';
 
 class Constant {
   static const baseUrl = 'baseUrlKey';
@@ -198,7 +199,7 @@ class Constant {
   };
 
   ///Module Lineup ----
-  static const moduleBPS = 'module_bps';
+  static const moduleBPS = 'module_etamkawa';
   static const izinSakit = "Sakit";
   static const izinKarantina = "Karantina";
   static const izinKeperluanPribadi = "Keperluan Pribadi";

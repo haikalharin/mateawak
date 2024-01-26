@@ -11,7 +11,7 @@ import 'package:module_shared/module_shared.dart';
 
 import '../../setting/domain/setting.model.dart';
 import '../../setting/presentation/controller/setting.controller.dart';
-import '../../shared_component/refreshable_starter_widget.dart';
+import '../../../shared_component/refreshable_starter_widget.dart';
 import '../infrastructure/repositories/overview.repository.dart';
 
 class OverviewScreen extends ConsumerStatefulWidget {
@@ -67,10 +67,10 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
           scrollController: _scrollController,
           onRefresh: () async {
             final materials = await ref.watch(
-                getActiveSwitchersProvider(SwitcherModeEtamkawa.material)
+                getActiveSwitchersProvider(SwitcherMode.material)
                     .future);
             final areas = await ref.watch(
-                getActiveSwitchersProvider(SwitcherModeEtamkawa.area).future);
+                getActiveSwitchersProvider(SwitcherMode.area).future);
             final userModel =
                 await ref.read(helperUserProvider).getUserProfile();
 
@@ -130,10 +130,10 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
                               future: Future.wait(
                                 [
                                   consRef.watch(getActiveSwitchersProvider(
-                                          SwitcherModeEtamkawa.material)
+                                          SwitcherMode.material)
                                       .future),
                                   consRef.watch(getActiveSwitchersProvider(
-                                          SwitcherModeEtamkawa.area)
+                                          SwitcherMode.area)
                                       .future),
                                   consRef
                                       .read(helperUserProvider)

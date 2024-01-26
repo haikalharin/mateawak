@@ -3,9 +3,10 @@ import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:module_etamkawa/src/constants/constant.dart';
 import 'package:module_etamkawa/src/features/main_nav/presentation/controller/main_nav.controller.dart';
-import 'package:module_etamkawa/src/features/offline_mode/infrastructure/repositories/isar.repository.dart';
 import 'package:module_etamkawa/src/features/setting/domain/setting.model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../../offline_mode/infrastructure/repositories/isar.repository.dart';
 
 part 'setting.controller.g.dart';
 
@@ -14,13 +15,13 @@ class SettingController extends _$SettingController {
   @override
   FutureOr<void> build() {}
 
-  void setSettingNewValue(SettingModeEtamkawa settingMode, bool isActive) async {
+  void setSettingNewValue(SettingMode settingMode, bool isActive) async {
     final isarInstance = await ref.watch(isarInstanceProvider.future);
 
     final existingSetting = await isarInstance.settingModels.get(1);
 
     await isarInstance.writeTxn(() async {
-      SettingModeEtamkawal modifiedSetting = SettingModeEtamkawal();
+      SettingModel modifiedSetting = SettingModel();
       modifiedSetting.id = 1;
 
       if (existingSetting != null) {
@@ -28,15 +29,15 @@ class SettingController extends _$SettingController {
       }
 
       switch (settingMode) {
-        case SettingModeEtamkawa.materialOb:
+        case SettingMode.materialOb:
           modifiedSetting.isMaterialObActive = isActive;
           ref.invalidate(indexSliderProvider);
           break;
-        case SettingModeEtamkawa.materialCM:
+        case SettingMode.materialCM:
           modifiedSetting.isMaterialCmActive = isActive;
           ref.invalidate(indexSliderProvider);
           break;
-        case SettingModeEtamkawa.areaAll:
+        case SettingMode.areaAll:
           if (isActive == true) {
             modifiedSetting.isAreaAllActive = isActive;
             modifiedSetting.isAreaTopActive = isActive;
@@ -49,7 +50,7 @@ class SettingController extends _$SettingController {
             modifiedSetting.isAreaBotActive = false;
           }
           break;
-        case SettingModeEtamkawa.areaTop:
+        case SettingMode.areaTop:
           modifiedSetting.isAreaTopActive = isActive;
           if (isActive == false) {
             modifiedSetting.isAreaAllActive = false;
@@ -60,7 +61,7 @@ class SettingController extends _$SettingController {
             }
           }
           break;
-        case SettingModeEtamkawa.areaMid:
+        case SettingMode.areaMid:
           modifiedSetting.isAreaMidActive = isActive;
           if (isActive == false) {
             modifiedSetting.isAreaAllActive = false;
@@ -71,7 +72,7 @@ class SettingController extends _$SettingController {
             }
           }
           break;
-        case SettingModeEtamkawa.areaBot:
+        case SettingMode.areaBot:
           modifiedSetting.isAreaBotActive = isActive;
           if (isActive == false) {
             modifiedSetting.isAreaAllActive = false;
@@ -82,7 +83,7 @@ class SettingController extends _$SettingController {
             }
           }
           break;
-        case SettingModeEtamkawa.tabReadiness:
+        case SettingMode.tabReadiness:
           modifiedSetting.isTabReadinessActive = isActive;
           if (isActive == true) {
             modifiedSetting.isTabProdActive = false;
@@ -90,7 +91,7 @@ class SettingController extends _$SettingController {
             modifiedSetting.isTabPerformanceActive = false;
           }
           break;
-        case SettingModeEtamkawa.tabProd:
+        case SettingMode.tabProd:
           modifiedSetting.isTabProdActive = isActive;
           if (isActive == true) {
             modifiedSetting.isTabReadinessActive = false;
@@ -98,7 +99,7 @@ class SettingController extends _$SettingController {
             modifiedSetting.isTabPerformanceActive = false;
           }
           break;
-        case SettingModeEtamkawa.tabRca:
+        case SettingMode.tabRca:
           modifiedSetting.isTabRcaActive = isActive;
           if (isActive == true) {
             modifiedSetting.isTabReadinessActive = false;
@@ -119,110 +120,110 @@ class SettingController extends _$SettingController {
 
       //Reset only necessary setting
       switch (settingMode) {
-        case SettingModeEtamkawa.materialOb:
-          ref.invalidate(getSettingLatestValueProvider(SettingModeEtamkawa.materialOb));
-          ref.invalidate(getActiveSwitchersProvider(SwitcherModeEtamkawa.material));
+        case SettingMode.materialOb:
+          ref.invalidate(getSettingLatestValueProvider(SettingMode.materialOb));
+          ref.invalidate(getActiveSwitchersProvider(SwitcherMode.material));
           break;
-        case SettingModeEtamkawa.materialCM:
-          ref.invalidate(getSettingLatestValueProvider(SettingModeEtamkawa.materialCM));
-          ref.invalidate(getActiveSwitchersProvider(SwitcherModeEtamkawa.material));
+        case SettingMode.materialCM:
+          ref.invalidate(getSettingLatestValueProvider(SettingMode.materialCM));
+          ref.invalidate(getActiveSwitchersProvider(SwitcherMode.material));
           break;
-        case SettingModeEtamkawa.areaAll:
-          ref.invalidate(getSettingLatestValueProvider(SettingModeEtamkawa.areaAll));
-          ref.invalidate(getSettingLatestValueProvider(SettingModeEtamkawa.areaTop));
-          ref.invalidate(getSettingLatestValueProvider(SettingModeEtamkawa.areaMid));
-          ref.invalidate(getSettingLatestValueProvider(SettingModeEtamkawa.areaBot));
-          ref.invalidate(getActiveSwitchersProvider(SwitcherModeEtamkawa.area));
+        case SettingMode.areaAll:
+          ref.invalidate(getSettingLatestValueProvider(SettingMode.areaAll));
+          ref.invalidate(getSettingLatestValueProvider(SettingMode.areaTop));
+          ref.invalidate(getSettingLatestValueProvider(SettingMode.areaMid));
+          ref.invalidate(getSettingLatestValueProvider(SettingMode.areaBot));
+          ref.invalidate(getActiveSwitchersProvider(SwitcherMode.area));
           break;
-        case SettingModeEtamkawa.areaTop:
-          ref.invalidate(getSettingLatestValueProvider(SettingModeEtamkawa.areaAll));
-          ref.invalidate(getSettingLatestValueProvider(SettingModeEtamkawa.areaTop));
-          ref.invalidate(getActiveSwitchersProvider(SwitcherModeEtamkawa.area));
+        case SettingMode.areaTop:
+          ref.invalidate(getSettingLatestValueProvider(SettingMode.areaAll));
+          ref.invalidate(getSettingLatestValueProvider(SettingMode.areaTop));
+          ref.invalidate(getActiveSwitchersProvider(SwitcherMode.area));
           break;
-        case SettingModeEtamkawa.areaMid:
-          ref.invalidate(getSettingLatestValueProvider(SettingModeEtamkawa.areaAll));
-          ref.invalidate(getSettingLatestValueProvider(SettingModeEtamkawa.areaMid));
-          ref.invalidate(getActiveSwitchersProvider(SwitcherModeEtamkawa.area));
+        case SettingMode.areaMid:
+          ref.invalidate(getSettingLatestValueProvider(SettingMode.areaAll));
+          ref.invalidate(getSettingLatestValueProvider(SettingMode.areaMid));
+          ref.invalidate(getActiveSwitchersProvider(SwitcherMode.area));
           break;
-        case SettingModeEtamkawa.areaBot:
-          ref.invalidate(getSettingLatestValueProvider(SettingModeEtamkawa.areaAll));
-          ref.invalidate(getSettingLatestValueProvider(SettingModeEtamkawa.areaBot));
-          ref.invalidate(getActiveSwitchersProvider(SwitcherModeEtamkawa.area));
+        case SettingMode.areaBot:
+          ref.invalidate(getSettingLatestValueProvider(SettingMode.areaAll));
+          ref.invalidate(getSettingLatestValueProvider(SettingMode.areaBot));
+          ref.invalidate(getActiveSwitchersProvider(SwitcherMode.area));
           break;
-        case SettingModeEtamkawa.tabReadiness:
+        case SettingMode.tabReadiness:
           ref.invalidate(
-              getSettingLatestValueProvider(SettingModeEtamkawa.tabReadiness));
-          ref.invalidate(getSettingLatestValueProvider(SettingModeEtamkawa.tabRca));
-          ref.invalidate(getSettingLatestValueProvider(SettingModeEtamkawa.tabProd));
+              getSettingLatestValueProvider(SettingMode.tabReadiness));
+          ref.invalidate(getSettingLatestValueProvider(SettingMode.tabRca));
+          ref.invalidate(getSettingLatestValueProvider(SettingMode.tabProd));
           ref.invalidate(
-              getSettingLatestValueProvider(SettingModeEtamkawa.tabPerformance));
-          ref.invalidate(getActiveSwitchersProvider(SwitcherModeEtamkawa.tab));
+              getSettingLatestValueProvider(SettingMode.tabPerformance));
+          ref.invalidate(getActiveSwitchersProvider(SwitcherMode.tab));
           break;
-        case SettingModeEtamkawa.tabProd:
+        case SettingMode.tabProd:
           ref.invalidate(
-              getSettingLatestValueProvider(SettingModeEtamkawa.tabReadiness));
-          ref.invalidate(getSettingLatestValueProvider(SettingModeEtamkawa.tabRca));
-          ref.invalidate(getSettingLatestValueProvider(SettingModeEtamkawa.tabProd));
+              getSettingLatestValueProvider(SettingMode.tabReadiness));
+          ref.invalidate(getSettingLatestValueProvider(SettingMode.tabRca));
+          ref.invalidate(getSettingLatestValueProvider(SettingMode.tabProd));
           ref.invalidate(
-              getSettingLatestValueProvider(SettingModeEtamkawa.tabPerformance));
-          ref.invalidate(getActiveSwitchersProvider(SwitcherModeEtamkawa.tab));
+              getSettingLatestValueProvider(SettingMode.tabPerformance));
+          ref.invalidate(getActiveSwitchersProvider(SwitcherMode.tab));
           break;
-        case SettingModeEtamkawa.tabRca:
+        case SettingMode.tabRca:
           ref.invalidate(
-              getSettingLatestValueProvider(SettingModeEtamkawa.tabReadiness));
-          ref.invalidate(getSettingLatestValueProvider(SettingModeEtamkawa.tabRca));
-          ref.invalidate(getSettingLatestValueProvider(SettingModeEtamkawa.tabProd));
+              getSettingLatestValueProvider(SettingMode.tabReadiness));
+          ref.invalidate(getSettingLatestValueProvider(SettingMode.tabRca));
+          ref.invalidate(getSettingLatestValueProvider(SettingMode.tabProd));
           ref.invalidate(
-              getSettingLatestValueProvider(SettingModeEtamkawa.tabPerformance));
-          ref.invalidate(getActiveSwitchersProvider(SwitcherModeEtamkawa.tab));
+              getSettingLatestValueProvider(SettingMode.tabPerformance));
+          ref.invalidate(getActiveSwitchersProvider(SwitcherMode.tab));
           break;
         default:
           ref.invalidate(
-              getSettingLatestValueProvider(SettingModeEtamkawa.tabReadiness));
-          ref.invalidate(getSettingLatestValueProvider(SettingModeEtamkawa.tabRca));
-          ref.invalidate(getSettingLatestValueProvider(SettingModeEtamkawa.tabProd));
+              getSettingLatestValueProvider(SettingMode.tabReadiness));
+          ref.invalidate(getSettingLatestValueProvider(SettingMode.tabRca));
+          ref.invalidate(getSettingLatestValueProvider(SettingMode.tabProd));
           ref.invalidate(
-              getSettingLatestValueProvider(SettingModeEtamkawa.tabPerformance));
-          ref.invalidate(getActiveSwitchersProvider(SwitcherModeEtamkawa.tab));
+              getSettingLatestValueProvider(SettingMode.tabPerformance));
+          ref.invalidate(getActiveSwitchersProvider(SwitcherMode.tab));
       }
     });
   }
 
-  Future<bool> getSettingLatestValue(SettingModeEtamkawa settingMode) async {
+  Future<bool> getSettingLatestValue(SettingMode settingMode) async {
     final isarInstance = await ref.watch(isarInstanceProvider.future);
 
     final existingSetting = await isarInstance.settingModels.get(1);
 
     bool isActive;
     switch (settingMode) {
-      case SettingModeEtamkawa.materialOb:
+      case SettingMode.materialOb:
         isActive = existingSetting?.isMaterialObActive ?? false;
         break;
-      case SettingModeEtamkawa.materialCM:
+      case SettingMode.materialCM:
         isActive = existingSetting?.isMaterialCmActive ?? false;
         break;
-      case SettingModeEtamkawa.areaAll:
+      case SettingMode.areaAll:
         isActive = existingSetting?.isAreaAllActive ?? false;
         break;
-      case SettingModeEtamkawa.areaTop:
+      case SettingMode.areaTop:
         isActive = existingSetting?.isAreaTopActive ?? false;
         break;
-      case SettingModeEtamkawa.areaMid:
+      case SettingMode.areaMid:
         isActive = existingSetting?.isAreaMidActive ?? false;
         break;
-      case SettingModeEtamkawa.areaBot:
+      case SettingMode.areaBot:
         isActive = existingSetting?.isAreaBotActive ?? false;
         break;
-      case SettingModeEtamkawa.tabReadiness:
+      case SettingMode.tabReadiness:
         isActive = existingSetting?.isTabReadinessActive ?? false;
         break;
-      case SettingModeEtamkawa.tabProd:
+      case SettingMode.tabProd:
         isActive = existingSetting?.isTabProdActive ?? false;
         break;
-      case SettingModeEtamkawa.tabRca:
+      case SettingMode.tabRca:
         isActive = existingSetting?.isTabRcaActive ?? false;
         break;
-      case SettingModeEtamkawa.tabPerformance:
+      case SettingMode.tabPerformance:
         isActive = existingSetting?.isTabPerformanceActive ?? false;
         break;
       default:
@@ -303,7 +304,7 @@ class SettingController extends _$SettingController {
 
       if (firstRow == null) {
         log('=== FIRST INIT DEFAULT DB ===');
-        SettingModeEtamkawal modifiedSetting = SettingModeEtamkawal();
+        SettingModel modifiedSetting = SettingModel();
         modifiedSetting.id = 1;
         modifiedSetting.isAreaAllActive = true;
         modifiedSetting.isAreaTopActive = true;
@@ -371,11 +372,11 @@ class SettingController extends _$SettingController {
         //     await isarInstance.settingModels.put(firstRow);
         //
         //     ref.invalidate(
-        //         getSettingLatestValueProvider(SettingModeEtamkawa.tabReadiness));
-        //     ref.invalidate(getSettingLatestValueProvider(SettingModeEtamkawa.tabRca));
-        //     ref.invalidate(getSettingLatestValueProvider(SettingModeEtamkawa.tabProd));
+        //         getSettingLatestValueProvider(SettingMode.tabReadiness));
+        //     ref.invalidate(getSettingLatestValueProvider(SettingMode.tabRca));
+        //     ref.invalidate(getSettingLatestValueProvider(SettingMode.tabProd));
         //     ref.invalidate(
-        //         getSettingLatestValueProvider(SettingModeEtamkawa.tabPerformance));
+        //         getSettingLatestValueProvider(SettingMode.tabPerformance));
         //     ref.invalidate(getActiveSwitchersProvider(SwitcherModeEtamkawa.tab));
         //   } catch (e) {
         //     log('no live tabs available : $e');
@@ -396,7 +397,7 @@ Future<bool> isPinnedTabConflict(IsPinnedTabConflictRef ref) async {
   final isAbleAccessPerformance = ref.watch(isAbleAccessTabPerformanceProvider);
 
   final pinnedTabs =
-      await ref.watch(getActiveSwitchersProvider(SwitcherModeEtamkawa.tab).future);
+      await ref.watch(getActiveSwitchersProvider(SwitcherMode.tab).future);
 
   final pinnedTab = pinnedTabs.first;
 
@@ -408,22 +409,22 @@ Future<bool> isPinnedTabConflict(IsPinnedTabConflictRef ref) async {
 
 @riverpod
 Future<bool> getSettingLatestValue(
-    GetSettingLatestValueRef ref, SettingModeEtamkawa settingMode) async {
+    GetSettingLatestValueRef ref, SettingMode settingMode) async {
   final settingController = ref.watch(settingControllerProvider.notifier);
   return settingController.getSettingLatestValue(settingMode);
 }
 
 @riverpod
 Future<List<String>> getActiveSwitchers(
-    GetActiveSwitchersRef ref, SwitcherModeEtamkawa switcherMode) async {
+    GetActiveSwitchersRef ref, SwitcherMode switcherMode) async {
   final settingController = ref.watch(settingControllerProvider.notifier);
   List<String> val = [];
 
   switch (switcherMode) {
-    case SwitcherModeEtamkawa.material:
+    case SwitcherMode.material:
       val = await settingController.getActiveMaterials();
       break;
-    case SwitcherModeEtamkawa.area:
+    case SwitcherMode.area:
       val = await settingController.getActiveAreas();
       break;
     default:

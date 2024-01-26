@@ -9,12 +9,12 @@ part of 'setting.model.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
-extension GetSettingModeEtamkawalCollection on Isar {
-  IsarCollection<SettingModeEtamkawal> get settingModels => this.collection();
+extension GetSettingModelCollection on Isar {
+  IsarCollection<SettingModel> get settingModels => this.collection();
 }
 
-const SettingModeEtamkawalSchema = CollectionSchema(
-  name: r'SettingModeEtamkawal',
+const SettingModelSchema = CollectionSchema(
+  name: r'SettingModel',
   id: 4631777779382765364,
   properties: {
     r'isAreaAllActive': PropertySchema(
@@ -83,7 +83,7 @@ const SettingModeEtamkawalSchema = CollectionSchema(
 );
 
 int _settingModelEstimateSize(
-  SettingModeEtamkawal object,
+  SettingModel object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -92,7 +92,7 @@ int _settingModelEstimateSize(
 }
 
 void _settingModelSerialize(
-  SettingModeEtamkawal object,
+  SettingModel object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
@@ -109,13 +109,13 @@ void _settingModelSerialize(
   writer.writeBool(offsets[9], object.isTabReadinessActive);
 }
 
-SettingModeEtamkawal _settingModelDeserialize(
+SettingModel _settingModelDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = SettingModeEtamkawal();
+  final object = SettingModel();
   object.id = id;
   object.isAreaAllActive = reader.readBoolOrNull(offsets[0]);
   object.isAreaBotActive = reader.readBoolOrNull(offsets[1]);
@@ -162,31 +162,31 @@ P _settingModelDeserializeProp<P>(
   }
 }
 
-Id _settingModelGetId(SettingModeEtamkawal object) {
+Id _settingModelGetId(SettingModel object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _settingModelGetLinks(SettingModeEtamkawal object) {
+List<IsarLinkBase<dynamic>> _settingModelGetLinks(SettingModel object) {
   return [];
 }
 
 void _settingModelAttach(
-    IsarCollection<dynamic> col, Id id, SettingModeEtamkawal object) {
+    IsarCollection<dynamic> col, Id id, SettingModel object) {
   object.id = id;
 }
 
-extension SettingModeEtamkawalQueryWhereSort
-    on QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QWhere> {
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterWhere> anyId() {
+extension SettingModelQueryWhereSort
+    on QueryBuilder<SettingModel, SettingModel, QWhere> {
+  QueryBuilder<SettingModel, SettingModel, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 }
 
-extension SettingModeEtamkawalQueryWhere
-    on QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QWhereClause> {
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterWhereClause> idEqualTo(Id id) {
+extension SettingModelQueryWhere
+    on QueryBuilder<SettingModel, SettingModel, QWhereClause> {
+  QueryBuilder<SettingModel, SettingModel, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -195,7 +195,7 @@ extension SettingModeEtamkawalQueryWhere
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterWhereClause> idNotEqualTo(
+  QueryBuilder<SettingModel, SettingModel, QAfterWhereClause> idNotEqualTo(
       Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
@@ -218,7 +218,7 @@ extension SettingModeEtamkawalQueryWhere
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterWhereClause> idGreaterThan(
+  QueryBuilder<SettingModel, SettingModel, QAfterWhereClause> idGreaterThan(
       Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
@@ -228,7 +228,7 @@ extension SettingModeEtamkawalQueryWhere
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterWhereClause> idLessThan(Id id,
+  QueryBuilder<SettingModel, SettingModel, QAfterWhereClause> idLessThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -237,7 +237,7 @@ extension SettingModeEtamkawalQueryWhere
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterWhereClause> idBetween(
+  QueryBuilder<SettingModel, SettingModel, QAfterWhereClause> idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -254,9 +254,9 @@ extension SettingModeEtamkawalQueryWhere
   }
 }
 
-extension SettingModeEtamkawalQueryFilter
-    on QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QFilterCondition> {
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition> idEqualTo(
+extension SettingModelQueryFilter
+    on QueryBuilder<SettingModel, SettingModel, QFilterCondition> {
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition> idEqualTo(
       Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -266,7 +266,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition> idGreaterThan(
     Id value, {
     bool include = false,
   }) {
@@ -279,7 +279,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition> idLessThan(
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition> idLessThan(
     Id value, {
     bool include = false,
   }) {
@@ -292,7 +292,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition> idBetween(
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition> idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -309,7 +309,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isAreaAllActiveIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -318,7 +318,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isAreaAllActiveIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -327,7 +327,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isAreaAllActiveEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -337,7 +337,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isAreaBotActiveIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -346,7 +346,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isAreaBotActiveIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -355,7 +355,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isAreaBotActiveEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -365,7 +365,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isAreaMidActiveIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -374,7 +374,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isAreaMidActiveIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -383,7 +383,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isAreaMidActiveEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -393,7 +393,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isAreaTopActiveIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -402,7 +402,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isAreaTopActiveIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -411,7 +411,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isAreaTopActiveEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -421,7 +421,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isMaterialCmActiveIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -430,7 +430,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isMaterialCmActiveIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -439,7 +439,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isMaterialCmActiveEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -449,7 +449,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isMaterialObActiveIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -458,7 +458,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isMaterialObActiveIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -467,7 +467,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isMaterialObActiveEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -477,7 +477,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isTabPerformanceActiveIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -486,7 +486,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isTabPerformanceActiveIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -495,7 +495,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isTabPerformanceActiveEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -505,7 +505,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isTabProdActiveIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -514,7 +514,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isTabProdActiveIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -523,7 +523,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isTabProdActiveEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -533,7 +533,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isTabRcaActiveIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -542,7 +542,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isTabRcaActiveIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -551,7 +551,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isTabRcaActiveEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -561,7 +561,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isTabReadinessActiveIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -570,7 +570,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isTabReadinessActiveIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -579,7 +579,7 @@ extension SettingModeEtamkawalQueryFilter
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterFilterCondition>
+  QueryBuilder<SettingModel, SettingModel, QAfterFilterCondition>
       isTabReadinessActiveEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -590,148 +590,148 @@ extension SettingModeEtamkawalQueryFilter
   }
 }
 
-extension SettingModeEtamkawalQueryObject
-    on QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QFilterCondition> {}
+extension SettingModelQueryObject
+    on QueryBuilder<SettingModel, SettingModel, QFilterCondition> {}
 
-extension SettingModeEtamkawalQueryLinks
-    on QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QFilterCondition> {}
+extension SettingModelQueryLinks
+    on QueryBuilder<SettingModel, SettingModel, QFilterCondition> {}
 
-extension SettingModeEtamkawalQuerySortBy
-    on QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QSortBy> {
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+extension SettingModelQuerySortBy
+    on QueryBuilder<SettingModel, SettingModel, QSortBy> {
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       sortByIsAreaAllActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isAreaAllActive', Sort.asc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       sortByIsAreaAllActiveDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isAreaAllActive', Sort.desc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       sortByIsAreaBotActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isAreaBotActive', Sort.asc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       sortByIsAreaBotActiveDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isAreaBotActive', Sort.desc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       sortByIsAreaMidActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isAreaMidActive', Sort.asc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       sortByIsAreaMidActiveDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isAreaMidActive', Sort.desc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       sortByIsAreaTopActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isAreaTopActive', Sort.asc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       sortByIsAreaTopActiveDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isAreaTopActive', Sort.desc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       sortByIsMaterialCmActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isMaterialCmActive', Sort.asc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       sortByIsMaterialCmActiveDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isMaterialCmActive', Sort.desc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       sortByIsMaterialObActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isMaterialObActive', Sort.asc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       sortByIsMaterialObActiveDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isMaterialObActive', Sort.desc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       sortByIsTabPerformanceActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isTabPerformanceActive', Sort.asc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       sortByIsTabPerformanceActiveDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isTabPerformanceActive', Sort.desc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       sortByIsTabProdActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isTabProdActive', Sort.asc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       sortByIsTabProdActiveDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isTabProdActive', Sort.desc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       sortByIsTabRcaActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isTabRcaActive', Sort.asc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       sortByIsTabRcaActiveDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isTabRcaActive', Sort.desc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       sortByIsTabReadinessActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isTabReadinessActive', Sort.asc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       sortByIsTabReadinessActiveDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isTabReadinessActive', Sort.desc);
@@ -739,154 +739,154 @@ extension SettingModeEtamkawalQuerySortBy
   }
 }
 
-extension SettingModeEtamkawalQuerySortThenBy
-    on QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QSortThenBy> {
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy> thenById() {
+extension SettingModelQuerySortThenBy
+    on QueryBuilder<SettingModel, SettingModel, QSortThenBy> {
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       thenByIsAreaAllActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isAreaAllActive', Sort.asc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       thenByIsAreaAllActiveDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isAreaAllActive', Sort.desc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       thenByIsAreaBotActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isAreaBotActive', Sort.asc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       thenByIsAreaBotActiveDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isAreaBotActive', Sort.desc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       thenByIsAreaMidActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isAreaMidActive', Sort.asc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       thenByIsAreaMidActiveDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isAreaMidActive', Sort.desc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       thenByIsAreaTopActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isAreaTopActive', Sort.asc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       thenByIsAreaTopActiveDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isAreaTopActive', Sort.desc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       thenByIsMaterialCmActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isMaterialCmActive', Sort.asc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       thenByIsMaterialCmActiveDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isMaterialCmActive', Sort.desc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       thenByIsMaterialObActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isMaterialObActive', Sort.asc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       thenByIsMaterialObActiveDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isMaterialObActive', Sort.desc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       thenByIsTabPerformanceActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isTabPerformanceActive', Sort.asc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       thenByIsTabPerformanceActiveDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isTabPerformanceActive', Sort.desc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       thenByIsTabProdActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isTabProdActive', Sort.asc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       thenByIsTabProdActiveDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isTabProdActive', Sort.desc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       thenByIsTabRcaActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isTabRcaActive', Sort.asc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       thenByIsTabRcaActiveDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isTabRcaActive', Sort.desc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       thenByIsTabReadinessActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isTabReadinessActive', Sort.asc);
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QAfterSortBy>
+  QueryBuilder<SettingModel, SettingModel, QAfterSortBy>
       thenByIsTabReadinessActiveDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isTabReadinessActive', Sort.desc);
@@ -894,72 +894,72 @@ extension SettingModeEtamkawalQuerySortThenBy
   }
 }
 
-extension SettingModeEtamkawalQueryWhereDistinct
-    on QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QDistinct> {
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QDistinct>
+extension SettingModelQueryWhereDistinct
+    on QueryBuilder<SettingModel, SettingModel, QDistinct> {
+  QueryBuilder<SettingModel, SettingModel, QDistinct>
       distinctByIsAreaAllActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isAreaAllActive');
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QDistinct>
+  QueryBuilder<SettingModel, SettingModel, QDistinct>
       distinctByIsAreaBotActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isAreaBotActive');
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QDistinct>
+  QueryBuilder<SettingModel, SettingModel, QDistinct>
       distinctByIsAreaMidActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isAreaMidActive');
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QDistinct>
+  QueryBuilder<SettingModel, SettingModel, QDistinct>
       distinctByIsAreaTopActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isAreaTopActive');
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QDistinct>
+  QueryBuilder<SettingModel, SettingModel, QDistinct>
       distinctByIsMaterialCmActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isMaterialCmActive');
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QDistinct>
+  QueryBuilder<SettingModel, SettingModel, QDistinct>
       distinctByIsMaterialObActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isMaterialObActive');
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QDistinct>
+  QueryBuilder<SettingModel, SettingModel, QDistinct>
       distinctByIsTabPerformanceActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isTabPerformanceActive');
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QDistinct>
+  QueryBuilder<SettingModel, SettingModel, QDistinct>
       distinctByIsTabProdActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isTabProdActive');
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QDistinct>
+  QueryBuilder<SettingModel, SettingModel, QDistinct>
       distinctByIsTabRcaActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isTabRcaActive');
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QDistinct>
+  QueryBuilder<SettingModel, SettingModel, QDistinct>
       distinctByIsTabReadinessActive() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isTabReadinessActive');
@@ -967,77 +967,77 @@ extension SettingModeEtamkawalQueryWhereDistinct
   }
 }
 
-extension SettingModeEtamkawalQueryProperty
-    on QueryBuilder<SettingModeEtamkawal, SettingModeEtamkawal, QQueryProperty> {
-  QueryBuilder<SettingModeEtamkawal, int, QQueryOperations> idProperty() {
+extension SettingModelQueryProperty
+    on QueryBuilder<SettingModel, SettingModel, QQueryProperty> {
+  QueryBuilder<SettingModel, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, bool?, QQueryOperations>
+  QueryBuilder<SettingModel, bool?, QQueryOperations>
       isAreaAllActiveProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isAreaAllActive');
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, bool?, QQueryOperations>
+  QueryBuilder<SettingModel, bool?, QQueryOperations>
       isAreaBotActiveProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isAreaBotActive');
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, bool?, QQueryOperations>
+  QueryBuilder<SettingModel, bool?, QQueryOperations>
       isAreaMidActiveProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isAreaMidActive');
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, bool?, QQueryOperations>
+  QueryBuilder<SettingModel, bool?, QQueryOperations>
       isAreaTopActiveProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isAreaTopActive');
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, bool?, QQueryOperations>
+  QueryBuilder<SettingModel, bool?, QQueryOperations>
       isMaterialCmActiveProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isMaterialCmActive');
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, bool?, QQueryOperations>
+  QueryBuilder<SettingModel, bool?, QQueryOperations>
       isMaterialObActiveProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isMaterialObActive');
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, bool?, QQueryOperations>
+  QueryBuilder<SettingModel, bool?, QQueryOperations>
       isTabPerformanceActiveProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isTabPerformanceActive');
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, bool?, QQueryOperations>
+  QueryBuilder<SettingModel, bool?, QQueryOperations>
       isTabProdActiveProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isTabProdActive');
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, bool?, QQueryOperations> isTabRcaActiveProperty() {
+  QueryBuilder<SettingModel, bool?, QQueryOperations> isTabRcaActiveProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isTabRcaActive');
     });
   }
 
-  QueryBuilder<SettingModeEtamkawal, bool?, QQueryOperations>
+  QueryBuilder<SettingModel, bool?, QQueryOperations>
       isTabReadinessActiveProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isTabReadinessActive');

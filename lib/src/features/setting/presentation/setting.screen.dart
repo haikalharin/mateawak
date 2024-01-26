@@ -13,8 +13,8 @@ import 'package:module_etamkawa/src/features/setting/domain/setting.model.dart';
 import 'package:module_shared/module_shared.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../shared_component/async_value_widget.dart';
-import '../../shared_component/detail_page_appbar_widget.dart';
+import '../../../shared_component/async_value_widget.dart';
+import '../../../shared_component/detail_page_appbar_widget.dart';
 
 
 class SettingScreen extends ConsumerWidget {
@@ -42,7 +42,7 @@ class SettingScreen extends ConsumerWidget {
               Consumer(builder: (context, consref, child) {
                 return AsyncValueWidget(
                     value: consref.watch(
-                        getActiveSwitchersProvider(SwitcherModeEtamkawa.material)),
+                        getActiveSwitchersProvider(SwitcherMode.material)),
                     data: (data) {
                       return ItemSettingWidget(
                         title: 'Tampilkan Material',
@@ -58,7 +58,7 @@ class SettingScreen extends ConsumerWidget {
                               ),
                               CustomSwitcher(
                                 isEnable: data.length > 1,
-                                settingMode: SettingModeEtamkawa.materialOb,
+                                settingMode: SettingMode.materialOb,
                               )
                             ],
                           ),
@@ -75,7 +75,7 @@ class SettingScreen extends ConsumerWidget {
                               ),
                               CustomSwitcher(
                                 isEnable: data.length > 1,
-                                settingMode: SettingModeEtamkawa.materialCM,
+                                settingMode: SettingMode.materialCM,
                               )
                             ],
                           )
@@ -89,7 +89,7 @@ class SettingScreen extends ConsumerWidget {
               Consumer(builder: (context, consref, child) {
                 return AsyncValueWidget(
                     value: consref
-                        .watch(getActiveSwitchersProvider(SwitcherModeEtamkawa.area)),
+                        .watch(getActiveSwitchersProvider(SwitcherMode.area)),
                     data: (data) {
                       return ItemSettingWidget(
                         title: 'Tampilkan Area',
@@ -105,7 +105,7 @@ class SettingScreen extends ConsumerWidget {
                               ),
                               CustomSwitcher(
                                 isEnable: data.length > 1,
-                                settingMode: SettingModeEtamkawa.areaAll,
+                                settingMode: SettingMode.areaAll,
                               )
                             ],
                           ),
@@ -122,7 +122,7 @@ class SettingScreen extends ConsumerWidget {
                               ),
                               CustomSwitcher(
                                 isEnable: data.length > 1,
-                                settingMode: SettingModeEtamkawa.areaTop,
+                                settingMode: SettingMode.areaTop,
                               )
                             ],
                           ),
@@ -139,7 +139,7 @@ class SettingScreen extends ConsumerWidget {
                               ),
                               CustomSwitcher(
                                 isEnable: data.length > 1,
-                                settingMode: SettingModeEtamkawa.areaMid,
+                                settingMode: SettingMode.areaMid,
                               )
                             ],
                           ),
@@ -156,7 +156,7 @@ class SettingScreen extends ConsumerWidget {
                               ),
                               CustomSwitcher(
                                 isEnable: data.length > 1,
-                                settingMode: SettingModeEtamkawa.areaBot,
+                                settingMode: SettingMode.areaBot,
                               )
                             ],
                           )
@@ -171,7 +171,7 @@ class SettingScreen extends ConsumerWidget {
                 builder: (context, consref, child) {
                   return AsyncValueWidget(
                     value: consref
-                        .watch(getActiveSwitchersProvider(SwitcherModeEtamkawa.tab)),
+                        .watch(getActiveSwitchersProvider(SwitcherMode.tab)),
                     data: (data) {
                       final isAbleAccessReadiness =
                           ref.watch(isAbleAccessTabReadinessProvider);
@@ -209,7 +209,7 @@ class SettingScreen extends ConsumerWidget {
                                       ),
                                       CustomSwitcher(
                                         isEnable: data.length > 1,
-                                        settingMode: SettingModeEtamkawa.tabReadiness,
+                                        settingMode: SettingMode.tabReadiness,
                                       )
                                     ],
                                   ),
@@ -229,7 +229,7 @@ class SettingScreen extends ConsumerWidget {
                                       ),
                                       CustomSwitcher(
                                         isEnable: data.length > 1,
-                                        settingMode: SettingModeEtamkawa.tabProd,
+                                        settingMode: SettingMode.tabProd,
                                       )
                                     ],
                                   ),
@@ -249,7 +249,7 @@ class SettingScreen extends ConsumerWidget {
                                       ),
                                       CustomSwitcher(
                                         isEnable: data.length > 1,
-                                        settingMode: SettingModeEtamkawa.tabRca,
+                                        settingMode: SettingMode.tabRca,
                                       )
                                     ],
                                   ),
@@ -269,7 +269,7 @@ class SettingScreen extends ConsumerWidget {
                                       ),
                                       CustomSwitcher(
                                         isEnable: data.length > 1,
-                                        settingMode: SettingModeEtamkawa.tabPerformance,
+                                        settingMode: SettingMode.tabPerformance,
                                       )
                                     ],
                                   ),
@@ -343,7 +343,7 @@ class CustomSwitcher extends StatelessWidget {
     required this.isEnable,
   });
 
-  final SettingModeEtamkawa settingMode;
+  final SettingMode settingMode;
   final bool isEnable;
 
   @override

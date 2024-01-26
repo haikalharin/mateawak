@@ -17,7 +17,7 @@ Future<Isar> isarInstance(IsarInstanceRef ref) async {
   //Add other Isar Scheme here
   final isar = existingIsarInstance ??
       await Isar.open([
-        SettingModeEtamkawalSchema,
+        SettingModelSchema,
 
         //Overview
         AchievementProduksiResponseRemoteSchema,

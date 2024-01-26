@@ -3,21 +3,19 @@ import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:module_bps/module_bps.dart';
-import 'package:module_bps/src/constants/telematry.constant.dart';
-import 'package:module_bps/src/features/main_nav/presentation/controller/main_nav.controller.dart';
-import 'package:module_bps/src/features/telematry/infrastructure/repositories/telematry.repositories.dart';
-import 'package:module_bps/src/features/telematry/presentation/controller/telematry.controller.dart';
-import 'package:module_bps/src/shared_component/empty_state_widget.dart';
-import 'package:module_bps/src/shared_component/icon_notification_widget.dart';
-import 'package:module_bps/src/utils/common_utils.dart';
+import 'package:module_etamkawa/module_etamkawa.dart';
+import 'package:module_etamkawa/src/constants/telematry.constant.dart';
+import 'package:module_etamkawa/src/features/main_nav/presentation/controller/main_nav.controller.dart';
+import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../../constants/constant.dart';
 import '../../../../../constants/image.constant.dart';
 import '../../../../setting/presentation/controller/setting.controller.dart';
-import '../../../../shared_component/async_value_widget.dart';
+import '../../../../../shared_component/async_value_widget.dart';
+import '../../../../../shared_component/empty_state_widget.dart';
+import '../../../../../shared_component/icon_notification_widget.dart';
 import '../../../domain/achievement_produksi_response.remote.dart';
 import '../../controller/overview.controller.dart';
 import '../chart/card_chart_overview_widget.dart';
@@ -47,7 +45,7 @@ class HeaderOverviewWidget extends ConsumerWidget {
                     result
                         ? ImageConstant.bgHeaderOverviewDay
                         : ImageConstant.bgHeaderOverviewNight,
-                    package: 'module_bps',
+                    package: 'module_etamkawa',
                   ),
                   height: coverHeight,
                   width: double.infinity,
@@ -57,7 +55,7 @@ class HeaderOverviewWidget extends ConsumerWidget {
               customLoading: Image(
                 image: const AssetImage(
                   ImageConstant.bgHeaderOverviewDay,
-                  package: 'module_bps',
+                  package: 'module_etamkawa',
                 ),
                 height: coverHeight,
                 width: double.infinity,
@@ -66,7 +64,7 @@ class HeaderOverviewWidget extends ConsumerWidget {
               onError: (p0, p1) => Image(
                 image: const AssetImage(
                   ImageConstant.bgHeaderOverviewDay,
-                  package: 'module_bps',
+                  package: 'module_etamkawa',
                 ),
                 height: coverHeight,
                 width: double.infinity,
@@ -100,10 +98,7 @@ class HeaderOverviewWidget extends ConsumerWidget {
                             return InkWell(
                               borderRadius: BorderRadius.circular(20),
                               onTap: () {
-                                consRef.invalidate(getUserInfosRemoteProvider);
-                                consRef
-                                    .read(telematryControllerProvider.notifier)
-                                    .sendTelematryInBackground();
+
                                 context.pop();
                                 context.pop();
                               },
@@ -133,7 +128,7 @@ class HeaderOverviewWidget extends ConsumerWidget {
                                 Image.asset(
                                   ImageConstant.logoBuma,
                                   height: 26.h,
-                                  package: 'module_bps',
+                                  package: 'module_etamkawa',
                                 ),
                                 SizedBox(
                                   width: 5.w,
@@ -141,7 +136,7 @@ class HeaderOverviewWidget extends ConsumerWidget {
                                 Image.asset(
                                   ImageConstant.logoAdt58,
                                   height: 26.h,
-                                  package: 'module_bps',
+                                  package: 'module_etamkawa',
                                 ),
                               ],
                             ),
@@ -277,14 +272,7 @@ class HeaderSlideWidget extends ConsumerWidget {
                           key: const ValueKey(TelematryConstant.overviewBanner),
                           onVisibilityChanged: (visibilityInfo) {
                             if (context.mounted) {
-                              ref
-                                  .read(telematryControllerProvider.notifier)
-                                  .onVisibilityChangedMultiWidget(
-                                      visibilityInfo,
-                                      context,
-                                      TelematryConstant.overviewBanner,
-                                      0,
-                                      screenOccupation);
+
                             }
                           },
                           child: AchievementAndChartWidget(
@@ -367,7 +355,7 @@ class AchievementAndChartWidget extends StatelessWidget {
                 children: [
                   Image(
                     image: const AssetImage(ImageConstant.iconMap,
-                        package: 'module_bps'),
+                        package: 'module_etamkawa'),
                     height: 16.w,
                     width: 16.w,
                     fit: BoxFit.fill,

@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-import 'package:module_bps/src/constants/constant.dart';
+import 'package:module_etamkawa/src/constants/constant.dart';
 import 'package:module_shared/module_shared.dart';
 import 'package:ntp/ntp.dart';
 

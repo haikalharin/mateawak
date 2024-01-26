@@ -7,7 +7,7 @@ part of 'setting.controller.dart';
 // **************************************************************************
 
 String _$isPinnedTabConflictHash() =>
-    r'b225a3e8e3afe2b813958dea6885b9052320232a';
+    r'7c3ce3c327e7f43e5b3d7152ef4c1de97a372c7d';
 
 /// See also [isPinnedTabConflict].
 @ProviderFor(isPinnedTabConflict)
@@ -57,7 +57,7 @@ class GetSettingLatestValueFamily extends Family<AsyncValue<bool>> {
 
   /// See also [getSettingLatestValue].
   GetSettingLatestValueProvider call(
-    SettingModeEtamkawa settingMode,
+    SettingMode settingMode,
   ) {
     return GetSettingLatestValueProvider(
       settingMode,
@@ -92,7 +92,7 @@ class GetSettingLatestValueFamily extends Family<AsyncValue<bool>> {
 class GetSettingLatestValueProvider extends AutoDisposeFutureProvider<bool> {
   /// See also [getSettingLatestValue].
   GetSettingLatestValueProvider(
-    SettingModeEtamkawa settingMode,
+    SettingMode settingMode,
   ) : this._internal(
           (ref) => getSettingLatestValue(
             ref as GetSettingLatestValueRef,
@@ -120,7 +120,7 @@ class GetSettingLatestValueProvider extends AutoDisposeFutureProvider<bool> {
     required this.settingMode,
   }) : super.internal();
 
-  final SettingModeEtamkawa settingMode;
+  final SettingMode settingMode;
 
   @override
   Override overrideWith(
@@ -162,7 +162,7 @@ class GetSettingLatestValueProvider extends AutoDisposeFutureProvider<bool> {
 
 mixin GetSettingLatestValueRef on AutoDisposeFutureProviderRef<bool> {
   /// The parameter `settingMode` of this provider.
-  SettingModeEtamkawa get settingMode;
+  SettingMode get settingMode;
 }
 
 class _GetSettingLatestValueProviderElement
@@ -171,7 +171,7 @@ class _GetSettingLatestValueProviderElement
   _GetSettingLatestValueProviderElement(super.provider);
 
   @override
-  SettingModeEtamkawa get settingMode =>
+  SettingMode get settingMode =>
       (origin as GetSettingLatestValueProvider).settingMode;
 }
 
@@ -189,7 +189,7 @@ class GetActiveSwitchersFamily extends Family<AsyncValue<List<String>>> {
 
   /// See also [getActiveSwitchers].
   GetActiveSwitchersProvider call(
-    SwitcherModeEtamkawa switcherMode,
+    SwitcherMode switcherMode,
   ) {
     return GetActiveSwitchersProvider(
       switcherMode,
@@ -225,7 +225,7 @@ class GetActiveSwitchersProvider
     extends AutoDisposeFutureProvider<List<String>> {
   /// See also [getActiveSwitchers].
   GetActiveSwitchersProvider(
-    SwitcherModeEtamkawa switcherMode,
+    SwitcherMode switcherMode,
   ) : this._internal(
           (ref) => getActiveSwitchers(
             ref as GetActiveSwitchersRef,
@@ -253,7 +253,7 @@ class GetActiveSwitchersProvider
     required this.switcherMode,
   }) : super.internal();
 
-  final SwitcherModeEtamkawa switcherMode;
+  final SwitcherMode switcherMode;
 
   @override
   Override overrideWith(
@@ -295,7 +295,7 @@ class GetActiveSwitchersProvider
 
 mixin GetActiveSwitchersRef on AutoDisposeFutureProviderRef<List<String>> {
   /// The parameter `switcherMode` of this provider.
-  SwitcherModeEtamkawa get switcherMode;
+  SwitcherMode get switcherMode;
 }
 
 class _GetActiveSwitchersProviderElement
@@ -304,11 +304,11 @@ class _GetActiveSwitchersProviderElement
   _GetActiveSwitchersProviderElement(super.provider);
 
   @override
-  SwitcherModeEtamkawa get switcherMode =>
+  SwitcherMode get switcherMode =>
       (origin as GetActiveSwitchersProvider).switcherMode;
 }
 
-String _$settingControllerHash() => r'b332201e656d25d8c26cfa868cf17147ec3fbfce';
+String _$settingControllerHash() => r'e52f5a708a1aad60c31a2f681b38745806608471';
 
 /// See also [SettingController].
 @ProviderFor(SettingController)

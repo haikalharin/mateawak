@@ -23,8 +23,8 @@ dependencies:
   #   path: ../Frontend.Mobile.Shared
   #  module_lineup:
   #    path: ./Frontend.Mobile.Lineup
-  module_bps:
-    path: ../Frontend.Mobile.BPS
+#  module_etamkawa:
+#    path: ../Frontend.Mobile.BPS
   flutter_riverpod: ^2.3.6
   riverpod_generator: ^2.3.5
   riverpod_annotation: ^2.1.1

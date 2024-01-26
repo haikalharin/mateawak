@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:module_bps/src/configs/navigations/routes.dart';
-import 'package:module_bps/src/constants/constant.dart';
-import 'package:module_bps/src/constants/telematry.constant.dart';
-import 'package:module_bps/src/features/main_nav/presentation/controller/main_nav.controller.dart';
-import 'package:module_bps/src/features/overview/infrastructure/repositories/overview.repository.dart';
-import 'package:module_bps/src/features/overview/presentation/controller/overview.controller.dart';
-import 'package:module_bps/src/features/overview/presentation/widgets/chart/custom_chart_widget.dart';
-import 'package:module_bps/src/features/overview/presentation/widgets/chart/overview_mini_chart_widget.dart';
-import 'package:module_bps/src/features/overview/presentation/widgets/chart/overview_weather.dart';
-import 'package:module_bps/src/features/telematry/presentation/controller/telematry.controller.dart';
-import 'package:module_bps/src/shared_component/async_value_widget.dart';
-import 'package:module_bps/src/shared_component/mini_chart_widget.dart';
-import 'package:module_bps/src/utils/common_utils.dart';
+import 'package:module_etamkawa/src/configs/navigations/routes.dart';
+import 'package:module_etamkawa/src/constants/constant.dart';
+import 'package:module_etamkawa/src/constants/telematry.constant.dart';
+import 'package:module_etamkawa/src/features/main_nav/presentation/controller/main_nav.controller.dart';
+import 'package:module_etamkawa/src/features/overview/infrastructure/repositories/overview.repository.dart';
+import 'package:module_etamkawa/src/features/overview/presentation/controller/overview.controller.dart';
+import 'package:module_etamkawa/src/features/overview/presentation/widgets/chart/custom_chart_widget.dart';
+import 'package:module_etamkawa/src/features/overview/presentation/widgets/chart/overview_mini_chart_widget.dart';
+
+import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
+
+import '../../../../../shared_component/async_value_widget.dart';
+import '../../../../../shared_component/mini_chart_widget.dart';
 
 class CardChartOverviewWidget extends StatelessWidget {
   const CardChartOverviewWidget({
@@ -149,12 +149,6 @@ class CardChartOverviewWidget extends StatelessWidget {
                 );
               },
             ),
-            OverviewWeather(
-              adAccount: adAccount,
-              getActiveAreas: getActiveAreas,
-              uid: uid,
-              isOB: isOb,
-            ),
             Divider(
               color: ColorTheme.strokeTertiary,
               height: 17.sp,
@@ -183,10 +177,7 @@ class _FullscreenChart extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (context.mounted) {
-      ref
-          .read(telematryControllerProvider.notifier)
-          .onVisibilityChangedSingleWidget(
-              TelematryConstant.overviewGrafikFullscreen);
+
     }
 
     return Column(

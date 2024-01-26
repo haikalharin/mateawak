@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:module_etamkawa/src/features/overview/infrastructure/repositories/overview.repository.dart';
 import 'package:module_etamkawa/src/features/overview/infrastructure/repositories/overview_local.repository.dart';
-import "package:module_bps/src/utils/common_utils.dart" show CommonUtils;
+import "package:module_etamkawa/src/utils/common_utils.dart" show CommonUtils;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../constants/constant.dart';

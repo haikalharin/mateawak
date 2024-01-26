@@ -7,7 +7,7 @@ import 'package:module_etamkawa/src/features/overview/domain/unit_breakdown_resp
 import 'package:module_etamkawa/src/features/overview/presentation/widgets/unit_breakdown/detail_unit_breakdown.dart';
 import 'package:module_shared/module_shared.dart';
 
-import '../../../../shared_component/item_unit_simple_widget.dart';
+import '../../../../../shared_component/item_unit_simple_widget.dart';
 
 class ItemUnitBreakDown extends StatelessWidget {
   const ItemUnitBreakDown({

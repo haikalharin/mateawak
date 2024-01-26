@@ -1,7 +1,7 @@
 import 'package:isar/isar.dart';
 part 'setting.model.g.dart';
 
-enum SettingModeEtamkawa {
+enum SettingMode {
   materialOb,
   materialCM,
   areaAll,
@@ -14,10 +14,10 @@ enum SettingModeEtamkawa {
   tabPerformance,
 }
 
-enum SwitcherModeEtamkawa { material, area, tab }
+enum SwitcherMode { material, area, tab }
 
 @collection
-class SettingModeEtamkawal {
+class SettingModel {
   Id id = Isar.autoIncrement;
   //tampilan material
   bool? isMaterialObActive;
