@@ -5,11 +5,9 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:go_router/go_router.dart';
 import 'package:module_etamkawa/src/constants/constant.dart';
 import 'package:module_etamkawa/src/constants/image.constant.dart';
-import 'package:module_etamkawa/src/constants/telematry.constant.dart';
 import 'package:module_etamkawa/src/features/main_nav/presentation/controller/main_nav.controller.dart';
 import 'package:module_etamkawa/src/features/setting/domain/setting.model.dart';
 import 'package:module_etamkawa/src/features/setting/presentation/controller/setting.controller.dart';
-import 'package:module_etamkawa/src/features/setting/domain/setting.model.dart';
 import 'package:module_shared/module_shared.dart';
 import 'package:url_launcher/url_launcher.dart';
 

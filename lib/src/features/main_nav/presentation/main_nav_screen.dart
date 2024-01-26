@@ -10,7 +10,6 @@ import 'package:module_shared/module_shared.dart';
 
 import '../../../constants/image.constant.dart';
 import '../../overview/presentation/overview.screen.dart';
-import 'controller/main_nav.controller.dart';
 
 class MainNavScreen extends ConsumerStatefulWidget {
   const MainNavScreen({super.key, required this.currentIndex});
@@ -105,7 +104,7 @@ class MainWidget extends ConsumerWidget {
   final bool isAbleAccessLineupSpv;
   final bool isRoleSPV;
 
-  LazyLoadIndexedStack _buildBody(int currentIndex, {USERROLE? userRole}) {
+  LazyLoadIndexedStack _buildBody(int currentIndex) {
     return LazyLoadIndexedStack(index: currentIndex, children:  const [
       OverviewScreen(),
       // OverviewScreen(),

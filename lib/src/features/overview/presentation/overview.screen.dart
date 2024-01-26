@@ -170,7 +170,7 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
                                   }
                                 }
                                 return Container(
-                                  child: Center(
+                                  child: const Center(
                                       child: Text(
                                     'Halooo',
                                     style: TextStyle(fontSize: 50),

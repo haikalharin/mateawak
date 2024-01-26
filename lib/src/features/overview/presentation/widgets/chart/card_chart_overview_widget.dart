@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:module_etamkawa/src/configs/navigations/routes.dart';
 import 'package:module_etamkawa/src/constants/constant.dart';
-import 'package:module_etamkawa/src/constants/telematry.constant.dart';
 import 'package:module_etamkawa/src/features/main_nav/presentation/controller/main_nav.controller.dart';
 import 'package:module_etamkawa/src/features/overview/infrastructure/repositories/overview.repository.dart';
 import 'package:module_etamkawa/src/features/overview/presentation/controller/overview.controller.dart';

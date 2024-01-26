@@ -7,7 +7,6 @@ import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../../../../module_etamkawa.dart';
-import '../../../../../constants/constant.dart';
 import '../../../../../constants/image.constant.dart';
 import '../../../domain/achievement_produksi_response.remote.dart';
 

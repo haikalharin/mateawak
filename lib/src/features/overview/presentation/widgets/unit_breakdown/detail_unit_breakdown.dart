@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:module_etamkawa/src/constants/telematry.constant.dart';
 import 'package:module_etamkawa/src/features/overview/domain/unit_breakdown_response.remote.dart';
 import 'package:module_shared/module_shared.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
