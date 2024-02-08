@@ -107,4 +107,5 @@ class ImageConstant {
   //emptyTable
   static const String emptyTable = 'assets/images/icon_table_empty.svg';
   static const String logoBSpace = 'assets/images/logo_bspace.png';
+  static const String imageNews = 'assets/images/image_news.png';
 }

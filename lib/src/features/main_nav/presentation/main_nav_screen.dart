@@ -9,6 +9,7 @@ import 'package:module_etamkawa/module_etamkawa.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../constants/image.constant.dart';
+import '../../../shared_component/shared_component_etamkawa.dart';
 import '../../overview/presentation/overview.screen.dart';
 
 class MainNavScreen extends ConsumerStatefulWidget {
@@ -31,7 +32,6 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
 
   Future<void> initBps() async {
     WidgetsFlutterBinding.ensureInitialized();
-
   }
 
   @override
@@ -50,10 +50,8 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
 
   @override
   Widget build(BuildContext context) {
-
     return WillPopScope(
       onWillPop: () {
-
         return Future.value(true);
       },
       child: MainWidget(
@@ -105,9 +103,12 @@ class MainWidget extends ConsumerWidget {
   final bool isRoleSPV;
 
   LazyLoadIndexedStack _buildBody(int currentIndex) {
-    return LazyLoadIndexedStack(index: currentIndex, children:  const [
+    return LazyLoadIndexedStack(index: currentIndex, children: const [
       OverviewScreen(),
-      // OverviewScreen(),
+      UnderConstructionScreen(),
+      UnderConstructionScreen(),
+      UnderConstructionScreen(),
+      UnderConstructionScreen(),      // OverviewScreen(),
       // LiveScreen(),
       // if (isAbleAccessLineupOperator) const LineupScreen()
     ]);
@@ -119,96 +120,73 @@ class MainWidget extends ConsumerWidget {
     final menusLength = _buildBody(currentIndex).children.length;
 
     return Scaffold(
+        appBar: SharedComponentEtamkawa.appBar(
+          context: context,
+          title: 'People Product',
+          actions: [
+            const Icon(Icons.sync),
+            SizedBox(width: 20.w),
+            const Icon(Icons.notifications),
+            SizedBox(width: 20.w),
+          ],
+          brightnessIconStatusBar: Brightness.light,
+        ),
         body: _buildBody(currentIndex),
         bottomNavigationBar: menusLength == 0
             ? Padding(
-                padding: const EdgeInsets.all(16),
-                child: Center(
-                  child: SharedComponent.label(
-                      text:
-                          'Akun Anda tidak punya akses ke modul BPS atau Lineup',
-                      typographyType: TypographyType.mediumH6,
-                      textAlign: TextAlign.center,
-                      context: context),
-                ),
-              )
+          padding: const EdgeInsets.all(16),
+          child: Center(
+            child: SharedComponent.label(
+                text:
+                'Akun Anda tidak punya akses ke modul BPS atau Lineup',
+                typographyType: TypographyType.mediumH6,
+                textAlign: TextAlign.center,
+                context: context),
+          ),
+        )
             : menusLength == 1
-                ? null
-                : SharedComponent.containerBottomNavBar(
-                    bottomNavigationBar: BottomNavigationBar(
-                      type: BottomNavigationBarType.fixed,
-                      selectedFontSize: 10.sp,
-                      items: [
-                          BottomNavigationBarItem(
-                            icon: SvgPicture.asset(ImageConstant.iconOverview,
-                                package: 'module_etamkawa'),
-                            label: 'Overview',
-                            activeIcon: SvgPicture.asset(
-                              ImageConstant.iconOverview,
-                              package: 'module_etamkawa',
-                              colorFilter: ColorFilter.mode(
-                                  ColorTheme.primary500, BlendMode.srcIn),
-                            ),
-                          ),
+            ? null
+            : SharedComponent.containerBottomNavBar(
+          bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            selectedFontSize: 10.sp,
+            items: [
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.home),
+                label: 'Home',
+                activeIcon: Icon(Icons.home,color: ColorTheme.primaryNew,),
+              ),
 
-                          BottomNavigationBarItem(
-                            icon: SvgPicture.asset(ImageConstant.iconLive,
-                                package: 'module_etamkawa'),
-                            label: 'Live',
-                            activeIcon: SvgPicture.asset(
-                              ImageConstant.iconLive,
-                              package: 'module_etamkawa',
-                              colorFilter: ColorFilter.mode(
-                                  ColorTheme.primary500, BlendMode.srcIn),
-                            ),
-                          ),
-                        if (isAbleAccessSitePerform)
-                          BottomNavigationBarItem(
-                            icon: SvgPicture.asset(
-                                ImageConstant.iconSiteperform,
-                                package: 'module_etamkawa'),
-                            label: 'Site Perform',
-                            activeIcon: SvgPicture.asset(
-                              ImageConstant.iconSiteperform,
-                              package: 'module_etamkawa',
-                              colorFilter: ColorFilter.mode(
-                                  ColorTheme.primary500, BlendMode.srcIn),
-                            ),
-                          ),
-                        if (isAbleAccessLineupOperator)
-                          BottomNavigationBarItem(
-                            icon: SvgPicture.asset(ImageConstant.iconLineup,
-                                package: 'module_etamkawa'),
-                            label: 'Lineup',
-                            activeIcon: SvgPicture.asset(
-                              ImageConstant.iconLineup,
-                              package: 'module_etamkawa',
-                              colorFilter: ColorFilter.mode(
-                                  ColorTheme.primary500, BlendMode.srcIn),
-                            ),
-                          ),
-                        if (isAbleAccessLineupSpv)
-                          BottomNavigationBarItem(
-                            icon: SvgPicture.asset(ImageConstant.iconLineup,
-                                package: 'module_etamkawa'),
-                            label: 'Lineup',
-                            activeIcon: SvgPicture.asset(
-                              ImageConstant.iconLineup,
-                              package: 'module_etamkawa',
-                              colorFilter: ColorFilter.mode(
-                                  ColorTheme.primary500, BlendMode.srcIn),
-                            ),
-                          ),
-                      ],
-                      currentIndex: currentIndex,
-                      onTap: (selectedIndex) {
-                        if (currentIndex != selectedIndex) {
-                          context.goNamed(homeEtakawa, pathParameters: {
-                            'currentIndex': '$selectedIndex'
-                          });
-                        }
-                      },
-                    ),
-                  ));
+              BottomNavigationBarItem(
+                icon:const Icon(Icons.group),
+                label: 'Growth',
+                activeIcon: Icon(Icons.group,color: ColorTheme.primaryNew,),
+              ),
+                BottomNavigationBarItem(
+                  icon: const Icon(Icons.checklist),
+                  label: 'Mission',
+                  activeIcon: Icon(Icons.checklist,color: ColorTheme.primaryNew,),
+                ),
+              BottomNavigationBarItem(
+                icon:Icon(Icons.check_circle),
+                label: 'Approval',
+                activeIcon:Icon(Icons.check_circle,color: ColorTheme.primaryNew,),
+              ),
+              BottomNavigationBarItem(
+                icon:Icon(Icons.account_circle_rounded),
+                label: 'Profile',
+                activeIcon: Icon(Icons.account_circle_rounded,color: ColorTheme.primaryNew,),
+              ),
+            ],
+            currentIndex: currentIndex,
+            onTap: (selectedIndex) {
+              if (currentIndex != selectedIndex) {
+                context.goNamed(homeEtakawa, pathParameters: {
+                  'currentIndex': '$selectedIndex'
+                });
+              }
+            },
+          ),
+        ));
   }
 }

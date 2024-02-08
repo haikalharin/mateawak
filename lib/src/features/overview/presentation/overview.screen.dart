@@ -2,13 +2,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:module_etamkawa/src/features/main_nav/presentation/controller/main_nav.controller.dart';
-import 'package:module_etamkawa/src/features/main_nav/presentation/custom_mainappbar_widget.dart';
 import 'package:module_etamkawa/src/features/overview/presentation/controller/overview.controller.dart';
-import 'package:module_etamkawa/src/features/overview/presentation/widgets/header/header_overview_widget.dart';
-import 'package:module_etamkawa/src/features/overview/presentation/widgets/unit_breakdown/unit_breakdown_widget.dart';
 import 'package:module_shared/module_shared.dart';
 
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import '../../../constants/constant.dart';
+import '../../../constants/image.constant.dart';
 import '../../setting/domain/setting.model.dart';
 import '../../setting/presentation/controller/setting.controller.dart';
 import '../../../shared_component/refreshable_starter_widget.dart';
@@ -45,9 +44,9 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isScrolled = ref.watch(isScrollProvider);
+    // final isScrolled = ref.watch(isScrollProvider);
 
-    final indexMenuOverview = ref.watch(indexMenuOverviewProvider);
+    // final indexMenuOverview = ref.watch(indexMenuOverviewProvider);
 
     return WillPopScope(
       onWillPop: () {
@@ -56,130 +55,142 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
         return Future.value(false);
       },
       child: Scaffold(
-        appBar: isScrolled
-            ? CustomMainAppbarWidget(
-                title: 'Overview',
-                currentIndex: indexMenuOverview,
-                ref: ref,
-              )
-            : null,
-        body: RefreshableStarterWidget(
-          scrollController: _scrollController,
-          onRefresh: () async {
-            final materials = await ref.watch(
-                getActiveSwitchersProvider(SwitcherMode.material)
-                    .future);
-            final areas = await ref.watch(
-                getActiveSwitchersProvider(SwitcherMode.area).future);
-            final userModel =
-                await ref.read(helperUserProvider).getUserProfile();
-
-            // ignore: unused_result
-            await ref.refresh(isDayShiftProvider.future);
-
-            // ignore: unused_result
-            await ref.refresh(getDetailHourlyGrafikRemoteProvider(
-              areas: areas,
-              material: materials[ref.read(indexSliderProvider)],
-              adAccount: userModel?.adAccount,
-              uid: userModel?.employeeID ?? 0,
-            ).future);
-
-            // ignore: unused_result
-            await ref.refresh(getAchievementProduksiRemoteProvider(
-              areas: areas,
-              material: materials[ref.read(indexSliderProvider)],
-              adAccount: userModel?.adAccount,
-              uid: userModel?.employeeID ?? 0,
-            ).future);
-
-            // ignore: unused_result
-            // await ref.refresh(getBannerWaterfallRemoteProvider(
-            //   areas: areas,
-            //   material: materials[ref.read(indexSliderProvider)],
-            //   adAccount: userModel?.adAccount,
-            //   uid: userModel?.employeeID ?? 0,
-            // ).future);
-
-            // ignore: unused_result
-            await ref.refresh(getUnitBreakdownRemoteProvider(
-              areas: areas,
-              material: materials[ref.read(indexSliderProvider)],
-              adAccount: userModel?.adAccount,
-              uid: userModel?.employeeID ?? 0,
-            ).future);
-          },
-          slivers: [
-            SliverToBoxAdapter(
-              child: Stack(
+        body: Column(
+          children: [
+            Divider(
+              height: 0.5,
+            ),
+            Container(
+              height: 80,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  color: ColorTheme.primaryNew,
+                  borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(24.0))),
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  HeaderOverviewWidget(isScrolled: isScrolled),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: 24.h,
-                      right: 16.w,
-                      left: 16.w,
-                    ),
+                  Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        color: ColorTheme.textDark,
+                        borderRadius:
+                        BorderRadius.all(Radius.circular(100.r))),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 16),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: kToolbarHeight + 88.sp),
-                        SizedBox(height: 16.h),
-                        Consumer(
-                          builder: (context, consRef, child) {
-                            return FutureBuilder(
-                              future: Future.wait(
-                                [
-                                  consRef.watch(getActiveSwitchersProvider(
-                                          SwitcherMode.material)
-                                      .future),
-                                  consRef.watch(getActiveSwitchersProvider(
-                                          SwitcherMode.area)
-                                      .future),
-                                  consRef
-                                      .read(helperUserProvider)
-                                      .getUserProfile(),
+                        Text(
+                          'Richard Papangayan',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.sp,
+                            color: ColorTheme.textWhite,
+                          ),
+                        ),
+                        Text(
+                          'Supervisor',
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 10.sp,
+                            color: ColorTheme.textWhite,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Expanded(
+              child: RefreshableStarterWidget(
+                // scrollController: _scrollController,
+                onRefresh: () async {
+                  final materials = await ref.watch(
+                      getActiveSwitchersProvider(SwitcherMode.material).future);
+                  // final areas = await ref
+                  //     .watch(getActiveSwitchersProvider(SwitcherMode.area).future);
+                  // // final userModel =
+                  //     await ref.read(helperUserProvider).getUserProfile();
+
+                  // ignore: unused_result
+                  // await ref.refresh(isDayShiftProvider.future);
+
+                  // ignore: unused_result
+                  // await ref.refresh(getDetailHourlyGrafikRemoteProvider(
+                  //   areas: areas,
+                  //   material: materials[ref.read(indexSliderProvider)],
+                  //   adAccount: userModel?.adAccount,
+                  //   uid: userModel?.employeeID ?? 0,
+                  // ).future);
+
+                  // ignore: unused_result
+                  // await ref.refresh(getAchievementProduksiRemoteProvider(
+                  //   areas: areas,
+                  //   material: materials[ref.read(indexSliderProvider)],
+                  //   adAccount: userModel?.adAccount,
+                  //   uid: userModel?.employeeID ?? 0,
+                  // ).future);
+
+                  // ignore: unused_result
+                  // await ref.refresh(getBannerWaterfallRemoteProvider(
+                  //   areas: areas,
+                  //   material: materials[ref.read(indexSliderProvider)],
+                  //   adAccount: userModel?.adAccount,
+                  //   uid: userModel?.employeeID ?? 0,
+                  // ).future);
+
+                  // ignore: unused_result
+                  // await ref.refresh(getUnitBreakdownRemoteProvider(
+                  //   areas: areas,
+                  //   material: materials[ref.read(indexSliderProvider)],
+                  //   adAccount: userModel?.adAccount,
+                  //   uid: userModel?.employeeID ?? 0,
+                  // ).future);
+                },
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Stack(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+
+                            Container(
+                              padding: EdgeInsets.symmetric(horizontal: 16,vertical: 16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Richard Papangayan',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 16.sp,
+                                      color: ColorTheme.textDark,
+                                    ),
+                                  ),
+                              SizedBox(height: 8,),
+                              Container(
+                                height: 200,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(image: AssetImage(ImageConstant.imageNews)),
+                                    color: ColorTheme.primaryNew,
+                                    borderRadius: BorderRadius.all(
+                                     Radius.circular(10))),
+                                padding: EdgeInsets.symmetric(horizontal: 16),),
+                                  SizedBox(height: 8,),
+                                  HtmlWidget(Constant.htmlNews),
                                 ],
                               ),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  final materials =
-                                      snapshot.data?[0] as List<String>;
-                                  final areas =
-                                      snapshot.data?[1] as List<String>;
-                                  final userModel =
-                                      snapshot.data?[2] as UserModel?;
-                                  if (materials.isNotEmpty &&
-                                      areas.isNotEmpty) {
-                                    return Column(
-                                      children: [
-                                        HeaderSlideWidget(
-                                          getActiveAreas: areas,
-                                          getActiveMaterials: materials,
-                                          userModel: userModel,
-                                          screenOccupation: _screenOccupation,
-                                        ),
-                                        SizedBox(height: 24.h),
-                                        UnitBreakdownWidget(
-                                          areas: areas,
-                                          materials: materials,
-                                          userModel: userModel,
-                                          screenOccupation: _screenOccupation,
-                                        )
-                                      ],
-                                    );
-                                  }
-                                }
-                                return Container(
-                                  child: const Center(
-                                      child: Text(
-                                    'Halooo',
-                                    style: TextStyle(fontSize: 50),
-                                  )),
-                                );
-                              },
-                            );
-                          },
-                        ),
+                            )
+                          ],
+                        )
                       ],
                     ),
                   ),
