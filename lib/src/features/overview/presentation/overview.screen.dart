@@ -6,13 +6,11 @@ import 'package:module_etamkawa/src/features/overview/presentation/controller/ov
 import 'package:module_shared/module_shared.dart';
 
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
-import '../../../constants/constant.dart';
 import '../../../constants/image.constant.dart';
 import '../../../shared_component/async_value_widget.dart';
 import '../../setting/domain/setting.model.dart';
 import '../../setting/presentation/controller/setting.controller.dart';
 import '../../../shared_component/refreshable_starter_widget.dart';
-import '../infrastructure/repositories/overview.repository.dart';
 
 class OverviewScreen extends ConsumerStatefulWidget {
   const OverviewScreen({super.key});
@@ -41,7 +39,7 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
     super.dispose();
   }
 
-  final List<int> _screenOccupation = [0, 0];
+  // final List<int> _screenOccupation = [0, 0];
 
   @override
   Widget build(BuildContext context) {
@@ -111,9 +109,9 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
               child: RefreshableStarterWidget(
                 // scrollController: _scrollController,
                 onRefresh: () async {
-                  final materials = await ref.watch(
-                      getActiveSwitchersProvider(SwitcherMode.material).future);
-                  await ref.refresh(getNewsProvider.future);
+                  // final materials = await ref.watch(
+                  //     getActiveSwitchersProvider(SwitcherMode.material).future);
+                  await ref.watch(getNewsProvider.future);
                   // final areas = await ref
                   //     .watch(getActiveSwitchersProvider(SwitcherMode.area).future);
                   // // final userModel =

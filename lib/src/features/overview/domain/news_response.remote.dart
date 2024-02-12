@@ -3,7 +3,6 @@
 //     final newsResponseRemote = newsResponseRemoteFromJson(jsonString);
 
 import 'package:isar/isar.dart';
-import 'package:meta/meta.dart';
 import 'dart:convert';
 part 'news_response.remote.g.dart';
 
