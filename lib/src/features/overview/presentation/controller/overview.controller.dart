@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:module_etamkawa/src/features/overview/domain/news_response.remote.dart';
 import 'package:module_etamkawa/src/features/overview/infrastructure/repositories/overview.repository.dart';
 import 'package:module_etamkawa/src/features/overview/infrastructure/repositories/overview_local.repository.dart';
 import "package:module_etamkawa/src/utils/common_utils.dart" show CommonUtils;
@@ -16,6 +17,17 @@ final isScrollProvider = StateProvider.autoDispose<bool>((ref) {
 });
 
 final indexMtdYtdSliderProvider = StateProvider.autoDispose<int>((ref) => 0);
+
+@riverpod
+Future<NewsResponseRemote?> getNews(
+    GetNewsRef ref,) async {
+  final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
+
+  return isConnectionAvailable
+      ? await ref.watch(getNewsRemoteProvider.future)
+      : await ref.watch(
+      getNewsLocalProvider.future);
+}
 
 @riverpod
 Future<AchievementProduksiResponseRemote?> getAchievementProduksi(

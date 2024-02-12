@@ -4,7 +4,7 @@ class Constant {
   static const baseUrl = 'baseUrlKey';
   static const tokenApi = 'tokenApiKey';
   static const apiVer = 'ver=v1';
-  static const bpsIsarInstance = 'bps-isar-instance';
+  static const etamkawaIsarInstance = 'etamkawa-isar-instance';
   static const feature = 'BPS';
 
   static const defaultUnParseErrorMsg = "Ooops.. Something went wrong";

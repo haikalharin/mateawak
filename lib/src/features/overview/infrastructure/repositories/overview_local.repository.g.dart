@@ -6,6 +6,21 @@ part of 'overview_local.repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+String _$getNewsLocalHash() => r'b27dc18a1350c993a96c1db8d118c3e2cef32c72';
+
+/// See also [getNewsLocal].
+@ProviderFor(getNewsLocal)
+final getNewsLocalProvider =
+    AutoDisposeFutureProvider<NewsResponseRemote?>.internal(
+  getNewsLocal,
+  name: r'getNewsLocalProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$getNewsLocalHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef GetNewsLocalRef = AutoDisposeFutureProviderRef<NewsResponseRemote?>;
 String _$getAchievementProduksiLocalHash() =>
     r'a2b104e54e3794986387a2fef497e25571110aad';
 

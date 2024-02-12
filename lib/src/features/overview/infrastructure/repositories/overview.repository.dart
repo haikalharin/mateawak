@@ -1,5 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:module_etamkawa/src/features/main_nav/presentation/controller/main_nav.controller.dart';
+import 'package:module_etamkawa/src/features/overview/domain/news_response.remote.dart';
 import 'package:module_etamkawa/src/features/overview/domain/unit_breakdown_request.remote.dart';
 import 'package:module_etamkawa/src/features/overview/domain/unit_breakdown_response.remote.dart';
 import 'package:module_etamkawa/src/features/telematry/infrastructure/repositories/telematry_local.repository.dart';
@@ -13,6 +14,33 @@ import '../../domain/achievement_produksi_response.remote.dart';
 import '../../domain/detail_hourly_grafik_response.remote.dart';
 
 part 'overview.repository.g.dart';
+
+
+
+
+@riverpod
+Future<NewsResponseRemote> getNewsRemote(
+    GetNewsRemoteRef ref,
+    ) async {
+
+  final response = {
+    "attachId":120,
+    "title": "Tentang Kami",
+    "fileName":"btech.id",
+    "content":Constant.htmlNews,
+  };
+  final result =
+  NewsResponseRemote.fromJson(response);
+  final isarInstance = await ref.watch(isarInstanceProvider.future);
+  await isarInstance.writeTxn(() async {
+    await isarInstance.newsResponseRemotes.put(result);
+  });
+
+  ref.keepAlive();
+  return result;
+}
+
+
 
 @riverpod
 Future<AchievementProduksiResponseRemote> getAchievementProduksiRemote(

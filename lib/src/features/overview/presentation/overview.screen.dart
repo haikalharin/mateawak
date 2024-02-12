@@ -8,6 +8,7 @@ import 'package:module_shared/module_shared.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import '../../../constants/constant.dart';
 import '../../../constants/image.constant.dart';
+import '../../../shared_component/async_value_widget.dart';
 import '../../setting/domain/setting.model.dart';
 import '../../setting/presentation/controller/setting.controller.dart';
 import '../../../shared_component/refreshable_starter_widget.dart';
@@ -65,8 +66,8 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   color: ColorTheme.primaryNew,
-                  borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(24.0))),
+                  borderRadius:
+                      BorderRadius.only(bottomRight: Radius.circular(24.0))),
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -76,8 +77,7 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
                     height: 50,
                     decoration: BoxDecoration(
                         color: ColorTheme.textDark,
-                        borderRadius:
-                        BorderRadius.all(Radius.circular(100.r))),
+                        borderRadius: BorderRadius.all(Radius.circular(100.r))),
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 16),
@@ -113,6 +113,7 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
                 onRefresh: () async {
                   final materials = await ref.watch(
                       getActiveSwitchersProvider(SwitcherMode.material).future);
+                  await ref.refresh(getNewsProvider.future);
                   // final areas = await ref
                   //     .watch(getActiveSwitchersProvider(SwitcherMode.area).future);
                   // // final userModel =
@@ -160,34 +161,51 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 16,vertical: 16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Richard Papangayan',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 16.sp,
-                                      color: ColorTheme.textDark,
-                                    ),
-                                  ),
-                              SizedBox(height: 8,),
-                              Container(
-                                height: 200,
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(image: AssetImage(ImageConstant.imageNews)),
-                                    color: ColorTheme.primaryNew,
-                                    borderRadius: BorderRadius.all(
-                                     Radius.circular(10))),
-                                padding: EdgeInsets.symmetric(horizontal: 16),),
-                                  SizedBox(height: 8,),
-                                  HtmlWidget(Constant.htmlNews),
-                                ],
+                            AsyncValueWidget(
+                              value: ref.watch(
+                                getNewsProvider,
                               ),
+                              data: (result) {
+                                return Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 16),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Richard Papangayan',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 16.sp,
+                                          color: ColorTheme.textDark,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Container(
+                                        height: 200,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: AssetImage(
+                                                    ImageConstant.imageNews, package: 'module_etamkawa',),fit: BoxFit.cover, ),
+                                            color: ColorTheme.primaryNew,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10))),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 16),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      HtmlWidget(result?.content??''),
+                                    ],
+                                  ),
+                                );
+                              },
                             )
                           ],
                         )

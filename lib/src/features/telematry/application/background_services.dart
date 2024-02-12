@@ -49,11 +49,11 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
   serviceInstance.on(Constant.bgTelematryClose).listen((payload) {
     if (payload?['lastActiveWidgetId'] != null) {
       try {
-        final existingIsarInstance = Isar.getInstance(Constant.bpsIsarInstance);
+        final existingIsarInstance = Isar.getInstance(Constant.etamkawaIsarInstance);
 
         final isarInstance = existingIsarInstance ??
             Isar.openSync([TelematryDataModelSchema],
-                directory: dir.path, name: Constant.bpsIsarInstance);
+                directory: dir.path, name: Constant.etamkawaIsarInstance);
 
         final id = payload?['lastActiveWidgetId'] as int;
         final address = payload?['address'] as String?;

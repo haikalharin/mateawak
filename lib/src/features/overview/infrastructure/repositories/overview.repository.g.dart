@@ -6,6 +6,22 @@ part of 'overview.repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+String _$getNewsRemoteHash() => r'd81e391a1262829f2795c9ff8b57e6c274e4af68';
+
+/// See also [getNewsRemote].
+@ProviderFor(getNewsRemote)
+final getNewsRemoteProvider =
+    AutoDisposeFutureProvider<NewsResponseRemote>.internal(
+  getNewsRemote,
+  name: r'getNewsRemoteProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getNewsRemoteHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef GetNewsRemoteRef = AutoDisposeFutureProviderRef<NewsResponseRemote>;
 String _$getAchievementProduksiRemoteHash() =>
     r'33ab767b49cd8f5628ccb6d0bc5b256563f929d8';
 

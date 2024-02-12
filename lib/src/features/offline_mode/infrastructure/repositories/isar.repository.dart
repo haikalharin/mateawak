@@ -7,12 +7,14 @@ import 'package:module_etamkawa/src/features/setting/domain/setting.model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../overview/domain/news_response.remote.dart';
+
 part 'isar.repository.g.dart';
 
 @riverpod
 Future<Isar> isarInstance(IsarInstanceRef ref) async {
   final dir = await getApplicationSupportDirectory();
-  final existingIsarInstance = Isar.getInstance(Constant.bpsIsarInstance);
+  final existingIsarInstance = Isar.getInstance(Constant.etamkawaIsarInstance);
 
   //Add other Isar Scheme here
   final isar = existingIsarInstance ??
@@ -23,9 +25,10 @@ Future<Isar> isarInstance(IsarInstanceRef ref) async {
         AchievementProduksiResponseRemoteSchema,
         DetailHourlyGrafikResponseRemoteSchema,
         UnitBreakdownResponseRemoteSchema,
+        NewsResponseRemoteSchema,
 
 
-      ], directory: dir.path, name: Constant.bpsIsarInstance);
+      ], directory: dir.path, name: Constant.etamkawaIsarInstance);
 
   return isar;
 }
