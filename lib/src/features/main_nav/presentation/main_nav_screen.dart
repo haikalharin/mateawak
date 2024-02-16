@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazy_load_indexed_stack/lazy_load_indexed_stack.dart';
 
 import 'package:module_etamkawa/module_etamkawa.dart';
 import 'package:module_shared/module_shared.dart';
+import 'package:workmanager/workmanager.dart';
 
-import '../../../constants/image.constant.dart';
 import '../../../shared_component/shared_component_etamkawa.dart';
 import '../../overview/presentation/overview.screen.dart';
 
+@pragma('vm:entry-point') // Mandatory if the App is obfuscated or using Flutter 3.1+
+void callbackDispatcher() {
+  Workmanager().executeTask((task, inputData) {
+    print(
+        "Native called background task: $task"); //simpleTask will be emitted here.
+    return Future.value(true);
+  });
+}
 class MainNavScreen extends ConsumerStatefulWidget {
   const MainNavScreen({super.key, required this.currentIndex});
 
@@ -168,12 +175,12 @@ class MainWidget extends ConsumerWidget {
                   activeIcon: Icon(Icons.checklist,color: ColorTheme.primaryNew,),
                 ),
               BottomNavigationBarItem(
-                icon:Icon(Icons.check_circle),
+                icon:const Icon(Icons.check_circle),
                 label: 'Approval',
                 activeIcon:Icon(Icons.check_circle,color: ColorTheme.primaryNew,),
               ),
               BottomNavigationBarItem(
-                icon:Icon(Icons.account_circle_rounded),
+                icon:const Icon(Icons.account_circle_rounded),
                 label: 'Profile',
                 activeIcon: Icon(Icons.account_circle_rounded,color: ColorTheme.primaryNew,),
               ),

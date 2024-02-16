@@ -3,7 +3,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:module_etamkawa/src/configs/navigations/routes.dart';
 import 'package:module_shared/module_shared.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../features/main_nav/presentation/main_nav_screen.dart';
 import '../../features/setting/presentation/setting.screen.dart';

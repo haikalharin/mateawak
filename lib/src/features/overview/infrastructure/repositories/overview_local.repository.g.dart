@@ -21,6 +21,23 @@ final getNewsLocalProvider =
 );
 
 typedef GetNewsLocalRef = AutoDisposeFutureProviderRef<NewsResponseRemote?>;
+String _$getNewsImageLocalHash() => r'fb51be6999be7cb81fc8d101dd048d3bf2682236';
+
+/// See also [getNewsImageLocal].
+@ProviderFor(getNewsImageLocal)
+final getNewsImageLocalProvider =
+    AutoDisposeFutureProvider<DownloadAttachmentNewsRequestRemote?>.internal(
+  getNewsImageLocal,
+  name: r'getNewsImageLocalProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getNewsImageLocalHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef GetNewsImageLocalRef
+    = AutoDisposeFutureProviderRef<DownloadAttachmentNewsRequestRemote?>;
 String _$getAchievementProduksiLocalHash() =>
     r'a2b104e54e3794986387a2fef497e25571110aad';
 

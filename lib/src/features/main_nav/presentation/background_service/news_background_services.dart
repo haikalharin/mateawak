@@ -6,12 +6,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:isar/isar.dart';
-import 'package:module_etamkawa/src/constants/constant.dart';
-import 'package:module_etamkawa/src/features/telematry/domain/telematry_data_model.dart';
+import 'package:module_etamkawa/src/features/overview/domain/news_response.remote.dart';
 import 'package:module_shared/module_shared.dart';
 import 'package:path_provider/path_provider.dart';
 
-Future<void> intializedBackgroundService() async {
+import '../../../../constants/constant.dart';
+
+Future<void> intializedNewsBackgroundService() async {
   log('intializedBackgroundService');
   final service = FlutterBackgroundService();
   await service.configure(
@@ -47,30 +48,27 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
   final dir = await getApplicationSupportDirectory();
 
   serviceInstance.on(Constant.bgMainNavClose).listen((payload) {
-    if (payload?['lastActiveWidgetId'] != null) {
+    if (payload?['attachId'] != null) {
       try {
         final existingIsarInstance = Isar.getInstance(Constant.etamkawaIsarInstance);
 
         final isarInstance = existingIsarInstance ??
-            Isar.openSync([TelematryDataModelSchema],
+            Isar.openSync([NewsResponseRemoteSchema],
                 directory: dir.path, name: Constant.etamkawaIsarInstance);
 
-        final id = payload?['lastActiveWidgetId'] as int;
-        final address = payload?['address'] as String?;
-        final longitude = payload?['longitude'] as double?;
-        final latitude = payload?['latitude'] as double?;
-        final checkout = payload?['checkout'] as String?;
+        final attachId = payload?['attachId'] as int;
+        final title = payload?['title'] as String;
+        final fileName = payload?['fileName'] as String;
+        final content = payload?['content'] as String;
 
-        final data = isarInstance.telematryDataModels.getSync(id);
+        final data = isarInstance.newsResponseRemotes.getSync(attachId);
 
         if (data != null) {
-          data.location = address;
-          data.longitude = longitude;
-          data.latitude = latitude;
-          data.checkout = checkout;
-
+          data.title = title;
+          data.fileName = fileName;
+          data.content = content;
           isarInstance.writeTxnSync(() {
-            isarInstance.telematryDataModels.putSync(data);
+            isarInstance.newsResponseRemotes.putSync(data);
           });
 
           submitTelematry(
@@ -79,10 +77,10 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
             url: payload?['url'] as String,
             telematryData: [data],
           ).then((value) async {
-            log('submit telematry result: $value');
+            log('submit data result: $value');
 
             isarInstance.writeTxnSync(() {
-              isarInstance.telematryDataModels.deleteSync(data.id);
+              isarInstance.newsResponseRemotes.deleteSync(data.attachId??0);
             });
             if (isarInstance.isOpen) {
               await isarInstance.close();
@@ -101,7 +99,7 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
 Future<bool> submitTelematry(
     {required String url,
     required String path,
-    required List<TelematryDataModel> telematryData,
+    required List<NewsResponseRemote> telematryData,
     required accessToken}) async {
   BaseOptions options = BaseOptions(
       baseUrl: url,
@@ -136,7 +134,7 @@ Future<bool> submitTelematry(
     ApiResponse apiResponse =
         ApiResponse.fromJson(response.data as Map<String, dynamic>);
 
-    debugPrint('responsesubmitTelematry: $apiResponse');
+    debugPrint('responsesubmitData: $apiResponse');
 
     return apiResponse.statusCode == 200 ||
         (apiResponse.result?.isError == false);

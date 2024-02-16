@@ -12,17 +12,16 @@ String newsResponseRemoteToJson(NewsResponseRemote data) => json.encode(data.toJ
 
 @collection
 class NewsResponseRemote {
-  Id id = Isar.autoIncrement;
-  int attachId;
-  String title;
-  String fileName;
-  String content;
+  Id? attachId;
+  String? title;
+  String? fileName;
+  String? content;
 
   NewsResponseRemote({
-    required this.attachId,
-    required this.title,
-    required this.fileName,
-    required this.content,
+    this.attachId,
+    this.title,
+    this.fileName,
+    this.content,
   });
 
   NewsResponseRemote copyWith({

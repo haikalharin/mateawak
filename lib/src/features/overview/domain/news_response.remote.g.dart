@@ -18,23 +18,18 @@ const NewsResponseRemoteSchema = CollectionSchema(
   name: r'NewsResponseRemote',
   id: 2331556606669645080,
   properties: {
-    r'attachId': PropertySchema(
-      id: 0,
-      name: r'attachId',
-      type: IsarType.long,
-    ),
     r'content': PropertySchema(
-      id: 1,
+      id: 0,
       name: r'content',
       type: IsarType.string,
     ),
     r'fileName': PropertySchema(
-      id: 2,
+      id: 1,
       name: r'fileName',
       type: IsarType.string,
     ),
     r'title': PropertySchema(
-      id: 3,
+      id: 2,
       name: r'title',
       type: IsarType.string,
     )
@@ -43,7 +38,7 @@ const NewsResponseRemoteSchema = CollectionSchema(
   serialize: _newsResponseRemoteSerialize,
   deserialize: _newsResponseRemoteDeserialize,
   deserializeProp: _newsResponseRemoteDeserializeProp,
-  idName: r'id',
+  idName: r'attachId',
   indexes: {},
   links: {},
   embeddedSchemas: {},
@@ -59,9 +54,24 @@ int _newsResponseRemoteEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  bytesCount += 3 + object.content.length * 3;
-  bytesCount += 3 + object.fileName.length * 3;
-  bytesCount += 3 + object.title.length * 3;
+  {
+    final value = object.content;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.fileName;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.title;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -71,10 +81,9 @@ void _newsResponseRemoteSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeLong(offsets[0], object.attachId);
-  writer.writeString(offsets[1], object.content);
-  writer.writeString(offsets[2], object.fileName);
-  writer.writeString(offsets[3], object.title);
+  writer.writeString(offsets[0], object.content);
+  writer.writeString(offsets[1], object.fileName);
+  writer.writeString(offsets[2], object.title);
 }
 
 NewsResponseRemote _newsResponseRemoteDeserialize(
@@ -84,12 +93,11 @@ NewsResponseRemote _newsResponseRemoteDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = NewsResponseRemote(
-    attachId: reader.readLong(offsets[0]),
-    content: reader.readString(offsets[1]),
-    fileName: reader.readString(offsets[2]),
-    title: reader.readString(offsets[3]),
+    attachId: id,
+    content: reader.readStringOrNull(offsets[0]),
+    fileName: reader.readStringOrNull(offsets[1]),
+    title: reader.readStringOrNull(offsets[2]),
   );
-  object.id = id;
   return object;
 }
 
@@ -101,20 +109,18 @@ P _newsResponseRemoteDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readLong(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 2:
-      return (reader.readString(offset)) as P;
-    case 3:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
 
 Id _newsResponseRemoteGetId(NewsResponseRemote object) {
-  return object.id;
+  return object.attachId ?? Isar.autoIncrement;
 }
 
 List<IsarLinkBase<dynamic>> _newsResponseRemoteGetLinks(
@@ -124,12 +130,13 @@ List<IsarLinkBase<dynamic>> _newsResponseRemoteGetLinks(
 
 void _newsResponseRemoteAttach(
     IsarCollection<dynamic> col, Id id, NewsResponseRemote object) {
-  object.id = id;
+  object.attachId = id;
 }
 
 extension NewsResponseRemoteQueryWhereSort
     on QueryBuilder<NewsResponseRemote, NewsResponseRemote, QWhere> {
-  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterWhere> anyId() {
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterWhere>
+      anyAttachId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
@@ -139,68 +146,68 @@ extension NewsResponseRemoteQueryWhereSort
 extension NewsResponseRemoteQueryWhere
     on QueryBuilder<NewsResponseRemote, NewsResponseRemote, QWhereClause> {
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterWhereClause>
-      idEqualTo(Id id) {
+      attachIdEqualTo(Id attachId) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
-        lower: id,
-        upper: id,
+        lower: attachId,
+        upper: attachId,
       ));
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterWhereClause>
-      idNotEqualTo(Id id) {
+      attachIdNotEqualTo(Id attachId) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
+              IdWhereClause.lessThan(upper: attachId, includeUpper: false),
             )
             .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
+              IdWhereClause.greaterThan(lower: attachId, includeLower: false),
             );
       } else {
         return query
             .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
+              IdWhereClause.greaterThan(lower: attachId, includeLower: false),
             )
             .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
+              IdWhereClause.lessThan(upper: attachId, includeUpper: false),
             );
       }
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterWhereClause>
-      idGreaterThan(Id id, {bool include = false}) {
+      attachIdGreaterThan(Id attachId, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        IdWhereClause.greaterThan(lower: id, includeLower: include),
+        IdWhereClause.greaterThan(lower: attachId, includeLower: include),
       );
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterWhereClause>
-      idLessThan(Id id, {bool include = false}) {
+      attachIdLessThan(Id attachId, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        IdWhereClause.lessThan(upper: id, includeUpper: include),
+        IdWhereClause.lessThan(upper: attachId, includeUpper: include),
       );
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterWhereClause>
-      idBetween(
-    Id lowerId,
-    Id upperId, {
+      attachIdBetween(
+    Id lowerAttachId,
+    Id upperAttachId, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
-        lower: lowerId,
+        lower: lowerAttachId,
         includeLower: includeLower,
-        upper: upperId,
+        upper: upperAttachId,
         includeUpper: includeUpper,
       ));
     });
@@ -210,7 +217,25 @@ extension NewsResponseRemoteQueryWhere
 extension NewsResponseRemoteQueryFilter
     on QueryBuilder<NewsResponseRemote, NewsResponseRemote, QFilterCondition> {
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      attachIdEqualTo(int value) {
+      attachIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'attachId',
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      attachIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'attachId',
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      attachIdEqualTo(Id? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'attachId',
@@ -221,7 +246,7 @@ extension NewsResponseRemoteQueryFilter
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
       attachIdGreaterThan(
-    int value, {
+    Id? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -235,7 +260,7 @@ extension NewsResponseRemoteQueryFilter
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
       attachIdLessThan(
-    int value, {
+    Id? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -249,8 +274,8 @@ extension NewsResponseRemoteQueryFilter
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
       attachIdBetween(
-    int lower,
-    int upper, {
+    Id? lower,
+    Id? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -266,8 +291,26 @@ extension NewsResponseRemoteQueryFilter
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      contentIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'content',
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      contentIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'content',
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
       contentEqualTo(
-    String value, {
+    String? value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -281,7 +324,7 @@ extension NewsResponseRemoteQueryFilter
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
       contentGreaterThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -297,7 +340,7 @@ extension NewsResponseRemoteQueryFilter
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
       contentLessThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -313,8 +356,8 @@ extension NewsResponseRemoteQueryFilter
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
       contentBetween(
-    String lower,
-    String upper, {
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -402,8 +445,26 @@ extension NewsResponseRemoteQueryFilter
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      fileNameIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'fileName',
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      fileNameIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'fileName',
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
       fileNameEqualTo(
-    String value, {
+    String? value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -417,7 +478,7 @@ extension NewsResponseRemoteQueryFilter
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
       fileNameGreaterThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -433,7 +494,7 @@ extension NewsResponseRemoteQueryFilter
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
       fileNameLessThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -449,8 +510,8 @@ extension NewsResponseRemoteQueryFilter
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
       fileNameBetween(
-    String lower,
-    String upper, {
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -538,64 +599,26 @@ extension NewsResponseRemoteQueryFilter
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      idEqualTo(Id value) {
+      titleIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'id',
-        value: value,
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'title',
       ));
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      idGreaterThan(
-    Id value, {
-    bool include = false,
-  }) {
+      titleIsNotNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      idLessThan(
-    Id value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      idBetween(
-    Id lower,
-    Id upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'id',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'title',
       ));
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
       titleEqualTo(
-    String value, {
+    String? value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -609,7 +632,7 @@ extension NewsResponseRemoteQueryFilter
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
       titleGreaterThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -625,7 +648,7 @@ extension NewsResponseRemoteQueryFilter
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
       titleLessThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -641,8 +664,8 @@ extension NewsResponseRemoteQueryFilter
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
       titleBetween(
-    String lower,
-    String upper, {
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -739,20 +762,6 @@ extension NewsResponseRemoteQueryLinks
 extension NewsResponseRemoteQuerySortBy
     on QueryBuilder<NewsResponseRemote, NewsResponseRemote, QSortBy> {
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
-      sortByAttachId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'attachId', Sort.asc);
-    });
-  }
-
-  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
-      sortByAttachIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'attachId', Sort.desc);
-    });
-  }
-
-  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
       sortByContent() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'content', Sort.asc);
@@ -840,20 +849,6 @@ extension NewsResponseRemoteQuerySortThenBy
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
-      thenById() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.asc);
-    });
-  }
-
-  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
-      thenByIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.desc);
-    });
-  }
-
-  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
       thenByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
@@ -870,13 +865,6 @@ extension NewsResponseRemoteQuerySortThenBy
 
 extension NewsResponseRemoteQueryWhereDistinct
     on QueryBuilder<NewsResponseRemote, NewsResponseRemote, QDistinct> {
-  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QDistinct>
-      distinctByAttachId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'attachId');
-    });
-  }
-
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QDistinct>
       distinctByContent({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -901,32 +889,27 @@ extension NewsResponseRemoteQueryWhereDistinct
 
 extension NewsResponseRemoteQueryProperty
     on QueryBuilder<NewsResponseRemote, NewsResponseRemote, QQueryProperty> {
-  QueryBuilder<NewsResponseRemote, int, QQueryOperations> idProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'id');
-    });
-  }
-
   QueryBuilder<NewsResponseRemote, int, QQueryOperations> attachIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'attachId');
     });
   }
 
-  QueryBuilder<NewsResponseRemote, String, QQueryOperations> contentProperty() {
+  QueryBuilder<NewsResponseRemote, String?, QQueryOperations>
+      contentProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'content');
     });
   }
 
-  QueryBuilder<NewsResponseRemote, String, QQueryOperations>
+  QueryBuilder<NewsResponseRemote, String?, QQueryOperations>
       fileNameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'fileName');
     });
   }
 
-  QueryBuilder<NewsResponseRemote, String, QQueryOperations> titleProperty() {
+  QueryBuilder<NewsResponseRemote, String?, QQueryOperations> titleProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'title');
     });

@@ -65,6 +65,7 @@ dependencies:
   syncfusion_flutter_datagrid: 23.2.4
   lazy_load_indexed_stack: ^1.0.1
   icon_decoration: ^2.0.2
+  workmanager: ^0.5.1
 
 dev_dependencies:
   flutter_test:

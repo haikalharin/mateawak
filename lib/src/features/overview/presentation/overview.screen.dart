@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,10 +9,7 @@ import 'package:module_etamkawa/src/features/overview/presentation/controller/ov
 import 'package:module_shared/module_shared.dart';
 
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
-import '../../../constants/image.constant.dart';
 import '../../../shared_component/async_value_widget.dart';
-import '../../setting/domain/setting.model.dart';
-import '../../setting/presentation/controller/setting.controller.dart';
 import '../../../shared_component/refreshable_starter_widget.dart';
 
 class OverviewScreen extends ConsumerStatefulWidget {
@@ -56,7 +56,7 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
       child: Scaffold(
         body: Column(
           children: [
-            Divider(
+            const Divider(
               height: 0.5,
             ),
             Container(
@@ -65,8 +65,8 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
               decoration: BoxDecoration(
                   color: ColorTheme.primaryNew,
                   borderRadius:
-                      BorderRadius.only(bottomRight: Radius.circular(24.0))),
-              padding: EdgeInsets.symmetric(horizontal: 16),
+                      const BorderRadius.only(bottomRight: Radius.circular(24.0))),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -78,7 +78,7 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
                         borderRadius: BorderRadius.all(Radius.circular(100.r))),
                   ),
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,48 +109,7 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
               child: RefreshableStarterWidget(
                 // scrollController: _scrollController,
                 onRefresh: () async {
-                  // final materials = await ref.watch(
-                  //     getActiveSwitchersProvider(SwitcherMode.material).future);
-                  await ref.watch(getNewsProvider.future);
-                  // final areas = await ref
-                  //     .watch(getActiveSwitchersProvider(SwitcherMode.area).future);
-                  // // final userModel =
-                  //     await ref.read(helperUserProvider).getUserProfile();
-
-                  // ignore: unused_result
-                  // await ref.refresh(isDayShiftProvider.future);
-
-                  // ignore: unused_result
-                  // await ref.refresh(getDetailHourlyGrafikRemoteProvider(
-                  //   areas: areas,
-                  //   material: materials[ref.read(indexSliderProvider)],
-                  //   adAccount: userModel?.adAccount,
-                  //   uid: userModel?.employeeID ?? 0,
-                  // ).future);
-
-                  // ignore: unused_result
-                  // await ref.refresh(getAchievementProduksiRemoteProvider(
-                  //   areas: areas,
-                  //   material: materials[ref.read(indexSliderProvider)],
-                  //   adAccount: userModel?.adAccount,
-                  //   uid: userModel?.employeeID ?? 0,
-                  // ).future);
-
-                  // ignore: unused_result
-                  // await ref.refresh(getBannerWaterfallRemoteProvider(
-                  //   areas: areas,
-                  //   material: materials[ref.read(indexSliderProvider)],
-                  //   adAccount: userModel?.adAccount,
-                  //   uid: userModel?.employeeID ?? 0,
-                  // ).future);
-
-                  // ignore: unused_result
-                  // await ref.refresh(getUnitBreakdownRemoteProvider(
-                  //   areas: areas,
-                  //   material: materials[ref.read(indexSliderProvider)],
-                  //   adAccount: userModel?.adAccount,
-                  //   uid: userModel?.employeeID ?? 0,
-                  // ).future);
+                  await ref.refresh(getNewsProvider.future);
                 },
                 slivers: [
                   SliverToBoxAdapter(
@@ -164,44 +123,62 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
                                 getNewsProvider,
                               ),
                               data: (result) {
-                                return Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 16),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Richard Papangayan',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 16.sp,
-                                          color: ColorTheme.textDark,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      Container(
-                                        height: 200,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: AssetImage(
-                                                    ImageConstant.imageNews, package: 'module_etamkawa',),fit: BoxFit.cover, ),
-                                            color: ColorTheme.primaryNew,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10))),
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 16),
-                                      ),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      HtmlWidget(result?.content??''),
-                                    ],
+                                return AsyncValueWidget(
+                                  value: ref.watch(
+                                    getImageProvider(id: 0)
                                   ),
+                                  data: (resultImage) {
+                                    Uint8List imageBytes = resultImage
+                                                ?.attachmentId !=
+                                            0
+                                        ? base64Decode(
+                                            resultImage?.formattedName ?? '')
+                                        : Uint8List(1);
+
+                                    return Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 16),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Richard Papangayan',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16.sp,
+                                              color: ColorTheme.textDark,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          Container(
+                                            height: 200,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image: MemoryImage(
+                                                    imageBytes,
+                                                  ),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                color: ColorTheme.primaryNew,
+                                                borderRadius: const BorderRadius.all(
+                                                    Radius.circular(10))),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16),
+                                          ),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          HtmlWidget(result?.content ?? ''),
+                                        ],
+                                      ),
+                                    );
+                                  },
                                 );
                               },
                             )

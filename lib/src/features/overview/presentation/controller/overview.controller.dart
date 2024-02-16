@@ -9,6 +9,7 @@ import '../../../../constants/constant.dart';
 import '../../../../shared_component/connection_listener_widget.dart';
 import '../../domain/achievement_produksi_response.remote.dart';
 import '../../domain/detail_hourly_grafik_response.remote.dart';
+import '../../domain/download_attachment_request.remote.dart';
 import '../../domain/unit_breakdown_response.remote.dart';
 part 'overview.controller.g.dart';
 
@@ -17,6 +18,9 @@ final isScrollProvider = StateProvider.autoDispose<bool>((ref) {
 });
 
 final indexMtdYtdSliderProvider = StateProvider.autoDispose<int>((ref) => 0);
+
+final imageNewsProdvider =
+StateProvider.autoDispose<String>((ref) => '');
 
 @riverpod
 Future<NewsResponseRemote?> getNews(
@@ -27,6 +31,17 @@ Future<NewsResponseRemote?> getNews(
       ? await ref.watch(getNewsRemoteProvider.future)
       : await ref.watch(
       getNewsLocalProvider.future);
+}
+
+@riverpod
+Future<DownloadAttachmentNewsRequestRemote?> getImage(
+    GetImageRef ref,{int? id}) async {
+  final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
+
+  return isConnectionAvailable
+      ? await ref.watch(getNewsImageRemoteProvider(id: 0).future)
+      : await ref.watch(
+      getNewsImageLocalProvider.future);
 }
 
 @riverpod
