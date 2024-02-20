@@ -18,23 +18,21 @@ import '../../domain/detail_hourly_grafik_response.remote.dart';
 part 'overview.repository.g.dart';
 
 @riverpod
-Future<NewsResponseRemote> getNewsRemote(
-  GetNewsRemoteRef ref,
-) async {
-  final response = {
-    "attachId": 120,
-    "title": "Tentang Kami",
-    "fileName": "btech.id",
-    "content": Constant.htmlNews,
-  };
-  final result = NewsResponseRemote.fromJson(response);
+FutureOr<NewsResponseRemote> getNewsRemote(GetNewsRemoteRef ref) async {
+  final connect = ref.read(connectProvider.notifier);
+  // final response = {
+  //   "attachId": 120,
+  //   "title": "Tentang Kami",
+  //   "fileName": "btech.id",
+  //   "content": Constant.htmlNews,
+  // };
+  // final result = NewsResponseRemote.fromJson(response);
 
-  // final response = await ref.read(connectProvider.notifier).get(
-  //   modul: ModuleType.etamkawaNews,
-  //   path: "/api/news/get_last_news?${Constant.apiVer}",
-  // );
-  // final result =
-  // NewsResponseRemote.fromJson(response.result?.content);
+  final response = await connect.get(
+    modul: ModuleType.etamkawaNews,
+    path: "/api/news/get_last_news?${Constant.apiVer}",
+  );
+  final result = NewsResponseRemote.fromJson(response.result?.content);
   final isarInstance = await ref.watch(isarInstanceProvider.future);
   await isarInstance.writeTxn(() async {
     await isarInstance.newsResponseRemotes.put(result);
@@ -46,11 +44,12 @@ Future<NewsResponseRemote> getNewsRemote(
 
 @riverpod
 Future<DownloadAttachmentNewsRequestRemote> getNewsImageRemote(
-  GetNewsImageRemoteRef ref,{int? id}
-) async {
+    GetNewsImageRemoteRef ref,
+    {int? id}) async {
   final response = {
     "attachmentId": 4,
-    "formattedName": ImageConstant.imageNews64};
+    "formattedName": ImageConstant.imageNews64
+  };
   final result = DownloadAttachmentNewsRequestRemote.fromJson(response);
 
   // final response = await ref.read(connectProvider.notifier).get(
@@ -59,7 +58,6 @@ Future<DownloadAttachmentNewsRequestRemote> getNewsImageRemote(
   // );
   // final result =
   // DownloadAttachmentNewsRequestRemote.fromJson(response.result?.content);
-
 
   final isarInstance = await ref.watch(isarInstanceProvider.future);
   await isarInstance.writeTxn(() async {

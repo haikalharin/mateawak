@@ -6,25 +6,30 @@ import '../../domain/achievement_produksi_response.remote.dart';
 import '../../domain/detail_hourly_grafik_response.remote.dart';
 import '../../domain/download_attachment_request.remote.dart';
 import '../../domain/unit_breakdown_response.remote.dart';
+
 part 'overview_local.repository.g.dart';
 
-
 @riverpod
-Future<NewsResponseRemote?> getNewsLocal(
-    GetNewsLocalRef ref) async {
+FutureOr<NewsResponseRemote?> getNewsLocal(GetNewsLocalRef ref) async {
   final isarInstance = await ref.watch(isarInstanceProvider.future);
 
-  final data = await isarInstance.newsResponseRemotes.filter().contentIsNotEmpty().findAll();
+  final data = await isarInstance.newsResponseRemotes
+      .filter()
+      .contentIsNotEmpty()
+      .findAll();
 
   return data.first;
 }
 
 @riverpod
 Future<DownloadAttachmentNewsRequestRemote?> getNewsImageLocal(
-    GetNewsImageLocalRef ref) async {
+    GetNewsImageLocalRef ref,{int? id}) async {
   final isarInstance = await ref.watch(isarInstanceProvider.future);
 
-  final data = await isarInstance.downloadAttachmentNewsRequestRemotes.filter().formattedNameIsNotEmpty().findAll();
+  final data = await isarInstance.downloadAttachmentNewsRequestRemotes
+      .filter()
+      .attachmentIdEqualTo(id)
+      .findAll();
   return data.first;
 }
 

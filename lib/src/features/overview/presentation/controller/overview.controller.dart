@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:isar/isar.dart';
 import 'package:module_etamkawa/src/features/overview/domain/news_response.remote.dart';
 import 'package:module_etamkawa/src/features/overview/infrastructure/repositories/overview.repository.dart';
 import 'package:module_etamkawa/src/features/overview/infrastructure/repositories/overview_local.repository.dart';
@@ -19,30 +20,74 @@ final isScrollProvider = StateProvider.autoDispose<bool>((ref) {
 
 final indexMtdYtdSliderProvider = StateProvider.autoDispose<int>((ref) => 0);
 
-final imageNewsProdvider =
-StateProvider.autoDispose<String>((ref) => '');
+final imageNewsState =
+StateProvider.autoDispose<DownloadAttachmentNewsRequestRemote>((ref) => DownloadAttachmentNewsRequestRemote());
 
-@riverpod
-Future<NewsResponseRemote?> getNews(
-    GetNewsRef ref,) async {
-  final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
+final newsState =
+StateProvider.autoDispose<NewsResponseRemote>((ref) => NewsResponseRemote());
 
-  return isConnectionAvailable
-      ? await ref.watch(getNewsRemoteProvider.future)
-      : await ref.watch(
-      getNewsLocalProvider.future);
-}
+
 
 @riverpod
 Future<DownloadAttachmentNewsRequestRemote?> getImage(
-    GetImageRef ref,{int? id}) async {
+    GetImageRef ref) async {
   final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
-
+final ctrl =  ref.watch(overviewControllerProvider.notifier);
   return isConnectionAvailable
-      ? await ref.watch(getNewsImageRemoteProvider(id: 0).future)
+      ? await ref.watch(getNewsImageRemoteProvider(id: ctrl.news.attachId).future)
       : await ref.watch(
-      getNewsImageLocalProvider.future);
+      getNewsImageLocalProvider(id: ctrl.news.attachId).future);
 }
+
+
+
+@riverpod
+class OverviewController extends _$OverviewController {
+  NewsResponseRemote news = NewsResponseRemote();
+  DownloadAttachmentNewsRequestRemote imageNews = DownloadAttachmentNewsRequestRemote();
+  @override
+  FutureOr<void> build() async {
+    await getNews();
+  }
+
+
+  Future<void> getNews() async {
+    final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
+
+    final repo = isConnectionAvailable
+        ?  ref.read(getNewsRemoteProvider.future)
+        :  ref.read(
+        getNewsLocalProvider.future);
+    state = await AsyncValue.guard(() => repo).then((value) async {
+      if (value.hasValue) {
+        ref.watch(newsState.notifier).state =
+            value.value??NewsResponseRemote();
+        news = value.value??NewsResponseRemote();
+        getImage(id: news.attachId);
+      }
+      return value;
+    });
+
+  }
+
+  Future<void> getImage({int? id}) async {
+    final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
+
+    final repo = isConnectionAvailable
+        ? ref.read(getNewsImageRemoteProvider(id: id).future)
+        : ref.read(getNewsImageLocalProvider(id: id).future);
+    state = await AsyncValue.guard(() => repo).then((value) async {
+      if (value.hasValue) {
+        ref.watch(imageNewsState.notifier).state =
+            value.value??DownloadAttachmentNewsRequestRemote();
+        imageNews = value.value ?? DownloadAttachmentNewsRequestRemote();
+      }
+      return value;
+    });
+  }
+
+}
+
 
 @riverpod
 Future<AchievementProduksiResponseRemote?> getAchievementProduksi(

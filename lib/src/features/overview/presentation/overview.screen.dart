@@ -25,8 +25,10 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
   @override
   void initState() {
     _scrollController.addListener(
-      () {
-        ref.read(isScrollProvider.notifier).state =
+          () {
+        ref
+            .read(isScrollProvider.notifier)
+            .state =
             _scrollController.position.pixels > 100.h;
       },
     );
@@ -46,7 +48,6 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
     // final isScrolled = ref.watch(isScrollProvider);
 
     // final indexMenuOverview = ref.watch(indexMenuOverviewProvider);
-
     return WillPopScope(
       onWillPop: () {
         context.pop();
@@ -54,144 +55,145 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
         return Future.value(false);
       },
       child: Scaffold(
-        body: Column(
-          children: [
-            const Divider(
-              height: 0.5,
-            ),
-            Container(
-              height: 80,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  color: ColorTheme.primaryNew,
-                  borderRadius:
-                      const BorderRadius.only(bottomRight: Radius.circular(24.0))),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: ColorTheme.textDark,
-                        borderRadius: BorderRadius.all(Radius.circular(100.r))),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Richard Papangayan',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.sp,
-                            color: ColorTheme.textWhite,
-                          ),
-                        ),
-                        Text(
-                          'Supervisor',
-                          style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 10.sp,
-                            color: ColorTheme.textWhite,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Expanded(
-              child: RefreshableStarterWidget(
-                // scrollController: _scrollController,
-                onRefresh: () async {
-                  await ref.refresh(getNewsProvider.future);
-                },
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: Stack(
-                      children: [
-                        Column(
+        body: Consumer(builder: (context, ref, child) {
+          final ctrl = ref.watch(overviewControllerProvider.notifier);
+          final news = ref.watch(newsState);
+          final imageNews = ref.watch(imageNewsState);
+          Uint8List imageBytes =
+          imageNews.attachmentId != 0
+              ? base64Decode(
+              imageNews.formattedName ?? '')
+              : Uint8List(1);
+          if (news.attachId != null && imageNews.formattedName != null) {
+            return Column(
+              children: [
+                const Divider(
+                  height: 0.5,
+                ),
+                Container(
+                  height: 80,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width,
+                  decoration: BoxDecoration(
+                      color: ColorTheme.primaryNew,
+                      borderRadius: const BorderRadius.only(
+                          bottomRight: Radius.circular(24.0))),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                            color: ColorTheme.textDark,
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(100.r))),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            AsyncValueWidget(
-                              value: ref.watch(
-                                getNewsProvider,
+                            Text(
+                              'Richard Papangayan',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.sp,
+                                color: ColorTheme.textWhite,
                               ),
-                              data: (result) {
-                                return AsyncValueWidget(
-                                  value: ref.watch(
-                                    getImageProvider(id: 0)
-                                  ),
-                                  data: (resultImage) {
-                                    Uint8List imageBytes = resultImage
-                                                ?.attachmentId !=
-                                            0
-                                        ? base64Decode(
-                                            resultImage?.formattedName ?? '')
-                                        : Uint8List(1);
-
-                                    return Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16, vertical: 16),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Richard Papangayan',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 16.sp,
-                                              color: ColorTheme.textDark,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 8,
-                                          ),
-                                          Container(
-                                            height: 200,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                  image: MemoryImage(
-                                                    imageBytes,
-                                                  ),
-                                                  fit: BoxFit.cover,
-                                                ),
-                                                color: ColorTheme.primaryNew,
-                                                borderRadius: const BorderRadius.all(
-                                                    Radius.circular(10))),
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 16),
-                                          ),
-                                          const SizedBox(
-                                            height: 8,
-                                          ),
-                                          HtmlWidget(result?.content ?? ''),
-                                        ],
+                            ),
+                            Text(
+                              'Supervisor',
+                              style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 10.sp,
+                                color: ColorTheme.textWhite,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: RefreshableStarterWidget(
+                    // scrollController: _scrollController,
+                    onRefresh: () async {
+                      ctrl.getNews();
+                    },
+                    slivers: [
+                      SliverToBoxAdapter(
+                        child: Stack(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 16),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Richard Papangayan',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 16.sp,
+                                          color: ColorTheme.textDark,
+                                        ),
                                       ),
-                                    );
-                                  },
-                                );
-                              },
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
+                                      Container(
+                                        height: 200,
+                                        width:
+                                        MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: MemoryImage(
+                                                imageBytes,
+                                              ),
+                                              fit: BoxFit.cover,
+                                            ),
+                                            color: ColorTheme.backgroundWhite,
+                                            borderRadius:
+                                            const BorderRadius.all(
+                                                Radius.circular(10))),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16),
+                                      ),
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
+                                      HtmlWidget(news.content ?? ''),
+                                    ],
+                                  ),
+                                )
+                              ],
                             )
                           ],
-                        )
-                      ],
-                    ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-          ],
-        ),
+                ),
+              ],
+            );
+          }
+          return  const Center(
+            child: CircularProgressIndicator(),
+          );
+        }),
       ),
     );
   }

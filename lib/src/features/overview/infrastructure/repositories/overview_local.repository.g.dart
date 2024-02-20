@@ -6,7 +6,7 @@ part of 'overview_local.repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getNewsLocalHash() => r'b27dc18a1350c993a96c1db8d118c3e2cef32c72';
+String _$getNewsLocalHash() => r'c16e58c82cf17fac7e2d4e629f78db064a987e98';
 
 /// See also [getNewsLocal].
 @ProviderFor(getNewsLocal)
@@ -21,25 +21,7 @@ final getNewsLocalProvider =
 );
 
 typedef GetNewsLocalRef = AutoDisposeFutureProviderRef<NewsResponseRemote?>;
-String _$getNewsImageLocalHash() => r'fb51be6999be7cb81fc8d101dd048d3bf2682236';
-
-/// See also [getNewsImageLocal].
-@ProviderFor(getNewsImageLocal)
-final getNewsImageLocalProvider =
-    AutoDisposeFutureProvider<DownloadAttachmentNewsRequestRemote?>.internal(
-  getNewsImageLocal,
-  name: r'getNewsImageLocalProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$getNewsImageLocalHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef GetNewsImageLocalRef
-    = AutoDisposeFutureProviderRef<DownloadAttachmentNewsRequestRemote?>;
-String _$getAchievementProduksiLocalHash() =>
-    r'a2b104e54e3794986387a2fef497e25571110aad';
+String _$getNewsImageLocalHash() => r'25d8ae9cb91da4ff2a19a9b1cb6f884f741c3414';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -61,6 +43,142 @@ class _SystemHash {
     return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
   }
 }
+
+/// See also [getNewsImageLocal].
+@ProviderFor(getNewsImageLocal)
+const getNewsImageLocalProvider = GetNewsImageLocalFamily();
+
+/// See also [getNewsImageLocal].
+class GetNewsImageLocalFamily
+    extends Family<AsyncValue<DownloadAttachmentNewsRequestRemote?>> {
+  /// See also [getNewsImageLocal].
+  const GetNewsImageLocalFamily();
+
+  /// See also [getNewsImageLocal].
+  GetNewsImageLocalProvider call({
+    int? id,
+  }) {
+    return GetNewsImageLocalProvider(
+      id: id,
+    );
+  }
+
+  @override
+  GetNewsImageLocalProvider getProviderOverride(
+    covariant GetNewsImageLocalProvider provider,
+  ) {
+    return call(
+      id: provider.id,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getNewsImageLocalProvider';
+}
+
+/// See also [getNewsImageLocal].
+class GetNewsImageLocalProvider
+    extends AutoDisposeFutureProvider<DownloadAttachmentNewsRequestRemote?> {
+  /// See also [getNewsImageLocal].
+  GetNewsImageLocalProvider({
+    int? id,
+  }) : this._internal(
+          (ref) => getNewsImageLocal(
+            ref as GetNewsImageLocalRef,
+            id: id,
+          ),
+          from: getNewsImageLocalProvider,
+          name: r'getNewsImageLocalProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getNewsImageLocalHash,
+          dependencies: GetNewsImageLocalFamily._dependencies,
+          allTransitiveDependencies:
+              GetNewsImageLocalFamily._allTransitiveDependencies,
+          id: id,
+        );
+
+  GetNewsImageLocalProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.id,
+  }) : super.internal();
+
+  final int? id;
+
+  @override
+  Override overrideWith(
+    FutureOr<DownloadAttachmentNewsRequestRemote?> Function(
+            GetNewsImageLocalRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: GetNewsImageLocalProvider._internal(
+        (ref) => create(ref as GetNewsImageLocalRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        id: id,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<DownloadAttachmentNewsRequestRemote?>
+      createElement() {
+    return _GetNewsImageLocalProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetNewsImageLocalProvider && other.id == id;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, id.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin GetNewsImageLocalRef
+    on AutoDisposeFutureProviderRef<DownloadAttachmentNewsRequestRemote?> {
+  /// The parameter `id` of this provider.
+  int? get id;
+}
+
+class _GetNewsImageLocalProviderElement
+    extends AutoDisposeFutureProviderElement<
+        DownloadAttachmentNewsRequestRemote?> with GetNewsImageLocalRef {
+  _GetNewsImageLocalProviderElement(super.provider);
+
+  @override
+  int? get id => (origin as GetNewsImageLocalProvider).id;
+}
+
+String _$getAchievementProduksiLocalHash() =>
+    r'a2b104e54e3794986387a2fef497e25571110aad';
 
 /// See also [getAchievementProduksiLocal].
 @ProviderFor(getAchievementProduksiLocal)

@@ -6,21 +6,24 @@ part of 'overview.controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getNewsHash() => r'13064df63cbe68de44f658c776cfdc667a0d7a6b';
+String _$getImageHash() => r'948827fa69b615d6d5a29a851be4e982942abba3';
 
-/// See also [getNews].
-@ProviderFor(getNews)
-final getNewsProvider = AutoDisposeFutureProvider<NewsResponseRemote?>.internal(
-  getNews,
-  name: r'getNewsProvider',
+/// See also [getImage].
+@ProviderFor(getImage)
+final getImageProvider =
+    AutoDisposeFutureProvider<DownloadAttachmentNewsRequestRemote?>.internal(
+  getImage,
+  name: r'getImageProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$getNewsHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$getImageHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef GetNewsRef = AutoDisposeFutureProviderRef<NewsResponseRemote?>;
-String _$getImageHash() => r'dcb6536a0f79bcd32457f247ec6070c65347dd6e';
+typedef GetImageRef
+    = AutoDisposeFutureProviderRef<DownloadAttachmentNewsRequestRemote?>;
+String _$getAchievementProduksiHash() =>
+    r'f94a9a123d2a01fc5bc1a0bce8b1a2f20569b8e8';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -42,140 +45,6 @@ class _SystemHash {
     return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
   }
 }
-
-/// See also [getImage].
-@ProviderFor(getImage)
-const getImageProvider = GetImageFamily();
-
-/// See also [getImage].
-class GetImageFamily
-    extends Family<AsyncValue<DownloadAttachmentNewsRequestRemote?>> {
-  /// See also [getImage].
-  const GetImageFamily();
-
-  /// See also [getImage].
-  GetImageProvider call({
-    int? id,
-  }) {
-    return GetImageProvider(
-      id: id,
-    );
-  }
-
-  @override
-  GetImageProvider getProviderOverride(
-    covariant GetImageProvider provider,
-  ) {
-    return call(
-      id: provider.id,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'getImageProvider';
-}
-
-/// See also [getImage].
-class GetImageProvider
-    extends AutoDisposeFutureProvider<DownloadAttachmentNewsRequestRemote?> {
-  /// See also [getImage].
-  GetImageProvider({
-    int? id,
-  }) : this._internal(
-          (ref) => getImage(
-            ref as GetImageRef,
-            id: id,
-          ),
-          from: getImageProvider,
-          name: r'getImageProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$getImageHash,
-          dependencies: GetImageFamily._dependencies,
-          allTransitiveDependencies: GetImageFamily._allTransitiveDependencies,
-          id: id,
-        );
-
-  GetImageProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.id,
-  }) : super.internal();
-
-  final int? id;
-
-  @override
-  Override overrideWith(
-    FutureOr<DownloadAttachmentNewsRequestRemote?> Function(
-            GetImageRef provider)
-        create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: GetImageProvider._internal(
-        (ref) => create(ref as GetImageRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        id: id,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<DownloadAttachmentNewsRequestRemote?>
-      createElement() {
-    return _GetImageProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is GetImageProvider && other.id == id;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, id.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-mixin GetImageRef
-    on AutoDisposeFutureProviderRef<DownloadAttachmentNewsRequestRemote?> {
-  /// The parameter `id` of this provider.
-  int? get id;
-}
-
-class _GetImageProviderElement extends AutoDisposeFutureProviderElement<
-    DownloadAttachmentNewsRequestRemote?> with GetImageRef {
-  _GetImageProviderElement(super.provider);
-
-  @override
-  int? get id => (origin as GetImageProvider).id;
-}
-
-String _$getAchievementProduksiHash() =>
-    r'f94a9a123d2a01fc5bc1a0bce8b1a2f20569b8e8';
 
 /// See also [getAchievementProduksi].
 @ProviderFor(getAchievementProduksi)
@@ -742,5 +611,22 @@ final isDayShiftProvider = AutoDisposeFutureProvider<bool>.internal(
 );
 
 typedef IsDayShiftRef = AutoDisposeFutureProviderRef<bool>;
+String _$overviewControllerHash() =>
+    r'59658c0d562035235589642eb4ed1194440e8ab5';
+
+/// See also [OverviewController].
+@ProviderFor(OverviewController)
+final overviewControllerProvider =
+    AutoDisposeAsyncNotifierProvider<OverviewController, void>.internal(
+  OverviewController.new,
+  name: r'overviewControllerProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$overviewControllerHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$OverviewController = AutoDisposeAsyncNotifier<void>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
