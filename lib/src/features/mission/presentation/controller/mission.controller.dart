@@ -38,7 +38,7 @@ class MissionController extends _$MissionController {
 
   @override
   FutureOr<void> build() async {
-    // await getMissionList();
+    await getMissionList();
   }
 
   Future<void> getMissionList() async {

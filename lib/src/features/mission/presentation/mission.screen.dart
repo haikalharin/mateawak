@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:module_etamkawa/module_etamkawa.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/shared_component/refreshable_starter_widget.dart';
@@ -114,7 +116,10 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.goNamed(
+                          detailMissionEtamkawa);
+                      },
                       child: Text("Button"),
                     ),
                   ),

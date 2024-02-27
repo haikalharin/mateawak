@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_etamkawa/module_etamkawa.dart';
@@ -8,16 +9,27 @@ import 'package:module_shared/module_shared.dart';
 
 Future<void> main() async {
   Initializer.initScreenPreference();
-  runApp(const ProviderScope(child: MyApp()));
+  await Initializer.initStorage();
+  final appConfig = AppConfig(appName: "Etamkawa", flavor: FlavorType.dev);
+  await dotenv.load(fileName: '.env.dev');
+  runApp(ProviderScope(child: MyApp(config: appConfig)));
 }
 
 class MyApp extends ConsumerWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required this.config});
+  final AppConfig config;
 
+  Future<void> initToken(  WidgetRef ref) async {
+    await ref.read(storageProvider.notifier).write(
+        storage: TableConstant.tbMProfile,
+        key: ProfileKeyConstant.keyTokenGeneral,
+        value: dotenv.env[EnvConstant.testToken]!);
+  }
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context,  WidgetRef ref) {
     final goRouter = ref.watch(goRouterProvider);
+    initToken(ref);
 
     return ScreenUtilInit(
         designSize: const Size(393, 852),
@@ -25,7 +37,7 @@ class MyApp extends ConsumerWidget {
         splitScreenMode: true,
         builder: (BuildContext context, Widget? child) {
           return MaterialApp.router(
-            title: 'Flutter Demo',
+            title: config.appName,
             theme: Themes.light,
             routerConfig: goRouter, //route,
           );

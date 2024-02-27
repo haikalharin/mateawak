@@ -17,10 +17,10 @@ GoRouter goRouter(GoRouterRef ref) {
     debugLogDiagnostics: true,
     routes: <RouteBase>[
   GoRoute(
-  path: '/',
-    name: '/',
+  path: homeEtakawaInit,
+    name: homeEtakawaInit,
     builder: (BuildContext context, GoRouterState state) {
-      return SharedComponent.banner('UAT',  ConnectionListenerWidget(
+      return SharedComponent.banner( dotenv.env[EnvConstant.environment]!,  ConnectionListenerWidget(
         child: MainNavScreen(),
       ));
     },
@@ -28,17 +28,10 @@ GoRouter goRouter(GoRouterRef ref) {
 }
 
 List<RouteBase> routeEtamkawa = [
-  // GoRoute(
-  //   path: "/$testHomeEtakawa",
-  //   name: testHomeEtakawa,
-  //   builder: (BuildContext context, GoRouterState state) {
-  //     return SharedComponent.banner(dotenv.env[EnvConstant.environment]!,
-  //         ConnectionListenerWidget(child: MainNavScreen(currentIndex: 0)));
-  //   },
-  // ),
+
   GoRoute(
-      path: '$homeEtakawa',
-      name: '$homeEtakawa',
+      path: homeEtakawa,
+      name: homeEtakawa,
       builder: (BuildContext context, GoRouterState state) {
         return SharedComponent.banner(
             dotenv.env[EnvConstant.environment]!,

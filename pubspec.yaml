@@ -65,6 +65,8 @@ dependencies:
   lazy_load_indexed_stack: ^1.0.1
   icon_decoration: ^2.0.2
   workmanager: ^0.5.1
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:

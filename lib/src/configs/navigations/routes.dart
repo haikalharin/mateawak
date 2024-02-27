@@ -1,3 +1,4 @@
+const String homeEtakawaInit = '/';
 const String homeEtakawa = 'home-etamkawa';
 const String testHomeEtakawa = 'test-home-etamkawa';
 const String detailMissionEtamkawa = 'detail-mission-etamkawa';
