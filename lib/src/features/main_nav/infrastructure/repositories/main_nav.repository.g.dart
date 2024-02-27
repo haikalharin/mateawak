@@ -1,24 +1,24 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'isar.repository.dart';
+part of 'main_nav.repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$isarInstanceHash() => r'ae849d78d08bd765476b5cc8946ae5844c6cc7d6';
+String _$fetchMissionHash() => r'00cb99cb9463388dda7291fbefb7651acf7f71b3';
 
-/// See also [isarInstance].
-@ProviderFor(isarInstance)
-final isarInstanceProvider = AutoDisposeFutureProvider<Isar>.internal(
-  isarInstance,
-  name: r'isarInstanceProvider',
+/// See also [fetchMission].
+@ProviderFor(fetchMission)
+final fetchMissionProvider = AutoDisposeFutureProvider<bool>.internal(
+  fetchMission,
+  name: r'fetchMissionProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$isarInstanceHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$fetchMissionHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef IsarInstanceRef = AutoDisposeFutureProviderRef<Isar>;
+typedef FetchMissionRef = AutoDisposeFutureProviderRef<bool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -1,26 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'main_nav.controller.dart';
+part of 'mission.controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$mainNavControllerHash() => r'c7573fbc747f18f5577102b4b14f6444241709a6';
+String _$missionControllerHash() => r'fd71c9fb2e115a6830d6e57d3d1ac470cf610c79';
 
-/// See also [MainNavController].
-@ProviderFor(MainNavController)
-final mainNavControllerProvider =
-    AutoDisposeAsyncNotifierProvider<MainNavController, void>.internal(
-  MainNavController.new,
-  name: r'mainNavControllerProvider',
+/// See also [MissionController].
+@ProviderFor(MissionController)
+final missionControllerProvider =
+    AutoDisposeAsyncNotifierProvider<MissionController, void>.internal(
+  MissionController.new,
+  name: r'missionControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$mainNavControllerHash,
+      : _$missionControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$MainNavController = AutoDisposeAsyncNotifier<void>;
+typedef _$MissionController = AutoDisposeAsyncNotifier<void>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

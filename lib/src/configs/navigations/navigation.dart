@@ -6,7 +6,6 @@ import 'package:module_etamkawa/src/features/overview/presentation/overview.scre
 import 'package:module_shared/module_shared.dart';
 
 import '../../features/main_nav/presentation/main_nav_screen.dart';
-import '../../features/setting/presentation/setting.screen.dart';
 import '../../shared_component/connection_listener_widget.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -15,11 +14,17 @@ part 'navigation.g.dart';
 @Riverpod(keepAlive: true)
 GoRouter goRouter(GoRouterRef ref) {
   return GoRouter(
-      debugLogDiagnostics: true,
-      routes: routeEtamkawa,
-      redirect: (context, state) async {
-        return "/$testHomeEtakawa";
-      });
+    debugLogDiagnostics: true,
+    routes: <RouteBase>[
+  GoRoute(
+  path: '/',
+    name: '/',
+    builder: (BuildContext context, GoRouterState state) {
+      return SharedComponent.banner('UAT',  ConnectionListenerWidget(
+        child: MainNavScreen(),
+      ));
+    },
+  )]);
 }
 
 List<RouteBase> routeEtamkawa = [
@@ -32,25 +37,23 @@ List<RouteBase> routeEtamkawa = [
   //   },
   // ),
   GoRoute(
-      path: '$homeEtakawa/:currentIndex',
-      name: homeEtakawa,
+      path: '$homeEtakawa',
+      name: '$homeEtakawa',
       builder: (BuildContext context, GoRouterState state) {
         return SharedComponent.banner(
             dotenv.env[EnvConstant.environment]!,
             ConnectionListenerWidget(
-              child: MainNavScreen(
-                currentIndex: int.parse(state.pathParameters['currentIndex']!),
-              ),
+              child: MainNavScreen(),
             ));
       },
       routes: [
         GoRoute(
-            path: setting,
-            name: setting,
+            path: detailMissionEtamkawa,
+            name: detailMissionEtamkawa,
             builder: (BuildContext context, GoRouterState state) {
               return SharedComponent.banner(
                   dotenv.env[EnvConstant.environment]!,
-                  ConnectionListenerWidget(child: SettingScreen()));
+                  const ConnectionListenerWidget(child: OverviewScreen()));
             }),
         // GoRoute(
         //     path: notification,

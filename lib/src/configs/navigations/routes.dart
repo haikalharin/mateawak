@@ -1,5 +1,6 @@
 const String homeEtakawa = 'home-etamkawa';
 const String testHomeEtakawa = 'test-home-etamkawa';
+const String detailMissionEtamkawa = 'detail-mission-etamkawa';
 const String setting = 'setting-etamkawa';
 const String unitbreakdown = 'unitbreakdown';
 const String unitstatusdetail = 'unitstatusdetail';

@@ -80,6 +80,7 @@ flutter:
     - .env.uat
     - .env
     - assets/images/
+    - assets/images/general/
 
 
 

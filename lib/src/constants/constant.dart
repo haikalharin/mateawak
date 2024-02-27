@@ -234,6 +234,225 @@ class Constant {
   static const lineUpMasterUploader = "Master Uploader";
 
   static const readinessTidakBekerja = "TIDAK BEKERJA";
+  static const rawMissionDummy = {
+    "employeeId": "1",
+    "lastSync": "",
+    "data": [
+      {
+        "chapterData" : [
+          {
+            "chapterId": "C1",
+            "name": "Chapter 1",
+            "startDate": "",
+            "endDate": "",
+            "status": "Assigned",
+            "missionData": [
+              {
+                "missionId": "M1",
+                "missionStatus": "InProgress",
+                "name": "Mission 1",
+                "rewards": "120",
+                "taks": "120",
+                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                "startDate": "",
+                "endDate": "",
+                "taskData": [
+                  {
+                    "taskId": "T1",
+                    "attachId": "A123",
+                    "name": "Lead P5M Everyday",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "question": "Apakah anda telah menerapkan prinsip K3?",
+                    "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "orderTask": "1",
+                    "reward": "20",
+                    "answerData": [
+                      {
+                        "answerId": "A1",
+                        "name": "Answer 1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "missionId": "M1",
+                "missionStatus": "InProgress",
+                "name": "Mission 123",
+                "rewards": "120",
+                "taks": "120",
+                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                "startDate": "",
+                "endDate": "",
+                "taskData": [
+                  {
+                    "taskId": "T1",
+                    "attachId": "A123",
+                    "name": "Lead P5M Everyday",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "question": "Apakah anda telah menerapkan prinsip K3?",
+                    "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "orderTask": "1",
+                    "reward": "20",
+                    "answerData": [
+                      {
+                        "answerId": "A1",
+                        "name": "Answer 1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "missionId": "M1",
+                "missionStatus": "Assigned",
+                "name": "Mission 3",
+                "rewards": "120",
+                "taks": "120",
+                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                "startDate": "",
+                "endDate": "",
+                "taskData": [
+                  {
+                    "taskId": "T1",
+                    "attachId": "A123",
+                    "name": "Lead P5M Everyday",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "question": "Apakah anda telah menerapkan prinsip K3?",
+                    "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "orderTask": "1",
+                    "reward": "20",
+                    "answerData": [
+                      {
+                        "answerId": "A1",
+                        "name": "Answer 1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "missionId": "M1",
+                "missionStatus": "Assigned",
+                "name": "Mission 4",
+                "rewards": "120",
+                "taks": "120",
+                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                "startDate": "",
+                "endDate": "",
+                "taskData": [
+                  {
+                    "taskId": "T1",
+                    "attachId": "A123",
+                    "name": "Lead P5M Everyday",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "question": "Apakah anda telah menerapkan prinsip K3?",
+                    "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "orderTask": "1",
+                    "reward": "20",
+                    "answerData": [
+                      {
+                        "answerId": "A1",
+                        "name": "Answer 1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "missionId": "M1",
+                "missionStatus": "Past",
+                "name": "Mission 5",
+                "rewards": "120",
+                "taks": "120",
+                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                "startDate": "",
+                "endDate": "",
+                "taskData": [
+                  {
+                    "taskId": "T1",
+                    "attachId": "A123",
+                    "name": "Lead P5M Everyday",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "question": "Apakah anda telah menerapkan prinsip K3?",
+                    "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "orderTask": "1",
+                    "reward": "20",
+                    "answerData": [
+                      {
+                        "answerId": "A1",
+                        "name": "Answer 1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "missionId": "M1",
+                "missionStatus": "Past",
+                "name": "Mission 1",
+                "rewards": "120",
+                "taks": "120",
+                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                "startDate": "",
+                "endDate": "",
+                "taskData": [
+                  {
+                    "taskId": "T1",
+                    "attachId": "A123",
+                    "name": "Lead P5M Everyday",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "question": "Apakah anda telah menerapkan prinsip K3?",
+                    "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "orderTask": "1",
+                    "reward": "20",
+                    "answerData": [
+                      {
+                        "answerId": "A1",
+                        "name": "Answer 1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "missionId": "M1",
+                "missionStatus": "In Progress",
+                "name": "Mission 6",
+                "rewards": "120",
+                "taks": "120",
+                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                "startDate": "",
+                "endDate": "",
+                "taskData": [
+                  {
+                    "taskId": "T1",
+                    "attachId": "A123",
+                    "name": "Lead P5M Everyday",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "question": "Apakah anda telah menerapkan prinsip K3?",
+                    "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "orderTask": "1",
+                    "reward": "20",
+                    "answerData": [
+                      {
+                        "answerId": "A1",
+                        "name": "Answer 1"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+
+          }
+        ]
+
+
+
+      }
+    ]
+  };
   static const htmlNews =
       "<p><strong><span style=\"font-family: 'Verdana',sans-serif; color: #333333;\">BUMA Rampungkan Penerbitan Obligasi I</span></strong><span style=\"font-family: 'Verdana',sans-serif; color: #333333;\">&nbsp;<strong><span style=\"font-family: 'Verdana',sans-serif;\">Tahun&nbsp;2023</span></strong></span></p> <p style=\"line-height: 14.25pt;\"><span style=\"font-size: 8.0pt; font-family: 'Verdana',sans-serif; color: black;\">Selasa, 16 Jan 2026</span></p> <p style=\"line-height: 14.25pt;\"><span style=\"font-family: 'Verdana',sans-serif; color: #333333;\">Torem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus.</span></p> <p style=\"line-height: 14.25pt; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; text-align: start; widows: 2; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; word-spacing: 0px;\"><span style=\"font-family: 'Verdana',sans-serif; color: #333333;\">Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam.</span></p>";
 }
