@@ -143,6 +143,8 @@ class Constant {
   static const menuSitePerform = 'Menu Site Perform';
   static const menuLineupOperator = 'Menu Lineup Operator';
   static const menuLineupSpv = 'Menu Lineup Spv';
+  static const String testToken = 'testToken';
+
 
   static final Map<String, RoleAccess> fullListFeature = {
     //BPS

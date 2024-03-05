@@ -9,6 +9,7 @@ import 'package:module_etamkawa/src/features/task/presentation/widget/task_sinlg
 import 'package:module_shared/module_shared.dart';
 
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import '../../../configs/theme/color.theme.dart';
 import '../../../shared_component/async_value_widget.dart';
 import '../../../shared_component/refreshable_starter_widget.dart';
 import '../../../shared_component/shared_component_etamkawa.dart';
@@ -129,7 +130,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                           width: 83,
                           height: 26,
                           decoration: BoxDecoration(
-                              color: ColorTheme.blueLight,
+                              color: ColorThemeEtamkawa.blueLight,
                               borderRadius:
                                   BorderRadius.all(Radius.circular(5.r))),
                           child: const Center(child: Text('In Progress')),

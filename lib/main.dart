@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_etamkawa/module_etamkawa.dart';
+import 'package:module_etamkawa/src/constants/constant.dart';
 import 'package:module_etamkawa/src/features/main_nav/presentation/main_nav_screen.dart';
 import 'package:module_etamkawa/src/initializer.dart';
 import 'package:module_shared/module_shared.dart';
@@ -23,7 +24,7 @@ class MyApp extends ConsumerWidget {
     await ref.read(storageProvider.notifier).write(
         storage: TableConstant.tbMProfile,
         key: ProfileKeyConstant.keyTokenGeneral,
-        value: dotenv.env[EnvConstant.testToken]!);
+        value: dotenv.env[Constant.testToken]!);
   }
   // This widget is the root of your application.
   @override
