@@ -18,8 +18,10 @@ final isScrollProvider = StateProvider.autoDispose<bool>((ref) {
 });
 
 final currentIndexState = StateProvider.autoDispose<int>((ref) => 0);
+final currentProgressState = StateProvider.autoDispose<int>((ref) => 0);
 
 final selectOptionState = StateProvider.autoDispose<String>((ref) => '');
+final selectOptionIndexState = StateProvider.autoDispose<int>((ref) => 0);
 final answerState = StateProvider.autoDispose<List<Map<String,dynamic>>>((ref) => []);
 
 

@@ -27,23 +27,8 @@ class TaskScreen extends ConsumerStatefulWidget {
 
 class _TaskScreenState extends ConsumerState<TaskScreen> {
   final _scrollController = ScrollController();
-
-  // int currentQuestionIndex = 0;
-  // String? selectedOption;
   double progress = 0.0;
 
-  // List<Map<String, dynamic>> questions = [
-  //   {
-  //     'question': 'What is the capital of France?',
-  //     'options': ['London', 'Paris', 'Berlin', 'Rome'],
-  //     'correctIndex': 1,
-  //   },
-  //   {
-  //     'question': 'Who wrote "To Kill a Mockingbird"?',
-  //     'options': ['Harper Lee', 'J.K. Rowling', 'Mark Twain', 'Stephen King'],
-  //     'correctIndex': 0,
-  //   },
-  // ];
 
   @override
   void initState() {
@@ -76,6 +61,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
         return Future.value(false);
       },
       child: Scaffold(
+        backgroundColor: ColorTheme.backgroundLight,
         appBar: SharedComponentEtamkawa.appBar(
           context: context,
           title: 'Mission',
@@ -83,100 +69,153 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
         ),
         body: Consumer(builder: (context, ref, child) {
           final currentQuestionIndex = ref.read(currentIndexState.notifier);
+          final currentQuestionProgress = ref.watch(currentProgressState);
           final selectedOption = ref.watch(selectOptionState);
           final ctrl = ref.watch(taskControllerProvider.notifier);
+          final lengthAnswer = (widget.listTask[currentQuestionIndex.state]
+              .answerData?.length ??
+              0);
 
           return Column(
             children: [
               const Divider(
                 height: 0.5,
               ),
-              Container(
-                height: 140,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(color: ColorTheme.backgroundWhite),
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Intro to Etam Kawa',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16.sp,
-                                  color: ColorTheme.textDark,
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.r)),
+                ),
+                margin: EdgeInsets.all(8),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: ColorTheme.backgroundWhite,
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
+                  width: MediaQuery.of(context).size.width,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Column(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Intro to Etam Kawa',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.sp,
+                                    color: ColorTheme.textDark,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                'Mission: Safety & Regulations',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 10.sp,
-                                  color: ColorTheme.textLightDark,
+                                Text(
+                                  'Mission: Safety & Regulations',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 10.sp,
+                                    color: ColorTheme.textLightDark,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
+                          Container(
+                            width: 83,
+                            height: 26,
+                            decoration: BoxDecoration(
+                                color: ColorThemeEtamkawa.blueLight,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5.r))),
+                            child: const Center(child: Text('In Progress')),
+                          ),
+                        ],
+                      ),
+
+                      Container(
+                        margin: EdgeInsets.only(top: 24),
+                        child: Stack(
+                          children: [
+                            Container(
+                                padding: EdgeInsets.only(left: 8),
+                                height: 24,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: ColorThemeEtamkawa.bgGreenLight,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4.r)),
+                                ),
+                                child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      '0%',
+                                      style:
+                                          TextStyle(color: ColorTheme.primaryNew),
+                                    ))),
+                            Container(
+                                height: 24,
+                                padding: EdgeInsets.only(right: 8),
+                                width: MediaQuery.of(context).size.width *
+                                    ((currentQuestionProgress) /
+                                        widget.listTask.length),
+                                decoration: BoxDecoration(
+                                  color: ColorTheme.primaryNew,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4.r)),
+                                ),
+                                child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text(
+                                        '${(((currentQuestionProgress) * 100) / widget.listTask.length).toInt()}%',
+                                        style: TextStyle(
+                                            color: ColorTheme.backgroundLight))))
+                          ],
                         ),
-                        Container(
-                          width: 83,
-                          height: 26,
-                          decoration: BoxDecoration(
-                              color: ColorThemeEtamkawa.blueLight,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5.r))),
-                          child: const Center(child: Text('In Progress')),
-                        ),
-                      ],
-                    ),
-                    LinearProgressIndicator(
-                      value: (currentQuestionIndex.state + 1) /
-                          widget.listTask.length,
-                      backgroundColor: Colors.grey,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                    ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Expanded(
                 child: TaskSingleChoiceScreen(
                   buttonFunction: () {
                     if (selectedOption != '') {
-
-
-                      setState(()  {
+                      setState(() {
                         if (currentQuestionIndex.state <
-                            (widget.listTask[currentQuestionIndex.state]
-                                    .answerData?.length ??
-                                0)) {
+                            lengthAnswer && lengthAnswer != 1) {
                           ctrl
                               .saveAnswer(
-                              selectedOption,
-                              widget.listTask[currentQuestionIndex.state]
-                                  .taskId ??
-                                  '')
+                                  selectedOption,
+                                  widget.listTask[currentQuestionIndex.state]
+                                          .taskId ??
+                                      '')
                               .whenComplete(() {
                             currentQuestionIndex.state++;
+                            ref.watch(currentProgressState.notifier).state++;
                             ref.read(selectOptionState.notifier).state = '';
+                            ref.read(selectOptionIndexState.notifier).state = 0;
                           });
                         } else {
-
                           ctrl
                               .saveAnswer(
-                              selectedOption,
-                              widget.listTask[currentQuestionIndex.state]
-                                  .taskId ??
-                                  '')
+                                  selectedOption,
+                                  widget.listTask[currentQuestionIndex.state]
+                                          .taskId ??
+                                      '')
                               .whenComplete(() {
+                            if (((currentQuestionProgress) * 100) ~/
+                                    widget.listTask.length <
+                                100) {
+                              ref.watch(currentProgressState.notifier).state++;
+                            }
+
                             ref.read(selectOptionState.notifier).state = '';
+                            ref.read(selectOptionIndexState.notifier).state = 0;
                             showDialog(
                               context: context,
                               builder: (_) => AlertDialog(
@@ -186,6 +225,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                   TextButton(
                                     onPressed: () {
                                       Navigator.pop(context);
+                                      Navigator.pop(context);
                                     },
                                     child: Text('OK'),
                                   )
@@ -193,7 +233,6 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                               ),
                             );
                           });
-
                         }
                       });
                     } else {
