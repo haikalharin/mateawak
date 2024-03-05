@@ -150,43 +150,50 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                 child: TaskSingleChoiceScreen(
                   buttonFunction: () {
                     if (selectedOption != '') {
-                      setState(() {
-                        if (currentQuestionIndex.state <=
+
+
+                      setState(()  {
+                        if (currentQuestionIndex.state <
                             (widget.listTask[currentQuestionIndex.state]
                                     .answerData?.length ??
                                 0)) {
                           ctrl
                               .saveAnswer(
-                                  selectedOption,
-                                  widget.listTask[currentQuestionIndex.state]
-                                          .taskId ??
-                                      '')
+                              selectedOption,
+                              widget.listTask[currentQuestionIndex.state]
+                                  .taskId ??
+                                  '')
                               .whenComplete(() {
-                            if ((currentQuestionIndex.state <
-                                (widget.listTask[currentQuestionIndex.state]
-                                        .answerData?.length ??
-                                    0))) {
-                              currentQuestionIndex.state++;
-                            }
+                            currentQuestionIndex.state++;
                             ref.read(selectOptionState.notifier).state = '';
                           });
                         } else {
-                          ref.read(selectOptionState.notifier).state = '';
-                          showDialog(
-                            context: context,
-                            builder: (_) => AlertDialog(
-                              title: Text('Quiz Finished'),
-                              content: Text('You have completed the quiz.'),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text('OK'),
-                                )
-                              ],
-                            ),
-                          );
+
+                          ctrl
+                              .saveAnswer(
+                              selectedOption,
+                              widget.listTask[currentQuestionIndex.state]
+                                  .taskId ??
+                                  '')
+                              .whenComplete(() {
+                            ref.read(selectOptionState.notifier).state = '';
+                            showDialog(
+                              context: context,
+                              builder: (_) => AlertDialog(
+                                title: Text('Quiz Finished'),
+                                content: Text('You have completed the quiz.'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('OK'),
+                                  )
+                                ],
+                              ),
+                            );
+                          });
+
                         }
                       });
                     } else {
