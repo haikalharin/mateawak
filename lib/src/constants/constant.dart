@@ -136,6 +136,7 @@ class Constant {
   static const fullscreenTrailing = 'trailing';
   static const fullscreenChild = 'child';
   static const fullscreenOnRefresh = 'onRefresh';
+  static const listTask = 'list-task';
 
   static const menuOverview = 'Menu Overview';
   static const menuLive = 'Menu Live';
@@ -417,7 +418,7 @@ class Constant {
               },
               {
                 "missionId": "M1",
-                "missionStatus": "In Progress",
+                "missionStatus": "InProgress",
                 "name": "Mission 6",
                 "rewards": "120",
                 "taks": "120",
@@ -438,6 +439,130 @@ class Constant {
                       {
                         "answerId": "A1",
                         "name": "Answer 1"
+                      },
+                      {
+                        "answerId": "A2",
+                        "name": "Answer 2"
+                      },
+                      {
+                        "answerId": "A3",
+                        "name": "Answer 3"
+                      },
+                      {
+                        "answerId": "A4",
+                        "name": "Answer 4"
+                      }
+                    ]
+                  },
+                  {
+                    "taskId": "T1",
+                    "attachId": "A123",
+                    "name": "Lead P5M Everyday",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "question": "Apakah anda telah menerapkan prinsip K3?",
+                    "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "orderTask": "1",
+                    "reward": "20",
+                    "answerData": [
+                      {
+                        "answerId": "A1",
+                        "name": "Answer 1"
+                      },
+                      {
+                        "answerId": "A2",
+                        "name": "Answer 2"
+                      },
+                      {
+                        "answerId": "A3",
+                        "name": "Answer 3"
+                      },
+                      {
+                        "answerId": "A4",
+                        "name": "Answer 4"
+                      }
+                    ]
+                  },
+                  {
+                    "taskId": "T1",
+                    "attachId": "A123",
+                    "name": "Lead P5M Everyday",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "question": "Apakah anda telah menerapkan prinsip K4?",
+                    "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "orderTask": "1",
+                    "reward": "20",
+                    "answerData": [
+                      {
+                        "answerId": "A1",
+                        "name": "Answer 1"
+                      },
+                      {
+                        "answerId": "A2",
+                        "name": "Answer 2"
+                      },
+                      {
+                        "answerId": "A3",
+                        "name": "Answer 3"
+                      },
+                      {
+                        "answerId": "A4",
+                        "name": "Answer 4"
+                      }
+                    ]
+                  },
+                  {
+                    "taskId": "T1",
+                    "attachId": "A123",
+                    "name": "Lead P5M Everyday",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "question": "Apakah anda telah menerapkan prinsip K5?",
+                    "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "orderTask": "1",
+                    "reward": "20",
+                    "answerData": [
+                      {
+                        "answerId": "A1",
+                        "name": "Answer 1"
+                      },
+                      {
+                        "answerId": "A2",
+                        "name": "Answer 2"
+                      },
+                      {
+                        "answerId": "A3",
+                        "name": "Answer 3"
+                      },
+                      {
+                        "answerId": "A4",
+                        "name": "Answer 4"
+                      }
+                    ]
+                  },
+                  {
+                    "taskId": "T1",
+                    "attachId": "A123",
+                    "name": "Lead P5M Everyday",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "question": "Apakah anda telah menerapkan prinsip K6?",
+                    "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    "orderTask": "1",
+                    "reward": "20",
+                    "answerData": [
+                      {
+                        "answerId": "A1",
+                        "name": "Answer 1"
+                      },
+                      {
+                        "answerId": "A2",
+                        "name": "Answer 2"
+                      },
+                      {
+                        "answerId": "A3",
+                        "name": "Answer 3"
+                      },
+                      {
+                        "answerId": "A4",
+                        "name": "Answer 4"
                       }
                     ]
                   }
