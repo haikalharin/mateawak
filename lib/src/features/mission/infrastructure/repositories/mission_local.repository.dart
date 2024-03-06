@@ -13,17 +13,23 @@ FutureOr<List<GamificationResponseRemote>> getMissionLocal(GetMissionLocalRef re
   final isarInstance = await ref.watch(isarInstanceProvider.future);
 
   // final connect = ref.read(connectProvider.notifier);
+  const List<GamificationResponseRemote> listResponse =[];
   const response =Constant.rawMissionDummy;
-  final result = GamificationResponseRemote.fromJson(response);
+  for (var element in response) {
+    final result = GamificationResponseRemote.fromJson(element);
+    await isarInstance.writeTxn(() async {
+      await isarInstance.gamificationResponseRemotes.put(result);
+    });
+    listResponse.add(result);
+  }
+
 
   // final response = await connect.get(
   //   modul: ModuleType.etamkawaNews,
   //   path: "/api/news/get_last_news?${Constant.apiVer}",
   // );
   // final result = NewsResponseRemote.fromJson(response.result?.content);
-  await isarInstance.writeTxn(() async {
-    await isarInstance.gamificationResponseRemotes.put(result);
-  });
+
 
   ref.keepAlive();
 

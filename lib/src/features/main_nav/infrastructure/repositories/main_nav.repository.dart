@@ -9,6 +9,8 @@ part 'main_nav.repository.g.dart';
 
 @riverpod
 FutureOr <bool> fetchMission(FetchMissionRef ref) async {
+  final isarInstance = await ref.watch(isarInstanceProvider.future);
+
   // final response = {
   //   "attachId": 120,
   //   "title": "Tentang Kami",
@@ -17,12 +19,16 @@ FutureOr <bool> fetchMission(FetchMissionRef ref) async {
   // };
   // final result = NewsResponseRemote.fromJson(response);
 
-  const response = Constant.rawMissionDummy;
-  final result = GamificationResponseRemote.fromJson(response);
-  final isarInstance = await ref.watch(isarInstanceProvider.future);
-  await isarInstance.writeTxn(() async {
-    await isarInstance.gamificationResponseRemotes.put(result);
-  });
+  // final connect = ref.read(connectProvider.notifier);
+  const List<GamificationResponseRemote> listResponse =[];
+  const response =Constant.rawMissionDummy;
+  for (var element in response) {
+    final result = GamificationResponseRemote.fromJson(element);
+    await isarInstance.writeTxn(() async {
+      await isarInstance.gamificationResponseRemotes.put(result);
+    });
+    listResponse.add(result);
+  }
 
   ref.keepAlive();
   return true;

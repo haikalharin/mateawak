@@ -145,7 +145,6 @@ class Constant {
   static const menuLineupSpv = 'Menu Lineup Spv';
   static const String testToken = 'testToken';
 
-
   static final Map<String, RoleAccess> fullListFeature = {
     //BPS
     'overview': RoleAccess(
@@ -237,349 +236,692 @@ class Constant {
   static const lineUpMasterUploader = "Master Uploader";
 
   static const readinessTidakBekerja = "TIDAK BEKERJA";
-  static const rawMissionDummy = {
-    "employeeId": "1",
-    "lastSync": "",
-    "data": [
-      {
-        "chapterData" : [
-          {
-            "chapterId": "C1",
-            "name": "Chapter 1",
-            "startDate": "",
-            "endDate": "",
-            "status": "Assigned",
-            "missionData": [
-              {
-                "missionId": "M1",
-                "missionStatus": "InProgress",
-                "name": "Mission 1",
-                "rewards": "120",
-                "taks": "120",
-                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                "startDate": "",
-                "endDate": "",
-                "taskData": [
-                  {
-                    "taskId": "T1",
-                    "attachId": "A123",
-                    "name": "Lead P5M Everyday",
-                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    "question": "Apakah anda telah menerapkan prinsip K3?",
-                    "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    "orderTask": "1",
-                    "reward": "20",
-                    "answerData": [
-                      {
-                        "answerId": "A1",
-                        "name": "Answer 1"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "missionId": "M1",
-                "missionStatus": "InProgress",
-                "name": "Mission 123",
-                "rewards": "120",
-                "taks": "120",
-                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                "startDate": "",
-                "endDate": "",
-                "taskData": [
-                  {
-                    "taskId": "T1",
-                    "attachId": "A123",
-                    "name": "Lead P5M Everyday",
-                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    "question": "Apakah anda telah menerapkan prinsip K3?",
-                    "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    "orderTask": "1",
-                    "reward": "20",
-                    "answerData": [
-                      {
-                        "answerId": "A1",
-                        "name": "Answer 1"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "missionId": "M1",
-                "missionStatus": "Assigned",
-                "name": "Mission 3",
-                "rewards": "120",
-                "taks": "120",
-                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                "startDate": "",
-                "endDate": "",
-                "taskData": [
-                  {
-                    "taskId": "T1",
-                    "attachId": "A123",
-                    "name": "Lead P5M Everyday",
-                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    "question": "Apakah anda telah menerapkan prinsip K3?",
-                    "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    "orderTask": "1",
-                    "reward": "20",
-                    "answerData": [
-                      {
-                        "answerId": "A1",
-                        "name": "Answer 1"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "missionId": "M1",
-                "missionStatus": "Assigned",
-                "name": "Mission 4",
-                "rewards": "120",
-                "taks": "120",
-                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                "startDate": "",
-                "endDate": "",
-                "taskData": [
-                  {
-                    "taskId": "T1",
-                    "attachId": "A123",
-                    "name": "Lead P5M Everyday",
-                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    "question": "Apakah anda telah menerapkan prinsip K3?",
-                    "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    "orderTask": "1",
-                    "reward": "20",
-                    "answerData": [
-                      {
-                        "answerId": "A1",
-                        "name": "Answer 1"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "missionId": "M1",
-                "missionStatus": "Past",
-                "name": "Mission 5",
-                "rewards": "120",
-                "taks": "120",
-                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                "startDate": "",
-                "endDate": "",
-                "taskData": [
-                  {
-                    "taskId": "T1",
-                    "attachId": "A123",
-                    "name": "Lead P5M Everyday",
-                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    "question": "Apakah anda telah menerapkan prinsip K3?",
-                    "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    "orderTask": "1",
-                    "reward": "20",
-                    "answerData": [
-                      {
-                        "answerId": "A1",
-                        "name": "Answer 1"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "missionId": "M1",
-                "missionStatus": "Past",
-                "name": "Mission 1",
-                "rewards": "120",
-                "taks": "120",
-                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                "startDate": "",
-                "endDate": "",
-                "taskData": [
-                  {
-                    "taskId": "T1",
-                    "attachId": "A123",
-                    "name": "Lead P5M Everyday",
-                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    "question": "Apakah anda telah menerapkan prinsip K3?",
-                    "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    "orderTask": "1",
-                    "reward": "20",
-                    "answerData": [
-                      {
-                        "answerId": "A1",
-                        "name": "Answer 1"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "missionId": "M1",
-                "missionStatus": "InProgress",
-                "name": "Mission 6",
-                "rewards": "120",
-                "taks": "120",
-                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                "startDate": "",
-                "endDate": "",
-                "taskData": [
-                  {
-                    "taskId": "T1",
-                    "attachId": "A123",
-                    "name": "Lead P5M Everyday",
-                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    "question": "Apakah anda telah menerapkan prinsip K3?",
-                    "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    "orderTask": "1",
-                    "reward": "20",
-                    "answerData": [
-                      {
-                        "answerId": "A1",
-                        "name": "Answer 1"
-                      },
-                      {
-                        "answerId": "A2",
-                        "name": "Answer 2"
-                      },
-                      {
-                        "answerId": "A3",
-                        "name": "Answer 3"
-                      },
-                      {
-                        "answerId": "A4",
-                        "name": "Answer 4"
-                      }
-                    ]
-                  },
-                  {
-                    "taskId": "T1",
-                    "attachId": "A123",
-                    "name": "Lead P5M Everyday",
-                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    "question": "Apakah anda telah menerapkan prinsip K3?",
-                    "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    "orderTask": "1",
-                    "reward": "20",
-                    "answerData": [
-                      {
-                        "answerId": "A1",
-                        "name": "Answer 1"
-                      },
-                      {
-                        "answerId": "A2",
-                        "name": "Answer 2"
-                      },
-                      {
-                        "answerId": "A3",
-                        "name": "Answer 3"
-                      },
-                      {
-                        "answerId": "A4",
-                        "name": "Answer 4"
-                      }
-                    ]
-                  },
-                  {
-                    "taskId": "T1",
-                    "attachId": "A123",
-                    "name": "Lead P5M Everyday",
-                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    "question": "Apakah anda telah menerapkan prinsip K4?",
-                    "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    "orderTask": "1",
-                    "reward": "20",
-                    "answerData": [
-                      {
-                        "answerId": "A1",
-                        "name": "Answer 1"
-                      },
-                      {
-                        "answerId": "A2",
-                        "name": "Answer 2"
-                      },
-                      {
-                        "answerId": "A3",
-                        "name": "Answer 3"
-                      },
-                      {
-                        "answerId": "A4",
-                        "name": "Answer 4"
-                      }
-                    ]
-                  },
-                  {
-                    "taskId": "T1",
-                    "attachId": "A123",
-                    "name": "Lead P5M Everyday",
-                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    "question": "Apakah anda telah menerapkan prinsip K5?",
-                    "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    "orderTask": "1",
-                    "reward": "20",
-                    "answerData": [
-                      {
-                        "answerId": "A1",
-                        "name": "Answer 1"
-                      },
-                      {
-                        "answerId": "A2",
-                        "name": "Answer 2"
-                      },
-                      {
-                        "answerId": "A3",
-                        "name": "Answer 3"
-                      },
-                      {
-                        "answerId": "A4",
-                        "name": "Answer 4"
-                      }
-                    ]
-                  },
-                  {
-                    "taskId": "T1",
-                    "attachId": "A123",
-                    "name": "Lead P5M Everyday",
-                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    "question": "Apakah anda telah menerapkan prinsip K6?",
-                    "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    "orderTask": "1",
-                    "reward": "20",
-                    "answerData": [
-                      {
-                        "answerId": "A1",
-                        "name": "Answer 1"
-                      },
-                      {
-                        "answerId": "A2",
-                        "name": "Answer 2"
-                      },
-                      {
-                        "answerId": "A3",
-                        "name": "Answer 3"
-                      },
-                      {
-                        "answerId": "A4",
-                        "name": "Answer 4"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-
-          }
-        ]
-
-
-
-      }
-    ]
-  };
+  static const rawMissionDummy = [
+    {
+      "employeeMissionId": 4,
+      "employeeUpn": "emp@email.com",
+      "missionId": 49,
+      "missionStatusId": 0,
+      "missionStatus": "InProgress",
+      "startedDate": "0001-01-01T00:00:00",
+      "submittedBy": null,
+      "submittedDate": "0001-01-01T00:00:00",
+      "completedBy": null,
+      "completedDate": "0001-01-01T00:00:00",
+      "chapterData": [
+        {
+          "chapterId": 1,
+          "chapterCode": "CP0001",
+          "chapterName": "Chapter 1",
+          "chapterGoal": "Chapter Goal",
+          "missionData": [
+            {
+              "missionId": 49,
+              "chapterId": 1,
+              "missionCode": "M0000001",
+              "missionName": "Mission 1",
+              "missionInstruction": "Mission Instruction",
+              "missionDuration": 10,
+              "missionActiveOnDay": 10,
+              "missionTypeCode": "MT0001",
+              "missionTypeName": "Mission Type 1",
+              "missionReward": 200,
+              "taskData": [
+                {
+                  "taskId": 50,
+                  "missionId": 49,
+                  "attachmentId": 2,
+                  "taskCode": "T0000054",
+                  "taskGroup": "G0001",
+                  "taskCaption": "Task 4",
+                  "taskTypeCode": "TT0001",
+                  "taskTypeName": "Task Type 1",
+                  "taskReward": 50,
+                  "answerData": [
+                    {
+                      "answerId": 220,
+                      "taskId": 50,
+                      "answerCode": "A0000240",
+                      "answerField": "Answer4",
+                      "answerCaption": "Answer 4"
+                    },
+                    {
+                      "answerId": 217,
+                      "taskId": 50,
+                      "answerCode": "A0000237",
+                      "answerField": "Answer1",
+                      "answerCaption": "Answer 1"
+                    },
+                    {
+                      "answerId": 218,
+                      "taskId": 50,
+                      "answerCode": "A0000238",
+                      "answerField": "Answer2",
+                      "answerCaption": "Answer 2"
+                    },
+                    {
+                      "answerId": 221,
+                      "taskId": 50,
+                      "answerCode": "A0000241",
+                      "answerField": "Answer5",
+                      "answerCaption": "Answer 5"
+                    },
+                    {
+                      "answerId": 219,
+                      "taskId": 50,
+                      "answerCode": "A0000239",
+                      "answerField": "Answer3",
+                      "answerCaption": "Answer 3"
+                    }
+                  ]
+                },
+                {
+                  "taskId": 49,
+                  "missionId": 49,
+                  "attachmentId": 2,
+                  "taskCode": "T0000053",
+                  "taskGroup": "G0001",
+                  "taskCaption": "Task 3",
+                  "taskTypeCode": "TT0001",
+                  "taskTypeName": "Task Type 1",
+                  "taskReward": 50,
+                  "answerData": [
+                    {
+                      "answerId": 213,
+                      "taskId": 49,
+                      "answerCode": "A0000233",
+                      "answerField": "Answer2",
+                      "answerCaption": "Answer 2"
+                    },
+                    {
+                      "answerId": 216,
+                      "taskId": 49,
+                      "answerCode": "A0000236",
+                      "answerField": "Answer5",
+                      "answerCaption": "Answer 5"
+                    },
+                    {
+                      "answerId": 214,
+                      "taskId": 49,
+                      "answerCode": "A0000234",
+                      "answerField": "Answer3",
+                      "answerCaption": "Answer 3"
+                    },
+                    {
+                      "answerId": 215,
+                      "taskId": 49,
+                      "answerCode": "A0000235",
+                      "answerField": "Answer4",
+                      "answerCaption": "Answer 4"
+                    },
+                    {
+                      "answerId": 212,
+                      "taskId": 49,
+                      "answerCode": "A0000232",
+                      "answerField": "Answer1",
+                      "answerCaption": "Answer 1"
+                    }
+                  ]
+                },
+                {
+                  "taskId": 47,
+                  "missionId": 49,
+                  "attachmentId": 2,
+                  "taskCode": "T0000051",
+                  "taskGroup": "G0001",
+                  "taskCaption": "Task 1",
+                  "taskTypeCode": "TT0001",
+                  "taskTypeName": "Task Type 1",
+                  "taskReward": 50,
+                  "answerData": [
+                    {
+                      "answerId": 205,
+                      "taskId": 47,
+                      "answerCode": "A0000225",
+                      "answerField": "Answer4",
+                      "answerCaption": "Answer 4"
+                    },
+                    {
+                      "answerId": 204,
+                      "taskId": 47,
+                      "answerCode": "A0000224",
+                      "answerField": "Answer3",
+                      "answerCaption": "Answer 3"
+                    },
+                    {
+                      "answerId": 206,
+                      "taskId": 47,
+                      "answerCode": "A0000226",
+                      "answerField": "Answer5",
+                      "answerCaption": "Answer 5"
+                    },
+                    {
+                      "answerId": 203,
+                      "taskId": 47,
+                      "answerCode": "A0000223",
+                      "answerField": "Answer2",
+                      "answerCaption": "Answer 2"
+                    },
+                    {
+                      "answerId": 202,
+                      "taskId": 47,
+                      "answerCode": "A0000222",
+                      "answerField": "Answer1",
+                      "answerCaption": "Answer 1"
+                    }
+                  ]
+                },
+                {
+                  "taskId": 48,
+                  "missionId": 49,
+                  "attachmentId": 2,
+                  "taskCode": "T0000052",
+                  "taskGroup": "G0001",
+                  "taskCaption": "Task 2",
+                  "taskTypeCode": "TT0001",
+                  "taskTypeName": "Task Type 1",
+                  "taskReward": 50,
+                  "answerData": [
+                    {
+                      "answerId": 211,
+                      "taskId": 48,
+                      "answerCode": "A0000231",
+                      "answerField": "Answer5",
+                      "answerCaption": "Answer 5"
+                    },
+                    {
+                      "answerId": 209,
+                      "taskId": 48,
+                      "answerCode": "A0000229",
+                      "answerField": "Answer3",
+                      "answerCaption": "Answer 3"
+                    },
+                    {
+                      "answerId": 208,
+                      "taskId": 48,
+                      "answerCode": "A0000228",
+                      "answerField": "Answer2",
+                      "answerCaption": "Answer 2"
+                    },
+                    {
+                      "answerId": 207,
+                      "taskId": 48,
+                      "answerCode": "A0000227",
+                      "answerField": "Answer1",
+                      "answerCaption": "Answer 1"
+                    },
+                    {
+                      "answerId": 210,
+                      "taskId": 48,
+                      "answerCode": "A0000230",
+                      "answerField": "Answer4",
+                      "answerCaption": "Answer 4"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "employeeMissionId": 4,
+      "employeeUpn": "emp@email.com",
+      "missionId": 49,
+      "missionStatusId": 0,
+      "missionStatus": "Past",
+      "startedDate": "0001-01-01T00:00:00",
+      "submittedBy": null,
+      "submittedDate": "0001-01-01T00:00:00",
+      "completedBy": null,
+      "completedDate": "0001-01-01T00:00:00",
+      "chapterData": [
+        {
+          "chapterId": 1,
+          "chapterCode": "CP0001",
+          "chapterName": "Chapter 1",
+          "chapterGoal": "Chapter Goal",
+          "missionData": [
+            {
+              "missionId": 49,
+              "chapterId": 1,
+              "missionCode": "M0000001",
+              "missionName": "Mission 1",
+              "missionInstruction": "Mission Instruction",
+              "missionDuration": 10,
+              "missionActiveOnDay": 10,
+              "missionTypeCode": "MT0001",
+              "missionTypeName": "Mission Type 1",
+              "missionReward": 200,
+              "taskData": [
+                {
+                  "taskId": 50,
+                  "missionId": 49,
+                  "attachmentId": 2,
+                  "taskCode": "T0000054",
+                  "taskGroup": "G0001",
+                  "taskCaption": "Task 4",
+                  "taskTypeCode": "TT0001",
+                  "taskTypeName": "Task Type 1",
+                  "taskReward": 50,
+                  "answerData": [
+                    {
+                      "answerId": 220,
+                      "taskId": 50,
+                      "answerCode": "A0000240",
+                      "answerField": "Answer4",
+                      "answerCaption": "Answer 4"
+                    },
+                    {
+                      "answerId": 217,
+                      "taskId": 50,
+                      "answerCode": "A0000237",
+                      "answerField": "Answer1",
+                      "answerCaption": "Answer 1"
+                    },
+                    {
+                      "answerId": 218,
+                      "taskId": 50,
+                      "answerCode": "A0000238",
+                      "answerField": "Answer2",
+                      "answerCaption": "Answer 2"
+                    },
+                    {
+                      "answerId": 221,
+                      "taskId": 50,
+                      "answerCode": "A0000241",
+                      "answerField": "Answer5",
+                      "answerCaption": "Answer 5"
+                    },
+                    {
+                      "answerId": 219,
+                      "taskId": 50,
+                      "answerCode": "A0000239",
+                      "answerField": "Answer3",
+                      "answerCaption": "Answer 3"
+                    }
+                  ]
+                },
+                {
+                  "taskId": 49,
+                  "missionId": 49,
+                  "attachmentId": 2,
+                  "taskCode": "T0000053",
+                  "taskGroup": "G0001",
+                  "taskCaption": "Task 3",
+                  "taskTypeCode": "TT0001",
+                  "taskTypeName": "Task Type 1",
+                  "taskReward": 50,
+                  "answerData": [
+                    {
+                      "answerId": 213,
+                      "taskId": 49,
+                      "answerCode": "A0000233",
+                      "answerField": "Answer2",
+                      "answerCaption": "Answer 2"
+                    },
+                    {
+                      "answerId": 216,
+                      "taskId": 49,
+                      "answerCode": "A0000236",
+                      "answerField": "Answer5",
+                      "answerCaption": "Answer 5"
+                    },
+                    {
+                      "answerId": 214,
+                      "taskId": 49,
+                      "answerCode": "A0000234",
+                      "answerField": "Answer3",
+                      "answerCaption": "Answer 3"
+                    },
+                    {
+                      "answerId": 215,
+                      "taskId": 49,
+                      "answerCode": "A0000235",
+                      "answerField": "Answer4",
+                      "answerCaption": "Answer 4"
+                    },
+                    {
+                      "answerId": 212,
+                      "taskId": 49,
+                      "answerCode": "A0000232",
+                      "answerField": "Answer1",
+                      "answerCaption": "Answer 1"
+                    }
+                  ]
+                },
+                {
+                  "taskId": 47,
+                  "missionId": 49,
+                  "attachmentId": 2,
+                  "taskCode": "T0000051",
+                  "taskGroup": "G0001",
+                  "taskCaption": "Task 1",
+                  "taskTypeCode": "TT0001",
+                  "taskTypeName": "Task Type 1",
+                  "taskReward": 50,
+                  "answerData": [
+                    {
+                      "answerId": 205,
+                      "taskId": 47,
+                      "answerCode": "A0000225",
+                      "answerField": "Answer4",
+                      "answerCaption": "Answer 4"
+                    },
+                    {
+                      "answerId": 204,
+                      "taskId": 47,
+                      "answerCode": "A0000224",
+                      "answerField": "Answer3",
+                      "answerCaption": "Answer 3"
+                    },
+                    {
+                      "answerId": 206,
+                      "taskId": 47,
+                      "answerCode": "A0000226",
+                      "answerField": "Answer5",
+                      "answerCaption": "Answer 5"
+                    },
+                    {
+                      "answerId": 203,
+                      "taskId": 47,
+                      "answerCode": "A0000223",
+                      "answerField": "Answer2",
+                      "answerCaption": "Answer 2"
+                    },
+                    {
+                      "answerId": 202,
+                      "taskId": 47,
+                      "answerCode": "A0000222",
+                      "answerField": "Answer1",
+                      "answerCaption": "Answer 1"
+                    }
+                  ]
+                },
+                {
+                  "taskId": 48,
+                  "missionId": 49,
+                  "attachmentId": 2,
+                  "taskCode": "T0000052",
+                  "taskGroup": "G0001",
+                  "taskCaption": "Task 2",
+                  "taskTypeCode": "TT0001",
+                  "taskTypeName": "Task Type 1",
+                  "taskReward": 50,
+                  "answerData": [
+                    {
+                      "answerId": 211,
+                      "taskId": 48,
+                      "answerCode": "A0000231",
+                      "answerField": "Answer5",
+                      "answerCaption": "Answer 5"
+                    },
+                    {
+                      "answerId": 209,
+                      "taskId": 48,
+                      "answerCode": "A0000229",
+                      "answerField": "Answer3",
+                      "answerCaption": "Answer 3"
+                    },
+                    {
+                      "answerId": 208,
+                      "taskId": 48,
+                      "answerCode": "A0000228",
+                      "answerField": "Answer2",
+                      "answerCaption": "Answer 2"
+                    },
+                    {
+                      "answerId": 207,
+                      "taskId": 48,
+                      "answerCode": "A0000227",
+                      "answerField": "Answer1",
+                      "answerCaption": "Answer 1"
+                    },
+                    {
+                      "answerId": 210,
+                      "taskId": 48,
+                      "answerCode": "A0000230",
+                      "answerField": "Answer4",
+                      "answerCaption": "Answer 4"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "employeeMissionId": 4,
+      "employeeUpn": "emp@email.com",
+      "missionId": 49,
+      "missionStatusId": 0,
+      "missionStatus": "Assigned",
+      "startedDate": "0001-01-01T00:00:00",
+      "submittedBy": null,
+      "submittedDate": "0001-01-01T00:00:00",
+      "completedBy": null,
+      "completedDate": "0001-01-01T00:00:00",
+      "chapterData": [
+        {
+          "chapterId": 1,
+          "chapterCode": "CP0001",
+          "chapterName": "Chapter 1",
+          "chapterGoal": "Chapter Goal",
+          "missionData": [
+            {
+              "missionId": 49,
+              "chapterId": 1,
+              "missionCode": "M0000001",
+              "missionName": "Mission 1",
+              "missionInstruction": "Mission Instruction",
+              "missionDuration": 10,
+              "missionActiveOnDay": 10,
+              "missionTypeCode": "MT0001",
+              "missionTypeName": "Mission Type 1",
+              "missionReward": 200,
+              "taskData": [
+                {
+                  "taskId": 50,
+                  "missionId": 49,
+                  "attachmentId": 2,
+                  "taskCode": "T0000054",
+                  "taskGroup": "G0001",
+                  "taskCaption": "Task 4",
+                  "taskTypeCode": "TT0001",
+                  "taskTypeName": "Task Type 1",
+                  "taskReward": 50,
+                  "answerData": [
+                    {
+                      "answerId": 220,
+                      "taskId": 50,
+                      "answerCode": "A0000240",
+                      "answerField": "Answer4",
+                      "answerCaption": "Answer 4"
+                    },
+                    {
+                      "answerId": 217,
+                      "taskId": 50,
+                      "answerCode": "A0000237",
+                      "answerField": "Answer1",
+                      "answerCaption": "Answer 1"
+                    },
+                    {
+                      "answerId": 218,
+                      "taskId": 50,
+                      "answerCode": "A0000238",
+                      "answerField": "Answer2",
+                      "answerCaption": "Answer 2"
+                    },
+                    {
+                      "answerId": 221,
+                      "taskId": 50,
+                      "answerCode": "A0000241",
+                      "answerField": "Answer5",
+                      "answerCaption": "Answer 5"
+                    },
+                    {
+                      "answerId": 219,
+                      "taskId": 50,
+                      "answerCode": "A0000239",
+                      "answerField": "Answer3",
+                      "answerCaption": "Answer 3"
+                    }
+                  ]
+                },
+                {
+                  "taskId": 49,
+                  "missionId": 49,
+                  "attachmentId": 2,
+                  "taskCode": "T0000053",
+                  "taskGroup": "G0001",
+                  "taskCaption": "Task 3",
+                  "taskTypeCode": "TT0001",
+                  "taskTypeName": "Task Type 1",
+                  "taskReward": 50,
+                  "answerData": [
+                    {
+                      "answerId": 213,
+                      "taskId": 49,
+                      "answerCode": "A0000233",
+                      "answerField": "Answer2",
+                      "answerCaption": "Answer 2"
+                    },
+                    {
+                      "answerId": 216,
+                      "taskId": 49,
+                      "answerCode": "A0000236",
+                      "answerField": "Answer5",
+                      "answerCaption": "Answer 5"
+                    },
+                    {
+                      "answerId": 214,
+                      "taskId": 49,
+                      "answerCode": "A0000234",
+                      "answerField": "Answer3",
+                      "answerCaption": "Answer 3"
+                    },
+                    {
+                      "answerId": 215,
+                      "taskId": 49,
+                      "answerCode": "A0000235",
+                      "answerField": "Answer4",
+                      "answerCaption": "Answer 4"
+                    },
+                    {
+                      "answerId": 212,
+                      "taskId": 49,
+                      "answerCode": "A0000232",
+                      "answerField": "Answer1",
+                      "answerCaption": "Answer 1"
+                    }
+                  ]
+                },
+                {
+                  "taskId": 47,
+                  "missionId": 49,
+                  "attachmentId": 2,
+                  "taskCode": "T0000051",
+                  "taskGroup": "G0001",
+                  "taskCaption": "Task 1",
+                  "taskTypeCode": "TT0001",
+                  "taskTypeName": "Task Type 1",
+                  "taskReward": 50,
+                  "answerData": [
+                    {
+                      "answerId": 205,
+                      "taskId": 47,
+                      "answerCode": "A0000225",
+                      "answerField": "Answer4",
+                      "answerCaption": "Answer 4"
+                    },
+                    {
+                      "answerId": 204,
+                      "taskId": 47,
+                      "answerCode": "A0000224",
+                      "answerField": "Answer3",
+                      "answerCaption": "Answer 3"
+                    },
+                    {
+                      "answerId": 206,
+                      "taskId": 47,
+                      "answerCode": "A0000226",
+                      "answerField": "Answer5",
+                      "answerCaption": "Answer 5"
+                    },
+                    {
+                      "answerId": 203,
+                      "taskId": 47,
+                      "answerCode": "A0000223",
+                      "answerField": "Answer2",
+                      "answerCaption": "Answer 2"
+                    },
+                    {
+                      "answerId": 202,
+                      "taskId": 47,
+                      "answerCode": "A0000222",
+                      "answerField": "Answer1",
+                      "answerCaption": "Answer 1"
+                    }
+                  ]
+                },
+                {
+                  "taskId": 48,
+                  "missionId": 49,
+                  "attachmentId": 2,
+                  "taskCode": "T0000052",
+                  "taskGroup": "G0001",
+                  "taskCaption": "Task 2",
+                  "taskTypeCode": "TT0001",
+                  "taskTypeName": "Task Type 1",
+                  "taskReward": 50,
+                  "answerData": [
+                    {
+                      "answerId": 211,
+                      "taskId": 48,
+                      "answerCode": "A0000231",
+                      "answerField": "Answer5",
+                      "answerCaption": "Answer 5"
+                    },
+                    {
+                      "answerId": 209,
+                      "taskId": 48,
+                      "answerCode": "A0000229",
+                      "answerField": "Answer3",
+                      "answerCaption": "Answer 3"
+                    },
+                    {
+                      "answerId": 208,
+                      "taskId": 48,
+                      "answerCode": "A0000228",
+                      "answerField": "Answer2",
+                      "answerCaption": "Answer 2"
+                    },
+                    {
+                      "answerId": 207,
+                      "taskId": 48,
+                      "answerCode": "A0000227",
+                      "answerField": "Answer1",
+                      "answerCaption": "Answer 1"
+                    },
+                    {
+                      "answerId": 210,
+                      "taskId": 48,
+                      "answerCode": "A0000230",
+                      "answerField": "Answer4",
+                      "answerCaption": "Answer 4"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ];
   static const htmlNews =
       "<p><strong><span style=\"font-family: 'Verdana',sans-serif; color: #333333;\">BUMA Rampungkan Penerbitan Obligasi I</span></strong><span style=\"font-family: 'Verdana',sans-serif; color: #333333;\">&nbsp;<strong><span style=\"font-family: 'Verdana',sans-serif;\">Tahun&nbsp;2023</span></strong></span></p> <p style=\"line-height: 14.25pt;\"><span style=\"font-size: 8.0pt; font-family: 'Verdana',sans-serif; color: black;\">Selasa, 16 Jan 2026</span></p> <p style=\"line-height: 14.25pt;\"><span style=\"font-family: 'Verdana',sans-serif; color: #333333;\">Torem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus.</span></p> <p style=\"line-height: 14.25pt; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; text-align: start; widows: 2; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; word-spacing: 0px;\"><span style=\"font-family: 'Verdana',sans-serif; color: #333333;\">Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam.</span></p>";
 }
