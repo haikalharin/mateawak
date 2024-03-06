@@ -80,7 +80,7 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
             log('submit data result: $value');
 
             isarInstance.writeTxnSync(() {
-              isarInstance.newsResponseRemotes.deleteSync(data.attachId??0);
+              isarInstance.newsResponseRemotes.deleteSync(data.attachmentId??0);
             });
             if (isarInstance.isOpen) {
               await isarInstance.close();

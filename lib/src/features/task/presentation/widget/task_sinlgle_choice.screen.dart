@@ -2,12 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:module_etamkawa/src/features/task/infrastructure/controller/task.controller.dart';
 import 'package:module_shared/module_shared.dart';
 
-import '../../../../configs/theme/color.theme.dart';
-import '../../../../shared_component/refreshable_starter_widget.dart';
-import '../../../mission/domain/gamification_response.remote.dart';
+
+import '../controller/task.controller.dart';
 
 class TaskSingleChoiceScreen extends ConsumerStatefulWidget {
   // final List<TaskDatum> listTask;
@@ -65,9 +63,10 @@ class _TaskSingleChoiceScreenState
                                   .size
                                   .width,
                               decoration: BoxDecoration(
-                                  image: DecorationImage(
+                                  image: const DecorationImage(
                                     image: AssetImage(
                                       'assets/images/image_news.png',
+                                      package: 'module_etamkawa',
                                     ),
                                     fit: BoxFit.cover,
                                   ),

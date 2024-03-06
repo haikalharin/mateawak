@@ -34,9 +34,9 @@ Future<DownloadAttachmentNewsRequestRemote?> getImage(
   final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
 final ctrl =  ref.watch(overviewControllerProvider.notifier);
   return isConnectionAvailable
-      ? await ref.watch(getNewsImageRemoteProvider(id: ctrl.news.attachId).future)
+      ? await ref.watch(getNewsImageRemoteProvider(id: ctrl.news.attachmentId).future)
       : await ref.watch(
-      getNewsImageLocalProvider(id: ctrl.news.attachId).future);
+      getNewsImageLocalProvider(id: ctrl.news.attachmentId).future);
 }
 
 
@@ -53,18 +53,21 @@ class OverviewController extends _$OverviewController {
 
   Future<void> getNews() async {
     final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
-
+    bool isImageExist = false;
     final repo = isConnectionAvailable
         ?  ref.read(getNewsRemoteProvider.future)
         :  ref.read(
         getNewsLocalProvider.future);
     state = await AsyncValue.guard(() => repo).then((value) async {
-      if (value.hasValue) {
+      if (value.hasValue && value.value?.attachmentId != null) {
         ref.watch(newsState.notifier).state =
             value.value??NewsResponseRemote();
         news = value.value??NewsResponseRemote();
-        getImage(id: news.attachId);
+        await getImage(id: news.attachmentId);
+      } else{
+        state =  AsyncError(value.error??'',StackTrace.fromString(''));
       }
+
       return value;
     });
 
@@ -76,7 +79,7 @@ class OverviewController extends _$OverviewController {
     final repo = isConnectionAvailable
         ? ref.read(getNewsImageRemoteProvider(id: id).future)
         : ref.read(getNewsImageLocalProvider(id: id).future);
-    state = await AsyncValue.guard(() => repo).then((value) async {
+    var data = await AsyncValue.guard(() => repo).then((value) async {
       if (value.hasValue) {
         ref.watch(imageNewsState.notifier).state =
             value.value??DownloadAttachmentNewsRequestRemote();
@@ -84,6 +87,7 @@ class OverviewController extends _$OverviewController {
       }
       return value;
     });
+
   }
 
 }

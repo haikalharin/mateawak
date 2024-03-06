@@ -47,7 +47,7 @@ Future<DownloadAttachmentNewsRequestRemote> getNewsImageRemote(
     GetNewsImageRemoteRef ref,
     {int? id}) async {
   final response = {
-    "attachmentId": 4,
+    "attachmentId": 18,
     "formattedName": ImageConstant.imageNews64
   };
   final result = DownloadAttachmentNewsRequestRemote.fromJson(response);

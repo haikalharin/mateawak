@@ -8,7 +8,7 @@ import 'package:module_etamkawa/src/features/mission/presentation/controller/mis
 import 'package:module_etamkawa/src/shared_component/refreshable_starter_widget.dart';
 
 import '../../../constants/constant.dart';
-import '../../task/infrastructure/controller/task.controller.dart';
+import '../../task/presentation/controller/task.controller.dart';
 
 enum TypeListMission { inProgress, assigned, past }
 

@@ -38,7 +38,7 @@ const NewsResponseRemoteSchema = CollectionSchema(
   serialize: _newsResponseRemoteSerialize,
   deserialize: _newsResponseRemoteDeserialize,
   deserializeProp: _newsResponseRemoteDeserializeProp,
-  idName: r'attachId',
+  idName: r'attachmentId',
   indexes: {},
   links: {},
   embeddedSchemas: {},
@@ -93,7 +93,7 @@ NewsResponseRemote _newsResponseRemoteDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = NewsResponseRemote(
-    attachId: id,
+    attachmentId: id,
     content: reader.readStringOrNull(offsets[0]),
     fileName: reader.readStringOrNull(offsets[1]),
     title: reader.readStringOrNull(offsets[2]),
@@ -120,7 +120,7 @@ P _newsResponseRemoteDeserializeProp<P>(
 }
 
 Id _newsResponseRemoteGetId(NewsResponseRemote object) {
-  return object.attachId ?? Isar.autoIncrement;
+  return object.attachmentId ?? Isar.autoIncrement;
 }
 
 List<IsarLinkBase<dynamic>> _newsResponseRemoteGetLinks(
@@ -130,13 +130,13 @@ List<IsarLinkBase<dynamic>> _newsResponseRemoteGetLinks(
 
 void _newsResponseRemoteAttach(
     IsarCollection<dynamic> col, Id id, NewsResponseRemote object) {
-  object.attachId = id;
+  object.attachmentId = id;
 }
 
 extension NewsResponseRemoteQueryWhereSort
     on QueryBuilder<NewsResponseRemote, NewsResponseRemote, QWhere> {
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterWhere>
-      anyAttachId() {
+      anyAttachmentId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
@@ -146,68 +146,70 @@ extension NewsResponseRemoteQueryWhereSort
 extension NewsResponseRemoteQueryWhere
     on QueryBuilder<NewsResponseRemote, NewsResponseRemote, QWhereClause> {
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterWhereClause>
-      attachIdEqualTo(Id attachId) {
+      attachmentIdEqualTo(Id attachmentId) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
-        lower: attachId,
-        upper: attachId,
+        lower: attachmentId,
+        upper: attachmentId,
       ));
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterWhereClause>
-      attachIdNotEqualTo(Id attachId) {
+      attachmentIdNotEqualTo(Id attachmentId) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(
-              IdWhereClause.lessThan(upper: attachId, includeUpper: false),
+              IdWhereClause.lessThan(upper: attachmentId, includeUpper: false),
             )
             .addWhereClause(
-              IdWhereClause.greaterThan(lower: attachId, includeLower: false),
+              IdWhereClause.greaterThan(
+                  lower: attachmentId, includeLower: false),
             );
       } else {
         return query
             .addWhereClause(
-              IdWhereClause.greaterThan(lower: attachId, includeLower: false),
+              IdWhereClause.greaterThan(
+                  lower: attachmentId, includeLower: false),
             )
             .addWhereClause(
-              IdWhereClause.lessThan(upper: attachId, includeUpper: false),
+              IdWhereClause.lessThan(upper: attachmentId, includeUpper: false),
             );
       }
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterWhereClause>
-      attachIdGreaterThan(Id attachId, {bool include = false}) {
+      attachmentIdGreaterThan(Id attachmentId, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        IdWhereClause.greaterThan(lower: attachId, includeLower: include),
+        IdWhereClause.greaterThan(lower: attachmentId, includeLower: include),
       );
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterWhereClause>
-      attachIdLessThan(Id attachId, {bool include = false}) {
+      attachmentIdLessThan(Id attachmentId, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        IdWhereClause.lessThan(upper: attachId, includeUpper: include),
+        IdWhereClause.lessThan(upper: attachmentId, includeUpper: include),
       );
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterWhereClause>
-      attachIdBetween(
-    Id lowerAttachId,
-    Id upperAttachId, {
+      attachmentIdBetween(
+    Id lowerAttachmentId,
+    Id upperAttachmentId, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
-        lower: lowerAttachId,
+        lower: lowerAttachmentId,
         includeLower: includeLower,
-        upper: upperAttachId,
+        upper: upperAttachmentId,
         includeUpper: includeUpper,
       ));
     });
@@ -217,63 +219,63 @@ extension NewsResponseRemoteQueryWhere
 extension NewsResponseRemoteQueryFilter
     on QueryBuilder<NewsResponseRemote, NewsResponseRemote, QFilterCondition> {
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      attachIdIsNull() {
+      attachmentIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'attachId',
+        property: r'attachmentId',
       ));
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      attachIdIsNotNull() {
+      attachmentIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'attachId',
+        property: r'attachmentId',
       ));
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      attachIdEqualTo(Id? value) {
+      attachmentIdEqualTo(Id? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'attachId',
+        property: r'attachmentId',
         value: value,
       ));
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      attachIdGreaterThan(
+      attachmentIdGreaterThan(
     Id? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'attachId',
+        property: r'attachmentId',
         value: value,
       ));
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      attachIdLessThan(
+      attachmentIdLessThan(
     Id? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'attachId',
+        property: r'attachmentId',
         value: value,
       ));
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      attachIdBetween(
+      attachmentIdBetween(
     Id? lower,
     Id? upper, {
     bool includeLower = true,
@@ -281,7 +283,7 @@ extension NewsResponseRemoteQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'attachId',
+        property: r'attachmentId',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -807,16 +809,16 @@ extension NewsResponseRemoteQuerySortBy
 extension NewsResponseRemoteQuerySortThenBy
     on QueryBuilder<NewsResponseRemote, NewsResponseRemote, QSortThenBy> {
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
-      thenByAttachId() {
+      thenByAttachmentId() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'attachId', Sort.asc);
+      return query.addSortBy(r'attachmentId', Sort.asc);
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
-      thenByAttachIdDesc() {
+      thenByAttachmentIdDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'attachId', Sort.desc);
+      return query.addSortBy(r'attachmentId', Sort.desc);
     });
   }
 
@@ -889,9 +891,10 @@ extension NewsResponseRemoteQueryWhereDistinct
 
 extension NewsResponseRemoteQueryProperty
     on QueryBuilder<NewsResponseRemote, NewsResponseRemote, QQueryProperty> {
-  QueryBuilder<NewsResponseRemote, int, QQueryOperations> attachIdProperty() {
+  QueryBuilder<NewsResponseRemote, int, QQueryOperations>
+      attachmentIdProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'attachId');
+      return query.addPropertyName(r'attachmentId');
     });
   }
 

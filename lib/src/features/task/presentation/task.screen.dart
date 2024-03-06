@@ -8,13 +8,12 @@ import 'package:go_router/go_router.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_sinlgle_choice.screen.dart';
 import 'package:module_shared/module_shared.dart';
 
-import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import '../../../configs/theme/color.theme.dart';
 import '../../../shared_component/async_value_widget.dart';
 import '../../../shared_component/refreshable_starter_widget.dart';
 import '../../../shared_component/shared_component_etamkawa.dart';
 import '../../mission/domain/gamification_response.remote.dart';
-import '../infrastructure/controller/task.controller.dart';
+import 'controller/task.controller.dart';
 
 class TaskScreen extends ConsumerStatefulWidget {
   final List<TaskDatum> listTask;

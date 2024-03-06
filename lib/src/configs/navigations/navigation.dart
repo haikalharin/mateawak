@@ -26,7 +26,29 @@ GoRouter goRouter(GoRouterRef ref) {
         child: MainNavScreen(),
       ));
     },
-  )]);
+      routes: [
+        GoRoute(
+            path: detailMissionEtamkawa,
+            name: detailMissionEtamkawa,
+            builder: (BuildContext context, GoRouterState state) {
+              return SharedComponent.banner(
+                  dotenv.env[EnvConstant.environment]!,
+                  const ConnectionListenerWidget(child: OverviewScreen()));
+            }),
+        GoRoute(
+            path: taskMissionEtamkawa,
+            name: taskMissionEtamkawa,
+            builder: (BuildContext context, GoRouterState state) {
+              Map<String, dynamic> param =
+              state.extra as Map<String, dynamic>;
+              return SharedComponent.banner(
+                  dotenv.env[EnvConstant.environment]!,
+                  ConnectionListenerWidget(child: TaskScreen(
+                    listTask: param[Constant.listTask],
+                  )));
+            }),
+
+      ]),]);
 }
 
 List<RouteBase> routeEtamkawa = [
