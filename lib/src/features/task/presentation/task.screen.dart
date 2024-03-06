@@ -74,6 +74,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
           final lengthAnswer = (widget.listTask[currentQuestionIndex.state]
               .answerData?.length ??
               0);
+          final missionData = ref.watch(missionDataState);
 
           return Column(
             children: [
@@ -114,10 +115,10 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                   ),
                                 ),
                                 Text(
-                                  'Mission: Safety & Regulations',
+                                  'Mission: ${missionData.missionName}',
                                   style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12.sp,
                                     color: ColorTheme.textLightDark,
                                   ),
                                 ),
@@ -135,44 +136,56 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                           ),
                         ],
                       ),
-
                       Container(
                         margin: EdgeInsets.only(top: 24),
-                        child: Stack(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                                padding: EdgeInsets.only(left: 8),
-                                height: 24,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: ColorThemeEtamkawa.bgGreenLight,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4.r)),
-                                ),
-                                child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      '0%',
-                                      style:
-                                          TextStyle(color: ColorTheme.primaryNew),
-                                    ))),
-                            Container(
-                                height: 24,
-                                padding: EdgeInsets.only(right: 8),
-                                width: MediaQuery.of(context).size.width *
-                                    ((currentQuestionProgress) /
-                                        widget.listTask.length),
-                                decoration: BoxDecoration(
-                                  color: ColorTheme.primaryNew,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4.r)),
-                                ),
-                                child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                        '${(((currentQuestionProgress) * 100) / widget.listTask.length).toInt()}%',
-                                        style: TextStyle(
-                                            color: ColorTheme.backgroundLight))))
+                            Text(
+                              'Overall progress',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 12.sp,
+                                color: ColorTheme.textLightDark,
+                              ),
+                            ),
+                            Stack(
+                              children: [
+                                Container(
+                                    padding: EdgeInsets.only(left: 8),
+                                    height: 24,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: ColorThemeEtamkawa.bgGreenLight,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(4.r)),
+                                    ),
+                                    child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          '0%',
+                                          style:
+                                              TextStyle(color: ColorTheme.primaryNew),
+                                        ))),
+                                Container(
+                                    height: 24,
+                                    padding: EdgeInsets.only(right: 8),
+                                    width: MediaQuery.of(context).size.width *
+                                        ((currentQuestionProgress) /
+                                            widget.listTask.length),
+                                    decoration: BoxDecoration(
+                                      color: ColorTheme.primaryNew,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(4.r)),
+                                    ),
+                                    child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                            '${(((currentQuestionProgress) * 100) / widget.listTask.length).toInt()}%',
+                                            style: TextStyle(
+                                                color: ColorTheme.backgroundLight))))
+                              ],
+                            ),
                           ],
                         ),
                       ),
@@ -191,12 +204,11 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                               .saveAnswer(
                                   selectedOption,
                                   widget.listTask[currentQuestionIndex.state]
-                                          .taskId ??
-                                      '')
+                                          .taskId ??0)
                               .whenComplete(() {
                             currentQuestionIndex.state++;
                             ref.watch(currentProgressState.notifier).state++;
-                            ref.read(selectOptionState.notifier).state = '';
+                            ref.read(selectOptionState.notifier).state = 0;
                             ref.read(selectOptionIndexState.notifier).state = 0;
                           });
                         } else {
@@ -205,7 +217,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                   selectedOption,
                                   widget.listTask[currentQuestionIndex.state]
                                           .taskId ??
-                                      '')
+                                      0)
                               .whenComplete(() {
                             if (((currentQuestionProgress) * 100) ~/
                                     widget.listTask.length <
@@ -213,7 +225,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                               ref.watch(currentProgressState.notifier).state++;
                             }
 
-                            ref.read(selectOptionState.notifier).state = '';
+                            ref.read(selectOptionState.notifier).state = 0;
                             ref.read(selectOptionIndexState.notifier).state = 0;
                             showDialog(
                               context: context,

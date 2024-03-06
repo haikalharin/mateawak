@@ -20,51 +20,65 @@ final isScrollProvider = StateProvider.autoDispose<bool>((ref) {
 final currentIndexState = StateProvider.autoDispose<int>((ref) => 0);
 final currentProgressState = StateProvider.autoDispose<int>((ref) => 0);
 
-final selectOptionState = StateProvider.autoDispose<String>((ref) => '');
+final selectOptionState = StateProvider.autoDispose<int>((ref) => 0);
 final selectOptionIndexState = StateProvider.autoDispose<int>((ref) => 0);
-final answerState = StateProvider.autoDispose<List<Map<String,dynamic>>>((ref) => []);
+final answerState =
+    StateProvider.autoDispose<List<Map<String, dynamic>>>((ref) => []);
 
+final listTaskState = StateProvider.autoDispose<List<TaskDatum>>((ref) => []);
 
-final listTaskState =
-    StateProvider.autoDispose<List<TaskDatum>>((ref) => []);
+final missionDataState =
+    StateProvider.autoDispose<MissionDatum>((ref) => MissionDatum());
+
+final gamificationState = StateProvider.autoDispose<GamificationResponseRemote>(
+    (ref) => GamificationResponseRemote());
 
 @riverpod
 class TaskController extends _$TaskController {
   List<GamificationResponseRemote> listGamification = [];
 
   @override
-  FutureOr<void> build() async {
-  }
+  FutureOr<void> build() async {}
 
   Future<void> changeCurrentIndex() async {
-   var index = ref.watch(currentIndexState);
-   ref.watch(currentIndexState.notifier).state = index++;
+    var index = ref.watch(currentIndexState);
+    ref.watch(currentIndexState.notifier).state = index++;
   }
 
-  Future<void> putListTask(List<TaskDatum> list) async {
-    ref.watch(listTaskState.notifier).state = list;
+  Future<void> putDetailMissionData(
+      {required MissionDatum missionDatum,
+      required GamificationResponseRemote gamificationResponseRemote}) async {
+    ref.watch(missionDataState.notifier).state = missionDatum;
+    ref.watch(gamificationState.notifier).state = gamificationResponseRemote;
+    ref.watch(listTaskState.notifier).state = missionDatum.taskData ?? [];
   }
 
-  Future<void> selectOption(String value, String questionId) async {
-   if(value.isNotEmpty){
-     ref.watch(selectOptionState.notifier).state = value;
-   }
-
+  Future<void> selectOption(int value) async {
+    if (value != 0) {
+      ref.watch(selectOptionState.notifier).state = value;
+    }
   }
 
-  Future<void> saveAnswer(String value, String questionId) async {
-    Map<String,dynamic> dataAnswer ={};
+  Future<void> saveAnswer(int value, int questionId) async {
+    Map<String, dynamic> dataAnswer = {};
     List<String> listData = [];
-    if(value.isNotEmpty){
-      listData.add(value??'');
-      dataAnswer =
-      {
+    String data = '';
+    if (value != 0) {
+      listData.add(value.toString() ?? '');
+      for (var element in listData) {
+        if (listData.length > 1) {
+          data += '$element;';
+        } else {
+          data += element;
+        }
+      }
+      dataAnswer = {
+        "employeeMissionId": ref.read(gamificationState).employeeMissionId,
         "taskId": questionId,
-        "answer": listData
+        "answer": data,
+        "Attachment": "",
       };
       ref.watch(answerState.notifier).state.add(dataAnswer);
     }
-
-
   }
 }

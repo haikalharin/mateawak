@@ -1,6 +1,11 @@
+// To parse this JSON data, do
+//
+//     final gamificationResponseRemote = gamificationResponseRemoteFromJson(jsonString);
+
 import 'dart:convert';
 
 import 'package:isar/isar.dart';
+
 part 'gamification_response.remote.g.dart';
 
 GamificationResponseRemote gamificationResponseRemoteFromJson(String str) => GamificationResponseRemote.fromJson(json.decode(str));
@@ -9,283 +14,339 @@ String gamificationResponseRemoteToJson(GamificationResponseRemote data) => json
 
 @collection
 class GamificationResponseRemote {
-  Id? employeeId;
-  String? lastSync;
-  List<Datum>? data;
-
-  GamificationResponseRemote({
-    this.employeeId,
-    this.lastSync,
-    this.data,
-  });
-
-  GamificationResponseRemote copyWith({
-    Id? employeeId,
-    String? lastSync,
-    List<Datum>? data,
-  }) =>
-      GamificationResponseRemote(
-        employeeId: employeeId ?? this.employeeId,
-        lastSync: lastSync ?? this.lastSync,
-        data: data ?? this.data,
-      );
-
-  factory GamificationResponseRemote.fromJson(Map<String, dynamic> json) => GamificationResponseRemote(
-    employeeId: int.parse(json["employeeId"]) ,
-    lastSync: json["lastSync"],
-    data: json["data"] == null ? [] : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "employeeId": employeeId,
-    "lastSync": lastSync,
-    "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
-  };
-}
-@embedded
-class Datum {
+  Id id = Isar.autoIncrement;
+  int? employeeMissionId;
+  String? employeeUpn;
+  int? missionId;
+  int? missionStatusId;
+  String? missionStatus;
+  DateTime? startedDate;
+  String? submittedBy;
+  DateTime? submittedDate;
+  String? completedBy;
+  DateTime? completedDate;
   List<ChapterDatum>? chapterData;
 
-  Datum({
+  GamificationResponseRemote({
+    this.employeeMissionId,
+    this.employeeUpn,
+    this.missionId,
+    this.missionStatusId,
+    this.missionStatus,
+    this.startedDate,
+    this.submittedBy,
+    this.submittedDate,
+    this.completedBy,
+    this.completedDate,
     this.chapterData,
   });
 
-  Datum copyWith({
+  GamificationResponseRemote copyWith({
+    int? employeeMissionId,
+    String? employeeUpn,
+    int? missionId,
+    int? missionStatusId,
+    String? missionStatus,
+    DateTime? startedDate,
+    String? submittedBy,
+    DateTime? submittedDate,
+    String? completedBy,
+    DateTime? completedDate,
     List<ChapterDatum>? chapterData,
   }) =>
-      Datum(
+      GamificationResponseRemote(
+        employeeMissionId: employeeMissionId ?? this.employeeMissionId,
+        employeeUpn: employeeUpn ?? this.employeeUpn,
+        missionId: missionId ?? this.missionId,
+        missionStatusId: missionStatusId ?? this.missionStatusId,
+        missionStatus: missionStatus ?? this.missionStatus,
+        startedDate: startedDate ?? this.startedDate,
+        submittedBy: submittedBy ?? this.submittedBy,
+        submittedDate: submittedDate ?? this.submittedDate,
+        completedBy: completedBy ?? this.completedBy,
+        completedDate: completedDate ?? this.completedDate,
         chapterData: chapterData ?? this.chapterData,
       );
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory GamificationResponseRemote.fromJson(Map<String, dynamic> json) => GamificationResponseRemote(
+    employeeMissionId: json["employeeMissionId"],
+    employeeUpn: json["employeeUpn"],
+    missionId: json["missionId"],
+    missionStatusId: json["missionStatusId"],
+    missionStatus: json["missionStatus"],
+    startedDate: json["startedDate"] == null ? null : DateTime.parse(json["startedDate"]),
+    submittedBy: json["submittedBy"],
+    submittedDate: json["submittedDate"] == null ? null : DateTime.parse(json["submittedDate"]),
+    completedBy: json["completedBy"],
+    completedDate: json["completedDate"] == null ? null : DateTime.parse(json["completedDate"]),
     chapterData: json["chapterData"] == null ? [] : List<ChapterDatum>.from(json["chapterData"]!.map((x) => ChapterDatum.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
+    "employeeMissionId": employeeMissionId,
+    "employeeUpn": employeeUpn,
+    "missionId": missionId,
+    "missionStatusId": missionStatusId,
+    "missionStatus": missionStatus,
+    "startedDate": startedDate?.toIso8601String(),
+    "submittedBy": submittedBy,
+    "submittedDate": submittedDate?.toIso8601String(),
+    "completedBy": completedBy,
+    "completedDate": completedDate?.toIso8601String(),
     "chapterData": chapterData == null ? [] : List<dynamic>.from(chapterData!.map((x) => x.toJson())),
   };
 }
 @embedded
 class ChapterDatum {
-  String? chapterId;
-  String? name;
-  String? startDate;
-  String? endDate;
-  String? status;
+  int? chapterId;
+  String? chapterCode;
+  String? chapterName;
+  String? chapterGoal;
   List<MissionDatum>? missionData;
 
   ChapterDatum({
     this.chapterId,
-    this.name,
-    this.startDate,
-    this.endDate,
-    this.status,
+    this.chapterCode,
+    this.chapterName,
+    this.chapterGoal,
     this.missionData,
   });
 
   ChapterDatum copyWith({
-    String? chapterId,
-    String? name,
-    String? startDate,
-    String? endDate,
-    String? status,
+    int? chapterId,
+    String? chapterCode,
+    String? chapterName,
+    String? chapterGoal,
     List<MissionDatum>? missionData,
   }) =>
       ChapterDatum(
         chapterId: chapterId ?? this.chapterId,
-        name: name ?? this.name,
-        startDate: startDate ?? this.startDate,
-        endDate: endDate ?? this.endDate,
-        status: status ?? this.status,
+        chapterCode: chapterCode ?? this.chapterCode,
+        chapterName: chapterName ?? this.chapterName,
+        chapterGoal: chapterGoal ?? this.chapterGoal,
         missionData: missionData ?? this.missionData,
       );
 
   factory ChapterDatum.fromJson(Map<String, dynamic> json) => ChapterDatum(
     chapterId: json["chapterId"],
-    name: json["name"],
-    startDate: json["startDate"],
-    endDate: json["endDate"],
-    status: json["status"],
+    chapterCode: json["chapterCode"],
+    chapterName: json["chapterName"],
+    chapterGoal: json["chapterGoal"],
     missionData: json["missionData"] == null ? [] : List<MissionDatum>.from(json["missionData"]!.map((x) => MissionDatum.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "chapterId": chapterId,
-    "name": name,
-    "startDate": startDate,
-    "endDate": endDate,
-    "status": status,
+    "chapterCode": chapterCode,
+    "chapterName": chapterName,
+    "chapterGoal": chapterGoal,
     "missionData": missionData == null ? [] : List<dynamic>.from(missionData!.map((x) => x.toJson())),
   };
 }
 @embedded
 class MissionDatum {
-  String? missionId;
-  String? missionStatus;
-  String? name;
-  String? rewards;
-  String? taks;
-  String? description;
-  String? startDate;
-  String? endDate;
+  int? missionId;
+  int? chapterId;
+  String? missionCode;
+  String? missionName;
+  String? missionInstruction;
+  int? missionDuration;
+  int? missionActiveOnDay;
+  String? missionTypeCode;
+  String? missionTypeName;
+  int? missionReward;
   List<TaskDatum>? taskData;
 
   MissionDatum({
     this.missionId,
-    this.missionStatus,
-    this.name,
-    this.rewards,
-    this.taks,
-    this.description,
-    this.startDate,
-    this.endDate,
+    this.chapterId,
+    this.missionCode,
+    this.missionName,
+    this.missionInstruction,
+    this.missionDuration,
+    this.missionActiveOnDay,
+    this.missionTypeCode,
+    this.missionTypeName,
+    this.missionReward,
     this.taskData,
   });
 
   MissionDatum copyWith({
-    String? missionId,
-    String? missionStatus,
-    String? name,
-    String? rewards,
-    String? taks,
-    String? description,
-    String? startDate,
-    String? endDate,
+    int? missionId,
+    int? chapterId,
+    String? missionCode,
+    String? missionName,
+    String? missionInstruction,
+    int? missionDuration,
+    int? missionActiveOnDay,
+    String? missionTypeCode,
+    String? missionTypeName,
+    int? missionReward,
     List<TaskDatum>? taskData,
   }) =>
       MissionDatum(
         missionId: missionId ?? this.missionId,
-        missionStatus: missionStatus ?? this.missionStatus,
-        name: name ?? this.name,
-        rewards: rewards ?? this.rewards,
-        taks: taks ?? this.taks,
-        description: description ?? this.description,
-        startDate: startDate ?? this.startDate,
-        endDate: endDate ?? this.endDate,
+        chapterId: chapterId ?? this.chapterId,
+        missionCode: missionCode ?? this.missionCode,
+        missionName: missionName ?? this.missionName,
+        missionInstruction: missionInstruction ?? this.missionInstruction,
+        missionDuration: missionDuration ?? this.missionDuration,
+        missionActiveOnDay: missionActiveOnDay ?? this.missionActiveOnDay,
+        missionTypeCode: missionTypeCode ?? this.missionTypeCode,
+        missionTypeName: missionTypeName ?? this.missionTypeName,
+        missionReward: missionReward ?? this.missionReward,
         taskData: taskData ?? this.taskData,
       );
 
   factory MissionDatum.fromJson(Map<String, dynamic> json) => MissionDatum(
     missionId: json["missionId"],
-    missionStatus: json["missionStatus"],
-    name: json["name"],
-    rewards: json["rewards"],
-    taks: json["taks"],
-    description: json["description"],
-    startDate: json["startDate"],
-    endDate: json["endDate"],
+    chapterId: json["chapterId"],
+    missionCode: json["missionCode"],
+    missionName: json["missionName"],
+    missionInstruction: json["missionInstruction"],
+    missionDuration: json["missionDuration"],
+    missionActiveOnDay: json["missionActiveOnDay"],
+    missionTypeCode: json["missionTypeCode"],
+    missionTypeName: json["missionTypeName"],
+    missionReward: json["missionReward"],
     taskData: json["taskData"] == null ? [] : List<TaskDatum>.from(json["taskData"]!.map((x) => TaskDatum.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "missionId": missionId,
-    "missionStatus": missionStatus,
-    "name": name,
-    "rewards": rewards,
-    "taks": taks,
-    "description": description,
-    "startDate": startDate,
-    "endDate": endDate,
+    "chapterId": chapterId,
+    "missionCode": missionCode,
+    "missionName": missionName,
+    "missionInstruction": missionInstruction,
+    "missionDuration": missionDuration,
+    "missionActiveOnDay": missionActiveOnDay,
+    "missionTypeCode": missionTypeCode,
+    "missionTypeName": missionTypeName,
+    "missionReward": missionReward,
     "taskData": taskData == null ? [] : List<dynamic>.from(taskData!.map((x) => x.toJson())),
   };
 }
 @embedded
 class TaskDatum {
-  String? taskId;
-  String? attachId;
-  String? name;
-  String? description;
-  String? question;
-  String? info;
-  String? orderTask;
-  String? reward;
+  int? taskId;
+  int? missionId;
+  int? attachmentId;
+  String? taskCode;
+  String? taskGroup;
+  String? taskCaption;
+  String? taskTypeCode;
+  String? taskTypeName;
+  int? taskReward;
   List<AnswerDatum>? answerData;
 
   TaskDatum({
     this.taskId,
-    this.attachId,
-    this.name,
-    this.description,
-    this.question,
-    this.info,
-    this.orderTask,
-    this.reward,
+    this.missionId,
+    this.attachmentId,
+    this.taskCode,
+    this.taskGroup,
+    this.taskCaption,
+    this.taskTypeCode,
+    this.taskTypeName,
+    this.taskReward,
     this.answerData,
   });
 
   TaskDatum copyWith({
-    String? taskId,
-    String? attachId,
-    String? name,
-    String? description,
-    String? question,
-    String? info,
-    String? orderTask,
-    String? reward,
+    int? taskId,
+    int? missionId,
+    int? attachmentId,
+    String? taskCode,
+    String? taskGroup,
+    String? taskCaption,
+    String? taskTypeCode,
+    String? taskTypeName,
+    int? taskReward,
     List<AnswerDatum>? answerData,
   }) =>
       TaskDatum(
         taskId: taskId ?? this.taskId,
-        attachId: attachId ?? this.attachId,
-        name: name ?? this.name,
-        description: description ?? this.description,
-        question: question ?? this.question,
-        info: info ?? this.info,
-        orderTask: orderTask ?? this.orderTask,
-        reward: reward ?? this.reward,
+        missionId: missionId ?? this.missionId,
+        attachmentId: attachmentId ?? this.attachmentId,
+        taskCode: taskCode ?? this.taskCode,
+        taskGroup: taskGroup ?? this.taskGroup,
+        taskCaption: taskCaption ?? this.taskCaption,
+        taskTypeCode: taskTypeCode ?? this.taskTypeCode,
+        taskTypeName: taskTypeName ?? this.taskTypeName,
+        taskReward: taskReward ?? this.taskReward,
         answerData: answerData ?? this.answerData,
       );
 
   factory TaskDatum.fromJson(Map<String, dynamic> json) => TaskDatum(
     taskId: json["taskId"],
-    attachId: json["attachId"],
-    name: json["name"],
-    description: json["description"],
-    question: json["question"],
-    info: json["info"],
-    orderTask: json["orderTask"],
-    reward: json["reward"],
+    missionId: json["missionId"],
+    attachmentId: json["attachmentId"],
+    taskCode: json["taskCode"],
+    taskGroup: json["taskGroup"],
+    taskCaption: json["taskCaption"],
+    taskTypeCode: json["taskTypeCode"],
+    taskTypeName: json["taskTypeName"],
+    taskReward: json["taskReward"],
     answerData: json["answerData"] == null ? [] : List<AnswerDatum>.from(json["answerData"]!.map((x) => AnswerDatum.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "taskId": taskId,
-    "attachId": attachId,
-    "name": name,
-    "description": description,
-    "question": question,
-    "info": info,
-    "orderTask": orderTask,
-    "reward": reward,
+    "missionId": missionId,
+    "attachmentId": attachmentId,
+    "taskCode": taskCode,
+    "taskGroup": taskGroup,
+    "taskCaption": taskCaption,
+    "taskTypeCode": taskTypeCode,
+    "taskTypeName": taskTypeName,
+    "taskReward": taskReward,
     "answerData": answerData == null ? [] : List<dynamic>.from(answerData!.map((x) => x.toJson())),
   };
 }
 @embedded
 class AnswerDatum {
-  String? answerId;
-  String? name;
+  int? answerId;
+  int? taskId;
+  String? answerCode;
+  String? answerField;
+  String? answerCaption;
 
   AnswerDatum({
     this.answerId,
-    this.name,
+    this.taskId,
+    this.answerCode,
+    this.answerField,
+    this.answerCaption,
   });
 
   AnswerDatum copyWith({
-    String? answerId,
-    String? name,
+    int? answerId,
+    int? taskId,
+    String? answerCode,
+    String? answerField,
+    String? answerCaption,
   }) =>
       AnswerDatum(
         answerId: answerId ?? this.answerId,
-        name: name ?? this.name,
+        taskId: taskId ?? this.taskId,
+        answerCode: answerCode ?? this.answerCode,
+        answerField: answerField ?? this.answerField,
+        answerCaption: answerCaption ?? this.answerCaption,
       );
 
   factory AnswerDatum.fromJson(Map<String, dynamic> json) => AnswerDatum(
     answerId: json["answerId"],
-    name: json["name"],
+    taskId: json["taskId"],
+    answerCode: json["answerCode"],
+    answerField: json["answerField"],
+    answerCaption: json["answerCaption"],
   );
 
   Map<String, dynamic> toJson() => {
     "answerId": answerId,
-    "name": name,
+    "taskId": taskId,
+    "answerCode": answerCode,
+    "answerField": answerField,
+    "answerCaption": answerCaption,
   };
 }

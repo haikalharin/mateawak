@@ -32,6 +32,9 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
           final listMissionInProgress = ref.watch(listMissionInProgressState);
           final listMissionAssigned = ref.watch(listMissionAssignedState);
           final listMissionPast = ref.watch(listMissionPastState);
+          final gamificationInProgress = ref.watch(gamificationInProgressState);
+          final gamificationAssigned = ref.watch(gamificationAssignedState);
+          final gamificationPast = ref.watch(gamificationPastState);
 
           return Column(
             children: [
@@ -70,14 +73,15 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                               itemCount: listMissionInProgress.length,
                               itemBuilder: (context, index) {
                                 return _buildListItem(
-                                    index, ctrl,ctrlTask, listMissionInProgress);
+                                    index, ctrl, ctrlTask,
+                                    listMissionInProgress,gamificationInProgress);
                               },
                             ), // Tab 2 content
                             ListView.builder(
                               itemCount: listMissionAssigned.length,
                               itemBuilder: (context, index) {
                                 return _buildListItem(
-                                    index, ctrl,ctrlTask, listMissionAssigned);
+                                    index, ctrl, ctrlTask, listMissionAssigned,gamificationAssigned);
                               },
                             ),
                             // Tab 3 content
@@ -85,7 +89,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                               itemCount: listMissionPast.length,
                               itemBuilder: (context, index) {
                                 return _buildListItem(
-                                    index, ctrl,ctrlTask, listMissionPast);
+                                    index, ctrl, ctrlTask, listMissionPast,gamificationPast);
                               },
                             ),
                           ],
@@ -102,8 +106,9 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
     );
   }
 
-  Widget _buildListItem(
-      int index, MissionController ctrl,TaskController ctrlTask, List<MissionDatum> listData) {
+  Widget _buildListItem(int index, MissionController ctrl,
+      TaskController ctrlTask, List<MissionDatum> listData,
+      GamificationResponseRemote gamification) {
     return Card(
       child: Container(
         margin: EdgeInsets.all(8),
@@ -111,23 +116,26 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ListTile(
-              title: Text(listData[index].name ?? ''),
+              title: Text(listData[index].missionName ?? ''),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(listData[index].description ?? ''),
+                  Text(listData[index].missionInstruction ?? ''),
                   SizedBox(height: 8),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        ctrlTask.putListTask(listData[index].taskData??[]);
+                        ctrlTask.putDetailMissionData(
+                            missionDatum: listData[index],
+                            gamificationResponseRemote:gamification);
                         context.goNamed(
                             taskMissionEtamkawa,
                             extra: {
-                              Constant.listTask: (listData[index].taskData??[]),
+                              Constant.listTask: (listData[index].taskData ??
+                                  []),
                             }
-                            );
+                        );
 
                         // context.goNamed(detailMissionEtamkawa);
                       },

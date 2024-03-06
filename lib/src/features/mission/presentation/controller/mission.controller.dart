@@ -32,6 +32,16 @@ final listMissionAssignedState =
 final listMissionPastState =
     StateProvider.autoDispose<List<MissionDatum>>((ref) => []);
 
+final gamificationInProgressState =
+    StateProvider.autoDispose<GamificationResponseRemote>(
+        (ref) => GamificationResponseRemote());
+final gamificationAssignedState =
+    StateProvider.autoDispose<GamificationResponseRemote>(
+        (ref) => GamificationResponseRemote());
+final gamificationPastState =
+    StateProvider.autoDispose<GamificationResponseRemote>(
+        (ref) => GamificationResponseRemote());
+
 @riverpod
 class MissionController extends _$MissionController {
   List<GamificationResponseRemote> listGamification = [];
@@ -44,57 +54,52 @@ class MissionController extends _$MissionController {
   Future<void> getMissionList() async {
     final repo = ref.read(getMissionLocalProvider.future);
     state = await AsyncValue.guard(() => repo).then((value) async {
-      List<MissionDatum>listMissionInProgress = [];
-      List<MissionDatum>listMissionAssigned = [];
-      List<MissionDatum>listMissionPast = [];
+      List<MissionDatum> listMissionInProgress = [];
+      List<MissionDatum> listMissionAssigned = [];
+      List<MissionDatum> listMissionPast = [];
       if (value.hasValue) {
         value.value?.forEach((element) {
-          element.data?.forEach((data) {
+          element.chapterData?.forEach((data) {
+            if (data.missionData != null && data.missionData!.isNotEmpty) {
+              data.missionData?.forEach((mission) {
+                if (element.missionStatus!.contains('InProgress')) {
+                  listMissionInProgress.add(mission);
+                }
+                if (element.missionStatus!.contains('Assigned')) {
+                  listMissionAssigned.add(mission);
+                }
 
-            if (data.chapterData != null &&
-                data.chapterData!.isNotEmpty) {
-              data.chapterData?.forEach((chapter) {
-                if (chapter.missionData != null) {
-                  chapter.missionData?.forEach((mission) {
-                    if (mission.missionStatus!.contains('InProgress')) {
-
-                      listMissionInProgress
-                          .add(mission);
-                    }
-                    if (mission.missionStatus!.contains('Assigned')) {
-                      listMissionAssigned
-                          .add(mission);
-                    }
-
-                    if (mission.missionStatus!.contains('Past')) {
-                      listMissionPast
-                          .add(mission);
-                    }
-
-                  });
+                if (element.missionStatus!.contains('Past')) {
+                  listMissionPast.add(mission);
                 }
               });
-              ref
-                  .watch(listMissionInProgressState.notifier)
-                  .state = listMissionInProgress;
-              ref
-                  .watch(listMissionAssignedState.notifier)
-                  .state = listMissionAssigned;
-              ref
-                  .watch(listMissionPastState.notifier)
-                  .state = listMissionPast;
 
-
+              ref.watch(listMissionInProgressState.notifier).state =
+                  listMissionInProgress;
+              ref.watch(listMissionAssignedState.notifier).state =
+                  listMissionAssigned;
+              ref.watch(listMissionPastState.notifier).state = listMissionPast;
             } else {
               listGamification = [];
               listMissionInProgress = [];
               listMissionAssigned = [];
               listMissionPast = [];
             }
-
-            ref.watch(listChapterState.notifier).state =
-                data.chapterData ?? [];
           });
+          ref.watch(listChapterState.notifier).state =
+              element.chapterData ?? [];
+        });
+        value.value?.forEach((element) {
+          if (element.missionStatus!.contains('InProgress')) {
+            ref.watch(gamificationInProgressState.notifier).state = element;
+          }
+          if (element.missionStatus!.contains('Assigned')) {
+            ref.watch(gamificationAssignedState.notifier).state = element;
+          }
+
+          if (element.missionStatus!.contains('Past')) {
+            ref.watch(gamificationPastState.notifier).state = element;
+          }
         });
 
         ref.watch(listGamificationState.notifier).state = value.value ?? [];

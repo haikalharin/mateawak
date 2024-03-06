@@ -78,32 +78,16 @@ class _TaskSingleChoiceScreenState
                                   horizontal: 16),
                             ),
                             SizedBox(height: 10.0),
+
                             Text(
                               listTask[currentQuestionIndex]
-                                  .name ??
-                                  '',
-                              style: TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            Text(
-                              listTask[currentQuestionIndex]
-                                  .description ??
+                                  .taskCaption ??
                                   '',
                               style: TextStyle(
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.w500),
                             ),
                             Divider(),
-                            SizedBox(height: 10.0),
-                            Text(
-                              listTask[currentQuestionIndex]
-                                  .question ??
-                                  '',
-                              style: TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.w600),
-                            ),
                             SizedBox(height: 20.0),
                             ListView.builder(
                               physics: const NeverScrollableScrollPhysics(),
@@ -122,26 +106,21 @@ class _TaskSingleChoiceScreenState
                                     ),
                                     borderRadius: BorderRadius.circular(8.0), // Border radius
                                   ),
-                                  child: RadioListTile<String>(
+                                  child: RadioListTile<int>(
                                     title: Text(
                                         listTask[currentQuestionIndex]
-                                            .answerData?[index]
-                                            .name ??
+                                            .answerData?[index].answerCaption??
                                             ''),
                                     value:
                                     listTask[currentQuestionIndex]
                                         .answerData?[index]
-                                        .answerId ??
-                                        '',
+                                        .answerId??0,
                                     groupValue: selectedOption,
-                                    onChanged: (String? value) {
+                                    onChanged: (int? value) {
                                       if (value != null) {
                                         ref.watch(selectOptionIndexState.notifier).state = index+1;
                                         ctrl.selectOption(
-                                            value,
-                                            listTask[currentQuestionIndex]
-                                                .taskId ??
-                                                '');
+                                            value);
                                       }
                                     },
                                   ),

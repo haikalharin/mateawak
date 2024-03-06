@@ -29,7 +29,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionLocal(GetMissionLocalRef re
 
   final data = await isarInstance.gamificationResponseRemotes
       .filter()
-      .dataIsNotEmpty()
+      .chapterDataIsNotEmpty()
       .findAll();
 
   return data;
