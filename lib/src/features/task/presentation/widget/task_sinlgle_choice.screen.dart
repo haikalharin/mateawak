@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_shared/module_shared.dart';
 
-
 import '../controller/task.controller.dart';
 
 class TaskSingleChoiceScreen extends ConsumerStatefulWidget {
@@ -18,6 +17,8 @@ class TaskSingleChoiceScreen extends ConsumerStatefulWidget {
 
 class _TaskSingleChoiceScreenState
     extends ConsumerState<TaskSingleChoiceScreen> {
+  var groupValue = 0;
+
   // int currentQuestionIndex = 0;
   // String? selectedOption;
 
@@ -27,8 +28,7 @@ class _TaskSingleChoiceScreenState
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final ctrl = ref.watch(taskControllerProvider.notifier);
         final currentQuestionIndex = ref.watch(currentIndexState.notifier);
-        final selectedOption = ref.watch(selectOptionState);
-        final selectedOptionIndex = ref.watch(selectOptionIndexState);
+        final listSelectedOption = ref.watch(listSelectOptionState.notifier);
         final currentQuestionProgress = ref.watch(currentProgressState);
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
@@ -38,8 +38,7 @@ class _TaskSingleChoiceScreenState
               children: [
                 Card(
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                    BorderRadius.all(Radius.circular(10.r)),
+                    borderRadius: BorderRadius.all(Radius.circular(10.r)),
                   ),
                   margin: const EdgeInsets.all(8),
                   child: Column(
@@ -49,19 +48,14 @@ class _TaskSingleChoiceScreenState
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 16),
                         child: Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(
                               height: 8,
                             ),
                             Container(
                               height: 200,
-                              width:
-                              MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width,
+                              width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
                                   image: const DecorationImage(
                                     image: AssetImage(
@@ -71,57 +65,68 @@ class _TaskSingleChoiceScreenState
                                     fit: BoxFit.cover,
                                   ),
                                   color: ColorTheme.backgroundWhite,
-                                  borderRadius:
-                                  const BorderRadius.all(
+                                  borderRadius: const BorderRadius.all(
                                       Radius.circular(10))),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
                             ),
                             const SizedBox(height: 10.0),
-
                             Text(
                               listTask[currentQuestionIndex.state]
-                                  .taskCaption ??
+                                      .taskCaption ??
                                   '',
                               style: const TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.w500),
+                                  fontSize: 14.0, fontWeight: FontWeight.w500),
                             ),
                             const Divider(),
                             const SizedBox(height: 20.0),
                             ListView.builder(
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
-                              itemCount:
-                              listTask[currentQuestionIndex.state]
+                              itemCount: listTask[currentQuestionIndex.state]
                                   .answerData
                                   ?.length,
-                              itemBuilder: (BuildContext context,
-                                  int index) {
+                              itemBuilder: (BuildContext context, int index) {
+                                var listAnswer =
+                                    listTask[currentQuestionIndex.state]
+                                        .answerData;
+                                listAnswer?.sort((a, b) =>
+                                    (a.answerCaption ?? '')
+                                        .compareTo(b.answerCaption ?? ''));
+
                                 return Container(
-                                  margin: const EdgeInsets.symmetric(vertical: 8.0),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 8.0),
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: selectedOptionIndex == (index+1) ? ColorTheme.primaryNew : ColorTheme.backgroundLight, // Border color based on selection
+                                      color: listSelectedOption.state.contains(
+                                              listAnswer?[index].answerId)
+                                          ? ColorTheme.primaryNew
+                                          : ColorTheme
+                                              .backgroundLight, // Border color based on selection
                                     ),
-                                    borderRadius: BorderRadius.circular(8.0), // Border radius
+                                    borderRadius: BorderRadius.circular(
+                                        8.0), // Border radius
                                   ),
                                   child: RadioListTile<int>(
                                     title: Text(
-                                        listTask[currentQuestionIndex.state]
-                                            .answerData?[index].answerCaption??
-                                            ''),
-                                    value:
-                                    listTask[currentQuestionIndex.state]
-                                        .answerData?[index]
-                                        .answerId??0,
-                                    groupValue: selectedOption,
+                                        listAnswer?[index].answerCaption ?? ''),
+                                    value: listAnswer?[index].answerId ?? 0,
+                                    groupValue:
+                                        listSelectedOption.state.isNotEmpty
+                                            ? listSelectedOption.state.first
+                                            : 0,
                                     onChanged: (int? value) {
-                                      if (value != null) {
-                                        ref.watch(selectOptionIndexState.notifier).state = index+1;
-                                        ctrl.selectOption(
-                                            value);
-                                      }
+                                      setState(() {
+                                        if (value != null) {
+                                          if (listSelectedOption
+                                              .state.isNotEmpty) {
+                                            listSelectedOption.state.clear();
+                                          }
+                                          listSelectedOption.state.add(
+                                              listAnswer?[index].answerId ?? 0);
+                                        }
+                                      });
                                     },
                                   ),
                                 );
@@ -142,66 +147,64 @@ class _TaskSingleChoiceScreenState
                       child: SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed:  () {
-                            if (selectedOption != 0) {
+                          onPressed: () {
+                            if (listSelectedOption.state.isNotEmpty) {
                               setState(() {
                                 if ((currentQuestionIndex.state + 1) <
-                                    lengthAnswer &&
+                                        lengthAnswer &&
                                     lengthAnswer != 1) {
                                   ctrl
                                       .saveAnswer(
-                                      listTask[currentQuestionIndex.state]
-                                          .taskId ??
-                                          0,
-                                      isLast: false,
-                                      selectedOption: selectedOption,
-                                      type:
-                                      listTask[currentQuestionIndex.state]
-                                          .taskTypeCode ??
-                                          '')
+                                          listTask[currentQuestionIndex.state]
+                                                  .taskId ??
+                                              0,
+                                          isLast: false,
+                                          listSelectedOption:
+                                              listSelectedOption.state,
+                                          type: listTask[currentQuestionIndex
+                                                      .state]
+                                                  .taskTypeCode ??
+                                              '')
                                       .whenComplete(() {
                                     currentQuestionIndex.state++;
                                     ref
                                         .watch(currentProgressState.notifier)
                                         .state++;
-                                    ref.read(selectOptionState.notifier).state =
-                                    0;
                                     ref
-                                        .read(selectOptionIndexState.notifier)
-                                        .state = 0;
+                                        .read(listSelectOptionState.notifier)
+                                        .state = [];
                                   });
                                 } else {
                                   ctrl
                                       .saveAnswer(
-                                      listTask[currentQuestionIndex.state]
-                                          .taskId ??
-                                          0,
-                                      isLast: true,
-                                      selectedOption: selectedOption,
-                                      type:
-                                      listTask[currentQuestionIndex.state]
-                                          .taskTypeCode ??
-                                          '')
+                                          listTask[currentQuestionIndex.state]
+                                                  .taskId ??
+                                              0,
+                                          isLast: true,
+                                          listSelectedOption:
+                                              listSelectedOption.state,
+                                          type: listTask[currentQuestionIndex
+                                                      .state]
+                                                  .taskTypeCode ??
+                                              '')
                                       .whenComplete(() {
                                     if (((currentQuestionProgress) * 100) ~/
-                                        listTask.length <
+                                            listTask.length <
                                         100) {
                                       ref
                                           .watch(currentProgressState.notifier)
                                           .state++;
                                     }
 
-                                    ref.read(selectOptionState.notifier).state =
-                                    0;
                                     ref
-                                        .read(selectOptionIndexState.notifier)
-                                        .state = 0;
+                                        .read(listSelectOptionState.notifier)
+                                        .state = [];
                                     showDialog(
                                       context: context,
                                       builder: (_) => AlertDialog(
                                         title: const Text('Quiz Finished'),
-                                        content:
-                                        const Text('You have completed the quiz.'),
+                                        content: const Text(
+                                            'You have completed the quiz.'),
                                         actions: <Widget>[
                                           TextButton(
                                             onPressed: () {
@@ -224,7 +227,7 @@ class _TaskSingleChoiceScreenState
                             }
                           },
                           child: Text(
-                            (currentQuestionIndex.state +1) <
+                            (currentQuestionIndex.state + 1) <
                                     (listTask[currentQuestionIndex.state]
                                                 .answerData
                                                 ?.length ??

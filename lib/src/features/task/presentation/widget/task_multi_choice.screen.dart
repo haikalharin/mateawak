@@ -97,27 +97,29 @@ class _TaskMultiChoiceScreenState
                                   ?.length,
                               itemBuilder: (BuildContext context,
                                   int index) {
+                                var listAnswer = listTask[currentQuestionIndex.state].answerData;
+                                listAnswer?.sort((a, b) => (a.answerCaption ?? '').compareTo(b.answerCaption ?? ''));
+
                                 return Container(
                                   margin: const EdgeInsets.symmetric(vertical: 8.0),
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: listSelectOption.contains(index)  ? ColorTheme.primaryNew : ColorTheme.backgroundLight, // Border color based on selection
+                                      color: listSelectOption.contains(listAnswer?[index].answerId)  ? ColorTheme.primaryNew : ColorTheme.backgroundLight, // Border color based on selection
                                     ),
                                     borderRadius: BorderRadius.circular(8.0), // Border radius
                                   ),
                                   child:  CheckboxListTile(
                                     controlAffinity: ListTileControlAffinity.leading,
                                     title: Text(
-                                        listTask[currentQuestionIndex.state]
-                                            .answerData?[index].answerCaption??
+                                        listAnswer?[index].answerCaption??
                                             ''),
-                                    value: listSelectOption.contains(index),
+                                    value: listSelectOption.contains(listAnswer?[index].answerId??0),
                                     onChanged: (bool? value) {
                                       setState(() {
                                         if (value != null && value) {
-                                          listSelectOption.add(index);
+                                          listSelectOption.add(listAnswer?[index].answerId??0);
                                         } else {
-                                          listSelectOption.remove(index);
+                                          listSelectOption.remove(listAnswer?[index].answerId??0);
                                         }
                                       });
                                     },
@@ -141,7 +143,7 @@ class _TaskMultiChoiceScreenState
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            if (listSelectOption != []) {
+                            if (listSelectOption.isNotEmpty) {
                               setState(() async {
                                 if ((currentQuestionIndex.state + 1) <
                                     lengthAnswer &&
@@ -165,9 +167,6 @@ class _TaskMultiChoiceScreenState
                                     ref
                                         .read(listSelectOptionState.notifier)
                                         .state = [];
-                                    ref
-                                        .read(selectOptionIndexState.notifier)
-                                        .state = 0;
                                   });
                                 } else {
                                  await ctrl
@@ -193,9 +192,6 @@ class _TaskMultiChoiceScreenState
                                     ref
                                         .read(listSelectOptionState.notifier)
                                         .state = [];
-                                    ref
-                                        .read(selectOptionIndexState.notifier)
-                                        .state = 0;
                                     showDialog(
                                       context: context,
                                       builder: (_) => AlertDialog(
