@@ -22,7 +22,7 @@ GoRouter goRouter(GoRouterRef ref) {
   path: homeEtakawaInit,
     name: homeEtakawaInit,
     builder: (BuildContext context, GoRouterState state) {
-      return SharedComponent.banner( dotenv.env[EnvConstant.environment]!,  ConnectionListenerWidget(
+      return SharedComponent.banner( dotenv.env[EnvConstant.environment]!,  const ConnectionListenerWidget(
         child: MainNavScreen(),
       ));
     },
@@ -59,7 +59,7 @@ List<RouteBase> routeEtamkawa = [
       builder: (BuildContext context, GoRouterState state) {
         return SharedComponent.banner(
             dotenv.env[EnvConstant.environment]!,
-            ConnectionListenerWidget(
+            const ConnectionListenerWidget(
               child: MainNavScreen(),
             ));
       },

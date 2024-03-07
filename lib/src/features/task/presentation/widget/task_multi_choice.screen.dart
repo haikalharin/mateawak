@@ -6,18 +6,17 @@ import 'package:module_shared/module_shared.dart';
 
 import '../controller/task.controller.dart';
 
-class TaskSingleChoiceScreen extends ConsumerStatefulWidget {
-  // final List<TaskDatum> listTask;
+class TaskMultiChoiceScreen extends ConsumerStatefulWidget {
 
-  const TaskSingleChoiceScreen({super.key});
+  const TaskMultiChoiceScreen({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _TaskSingleChoiceScreenState();
+      _TaskMultiChoiceScreenState();
 }
 
-class _TaskSingleChoiceScreenState
-    extends ConsumerState<TaskSingleChoiceScreen> {
+class _TaskMultiChoiceScreenState
+    extends ConsumerState<TaskMultiChoiceScreen> {
   // int currentQuestionIndex = 0;
   // String? selectedOption;
 
@@ -27,11 +26,11 @@ class _TaskSingleChoiceScreenState
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final ctrl = ref.watch(taskControllerProvider.notifier);
         final currentQuestionIndex = ref.watch(currentIndexState.notifier);
-        final selectedOption = ref.watch(selectOptionState);
-        final selectedOptionIndex = ref.watch(selectOptionIndexState);
+        final listSelectOption = ref.watch(listSelectOptionState);
+        final listTask = ref.watch(listTaskState);
         final currentQuestionProgress = ref.watch(currentProgressState);
         final lengthAnswer = ref.watch(listTaskState).length;
-        final listTask = ref.watch(listTaskState);
+        final listSelectedOption = ref.watch(listSelectOptionState);
         return Scaffold(
             backgroundColor: ColorTheme.backgroundLight,
             body: ListView(
@@ -102,26 +101,25 @@ class _TaskSingleChoiceScreenState
                                   margin: const EdgeInsets.symmetric(vertical: 8.0),
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: selectedOptionIndex == (index+1) ? ColorTheme.primaryNew : ColorTheme.backgroundLight, // Border color based on selection
+                                      color: listSelectOption.contains(index)  ? ColorTheme.primaryNew : ColorTheme.backgroundLight, // Border color based on selection
                                     ),
                                     borderRadius: BorderRadius.circular(8.0), // Border radius
                                   ),
-                                  child: RadioListTile<int>(
+                                  child:  CheckboxListTile(
+                                    controlAffinity: ListTileControlAffinity.leading,
                                     title: Text(
                                         listTask[currentQuestionIndex.state]
                                             .answerData?[index].answerCaption??
                                             ''),
-                                    value:
-                                    listTask[currentQuestionIndex.state]
-                                        .answerData?[index]
-                                        .answerId??0,
-                                    groupValue: selectedOption,
-                                    onChanged: (int? value) {
-                                      if (value != null) {
-                                        ref.watch(selectOptionIndexState.notifier).state = index+1;
-                                        ctrl.selectOption(
-                                            value);
-                                      }
+                                    value: listSelectOption.contains(index),
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        if (value != null && value) {
+                                          listSelectOption.add(index);
+                                        } else {
+                                          listSelectOption.remove(index);
+                                        }
+                                      });
                                     },
                                   ),
                                 );
@@ -142,19 +140,19 @@ class _TaskSingleChoiceScreenState
                       child: SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed:  () {
-                            if (selectedOption != 0) {
-                              setState(() {
+                          onPressed: () {
+                            if (listSelectOption != []) {
+                              setState(() async {
                                 if ((currentQuestionIndex.state + 1) <
                                     lengthAnswer &&
                                     lengthAnswer != 1) {
-                                  ctrl
+                                 await ctrl
                                       .saveAnswer(
                                       listTask[currentQuestionIndex.state]
                                           .taskId ??
                                           0,
                                       isLast: false,
-                                      selectedOption: selectedOption,
+                                      listSelectedOption: listSelectedOption,
                                       type:
                                       listTask[currentQuestionIndex.state]
                                           .taskTypeCode ??
@@ -164,20 +162,21 @@ class _TaskSingleChoiceScreenState
                                     ref
                                         .watch(currentProgressState.notifier)
                                         .state++;
-                                    ref.read(selectOptionState.notifier).state =
-                                    0;
+                                    ref
+                                        .read(listSelectOptionState.notifier)
+                                        .state = [];
                                     ref
                                         .read(selectOptionIndexState.notifier)
                                         .state = 0;
                                   });
                                 } else {
-                                  ctrl
+                                 await ctrl
                                       .saveAnswer(
                                       listTask[currentQuestionIndex.state]
                                           .taskId ??
                                           0,
                                       isLast: true,
-                                      selectedOption: selectedOption,
+                                      listSelectedOption: listSelectedOption,
                                       type:
                                       listTask[currentQuestionIndex.state]
                                           .taskTypeCode ??
@@ -191,8 +190,9 @@ class _TaskSingleChoiceScreenState
                                           .state++;
                                     }
 
-                                    ref.read(selectOptionState.notifier).state =
-                                    0;
+                                    ref
+                                        .read(listSelectOptionState.notifier)
+                                        .state = [];
                                     ref
                                         .read(selectOptionIndexState.notifier)
                                         .state = 0;

@@ -1,18 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:isar/isar.dart';
 import 'package:module_etamkawa/src/features/main_nav/infrastructure/repositories/main_nav.repository.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
-import 'package:module_etamkawa/src/features/mission/infrastructure/repositories/mission_local.repository.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
-import 'package:module_etamkawa/src/features/overview/domain/news_response.remote.dart';
-import 'package:module_etamkawa/src/features/overview/infrastructure/repositories/overview.repository.dart';
-import 'package:module_etamkawa/src/features/overview/infrastructure/repositories/overview_local.repository.dart';
-import "package:module_etamkawa/src/utils/common_utils.dart" show CommonUtils;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../../module_etamkawa.dart';
-import '../../../../constants/constant.dart';
-import '../../../../shared_component/connection_listener_widget.dart';
 
 part 'main_nav.controller.g.dart';
 

@@ -1,19 +1,11 @@
-import 'package:isar/isar.dart';
 import 'package:module_etamkawa/src/constants/image.constant.dart';
-import 'package:module_etamkawa/src/features/main_nav/presentation/controller/main_nav.controller.dart';
 import 'package:module_etamkawa/src/features/overview/domain/download_attachment_request.remote.dart';
 import 'package:module_etamkawa/src/features/overview/domain/news_response.remote.dart';
-import 'package:module_etamkawa/src/features/overview/domain/unit_breakdown_request.remote.dart';
-import 'package:module_etamkawa/src/features/overview/domain/unit_breakdown_response.remote.dart';
-import 'package:module_etamkawa/src/features/telematry/infrastructure/repositories/telematry_local.repository.dart';
 import 'package:module_shared/module_shared.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../constants/constant.dart';
 import '../../../offline_mode/infrastructure/repositories/isar.repository.dart';
-import '../../domain/achievement_produksi_request.remote.dart';
-import '../../domain/achievement_produksi_response.remote.dart';
-import '../../domain/detail_hourly_grafik_response.remote.dart';
 
 part 'overview.repository.g.dart';
 

@@ -1,4 +1,3 @@
-import 'package:module_shared/module_shared.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../constants/constant.dart';
@@ -20,15 +19,17 @@ FutureOr <bool> fetchMission(FetchMissionRef ref) async {
   // final result = NewsResponseRemote.fromJson(response);
 
   // final connect = ref.read(connectProvider.notifier);
-  const List<GamificationResponseRemote> listResponse =[];
+  List<GamificationResponseRemote> listResponse =[];
   const response =Constant.rawMissionDummy;
   for (var element in response) {
     final result = GamificationResponseRemote.fromJson(element);
-    await isarInstance.writeTxn(() async {
-      await isarInstance.gamificationResponseRemotes.put(result);
-    });
     listResponse.add(result);
   }
+
+
+  await isarInstance.writeTxn(() async {
+    await isarInstance.gamificationResponseRemotes.putAll(listResponse);
+  });
 
   ref.keepAlive();
   return true;

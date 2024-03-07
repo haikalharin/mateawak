@@ -14,17 +14,17 @@ String gamificationResponseRemoteToJson(GamificationResponseRemote data) => json
 
 @collection
 class GamificationResponseRemote {
-  Id id = Isar.autoIncrement;
-  int? employeeMissionId;
+
+  Id? employeeMissionId;
   String? employeeUpn;
   int? missionId;
   int? missionStatusId;
   String? missionStatus;
-  DateTime? startedDate;
+  String? startedDate;
   String? submittedBy;
-  DateTime? submittedDate;
+  String? submittedDate;
   String? completedBy;
-  DateTime? completedDate;
+  String? completedDate;
   List<ChapterDatum>? chapterData;
 
   GamificationResponseRemote({
@@ -47,11 +47,11 @@ class GamificationResponseRemote {
     int? missionId,
     int? missionStatusId,
     String? missionStatus,
-    DateTime? startedDate,
+    String? startedDate,
     String? submittedBy,
-    DateTime? submittedDate,
+    String? submittedDate,
     String? completedBy,
-    DateTime? completedDate,
+    String? completedDate,
     List<ChapterDatum>? chapterData,
   }) =>
       GamificationResponseRemote(
@@ -74,11 +74,11 @@ class GamificationResponseRemote {
     missionId: json["missionId"],
     missionStatusId: json["missionStatusId"],
     missionStatus: json["missionStatus"],
-    startedDate: json["startedDate"] == null ? null : DateTime.parse(json["startedDate"]),
+    startedDate: json["startedDate"],
     submittedBy: json["submittedBy"],
-    submittedDate: json["submittedDate"] == null ? null : DateTime.parse(json["submittedDate"]),
+    submittedDate: json["submittedDate"],
     completedBy: json["completedBy"],
-    completedDate: json["completedDate"] == null ? null : DateTime.parse(json["completedDate"]),
+    completedDate: json["completedDate"],
     chapterData: json["chapterData"] == null ? [] : List<ChapterDatum>.from(json["chapterData"]!.map((x) => ChapterDatum.fromJson(x))),
   );
 
@@ -88,11 +88,11 @@ class GamificationResponseRemote {
     "missionId": missionId,
     "missionStatusId": missionStatusId,
     "missionStatus": missionStatus,
-    "startedDate": startedDate?.toIso8601String(),
+    "startedDate": startedDate,
     "submittedBy": submittedBy,
-    "submittedDate": submittedDate?.toIso8601String(),
+    "submittedDate": submittedDate,
     "completedBy": completedBy,
-    "completedDate": completedDate?.toIso8601String(),
+    "completedDate": completedDate,
     "chapterData": chapterData == null ? [] : List<dynamic>.from(chapterData!.map((x) => x.toJson())),
   };
 }

@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,7 +47,7 @@ class MainNavScreen extends ConsumerWidget {
                           onTap: () async {
                             ctrl.fetchMissionList();
                           },
-                          child: Icon(Icons.sync)),
+                          child: const Icon(Icons.sync)),
                       SizedBox(width: 20.w),
                       const Icon(Icons.notifications),
                       SizedBox(width: 20.w),
@@ -58,7 +57,7 @@ class MainNavScreen extends ConsumerWidget {
                   body: Stack(children: [
                     pages(currentIndex: ctrl.indexNav),
                     submitStatus == SubmitStatus.inProgess
-                        ? Center(
+                        ? const Center(
                             child: CircularProgressIndicator(),
                           )
                         : Container()

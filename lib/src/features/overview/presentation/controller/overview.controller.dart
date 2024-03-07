@@ -1,17 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:isar/isar.dart';
 import 'package:module_etamkawa/src/features/overview/domain/news_response.remote.dart';
 import 'package:module_etamkawa/src/features/overview/infrastructure/repositories/overview.repository.dart';
 import 'package:module_etamkawa/src/features/overview/infrastructure/repositories/overview_local.repository.dart';
-import "package:module_etamkawa/src/utils/common_utils.dart" show CommonUtils;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../constants/constant.dart';
 import '../../../../shared_component/connection_listener_widget.dart';
-import '../../domain/achievement_produksi_response.remote.dart';
-import '../../domain/detail_hourly_grafik_response.remote.dart';
 import '../../domain/download_attachment_request.remote.dart';
-import '../../domain/unit_breakdown_response.remote.dart';
 part 'overview.controller.g.dart';
 
 final isScrollProvider = StateProvider.autoDispose<bool>((ref) {
@@ -53,7 +47,6 @@ class OverviewController extends _$OverviewController {
 
   Future<void> getNews() async {
     final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
-    bool isImageExist = false;
     final repo = isConnectionAvailable
         ?  ref.read(getNewsRemoteProvider.future)
         :  ref.read(
@@ -79,7 +72,7 @@ class OverviewController extends _$OverviewController {
     final repo = isConnectionAvailable
         ? ref.read(getNewsImageRemoteProvider(id: id).future)
         : ref.read(getNewsImageLocalProvider(id: id).future);
-    var data = await AsyncValue.guard(() => repo).then((value) async {
+     await AsyncValue.guard(() => repo).then((value) async {
       if (value.hasValue) {
         ref.watch(imageNewsState.notifier).state =
             value.value??DownloadAttachmentNewsRequestRemote();

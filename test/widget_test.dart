@@ -8,7 +8,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:module_etamkawa/main.dart';
 import 'package:module_etamkawa/src/app.dart';
 import 'package:module_shared/module_shared.dart';
 
