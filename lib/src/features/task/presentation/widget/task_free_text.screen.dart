@@ -3,20 +3,24 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_shared/module_shared.dart';
 
-
 import '../controller/task.controller.dart';
 
-class TaskMultiChoiceScreen extends ConsumerStatefulWidget {
+class TaskFreeTextScreen extends ConsumerStatefulWidget {
+  // final List<TaskDatum> listTask;
 
-  const TaskMultiChoiceScreen({super.key});
+  const TaskFreeTextScreen({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _TaskMultiChoiceScreenState();
+      _TaskFreeTextScreenState();
 }
 
-class _TaskMultiChoiceScreenState
-    extends ConsumerState<TaskMultiChoiceScreen> {
+class _TaskFreeTextScreenState
+    extends ConsumerState<TaskFreeTextScreen> {
+  final TextEditingController _textController = TextEditingController();
+
+  var groupValue = 0;
+
   // int currentQuestionIndex = 0;
   // String? selectedOption;
 
@@ -26,18 +30,17 @@ class _TaskMultiChoiceScreenState
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final ctrl = ref.watch(taskControllerProvider.notifier);
         final currentQuestionIndex = ref.watch(currentIndexState.notifier);
-        final listSelectedOption = ref.watch(listSelectOptionState);
-        final listTask = ref.watch(listTaskState);
+        final listSelectedOptionString = ref.watch(listSelectOptionStringState.notifier);
         final currentQuestionProgress = ref.watch(currentProgressState);
         final lengthAnswer = ref.watch(listTaskState).length;
+        final listTask = ref.watch(listTaskState);
         return Scaffold(
             backgroundColor: ColorTheme.backgroundLight,
             body: ListView(
               children: [
                 Card(
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                    BorderRadius.all(Radius.circular(10.r)),
+                    borderRadius: BorderRadius.all(Radius.circular(10.r)),
                   ),
                   margin: const EdgeInsets.all(8),
                   child: Column(
@@ -47,19 +50,14 @@ class _TaskMultiChoiceScreenState
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 16),
                         child: Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(
                               height: 8,
                             ),
                             Container(
                               height: 200,
-                              width:
-                              MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width,
+                              width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
                                   image: const DecorationImage(
                                     image: AssetImage(
@@ -69,61 +67,54 @@ class _TaskMultiChoiceScreenState
                                     fit: BoxFit.cover,
                                   ),
                                   color: ColorTheme.backgroundWhite,
-                                  borderRadius:
-                                  const BorderRadius.all(
+                                  borderRadius: const BorderRadius.all(
                                       Radius.circular(10))),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
                             ),
                             const SizedBox(height: 10.0),
-
                             Text(
                               listTask[currentQuestionIndex.state]
-                                  .taskCaption ??
+                                      .taskCaption ??
                                   '',
                               style: const TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.w500),
+                                  fontSize: 14.0, fontWeight: FontWeight.w500),
                             ),
                             const Divider(),
                             const SizedBox(height: 20.0),
                             ListView.builder(
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
-                              itemCount:
-                              listTask[currentQuestionIndex.state]
+                              itemCount: listTask[currentQuestionIndex.state]
                                   .answerData
                                   ?.length,
-                              itemBuilder: (BuildContext context,
-                                  int index) {
-                                var listAnswer = listTask[currentQuestionIndex.state].answerData;
-                                listAnswer?.sort((a, b) => (a.answerCaption ?? '').compareTo(b.answerCaption ?? ''));
+                              itemBuilder: (BuildContext context, int index) {
 
-                                return Container(
-                                  margin: const EdgeInsets.symmetric(vertical: 8.0),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: listSelectedOption.contains(listAnswer?[index].answerId)  ? ColorTheme.primaryNew : ColorTheme.backgroundLight, // Border color based on selection
+
+                                return
+                                  Container(
+                                    height: 100.0,
+                                    child: SingleChildScrollView(
+                                      child: TextFormField(
+                                        controller: _textController,
+                                        maxLength: 100,
+                                        decoration: InputDecoration(
+                                          labelText: 'Enter text (max 100 characters)',
+                                          border: OutlineInputBorder(),
+                                        ),
+                                        maxLines: 10,
+                                        onChanged: (value){
+                                          if (value.isNotEmpty) {
+                                            if (listSelectedOptionString
+                                                .state.isNotEmpty) {
+                                              listSelectedOptionString.state.clear();
+                                            }
+                                            listSelectedOptionString.state.add(value);
+                                          }
+                                        },// Allows multiple lines of input
+                                      ),
                                     ),
-                                    borderRadius: BorderRadius.circular(8.0), // Border radius
-                                  ),
-                                  child:  CheckboxListTile(
-                                    controlAffinity: ListTileControlAffinity.leading,
-                                    title: Text(
-                                        listAnswer?[index].answerCaption??
-                                            ''),
-                                    value: listSelectedOption.contains(listAnswer?[index].answerId??0),
-                                    onChanged: (bool? value) {
-                                      setState(() {
-                                        if (value != null && value) {
-                                          listSelectedOption.add(listAnswer?[index].answerId??0);
-                                        } else {
-                                          listSelectedOption.remove(listAnswer?[index].answerId??0);
-                                        }
-                                      });
-                                    },
-                                  ),
-                                );
+                                  );
                               },
                             ),
                           ],
@@ -142,22 +133,23 @@ class _TaskMultiChoiceScreenState
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            if (listSelectedOption.isNotEmpty) {
-                              setState(() async {
+                            if (listSelectedOptionString.state.isNotEmpty) {
+                              setState(() {
                                 if ((currentQuestionIndex.state + 1) <
-                                    lengthAnswer &&
+                                        lengthAnswer &&
                                     lengthAnswer != 1) {
-                                 await ctrl
+                                  ctrl
                                       .saveAnswer(
-                                      listTask[currentQuestionIndex.state]
-                                          .taskId ??
-                                          0,
-                                      isLast: false,
-                                      listSelectedOption: listSelectedOption,
-                                      type:
-                                      listTask[currentQuestionIndex.state]
-                                          .taskTypeCode ??
-                                          '')
+                                          listTask[currentQuestionIndex.state]
+                                                  .taskId ??
+                                              0,
+                                          isLast: false,
+                                          listSelectedOption:
+                                              listSelectedOptionString.state,
+                                          type: listTask[currentQuestionIndex
+                                                      .state]
+                                                  .taskTypeCode ??
+                                              '')
                                       .whenComplete(() {
                                     currentQuestionIndex.state++;
                                     ref
@@ -168,20 +160,21 @@ class _TaskMultiChoiceScreenState
                                         .state = [];
                                   });
                                 } else {
-                                 await ctrl
+                                  ctrl
                                       .saveAnswer(
-                                      listTask[currentQuestionIndex.state]
-                                          .taskId ??
-                                          0,
-                                      isLast: true,
-                                      listSelectedOption: listSelectedOption,
-                                      type:
-                                      listTask[currentQuestionIndex.state]
-                                          .taskTypeCode ??
-                                          '')
+                                          listTask[currentQuestionIndex.state]
+                                                  .taskId ??
+                                              0,
+                                          isLast: true,
+                                          listSelectedOption:
+                                              listSelectedOptionString.state,
+                                          type: listTask[currentQuestionIndex
+                                                      .state]
+                                                  .taskTypeCode ??
+                                              '')
                                       .whenComplete(() {
                                     if (((currentQuestionProgress) * 100) ~/
-                                        listTask.length <
+                                            listTask.length <
                                         100) {
                                       ref
                                           .watch(currentProgressState.notifier)
@@ -195,8 +188,8 @@ class _TaskMultiChoiceScreenState
                                       context: context,
                                       builder: (_) => AlertDialog(
                                         title: const Text('Quiz Finished'),
-                                        content:
-                                        const Text('You have completed the quiz.'),
+                                        content: const Text(
+                                            'You have completed the quiz.'),
                                         actions: <Widget>[
                                           TextButton(
                                             onPressed: () {
@@ -219,7 +212,7 @@ class _TaskMultiChoiceScreenState
                             }
                           },
                           child: Text(
-                            (currentQuestionIndex.state +1) <
+                            (currentQuestionIndex.state + 1) <
                                     (listTask[currentQuestionIndex.state]
                                                 .answerData
                                                 ?.length ??

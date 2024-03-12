@@ -14,6 +14,8 @@ final currentProgressState = StateProvider.autoDispose<int>((ref) => 0);
 
 final selectOptionState = StateProvider.autoDispose<int>((ref) => 0);
 final listSelectOptionState = StateProvider.autoDispose<List<int>>((ref) => []);
+final listSelectOptionStringState =
+    StateProvider.autoDispose<List<String>>((ref) => []);
 final selectOptionIndexState = StateProvider.autoDispose<int>((ref) => 0);
 final answerState =
     StateProvider.autoDispose<List<TaskDatumAnswer>>((ref) => []);
@@ -56,33 +58,32 @@ class TaskController extends _$TaskController {
   }
 
   Future<void> saveAnswer(int questionId,
-      {required List<int>? listSelectedOption, String? attachment,
+      {required List<dynamic>? listSelectedOption,
+      String? attachment,
       required bool isLast,
       required String type}) async {
     TaskDatumAnswer dataAnswer = TaskDatumAnswer();
     String data = '';
-    if (type == 'TT0001' || type == 'TT0002') {
-      var dataCek = ref.watch(answerState.notifier).state;
-      if (listSelectedOption != null) {
-        for (int i = 0; i <= listSelectedOption.length; i++) {
-          String code = listSelectedOption[i].toString();
-          data += code;
-          if (i == listSelectedOption.length - 1) {
-            dataAnswer = TaskDatumAnswer(
-                taskId: questionId, answer: data, attachment: '');
+    var dataCek = ref.watch(answerState.notifier).state;
+    if (listSelectedOption != null) {
+      for (int i = 0; i <= listSelectedOption.length; i++) {
+        String code = listSelectedOption[i] is String
+            ? listSelectedOption[i]
+            : listSelectedOption[i].toString();
+        data += code;
+        if (i == listSelectedOption.length - 1) {
+          dataAnswer =
+              TaskDatumAnswer(taskId: questionId, answer: data, attachment: '');
 
-            ref.watch(answerState.notifier).state.add(dataAnswer);
-            if (isLast) {
-              dataCek.clear();
-            }
-          }
-          if (i != listSelectedOption.length) {
-            data += ';';
+          ref.watch(answerState.notifier).state.add(dataAnswer);
+          if (isLast) {
+            dataCek.clear();
           }
         }
+        if (i != listSelectedOption.length) {
+          data += ';';
+        }
       }
-    } else if (type == 'TT0003') {
-
     }
   }
 }
