@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_etamkawa/module_etamkawa.dart';
 import 'package:module_etamkawa/src/constants/constant.dart';
-import 'package:module_etamkawa/src/features/main_nav/presentation/main_nav_screen.dart';
 import 'package:module_etamkawa/src/initializer.dart';
 import 'package:module_shared/module_shared.dart';
 

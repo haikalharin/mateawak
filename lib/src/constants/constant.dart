@@ -466,7 +466,7 @@ class Constant {
       ]
     },
     {
-      "employeeMissionId": 4,
+      "employeeMissionId": 7,
       "employeeUpn": "emp@email.com",
       "missionId": 49,
       "missionStatusId": 0,
@@ -694,7 +694,7 @@ class Constant {
       ]
     },
     {
-      "employeeMissionId": 4,
+      "employeeMissionId": 5,
       "employeeUpn": "emp@email.com",
       "missionId": 49,
       "missionStatusId": 0,
@@ -826,7 +826,7 @@ class Constant {
                   "taskCode": "T0000051",
                   "taskGroup": "G0001",
                   "taskCaption": "Task 1",
-                  "taskTypeCode": "TT0001",
+                  "taskTypeCode": "TT0002",
                   "taskTypeName": "Task Type 1",
                   "taskReward": 50,
                   "answerData": [
@@ -874,7 +874,7 @@ class Constant {
                   "taskCode": "T0000052",
                   "taskGroup": "G0001",
                   "taskCaption": "Task 2",
-                  "taskTypeCode": "TT0001",
+                  "taskTypeCode": "TT0002",
                   "taskTypeName": "Task Type 1",
                   "taskReward": 50,
                   "answerData": [

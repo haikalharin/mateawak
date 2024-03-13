@@ -1,6 +1,5 @@
 import 'package:isar/isar.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
-import 'package:module_etamkawa/src/features/overview/domain/news_response.remote.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../constants/constant.dart';
@@ -12,16 +11,18 @@ part 'mission_local.repository.g.dart';
 FutureOr<List<GamificationResponseRemote>> getMissionLocal(GetMissionLocalRef ref) async {
   final isarInstance = await ref.watch(isarInstanceProvider.future);
 
+
   // final connect = ref.read(connectProvider.notifier);
-  const List<GamificationResponseRemote> listResponse =[];
+  List<GamificationResponseRemote> listResponse =[];
   const response =Constant.rawMissionDummy;
   for (var element in response) {
     final result = GamificationResponseRemote.fromJson(element);
-    await isarInstance.writeTxn(() async {
-      await isarInstance.gamificationResponseRemotes.put(result);
-    });
     listResponse.add(result);
   }
+
+  await isarInstance.writeTxn(() async {
+    await isarInstance.gamificationResponseRemotes.putAll(listResponse);
+  });
 
 
   // final response = await connect.get(
@@ -35,7 +36,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionLocal(GetMissionLocalRef re
 
   final data = await isarInstance.gamificationResponseRemotes
       .filter()
-      .chapterDataIsNotEmpty()
+      .employeeMissionIdIsNotNull()
       .findAll();
 
   return data;

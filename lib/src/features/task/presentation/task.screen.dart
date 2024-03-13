@@ -1,16 +1,13 @@
-import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:module_etamkawa/src/features/task/presentation/widget/task_multi_choice.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_sinlgle_choice.screen.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../configs/theme/color.theme.dart';
-import '../../../shared_component/async_value_widget.dart';
-import '../../../shared_component/refreshable_starter_widget.dart';
 import '../../../shared_component/shared_component_etamkawa.dart';
 import '../../mission/domain/gamification_response.remote.dart';
 import 'controller/task.controller.dart';
@@ -27,7 +24,6 @@ class TaskScreen extends ConsumerStatefulWidget {
 class _TaskScreenState extends ConsumerState<TaskScreen> {
   final _scrollController = ScrollController();
   double progress = 0.0;
-
 
   @override
   void initState() {
@@ -69,11 +65,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
         body: Consumer(builder: (context, ref, child) {
           final currentQuestionIndex = ref.read(currentIndexState.notifier);
           final currentQuestionProgress = ref.watch(currentProgressState);
-          final selectedOption = ref.watch(selectOptionState);
-          final ctrl = ref.watch(taskControllerProvider.notifier);
-          final lengthAnswer = (widget.listTask[currentQuestionIndex.state]
-              .answerData?.length ??
-              0);
+          final listTask = ref.watch(listTaskState);
           final missionData = ref.watch(missionDataState);
 
           return Column(
@@ -85,7 +77,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10.r)),
                 ),
-                margin: EdgeInsets.all(8),
+                margin: const EdgeInsets.all(8),
                 child: Container(
                   decoration: BoxDecoration(
                     color: ColorTheme.backgroundWhite,
@@ -137,7 +129,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                         ],
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 24),
+                        margin: const EdgeInsets.only(top: 24),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -152,38 +144,39 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                             Stack(
                               children: [
                                 Container(
-                                    padding: EdgeInsets.only(left: 8),
+                                    padding: const EdgeInsets.only(left: 8),
                                     height: 24,
                                     width: double.infinity,
                                     decoration: BoxDecoration(
                                       color: ColorThemeEtamkawa.bgGreenLight,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(4.r)),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(4.r)),
                                     ),
                                     child: Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
                                           '0%',
-                                          style:
-                                              TextStyle(color: ColorTheme.primaryNew),
+                                          style: TextStyle(
+                                              color: ColorTheme.primaryNew),
                                         ))),
                                 Container(
                                     height: 24,
-                                    padding: EdgeInsets.only(right: 8),
+                                    padding: const EdgeInsets.only(right: 8),
                                     width: MediaQuery.of(context).size.width *
                                         ((currentQuestionProgress) /
-                                            widget.listTask.length),
+                                            listTask.length),
                                     decoration: BoxDecoration(
                                       color: ColorTheme.primaryNew,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(4.r)),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(4.r)),
                                     ),
                                     child: Align(
                                         alignment: Alignment.centerRight,
                                         child: Text(
-                                            '${(((currentQuestionProgress) * 100) / widget.listTask.length).toInt()}%',
+                                            '${((currentQuestionProgress) * 100) ~/ listTask.length}%',
                                             style: TextStyle(
-                                                color: ColorTheme.backgroundLight))))
+                                                color: ColorTheme
+                                                    .backgroundLight))))
                               ],
                             ),
                           ],
@@ -193,67 +186,17 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                   ),
                 ),
               ),
-              Expanded(
-                child: TaskSingleChoiceScreen(
-                  buttonFunction: () {
-                    if (selectedOption != '') {
-                      setState(() {
-                        if (currentQuestionIndex.state <
-                            lengthAnswer && lengthAnswer != 1) {
-                          ctrl
-                              .saveAnswer(
-                                  selectedOption,
-                                  widget.listTask[currentQuestionIndex.state]
-                                          .taskId ??0)
-                              .whenComplete(() {
-                            currentQuestionIndex.state++;
-                            ref.watch(currentProgressState.notifier).state++;
-                            ref.read(selectOptionState.notifier).state = 0;
-                            ref.read(selectOptionIndexState.notifier).state = 0;
-                          });
-                        } else {
-                          ctrl
-                              .saveAnswer(
-                                  selectedOption,
-                                  widget.listTask[currentQuestionIndex.state]
-                                          .taskId ??
-                                      0)
-                              .whenComplete(() {
-                            if (((currentQuestionProgress) * 100) ~/
-                                    widget.listTask.length <
-                                100) {
-                              ref.watch(currentProgressState.notifier).state++;
-                            }
-
-                            ref.read(selectOptionState.notifier).state = 0;
-                            ref.read(selectOptionIndexState.notifier).state = 0;
-                            showDialog(
-                              context: context,
-                              builder: (_) => AlertDialog(
-                                title: Text('Quiz Finished'),
-                                content: Text('You have completed the quiz.'),
-                                actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text('OK'),
-                                  )
-                                ],
-                              ),
-                            );
-                          });
-                        }
-                      });
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Please select an option!')),
-                      );
-                    }
-                  },
-                ),
-              )
+              listTask[currentQuestionIndex.state].taskTypeCode == 'TT0001'
+                  ? const Expanded(
+                      child: TaskSingleChoiceScreen(
+                      ),
+                    )
+                  : Container(),
+              listTask[currentQuestionIndex.state].taskTypeCode == 'TT0002'
+                  ? const Expanded(
+                      child: TaskMultiChoiceScreen(),
+                    )
+                  : Container(),
             ],
           );
         }),

@@ -32,54 +32,49 @@ const GamificationResponseRemoteSchema = CollectionSchema(
     r'completedDate': PropertySchema(
       id: 2,
       name: r'completedDate',
-      type: IsarType.dateTime,
-    ),
-    r'employeeMissionId': PropertySchema(
-      id: 3,
-      name: r'employeeMissionId',
-      type: IsarType.long,
+      type: IsarType.string,
     ),
     r'employeeUpn': PropertySchema(
-      id: 4,
+      id: 3,
       name: r'employeeUpn',
       type: IsarType.string,
     ),
     r'missionId': PropertySchema(
-      id: 5,
+      id: 4,
       name: r'missionId',
       type: IsarType.long,
     ),
     r'missionStatus': PropertySchema(
-      id: 6,
+      id: 5,
       name: r'missionStatus',
       type: IsarType.string,
     ),
     r'missionStatusId': PropertySchema(
-      id: 7,
+      id: 6,
       name: r'missionStatusId',
       type: IsarType.long,
     ),
     r'startedDate': PropertySchema(
-      id: 8,
+      id: 7,
       name: r'startedDate',
-      type: IsarType.dateTime,
+      type: IsarType.string,
     ),
     r'submittedBy': PropertySchema(
-      id: 9,
+      id: 8,
       name: r'submittedBy',
       type: IsarType.string,
     ),
     r'submittedDate': PropertySchema(
-      id: 10,
+      id: 9,
       name: r'submittedDate',
-      type: IsarType.dateTime,
+      type: IsarType.string,
     )
   },
   estimateSize: _gamificationResponseRemoteEstimateSize,
   serialize: _gamificationResponseRemoteSerialize,
   deserialize: _gamificationResponseRemoteDeserialize,
   deserializeProp: _gamificationResponseRemoteDeserializeProp,
-  idName: r'id',
+  idName: r'employeeMissionId',
   indexes: {},
   links: {},
   embeddedSchemas: {
@@ -121,6 +116,12 @@ int _gamificationResponseRemoteEstimateSize(
     }
   }
   {
+    final value = object.completedDate;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
     final value = object.employeeUpn;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
@@ -133,7 +134,19 @@ int _gamificationResponseRemoteEstimateSize(
     }
   }
   {
+    final value = object.startedDate;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
     final value = object.submittedBy;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.submittedDate;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -154,15 +167,14 @@ void _gamificationResponseRemoteSerialize(
     object.chapterData,
   );
   writer.writeString(offsets[1], object.completedBy);
-  writer.writeDateTime(offsets[2], object.completedDate);
-  writer.writeLong(offsets[3], object.employeeMissionId);
-  writer.writeString(offsets[4], object.employeeUpn);
-  writer.writeLong(offsets[5], object.missionId);
-  writer.writeString(offsets[6], object.missionStatus);
-  writer.writeLong(offsets[7], object.missionStatusId);
-  writer.writeDateTime(offsets[8], object.startedDate);
-  writer.writeString(offsets[9], object.submittedBy);
-  writer.writeDateTime(offsets[10], object.submittedDate);
+  writer.writeString(offsets[2], object.completedDate);
+  writer.writeString(offsets[3], object.employeeUpn);
+  writer.writeLong(offsets[4], object.missionId);
+  writer.writeString(offsets[5], object.missionStatus);
+  writer.writeLong(offsets[6], object.missionStatusId);
+  writer.writeString(offsets[7], object.startedDate);
+  writer.writeString(offsets[8], object.submittedBy);
+  writer.writeString(offsets[9], object.submittedDate);
 }
 
 GamificationResponseRemote _gamificationResponseRemoteDeserialize(
@@ -179,17 +191,16 @@ GamificationResponseRemote _gamificationResponseRemoteDeserialize(
       ChapterDatum(),
     ),
     completedBy: reader.readStringOrNull(offsets[1]),
-    completedDate: reader.readDateTimeOrNull(offsets[2]),
-    employeeMissionId: reader.readLongOrNull(offsets[3]),
-    employeeUpn: reader.readStringOrNull(offsets[4]),
-    missionId: reader.readLongOrNull(offsets[5]),
-    missionStatus: reader.readStringOrNull(offsets[6]),
-    missionStatusId: reader.readLongOrNull(offsets[7]),
-    startedDate: reader.readDateTimeOrNull(offsets[8]),
-    submittedBy: reader.readStringOrNull(offsets[9]),
-    submittedDate: reader.readDateTimeOrNull(offsets[10]),
+    completedDate: reader.readStringOrNull(offsets[2]),
+    employeeMissionId: id,
+    employeeUpn: reader.readStringOrNull(offsets[3]),
+    missionId: reader.readLongOrNull(offsets[4]),
+    missionStatus: reader.readStringOrNull(offsets[5]),
+    missionStatusId: reader.readLongOrNull(offsets[6]),
+    startedDate: reader.readStringOrNull(offsets[7]),
+    submittedBy: reader.readStringOrNull(offsets[8]),
+    submittedDate: reader.readStringOrNull(offsets[9]),
   );
-  object.id = id;
   return object;
 }
 
@@ -210,30 +221,28 @@ P _gamificationResponseRemoteDeserializeProp<P>(
     case 1:
       return (reader.readStringOrNull(offset)) as P;
     case 2:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 3:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 4:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 5:
-      return (reader.readLongOrNull(offset)) as P;
-    case 6:
       return (reader.readStringOrNull(offset)) as P;
-    case 7:
+    case 6:
       return (reader.readLongOrNull(offset)) as P;
+    case 7:
+      return (reader.readStringOrNull(offset)) as P;
     case 8:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 9:
       return (reader.readStringOrNull(offset)) as P;
-    case 10:
-      return (reader.readDateTimeOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
 
 Id _gamificationResponseRemoteGetId(GamificationResponseRemote object) {
-  return object.id;
+  return object.employeeMissionId ?? Isar.autoIncrement;
 }
 
 List<IsarLinkBase<dynamic>> _gamificationResponseRemoteGetLinks(
@@ -243,13 +252,13 @@ List<IsarLinkBase<dynamic>> _gamificationResponseRemoteGetLinks(
 
 void _gamificationResponseRemoteAttach(
     IsarCollection<dynamic> col, Id id, GamificationResponseRemote object) {
-  object.id = id;
+  object.employeeMissionId = id;
 }
 
 extension GamificationResponseRemoteQueryWhereSort on QueryBuilder<
     GamificationResponseRemote, GamificationResponseRemote, QWhere> {
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterWhere> anyId() {
+      QAfterWhere> anyEmployeeMissionId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
@@ -259,68 +268,76 @@ extension GamificationResponseRemoteQueryWhereSort on QueryBuilder<
 extension GamificationResponseRemoteQueryWhere on QueryBuilder<
     GamificationResponseRemote, GamificationResponseRemote, QWhereClause> {
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterWhereClause> idEqualTo(Id id) {
+      QAfterWhereClause> employeeMissionIdEqualTo(Id employeeMissionId) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
-        lower: id,
-        upper: id,
+        lower: employeeMissionId,
+        upper: employeeMissionId,
       ));
     });
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterWhereClause> idNotEqualTo(Id id) {
+      QAfterWhereClause> employeeMissionIdNotEqualTo(Id employeeMissionId) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
+              IdWhereClause.lessThan(
+                  upper: employeeMissionId, includeUpper: false),
             )
             .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
+              IdWhereClause.greaterThan(
+                  lower: employeeMissionId, includeLower: false),
             );
       } else {
         return query
             .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
+              IdWhereClause.greaterThan(
+                  lower: employeeMissionId, includeLower: false),
             )
             .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
+              IdWhereClause.lessThan(
+                  upper: employeeMissionId, includeUpper: false),
             );
       }
     });
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterWhereClause> idGreaterThan(Id id, {bool include = false}) {
+          QAfterWhereClause>
+      employeeMissionIdGreaterThan(Id employeeMissionId,
+          {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        IdWhereClause.greaterThan(lower: id, includeLower: include),
+        IdWhereClause.greaterThan(
+            lower: employeeMissionId, includeLower: include),
       );
     });
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterWhereClause> idLessThan(Id id, {bool include = false}) {
+          QAfterWhereClause>
+      employeeMissionIdLessThan(Id employeeMissionId, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        IdWhereClause.lessThan(upper: id, includeUpper: include),
+        IdWhereClause.lessThan(upper: employeeMissionId, includeUpper: include),
       );
     });
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterWhereClause> idBetween(
-    Id lowerId,
-    Id upperId, {
+      QAfterWhereClause> employeeMissionIdBetween(
+    Id lowerEmployeeMissionId,
+    Id upperEmployeeMissionId, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
-        lower: lowerId,
+        lower: lowerEmployeeMissionId,
         includeLower: includeLower,
-        upper: upperId,
+        upper: upperEmployeeMissionId,
         includeUpper: includeUpper,
       ));
     });
@@ -611,49 +628,58 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterFilterCondition> completedDateEqualTo(DateTime? value) {
+      QAfterFilterCondition> completedDateEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'completedDate',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
       QAfterFilterCondition> completedDateGreaterThan(
-    DateTime? value, {
+    String? value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'completedDate',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
       QAfterFilterCondition> completedDateLessThan(
-    DateTime? value, {
+    String? value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'completedDate',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
       QAfterFilterCondition> completedDateBetween(
-    DateTime? lower,
-    DateTime? upper, {
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -662,6 +688,79 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> completedDateStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'completedDate',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> completedDateEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'completedDate',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+          QAfterFilterCondition>
+      completedDateContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'completedDate',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+          QAfterFilterCondition>
+      completedDateMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'completedDate',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> completedDateIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'completedDate',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> completedDateIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'completedDate',
+        value: '',
       ));
     });
   }
@@ -685,7 +784,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterFilterCondition> employeeMissionIdEqualTo(int? value) {
+      QAfterFilterCondition> employeeMissionIdEqualTo(Id? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'employeeMissionId',
@@ -696,7 +795,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
       QAfterFilterCondition> employeeMissionIdGreaterThan(
-    int? value, {
+    Id? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -710,7 +809,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
       QAfterFilterCondition> employeeMissionIdLessThan(
-    int? value, {
+    Id? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -724,8 +823,8 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
       QAfterFilterCondition> employeeMissionIdBetween(
-    int? lower,
-    int? upper, {
+    Id? lower,
+    Id? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -892,62 +991,6 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'employeeUpn',
         value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterFilterCondition> idEqualTo(Id value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterFilterCondition> idGreaterThan(
-    Id value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterFilterCondition> idLessThan(
-    Id value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterFilterCondition> idBetween(
-    Id lower,
-    Id upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'id',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
       ));
     });
   }
@@ -1275,49 +1318,58 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterFilterCondition> startedDateEqualTo(DateTime? value) {
+      QAfterFilterCondition> startedDateEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'startedDate',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
       QAfterFilterCondition> startedDateGreaterThan(
-    DateTime? value, {
+    String? value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'startedDate',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
       QAfterFilterCondition> startedDateLessThan(
-    DateTime? value, {
+    String? value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'startedDate',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
       QAfterFilterCondition> startedDateBetween(
-    DateTime? lower,
-    DateTime? upper, {
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -1326,6 +1378,79 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> startedDateStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'startedDate',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> startedDateEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'startedDate',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+          QAfterFilterCondition>
+      startedDateContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'startedDate',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+          QAfterFilterCondition>
+      startedDateMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'startedDate',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> startedDateIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'startedDate',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> startedDateIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'startedDate',
+        value: '',
       ));
     });
   }
@@ -1505,49 +1630,58 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterFilterCondition> submittedDateEqualTo(DateTime? value) {
+      QAfterFilterCondition> submittedDateEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'submittedDate',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
       QAfterFilterCondition> submittedDateGreaterThan(
-    DateTime? value, {
+    String? value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'submittedDate',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
       QAfterFilterCondition> submittedDateLessThan(
-    DateTime? value, {
+    String? value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'submittedDate',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
       QAfterFilterCondition> submittedDateBetween(
-    DateTime? lower,
-    DateTime? upper, {
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -1556,6 +1690,79 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> submittedDateStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'submittedDate',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> submittedDateEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'submittedDate',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+          QAfterFilterCondition>
+      submittedDateContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'submittedDate',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+          QAfterFilterCondition>
+      submittedDateMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'submittedDate',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> submittedDateIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'submittedDate',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> submittedDateIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'submittedDate',
+        value: '',
       ));
     });
   }
@@ -1601,20 +1808,6 @@ extension GamificationResponseRemoteQuerySortBy on QueryBuilder<
       QAfterSortBy> sortByCompletedDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'completedDate', Sort.desc);
-    });
-  }
-
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterSortBy> sortByEmployeeMissionId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'employeeMissionId', Sort.asc);
-    });
-  }
-
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterSortBy> sortByEmployeeMissionIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'employeeMissionId', Sort.desc);
     });
   }
 
@@ -1776,20 +1969,6 @@ extension GamificationResponseRemoteQuerySortThenBy on QueryBuilder<
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterSortBy> thenById() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.asc);
-    });
-  }
-
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterSortBy> thenByIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.desc);
-    });
-  }
-
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
       QAfterSortBy> thenByMissionId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'missionId', Sort.asc);
@@ -1884,16 +2063,10 @@ extension GamificationResponseRemoteQueryWhereDistinct on QueryBuilder<
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QDistinct> distinctByCompletedDate() {
+      QDistinct> distinctByCompletedDate({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'completedDate');
-    });
-  }
-
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QDistinct> distinctByEmployeeMissionId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'employeeMissionId');
+      return query.addDistinctBy(r'completedDate',
+          caseSensitive: caseSensitive);
     });
   }
 
@@ -1927,9 +2100,9 @@ extension GamificationResponseRemoteQueryWhereDistinct on QueryBuilder<
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QDistinct> distinctByStartedDate() {
+      QDistinct> distinctByStartedDate({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'startedDate');
+      return query.addDistinctBy(r'startedDate', caseSensitive: caseSensitive);
     });
   }
 
@@ -1941,18 +2114,20 @@ extension GamificationResponseRemoteQueryWhereDistinct on QueryBuilder<
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QDistinct> distinctBySubmittedDate() {
+      QDistinct> distinctBySubmittedDate({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'submittedDate');
+      return query.addDistinctBy(r'submittedDate',
+          caseSensitive: caseSensitive);
     });
   }
 }
 
 extension GamificationResponseRemoteQueryProperty on QueryBuilder<
     GamificationResponseRemote, GamificationResponseRemote, QQueryProperty> {
-  QueryBuilder<GamificationResponseRemote, int, QQueryOperations> idProperty() {
+  QueryBuilder<GamificationResponseRemote, int, QQueryOperations>
+      employeeMissionIdProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'id');
+      return query.addPropertyName(r'employeeMissionId');
     });
   }
 
@@ -1970,17 +2145,10 @@ extension GamificationResponseRemoteQueryProperty on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, DateTime?, QQueryOperations>
+  QueryBuilder<GamificationResponseRemote, String?, QQueryOperations>
       completedDateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'completedDate');
-    });
-  }
-
-  QueryBuilder<GamificationResponseRemote, int?, QQueryOperations>
-      employeeMissionIdProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'employeeMissionId');
     });
   }
 
@@ -2012,7 +2180,7 @@ extension GamificationResponseRemoteQueryProperty on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, DateTime?, QQueryOperations>
+  QueryBuilder<GamificationResponseRemote, String?, QQueryOperations>
       startedDateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'startedDate');
@@ -2026,7 +2194,7 @@ extension GamificationResponseRemoteQueryProperty on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, DateTime?, QQueryOperations>
+  QueryBuilder<GamificationResponseRemote, String?, QQueryOperations>
       submittedDateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'submittedDate');
