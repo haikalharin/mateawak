@@ -23,7 +23,7 @@ final getNewsRemoteProvider =
 
 typedef GetNewsRemoteRef = AutoDisposeFutureProviderRef<NewsResponseRemote>;
 String _$getNewsImageRemoteHash() =>
-    r'5d6083d5d36f0c880a3cdcf6277323b267ed7e32';
+    r'9b0dade06253be7e5f66ee1f2fd9b7b25a6b7141';
 
 /// Copied from Dart SDK
 class _SystemHash {
