@@ -205,40 +205,15 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                     ),
                                   ],
                                 ),
+                                addVerticalDividerIfQuizz(gamification.chapterData![0]
+                                        .missionData![0].missionTypeName !=
+                                    'Assignment'),
+                                    addTaskIfQuizz(gamification.chapterData![0]
+                                        .missionData![0].missionTypeName !=
+                                    'Assignment', gamification.chapterData![0]
+                                        .missionData![0].taskData!.length),
                                 VerticalDivider(
                                   color: ColorTheme.strokeTertiary,
-                                  width: 18.sp,
-                                  thickness: 2,
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SvgPicture.asset(ImageConstant.iconTask,
-                                        width: 16.sp,
-                                        height: 20.sp,
-                                        package: Constant.moduleBPS),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      'Task',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12.sp,
-                                          color: ColorTheme.neutral600),
-                                    ),
-                                    Text(
-                                      gamification.chapterData![0]
-                                          .missionData![0].taskData!.length
-                                          .toString(),
-                                      style: TextStyle(fontSize: 12.sp),
-                                    ),
-                                  ],
-                                ),
-                                VerticalDivider(
-                                  color: ColorTheme.strokeTertiary,
-                                  width: 18.sp,
                                   thickness: 2,
                                 ),
                                 Column(
@@ -330,4 +305,42 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
               ]);
             })));
   }
+}
+
+Widget addVerticalDividerIfQuizz(bool isAssignment) {
+  return 
+  VerticalDivider(
+    color: ColorTheme.strokeTertiary,
+    thickness: 2,
+  );
+}
+
+
+Widget addTaskIfQuizz(bool isAssignment, int totalTask) {
+  return 
+  Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      SvgPicture.asset(ImageConstant.iconTask,
+          width: 16.sp,
+          height: 20.sp,
+          package: Constant.moduleBPS),
+      const SizedBox(
+        height: 5,
+      ),
+      Text(
+        'Task',
+        style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 12.sp,
+            color: ColorTheme.neutral600),
+      ),
+      Text(
+        totalTask
+            .toString(),
+        style: TextStyle(fontSize: 12.sp),
+      ),
+    ],
+  );
 }

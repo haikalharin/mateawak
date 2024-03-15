@@ -4,7 +4,6 @@ import 'package:module_etamkawa/src/features/mission/infrastructure/repositories
 import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-
 part 'mission.controller.g.dart';
 
 final isScrollProvider = StateProvider.autoDispose<bool>((ref) {
@@ -35,9 +34,10 @@ final gamificationAssignedState =
 final gamificationPastState =
     StateProvider.autoDispose<GamificationResponseRemote>(
         (ref) => GamificationResponseRemote());
-var latestSyncDateState = 
-    StateProvider.autoDispose<String>(
-        (ref) => '2024-03-01T03:55:58.918Z');
+final fixedGamificationAssigned =
+    StateProvider.autoDispose<List<GamificationResponseRemote>>((ref) => []);
+var latestSyncDateState =
+    StateProvider.autoDispose<String>((ref) => '2024-03-01T03:55:58.918Z');
 
 @riverpod
 class MissionController extends _$MissionController {
@@ -51,9 +51,11 @@ class MissionController extends _$MissionController {
   Future<void> getMissionList() async {
     var repo = ref.read(getMissionRemoteProvider.future);
     final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
-    if (isConnectionAvailable){
-            ref.read(getMissionLocalProvider.future);
-            }
+    if (isConnectionAvailable) {
+      ref.read(getMissionRemoteProvider.future);
+    } else {
+      ref.read(getMissionLocalProvider.future);
+    }
     state = await AsyncValue.guard(() => repo).then((value) async {
       List<MissionDatum> listMissionInProgress = [];
       List<MissionDatum> listMissionAssigned = [];
@@ -91,6 +93,57 @@ class MissionController extends _$MissionController {
             listMissionAssigned;
         ref.watch(listMissionPastState.notifier).state = listMissionPast;
         ref.watch(listGamificationState.notifier).state = value.value ?? [];
+        ref.watch(fixedGamificationAssigned.notifier).state = value.value ?? [];
+        listGamification = value.value ?? [];
+      }
+      return value;
+    });
+  }
+
+  Future<void> filterMissionList(String query) async {
+    var repo = ref.read(getMissionRemoteProvider.future);
+    ref.read(getMissionLocalProvider.future);
+    state = await AsyncValue.guard(() => repo).then((value) async {
+      List<MissionDatum> listMissionInProgress = [];
+      List<MissionDatum> listMissionAssigned = [];
+      List<MissionDatum> listMissionPast = [];
+      if (value.hasValue) {
+        value.value?.forEach((element) async {
+          if (element.missionStatusId! == 1) {
+            ref.watch(gamificationInProgressState.notifier).state = element;
+            element.chapterData?.forEach((chapter) {
+              listMissionInProgress.addAll(chapter.missionData ?? []);
+            });
+          } else if (element.missionStatusId! == 0) {
+            ref.watch(gamificationAssignedState.notifier).state = element;
+            element.chapterData?.forEach((chapter) {
+              listMissionAssigned.addAll(chapter.missionData ?? []);
+            });
+          } else if (element.missionStatusId! >= 2) {
+            ref.watch(gamificationPastState.notifier).state = element;
+            element.chapterData?.forEach((chapter) {
+              listMissionPast.addAll(chapter.missionData ?? []);
+            });
+          }
+          // } else {
+          //   listMissionInProgress = [];
+          //   listMissionAssigned = [];
+          //   listMissionPast = [];
+          //   listGamificationInProgress = [];
+          //   listGamificationAssigned = [];
+          //   listGamificationPast = [];
+          // }
+        });
+        ref.watch(listMissionInProgressState.notifier).state =
+            listMissionInProgress.where((o) => o.missionName!.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+        ref.watch(listMissionAssignedState.notifier).state =
+            listMissionAssigned.where((o) => o.missionName!.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+        ref.watch(listMissionPastState.notifier).state = listMissionPast.where((o) => o.missionName!.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+        ref.watch(listGamificationState.notifier).state = value.value ?? [];
+        ref.watch(fixedGamificationAssigned.notifier).state = value.value ?? [];
         listGamification = value.value ?? [];
       }
       return value;
