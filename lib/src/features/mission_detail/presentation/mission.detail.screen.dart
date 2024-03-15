@@ -165,7 +165,84 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                           ),
                         ],
                       ),
-                    
+                      Card(
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                            color: ColorTheme.strokeTertiary,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10.r)),
+                        ),
+                        elevation: 0,
+                        margin: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+                        child: Container(
+                            width: MediaQuery.sizeOf(context).width,
+                            margin: const EdgeInsets.all(15),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SvgPicture.asset(ImageConstant.iconReward,
+                                        width: 16.sp,
+                                        height: 20.sp,
+                                        package: Constant.moduleBPS),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      'Rewards',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12.sp,
+                                          color: ColorTheme.neutral600),
+                                    ),
+                                    Text(
+                                      '${gamification.chapterData![0].missionData![0].missionReward.toString()} total',
+                                      style: TextStyle(fontSize: 12.sp),
+                                    ),
+                                  ],
+                                ),
+                                addVerticalDividerIfQuizz(gamification.chapterData![0]
+                                        .missionData![0].missionTypeName !=
+                                    'Assignment'),
+                                    addTaskIfQuizz(gamification.chapterData![0]
+                                        .missionData![0].missionTypeName !=
+                                    'Assignment', gamification.chapterData![0]
+                                        .missionData![0].taskData!.length),
+                                VerticalDivider(
+                                  color: ColorTheme.strokeTertiary,
+                                  thickness: 2,
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SvgPicture.asset(ImageConstant.iconDuration,
+                                        width: 16.sp,
+                                        height: 20.sp,
+                                        package: Constant.moduleBPS),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      'Duration',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12.sp,
+                                          color: ColorTheme.neutral600),
+                                    ),
+                                    Text(
+                                      '5 days',
+                                      style: TextStyle(fontSize: 12.sp),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )),
+                      ),
                     ],
                   ),
                 ),
@@ -228,4 +305,42 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
               ]);
             })));
   }
+}
+
+Widget addVerticalDividerIfQuizz(bool isAssignment) {
+  return 
+  VerticalDivider(
+    color: ColorTheme.strokeTertiary,
+    thickness: 2,
+  );
+}
+
+
+Widget addTaskIfQuizz(bool isAssignment, int totalTask) {
+  return 
+  Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      SvgPicture.asset(ImageConstant.iconTask,
+          width: 16.sp,
+          height: 20.sp,
+          package: Constant.moduleBPS),
+      const SizedBox(
+        height: 5,
+      ),
+      Text(
+        'Task',
+        style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 12.sp,
+            color: ColorTheme.neutral600),
+      ),
+      Text(
+        totalTask
+            .toString(),
+        style: TextStyle(fontSize: 12.sp),
+      ),
+    ],
+  );
 }

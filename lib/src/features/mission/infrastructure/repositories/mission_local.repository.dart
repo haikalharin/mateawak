@@ -18,19 +18,19 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(GetMissionLocalRef r
 
   final connect = ref.read(connectProvider.notifier);
   List<GamificationResponseRemote> listResponse =[];
-  const rawMissionDummy = Constant.rawMissionDummy;
-  //final userModel = await ref.read(helperUserProvider).getUserProfile();
+  //const rawMissionDummy = Constant.rawMissionDummy;
+  final userModel = await ref.read(helperUserProvider).getUserProfile();
   final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
-  // final response = await connect.post(
-  //   modul: ModuleType.etamkawaGamification,
-  //   path: "api/mission/get_employee_mission?${Constant.apiVer}",
-  //   body: {
-  //     "employeeId": userModel?.employeeID,
-  //     "requestDate": latestSyncDate
-  //   }
-  // );
-  //for (var element in response.result?.content) {
-    for (var element in rawMissionDummy){
+  final response = await connect.post(
+    modul: ModuleType.etamkawaGamification,
+    path: "api/mission/get_employee_mission?${Constant.apiVer}",
+    body: {
+      "employeeId": userModel?.employeeID,
+      "requestDate": '2024-03-01T03:55:58.918Z'
+    }
+  );
+  for (var element in response.result?.content) {
+    //for (var element in rawMissionDummy){
     final result = GamificationResponseRemote.fromJson(element);
     listResponse.add(result);
   }
@@ -39,7 +39,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(GetMissionLocalRef r
   //await isarInstance.gamificationResponseRemotes.clear();
 
   await isarInstance.writeTxn(() async {
-    await isarInstance.gamificationResponseRemotes.clear();
+    //await isarInstance.gamificationResponseRemotes.clear();
     await isarInstance.gamificationResponseRemotes.putAll(listResponse);
   });
 

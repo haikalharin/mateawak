@@ -46,12 +46,14 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                   textInputAction: TextInputAction.search,
                   decoration: InputDecoration(
                     hintText: "Search...",
-                    prefixIcon: const Icon(Icons.search),
+                    suffixIcon: const Icon(Icons.search),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  onFieldSubmitted: (keyword) {},
+                  onFieldSubmitted: (keyword) {
+                    ctrl.filterMissionList(keyword);
+                  },
                 ),
               ),
               Expanded(
