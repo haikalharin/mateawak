@@ -165,7 +165,109 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                           ),
                         ],
                       ),
-                    
+                      Card(
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                            color: ColorTheme.strokeTertiary,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10.r)),
+                        ),
+                        elevation: 0,
+                        margin: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+                        child: Container(
+                            width: MediaQuery.sizeOf(context).width,
+                            margin: const EdgeInsets.all(15),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SvgPicture.asset(ImageConstant.iconReward,
+                                        width: 16.sp,
+                                        height: 20.sp,
+                                        package: Constant.moduleBPS),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      'Rewards',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12.sp,
+                                          color: ColorTheme.neutral600),
+                                    ),
+                                    Text(
+                                      '${gamification.chapterData![0].missionData![0].missionReward.toString()} total',
+                                      style: TextStyle(fontSize: 12.sp),
+                                    ),
+                                  ],
+                                ),
+                                VerticalDivider(
+                                  color: ColorTheme.strokeTertiary,
+                                  width: 18.sp,
+                                  thickness: 2,
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SvgPicture.asset(ImageConstant.iconTask,
+                                        width: 16.sp,
+                                        height: 20.sp,
+                                        package: Constant.moduleBPS),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      'Task',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12.sp,
+                                          color: ColorTheme.neutral600),
+                                    ),
+                                    Text(
+                                      gamification.chapterData![0]
+                                          .missionData![0].taskData!.length
+                                          .toString(),
+                                      style: TextStyle(fontSize: 12.sp),
+                                    ),
+                                  ],
+                                ),
+                                VerticalDivider(
+                                  color: ColorTheme.strokeTertiary,
+                                  width: 18.sp,
+                                  thickness: 2,
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SvgPicture.asset(ImageConstant.iconDuration,
+                                        width: 16.sp,
+                                        height: 20.sp,
+                                        package: Constant.moduleBPS),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      'Duration',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12.sp,
+                                          color: ColorTheme.neutral600),
+                                    ),
+                                    Text(
+                                      '5 days',
+                                      style: TextStyle(fontSize: 12.sp),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )),
+                      ),
                     ],
                   ),
                 ),
