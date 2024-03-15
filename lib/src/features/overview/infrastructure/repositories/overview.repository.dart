@@ -38,24 +38,26 @@ FutureOr<NewsResponseRemote> getNewsRemote(GetNewsRemoteRef ref) async {
 Future<DownloadAttachmentNewsRequestRemote> getNewsImageRemote(
     GetNewsImageRemoteRef ref,
     {int? id}) async {
-  final response = {
-    "attachmentId": 18,
-    "formattedName": ImageConstant.imageNews64
-  };
-  final result = DownloadAttachmentNewsRequestRemote.fromJson(response);
 
-  // final response = await ref.read(connectProvider.notifier).get(
-  //   modul: ModuleType.etamkawaNews,
-  //   path: "/api/attachment/download_attachment?${Constant.apiVer}",
-  // );
-  // final result =
-  // DownloadAttachmentNewsRequestRemote.fromJson(response.result?.content);
+  final response = await ref.read(connectProvider.notifier).post(
+      modul: ModuleType.etamkawaNews,
+      path: "/api/attachment/download_attachment?${Constant.apiVer}",
+      body: {
+        "attachmentId": id
+      }
+  );
+  final result =
+  DownloadAttachmentNewsRequestRemote.fromJson(
+      {
+        "attachmentId": id,
+        "formattedName": response.result?.content
+      }
+  );
 
   final isarInstance = await ref.watch(isarInstanceProvider.future);
   await isarInstance.writeTxn(() async {
     await isarInstance.downloadAttachmentNewsRequestRemotes.put(result);
   });
-  // await ref.watch(getNewsRemoteProvider.future);
 
   ref.keepAlive();
   return result;

@@ -51,8 +51,15 @@ class CommonUtils {
   }
 
   static String formatDateRequestParam(String value) {
+    int idx = value.indexOf(":");
+    final first = value.substring(0,idx).trim().replaceAll(' ', 'T');
+    final last = value.substring(idx+1).trim();
+    return '$first:$last';
+  }
+
+  static String formatDateTimeRequestParam(String value) {
     final temp = value.split(':');
-    return '${temp.first.replaceAll(' ', 'T')}:00:00';
+    return '${temp.first.replaceAll(' ', 'T')}${temp.last}';
   }
 
   static String formattedDate(String value,

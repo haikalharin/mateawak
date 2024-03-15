@@ -34,9 +34,9 @@ const GamificationResponseRemoteSchema = CollectionSchema(
       name: r'completedDate',
       type: IsarType.string,
     ),
-    r'employeeUpn': PropertySchema(
+    r'dueDate': PropertySchema(
       id: 3,
-      name: r'employeeUpn',
+      name: r'dueDate',
       type: IsarType.string,
     ),
     r'missionId': PropertySchema(
@@ -122,7 +122,7 @@ int _gamificationResponseRemoteEstimateSize(
     }
   }
   {
-    final value = object.employeeUpn;
+    final value = object.dueDate;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -168,7 +168,7 @@ void _gamificationResponseRemoteSerialize(
   );
   writer.writeString(offsets[1], object.completedBy);
   writer.writeString(offsets[2], object.completedDate);
-  writer.writeString(offsets[3], object.employeeUpn);
+  writer.writeString(offsets[3], object.dueDate);
   writer.writeLong(offsets[4], object.missionId);
   writer.writeString(offsets[5], object.missionStatus);
   writer.writeLong(offsets[6], object.missionStatusId);
@@ -192,8 +192,8 @@ GamificationResponseRemote _gamificationResponseRemoteDeserialize(
     ),
     completedBy: reader.readStringOrNull(offsets[1]),
     completedDate: reader.readStringOrNull(offsets[2]),
+    dueDate: reader.readStringOrNull(offsets[3]),
     employeeMissionId: id,
-    employeeUpn: reader.readStringOrNull(offsets[3]),
     missionId: reader.readLongOrNull(offsets[4]),
     missionStatus: reader.readStringOrNull(offsets[5]),
     missionStatusId: reader.readLongOrNull(offsets[6]),
@@ -766,6 +766,162 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> dueDateIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'dueDate',
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> dueDateIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'dueDate',
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> dueDateEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'dueDate',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> dueDateGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'dueDate',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> dueDateLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'dueDate',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> dueDateBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'dueDate',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> dueDateStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'dueDate',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> dueDateEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'dueDate',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+          QAfterFilterCondition>
+      dueDateContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'dueDate',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+          QAfterFilterCondition>
+      dueDateMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'dueDate',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> dueDateIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'dueDate',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> dueDateIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'dueDate',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
       QAfterFilterCondition> employeeMissionIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -835,162 +991,6 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterFilterCondition> employeeUpnIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'employeeUpn',
-      ));
-    });
-  }
-
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterFilterCondition> employeeUpnIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'employeeUpn',
-      ));
-    });
-  }
-
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterFilterCondition> employeeUpnEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'employeeUpn',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterFilterCondition> employeeUpnGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'employeeUpn',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterFilterCondition> employeeUpnLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'employeeUpn',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterFilterCondition> employeeUpnBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'employeeUpn',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterFilterCondition> employeeUpnStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'employeeUpn',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterFilterCondition> employeeUpnEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'employeeUpn',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-          QAfterFilterCondition>
-      employeeUpnContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'employeeUpn',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-          QAfterFilterCondition>
-      employeeUpnMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'employeeUpn',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterFilterCondition> employeeUpnIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'employeeUpn',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterFilterCondition> employeeUpnIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'employeeUpn',
-        value: '',
       ));
     });
   }
@@ -1812,16 +1812,16 @@ extension GamificationResponseRemoteQuerySortBy on QueryBuilder<
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterSortBy> sortByEmployeeUpn() {
+      QAfterSortBy> sortByDueDate() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'employeeUpn', Sort.asc);
+      return query.addSortBy(r'dueDate', Sort.asc);
     });
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterSortBy> sortByEmployeeUpnDesc() {
+      QAfterSortBy> sortByDueDateDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'employeeUpn', Sort.desc);
+      return query.addSortBy(r'dueDate', Sort.desc);
     });
   }
 
@@ -1941,6 +1941,20 @@ extension GamificationResponseRemoteQuerySortThenBy on QueryBuilder<
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterSortBy> thenByDueDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dueDate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterSortBy> thenByDueDateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dueDate', Sort.desc);
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
       QAfterSortBy> thenByEmployeeMissionId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'employeeMissionId', Sort.asc);
@@ -1951,20 +1965,6 @@ extension GamificationResponseRemoteQuerySortThenBy on QueryBuilder<
       QAfterSortBy> thenByEmployeeMissionIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'employeeMissionId', Sort.desc);
-    });
-  }
-
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterSortBy> thenByEmployeeUpn() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'employeeUpn', Sort.asc);
-    });
-  }
-
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterSortBy> thenByEmployeeUpnDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'employeeUpn', Sort.desc);
     });
   }
 
@@ -2071,9 +2071,9 @@ extension GamificationResponseRemoteQueryWhereDistinct on QueryBuilder<
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QDistinct> distinctByEmployeeUpn({bool caseSensitive = true}) {
+      QDistinct> distinctByDueDate({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'employeeUpn', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'dueDate', caseSensitive: caseSensitive);
     });
   }
 
@@ -2153,9 +2153,9 @@ extension GamificationResponseRemoteQueryProperty on QueryBuilder<
   }
 
   QueryBuilder<GamificationResponseRemote, String?, QQueryOperations>
-      employeeUpnProperty() {
+      dueDateProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'employeeUpn');
+      return query.addPropertyName(r'dueDate');
     });
   }
 
@@ -2233,11 +2233,31 @@ const ChapterDatumSchema = Schema(
       name: r'chapterName',
       type: IsarType.string,
     ),
-    r'missionData': PropertySchema(
+    r'competencyCode': PropertySchema(
       id: 4,
+      name: r'competencyCode',
+      type: IsarType.string,
+    ),
+    r'competencyName': PropertySchema(
+      id: 5,
+      name: r'competencyName',
+      type: IsarType.string,
+    ),
+    r'missionData': PropertySchema(
+      id: 6,
       name: r'missionData',
       type: IsarType.objectList,
       target: r'MissionDatum',
+    ),
+    r'peopleCategoryCode': PropertySchema(
+      id: 7,
+      name: r'peopleCategoryCode',
+      type: IsarType.string,
+    ),
+    r'peopleCategoryName': PropertySchema(
+      id: 8,
+      name: r'peopleCategoryName',
+      type: IsarType.string,
     )
   },
   estimateSize: _chapterDatumEstimateSize,
@@ -2271,6 +2291,18 @@ int _chapterDatumEstimateSize(
     }
   }
   {
+    final value = object.competencyCode;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.competencyName;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
     final list = object.missionData;
     if (list != null) {
       bytesCount += 3 + list.length * 3;
@@ -2282,6 +2314,18 @@ int _chapterDatumEstimateSize(
               MissionDatumSchema.estimateSize(value, offsets, allOffsets);
         }
       }
+    }
+  }
+  {
+    final value = object.peopleCategoryCode;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.peopleCategoryName;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
     }
   }
   return bytesCount;
@@ -2297,12 +2341,16 @@ void _chapterDatumSerialize(
   writer.writeString(offsets[1], object.chapterGoal);
   writer.writeLong(offsets[2], object.chapterId);
   writer.writeString(offsets[3], object.chapterName);
+  writer.writeString(offsets[4], object.competencyCode);
+  writer.writeString(offsets[5], object.competencyName);
   writer.writeObjectList<MissionDatum>(
-    offsets[4],
+    offsets[6],
     allOffsets,
     MissionDatumSchema.serialize,
     object.missionData,
   );
+  writer.writeString(offsets[7], object.peopleCategoryCode);
+  writer.writeString(offsets[8], object.peopleCategoryName);
 }
 
 ChapterDatum _chapterDatumDeserialize(
@@ -2316,12 +2364,16 @@ ChapterDatum _chapterDatumDeserialize(
     chapterGoal: reader.readStringOrNull(offsets[1]),
     chapterId: reader.readLongOrNull(offsets[2]),
     chapterName: reader.readStringOrNull(offsets[3]),
+    competencyCode: reader.readStringOrNull(offsets[4]),
+    competencyName: reader.readStringOrNull(offsets[5]),
     missionData: reader.readObjectList<MissionDatum>(
-      offsets[4],
+      offsets[6],
       MissionDatumSchema.deserialize,
       allOffsets,
       MissionDatum(),
     ),
+    peopleCategoryCode: reader.readStringOrNull(offsets[7]),
+    peopleCategoryName: reader.readStringOrNull(offsets[8]),
   );
   return object;
 }
@@ -2342,12 +2394,20 @@ P _chapterDatumDeserializeProp<P>(
     case 3:
       return (reader.readStringOrNull(offset)) as P;
     case 4:
+      return (reader.readStringOrNull(offset)) as P;
+    case 5:
+      return (reader.readStringOrNull(offset)) as P;
+    case 6:
       return (reader.readObjectList<MissionDatum>(
         offset,
         MissionDatumSchema.deserialize,
         allOffsets,
         MissionDatum(),
       )) as P;
+    case 7:
+      return (reader.readStringOrNull(offset)) as P;
+    case 8:
+      return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -2892,6 +2952,314 @@ extension ChapterDatumQueryFilter
   }
 
   QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      competencyCodeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'competencyCode',
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      competencyCodeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'competencyCode',
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      competencyCodeEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'competencyCode',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      competencyCodeGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'competencyCode',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      competencyCodeLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'competencyCode',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      competencyCodeBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'competencyCode',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      competencyCodeStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'competencyCode',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      competencyCodeEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'competencyCode',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      competencyCodeContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'competencyCode',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      competencyCodeMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'competencyCode',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      competencyCodeIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'competencyCode',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      competencyCodeIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'competencyCode',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      competencyNameIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'competencyName',
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      competencyNameIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'competencyName',
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      competencyNameEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'competencyName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      competencyNameGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'competencyName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      competencyNameLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'competencyName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      competencyNameBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'competencyName',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      competencyNameStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'competencyName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      competencyNameEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'competencyName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      competencyNameContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'competencyName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      competencyNameMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'competencyName',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      competencyNameIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'competencyName',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      competencyNameIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'competencyName',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
       missionDataIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -2995,6 +3363,314 @@ extension ChapterDatumQueryFilter
         upper,
         includeUpper,
       );
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      peopleCategoryCodeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'peopleCategoryCode',
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      peopleCategoryCodeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'peopleCategoryCode',
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      peopleCategoryCodeEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'peopleCategoryCode',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      peopleCategoryCodeGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'peopleCategoryCode',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      peopleCategoryCodeLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'peopleCategoryCode',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      peopleCategoryCodeBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'peopleCategoryCode',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      peopleCategoryCodeStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'peopleCategoryCode',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      peopleCategoryCodeEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'peopleCategoryCode',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      peopleCategoryCodeContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'peopleCategoryCode',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      peopleCategoryCodeMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'peopleCategoryCode',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      peopleCategoryCodeIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'peopleCategoryCode',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      peopleCategoryCodeIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'peopleCategoryCode',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      peopleCategoryNameIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'peopleCategoryName',
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      peopleCategoryNameIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'peopleCategoryName',
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      peopleCategoryNameEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'peopleCategoryName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      peopleCategoryNameGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'peopleCategoryName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      peopleCategoryNameLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'peopleCategoryName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      peopleCategoryNameBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'peopleCategoryName',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      peopleCategoryNameStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'peopleCategoryName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      peopleCategoryNameEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'peopleCategoryName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      peopleCategoryNameContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'peopleCategoryName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      peopleCategoryNameMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'peopleCategoryName',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      peopleCategoryNameIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'peopleCategoryName',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ChapterDatum, ChapterDatum, QAfterFilterCondition>
+      peopleCategoryNameIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'peopleCategoryName',
+        value: '',
+      ));
     });
   }
 }
