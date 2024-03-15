@@ -141,7 +141,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                 color: ColorTheme.neutral600),
                           ),
                           Text(
-                            gamification.chapterData![0].competencyName!,
+                            gamification.chapterData![0].competencyName??'',
                             style: TextStyle(
                                 fontSize: 12.sp, color: ColorTheme.neutral600),
                           ),
@@ -156,7 +156,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                   horizontal: 8.w, vertical: 4.h),
                               child: Text(
                                 gamification
-                                    .chapterData![0].peopleCategoryName!,
+                                    .chapterData![0].peopleCategoryName??'',
                                 style: TextStyle(
                                     fontSize: 12.sp,
                                     color: ColorTheme.primary500),
@@ -188,7 +188,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                     SvgPicture.asset(ImageConstant.iconReward,
                                         width: 16.sp,
                                         height: 20.sp,
-                                        package: Constant.moduleBPS),
+                                        package: Constant.moduleEtamkawa),
                                     const SizedBox(
                                       height: 5,
                                     ),
@@ -223,7 +223,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                     SvgPicture.asset(ImageConstant.iconDuration,
                                         width: 16.sp,
                                         height: 20.sp,
-                                        package: Constant.moduleBPS),
+                                        package: Constant.moduleEtamkawa),
                                     const SizedBox(
                                       height: 5,
                                     ),
@@ -325,7 +325,7 @@ Widget addTaskIfQuizz(bool isAssignment, int totalTask) {
       SvgPicture.asset(ImageConstant.iconTask,
           width: 16.sp,
           height: 20.sp,
-          package: Constant.moduleBPS),
+          package: Constant.moduleEtamkawa),
       const SizedBox(
         height: 5,
       ),

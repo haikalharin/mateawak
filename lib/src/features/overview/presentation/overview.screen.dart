@@ -141,7 +141,7 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'Richard Papangayan',
+                                              news.title??'',
                                               style: TextStyle(
                                                 fontWeight: FontWeight.normal,
                                                 fontSize: 16.sp,
