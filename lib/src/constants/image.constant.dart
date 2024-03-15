@@ -19,6 +19,10 @@ class ImageConstant {
   static const String logoAdt = 'assets/images/logo_adt.png';
   static const String logoAdt58 = 'assets/images/logo_adt_58.png';
 
+  //mission
+  static const String iconReward = 'assets/images/icon_reward.svg';
+  static const String iconCalendar = 'assets/images/icon_calendar.svg';
+
   //main nav
   static const String iconOverview = 'assets/images/icon_overview.svg';
   static const String iconSiteperform = 'assets/images/icon_siteperform.svg';

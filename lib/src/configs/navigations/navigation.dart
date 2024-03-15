@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:module_etamkawa/src/configs/navigations/routes.dart';
+import 'package:module_etamkawa/src/features/mission_detail/presentation/mission.detail.screen.dart';
 import 'package:module_etamkawa/src/features/overview/presentation/overview.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/task.screen.dart';
 import 'package:module_shared/module_shared.dart';
@@ -31,9 +32,13 @@ GoRouter goRouter(GoRouterRef ref) {
             path: detailMissionEtamkawa,
             name: detailMissionEtamkawa,
             builder: (BuildContext context, GoRouterState state) {
+              Map<String, dynamic> param =
+              state.extra as Map<String, dynamic>;
               return SharedComponent.banner(
                   dotenv.env[EnvConstant.environment]!,
-                  const ConnectionListenerWidget(child: OverviewScreen()));
+                  ConnectionListenerWidget(child: MissionDetailScreen(
+                    gamification: param[Constant.gamification],
+                  )));
             }),
         GoRoute(
             path: taskMissionEtamkawa,
@@ -68,9 +73,13 @@ List<RouteBase> routeEtamkawa = [
             path: detailMissionEtamkawa,
             name: detailMissionEtamkawa,
             builder: (BuildContext context, GoRouterState state) {
+              Map<String, dynamic> param =
+              state.extra as Map<String, dynamic>;
               return SharedComponent.banner(
                   dotenv.env[EnvConstant.environment]!,
-                  const ConnectionListenerWidget(child: OverviewScreen()));
+                   ConnectionListenerWidget(child: MissionDetailScreen(
+                    gamification: param[Constant.gamification],
+                  )));
             }),
         GoRoute(
             path: taskMissionEtamkawa,
