@@ -275,7 +275,7 @@ class Constant {
                   "taskCode": "T0000054",
                   "taskGroup": "G0001",
                   "taskCaption": "Task 4",
-                  "taskTypeCode": "TT0001",
+                  "taskTypeCode": "SCQ",
                   "taskTypeName": "Task Type 1",
                   "taskReward": 50,
                   "answerData": [
@@ -323,7 +323,7 @@ class Constant {
                   "taskCode": "T0000053",
                   "taskGroup": "G0001",
                   "taskCaption": "Task 3",
-                  "taskTypeCode": "TT0001",
+                  "taskTypeCode": "MCQ",
                   "taskTypeName": "Task Type 1",
                   "taskReward": 50,
                   "answerData": [
@@ -371,7 +371,7 @@ class Constant {
                   "taskCode": "T0000051",
                   "taskGroup": "G0001",
                   "taskCaption": "Task 1",
-                  "taskTypeCode": "TT0001",
+                  "taskTypeCode": "YNQ",
                   "taskTypeName": "Task Type 1",
                   "taskReward": 50,
                   "answerData": [
@@ -419,7 +419,7 @@ class Constant {
                   "taskCode": "T0000052",
                   "taskGroup": "G0001",
                   "taskCaption": "Task 2",
-                  "taskTypeCode": "TT0001",
+                  "taskTypeCode": "STX",
                   "taskTypeName": "Task Type 1",
                   "taskReward": 50,
                   "answerData": [
