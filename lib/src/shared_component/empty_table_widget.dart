@@ -36,7 +36,7 @@ class EmptyTableWidget extends StatelessWidget {
             SizedBox(height: 12.h),
             Image.asset(
               ImageConstant.logoBSpace,
-              package: Constant.moduleBPS,
+              package: Constant.moduleEtamkawa,
             ),
             SizedBox(height: 8.h),
             SharedComponent.label(

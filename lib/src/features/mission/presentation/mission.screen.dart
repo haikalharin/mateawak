@@ -170,7 +170,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                             SvgPicture.asset(ImageConstant.iconReward,
                                 width: 16.sp,
                                 height: 16.sp,
-                                package: Constant.moduleBPS),
+                                package: Constant.moduleEtamkawa),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(3, 0, 0, 0),
                               child: Text(
@@ -199,7 +199,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                         SvgPicture.asset(ImageConstant.iconCalendar,
                             width: 16.sp,
                             height: 16.sp,
-                            package: Constant.moduleBPS),
+                            package: Constant.moduleEtamkawa),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(3, 0, 0, 0),
                           child: Text(
@@ -225,6 +225,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                         onPressed: () {
                           ctrlTask.putDetailMissionData(
                               missionDatum: listData[index],
+                              listMission: listData,
                               gamificationResponseRemote: gamification);
                           context.goNamed(detailMissionEtamkawa, extra: {
                             Constant.gamification: (gamification),

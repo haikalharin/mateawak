@@ -1,8 +1,8 @@
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:module_etamkawa/src/features/task/presentation/widget/task_file.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_free_text.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_multi_choice.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_rating.screen.dart';
@@ -54,7 +54,6 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     return WillPopScope(
       onWillPop: () {
         context.pop();
-        context.pop();
         return Future.value(false);
       },
       child: Scaffold(
@@ -69,6 +68,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
           final currentQuestionProgress = ref.watch(currentProgressState);
           final listTask = ref.watch(listTaskState);
           final missionData = ref.watch(missionDataState);
+          final gamificationData = ref.watch(gamificationState);
 
           return Column(
             children: [
@@ -101,7 +101,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Intro to Etam Kawa',
+                                  gamificationData.chapterData?.single.chapterName??'',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16.sp,
@@ -188,26 +188,34 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                   ),
                 ),
               ),
-              listTask[currentQuestionIndex.state].taskTypeCode == 'TT0001'
+              listTask[currentQuestionIndex.state].taskTypeCode ==
+                          TaskType.SCQ.name ||
+                      listTask[currentQuestionIndex.state].taskTypeCode ==
+                          TaskType.YNQ.name
                   ? const Expanded(
-                      child: TaskSingleChoiceScreen(
-                      ),
+                      child: TaskSingleChoiceScreen(),
                     )
                   : Container(),
-              listTask[currentQuestionIndex.state].taskTypeCode == 'TT0002'
+              listTask[currentQuestionIndex.state].taskTypeCode ==
+                      TaskType.MCQ.name
                   ? const Expanded(
                       child: TaskMultiChoiceScreen(),
                     )
                   : Container(),
-              listTask[currentQuestionIndex.state].taskTypeCode == 'TT0003'
+              listTask[currentQuestionIndex.state].taskTypeCode == TaskType.STX.name
                   ? const Expanded(
-                child: TaskFreeTextScreen(),
-              )
+                      child: TaskFreeTextScreen(),
+                    )
                   : Container(),
-              listTask[currentQuestionIndex.state].taskTypeCode == 'TT0004'
+              listTask[currentQuestionIndex.state].taskTypeCode ==  TaskType.RAT.name
                   ? const Expanded(
-                child: TaskRatingScreen(),
-              )
+                      child: TaskRatingScreen(),
+                    )
+                  : Container(),
+              listTask[currentQuestionIndex.state].taskTypeCode == 'TT0005'
+                  ? const Expanded(
+                      child: TaskFileScreen(),
+                    )
                   : Container(),
             ],
           );

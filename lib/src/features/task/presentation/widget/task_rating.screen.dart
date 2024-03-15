@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_shared/module_shared.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
+import '../../../../configs/theme/color.theme.dart';
 import '../controller/task.controller.dart';
 
 class TaskRatingScreen extends ConsumerStatefulWidget {
@@ -16,8 +17,7 @@ class TaskRatingScreen extends ConsumerStatefulWidget {
       _TaskRatingScreenState();
 }
 
-class _TaskRatingScreenState
-    extends ConsumerState<TaskRatingScreen> {
+class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
   var groupValue = 0;
 
   // int currentQuestionIndex = 0;
@@ -33,6 +33,7 @@ class _TaskRatingScreenState
         final currentQuestionProgress = ref.watch(currentProgressState);
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
+        final listMission = ref.watch(listMissionState);
         return Scaffold(
             backgroundColor: ColorTheme.backgroundLight,
             body: ListView(
@@ -51,6 +52,67 @@ class _TaskRatingScreenState
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "${currentQuestionIndex.state + 1}/${listMission.length}",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.sp,
+                                    color: ColorTheme.textDark,
+                                  ),
+                                ),
+                                Container(
+                                  width: 75.h,
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.all(4),
+                                        decoration: BoxDecoration(
+                                            color:
+                                            ColorThemeEtamkawa.secondary100,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(5.r))),
+                                        child: Center(
+                                            child: Container(
+                                              height: 24.h,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                                children: [
+                                                  Icon(
+                                                    Icons.star,
+                                                    color:
+                                                    ColorThemeEtamkawa.secondary500,
+                                                    size: 12.h,
+                                                  ),
+                                                  Text(
+                                                    " +${listTask[currentQuestionIndex.state].taskReward}",
+                                                    style: TextStyle(
+                                                      fontSize: 12.sp,
+                                                      color: ColorTheme.secondary500,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            )),
+                                      ),
+                                      Icon(
+                                        Icons.info,
+                                        color:
+                                        ColorThemeEtamkawa.primaryNew,
+                                        size: 24.h,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                             const SizedBox(
                               height: 8,
                             ),
@@ -81,36 +143,24 @@ class _TaskRatingScreenState
                             ),
                             const Divider(),
                             const SizedBox(height: 20.0),
-                            ListView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: listTask[currentQuestionIndex.state]
-                                  .answerData
-                                  ?.length,
-                              itemBuilder: (BuildContext context, int index) {
-
-                                return RatingBar.builder(
-                                  initialRating: 3,
-                                  minRating: 1,
-                                  direction: Axis.horizontal,
-                                  allowHalfRating: true,
-                                  itemCount: 5,
-                                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                                  itemBuilder: (context, _) => Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                  ),
-                                  onRatingUpdate: (rating) {
-                                    if (rating != 0) {
-                                      if (listSelectedOption
-                                          .state.isNotEmpty) {
-                                        listSelectedOption.state.clear();
-                                      }
-                                      listSelectedOption.state.add(
-                                          rating.toInt());
-                                    }
-                                  },
-                                );
+                            RatingBar.builder(
+                              initialRating: 0,
+                              minRating: 1,
+                              direction: Axis.horizontal,
+                              itemCount: 5,
+                              itemPadding:
+                                  const EdgeInsets.symmetric(horizontal: 4.0),
+                              itemBuilder: (context, _) => const Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              onRatingUpdate: (rating) {
+                                if (rating != 0) {
+                                  if (listSelectedOption.state.isNotEmpty) {
+                                    listSelectedOption.state.clear();
+                                  }
+                                  listSelectedOption.state.add(rating.toInt());
+                                }
                               },
                             ),
                           ],
@@ -152,7 +202,7 @@ class _TaskRatingScreenState
                                         .watch(currentProgressState.notifier)
                                         .state++;
                                     ref
-                                        .read(listSelectOptionState.notifier)
+                                        .watch(listSelectOptionState.notifier)
                                         .state = [];
                                   });
                                 } else {
@@ -178,7 +228,7 @@ class _TaskRatingScreenState
                                     }
 
                                     ref
-                                        .read(listSelectOptionState.notifier)
+                                        .watch(listSelectOptionState.notifier)
                                         .state = [];
                                     showDialog(
                                       context: context,

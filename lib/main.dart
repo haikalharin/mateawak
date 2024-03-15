@@ -8,6 +8,7 @@ import 'package:module_etamkawa/src/initializer.dart';
 import 'package:module_shared/module_shared.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   Initializer.initScreenPreference();
   await Initializer.initStorage();
   final appConfig = AppConfig(appName: "Etamkawa", flavor: FlavorType.dev);

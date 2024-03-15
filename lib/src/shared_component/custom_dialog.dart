@@ -41,7 +41,7 @@ class CustomDialog extends StatelessWidget {
                   : (type == DialogType.error)
                       ? ImageConstant.iconDialogError
                       : ImageConstant.iconDialogSuccess,
-              package: Constant.moduleBPS,
+              package: Constant.moduleEtamkawa,
             ),
             SizedBox(height: 10.h),
             SharedComponent.label(
