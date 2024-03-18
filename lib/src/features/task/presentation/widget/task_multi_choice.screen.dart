@@ -224,38 +224,40 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                 Colors.white),
                                       ),
                                       onPressed: () {
-                                        ctrl.prevQuestion().whenComplete(() {
-                                          currentQuestionIndex.state--;
-                                          ref
-                                              .watch(
-                                                  currentProgressState.notifier)
-                                              .state--;
-                                          if (ref
-                                              .watch(previousTypeTaskState
-                                              .notifier)
-                                              .state ==
-                                              TaskType.STX.name) {
+                                        setState(() {
+                                          ctrl.prevQuestion().whenComplete(() {
+                                            currentQuestionIndex.state--;
                                             ref
                                                 .watch(
-                                                listSelectOptionStringState
-                                                    .notifier)
-                                                .state =
-                                                ref
-                                                    .watch(
-                                                    listSelectOptionPrevStringState
-                                                        .notifier)
-                                                    .state;
-                                          } else {
-                                            ref
-                                                .watch(listSelectOptionState
+                                                currentProgressState.notifier)
+                                                .state--;
+                                            if (ref
+                                                .watch(previousTypeTaskState
                                                 .notifier)
-                                                .state =
-                                                ref
-                                                    .watch(
-                                                    listSelectOptionPrevState
-                                                        .notifier)
-                                                    .state;
-                                          }
+                                                .state ==
+                                                TaskType.STX.name) {
+                                              ref
+                                                  .watch(
+                                                  listSelectOptionStringState
+                                                      .notifier)
+                                                  .state =
+                                                  ref
+                                                      .watch(
+                                                      listSelectOptionPrevStringState
+                                                          .notifier)
+                                                      .state;
+                                            } else {
+                                              ref
+                                                  .watch(listSelectOptionState
+                                                  .notifier)
+                                                  .state =
+                                                  ref
+                                                      .watch(
+                                                      listSelectOptionPrevState
+                                                          .notifier)
+                                                      .state;
+                                            }
+                                          });
                                         });
                                       },
                                       child: Text(
@@ -290,6 +292,10 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                   '')
                                               .whenComplete(() {
                                             currentQuestionIndex.state++;
+                                            ref
+                                                .watch(
+                                                currentProgressState.notifier)
+                                                .state++;
                                             if (ref
                                                 .watch(
                                                 nextTypeTaskState.notifier)

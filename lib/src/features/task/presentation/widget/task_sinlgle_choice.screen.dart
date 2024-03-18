@@ -297,7 +297,6 @@ class _TaskSingleChoiceScreenState
                                                       .taskTypeCode ??
                                                   '')
                                           .whenComplete(() {
-                                            setState(() {
                                               currentQuestionIndex.state++;
                                               ref
                                                   .watch(
@@ -330,7 +329,6 @@ class _TaskSingleChoiceScreenState
                                                             .notifier)
                                                         .state;
                                               }
-                                            });
 
                                       });
                                     });

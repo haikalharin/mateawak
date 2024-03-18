@@ -45,11 +45,11 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
             .watch(
             previousTypeTaskState.notifier)
             .state ==
-            TaskType.MCQ.name|| ref
+            TaskType.STX.name|| ref
             .watch(
             nextTypeTaskState.notifier)
             .state ==
-            TaskType.MCQ.name){
+            TaskType.STX.name){
           if (isInit) {
 
             if (ref
