@@ -33,6 +33,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
   String? _docFilePath;
   var groupValue = 0;
   String? _docFilePathName;
+  bool isInit = true;
 
   // int currentQuestionIndex = 0;
   // String? selectedOption;
@@ -46,10 +47,36 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
         final attachment = ref.watch(attachmentBase64State.notifier);
         final attachmentName = ref.watch(attachmentNameState.notifier);
         final listSelectedOptionString =
-            ref.watch(listSelectOptionStringState.notifier);
+            ref.read(listSelectOptionStringState);
         final currentQuestionProgress = ref.watch(currentProgressState);
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
+        if(ref
+            .watch(
+            previousTypeTaskState.notifier)
+            .state ==
+            TaskType.STX.name|| ref
+            .watch(
+            nextTypeTaskState.notifier)
+            .state ==
+            TaskType.STX.name){
+          if (isInit) {
+
+            if (ref
+                .watch(listSelectOptionStringState.notifier)
+                .state
+                .isNotEmpty) {
+                _textController.text = ref
+                    .watch(listSelectOptionStringState.notifier)
+                    .state
+                    .single;
+
+
+            }
+
+          }
+          isInit = false;
+        }
 
         return Scaffold(
             backgroundColor: ColorTheme.backgroundLight,
@@ -360,11 +387,17 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                 maxLines: 10,
                                 onChanged: (value) {
                                   if (value.isNotEmpty) {
-                                    if (listSelectedOptionString
-                                        .state.isNotEmpty) {
-                                      listSelectedOptionString.state.clear();
+                                    if (listSelectedOptionString.isNotEmpty) {
+                                      ref
+                                          .watch(listSelectOptionStringState
+                                          .notifier)
+                                          .state
+                                          .clear();
                                     }
-                                    listSelectedOptionString.state.add(value);
+                                    ref
+                                        .watch(listSelectOptionStringState
+                                        .notifier)
+                                        .state = [value];
                                   }
                                 }, // Allows multiple lines of input
                               ),
@@ -388,8 +421,6 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             0 < currentQuestionIndex.state  &&
-                                currentQuestionIndex.state + 1 <
-                                    lengthAnswer &&
                                 lengthAnswer != 1
                                 ? Expanded(
                               child: ElevatedButton(
@@ -402,15 +433,38 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                       Colors.white),
                                 ),
                                 onPressed: () {
-                                  setState(() async {
-                                    ctrl
-                                        .prevQuestion(TaskType.MCQ)
-                                        .whenComplete(() {
-                                      currentQuestionIndex.state--;
+                                  ctrl.prevQuestion().whenComplete(() {
+                                    currentQuestionIndex.state--;
+                                    ref
+                                        .watch(
+                                        currentProgressState.notifier)
+                                        .state--;
+                                    if (ref
+                                        .watch(
+                                        previousTypeTaskState.notifier)
+                                        .state ==
+                                        TaskType.STX.name) {
                                       ref
-                                          .watch(currentProgressState.notifier)
-                                          .state--;
-                                    });
+                                          .watch(
+                                          listSelectOptionStringState
+                                              .notifier)
+                                          .state =
+                                          ref
+                                              .watch(
+                                              listSelectOptionPrevStringState
+                                                  .notifier)
+                                              .state;
+                                    } else {
+                                      ref
+                                          .watch(listSelectOptionState
+                                          .notifier)
+                                          .state =
+                                          ref
+                                              .watch(
+                                              listSelectOptionPrevState
+                                                  .notifier)
+                                              .state;
+                                    }
                                   });
 
                                 },
@@ -424,33 +478,59 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                             Expanded(
                               child: ElevatedButton(
                                 onPressed: () {
-                                  if (listSelectedOptionString.state.isNotEmpty) {
-                                    setState(() {
+                                  if (listSelectedOptionString.isNotEmpty) {
                                       if ((currentQuestionIndex.state + 1) <
                                               lengthAnswer &&
                                           lengthAnswer != 1) {
-                                        ctrl
-                                            .saveAnswer(
-                                                listTask[currentQuestionIndex.state]
-                                                        .taskId ??
-                                                    0,
-                                                isLast: false,
-                                                listSelectedOption:
-                                                    listSelectedOptionString.state,
-                                                attachment: attachment.state,
-                                                type: listTask[currentQuestionIndex
-                                                            .state]
-                                                        .taskTypeCode ??
-                                                    '')
-                                            .whenComplete(() {
-                                          currentQuestionIndex.state++;
-                                          ref
-                                              .watch(currentProgressState.notifier)
-                                              .state++;
-                                          ref
-                                              .watch(listSelectOptionStringState
+                                        ctrl.nextQuestion(isLast: false).whenComplete(() async {
+                                          await  ctrl
+                                              .saveAnswer(
+                                              listTask[currentQuestionIndex
+                                                  .state]
+                                                  .taskId ??
+                                                  0,
+                                              isLast: false,
+                                              listSelectedOption:
+                                              listSelectedOptionString,
+                                              type: listTask[
+                                              currentQuestionIndex
+                                                  .state]
+                                                  .taskTypeCode ??
+                                                  '')
+                                              .whenComplete(() {
+                                            currentQuestionIndex.state++;
+                                            ref
+                                                .watch(
+                                                currentProgressState.notifier)
+                                                .state++;
+                                            if (ref
+                                                .watch(
+                                                nextTypeTaskState.notifier)
+                                                .state ==
+                                                TaskType.STX.name) {
+                                              ref
+                                                  .watch(listSelectOptionStringState
                                                   .notifier)
-                                              .state = [];
+                                                  .state =
+                                                  ref
+                                                      .watch(listSelectOptionNextStringState
+                                                      .notifier)
+                                                      .state;
+                                            } else {
+                                              ref
+                                                  .watch(listSelectOptionState
+                                                  .notifier)
+                                                  .state =
+                                                  ref
+                                                      .watch(
+                                                      listSelectOptionNextState
+                                                          .notifier)
+                                                      .state;
+                                            }
+
+                                            _textController.clear();
+                                            isInit = true;
+                                          });
                                         });
                                       } else {
                                         ctrl
@@ -461,7 +541,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                 isLast: true,
                                             attachment: attachment.state,
                                                 listSelectedOption:
-                                                    listSelectedOptionString.state,
+                                                    listSelectedOptionString,
                                                 type: listTask[currentQuestionIndex
                                                             .state]
                                                         .taskTypeCode ??
@@ -476,9 +556,13 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                           }
 
                                           ref
-                                              .read(listSelectOptionStringState
+                                              .watch(
+                                              listSelectOptionStringState
                                                   .notifier)
-                                              .state = [];
+                                              .state
+                                              .clear();
+                                          _textController.clear();
+                                          isInit = true;
                                           showDialog(
                                             context: context,
                                             builder: (_) => AlertDialog(
@@ -498,7 +582,6 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                           );
                                         });
                                       }
-                                    });
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(

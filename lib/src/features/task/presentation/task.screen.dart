@@ -51,26 +51,32 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     // final isScrolled = ref.watch(isScrollProvider);
 
     // final indexMenuOverview = ref.watch(indexMenuOverviewProvider);
-    return WillPopScope(
-      onWillPop: () {
-        context.pop();
-        return Future.value(false);
-      },
-      child: Scaffold(
-        backgroundColor: ColorTheme.backgroundLight,
-        appBar: SharedComponentEtamkawa.appBar(
-          context: context,
-          title: 'Mission',
-          brightnessIconStatusBar: Brightness.light,
-        ),
-        body: Consumer(builder: (context, ref, child) {
-          final currentQuestionIndex = ref.read(currentIndexState.notifier);
-          final currentQuestionProgress = ref.watch(currentProgressState);
-          final listTask = ref.watch(listTaskState);
-          final missionData = ref.watch(missionDataState);
-          final gamificationData = ref.watch(gamificationState);
+    return Consumer(builder: (context, ref, child) {
+      final ctrl = ref.watch(taskControllerProvider.notifier);
+      final currentQuestionIndex = ref.read(currentIndexState.notifier);
+      final currentQuestionProgress = ref.watch(currentProgressState);
+      final listTask = ref.watch(listTaskState);
+      final missionData = ref.watch(missionDataState);
+      final gamificationData = ref.watch(gamificationState);
 
-          return Column(
+      return WillPopScope(
+        onWillPop: () {
+          return Future.value(false);
+        },
+        child: Scaffold(
+          backgroundColor: ColorTheme.backgroundLight,
+          appBar: SharedComponentEtamkawa.appBar(
+            context: context,
+            title: 'Mission',
+            brightnessIconStatusBar: Brightness.light,
+            onBack: (){
+              ctrl.deleteAnswer(ctrl.listTaskAnswer).whenComplete(() {
+                Navigator.of(context).pop();
+              });
+
+            }
+          ),
+          body: Column(
             children: [
               const Divider(
                 height: 0.5,
@@ -101,7 +107,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  gamificationData.chapterData?.single.chapterName??'',
+                                  gamificationData
+                                          .chapterData?.single.chapterName ??
+                                      '',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16.sp,
@@ -202,12 +210,14 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                       child: TaskMultiChoiceScreen(),
                     )
                   : Container(),
-              listTask[currentQuestionIndex.state].taskTypeCode == TaskType.STX.name
+              listTask[currentQuestionIndex.state].taskTypeCode ==
+                      TaskType.STX.name
                   ? const Expanded(
                       child: TaskFreeTextScreen(),
                     )
                   : Container(),
-              listTask[currentQuestionIndex.state].taskTypeCode ==  TaskType.RAT.name
+              listTask[currentQuestionIndex.state].taskTypeCode ==
+                      TaskType.RAT.name
                   ? const Expanded(
                       child: TaskRatingScreen(),
                     )
@@ -218,9 +228,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                     )
                   : Container(),
             ],
-          );
-        }),
-      ),
-    );
+          ),
+        ),
+      );
+    });
   }
 }

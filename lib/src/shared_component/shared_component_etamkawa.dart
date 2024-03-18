@@ -10,6 +10,7 @@ class SharedComponentEtamkawa{
         required String title,
         List<Widget>? actions,
         bool? centerTitle,
+        Function()? onBack,
         Brightness? brightnessIconStatusBar = Brightness.light,
         bool? isLeading}) {
     return AppBar(
@@ -21,9 +22,9 @@ class SharedComponentEtamkawa{
       leading: (isLeading ?? true)
           ? IconButton(
         icon: const Icon(Icons.arrow_back),
-        onPressed: () {
+        onPressed: onBack ?? () {
           Navigator.of(context).pop();
-          },
+        },
       )
           : null,
       actions: actions,

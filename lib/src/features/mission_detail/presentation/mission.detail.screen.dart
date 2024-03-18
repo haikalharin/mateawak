@@ -67,6 +67,8 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
             body: Consumer(
                 builder: (BuildContext context, WidgetRef ref, Widget? child) {
               final gamification = ref.watch(gamificationState.notifier).state;
+              final ctrlTask = ref.watch(taskControllerProvider.notifier);
+
               return Column(children: [
                 Container(
                   margin: const EdgeInsets.all(15),
@@ -291,12 +293,15 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                           width: double.infinity,
                           child: ElevatedButton(
                               onPressed: () {
-                                context.goNamed(taskMissionEtamkawa, extra: {
-                                  Constant.listTask: (gamification
-                                      .chapterData![0]
-                                      .missionData![0]
-                                      .taskData),
+                                ctrlTask.deleteAnswer(ctrlTask.listTaskAnswer).whenComplete(() {
+                                  context.goNamed(taskMissionEtamkawa, extra: {
+                                    Constant.listTask: (gamification
+                                        .chapterData![0]
+                                        .missionData![0]
+                                        .taskData),
+                                  });
                                 });
+
                               },
                               child: const Text('Start'))),
                     ),
