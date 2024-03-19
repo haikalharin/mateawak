@@ -296,8 +296,8 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                 ctrlTask.deleteAnswer(ctrlTask.listTaskAnswer).whenComplete(() {
                                   context.goNamed(taskMissionEtamkawa, extra: {
                                     Constant.listTask: (gamification
-                                        .chapterData![0]
-                                        .missionData![0]
+                                        .chapterData?.single
+                                        .missionData?.single
                                         .taskData),
                                   });
                                 });

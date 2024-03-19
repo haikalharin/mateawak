@@ -230,14 +230,45 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                             color: ColorTheme.primary500,
                           ),
                         ),
-                        onPressed: () {
-                          ctrlTask.putDetailMissionData(
+                        onPressed: () async {
+                          await ctrlTask.putDetailMissionData(
                               missionDatum: listData[index],
                               listMission: listData,
-                              gamificationResponseRemote: gamification);
-                          context.goNamed(detailMissionEtamkawa, extra: {
-                            Constant.gamification: (gamification),
+                              gamificationResponseRemote: gamification).whenComplete(() async {
+                                await ctrlTask.currentQuestion().whenComplete(() {
+                                  if (ref
+                                      .watch(previousTypeTaskState
+                                      .notifier)
+                                      .state ==
+                                      TaskType.STX.name) {
+                                    ref
+                                        .watch(
+                                        listSelectOptionStringState
+                                            .notifier)
+                                        .state =
+                                        ref
+                                            .watch(
+                                            listSelectOptionCurrentStringState
+                                                .notifier)
+                                            .state;
+                                  } else {
+                                    ref
+                                        .watch(listSelectOptionState
+                                        .notifier)
+                                        .state =
+                                        ref
+                                            .watch(
+                                            listSelectOptionCurrentState
+                                                .notifier)
+                                            .state;
+                                  }
+                                  context.goNamed(detailMissionEtamkawa, extra: {
+                                    Constant.gamification: (gamification),
+                                  });
+
+                                });
                           });
+
 
                           // context.goNamed(detailMissionEtamkawa);
                         },

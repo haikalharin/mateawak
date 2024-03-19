@@ -30,7 +30,8 @@ Future<Isar> isarInstance(IsarInstanceRef ref) async {
         NewsResponseRemoteSchema,
         DownloadAttachmentNewsRequestRemoteSchema,
         GamificationResponseRemoteSchema,
-        TaskDatumAnswerRequestRemoteSchema
+        TaskDatumAnswerRequestRemoteSchema,
+        AnswerRequestRemoteSchema
 
 
       ], directory: dir.path, name: Constant.etamkawaIsarInstance);
