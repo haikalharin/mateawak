@@ -16,7 +16,7 @@ class TaskMultiChoiceScreen extends ConsumerStatefulWidget {
 
 class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
   // int currentQuestionIndex = 0;
-  // String? selectedOption;
+  List<int> listData = [];
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final ctrl = ref.watch(taskControllerProvider.notifier);
         final currentQuestionIndex = ref.watch(currentIndexState.notifier);
-        final listSelectedOption = ref.watch(listSelectOptionState);
+        final listSelectedOption = ref.watch(listSelectOptionState.notifier);
         final listTask = ref.watch(listTaskState);
         final currentQuestionProgress = ref.watch(currentProgressState);
         final lengthAnswer = ref.watch(listTaskState).length;
@@ -69,8 +69,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                       Container(
                                         padding: EdgeInsets.all(4),
                                         decoration: BoxDecoration(
-                                            color:
-                                                ColorThemeEtamkawa.secondary100,
+                                            color: ColorTheme.secondary100,
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(5.r))),
                                         child: Center(
@@ -157,7 +156,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                       const EdgeInsets.symmetric(vertical: 8.0),
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: listSelectedOption.contains(
+                                      color: listSelectedOption.state.contains(
                                               listAnswer?[index].answerId)
                                           ? ColorTheme.primaryNew
                                           : ColorTheme
@@ -171,17 +170,24 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                         ListTileControlAffinity.leading,
                                     title: Text(
                                         listAnswer?[index].answerCaption ?? ''),
-                                    value: listSelectedOption.contains(
-                                        listAnswer?[index].answerId ?? 0),
+                                    value: ref
+                                        .watch(listSelectOptionState.notifier)
+                                        .state
+                                        .contains(
+                                            listAnswer?[index].answerId ?? 0),
                                     onChanged: (bool? value) {
                                       setState(() {
                                         if (value != null && value) {
-                                          listSelectedOption.add(
+                                          listData.add(
                                               listAnswer?[index].answerId ?? 0);
                                         } else {
-                                          listSelectedOption.remove(
+                                          listData.remove(
                                               listAnswer?[index].answerId ?? 0);
                                         }
+                                        ref
+                                            .watch(
+                                                listSelectOptionState.notifier)
+                                            .state = listData;
                                       });
                                     },
                                   ),
@@ -206,32 +212,53 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            0 < currentQuestionIndex.state  &&
-                                    currentQuestionIndex.state + 1 <
-                                        lengthAnswer &&
-                                    lengthAnswer != 1
+                            0 < currentQuestionIndex.state && lengthAnswer != 1
                                 ? Expanded(
                                     child: ElevatedButton(
                                       style: ButtonStyle(
                                         foregroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Colors.black),
+                                            MaterialStateProperty.all<Color>(
+                                                Colors.black),
                                         backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Colors.white),
+                                            MaterialStateProperty.all<Color>(
+                                                Colors.white),
                                       ),
                                       onPressed: () {
-                                          setState(() async {
-                                            ctrl
-                                                .prevQuestion(TaskType.MCQ)
-                                                .whenComplete(() {
-                                              currentQuestionIndex.state--;
+                                        setState(() {
+                                          ctrl.prevQuestion().whenComplete(() {
+                                            currentQuestionIndex.state--;
+                                            ref
+                                                .watch(
+                                                currentProgressState.notifier)
+                                                .state--;
+                                            if (ref
+                                                .watch(previousTypeTaskState
+                                                .notifier)
+                                                .state ==
+                                                TaskType.STX.name) {
                                               ref
-                                                  .watch(currentProgressState.notifier)
-                                                  .state--;
-                                            });
+                                                  .watch(
+                                                  listSelectOptionStringState
+                                                      .notifier)
+                                                  .state =
+                                                  ref
+                                                      .watch(
+                                                      listSelectOptionPrevStringState
+                                                          .notifier)
+                                                      .state;
+                                            } else {
+                                              ref
+                                                  .watch(listSelectOptionState
+                                                  .notifier)
+                                                  .state =
+                                                  ref
+                                                      .watch(
+                                                      listSelectOptionPrevState
+                                                          .notifier)
+                                                      .state;
+                                            }
                                           });
-
+                                        });
                                       },
                                       child: Text(
                                         'Previous',
@@ -242,37 +269,63 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                             SizedBox(width: 8),
                             Expanded(
                               child: ElevatedButton(
-                                onPressed: () {
-                                  if (listSelectedOption.isNotEmpty) {
-                                    setState(() async {
-                                      if ((currentQuestionIndex.state ) <
+                                onPressed: () async {
+                                  if (listSelectedOption.state.isNotEmpty) {
+                                      if ((currentQuestionIndex.state) <
                                               lengthAnswer &&
                                           lengthAnswer != 1) {
-                                        await ctrl
-                                            .saveAnswer(
-                                                listTask[currentQuestionIndex
-                                                            .state]
-                                                        .taskId ??
-                                                    0,
-                                                isLast: false,
-                                                listSelectedOption:
-                                                    listSelectedOption,
-                                                type: listTask[
-                                                            currentQuestionIndex
-                                                                .state]
-                                                        .taskTypeCode ??
-                                                    '')
-                                            .whenComplete(() {
-                                          currentQuestionIndex.state++;
-                                          ref
-                                              .watch(
-                                                  currentProgressState.notifier)
-                                              .state++;
-                                          ref
-                                              .watch(listSelectOptionState
+                                        ctrl
+                                            .nextQuestion(isLast: false)
+                                            .whenComplete(() async {
+                                          await ctrl
+                                              .saveAnswer(
+                                              listTask[currentQuestionIndex
+                                                  .state]
+                                                  .taskId ??
+                                                  0,
+                                              isLast: false,
+                                              listSelectedOption: listData,
+                                              type: listTask[
+                                              currentQuestionIndex
+                                                  .state]
+                                                  .taskTypeCode ??
+                                                  '')
+                                              .whenComplete(() {
+                                            currentQuestionIndex.state++;
+                                            ref
+                                                .watch(
+                                                currentProgressState.notifier)
+                                                .state++;
+                                            if (ref
+                                                .watch(
+                                                nextTypeTaskState.notifier)
+                                                .state ==
+                                                TaskType.STX.name) {
+                                              ref
+                                                  .watch(
+                                                  listSelectOptionStringState
+                                                      .notifier)
+                                                  .state =
+                                                  ref
+                                                      .watch(
+                                                      listSelectOptionNextStringState
+                                                          .notifier)
+                                                      .state;
+                                            } else {
+                                              ref
+                                                  .watch(listSelectOptionState
                                                   .notifier)
-                                              .state = [];
+                                                  .state =
+                                                  ref
+                                                      .watch(
+                                                      listSelectOptionNextState
+                                                          .notifier)
+                                                      .state;
+                                            }
+                                            listData.clear();
+                                          });
                                         });
+
                                       } else {
                                         await ctrl
                                             .saveAnswer(
@@ -281,8 +334,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                         .taskId ??
                                                     0,
                                                 isLast: true,
-                                                listSelectedOption:
-                                                    listSelectedOption,
+                                                listSelectedOption: listData,
                                                 type: listTask[
                                                             currentQuestionIndex
                                                                 .state]
@@ -298,11 +350,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                     .notifier)
                                                 .state++;
                                           }
-
-                                          ref
-                                              .watch(listSelectOptionState
-                                                  .notifier)
-                                              .state = [];
+                                          listData.clear();
                                           showDialog(
                                             context: context,
                                             builder: (_) => AlertDialog(
@@ -323,7 +371,6 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                           );
                                         });
                                       }
-                                    });
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(

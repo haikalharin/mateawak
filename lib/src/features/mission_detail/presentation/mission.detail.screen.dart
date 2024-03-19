@@ -58,7 +58,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
           return Future.value(false);
         },
         child: Scaffold(
-            backgroundColor: ColorTheme.neutral100,
+            backgroundColor: ColorTheme.neutral0,
             appBar: SharedComponentEtamkawa.appBar(
               context: context,
               title: 'Mission Detail',
@@ -67,6 +67,8 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
             body: Consumer(
                 builder: (BuildContext context, WidgetRef ref, Widget? child) {
               final gamification = ref.watch(gamificationState.notifier).state;
+              final ctrlTask = ref.watch(taskControllerProvider.notifier);
+
               return Column(children: [
                 Card(
                   shape: RoundedRectangleBorder(
@@ -324,9 +326,12 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                 ],
                               ),
                             )),
-                      ],
-                    ),
+                      
+                    ],
                   ),
+                ),),
+                const Divider(
+                  height: 0.5,
                 ),
                 Card(
                   shape: RoundedRectangleBorder(
@@ -336,10 +341,10 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(10.r)),
                   ),
                   elevation: 0,
-                  margin: const EdgeInsets.all(16),
+                  margin: const EdgeInsets.all(15),
                   child: Container(
                       width: MediaQuery.sizeOf(context).width,
-                      margin: const EdgeInsets.all(16),
+                      margin: const EdgeInsets.all(15),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -405,28 +410,32 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                         ),
                       ],
                     ))
-              ]);
+              )]);
             })));
   }
 }
 
 Widget addVerticalDividerIfQuizz(bool isAssignment) {
-  return VerticalDivider(
-    thickness: 1.sp,
+  return 
+  VerticalDivider(
     color: ColorTheme.strokeTertiary,
+    thickness: 2,
   );
 }
 
+
 Widget addTaskIfQuizz(bool isAssignment, int totalTask) {
-  return Column(
+  return 
+  Column(
     mainAxisAlignment: MainAxisAlignment.center,
     mainAxisSize: MainAxisSize.min,
     children: [
-      SizedBox(height: 10.h),
       SvgPicture.asset(ImageConstant.iconTask,
-          width: 16.sp, height: 20.sp, package: Constant.moduleEtamkawa),
-      SizedBox(
-        height: 6.h,
+          width: 16.sp,
+          height: 20.sp,
+          package: Constant.moduleEtamkawa),
+      const SizedBox(
+        height: 5,
       ),
       Text('Task',
           style: SharedComponent.textStyleCustom(
