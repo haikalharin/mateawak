@@ -58,7 +58,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
           return Future.value(false);
         },
         child: Scaffold(
-            backgroundColor: ColorTheme.neutral0,
+            backgroundColor: ColorTheme.neutral100,
             appBar: SharedComponentEtamkawa.appBar(
               context: context,
               title: 'Mission Detail',
@@ -68,186 +68,222 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                 builder: (BuildContext context, WidgetRef ref, Widget? child) {
               final gamification = ref.watch(gamificationState.notifier).state;
               return Column(children: [
-                Container(
-                  margin: const EdgeInsets.all(15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  gamification.chapterData![0].chapterName!,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20.sp,
-                                      color: ColorTheme.neutral600),
+                Card(
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      color: ColorTheme.strokeTertiary,
+                    ),
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(10.r),
+                        bottomRight: Radius.circular(10.r)),
+                  ),
+                  elevation: 0,
+                  margin: const EdgeInsets.all(0),
+                  child: Container(
+                    margin: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    gamification.chapterData![0].chapterName!,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.sp,
+                                        color: ColorTheme.neutral600),
+                                  ),
+                                  Text(
+                                      'Mission: ${gamification.chapterData![0].missionData![0].missionName!}',
+                                      style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: ColorTheme.neutral500)),
+                                ],
+                              ),
+                              DecoratedBox(
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.r)),
+                                    color: (gamification.missionStatusId == 0)
+                                        ? ColorTheme.neutral300
+                                        : ColorTheme.secondary100),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 8.w, vertical: 4.h),
+                                  child: Text(
+                                    gamification.missionStatus!,
+                                    style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color:
+                                            (gamification.missionStatusId == 0)
+                                                ? ColorTheme.neutral600
+                                                : ColorTheme.secondary500),
+                                  ),
                                 ),
-                                Text(
-                                    'Mission: ${gamification.chapterData![0].missionData![0].missionName!}',
-                                    style: TextStyle(fontSize: 16.sp)),
-                              ],
+                              ),
+                            ]),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        Text(
+                          'Chapter goals:',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12.sp,
+                              color: ColorTheme.neutral600),
+                        ),
+                        Text(
+                          gamification.chapterData![0].chapterGoal!,
+                          style: TextStyle(
+                              fontSize: 12.sp, color: ColorTheme.neutral500),
+                        ),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'Competency: ',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12.sp,
+                                  color: ColorTheme.neutral600),
                             ),
+                            Text(
+                              gamification.chapterData![0].competencyName ?? '',
+                              style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: ColorTheme.neutral500),
+                            ),
+                            const Spacer(),
                             DecoratedBox(
                               decoration: BoxDecoration(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(5.r)),
-                                  color: (gamification.missionStatusId == 0)
-                                      ? ColorTheme.neutral300
-                                      : ColorTheme.secondary100),
+                                  color: ColorTheme.primary100),
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 8.w, vertical: 4.h),
                                 child: Text(
-                                  gamification.missionStatus!,
+                                  gamification
+                                          .chapterData![0].peopleCategoryName ??
+                                      '',
                                   style: TextStyle(
-                                      fontSize: 16.sp,
-                                      color: (gamification.missionStatusId == 0)
-                                          ? ColorTheme.neutral600
-                                          : ColorTheme.secondary500),
+                                      fontSize: 12.sp,
+                                      color: ColorTheme.primary500),
                                 ),
                               ),
                             ),
-                          ]),
-                      SizedBox(
-                        height: 15.sp,
-                      ),
-                      Text(
-                        'Chapter goals:',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12.sp,
-                            color: ColorTheme.neutral600),
-                      ),
-                      Text(
-                        gamification.chapterData![0].chapterGoal!,
-                        style: TextStyle(
-                            fontSize: 12.sp, color: ColorTheme.neutral600),
-                      ),
-                      SizedBox(
-                        height: 15.sp,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            'Competency: ',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12.sp,
-                                color: ColorTheme.neutral600),
-                          ),
-                          Text(
-                            gamification.chapterData![0].competencyName??'',
-                            style: TextStyle(
-                                fontSize: 12.sp, color: ColorTheme.neutral600),
-                          ),
-                          const Spacer(),
-                          DecoratedBox(
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5.r)),
-                                color: ColorTheme.primary100),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 8.w, vertical: 4.h),
-                              child: Text(
-                                gamification
-                                    .chapterData![0].peopleCategoryName??'',
-                                style: TextStyle(
-                                    fontSize: 12.sp,
-                                    color: ColorTheme.primary500),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Card(
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            color: ColorTheme.strokeTertiary,
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(10.r)),
+                          ],
                         ),
-                        elevation: 0,
-                        margin: const EdgeInsets.fromLTRB(0, 15, 0, 15),
-                        child: Container(
-                            width: MediaQuery.sizeOf(context).width,
-                            margin: const EdgeInsets.all(15),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SvgPicture.asset(ImageConstant.iconReward,
-                                        width: 16.sp,
-                                        height: 20.sp,
-                                        package: Constant.moduleEtamkawa),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      'Rewards',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12.sp,
-                                          color: ColorTheme.neutral600),
-                                    ),
-                                    Text(
-                                      '${gamification.chapterData![0].missionData![0].missionReward.toString()} total',
-                                      style: TextStyle(fontSize: 12.sp),
-                                    ),
-                                  ],
-                                ),
-                                addVerticalDividerIfQuizz(gamification.chapterData![0]
-                                        .missionData![0].missionTypeName !=
-                                    'Assignment'),
-                                    addTaskIfQuizz(gamification.chapterData![0]
-                                        .missionData![0].missionTypeName !=
-                                    'Assignment', gamification.chapterData![0]
-                                        .missionData![0].taskData!.length),
-                                VerticalDivider(
-                                  color: ColorTheme.strokeTertiary,
-                                  thickness: 2,
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SvgPicture.asset(ImageConstant.iconDuration,
-                                        width: 16.sp,
-                                        height: 20.sp,
-                                        package: Constant.moduleEtamkawa),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      'Duration',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12.sp,
-                                          color: ColorTheme.neutral600),
-                                    ),
-                                    Text(
-                                      '5 days',
-                                      style: TextStyle(fontSize: 12.sp),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                        Card(
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                color: ColorTheme.strokeTertiary,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.r)),
+                            ),
+                            elevation: 0,
+                            margin: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                            child: IntrinsicHeight(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                children: [
+                                  Column(
+                        
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SizedBox(height: 10.h),
+                                      SvgPicture.asset(
+                                          ImageConstant.iconReward,
+                                          width: 16.sp,
+                                          height: 20.sp,
+                                          package: Constant.moduleEtamkawa),
+                                      SizedBox(height: 6.h),
+                                      Text(
+                                        'Rewards',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 12.sp,
+                                            color: ColorTheme.neutral600),
+                                      ),
+                                      Text(
+                                        '${gamification.chapterData![0].missionData![0].missionReward.toString()} total',
+                                        style: TextStyle(
+                                            fontSize: 12.sp,
+                                            color: ColorTheme.neutral500),
+                                      ),
+                                      SizedBox(height: 10.h),
+                                    ],
+                                  ),
+                                  addVerticalDividerIfQuizz(gamification
+                                          .chapterData![0]
+                                          .missionData![0]
+                                          .missionTypeName !=
+                                      'Assignment'),
+                                  addTaskIfQuizz(
+                                      gamification
+                                              .chapterData![0]
+                                              .missionData![0]
+                                              .missionTypeName !=
+                                          'Assignment',
+                                      gamification
+                                          .chapterData![0]
+                                          .missionData![0]
+                                          .taskData!
+                                          .length),
+                                  VerticalDivider(
+                                    thickness: 1.sp,
+                                    color: ColorTheme.strokeTertiary,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SizedBox(height: 10.h),
+                                      SvgPicture.asset(
+                                          ImageConstant.iconDuration,
+                                          width: 16.sp,
+                                          height: 20.sp,
+                                          package: Constant.moduleEtamkawa),
+                                      SizedBox(
+                                        height: 8.h,
+                                      ),
+                                      Text(
+                                        'Duration',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 12.sp,
+                                            color: ColorTheme.neutral600),
+                                      ),
+                                      Text(
+                                        '5 days',
+                                        style: TextStyle(
+                                            fontSize: 12.sp,
+                                            color: ColorTheme.neutral500),
+                                      ),
+                                      SizedBox(height: 10.h),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             )),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                const Divider(
-                  height: 0.5,
                 ),
                 Card(
                   shape: RoundedRectangleBorder(
@@ -257,10 +293,10 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(10.r)),
                   ),
                   elevation: 0,
-                  margin: const EdgeInsets.all(15),
+                  margin: const EdgeInsets.all(16),
                   child: Container(
                       width: MediaQuery.sizeOf(context).width,
-                      margin: const EdgeInsets.all(15),
+                      margin: const EdgeInsets.all(16),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -272,62 +308,73 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                 fontSize: 14.sp,
                                 color: ColorTheme.neutral600),
                           ),
+                          SizedBox(height: 8.h),
                           Text(
                               gamification.chapterData![0].missionData![0]
                                   .missionInstruction!,
-                              style: TextStyle(fontSize: 12.sp)),
+                              style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: ColorTheme.neutral600)),
                         ],
                       )),
                 ),
                 const Spacer(),
-                Column(
-                  children: [
-                    const Divider(
-                      height: 0.5,
+                Card(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: ColorTheme.strokeTertiary,
+                      ),
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10.r),
+                          topRight: Radius.circular(10.r)),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                              onPressed: () {
-                                context.goNamed(taskMissionEtamkawa, extra: {
-                                  Constant.listTask: (gamification
-                                      .chapterData![0]
-                                      .missionData![0]
-                                      .taskData),
-                                });
-                              },
-                              child: const Text('Start'))),
-                    ),
-                  ],
-                )
+                    elevation: 0,
+                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    child: Column(
+                      children: [
+                        const Divider(
+                          height: 0.5,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    context
+                                        .goNamed(taskMissionEtamkawa, extra: {
+                                      Constant.listTask: (gamification
+                                          .chapterData![0]
+                                          .missionData![0]
+                                          .taskData),
+                                    });
+                                  },
+                                  child: const Text('Start'))),
+                        ),
+                      ],
+                    ))
               ]);
             })));
   }
 }
 
 Widget addVerticalDividerIfQuizz(bool isAssignment) {
-  return 
-  VerticalDivider(
+  return VerticalDivider(
+    thickness: 1.sp,
     color: ColorTheme.strokeTertiary,
-    thickness: 2,
   );
 }
 
-
 Widget addTaskIfQuizz(bool isAssignment, int totalTask) {
-  return 
-  Column(
+  return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     mainAxisSize: MainAxisSize.min,
     children: [
+      SizedBox(height: 10.h),
       SvgPicture.asset(ImageConstant.iconTask,
-          width: 16.sp,
-          height: 20.sp,
-          package: Constant.moduleEtamkawa),
-      const SizedBox(
-        height: 5,
+          width: 16.sp, height: 20.sp, package: Constant.moduleEtamkawa),
+      SizedBox(
+        height: 6.h,
       ),
       Text(
         'Task',
@@ -337,10 +384,10 @@ Widget addTaskIfQuizz(bool isAssignment, int totalTask) {
             color: ColorTheme.neutral600),
       ),
       Text(
-        totalTask
-            .toString(),
-        style: TextStyle(fontSize: 12.sp),
+        totalTask.toString(),
+        style: TextStyle(fontSize: 12.sp, color: ColorTheme.neutral500),
       ),
+      SizedBox(height: 10.h),
     ],
   );
 }

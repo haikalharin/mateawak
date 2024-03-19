@@ -75,6 +75,19 @@ class CommonUtils {
     return formatted;
   }
 
+    static String formattedDateHours(String value,
+      {bool withDay = false, bool withHourMinute = false}) {
+    initializeDateFormatting();
+    DateTime date = DateTime.parse(value);
+    final DateFormat formatter = withHourMinute
+        ? DateFormat('dd MMM yyyy HH:mm')
+        : withDay
+            ? DateFormat('EEEEE, dd MMM yyyy')
+            : DateFormat('dd MMM yyyy');
+    String formatted = formatter.format(date);
+    return formatted;
+  }
+
   static String formattedDateShort(String value,
       {bool withDay = true, bool withHourMinute = false}) {
     initializeDateFormatting();
