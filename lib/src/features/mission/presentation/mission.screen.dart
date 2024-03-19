@@ -37,7 +37,6 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
           final gamificationInProgress = ref.watch(gamificationInProgressState);
           final gamificationAssigned = ref.watch(gamificationAssignedState);
           final gamificationPast = ref.watch(gamificationPastState);
-
           return Column(
             children: [
               Padding(
@@ -69,37 +68,44 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                         ],
                       ),
                       Expanded(
-                        child: TabBarView(
-                          children: [
-                            // Tab 1 content
+                        child: Container(
+                          color: ColorTheme.neutral100,
+                          child: TabBarView(
+                            children: [
+                              // Tab 1 content
 
-                            ListView.builder(
-                              itemCount: listMissionInProgress.length,
-                              itemBuilder: (context, index) {
-                                return _buildListItem(
-                                    index,
-                                    ctrl,
-                                    ctrlTask,
-                                    listMissionInProgress,
-                                    gamificationInProgress);
-                              },
-                            ), // Tab 2 content
-                            ListView.builder(
-                              itemCount: listMissionAssigned.length,
-                              itemBuilder: (context, index) {
-                                return _buildListItem(index, ctrl, ctrlTask,
-                                    listMissionAssigned, gamificationAssigned);
-                              },
-                            ),
-                            // Tab 3 content
-                            ListView.builder(
-                              itemCount: listMissionPast.length,
-                              itemBuilder: (context, index) {
-                                return _buildListItem(index, ctrl, ctrlTask,
-                                    listMissionPast, gamificationPast);
-                              },
-                            ),
-                          ],
+                              ListView.builder(
+                                itemCount: listMissionInProgress.length,
+                                itemBuilder: (context, index) {
+                                  return _buildListItem(
+                                      index,
+                                      ctrl,
+                                      ctrlTask,
+                                      listMissionInProgress,
+                                      gamificationInProgress);
+                                },
+                              ), // Tab 2 content
+                              ListView.builder(
+                                itemCount: listMissionAssigned.length,
+                                itemBuilder: (context, index) {
+                                  return _buildListItem(
+                                      index,
+                                      ctrl,
+                                      ctrlTask,
+                                      listMissionAssigned,
+                                      gamificationAssigned);
+                                },
+                              ),
+                              // Tab 3 content
+                              ListView.builder(
+                                itemCount: listMissionPast.length,
+                                itemBuilder: (context, index) {
+                                  return _buildListItem(index, ctrl, ctrlTask,
+                                      listMissionPast, gamificationPast);
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -134,7 +140,6 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ListTile(
-              //title: Text(listData[index].missionName ?? ''),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -156,7 +161,8 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                   horizontal: 8.w, vertical: 4.h),
                               child: Text(
                                 gamification.missionStatus!,
-                                style: TextStyle(
+                                style: 
+                                TextStyle(
                                     fontSize: 12.sp,
                                     color: (gamification.missionStatusId == 0)
                                         ? ColorTheme.neutral600
@@ -176,7 +182,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(3, 0, 0, 0),
                               child: Text(
-                                listData[index].missionReward.toString(),
+                                '${listData[index].missionReward.toString()} pts',
                                 style: TextStyle(fontSize: 12.sp),
                               ),
                             ),
@@ -203,9 +209,9 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                             height: 16.sp,
                             package: Constant.moduleEtamkawa),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(3, 0, 0, 0),
+                          padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                           child: Text(
-                            'Due: ${CommonUtils.formattedDate(gamification.dueDate ?? DateTime.now().toString())}',
+                            'Due: ${CommonUtils.formattedDateHours(gamification.dueDate ?? DateTime.now().toString())}',
                             style: TextStyle(fontSize: 11.sp),
                           ),
                         ),
@@ -213,7 +219,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 7, 0, 7),
+                    padding: const EdgeInsets.fromLTRB(0, 15, 0, 7),
                     child: SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
