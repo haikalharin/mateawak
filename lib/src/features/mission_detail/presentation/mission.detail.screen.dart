@@ -92,17 +92,25 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    gamification.chapterData![0].chapterName!,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16.sp,
-                                        color: ColorTheme.neutral600),
-                                  ),
+                                      gamification.chapterData![0].chapterName!,
+                                      style: SharedComponent.textStyleCustom(
+                                          typographyType:
+                                              TypographyType.largeH5,
+                                          fontColor: ColorTheme.neutral600)
+                                      // TextStyle(
+                                      //     fontWeight: FontWeight.bold,
+                                      //     fontSize: 16.sp,
+                                      //     color: ColorTheme.neutral600),
+                                      ),
                                   Text(
                                       'Mission: ${gamification.chapterData![0].missionData![0].missionName!}',
-                                      style: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: ColorTheme.neutral500)),
+                                      style: SharedComponent.textStyleCustom(
+                                          typographyType:
+                                              TypographyType.paragraph,
+                                          fontColor: ColorTheme.neutral500))
+                                  // TextStyle(
+                                  //     fontSize: 12.sp,
+                                  //     color: ColorTheme.neutral500)),
                                 ],
                               ),
                               DecoratedBox(
@@ -113,54 +121,71 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                         ? ColorTheme.neutral300
                                         : ColorTheme.secondary100),
                                 child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 8.w, vertical: 4.h),
-                                  child: Text(
-                                    gamification.missionStatus!,
-                                    style: TextStyle(
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.bold,
-                                        color:
-                                            (gamification.missionStatusId == 0)
-                                                ? ColorTheme.neutral600
-                                                : ColorTheme.secondary500),
-                                  ),
-                                ),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 8.w, vertical: 4.h),
+                                    child: Text(gamification.missionStatus!,
+                                        style: SharedComponent.textStyleCustom(
+                                            typographyType:
+                                                TypographyType.paragraph,
+                                            fontColor:
+                                                (gamification.missionStatusId ==
+                                                        0)
+                                                    ? ColorTheme.neutral600
+                                                    : ColorTheme.secondary500))
+                                    // TextStyle(
+                                    //     fontSize: 12.sp,
+                                    //     fontWeight: FontWeight.bold,
+                                    //     color:
+                                    //         (gamification.missionStatusId == 0)
+                                    //             ? ColorTheme.neutral600
+                                    //             : ColorTheme.secondary500),
+
+                                    ),
                               ),
                             ]),
                         SizedBox(
                           height: 8.h,
                         ),
-                        Text(
-                          'Chapter goals:',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12.sp,
-                              color: ColorTheme.neutral600),
-                        ),
-                        Text(
-                          gamification.chapterData![0].chapterGoal!,
-                          style: TextStyle(
-                              fontSize: 12.sp, color: ColorTheme.neutral500),
-                        ),
+                        Text('Chapter goals:',
+                            style: SharedComponent.textStyleCustom(
+                                typographyType: TypographyType.bold,
+                                fontColor: ColorTheme.neutral600)),
+                        //   TextStyle(
+                        //       fontWeight: FontWeight.bold,
+                        //       fontSize: 12.sp,
+                        //       color: ColorTheme.neutral600),
+                        // ),
+                        Text(gamification.chapterData![0].chapterGoal!,
+                            style: SharedComponent.textStyleCustom(
+                                typographyType: TypographyType.paragraph,
+                                fontColor: ColorTheme.neutral500)),
+                        //   TextStyle(
+                        //       fontSize: 12.sp, color: ColorTheme.neutral500),
+                        // ),
                         SizedBox(
                           height: 8.h,
                         ),
                         Row(
                           children: [
+                            Text('Focus behavior: ',
+                                style: SharedComponent.textStyleCustom(
+                                    typographyType: TypographyType.bold,
+                                    fontColor: ColorTheme.neutral600)),
+                            //   TextStyle(
+                            //       fontWeight: FontWeight.bold,
+                            //       fontSize: 12.sp,
+                            //       color: ColorTheme.neutral600),
+                            // ),
                             Text(
-                              'Competency: ',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12.sp,
-                                  color: ColorTheme.neutral600),
-                            ),
-                            Text(
-                              gamification.chapterData![0].competencyName ?? '',
-                              style: TextStyle(
-                                  fontSize: 12.sp,
-                                  color: ColorTheme.neutral500),
-                            ),
+                                gamification.chapterData![0].competencyName ??
+                                    '',
+                                style: SharedComponent.textStyleCustom(
+                                    typographyType: TypographyType.paragraph,
+                                    fontColor: ColorTheme.neutral500)),
+                            //   TextStyle(
+                            //       fontSize: 12.sp,
+                            //       color: ColorTheme.neutral500),
+                            // ),
                             const Spacer(),
                             DecoratedBox(
                               decoration: BoxDecoration(
@@ -171,15 +196,20 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 8.w, vertical: 4.h),
                                 child: Text(
-                                  gamification
-                                          .chapterData![0].peopleCategoryName ??
-                                      '',
-                                  style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: ColorTheme.primary500),
-                                ),
+                                    gamification.chapterData![0]
+                                            .peopleCategoryName ??
+                                        '',
+                                    style: SharedComponent.textStyleCustom(
+                                        typographyType:
+                                            TypographyType.paragraph,
+                                        fontColor: ColorTheme.neutral500)
+                                    //   TextStyle(
+                                    //       fontSize: 12.sp,
+                                    //       color: ColorTheme.primary500),
+                                    // ),
+                                    ),
                               ),
-                            ),
+                            )
                           ],
                         ),
                         Card(
@@ -196,35 +226,42 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Column(
-                        
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       SizedBox(height: 10.h),
-                                      SvgPicture.asset(
-                                          ImageConstant.iconReward,
+                                      SvgPicture.asset(ImageConstant.iconReward,
                                           width: 16.sp,
                                           height: 20.sp,
                                           package: Constant.moduleEtamkawa),
                                       SizedBox(height: 6.h),
+                                      Text('Rewards',
+                                          style:
+                                              SharedComponent.textStyleCustom(
+                                                  typographyType:
+                                                      TypographyType.bold,
+                                                  fontColor:
+                                                      ColorTheme.neutral600)
+                                          // (
+                                          //     fontWeight: FontWeight.bold,
+                                          //     fontSize: 12.sp,
+                                          //     color: ColorTheme.neutral600),
+                                          ),
                                       Text(
-                                        'Rewards',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 12.sp,
-                                            color: ColorTheme.neutral600),
-                                      ),
-                                      Text(
-                                        '${gamification.chapterData![0].missionData![0].missionReward.toString()} total',
-                                        style: TextStyle(
-                                            fontSize: 12.sp,
-                                            color: ColorTheme.neutral500),
-                                      ),
+                                          '${gamification.chapterData![0].missionData![0].missionReward.toString()} total',
+                                          style:
+                                              SharedComponent.textStyleCustom(
+                                                  typographyType:
+                                                      TypographyType.paragraph,
+                                                  fontColor:
+                                                      ColorTheme.neutral500)),
+                                      //   TextStyle(
+                                      //       fontSize: 12.sp,
+                                      //       color: ColorTheme.neutral500),
+                                      // ),
                                       SizedBox(height: 10.h),
                                     ],
                                   ),
@@ -239,18 +276,14 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                               .missionData![0]
                                               .missionTypeName !=
                                           'Assignment',
-                                      gamification
-                                          .chapterData![0]
-                                          .missionData![0]
-                                          .taskData!
-                                          .length),
+                                      gamification.chapterData![0]
+                                          .missionData![0].taskData!.length),
                                   VerticalDivider(
                                     thickness: 1.sp,
                                     color: ColorTheme.strokeTertiary,
                                   ),
                                   Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       SizedBox(height: 10.h),
@@ -262,19 +295,29 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                       SizedBox(
                                         height: 8.h,
                                       ),
-                                      Text(
-                                        'Duration',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 12.sp,
-                                            color: ColorTheme.neutral600),
-                                      ),
-                                      Text(
-                                        '5 days',
-                                        style: TextStyle(
-                                            fontSize: 12.sp,
-                                            color: ColorTheme.neutral500),
-                                      ),
+                                      Text('Duration',
+                                          style:
+                                              SharedComponent.textStyleCustom(
+                                                  typographyType:
+                                                      TypographyType.bold,
+                                                  fontColor:
+                                                      ColorTheme.neutral600)),
+                                      //   TextStyle(
+                                      //       fontWeight: FontWeight.bold,
+                                      //       fontSize: 12.sp,
+                                      //       color: ColorTheme.neutral600),
+                                      // ),
+                                      Text('5 days',
+                                          style:
+                                              SharedComponent.textStyleCustom(
+                                                  typographyType:
+                                                      TypographyType.paragraph,
+                                                  fontColor:
+                                                      ColorTheme.neutral500)),
+                                      //   TextStyle(
+                                      //       fontSize: 12.sp,
+                                      //       color: ColorTheme.neutral500),
+                                      // ),
                                       SizedBox(height: 10.h),
                                     ],
                                   ),
@@ -301,20 +344,26 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Before you start',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14.sp,
-                                color: ColorTheme.neutral600),
-                          ),
+                          Text('Before you start',
+                              style: SharedComponent.textStyleCustom(
+                                  typographyType: TypographyType.bold,
+                                  fontColor: ColorTheme.neutral600)
+                              // TextStyle(
+                              //     fontWeight: FontWeight.bold,
+                              //     fontSize: 14.sp,
+                              //     color: ColorTheme.neutral600),
+                              ),
                           SizedBox(height: 8.h),
                           Text(
                               gamification.chapterData![0].missionData![0]
                                   .missionInstruction!,
-                              style: TextStyle(
-                                  fontSize: 12.sp,
-                                  color: ColorTheme.neutral600)),
+                              style: SharedComponent.textStyleCustom(
+                                  typographyType: TypographyType.paragraph,
+                                  fontColor: ColorTheme.neutral600)
+                              // TextStyle(
+                              //     fontSize: 12.sp,
+                              //     color: ColorTheme.neutral600)
+                              ),
                         ],
                       )),
                 ),
@@ -349,7 +398,10 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                           .taskData),
                                     });
                                   },
-                                  child: const Text('Start'))),
+                                  child: Text('Start',
+                                      style: SharedComponent.textStyleCustom(
+                                          typographyType:
+                                              TypographyType.paragraph)))),
                         ),
                       ],
                     ))
@@ -376,17 +428,20 @@ Widget addTaskIfQuizz(bool isAssignment, int totalTask) {
       SizedBox(
         height: 6.h,
       ),
-      Text(
-        'Task',
-        style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 12.sp,
-            color: ColorTheme.neutral600),
-      ),
-      Text(
-        totalTask.toString(),
-        style: TextStyle(fontSize: 12.sp, color: ColorTheme.neutral500),
-      ),
+      Text('Task',
+          style: SharedComponent.textStyleCustom(
+              typographyType: TypographyType.bold,
+              fontColor: ColorTheme.neutral600)
+          // TextStyle(
+          //     fontWeight: FontWeight.bold,
+          //     fontSize: 12.sp,
+          //     color: ColorTheme.neutral600),
+          ),
+      Text(totalTask.toString(),
+          style: //TextStyle(fontSize: 12.sp, color: ColorTheme.neutral500),
+              SharedComponent.textStyleCustom(
+                  typographyType: TypographyType.paragraph,
+                  fontColor: ColorTheme.neutral500)),
       SizedBox(height: 10.h),
     ],
   );
