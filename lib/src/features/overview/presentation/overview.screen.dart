@@ -75,7 +75,7 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
                         height: 80,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
-                            color: ColorTheme.primaryNew,
+                            color: ColorTheme.primary500,
                             borderRadius: const BorderRadius.only(
                                 bottomRight: Radius.circular(24.0))),
                         padding: const EdgeInsets.symmetric(horizontal: 16),

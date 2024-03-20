@@ -48,6 +48,54 @@ class MissionController extends _$MissionController {
     await getMissionList();
   }
 
+  Future<void> getMissionListLocal() async {
+    var repo =  ref.read(getMissionLocalProvider.future);
+
+    state = await AsyncValue.guard(() => repo).then((value) async {
+      List<MissionDatum> listMissionInProgress = [];
+      List<MissionDatum> listMissionAssigned = [];
+      List<MissionDatum> listMissionPast = [];
+      if (value.hasValue) {
+        value.value?.forEach((element) async {
+          if (element.missionStatusId! == 1) {
+            ref.watch(gamificationInProgressState.notifier).state = element;
+            element.chapterData?.forEach((chapter) {
+              listMissionInProgress.addAll(chapter.missionData ?? []);
+            });
+          } else if (element.missionStatusId! == 0) {
+            ref.watch(gamificationAssignedState.notifier).state = element;
+            element.chapterData?.forEach((chapter) {
+              listMissionAssigned.addAll(chapter.missionData ?? []);
+            });
+          } else if (element.missionStatusId! >= 2) {
+            ref.watch(gamificationPastState.notifier).state = element;
+            element.chapterData?.forEach((chapter) {
+              listMissionPast.addAll(chapter.missionData ?? []);
+            });
+          }
+          // } else {
+          //   listMissionInProgress = [];
+          //   listMissionAssigned = [];
+          //   listMissionPast = [];
+          //   listGamificationInProgress = [];
+          //   listGamificationAssigned = [];
+          //   listGamificationPast = [];
+          // }
+        });
+        ref.watch(listMissionInProgressState.notifier).state =
+            listMissionInProgress;
+        ref.watch(listMissionAssignedState.notifier).state =
+            listMissionAssigned;
+        ref.watch(listMissionPastState.notifier).state = listMissionPast;
+        ref.watch(listGamificationState.notifier).state = value.value ?? [];
+        ref.watch(fixedGamificationAssigned.notifier).state = value.value ?? [];
+        listGamification = value.value ?? [];
+      }
+      return value;
+    });
+  }
+
+
   Future<void> getMissionList() async {
     final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
     var repo = isConnectionAvailable

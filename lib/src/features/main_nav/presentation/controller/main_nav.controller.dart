@@ -50,6 +50,26 @@ class MainNavController extends _$MainNavController {
     }
   }
 
+
+  Future<void> fetchMissionListLocal() async {
+    ref
+        .watch(submitStatusState.notifier)
+        .state = SubmitStatus.inProgess;
+    final repo = await ref.watch(fetchMissionLocalProvider.future);
+
+    if(repo == true) {
+      await ref.watch(missionControllerProvider.notifier).getMissionListLocal();
+      Future.delayed(const Duration(seconds: 2), () {
+        ref.watch(submitStatusState.notifier)
+            .state = SubmitStatus.success;
+        ref.read(goRouterProvider).goNamed(homeEtakawaInit);});
+
+    } else{
+      ref.watch(submitStatusState.notifier)
+          .state = SubmitStatus.failure;
+    }
+  }
+
   void onItemTapped(int value) {
     state = const AsyncLoading();
     indexNav = value;

@@ -16,6 +16,7 @@ import 'package:module_shared/module_shared.dart';
 import '../../../../component/widget/dashed_border_widget.dart';
 import '../../../../constants/constant.dart';
 import '../../../../constants/image.constant.dart';
+import '../../../main_nav/presentation/controller/main_nav.controller.dart';
 import '../controller/task.controller.dart';
 
 class TaskFileScreen extends ConsumerStatefulWidget {
@@ -43,6 +44,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final ctrl = ref.watch(taskControllerProvider.notifier);
+        final ctrlMission = ref.read(mainNavControllerProvider.notifier);
         final currentQuestionIndex = ref.watch(currentIndexState.notifier);
         final attachment = ref.watch(attachmentBase64State.notifier);
         final attachmentName = ref.watch(attachmentNameState.notifier);
@@ -113,7 +115,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                   padding: EdgeInsets.all(4),
                                   decoration: BoxDecoration(
                                       color:
-                                      ColorThemeEtamkawa.secondary100,
+                                      ColorTheme.secondary100,
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(5.r))),
                                   child: Center(
@@ -126,7 +128,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                             Icon(
                                               Icons.star,
                                               color:
-                                              ColorThemeEtamkawa.secondary500,
+                                              ColorTheme.secondary500,
                                               size: 12.h,
                                             ),
                                             Text(
@@ -143,7 +145,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                 Icon(
                                   Icons.info,
                                   color:
-                                  ColorThemeEtamkawa.primaryNew,
+                                  ColorTheme.primary500,
                                   size: 24.h,
                                 ),
                               ],
@@ -262,7 +264,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                   },
                                                   child: Icon(
                                                     Icons.cancel,
-                                                    color: ColorThemeEtamkawa
+                                                    color: ColorTheme
                                                         .backgroundDark,
                                                     size: 25.h,
                                                   ),
@@ -279,7 +281,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                       _showPicker(context);
                                     },
                                     child: DottedBorder(
-                                      color: ColorThemeEtamkawa.primaryNew,
+                                      color: ColorTheme.primary500,
                                       radius: Radius.circular(12),
                                       strokeWidth: 3,
                                       //thickness of dash/dots
@@ -287,7 +289,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                       child: Container(
                                           height: 150,
                                           color:
-                                              ColorThemeEtamkawa.bgGreenLight,
+                                              ColorTheme.bgGreenLight,
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
@@ -303,8 +305,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                 children: [
                                                   Icon(
                                                     Icons.upload_file_rounded,
-                                                    color: ColorThemeEtamkawa
-                                                        .primaryNew,
+                                                    color: ColorTheme
+                                                        .primary500,
                                                     size: 40.h,
                                                   ),
                                                   Column(
@@ -363,7 +365,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                   style: TextStyle(
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.w500,
-                                    color: ColorThemeEtamkawa.textLightDark,
+                                    color: ColorTheme.textLightDark,
                                   ),
                                 ),
                               ),
@@ -381,7 +383,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                 decoration: InputDecoration(
                                   hintText: 'Write your comment here..',
                                   hintStyle: TextStyle(
-                                      color: ColorThemeEtamkawa.textLightDark),
+                                      color: ColorTheme.textLightDark),
                                   border: const OutlineInputBorder(),
                                 ),
                                 maxLines: 10,
@@ -571,9 +573,25 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                   'You have completed the quiz.'),
                                               actions: <Widget>[
                                                 TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                    Navigator.pop(context);
+                                                  onPressed: () async {
+                                                    await ctrl
+                                                        .putAnswerFinal()
+                                                        .whenComplete(() async {
+                                                      await ctrl
+                                                          .changeStatusTask()
+                                                          .whenComplete(() async {
+                                                        await ctrlMission
+                                                            .fetchMissionList()
+                                                            .whenComplete(() {
+                                                          Navigator.pop(
+                                                              context);
+                                                          Navigator.pop(
+                                                              context);
+                                                        });
+
+
+                                                      });
+                                                    });
                                                   },
                                                   child: const Text('OK'),
                                                 )
@@ -590,12 +608,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                   }
                                 },
                                 child: Text(
-                                  (currentQuestionIndex.state + 1) <
-                                          (listTask[currentQuestionIndex.state]
-                                                      .answerData
-                                                      ?.length ??
-                                                  0) -
-                                              1
+                                  (currentQuestionIndex.state + 1)<
+                                      listTask.length
                                       ? 'Next'
                                       : 'Finish',
                                 ),

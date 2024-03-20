@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_etamkawa/src/configs/theme/color.theme.dart';
 import 'package:module_shared/module_shared.dart';
 
+import '../../../main_nav/presentation/controller/main_nav.controller.dart';
 import '../controller/task.controller.dart';
 
 class TaskFreeTextScreen extends ConsumerStatefulWidget {
@@ -25,45 +26,29 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
   // int currentQuestionIndex = 0;
   // String? selectedOption;
 
-
-
   @override
   Widget build(BuildContext context) {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final ctrl = ref.watch(taskControllerProvider.notifier);
         final currentQuestionIndex = ref.watch(currentIndexState.notifier);
-        final listSelectedOptionString =
-        ref.read(listSelectOptionStringState);
+        final ctrlMission = ref.read(mainNavControllerProvider.notifier);
+        final listSelectedOptionString = ref.read(listSelectOptionStringState);
         final currentQuestionProgress = ref.watch(currentProgressState);
-        final lengthAnswer = ref
-            .watch(listTaskState)
-            .length;
+        final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
         // _textController =
-        if(ref
-            .watch(
-            previousTypeTaskState.notifier)
-            .state ==
-            TaskType.STX.name|| ref
-            .watch(
-            nextTypeTaskState.notifier)
-            .state ==
-            TaskType.STX.name){
+        if (ref.watch(previousTypeTaskState.notifier).state ==
+                TaskType.STX.name ||
+            ref.watch(nextTypeTaskState.notifier).state == TaskType.STX.name) {
           if (isInit) {
-
             if (ref
                 .watch(listSelectOptionStringState.notifier)
                 .state
                 .isNotEmpty) {
-              _textController.text = ref
-                  .watch(listSelectOptionStringState.notifier)
-                  .state
-                  .single;
-
-
+              _textController.text =
+                  ref.watch(listSelectOptionStringState.notifier).state.single;
             }
-
           }
           isInit = false;
         }
@@ -71,8 +56,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
             backgroundColor: ColorTheme.backgroundLight,
             body: GestureDetector(
               onTap: () {
-                FocusScope.of(context)
-                    .unfocus();
+                FocusScope.of(context).unfocus();
               },
               child: ListView(
                 children: [
@@ -95,12 +79,11 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment
-                                    .spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "${currentQuestionIndex.state +
-                                        1}/${listTask.length}",
+                                    "${currentQuestionIndex.state + 1}/${listTask.length}",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16.sp,
@@ -114,41 +97,38 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                         Container(
                                           padding: EdgeInsets.all(4),
                                           decoration: BoxDecoration(
-                                              color:
-                                              ColorThemeEtamkawa.secondary100,
+                                              color: ColorTheme
+                                                  .secondary100,
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(5.r))),
                                           child: Center(
                                               child: Container(
-                                                height: 24.h,
-                                                child: Row(
-                                                  mainAxisAlignment:
+                                            height: 24.h,
+                                            child: Row(
+                                              mainAxisAlignment:
                                                   MainAxisAlignment.spaceEvenly,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.star,
-                                                      color:
-                                                      ColorThemeEtamkawa
-                                                          .secondary500,
-                                                      size: 12.h,
-                                                    ),
-                                                    Text(
-                                                      " +${listTask[currentQuestionIndex
-                                                          .state].taskReward}",
-                                                      style: TextStyle(
-                                                        fontSize: 12.sp,
-                                                        color: ColorTheme
-                                                            .secondary500,
-                                                      ),
-                                                    ),
-                                                  ],
+                                              children: [
+                                                Icon(
+                                                  Icons.star,
+                                                  color: ColorTheme
+                                                      .secondary500,
+                                                  size: 12.h,
                                                 ),
-                                              )),
+                                                Text(
+                                                  " +${listTask[currentQuestionIndex.state].taskReward}",
+                                                  style: TextStyle(
+                                                    fontSize: 12.sp,
+                                                    color:
+                                                        ColorTheme.secondary500,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )),
                                         ),
                                         Icon(
                                           Icons.info,
-                                          color:
-                                          ColorThemeEtamkawa.primaryNew,
+                                          color: ColorTheme.primary500,
                                           size: 24.h,
                                         ),
                                       ],
@@ -161,10 +141,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                               ),
                               Container(
                                 height: 200,
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width,
+                                width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
                                     image: const DecorationImage(
                                       image: AssetImage(
@@ -177,12 +154,12 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10))),
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 16),
+                                    const EdgeInsets.symmetric(horizontal: 16),
                               ),
                               const SizedBox(height: 10.0),
                               Text(
                                 listTask[currentQuestionIndex.state]
-                                    .taskCaption ??
+                                        .taskCaption ??
                                     '',
                                 style: const TextStyle(
                                     fontSize: 14.0,
@@ -197,31 +174,29 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                   maxLength: 100,
                                   textInputAction: TextInputAction.done,
                                   decoration: InputDecoration(
-                                    hintText:
-                                    'Write your comment here..',
+                                    hintText: 'Write your comment here..',
                                     hintStyle: TextStyle(
-                                        color: ColorThemeEtamkawa
-                                            .textLightDark),
+                                        color:
+                                            ColorTheme.textLightDark),
                                     border: const OutlineInputBorder(),
                                   ),
                                   maxLines: 10,
                                   onChanged: (value) {
                                     setState(() {
-
-
-                                    if (value.isNotEmpty) {
-                                      if (listSelectedOptionString.isNotEmpty) {
+                                      if (value.isNotEmpty) {
+                                        if (listSelectedOptionString
+                                            .isNotEmpty) {
+                                          ref
+                                              .watch(listSelectOptionStringState
+                                                  .notifier)
+                                              .state
+                                              .clear();
+                                        }
                                         ref
                                             .watch(listSelectOptionStringState
-                                            .notifier)
-                                            .state
-                                            .clear();
+                                                .notifier)
+                                            .state = [value];
                                       }
-                                      ref
-                                          .watch(listSelectOptionStringState
-                                          .notifier)
-                                          .state = [value];
-                                    }
                                     });
                                   }, // Allows multiple lines of input
                                 ),
@@ -245,175 +220,190 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               0 < currentQuestionIndex.state &&
-                                  lengthAnswer != 1
+                                      lengthAnswer != 1
                                   ? Expanded(
-                                child: ElevatedButton(
-                                  style: ButtonStyle(
-                                    foregroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.black),
-                                    backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.white),
-                                  ),
-                                  onPressed: () {
-                                    ctrl.prevQuestion().whenComplete(() {
-                                      currentQuestionIndex.state--;
-                                      ref
-                                          .watch(
-                                          currentProgressState.notifier)
-                                          .state--;
-                                      if (ref
-                                          .watch(
-                                          previousTypeTaskState.notifier)
-                                          .state ==
-                                          TaskType.STX.name) {
-                                        ref
-                                            .watch(
-                                            listSelectOptionStringState
-                                                .notifier)
-                                            .state =
+                                      child: ElevatedButton(
+                                        style: ButtonStyle(
+                                          foregroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  Colors.black),
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  Colors.white),
+                                        ),
+                                        onPressed: () {
+                                          ctrl.prevQuestion().whenComplete(() {
+                                            currentQuestionIndex.state--;
                                             ref
-                                                .watch(
-                                                listSelectOptionPrevStringState
+                                                .watch(currentProgressState
                                                     .notifier)
-                                                .state;
-                                      } else {
-                                        ref
-                                            .watch(listSelectOptionState
-                                            .notifier)
-                                            .state =
-                                            ref
-                                                .watch(
-                                                listSelectOptionPrevState
-                                                    .notifier)
-                                                .state;
-                                      }
-                                    });
-                                  },
-                                  child: Text(
-                                    'Previous',
-                                  ),
-                                ),
-                              )
+                                                .state--;
+                                            if (ref
+                                                    .watch(previousTypeTaskState
+                                                        .notifier)
+                                                    .state ==
+                                                TaskType.STX.name) {
+                                              ref
+                                                      .watch(
+                                                          listSelectOptionStringState
+                                                              .notifier)
+                                                      .state =
+                                                  ref
+                                                      .watch(
+                                                          listSelectOptionPrevStringState
+                                                              .notifier)
+                                                      .state;
+                                            } else {
+                                              ref
+                                                      .watch(
+                                                          listSelectOptionState
+                                                              .notifier)
+                                                      .state =
+                                                  ref
+                                                      .watch(
+                                                          listSelectOptionPrevState
+                                                              .notifier)
+                                                      .state;
+                                            }
+                                          });
+                                        },
+                                        child: Text(
+                                          'Previous',
+                                        ),
+                                      ),
+                                    )
                                   : Container(),
                               SizedBox(width: 8),
                               Expanded(
                                 child: ElevatedButton(
                                   onPressed: () async {
-                                    if (listSelectedOptionString
-                                        .isNotEmpty) {
-
-                                        if ((currentQuestionIndex.state + 1) <
-                                            lengthAnswer &&
-                                            lengthAnswer != 1) {
-                                          ctrl.nextQuestion(isLast: false).whenComplete(() async {
-                                            await  ctrl
-                                                .saveAnswer(
-                                                listTask[currentQuestionIndex
-                                                    .state]
-                                                    .taskId ??
-                                                    0,
-                                                isLast: false,
-                                                listSelectedOption:
-                                                listSelectedOptionString,
-                                                type: listTask[
-                                                currentQuestionIndex
-                                                    .state]
-                                                    .taskTypeCode ??
-                                                    '')
-                                                .whenComplete(() {
-                                              currentQuestionIndex.state++;
-                                              ref
-                                                  .watch(
-                                                  currentProgressState.notifier)
-                                                  .state++;
-                                              if (ref
-                                                  .watch(
-                                                  nextTypeTaskState.notifier)
-                                                  .state ==
-                                                  TaskType.STX.name) {
-                                                ref
-                                                    .watch(listSelectOptionStringState
-                                                    .notifier)
-                                                    .state =
-                                                    ref
-                                                        .watch(listSelectOptionNextStringState
-                                                        .notifier)
-                                                        .state;
-                                              } else {
-                                                ref
-                                                    .watch(listSelectOptionState
-                                                    .notifier)
-                                                    .state =
-                                                    ref
-                                                        .watch(
-                                                        listSelectOptionNextState
-                                                            .notifier)
-                                                        .state;
-                                              }
-
-                                              _textController.clear();
-                                              isInit = true;
-                                            });
-                                          });
-
-                                        } else {
-                                         await ctrl
+                                    if (listSelectedOptionString.isNotEmpty) {
+                                      if ((currentQuestionIndex.state + 1) <
+                                              lengthAnswer &&
+                                          lengthAnswer != 1) {
+                                        ctrl
+                                            .nextQuestion(isLast: false)
+                                            .whenComplete(() async {
+                                          await ctrl
                                               .saveAnswer(
-                                              listTask[currentQuestionIndex
-                                                  .state]
-                                                  .taskId ??
-                                                  0,
-                                              isLast: true,
-                                              listSelectedOption:
-                                              listSelectedOptionString,
-                                              type: listTask[currentQuestionIndex
-                                                  .state]
-                                                  .taskTypeCode ??
-                                                  '')
+                                                  listTask[currentQuestionIndex
+                                                              .state]
+                                                          .taskId ??
+                                                      0,
+                                                  isLast: false,
+                                                  listSelectedOption:
+                                                      listSelectedOptionString,
+                                                  type: listTask[
+                                                              currentQuestionIndex
+                                                                  .state]
+                                                          .taskTypeCode ??
+                                                      '')
                                               .whenComplete(() {
-                                            if (((currentQuestionProgress) *
-                                                100) ~/
-                                                listTask.length <
-                                                100) {
+                                            currentQuestionIndex.state++;
+                                            ref
+                                                .watch(currentProgressState
+                                                    .notifier)
+                                                .state++;
+                                            if (ref
+                                                    .watch(nextTypeTaskState
+                                                        .notifier)
+                                                    .state ==
+                                                TaskType.STX.name) {
                                               ref
-                                                  .watch(
-                                                  currentProgressState.notifier)
-                                                  .state++;
+                                                      .watch(
+                                                          listSelectOptionStringState
+                                                              .notifier)
+                                                      .state =
+                                                  ref
+                                                      .watch(
+                                                          listSelectOptionNextStringState
+                                                              .notifier)
+                                                      .state;
+                                            } else {
+                                              ref
+                                                      .watch(
+                                                          listSelectOptionState
+                                                              .notifier)
+                                                      .state =
+                                                  ref
+                                                      .watch(
+                                                          listSelectOptionNextState
+                                                              .notifier)
+                                                      .state;
                                             }
 
-                                            ref
-                                                .watch(
-                                                listSelectOptionStringState
-                                                    .notifier)
-                                                .state
-                                                .clear();
                                             _textController.clear();
                                             isInit = true;
-                                            showDialog(
-                                              context: context,
-                                              builder: (_) =>
-                                                  AlertDialog(
-                                                    title: const Text(
-                                                        'Quiz Finished'),
-                                                    content: const Text(
-                                                        'You have completed the quiz.'),
-                                                    actions: <Widget>[
-                                                      TextButton(
-                                                        onPressed: () {
-                                                          Navigator.pop(
-                                                              context);
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child: const Text('OK'),
-                                                      )
-                                                    ],
-                                                  ),
-                                            );
                                           });
-                                        }
+                                        });
+                                      } else {
+                                        await ctrl
+                                            .saveAnswer(
+                                                listTask[currentQuestionIndex
+                                                            .state]
+                                                        .taskId ??
+                                                    0,
+                                                isLast: true,
+                                                listSelectedOption:
+                                                    listSelectedOptionString,
+                                                type: listTask[
+                                                            currentQuestionIndex
+                                                                .state]
+                                                        .taskTypeCode ??
+                                                    '')
+                                            .whenComplete(() {
+                                          if (((currentQuestionProgress) *
+                                                      100) ~/
+                                                  listTask.length <
+                                              100) {
+                                            ref
+                                                .watch(currentProgressState
+                                                    .notifier)
+                                                .state++;
+                                          }
+
+                                          ref
+                                              .watch(listSelectOptionStringState
+                                                  .notifier)
+                                              .state
+                                              .clear();
+                                          _textController.clear();
+                                          isInit = true;
+                                          showDialog(
+                                            context: context,
+                                            builder: (_) => AlertDialog(
+                                              title:
+                                                  const Text('Quiz Finished'),
+                                              content: const Text(
+                                                  'You have completed the quiz.'),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  onPressed: () async {
+                                                    await ctrl
+                                                        .putAnswerFinal()
+                                                        .whenComplete(() async {
+                                                      await ctrl
+                                                          .changeStatusTask()
+                                                          .whenComplete(
+                                                              () async {
+                                                        await ctrlMission
+                                                            .fetchMissionList()
+                                                            .whenComplete(() {
+                                                          Navigator.pop(
+                                                              context);
+                                                          Navigator.pop(
+                                                              context);
+                                                        });
+                                                      });
+                                                    });
+                                                  },
+                                                  child: const Text('OK'),
+                                                )
+                                              ],
+                                            ),
+                                          );
+                                        });
+                                      }
                                     } else {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
@@ -425,11 +415,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                   },
                                   child: Text(
                                     (currentQuestionIndex.state + 1) <
-                                        (listTask[currentQuestionIndex.state]
-                                            .answerData
-                                            ?.length ??
-                                            0) -
-                                            1
+                                            listTask.length
                                         ? 'Next'
                                         : 'Finish',
                                   ),

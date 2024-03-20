@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../../configs/theme/color.theme.dart';
+import '../../../main_nav/presentation/controller/main_nav.controller.dart';
 import '../controller/task.controller.dart';
 
 class TaskSingleChoiceScreen extends ConsumerStatefulWidget {
@@ -28,6 +29,7 @@ class _TaskSingleChoiceScreenState
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final ctrl = ref.watch(taskControllerProvider.notifier);
+        final ctrlMission = ref.read(mainNavControllerProvider.notifier);
         final currentQuestionIndex = ref.watch(currentIndexState.notifier);
         final listSelectedOption = ref.read(listSelectOptionState);
         final currentQuestionProgress = ref.watch(currentProgressState);
@@ -74,7 +76,7 @@ class _TaskSingleChoiceScreenState
                                         padding: EdgeInsets.all(4),
                                         decoration: BoxDecoration(
                                             color:
-                                                ColorThemeEtamkawa.secondary100,
+                                                ColorTheme.secondary100,
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(5.r))),
                                         child: Center(
@@ -86,7 +88,7 @@ class _TaskSingleChoiceScreenState
                                             children: [
                                               Icon(
                                                 Icons.star,
-                                                color: ColorThemeEtamkawa
+                                                color: ColorTheme
                                                     .secondary500,
                                                 size: 12.h,
                                               ),
@@ -104,7 +106,7 @@ class _TaskSingleChoiceScreenState
                                       ),
                                       Icon(
                                         Icons.info,
-                                        color: ColorThemeEtamkawa.primaryNew,
+                                        color: ColorTheme.primary500,
                                         size: 24.h,
                                       ),
                                     ],
@@ -152,9 +154,6 @@ class _TaskSingleChoiceScreenState
                                 var listAnswer =
                                     listTask[currentQuestionIndex.state]
                                         .answerData;
-                                listAnswer?.sort((a, b) =>
-                                    (a.answerCaption ?? '')
-                                        .compareTo(b.answerCaption ?? ''));
 
                                 return Container(
                                   margin:
@@ -163,7 +162,7 @@ class _TaskSingleChoiceScreenState
                                     border: Border.all(
                                       color: listSelectedOption.contains(
                                               listAnswer?[index].answerId)
-                                          ? ColorTheme.primaryNew
+                                          ? ColorTheme.primary500
                                           : ColorTheme
                                               .backgroundLight, // Border color based on selection
                                     ),
@@ -207,7 +206,10 @@ class _TaskSingleChoiceScreenState
                   ),
                 ),
                 Container(
-                  color: ColorThemeEtamkawa.backgroundWhite,
+                  decoration: BoxDecoration(
+                      color: ColorTheme.backgroundWhite,
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(10.0),topRight: Radius.circular(10.0))),
                   padding: const EdgeInsets.all(16.0),
                   child: Align(
                     alignment: Alignment.bottomCenter,
@@ -297,39 +299,38 @@ class _TaskSingleChoiceScreenState
                                                       .taskTypeCode ??
                                                   '')
                                           .whenComplete(() {
-                                              currentQuestionIndex.state++;
+                                        currentQuestionIndex.state++;
+                                        ref
+                                            .watch(
+                                                currentProgressState.notifier)
+                                            .state++;
+
+                                        if (ref
+                                                .watch(
+                                                    nextTypeTaskState.notifier)
+                                                .state ==
+                                            TaskType.STX.name) {
+                                          ref
+                                                  .watch(
+                                                      listSelectOptionStringState
+                                                          .notifier)
+                                                  .state =
                                               ref
                                                   .watch(
-                                                  currentProgressState.notifier)
-                                                  .state++;
-
-                                              if (ref
+                                                      listSelectOptionNextStringState
+                                                          .notifier)
+                                                  .state;
+                                        } else {
+                                          ref
+                                                  .watch(listSelectOptionState
+                                                      .notifier)
+                                                  .state =
+                                              ref
                                                   .watch(
-                                                  nextTypeTaskState.notifier)
-                                                  .state ==
-                                                  TaskType.STX.name) {
-                                                ref
-                                                    .watch(
-                                                    listSelectOptionStringState
-                                                        .notifier)
-                                                    .state =
-                                                    ref
-                                                        .watch(
-                                                        listSelectOptionNextStringState
-                                                            .notifier)
-                                                        .state;
-                                              } else {
-                                                ref
-                                                    .watch(listSelectOptionState
-                                                    .notifier)
-                                                    .state =
-                                                    ref
-                                                        .watch(
-                                                        listSelectOptionNextState
-                                                            .notifier)
-                                                        .state;
-                                              }
-
+                                                      listSelectOptionNextState
+                                                          .notifier)
+                                                  .state;
+                                        }
                                       });
                                     });
                                   } else {
@@ -366,9 +367,21 @@ class _TaskSingleChoiceScreenState
                                               'You have completed the quiz.'),
                                           actions: <Widget>[
                                             TextButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                                Navigator.pop(context);
+                                              onPressed: () async {
+                                                await ctrl
+                                                    .putAnswerFinal()
+                                                    .whenComplete(() async {
+                                                  await ctrl
+                                                      .changeStatusTask()
+                                                      .whenComplete(() async {
+                                                    await ctrlMission
+                                                        .fetchMissionListLocal()
+                                                        .whenComplete(() {
+                                                      Navigator.pop(context);
+                                                      Navigator.pop(context);
+                                                    });
+                                                  });
+                                                });
                                               },
                                               child: const Text('OK'),
                                             )
@@ -387,11 +400,7 @@ class _TaskSingleChoiceScreenState
                               },
                               child: Text(
                                 (currentQuestionIndex.state + 1) <
-                                        (listTask[currentQuestionIndex.state]
-                                                    .answerData
-                                                    ?.length ??
-                                                0) -
-                                            1
+                                        listTask.length
                                     ? 'Next'
                                     : 'Finish',
                               ),

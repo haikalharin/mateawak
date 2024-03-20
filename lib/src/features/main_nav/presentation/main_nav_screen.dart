@@ -38,7 +38,7 @@ class MainNavScreen extends ConsumerWidget {
             return AnnotatedRegion<SystemUiOverlayStyle>(
               value: SystemUiOverlayStyle.light,
               child: Scaffold(
-                  backgroundColor: ColorTheme.primaryNew,
+                  backgroundColor: ColorTheme.primary500,
                   appBar: SharedComponentEtamkawa.appBar(
                     context: context,
                     title: 'People Product',
@@ -74,7 +74,7 @@ class MainNavScreen extends ConsumerWidget {
                           label: 'Home',
                           activeIcon: Icon(
                             Icons.home,
-                            color: ColorTheme.primaryNew,
+                            color: ColorTheme.primary500,
                           ),
                         ),
                         BottomNavigationBarItem(
@@ -82,7 +82,7 @@ class MainNavScreen extends ConsumerWidget {
                           label: 'Growth',
                           activeIcon: Icon(
                             Icons.group,
-                            color: ColorTheme.primaryNew,
+                            color: ColorTheme.primary500,
                           ),
                         ),
                         BottomNavigationBarItem(
@@ -90,7 +90,7 @@ class MainNavScreen extends ConsumerWidget {
                           label: 'Mission',
                           activeIcon: Icon(
                             Icons.checklist,
-                            color: ColorTheme.primaryNew,
+                            color: ColorTheme.primary500,
                           ),
                         ),
                         BottomNavigationBarItem(
@@ -98,7 +98,7 @@ class MainNavScreen extends ConsumerWidget {
                           label: 'Approval',
                           activeIcon: Icon(
                             Icons.check_circle,
-                            color: ColorTheme.primaryNew,
+                            color: ColorTheme.primary500,
                           ),
                         ),
                         BottomNavigationBarItem(
@@ -106,7 +106,7 @@ class MainNavScreen extends ConsumerWidget {
                           label: 'Profile',
                           activeIcon: Icon(
                             Icons.account_circle_rounded,
-                            color: ColorTheme.primaryNew,
+                            color: ColorTheme.primary500,
                           ),
                         )
                       ],

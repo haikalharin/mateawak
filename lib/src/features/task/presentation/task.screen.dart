@@ -11,6 +11,7 @@ import 'package:module_shared/module_shared.dart';
 
 import '../../../configs/theme/color.theme.dart';
 import '../../../shared_component/shared_component_etamkawa.dart';
+import '../../main_nav/presentation/controller/main_nav.controller.dart';
 import '../../mission/domain/gamification_response.remote.dart';
 import 'controller/task.controller.dart';
 
@@ -31,8 +32,6 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   void initState() {
     _scrollController.addListener(
       () {
-        ref.read(isScrollProvider.notifier).state =
-            _scrollController.position.pixels > 100.h;
       },
     );
     super.initState();
@@ -53,6 +52,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     // final indexMenuOverview = ref.watch(indexMenuOverviewProvider);
     return Consumer(builder: (context, ref, child) {
       final ctrl = ref.watch(taskControllerProvider.notifier);
+      final ctrlMission = ref.read(mainNavControllerProvider.notifier);
       final currentQuestionIndex = ref.read(currentIndexState.notifier);
       final currentQuestionProgress = ref.watch(currentProgressState);
       final listTask = ref.watch(listTaskState);
@@ -61,7 +61,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
 
       return WillPopScope(
         onWillPop: () {
-          return Future.value(false);
+          return Future.value(true);
         },
         child: Scaffold(
           backgroundColor: ColorTheme.backgroundLight,
@@ -69,10 +69,41 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
             context: context,
             title: 'Mission',
             brightnessIconStatusBar: Brightness.light,
-            onBack: (){
-              ctrl.deleteAnswer(ctrl.listTaskAnswer).whenComplete(() {
-                Navigator.of(context).pop();
-              });
+            onBack: () async {
+              await showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                  title:
+                  const Text('Quiz Finished'),
+                  content: const Text(
+                      'You have completed the quiz.'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () async {
+                        await ctrl
+                            .putAnswerFinal()
+                            .whenComplete(() async {
+                          await ctrl
+                              .changeStatusTask(isDone: false)
+                              .whenComplete(
+                                  () async {
+                                await ctrlMission
+                                    .fetchMissionListLocal()
+                                    .whenComplete(() async {
+                                  await ctrl.deleteAnswer(ctrl.listTaskAnswer).whenComplete(() {
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
+                                  });
+                                });
+                              });
+                        });
+                      },
+                      child: const Text('OK'),
+                    )
+                  ],
+                ),
+              );
+
 
             }
           ),
@@ -131,7 +162,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                             width: 83,
                             height: 26,
                             decoration: BoxDecoration(
-                                color: ColorThemeEtamkawa.blueLight,
+                                color: ColorTheme.secondary100,
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(5.r))),
                             child: const Center(child: Text('In Progress')),
@@ -158,7 +189,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                     height: 24,
                                     width: double.infinity,
                                     decoration: BoxDecoration(
-                                      color: ColorThemeEtamkawa.bgGreenLight,
+                                      color: ColorTheme.bgGreenLight,
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(4.r)),
                                     ),
@@ -167,7 +198,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                         child: Text(
                                           '0%',
                                           style: TextStyle(
-                                              color: ColorTheme.primaryNew),
+                                              color: ColorTheme.primary500),
                                         ))),
                                 Container(
                                     height: 24,
@@ -176,7 +207,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                         ((currentQuestionProgress) /
                                             listTask.length),
                                     decoration: BoxDecoration(
-                                      color: ColorTheme.primaryNew,
+                                      color: ColorTheme.primary500,
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(4.r)),
                                     ),

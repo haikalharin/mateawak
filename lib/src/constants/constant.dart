@@ -239,726 +239,131 @@ class Constant {
   static const readinessTidakBekerja = "TIDAK BEKERJA";
   static const rawMissionDummy = [
     {
-      "employeeMissionId": 4,
-      "employeeUpn": "emp@email.com",
-      "missionId": 49,
+      "employeeMissionId": 1,
+      "employeeId": 70002009,
+      "missionId": 17,
       "missionStatusId": 0,
-      "missionStatus": "InProgress",
-      "startedDate": "0001-01-01T00:00:00",
-      "submittedBy": null,
-      "submittedDate": "0001-01-01T00:00:00",
-      "completedBy": null,
-      "completedDate": "0001-01-01T00:00:00",
+      "missionStatus": "Complete",
+      "startedDate": "2024-01-01T00:00:00",
+      "dueDate": "2024-01-02T00:00:00",
+      "submittedBy": "2009u1.supervisor@buma365.onmicrosoft.com",
+      "submittedDate": "2022-01-01T00:00:00",
+      "completedBy": "2009u1.supervisor@buma365.onmicrosoft.com",
+      "completedDate": "2024-03-18T06:32:43.167",
       "chapterData": [
         {
           "chapterId": 1,
-          "chapterCode": "CP0001",
+          "chapterCode": "C0001",
           "chapterName": "Chapter 1",
-          "chapterGoal": "Chapter Goal",
+          "chapterGoal": "Chapter Goal 1",
+          "competencyCode": "C0001",
+          "competencyName": "Coname",
+          "peopleCategoryCode": "PC0001",
+          "peopleCategoryName": "People Category 1",
           "missionData": [
             {
-              "missionId": 49,
+              "missionId": 17,
               "chapterId": 1,
               "missionCode": "M0000001",
-              "missionName": "Mission 1",
-              "missionInstruction": "Mission Instruction",
-              "missionDuration": 10,
-              "missionActiveOnDay": 10,
-              "missionTypeCode": "MT0001",
-              "missionTypeName": "Mission Type 1",
-              "missionReward": 200,
+              "missionName": "Mission Name 1",
+              "missionInstruction": "Mission Instruction 1",
+              "missionDuration": 2,
+              "missionActiveOnDay": 1,
+              "missionTypeCode": "Quiz",
+              "missionTypeName": "Quiz",
+              "missionReward": 100,
               "taskData": [
                 {
-                  "taskId": 50,
-                  "missionId": 49,
-                  "attachmentId": 2,
-                  "taskCode": "T0000054",
-                  "taskGroup": "G0001",
-                  "taskCaption": "Task 4",
+                  "taskId": 77,
+                  "missionId": 17,
+                  "attachmentId": 3,
+                  "taskCode": "T0000077",
+                  "taskGroup": "G0002",
+                  "taskCaption": "Task Name 1",
                   "taskTypeCode": "SCQ",
-                  "taskTypeName": "Task Type 1",
-                  "taskReward": 50,
+                  "taskTypeName": "Single Choice",
+                  "taskReward": 100,
                   "answerData": [
                     {
-                      "answerId": 220,
-                      "taskId": 50,
-                      "answerCode": "A0000240",
+                      "answerId": 179,
+                      "taskId": 77,
+                      "answerCode": "A0000179",
                       "answerField": "Answer4",
                       "answerCaption": "Answer 4"
                     },
                     {
-                      "answerId": 217,
-                      "taskId": 50,
-                      "answerCode": "A0000237",
-                      "answerField": "Answer1",
-                      "answerCaption": "Answer 1"
+                      "answerId": 178,
+                      "taskId": 77,
+                      "answerCode": "A0000178",
+                      "answerField": "Answer3",
+                      "answerCaption": "Answer 3"
                     },
                     {
-                      "answerId": 218,
-                      "taskId": 50,
-                      "answerCode": "A0000238",
-                      "answerField": "Answer2",
-                      "answerCaption": "Answer 2"
-                    },
-                    {
-                      "answerId": 221,
-                      "taskId": 50,
-                      "answerCode": "A0000241",
+                      "answerId": 180,
+                      "taskId": 77,
+                      "answerCode": "A0000180",
                       "answerField": "Answer5",
                       "answerCaption": "Answer 5"
                     },
                     {
-                      "answerId": 219,
-                      "taskId": 50,
-                      "answerCode": "A0000239",
-                      "answerField": "Answer3",
-                      "answerCaption": "Answer 3"
+                      "answerId": 176,
+                      "taskId": 77,
+                      "answerCode": "A0000176",
+                      "answerField": "Answer1",
+                      "answerCaption": "Answer 1"
+                    },
+                    {
+                      "answerId": 177,
+                      "taskId": 77,
+                      "answerCode": "A0000177",
+                      "answerField": "Answer2",
+                      "answerCaption": "Answer 2"
                     }
                   ]
                 },
                 {
-                  "taskId": 49,
-                  "missionId": 49,
-                  "attachmentId": 2,
-                  "taskCode": "T0000053",
-                  "taskGroup": "G0001",
-                  "taskCaption": "Task 3",
+                  "taskId": 78,
+                  "missionId": 17,
+                  "attachmentId": 3,
+                  "taskCode": "T0000078",
+                  "taskGroup": "G0002",
+                  "taskCaption": "Task Name 2",
                   "taskTypeCode": "MCQ",
-                  "taskTypeName": "Task Type 1",
-                  "taskReward": 50,
+                  "taskTypeName": "Multiple Choice",
+                  "taskReward": 100,
                   "answerData": [
                     {
-                      "answerId": 213,
-                      "taskId": 49,
-                      "answerCode": "A0000233",
-                      "answerField": "Answer2",
-                      "answerCaption": "Answer 2"
-                    },
-                    {
-                      "answerId": 216,
-                      "taskId": 49,
-                      "answerCode": "A0000236",
-                      "answerField": "Answer5",
-                      "answerCaption": "Answer 5"
-                    },
-                    {
-                      "answerId": 214,
-                      "taskId": 49,
-                      "answerCode": "A0000234",
+                      "answerId": 183,
+                      "taskId": 78,
+                      "answerCode": "A0000183",
                       "answerField": "Answer3",
                       "answerCaption": "Answer 3"
                     },
                     {
-                      "answerId": 215,
-                      "taskId": 49,
-                      "answerCode": "A0000235",
-                      "answerField": "Answer4",
-                      "answerCaption": "Answer 4"
-                    },
-                    {
-                      "answerId": 212,
-                      "taskId": 49,
-                      "answerCode": "A0000232",
+                      "answerId": 181,
+                      "taskId": 78,
+                      "answerCode": "A0000181",
                       "answerField": "Answer1",
                       "answerCaption": "Answer 1"
-                    }
-                  ]
-                },
-                {
-                  "taskId": 47,
-                  "missionId": 49,
-                  "attachmentId": 2,
-                  "taskCode": "T0000051",
-                  "taskGroup": "G0001",
-                  "taskCaption": "Task 1",
-                  "taskTypeCode": "YNQ",
-                  "taskTypeName": "Task Type 1",
-                  "taskReward": 50,
-                  "answerData": [
-                    {
-                      "answerId": 205,
-                      "taskId": 47,
-                      "answerCode": "A0000225",
-                      "answerField": "Answer4",
-                      "answerCaption": "Answer 4"
                     },
                     {
-                      "answerId": 204,
-                      "taskId": 47,
-                      "answerCode": "A0000224",
-                      "answerField": "Answer3",
-                      "answerCaption": "Answer 3"
-                    },
-                    {
-                      "answerId": 206,
-                      "taskId": 47,
-                      "answerCode": "A0000226",
-                      "answerField": "Answer5",
-                      "answerCaption": "Answer 5"
-                    },
-                    {
-                      "answerId": 203,
-                      "taskId": 47,
-                      "answerCode": "A0000223",
+                      "answerId": 182,
+                      "taskId": 78,
+                      "answerCode": "A0000182",
                       "answerField": "Answer2",
                       "answerCaption": "Answer 2"
                     },
                     {
-                      "answerId": 202,
-                      "taskId": 47,
-                      "answerCode": "A0000222",
-                      "answerField": "Answer1",
-                      "answerCaption": "Answer 1"
-                    }
-                  ]
-                },
-                {
-                  "taskId": 48,
-                  "missionId": 49,
-                  "attachmentId": 2,
-                  "taskCode": "T0000052",
-                  "taskGroup": "G0001",
-                  "taskCaption": "Task 2",
-                  "taskTypeCode": "STX",
-                  "taskTypeName": "Task Type 1",
-                  "taskReward": 50,
-                  "answerData": [
-                    {
-                      "answerId": 211,
-                      "taskId": 48,
-                      "answerCode": "A0000231",
+                      "answerId": 185,
+                      "taskId": 78,
+                      "answerCode": "A0000185",
                       "answerField": "Answer5",
                       "answerCaption": "Answer 5"
                     },
                     {
-                      "answerId": 209,
-                      "taskId": 48,
-                      "answerCode": "A0000229",
-                      "answerField": "Answer3",
-                      "answerCaption": "Answer 3"
-                    },
-                    {
-                      "answerId": 208,
-                      "taskId": 48,
-                      "answerCode": "A0000228",
-                      "answerField": "Answer2",
-                      "answerCaption": "Answer 2"
-                    },
-                    {
-                      "answerId": 207,
-                      "taskId": 48,
-                      "answerCode": "A0000227",
-                      "answerField": "Answer1",
-                      "answerCaption": "Answer 1"
-                    },
-                    {
-                      "answerId": 210,
-                      "taskId": 48,
-                      "answerCode": "A0000230",
-                      "answerField": "Answer4",
-                      "answerCaption": "Answer 4"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "employeeMissionId": 7,
-      "employeeUpn": "emp@email.com",
-      "missionId": 49,
-      "missionStatusId": 0,
-      "missionStatus": "Past",
-      "startedDate": "0001-01-01T00:00:00",
-      "submittedBy": null,
-      "submittedDate": "0001-01-01T00:00:00",
-      "completedBy": null,
-      "completedDate": "0001-01-01T00:00:00",
-      "chapterData": [
-        {
-          "chapterId": 1,
-          "chapterCode": "CP0001",
-          "chapterName": "Chapter 1",
-          "chapterGoal": "Chapter Goal",
-          "missionData": [
-            {
-              "missionId": 49,
-              "chapterId": 1,
-              "missionCode": "M0000001",
-              "missionName": "Mission 1",
-              "missionInstruction": "Mission Instruction",
-              "missionDuration": 10,
-              "missionActiveOnDay": 10,
-              "missionTypeCode": "MT0001",
-              "missionTypeName": "Mission Type 1",
-              "missionReward": 200,
-              "taskData": [
-                {
-                  "taskId": 50,
-                  "missionId": 49,
-                  "attachmentId": 2,
-                  "taskCode": "T0000054",
-                  "taskGroup": "G0001",
-                  "taskCaption": "Task 4",
-                  "taskTypeCode": "TT0001",
-                  "taskTypeName": "Task Type 1",
-                  "taskReward": 50,
-                  "answerData": [
-                    {
-                      "answerId": 220,
-                      "taskId": 50,
-                      "answerCode": "A0000240",
-                      "answerField": "Answer4",
-                      "answerCaption": "Answer 4"
-                    },
-                    {
-                      "answerId": 217,
-                      "taskId": 50,
-                      "answerCode": "A0000237",
-                      "answerField": "Answer1",
-                      "answerCaption": "Answer 1"
-                    },
-                    {
-                      "answerId": 218,
-                      "taskId": 50,
-                      "answerCode": "A0000238",
-                      "answerField": "Answer2",
-                      "answerCaption": "Answer 2"
-                    },
-                    {
-                      "answerId": 221,
-                      "taskId": 50,
-                      "answerCode": "A0000241",
-                      "answerField": "Answer5",
-                      "answerCaption": "Answer 5"
-                    },
-                    {
-                      "answerId": 219,
-                      "taskId": 50,
-                      "answerCode": "A0000239",
-                      "answerField": "Answer3",
-                      "answerCaption": "Answer 3"
-                    }
-                  ]
-                },
-                {
-                  "taskId": 49,
-                  "missionId": 49,
-                  "attachmentId": 2,
-                  "taskCode": "T0000053",
-                  "taskGroup": "G0001",
-                  "taskCaption": "Task 3",
-                  "taskTypeCode": "TT0001",
-                  "taskTypeName": "Task Type 1",
-                  "taskReward": 50,
-                  "answerData": [
-                    {
-                      "answerId": 213,
-                      "taskId": 49,
-                      "answerCode": "A0000233",
-                      "answerField": "Answer2",
-                      "answerCaption": "Answer 2"
-                    },
-                    {
-                      "answerId": 216,
-                      "taskId": 49,
-                      "answerCode": "A0000236",
-                      "answerField": "Answer5",
-                      "answerCaption": "Answer 5"
-                    },
-                    {
-                      "answerId": 214,
-                      "taskId": 49,
-                      "answerCode": "A0000234",
-                      "answerField": "Answer3",
-                      "answerCaption": "Answer 3"
-                    },
-                    {
-                      "answerId": 215,
-                      "taskId": 49,
-                      "answerCode": "A0000235",
-                      "answerField": "Answer4",
-                      "answerCaption": "Answer 4"
-                    },
-                    {
-                      "answerId": 212,
-                      "taskId": 49,
-                      "answerCode": "A0000232",
-                      "answerField": "Answer1",
-                      "answerCaption": "Answer 1"
-                    }
-                  ]
-                },
-                {
-                  "taskId": 47,
-                  "missionId": 49,
-                  "attachmentId": 2,
-                  "taskCode": "T0000051",
-                  "taskGroup": "G0001",
-                  "taskCaption": "Task 1",
-                  "taskTypeCode": "TT0001",
-                  "taskTypeName": "Task Type 1",
-                  "taskReward": 50,
-                  "answerData": [
-                    {
-                      "answerId": 205,
-                      "taskId": 47,
-                      "answerCode": "A0000225",
-                      "answerField": "Answer4",
-                      "answerCaption": "Answer 4"
-                    },
-                    {
-                      "answerId": 204,
-                      "taskId": 47,
-                      "answerCode": "A0000224",
-                      "answerField": "Answer3",
-                      "answerCaption": "Answer 3"
-                    },
-                    {
-                      "answerId": 206,
-                      "taskId": 47,
-                      "answerCode": "A0000226",
-                      "answerField": "Answer5",
-                      "answerCaption": "Answer 5"
-                    },
-                    {
-                      "answerId": 203,
-                      "taskId": 47,
-                      "answerCode": "A0000223",
-                      "answerField": "Answer2",
-                      "answerCaption": "Answer 2"
-                    },
-                    {
-                      "answerId": 202,
-                      "taskId": 47,
-                      "answerCode": "A0000222",
-                      "answerField": "Answer1",
-                      "answerCaption": "Answer 1"
-                    }
-                  ]
-                },
-                {
-                  "taskId": 48,
-                  "missionId": 49,
-                  "attachmentId": 2,
-                  "taskCode": "T0000052",
-                  "taskGroup": "G0001",
-                  "taskCaption": "Task 2",
-                  "taskTypeCode": "TT0001",
-                  "taskTypeName": "Task Type 1",
-                  "taskReward": 50,
-                  "answerData": [
-                    {
-                      "answerId": 211,
-                      "taskId": 48,
-                      "answerCode": "A0000231",
-                      "answerField": "Answer5",
-                      "answerCaption": "Answer 5"
-                    },
-                    {
-                      "answerId": 209,
-                      "taskId": 48,
-                      "answerCode": "A0000229",
-                      "answerField": "Answer3",
-                      "answerCaption": "Answer 3"
-                    },
-                    {
-                      "answerId": 208,
-                      "taskId": 48,
-                      "answerCode": "A0000228",
-                      "answerField": "Answer2",
-                      "answerCaption": "Answer 2"
-                    },
-                    {
-                      "answerId": 207,
-                      "taskId": 48,
-                      "answerCode": "A0000227",
-                      "answerField": "Answer1",
-                      "answerCaption": "Answer 1"
-                    },
-                    {
-                      "answerId": 210,
-                      "taskId": 48,
-                      "answerCode": "A0000230",
-                      "answerField": "Answer4",
-                      "answerCaption": "Answer 4"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "employeeMissionId": 5,
-      "employeeUpn": "emp@email.com",
-      "missionId": 49,
-      "missionStatusId": 0,
-      "missionStatus": "Assigned",
-      "startedDate": "0001-01-01T00:00:00",
-      "submittedBy": null,
-      "submittedDate": "0001-01-01T00:00:00",
-      "completedBy": null,
-      "completedDate": "0001-01-01T00:00:00",
-      "chapterData": [
-        {
-          "chapterId": 1,
-          "chapterCode": "CP0001",
-          "chapterName": "Chapter 1",
-          "chapterGoal": "Chapter Goal",
-          "missionData": [
-            {
-              "missionId": 49,
-              "chapterId": 1,
-              "missionCode": "M0000001",
-              "missionName": "Mission 1",
-              "missionInstruction": "Mission Instruction",
-              "missionDuration": 10,
-              "missionActiveOnDay": 10,
-              "missionTypeCode": "MT0001",
-              "missionTypeName": "Mission Type 1",
-              "missionReward": 200,
-              "taskData": [
-                {
-                  "taskId": 50,
-                  "missionId": 49,
-                  "attachmentId": 2,
-                  "taskCode": "T0000054",
-                  "taskGroup": "G0001",
-                  "taskCaption": "Task 4",
-                  "taskTypeCode": "TT0001",
-                  "taskTypeName": "Task Type 1",
-                  "taskReward": 50,
-                  "answerData": [
-                    {
-                      "answerId": 220,
-                      "taskId": 50,
-                      "answerCode": "A0000240",
-                      "answerField": "Answer4",
-                      "answerCaption": "Answer 4"
-                    },
-                    {
-                      "answerId": 217,
-                      "taskId": 50,
-                      "answerCode": "A0000237",
-                      "answerField": "Answer1",
-                      "answerCaption": "Answer 1"
-                    },
-                    {
-                      "answerId": 218,
-                      "taskId": 50,
-                      "answerCode": "A0000238",
-                      "answerField": "Answer2",
-                      "answerCaption": "Answer 2"
-                    },
-                    {
-                      "answerId": 221,
-                      "taskId": 50,
-                      "answerCode": "A0000241",
-                      "answerField": "Answer5",
-                      "answerCaption": "Answer 5"
-                    },
-                    {
-                      "answerId": 219,
-                      "taskId": 50,
-                      "answerCode": "A0000239",
-                      "answerField": "Answer3",
-                      "answerCaption": "Answer 3"
-                    }
-                  ]
-                },
-                {
-                  "taskId": 49,
-                  "missionId": 49,
-                  "attachmentId": 2,
-                  "taskCode": "T0000053",
-                  "taskGroup": "G0001",
-                  "taskCaption": "Task 3",
-                  "taskTypeCode": "TT0002",
-                  "taskTypeName": "Task Type 1",
-                  "taskReward": 50,
-                  "answerData": [
-                    {
-                      "answerId": 213,
-                      "taskId": 49,
-                      "answerCode": "A0000233",
-                      "answerField": "Answer2",
-                      "answerCaption": "Answer 2"
-                    },
-                    {
-                      "answerId": 216,
-                      "taskId": 49,
-                      "answerCode": "A0000236",
-                      "answerField": "Answer5",
-                      "answerCaption": "Answer 5"
-                    },
-                    {
-                      "answerId": 214,
-                      "taskId": 49,
-                      "answerCode": "A0000234",
-                      "answerField": "Answer3",
-                      "answerCaption": "Answer 3"
-                    },
-                    {
-                      "answerId": 215,
-                      "taskId": 49,
-                      "answerCode": "A0000235",
-                      "answerField": "Answer4",
-                      "answerCaption": "Answer 4"
-                    },
-                    {
-                      "answerId": 212,
-                      "taskId": 49,
-                      "answerCode": "A0000232",
-                      "answerField": "Answer1",
-                      "answerCaption": "Answer 1"
-                    }
-                  ]
-                },
-                {
-                  "taskId": 47,
-                  "missionId": 49,
-                  "attachmentId": 2,
-                  "taskCode": "T0000051",
-                  "taskGroup": "G0001",
-                  "taskCaption": "Task 1",
-                  "taskTypeCode": "TT0003",
-                  "taskTypeName": "Task Type 1",
-                  "taskReward": 50,
-                  "answerData": [
-                    {
-                      "answerId": 205,
-                      "taskId": 47,
-                      "answerCode": "A0000225",
-                      "answerField": "Answer4",
-                      "answerCaption": "Answer 4"
-                    },
-                    {
-                      "answerId": 204,
-                      "taskId": 47,
-                      "answerCode": "A0000224",
-                      "answerField": "Answer3",
-                      "answerCaption": "Answer 3"
-                    },
-                    {
-                      "answerId": 206,
-                      "taskId": 47,
-                      "answerCode": "A0000226",
-                      "answerField": "Answer5",
-                      "answerCaption": "Answer 5"
-                    },
-                    {
-                      "answerId": 203,
-                      "taskId": 47,
-                      "answerCode": "A0000223",
-                      "answerField": "Answer2",
-                      "answerCaption": "Answer 2"
-                    },
-                    {
-                      "answerId": 202,
-                      "taskId": 47,
-                      "answerCode": "A0000222",
-                      "answerField": "Answer1",
-                      "answerCaption": "Answer 1"
-                    }
-                  ]
-                },
-                {
-                  "taskId": 48,
-                  "missionId": 49,
-                  "attachmentId": 2,
-                  "taskCode": "T0000052",
-                  "taskGroup": "G0001",
-                  "taskCaption": "Task 2",
-                  "taskTypeCode": "TT0004",
-                  "taskTypeName": "Task Type 1",
-                  "taskReward": 50,
-                  "answerData": [
-                    {
-                      "answerId": 211,
-                      "taskId": 48,
-                      "answerCode": "A0000231",
-                      "answerField": "Answer5",
-                      "answerCaption": "Answer 5"
-                    },
-                    {
-                      "answerId": 209,
-                      "taskId": 48,
-                      "answerCode": "A0000229",
-                      "answerField": "Answer3",
-                      "answerCaption": "Answer 3"
-                    },
-                    {
-                      "answerId": 208,
-                      "taskId": 48,
-                      "answerCode": "A0000228",
-                      "answerField": "Answer2",
-                      "answerCaption": "Answer 2"
-                    },
-                    {
-                      "answerId": 207,
-                      "taskId": 48,
-                      "answerCode": "A0000227",
-                      "answerField": "Answer1",
-                      "answerCaption": "Answer 1"
-                    },
-                    {
-                      "answerId": 210,
-                      "taskId": 48,
-                      "answerCode": "A0000230",
-                      "answerField": "Answer4",
-                      "answerCaption": "Answer 4"
-                    }
-                  ]
-                },
-                {
-                  "taskId": 48,
-                  "missionId": 49,
-                  "attachmentId": 2,
-                  "taskCode": "T0000052",
-                  "taskGroup": "G0001",
-                  "taskCaption": "Task 2",
-                  "taskTypeCode": "TT0005",
-                  "taskTypeName": "Task Type 1",
-                  "taskReward": 50,
-                  "answerData": [
-                    {
-                      "answerId": 211,
-                      "taskId": 48,
-                      "answerCode": "A0000231",
-                      "answerField": "Answer5",
-                      "answerCaption": "Answer 5"
-                    },
-                    {
-                      "answerId": 209,
-                      "taskId": 48,
-                      "answerCode": "A0000229",
-                      "answerField": "Answer3",
-                      "answerCaption": "Answer 3"
-                    },
-                    {
-                      "answerId": 208,
-                      "taskId": 48,
-                      "answerCode": "A0000228",
-                      "answerField": "Answer2",
-                      "answerCaption": "Answer 2"
-                    },
-                    {
-                      "answerId": 207,
-                      "taskId": 48,
-                      "answerCode": "A0000227",
-                      "answerField": "Answer1",
-                      "answerCaption": "Answer 1"
-                    },
-                    {
-                      "answerId": 210,
-                      "taskId": 48,
-                      "answerCode": "A0000230",
+                      "answerId": 184,
+                      "taskId": 78,
+                      "answerCode": "A0000184",
                       "answerField": "Answer4",
                       "answerCaption": "Answer 4"
                     }

@@ -5,6 +5,7 @@ import 'package:module_shared/module_shared.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../../../../configs/theme/color.theme.dart';
+import '../../../main_nav/presentation/controller/main_nav.controller.dart';
 import '../controller/task.controller.dart';
 
 class TaskRatingScreen extends ConsumerStatefulWidget {
@@ -28,6 +29,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final ctrl = ref.watch(taskControllerProvider.notifier);
+        final ctrlMission = ref.read(mainNavControllerProvider.notifier);
         final currentQuestionIndex = ref.watch(currentIndexState.notifier);
         final listSelectedOption = ref.read(listSelectOptionState);
         final currentQuestionProgress = ref.watch(currentProgressState);
@@ -74,7 +76,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                         padding: EdgeInsets.all(4),
                                         decoration: BoxDecoration(
                                             color:
-                                                ColorThemeEtamkawa.secondary100,
+                                                ColorTheme.secondary100,
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(5.r))),
                                         child: Center(
@@ -86,7 +88,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                             children: [
                                               Icon(
                                                 Icons.star,
-                                                color: ColorThemeEtamkawa
+                                                color: ColorTheme
                                                     .secondary500,
                                                 size: 12.h,
                                               ),
@@ -104,7 +106,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                       ),
                                       Icon(
                                         Icons.info,
-                                        color: ColorThemeEtamkawa.primaryNew,
+                                        color: ColorTheme.primary500,
                                         size: 24.h,
                                       ),
                                     ],
@@ -157,17 +159,13 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                 if (rating != 0) {
                                   if (listSelectedOption.isNotEmpty) {
                                     ref
-                                        .watch(listSelectOptionState
-                                        .notifier)
+                                        .watch(listSelectOptionState.notifier)
                                         .state
                                         .clear();
                                   }
                                   ref
-                                      .watch(listSelectOptionState
-                                      .notifier)
-                                      .state = [
-                                    rating.toInt()
-                                  ];
+                                      .watch(listSelectOptionState.notifier)
+                                      .state = [rating.toInt()];
                                 }
                               },
                             ),
@@ -177,199 +175,206 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                     ],
                   ),
                 ),
-                Card(
-                  child: Container(
-                    padding: const EdgeInsets.all(16.0),
-                    width: double.infinity,
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            0 < currentQuestionIndex.state && lengthAnswer != 1
-                                ? Expanded(
-                                    child: ElevatedButton(
-                                      style: ButtonStyle(
-                                        foregroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Colors.black),
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Colors.white),
-                                      ),
-                                      onPressed: () {
-                                        ctrl.prevQuestion().whenComplete(() {
-                                          currentQuestionIndex.state--;
-                                          ref
-                                              .watch(
-                                                  currentProgressState.notifier)
-                                              .state--;
-                                          if (ref
-                                              .watch(
-                                              previousTypeTaskState.notifier)
-                                              .state ==
-                                              TaskType.STX.name) {
-                                            ref
-                                                .watch(
-                                                listSelectOptionStringState
-                                                    .notifier)
-                                                .state =
-                                                ref
-                                                    .watch(
-                                                    listSelectOptionPrevStringState
-                                                        .notifier)
-                                                    .state;
-                                          } else {
-                                            ref
-                                                .watch(listSelectOptionState
-                                                .notifier)
-                                                .state =
-                                                ref
-                                                    .watch(
-                                                    listSelectOptionPrevState
-                                                        .notifier)
-                                                    .state;
-                                          }
-                                        });
-                                      },
-                                      child: Text(
-                                        'Previous',
-                                      ),
+                Container(
+                  color: ColorTheme.backgroundWhite,
+                  padding: const EdgeInsets.all(16.0),
+                  width: double.infinity,
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          0 < currentQuestionIndex.state && lengthAnswer != 1
+                              ? Expanded(
+                                  child: ElevatedButton(
+                                    style: ButtonStyle(
+                                      foregroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.black),
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.white),
                                     ),
-                                  )
-                                : Container(),
-                            SizedBox(width: 8),
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  if (listSelectedOption.isNotEmpty) {
-                                      if ((currentQuestionIndex.state + 1) <
-                                              lengthAnswer &&
-                                          lengthAnswer != 1) {
-                                        ctrl
-                                            .nextQuestion(isLast: false)
-                                            .whenComplete(() async {
-                                          await ctrl
-                                              .saveAnswer(
-                                                  listTask[currentQuestionIndex
-                                                              .state]
-                                                          .taskId ??
-                                                      0,
-                                                  isLast: false,
-                                                  listSelectedOption:
-                                                      listSelectedOption,
-                                                  type: listTask[
-                                                              currentQuestionIndex
-                                                                  .state]
-                                                          .taskTypeCode ??
-                                                      '')
-                                              .whenComplete(() {
-                                            currentQuestionIndex.state++;
-                                            ref
-                                                .watch(currentProgressState
+                                    onPressed: () {
+                                      ctrl.prevQuestion().whenComplete(() {
+                                        currentQuestionIndex.state--;
+                                        ref
+                                            .watch(
+                                                currentProgressState.notifier)
+                                            .state--;
+                                        if (ref
+                                                .watch(previousTypeTaskState
                                                     .notifier)
-                                                .state++;
-                                            if (ref
-                                                .watch(
-                                                nextTypeTaskState.notifier)
                                                 .state ==
-                                                TaskType.STX.name) {
-                                              ref
-                                                  .watch(listSelectOptionStringState
-                                                  .notifier)
+                                            TaskType.STX.name) {
+                                          ref
+                                                  .watch(
+                                                      listSelectOptionStringState
+                                                          .notifier)
                                                   .state =
-                                                  ref
-                                                      .watch(listSelectOptionNextStringState
-                                                      .notifier)
-                                                      .state;
-                                            } else {
                                               ref
+                                                  .watch(
+                                                      listSelectOptionPrevStringState
+                                                          .notifier)
+                                                  .state;
+                                        } else {
+                                          ref
                                                   .watch(listSelectOptionState
-                                                  .notifier)
+                                                      .notifier)
                                                   .state =
-                                                  ref
-                                                      .watch(
+                                              ref
+                                                  .watch(
+                                                      listSelectOptionPrevState
+                                                          .notifier)
+                                                  .state;
+                                        }
+                                      });
+                                    },
+                                    child: Text(
+                                      'Previous',
+                                    ),
+                                  ),
+                                )
+                              : Container(),
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (listSelectedOption.isNotEmpty) {
+                                  if ((currentQuestionIndex.state + 1) <
+                                          lengthAnswer &&
+                                      lengthAnswer != 1) {
+                                    ctrl
+                                        .nextQuestion(isLast: false)
+                                        .whenComplete(() async {
+                                      await ctrl
+                                          .saveAnswer(
+                                              listTask[currentQuestionIndex
+                                                          .state]
+                                                      .taskId ??
+                                                  0,
+                                              isLast: false,
+                                              listSelectedOption:
+                                                  listSelectedOption,
+                                              type: listTask[
+                                                          currentQuestionIndex
+                                                              .state]
+                                                      .taskTypeCode ??
+                                                  '')
+                                          .whenComplete(() {
+                                        currentQuestionIndex.state++;
+                                        ref
+                                            .watch(
+                                                currentProgressState.notifier)
+                                            .state++;
+                                        if (ref
+                                                .watch(nextTypeTaskState
+                                                    .notifier)
+                                                .state ==
+                                            TaskType.STX.name) {
+                                          ref
+                                                  .watch(
+                                                      listSelectOptionStringState
+                                                          .notifier)
+                                                  .state =
+                                              ref
+                                                  .watch(
+                                                      listSelectOptionNextStringState
+                                                          .notifier)
+                                                  .state;
+                                        } else {
+                                          ref
+                                                  .watch(listSelectOptionState
+                                                      .notifier)
+                                                  .state =
+                                              ref
+                                                  .watch(
                                                       listSelectOptionNextState
                                                           .notifier)
-                                                      .state;
-                                            }
-                                          });
-                                        });
-                                      } else {
-                                        ctrl
-                                            .saveAnswer(
-                                                listTask[currentQuestionIndex
-                                                            .state]
-                                                        .taskId ??
-                                                    0,
-                                                isLast: true,
-                                                listSelectedOption:
-                                                    listSelectedOption,
-                                                type: listTask[
-                                                            currentQuestionIndex
-                                                                .state]
-                                                        .taskTypeCode ??
-                                                    '')
-                                            .whenComplete(() {
-                                          if (((currentQuestionProgress) *
-                                                      100) ~/
-                                                  listTask.length <
-                                              100) {
-                                            ref
-                                                .watch(currentProgressState
-                                                    .notifier)
-                                                .state++;
-                                          }
-
-                                          ref
-                                              .watch(listSelectOptionState
-                                                  .notifier)
-                                              .state = [];
-                                          showDialog(
-                                            context: context,
-                                            builder: (_) => AlertDialog(
-                                              title:
-                                                  const Text('Quiz Finished'),
-                                              content: const Text(
-                                                  'You have completed the quiz.'),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: const Text('OK'),
-                                                )
-                                              ],
-                                            ),
-                                          );
-                                        });
-                                      }
+                                                  .state;
+                                        }
+                                      });
+                                    });
                                   } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content:
-                                              Text('Please select an option!')),
-                                    );
+                                    ctrl
+                                        .saveAnswer(
+                                            listTask[currentQuestionIndex
+                                                        .state]
+                                                    .taskId ??
+                                                0,
+                                            isLast: true,
+                                            listSelectedOption:
+                                                listSelectedOption,
+                                            type: listTask[
+                                                        currentQuestionIndex
+                                                            .state]
+                                                    .taskTypeCode ??
+                                                '')
+                                        .whenComplete(() {
+                                      if (((currentQuestionProgress) * 100) ~/
+                                              listTask.length <
+                                          100) {
+                                        ref
+                                            .watch(
+                                                currentProgressState.notifier)
+                                            .state++;
+                                      }
+
+                                      ref
+                                          .watch(
+                                              listSelectOptionState.notifier)
+                                          .state = [];
+                                      showDialog(
+                                        context: context,
+                                        builder: (_) => AlertDialog(
+                                          title: const Text('Quiz Finished'),
+                                          content: const Text(
+                                              'You have completed the quiz.'),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              onPressed: () async {
+                                                await ctrl
+                                                    .putAnswerFinal()
+                                                    .whenComplete(() async {
+                                                  await ctrl
+                                                      .changeStatusTask()
+                                                      .whenComplete(() async {
+                                                    await ctrlMission
+                                                        .fetchMissionList()
+                                                        .whenComplete(() {
+                                                      Navigator.pop(context);
+                                                      Navigator.pop(context);
+                                                    });
+                                                  });
+                                                });
+                                              },
+                                              child: const Text('OK'),
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    });
                                   }
-                                },
-                                child: Text(
-                                  (currentQuestionIndex.state + 1) <
-                                          (listTask[currentQuestionIndex.state]
-                                                      .answerData
-                                                      ?.length ??
-                                                  0) -
-                                              1
-                                      ? 'Next'
-                                      : 'Finish',
-                                ),
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content:
+                                            Text('Please select an option!')),
+                                  );
+                                }
+                              },
+                              child: Text(
+                                (currentQuestionIndex.state + 1) <
+                                        listTask.length
+                                    ? 'Next'
+                                    : 'Finish',
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
