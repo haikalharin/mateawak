@@ -410,7 +410,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                         ),
                       ],
                     ))
-              )]);
+              ]);
             })));
   }
 }
@@ -430,6 +430,9 @@ Widget addTaskIfQuizz(bool isAssignment, int totalTask) {
     mainAxisAlignment: MainAxisAlignment.center,
     mainAxisSize: MainAxisSize.min,
     children: [
+      SizedBox(
+                                        height: 10.h,
+                                      ),
       SvgPicture.asset(ImageConstant.iconTask,
           width: 16.sp,
           height: 20.sp,

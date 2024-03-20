@@ -146,7 +146,7 @@ class TaskController extends _$TaskController {
           gamification.copyWith(missionStatusId: 2, missionStatus: 'Submitted');
     } else {
       data = gamification.copyWith(
-          missionStatusId: 1, missionStatus: 'In progress');
+          missionStatusId: 1, missionStatus: 'In Progress');
     }
     await ref
         .watch(changeStatusTaskLocalProvider(task: data).future)

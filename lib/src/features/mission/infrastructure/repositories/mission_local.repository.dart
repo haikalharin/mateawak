@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:isar/isar.dart';
+import 'package:module_etamkawa/src/features/mission/domain/gamification_additional_detail.remote.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/utils/common_utils.dart';
@@ -13,33 +14,41 @@ import '../../../offline_mode/infrastructure/repositories/isar.repository.dart';
 part 'mission_local.repository.g.dart';
 
 @riverpod
-FutureOr<List<GamificationResponseRemote>> getMissionRemote(GetMissionLocalRef ref) async {
+FutureOr<List<GamificationResponseRemote>> getMissionRemote(
+    GetMissionLocalRef ref) async {
   final isarInstance = await ref.watch(isarInstanceProvider.future);
 
   final connect = ref.read(connectProvider.notifier);
-  List<GamificationResponseRemote> listResponse =[];
+  List<GamificationResponseRemote> listResponse = [];
   //const rawMissionDummy = Constant.rawMissionDummy;
   final userModel = await ref.read(helperUserProvider).getUserProfile();
-  final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
+  final gamificationAdditionalDetailRemotes =
+      (await isarInstance.gamificationAdditionalDetailRemotes.count() > 0)
+          ? await isarInstance.gamificationAdditionalDetailRemotes.get(1)
+          : GamificationAdditionalDetailRemote();
+  final latestSyncDate = gamificationAdditionalDetailRemotes?.latestSyncDate;
+  ref.read(latestSyncDateState.notifier).state;
   final response = await connect.post(
-    modul: ModuleType.etamkawaGamification,
-    path: "api/mission/get_employee_mission?${Constant.apiVer}",
-    body: {
-      "employeeId": userModel?.employeeID,
-      "requestDate": latestSyncDate
-      //"requestDate": '2024-03-01T03:55:58.918Z'
-    }
-  );
+      modul: ModuleType.etamkawaGamification,
+      path: "api/mission/get_employee_mission?${Constant.apiVer}",
+      body: {
+        "employeeId": userModel?.employeeID,
+        "requestDate": latestSyncDate
+        //"requestDate": '2024-03-01T03:55:58.918Z'
+      });
   for (var element in response.result?.content) {
     //for (var element in rawMissionDummy){
     final result = GamificationResponseRemote.fromJson(element);
     listResponse.add(result);
   }
-  final today = CommonUtils.formatDateRequestParam(DateTime.now().toString());
+  final today =
+      CommonUtils.formatDateRequestParam(DateTime.now().toUtc().toString());
   ref.watch(latestSyncDateState.notifier).state = today;
-
+  gamificationAdditionalDetailRemotes?.latestSyncDate = today;
   await isarInstance.writeTxn(() async {
     //await isarInstance.gamificationResponseRemotes.clear();
+    await isarInstance.gamificationAdditionalDetailRemotes.put(
+        gamificationAdditionalDetailRemotes!);
     await isarInstance.gamificationResponseRemotes.putAll(listResponse);
   });
 
@@ -53,9 +62,9 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(GetMissionLocalRef r
   return data;
 }
 
-
 @riverpod
-FutureOr<List<GamificationResponseRemote>> getMissionLocal(GetMissionLocalRef ref) async {
+FutureOr<List<GamificationResponseRemote>> getMissionLocal(
+    GetMissionLocalRef ref) async {
   final isarInstance = await ref.watch(isarInstanceProvider.future);
 
   final data = await isarInstance.gamificationResponseRemotes
@@ -64,5 +73,3 @@ FutureOr<List<GamificationResponseRemote>> getMissionLocal(GetMissionLocalRef re
       .findAll();
   return data;
 }
-
-
