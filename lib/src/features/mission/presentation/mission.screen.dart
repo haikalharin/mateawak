@@ -239,6 +239,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                           ),
                         ),
                         onPressed: () async {
+                          if (gamification[index].missionStatusId == 1) {
                           await ctrlTask
                               .putDetailMissionData(
                                   missionDatum: gamification[index]
@@ -251,7 +252,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                   gamificationResponseRemote:
                                       gamification[index])
                               .whenComplete(() async {
-                            if (gamification[index].missionStatusId == 1) {
+
                               await ctrlTask
                                   .currentQuestion()
                                   .whenComplete(() async {
@@ -262,10 +263,53 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                       context, gamification[index]);
                                 });
                               });
-                            } else {
-                              myAsyncMethodMoved(context, gamification[index]);
-                            }
+
                           });
+                          } else {
+                            await ctrlTask
+                                .putDetailMissionData(
+                                missionDatum: gamification[index]
+                                    .chapterData
+                                    ?.single
+                                    .missionData
+                                    ?.single ??
+                                    MissionDatum(),
+                                listGamification: gamification,
+                                gamificationResponseRemote:
+                                gamification[index])
+                                .whenComplete(() async {
+                              List<MissionDatum>listMission = [];
+                              ref
+                                  .watch(missionDataState.notifier)
+                                  .state = gamification[index]
+                                  .chapterData
+                                  ?.single
+                                  .missionData
+                                  ?.single ??
+                                  MissionDatum();
+                              ref
+                                  .watch(gamificationState.notifier)
+                                  .state = gamification[index];
+                              for (var element in gamification) {
+                                listMission.add(
+                                    element.chapterData?.single.missionData?.single ?? MissionDatum());
+                              }
+                              ref
+                                  .watch(listMissionState.notifier)
+                                  .state = listMission;
+                              List<TaskDatum> listTask = ( gamification[index]
+                                  .chapterData
+                                  ?.single
+                                  .missionData
+                                  ?.single.taskData ?? []);
+                              ref
+                                  .watch(listTaskState.notifier)
+                                  .state = listTask;
+                            await  myAsyncMethodMoved(
+                                  context, gamification[index]);
+
+                            });
+                          }
                         },
                         child: const Text("View"),
                       ),

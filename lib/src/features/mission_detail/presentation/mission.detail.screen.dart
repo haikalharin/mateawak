@@ -56,7 +56,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final gamification = ref
-            .watch(gamificationState.notifier)
+            .read(gamificationState.notifier)
             .state;
         final ctrlTask = ref.watch(taskControllerProvider.notifier);
         return AsyncValueWidget(

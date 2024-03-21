@@ -18,29 +18,44 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(GetMissionLocalRef r
 
   final connect = ref.read(connectProvider.notifier);
   List<GamificationResponseRemote> listResponse =[];
-  const rawMissionDummy = Constant.rawMissionDummy;
+  List<GamificationResponseRemote> listResponseFinal =[];
+  // const rawMissionDummy = Constant.rawMissionDummy;
   final userModel = await ref.read(helperUserProvider).getUserProfile();
   final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
-  // final response = await connect.post(
-  //   modul: ModuleType.etamkawaGamification,
-  //   path: "api/mission/get_employee_mission?${Constant.apiVer}",
-  //   body: {
-  //     "employeeId": userModel?.employeeID,
-  //     "requestDate": latestSyncDate
-  //     //"requestDate": '2024-03-01T03:55:58.918Z'
-  //   }
-  // );
-  // for (var element in response.result?.content) {
-    for (var element in rawMissionDummy){
+  final response = await connect.post(
+    modul: ModuleType.etamkawaGamification,
+    path: "api/mission/get_employee_mission?${Constant.apiVer}",
+    body: {
+      "employeeId": userModel?.employeeID,
+      "requestDate": latestSyncDate
+      //"requestDate": '2024-03-01T03:55:58.918Z'
+    }
+  );
+  for (var element in response.result?.content) {
+  //   for (var element in rawMissionDummy){
     final result = GamificationResponseRemote.fromJson(element);
     listResponse.add(result);
   }
   final today = CommonUtils.formatDateRequestParam(DateTime.now().toString());
   ref.watch(latestSyncDateState.notifier).state = today;
+  var repo = ref.read(getMissionLocalProvider.future);
+  for (var element in listResponse) {
 
+  await AsyncValue.guard(() => repo).then((value) async {
+    if ((value.value??[]).isNotEmpty) {
+      value.value?.forEach((localElement) async {
+        if(localElement.employeeMissionId == element.missionStatusId){
+          listResponseFinal.add(localElement);
+        }
+      });
+    } else{
+      listResponseFinal.addAll(listResponse);
+    }
+  });
+  }
   await isarInstance.writeTxn(() async {
     //await isarInstance.gamificationResponseRemotes.clear();
-    await isarInstance.gamificationResponseRemotes.putAll(listResponse);
+    await isarInstance.gamificationResponseRemotes.putAll(listResponseFinal);
   });
 
   ref.keepAlive();

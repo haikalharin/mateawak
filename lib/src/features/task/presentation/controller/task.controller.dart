@@ -99,10 +99,7 @@ class TaskController extends _$TaskController {
     required GamificationResponseRemote gamificationResponseRemote,
     required List<GamificationResponseRemote> listGamification}) async {
     List<MissionDatum>listMission = [];
-    if(gamificationResponseRemote.missionStatusId == 1) {
-      List<TaskDatumAnswer> listAnswerCekFromDb = await getAnswerFinal(
-          employeeMissionId: gamificationResponseRemote.employeeMissionId ?? 0);
-    }
+
     ref
         .watch(missionDataState.notifier)
         .state = missionDatum;
@@ -120,12 +117,18 @@ class TaskController extends _$TaskController {
     ref
         .watch(listTaskState.notifier)
         .state = listTask;
-    var listAnswer = await fetchAnswerData();
-    if(listAnswer.isNotEmpty) {
-      listAnswer.forEach((element) async {
-        await putTaskAnswer(element);
-      });
+
+    if(gamificationResponseRemote.missionStatusId == 1) {
+      List<TaskDatumAnswer> listAnswerCekFromDb = await getAnswerFinal(
+          employeeMissionId: gamificationResponseRemote.employeeMissionId ?? 0);
+      var listAnswer = await fetchAnswerData();
+      if(listAnswer.isNotEmpty) {
+        for (var element in listAnswer) {
+          await putTaskAnswer(element);
+        }
+      }
     }
+
   }
 
   Future<void> selectOption(int value) async {
