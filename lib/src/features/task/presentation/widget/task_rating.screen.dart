@@ -347,6 +347,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                         .whenComplete(() {
                                                       Navigator.pop(context);
                                                       Navigator.pop(context);
+                                                      Navigator.pop(context);
                                                     });
                                                   });
                                                 });

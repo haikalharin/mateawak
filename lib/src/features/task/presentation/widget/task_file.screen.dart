@@ -587,6 +587,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                               context);
                                                           Navigator.pop(
                                                               context);
+                                                          Navigator.pop(
+                                                              context);
                                                         });
 
 

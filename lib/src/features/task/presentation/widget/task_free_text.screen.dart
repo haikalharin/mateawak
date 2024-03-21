@@ -393,6 +393,8 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                               context);
                                                           Navigator.pop(
                                                               context);
+                                                          Navigator.pop(
+                                                              context);
                                                         });
                                                       });
                                                     });
