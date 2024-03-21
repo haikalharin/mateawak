@@ -26,14 +26,11 @@ final listMissionPastState =
     StateProvider.autoDispose<List<MissionDatum>>((ref) => []);
 
 final gamificationInProgressState =
-    StateProvider.autoDispose<GamificationResponseRemote>(
-        (ref) => GamificationResponseRemote());
+    StateProvider.autoDispose<List<GamificationResponseRemote>>((ref) => []);
 final gamificationAssignedState =
-    StateProvider.autoDispose<GamificationResponseRemote>(
-        (ref) => GamificationResponseRemote());
+    StateProvider.autoDispose<List<GamificationResponseRemote>>((ref) => []);
 final gamificationPastState =
-    StateProvider.autoDispose<GamificationResponseRemote>(
-        (ref) => GamificationResponseRemote());
+    StateProvider.autoDispose<List<GamificationResponseRemote>>((ref) => []);
 final fixedGamificationAssigned =
     StateProvider.autoDispose<List<GamificationResponseRemote>>((ref) => []);
 var latestSyncDateState =
@@ -49,28 +46,42 @@ class MissionController extends _$MissionController {
   }
 
   Future<void> getMissionListLocal() async {
-    var repo =  ref.read(getMissionLocalProvider.future);
+    var repo = ref.read(getMissionLocalProvider.future);
 
     state = await AsyncValue.guard(() => repo).then((value) async {
       List<MissionDatum> listMissionInProgress = [];
       List<MissionDatum> listMissionAssigned = [];
       List<MissionDatum> listMissionPast = [];
+      List<GamificationResponseRemote> listGamificationInProgress = [];
+      List<GamificationResponseRemote> listGamificationAssigned = [];
+      List<GamificationResponseRemote> listGamificationPast = [];
       if (value.hasValue) {
         value.value?.forEach((element) async {
           if (element.missionStatusId! == 1) {
-            ref.watch(gamificationInProgressState.notifier).state = element;
+            ref.watch(gamificationInProgressState.notifier).state.forEach((currentElement) {
+              if(element.employeeMissionId == currentElement.employeeMissionId){
+                listGamificationInProgress.add(currentElement);
+                element.chapterData?.forEach((chapter) {
+                  listMissionInProgress.addAll(chapter.missionData ?? []);
+                });
+              } else{
+                listGamificationInProgress.add(element);
+                element.chapterData?.forEach((chapter) {
+                  listMissionInProgress.addAll(chapter.missionData ?? []);
+                });
+              }
+            });
+
+          } else if (element.missionStatusId! == 0) {
+            listGamificationAssigned.add(element);
             element.chapterData?.forEach((chapter) {
               listMissionInProgress.addAll(chapter.missionData ?? []);
             });
-          } else if (element.missionStatusId! == 0) {
-            ref.watch(gamificationAssignedState.notifier).state = element;
-            element.chapterData?.forEach((chapter) {
-              listMissionAssigned.addAll(chapter.missionData ?? []);
-            });
+
           } else if (element.missionStatusId! >= 2) {
-            ref.watch(gamificationPastState.notifier).state = element;
+            listGamificationPast.add(element);
             element.chapterData?.forEach((chapter) {
-              listMissionPast.addAll(chapter.missionData ?? []);
+              listMissionInProgress.addAll(chapter.missionData ?? []);
             });
           }
           // } else {
@@ -87,6 +98,9 @@ class MissionController extends _$MissionController {
         ref.watch(listMissionAssignedState.notifier).state =
             listMissionAssigned;
         ref.watch(listMissionPastState.notifier).state = listMissionPast;
+        ref.watch(gamificationInProgressState.notifier).state = listGamificationInProgress;
+        ref.watch(gamificationAssignedState.notifier).state = listGamificationAssigned;
+        ref.watch(gamificationPastState.notifier).state = listGamificationPast;
         ref.watch(listGamificationState.notifier).state = value.value ?? [];
         ref.watch(fixedGamificationAssigned.notifier).state = value.value ?? [];
         listGamification = value.value ?? [];
@@ -94,7 +108,6 @@ class MissionController extends _$MissionController {
       return value;
     });
   }
-
 
   Future<void> getMissionList() async {
     final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
@@ -106,23 +119,79 @@ class MissionController extends _$MissionController {
       List<MissionDatum> listMissionInProgress = [];
       List<MissionDatum> listMissionAssigned = [];
       List<MissionDatum> listMissionPast = [];
+      List<GamificationResponseRemote> listGamificationInProgress = [];
+      List<GamificationResponseRemote> listGamificationAssigned = [];
+      List<GamificationResponseRemote> listGamificationPast = [];
       if (value.hasValue) {
         value.value?.forEach((element) async {
           if (element.missionStatusId! == 1) {
-            ref.watch(gamificationInProgressState.notifier).state = element;
-            element.chapterData?.forEach((chapter) {
-              listMissionInProgress.addAll(chapter.missionData ?? []);
-            });
+            if(  ref.watch(gamificationInProgressState.notifier).state.isNotEmpty){
+              ref.watch(gamificationInProgressState.notifier).state.forEach((currentElement) {
+                if(element.employeeMissionId == currentElement.employeeMissionId){
+                  listGamificationInProgress.add(currentElement);
+                  element.chapterData?.forEach((chapter) {
+                    listMissionInProgress.addAll(chapter.missionData ?? []);
+                  });
+                } else{
+                  listGamificationInProgress.add(element);
+                  element.chapterData?.forEach((chapter) {
+                    listMissionInProgress.addAll(chapter.missionData ?? []);
+                  });
+                }
+              });
+
+            } else{
+              listGamificationInProgress.add(element);
+              element.chapterData?.forEach((chapter) {
+                listMissionInProgress.addAll(chapter.missionData ?? []);
+              });
+            }
+
           } else if (element.missionStatusId! == 0) {
-            ref.watch(gamificationAssignedState.notifier).state = element;
-            element.chapterData?.forEach((chapter) {
-              listMissionAssigned.addAll(chapter.missionData ?? []);
-            });
+            if(ref.watch(gamificationAssignedState.notifier).state.isNotEmpty){
+              ref.watch(gamificationAssignedState.notifier).state.forEach((currentElement) {
+                if(element.employeeMissionId == currentElement.employeeMissionId){
+                  listGamificationAssigned.add(currentElement);
+                  element.chapterData?.forEach((chapter) {
+                    listMissionInProgress.addAll(chapter.missionData ?? []);
+                  });
+                } else{
+                  listGamificationAssigned.add(element);
+                  element.chapterData?.forEach((chapter) {
+                    listMissionInProgress.addAll(chapter.missionData ?? []);
+                  });
+                }
+              });
+
+            } else{
+              listGamificationAssigned.add(element);
+              element.chapterData?.forEach((chapter) {
+                listMissionInProgress.addAll(chapter.missionData ?? []);
+              });
+            }
+
           } else if (element.missionStatusId! >= 2) {
-            ref.watch(gamificationPastState.notifier).state = element;
-            element.chapterData?.forEach((chapter) {
-              listMissionPast.addAll(chapter.missionData ?? []);
-            });
+            if( ref.watch(gamificationPastState.notifier).state.isNotEmpty){
+              ref.watch(gamificationPastState.notifier).state.forEach((currentElement) {
+                if(element.employeeMissionId == currentElement.employeeMissionId){
+                  listGamificationPast.add(currentElement);
+                  element.chapterData?.forEach((chapter) {
+                    listMissionInProgress.addAll(chapter.missionData ?? []);
+                  });
+                } else{
+                  listGamificationPast.add(element);
+                  element.chapterData?.forEach((chapter) {
+                    listMissionInProgress.addAll(chapter.missionData ?? []);
+                  });
+                }
+              });
+
+            } else{
+              listGamificationPast.add(element);
+              element.chapterData?.forEach((chapter) {
+                listMissionInProgress.addAll(chapter.missionData ?? []);
+              });
+            }
           }
           // } else {
           //   listMissionInProgress = [];
@@ -138,6 +207,9 @@ class MissionController extends _$MissionController {
         ref.watch(listMissionAssignedState.notifier).state =
             listMissionAssigned;
         ref.watch(listMissionPastState.notifier).state = listMissionPast;
+        ref.watch(gamificationInProgressState.notifier).state = listGamificationInProgress;
+        ref.watch(gamificationAssignedState.notifier).state = listGamificationAssigned;
+        ref.watch(gamificationPastState.notifier).state = listGamificationPast;
         ref.watch(listGamificationState.notifier).state = value.value ?? [];
         ref.watch(fixedGamificationAssigned.notifier).state = value.value ?? [];
         listGamification = value.value ?? [];
@@ -155,17 +227,17 @@ class MissionController extends _$MissionController {
       if (value.hasValue) {
         value.value?.forEach((element) async {
           if (element.missionStatusId! == 1) {
-            ref.watch(gamificationInProgressState.notifier).state = element;
+            ref.watch(gamificationInProgressState.notifier).state.add(element);
             element.chapterData?.forEach((chapter) {
               listMissionInProgress.addAll(chapter.missionData ?? []);
             });
           } else if (element.missionStatusId! == 0) {
-            ref.watch(gamificationAssignedState.notifier).state = element;
+            ref.watch(gamificationAssignedState.notifier).state.add(element);
             element.chapterData?.forEach((chapter) {
               listMissionAssigned.addAll(chapter.missionData ?? []);
             });
           } else if (element.missionStatusId! >= 2) {
-            ref.watch(gamificationPastState.notifier).state = element;
+            ref.watch(gamificationPastState.notifier).state.add(element);
             element.chapterData?.forEach((chapter) {
               listMissionPast.addAll(chapter.missionData ?? []);
             });

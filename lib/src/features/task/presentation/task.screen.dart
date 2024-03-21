@@ -60,7 +60,40 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
       final gamificationData = ref.watch(gamificationState);
 
       return WillPopScope(
-        onWillPop: () {
+        onWillPop: () async {
+          await showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+              title:
+              const Text('Quiz Finished'),
+              content: const Text(
+                  'You have completed the quiz.'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () async {
+                    await ctrl
+                        .putAnswerFinal()
+                        .whenComplete(() async {
+                      await ctrl
+                          .changeStatusTask(isDone: false)
+                          .whenComplete(
+                              () async {
+                            await ctrlMission
+                                .fetchMissionListLocal()
+                                .whenComplete(() async {
+                              await ctrl.deleteAnswer(ctrl.listTaskAnswer).whenComplete(() {
+                                Navigator.of(context).pop();
+                                Navigator.of(context).pop();
+                              });
+                            });
+                          });
+                    });
+                  },
+                  child: const Text('OK'),
+                )
+              ],
+            ),
+          );
           return Future.value(true);
         },
         child: Scaffold(
@@ -70,6 +103,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
             title: 'Mission',
             brightnessIconStatusBar: Brightness.light,
             onBack: () async {
+
               await showDialog(
                 context: context,
                 builder: (_) => AlertDialog(
@@ -93,6 +127,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                   await ctrl.deleteAnswer(ctrl.listTaskAnswer).whenComplete(() {
                                     Navigator.of(context).pop();
                                     Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
                                   });
                                 });
                               });
@@ -103,7 +138,6 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                   ],
                 ),
               );
-
 
             }
           ),
