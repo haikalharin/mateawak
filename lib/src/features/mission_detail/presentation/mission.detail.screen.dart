@@ -7,9 +7,6 @@ import 'package:module_etamkawa/module_etamkawa.dart';
 import 'package:module_etamkawa/src/constants/constant.dart';
 import 'package:module_etamkawa/src/constants/image.constant.dart';
 import 'package:module_etamkawa/src/features/task/presentation/controller/task.controller.dart';
-import 'package:module_etamkawa/src/features/task/presentation/widget/task_multi_choice.screen.dart';
-import 'package:module_etamkawa/src/features/task/presentation/widget/task_sinlgle_choice.screen.dart';
-import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../configs/theme/color.theme.dart';
@@ -303,7 +300,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                         Constant.listTask: (gamification
                                             .chapterData?.single
                                             .missionData?.single
-                                            .taskData),
+                                            .taskData)
                                       });
                                     });
 

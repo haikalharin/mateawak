@@ -128,7 +128,7 @@ class TaskController extends _$TaskController {
         }
       }
     }
-
+    state = const AsyncValue.data(null);
   }
 
   Future<void> selectOption(int value) async {
@@ -157,6 +157,7 @@ class TaskController extends _$TaskController {
           ref
               .read(listSelectOptionCurrentStringState.notifier)
               .state;
+      state = const AsyncValue.data(null);
     } else {
       ref
           .watch(listSelectOptionState.notifier)
@@ -164,6 +165,8 @@ class TaskController extends _$TaskController {
           ref
               .read(listSelectOptionCurrentState.notifier)
               .state;
+      state = const AsyncValue.data(null);
+
     }
   }
 
@@ -174,7 +177,7 @@ class TaskController extends _$TaskController {
     List<TaskDatumAnswerRequestRemote> dataAnswer =
     await ref.watch(getAnswerLocalProvider.future);
     final gamification = ref
-        .read(gamificationState.notifier)
+        .watch(gamificationState.notifier)
         .state;
     dataAnswer.forEach((element) {
       listData.add(TaskDatumAnswer(
@@ -292,6 +295,7 @@ class TaskController extends _$TaskController {
             .state = listInt;
       }
     }
+    state = const AsyncValue.data(null);
   }
 
   Future<void> prevQuestion() async {
