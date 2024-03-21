@@ -81,33 +81,37 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                               // Tab 1 content
 
                               ListView.builder(
-                                itemCount: listMissionInProgress.length,
+                                itemCount: gamificationInProgress.length,
                                 itemBuilder: (context, index) {
-                                  return _buildListItem(
-                                      index,
-                                      ctrl,
-                                      ctrlTask,
-                                      listMissionInProgress,
-                                      gamificationInProgress);
+                                  if (gamificationInProgress.isNotEmpty) {
+                                    return _buildListItem(index, ctrl, ctrlTask,
+                                        gamificationInProgress);
+                                  } else {
+                                    return Container();
+                                  }
                                 },
                               ), // Tab 2 content
                               ListView.builder(
-                                itemCount: listMissionAssigned.length,
+                                itemCount: gamificationAssigned.length,
                                 itemBuilder: (context, index) {
-                                  return _buildListItem(
-                                      index,
-                                      ctrl,
-                                      ctrlTask,
-                                      listMissionAssigned,
-                                      gamificationAssigned);
+                                  if (gamificationAssigned.isNotEmpty) {
+                                    return _buildListItem(index, ctrl, ctrlTask,
+                                        gamificationAssigned);
+                                  } else {
+                                    return Container();
+                                  }
                                 },
                               ),
                               // Tab 3 content
                               ListView.builder(
-                                itemCount: listMissionPast.length,
+                                itemCount: gamificationPast.length,
                                 itemBuilder: (context, index) {
-                                  return _buildListItem(index, ctrl, ctrlTask,
-                                      listMissionPast, gamificationPast);
+                                  if (gamificationPast.isNotEmpty) {
+                                    return _buildListItem(index, ctrl, ctrlTask,
+                                        gamificationPast);
+                                  } else {
+                                    return Container();
+                                  }
                                 },
                               ),
                             ],
@@ -125,12 +129,8 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
     );
   }
 
-  Widget _buildListItem(
-      int index,
-      MissionController ctrl,
-      TaskController ctrlTask,
-      List<MissionDatum> listData,
-      List<GamificationResponseRemote> gamification) {
+  Widget _buildListItem(int index, MissionController ctrl,
+      TaskController ctrlTask, List<GamificationResponseRemote> gamification) {
     return Card(
       shape: RoundedRectangleBorder(
         side: BorderSide(
@@ -159,9 +159,10 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                             decoration: BoxDecoration(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(5.r)),
-                                color: (gamification[index].missionStatusId == 0)
-                                    ? ColorTheme.neutral300
-                                    : ColorTheme.secondary100),
+                                color:
+                                    (gamification[index].missionStatusId == 0)
+                                        ? ColorTheme.neutral300
+                                        : ColorTheme.secondary100),
                             child: Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 8.w, vertical: 4.h),
@@ -169,9 +170,11 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                 gamification[index].missionStatus!,
                                 style: TextStyle(
                                     fontSize: 12.sp,
-                                    color: (gamification[index].missionStatusId == 0)
-                                        ? ColorTheme.neutral600
-                                        : ColorTheme.secondary500),
+                                    color:
+                                        (gamification[index].missionStatusId ==
+                                                0)
+                                            ? ColorTheme.neutral600
+                                            : ColorTheme.secondary500),
                               ),
                             ),
                           ),
@@ -187,7 +190,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(3, 0, 0, 0),
                               child: Text(
-                                '${listData[index].missionReward.toString()} pts',
+                                '${gamification[index].chapterData?.single.missionData?.single.missionReward.toString()} pts',
                                 style: TextStyle(fontSize: 12.sp),
                               ),
                             ),
@@ -201,7 +204,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                         fontSize: 16.sp,
                         color: ColorTheme.neutral600),
                   ),
-                  Text('Mission: ${listData[index].missionName!}',
+                  Text('Mission: ${gamification[index].chapterData?.single.missionData?.single.missionName??''}',
                       style: TextStyle(fontSize: 12.sp)),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
@@ -238,24 +241,31 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                         onPressed: () async {
                           await ctrlTask
                               .putDetailMissionData(
-                                  missionDatum: listData[index],
-                                  listMission: listData,
-                                  gamificationResponseRemote: gamification[index])
+                                  missionDatum: gamification[index]
+                                          .chapterData
+                                          ?.single
+                                          .missionData
+                                          ?.single ??
+                                      MissionDatum(),
+                                  listGamification: gamification,
+                                  gamificationResponseRemote:
+                                      gamification[index])
                               .whenComplete(() async {
-                                if(gamification[index].missionStatusId == 1) {
-                                  await ctrlTask.currentQuestion()
-                                      .whenComplete(() async {
-                                    await ctrlTask.putCurrentAnswerFinal()
-                                        .whenComplete(() {
-                                      myAsyncMethodMoved(context, gamification[index]);
-                                    });
-                                  });
-                                }else{
-                                  myAsyncMethodMoved(context, gamification[index]);
-                                }
+                            if (gamification[index].missionStatusId == 1) {
+                              await ctrlTask
+                                  .currentQuestion()
+                                  .whenComplete(() async {
+                                await ctrlTask
+                                    .putCurrentAnswerFinal()
+                                    .whenComplete(() {
+                                  myAsyncMethodMoved(
+                                      context, gamification[index]);
+                                });
+                              });
+                            } else {
+                              myAsyncMethodMoved(context, gamification[index]);
+                            }
                           });
-
-
                         },
                         child: const Text("View"),
                       ),

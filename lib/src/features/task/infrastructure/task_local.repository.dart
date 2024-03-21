@@ -32,25 +32,7 @@ FutureOr<bool> putTaskAnswerLocal(PutTaskAnswerLocalRef ref,
   return true;
 }
 
-@riverpod
-FutureOr<List<TaskDatumAnswerRequestRemote>> getTaskAnswerFinalLocal(
-    GetTaskAnswerFinalLocalRef ref,
-    {required int employeeMissionId}) async {
-  final isarInstance = await ref.watch(isarInstanceProvider.future);
-  List<TaskDatumAnswerRequestRemote> listDataConvert = [];
-  final data = await isarInstance.answerRequestRemotes
-      .filter()
-      .employeeMissionIdEqualTo(employeeMissionId)
-      .findAll();
-  var listData = data.single.taskData;
-  listData?.forEach((element) {
-    listDataConvert.add(TaskDatumAnswerRequestRemote(
-        taskId: element.taskId,
-        answer: element.answer,
-        attachment: element.attachment));
-  });
-  return listDataConvert;
-}
+
 
 
 @riverpod
@@ -79,20 +61,32 @@ FutureOr<void> deleteAnswerLocal(DeleteAnswerLocalRef ref,
 }
 
 @riverpod
+FutureOr<List<TaskDatumAnswerRequestRemote>> getTaskAnswerFinalLocal(
+    GetTaskAnswerFinalLocalRef ref,
+    {required int employeeMissionId}) async {
+  final isarInstance = await ref.watch(isarInstanceProvider.future);
+  List<TaskDatumAnswerRequestRemote> listDataConvert = [];
+  final data = await isarInstance.answerRequestRemotes
+      .filter()
+      .employeeMissionIdEqualTo(employeeMissionId)
+      .findAll();
+  var listData = data.single.taskData;
+  listData?.forEach((element) {
+    listDataConvert.add(TaskDatumAnswerRequestRemote(
+        taskId: element.taskId,
+        answer: element.answer,
+        attachment: element.attachment));
+  });
+  return listDataConvert;
+}
+
+@riverpod
 FutureOr<bool> putAnswerFinalLocal(PutAnswerFinalLocalRef ref,{required AnswerRequestRemote answerRequestRemote}) async {
   final isarInstance = await ref.watch(isarInstanceProvider.future);
   List<TaskDatumAnswer> listData = [];
   await isarInstance.writeTxn(() async {
     await isarInstance.answerRequestRemotes.put(answerRequestRemote);
 
-  }).whenComplete(() async {
-    final data = await isarInstance.answerRequestRemotes
-        .filter()
-        .employeeMissionIdIsNotNull()
-        .findAll();
-    listData = data.single.taskData??[];
-    ref.watch(answerCurrentState.notifier).state = listData;
-    ref.watch(answerFinalState.notifier).state = data.single;
   });
 
   ref.keepAlive();
@@ -101,16 +95,25 @@ FutureOr<bool> putAnswerFinalLocal(PutAnswerFinalLocalRef ref,{required AnswerRe
 }
 
 @riverpod
-FutureOr<List<TaskDatumAnswer>> getAnswerFinalLocal(GetAnswerFinalLocalRef ref) async {
+FutureOr<List<TaskDatumAnswer>> getAnswerFinalLocal(GetAnswerFinalLocalRef ref,{required int employeeMissionId }) async {
   final isarInstance = await ref.watch(isarInstanceProvider.future);
 
   final data = await isarInstance.answerRequestRemotes
       .filter()
-      .employeeMissionIdIsNotNull()
+      .employeeMissionIdEqualTo(employeeMissionId)
       .findAll();
-  var listData = data.single.taskData;
+  List<TaskDatumAnswer> listData = [];
+  if(data.isNotEmpty) {
+    listData = data.single.taskData??[];
+    ref
+        .watch(answerCurrentState.notifier)
+        .state = listData;
+    ref
+        .watch(answerFinalState.notifier)
+        .state = data.single;
+  }
 
-  return listData??[];
+  return listData;
 
 }
 
