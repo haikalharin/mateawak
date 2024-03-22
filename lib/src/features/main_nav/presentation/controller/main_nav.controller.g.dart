@@ -6,21 +6,21 @@ part of 'main_nav.controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getUserInfosHash() => r'8a3b3b45071465654e6764ff4ae3a9a0314528b8';
+String _$mainNavControllerHash() => r'c52450d14689a3c7544fd9cc566c735029c6244c';
 
-/// See also [getUserInfos].
-@ProviderFor(getUserInfos)
-final getUserInfosProvider =
-    AutoDisposeFutureProvider<UserInfosResponseRemote?>.internal(
-  getUserInfos,
-  name: r'getUserInfosProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$getUserInfosHash,
+/// See also [MainNavController].
+@ProviderFor(MainNavController)
+final mainNavControllerProvider =
+    AutoDisposeAsyncNotifierProvider<MainNavController, void>.internal(
+  MainNavController.new,
+  name: r'mainNavControllerProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$mainNavControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef GetUserInfosRef
-    = AutoDisposeFutureProviderRef<UserInfosResponseRemote?>;
+typedef _$MainNavController = AutoDisposeAsyncNotifier<void>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

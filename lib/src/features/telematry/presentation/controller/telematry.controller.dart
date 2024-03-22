@@ -195,7 +195,7 @@ class TelematryController extends _$TelematryController {
     }
     final id = ref.read(lastActiveWidgetIdProvider);
     if (id != null) {
-      backgroundServices.invoke(Constant.bgTelematryClose, {
+      backgroundServices.invoke(Constant.bgMainNavClose, {
         'lastActiveWidgetId': id,
         'address': address,
         'longitude': position?.longitude,
