@@ -69,8 +69,11 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                   length: 3,
                   child: Column(
                     children: [
-                      const TabBar(
-                        tabs: [
+                      TabBar(
+                        labelStyle: SharedComponent.textStyleCustom(
+                            typographyType: TypographyType.medium),
+                        unselectedLabelColor: ColorTheme.neutral500,
+                        tabs: const [
                           Tab(text: 'In Progress'),
                           Tab(text: 'Assigned'),
                           Tab(text: 'Past'),
@@ -210,16 +213,16 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                             child: Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 8.w, vertical: 4.h),
-                              child: Text(
-                                gamification[index].missionStatus!,
-                                style: TextStyle(
-                                    fontSize: 12.sp,
-                                    color:
+                              child: Text(gamification[index].missionStatus!,
+                                  style: SharedComponent.textStyleCustom(      typographyType: TypographyType.paragraph,
+                                      fontColor:
+                                         
                                         (gamification[index].missionStatusId ==
                                                 0)
-                                            ? ColorTheme.neutral600
-                                            : ColorTheme.secondary500),
-                              ),
+                                                  ? ColorTheme.neutral600
+                                                  : ColorTheme.secondary500)
+
+                                  ),
                             ),
                           ),
                         ),
@@ -234,23 +237,32 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(3, 0, 0, 0),
                               child: Text(
-                                '${gamification[index].chapterData?.single.missionData?.single.missionReward.toString()} pts',
-                                style: TextStyle(fontSize: 12.sp),
-                              ),
+                                  '${gamification[index].chapterData?.single.missionData?.single.missionReward.toString()} pts',
+                                  style: SharedComponent.textStyleCustom(
+                                      typographyType: TypographyType.paragraph,
+                                      fontColor: ColorTheme.neutral500)
+                                  //TextStyle(fontSize: 12.sp),
+                                  ),
                             ),
                           ],
                         ),
                       ]),
-                  Text(
-                    gamification[index].chapterData![0].chapterName!,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.sp,
-                        color: ColorTheme.neutral600),
-                  ),
+                  Text(gamification[index].chapterData![0].chapterName!,
+                      style: SharedComponent.textStyleCustom(
+                          typographyType: TypographyType.largeH5,
+                          fontColor: ColorTheme.neutral600)
+                      // TextStyle(
+                      //     fontWeight: FontWeight.bold,
+                      //     fontSize: 16.sp,
+                      //     color: ColorTheme.neutral600),
+                      ),
                   Text(
                       'Mission: ${gamification[index].chapterData?.single.missionData?.single.missionName ?? ''}',
-                      style: TextStyle(fontSize: 12.sp)),
+                      style: SharedComponent.textStyleCustom(
+                          typographyType: TypographyType.paragraph,
+                          fontColor: ColorTheme.neutral500)
+                      //TextStyle(fontSize: 12.sp)
+                      ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                     child: Row(
@@ -264,9 +276,12 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                         Padding(
                           padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                           child: Text(
-                            'Due: ${CommonUtils.formattedDateHours(gamification[index].dueDate ?? DateTime.now().toString())}',
-                            style: TextStyle(fontSize: 11.sp),
-                          ),
+                              'Due: ${CommonUtils.formattedDateHours(gamification[index].dueDate ?? DateTime.now().toString())}',
+                              style: SharedComponent.textStyleCustom(
+                                  typographyType: TypographyType.small,
+                                  fontColor: ColorTheme.neutral500)
+                              //TextStyle(fontSize: 11.sp),
+                              ),
                         ),
                       ],
                     ),
@@ -333,7 +348,9 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                             });
                           }
                         },
-                        child: const Text("View"),
+                        child: Text("View",
+                            style: SharedComponent.textStyleCustom(
+                                typographyType: TypographyType.paragraph)),
                       ),
                     ),
                   ),

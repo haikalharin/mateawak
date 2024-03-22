@@ -1,5 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:module_etamkawa/src/constants/constant.dart';
+import 'package:module_etamkawa/src/features/mission/domain/gamification_additional_detail.remote.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
 import 'package:module_etamkawa/src/features/overview/domain/achievement_produksi_response.remote.dart';
 import 'package:module_etamkawa/src/features/overview/domain/detail_hourly_grafik_response.remote.dart';
@@ -31,9 +32,8 @@ Future<Isar> isarInstance(IsarInstanceRef ref) async {
         DownloadAttachmentNewsRequestRemoteSchema,
         GamificationResponseRemoteSchema,
         TaskDatumAnswerRequestRemoteSchema,
-        AnswerRequestRemoteSchema
-
-
+        AnswerRequestRemoteSchema,
+        GamificationAdditionalDetailRemoteSchema
       ], directory: dir.path, name: Constant.etamkawaIsarInstance);
 
   return isar;

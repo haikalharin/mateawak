@@ -6,7 +6,7 @@ part of 'main_nav.repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$fetchMissionHash() => r'8fd1d950394f772dced0a891842826e426efc5e9';
+String _$fetchMissionHash() => r'86ffb11a222cac3d4be1211c247c898b2a710228';
 
 /// See also [fetchMission].
 @ProviderFor(fetchMission)

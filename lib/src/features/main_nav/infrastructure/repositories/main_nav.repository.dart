@@ -1,4 +1,5 @@
 import 'package:isar/isar.dart';
+import 'package:module_etamkawa/src/features/mission/domain/gamification_additional_detail.remote.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_shared/module_shared.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -34,6 +35,7 @@ FutureOr<bool> fetchMission(FetchMissionRef ref) async {
 
   await isarInstance.writeTxn(() async {
     //await isarInstance.gamificationResponseRemotes.clear();
+    await isarInstance.gamificationAdditionalDetailRemotes.put(GamificationAdditionalDetailRemote(latestSyncDate: latestSyncDate));
     await isarInstance.gamificationResponseRemotes.putAll(listResponse);
   });
 
