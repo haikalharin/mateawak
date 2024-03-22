@@ -44,8 +44,8 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(GetMissionLocalRef r
   await AsyncValue.guard(() => repo).then((value) async {
     if ((value.value??[]).isNotEmpty) {
       value.value?.forEach((localElement) async {
-        if(localElement.employeeMissionId == element.missionStatusId){
-          listResponseFinal.add(localElement);
+        if(localElement.employeeMissionId != element.missionStatusId){
+          listResponseFinal.add(element);
         }
       });
     } else{
