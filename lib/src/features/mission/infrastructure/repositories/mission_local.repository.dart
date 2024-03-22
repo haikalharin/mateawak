@@ -19,8 +19,9 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
   final isarInstance = await ref.watch(isarInstanceProvider.future);
 
   final connect = ref.read(connectProvider.notifier);
-  List<GamificationResponseRemote> listResponse = [];
-  //const rawMissionDummy = Constant.rawMissionDummy;
+  List<GamificationResponseRemote> listResponse =[];
+  List<GamificationResponseRemote> listResponseFinal =[];
+  // const rawMissionDummy = Constant.rawMissionDummy;
   final userModel = await ref.read(helperUserProvider).getUserProfile();
   final gamificationAdditionalDetailRemotes =
       (await isarInstance.gamificationAdditionalDetailRemotes.count() > 0)
@@ -37,19 +38,31 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
         //"requestDate": '2024-03-01T03:55:58.918Z'
       });
   for (var element in response.result?.content) {
-    //for (var element in rawMissionDummy){
+  //   for (var element in rawMissionDummy){
     final result = GamificationResponseRemote.fromJson(element);
     listResponse.add(result);
   }
   final today =
       CommonUtils.formatDateRequestParam(DateTime.now().toUtc().toString());
   ref.watch(latestSyncDateState.notifier).state = today;
-  gamificationAdditionalDetailRemotes?.latestSyncDate = today;
+  var repo = ref.read(getMissionLocalProvider.future);
+  for (var element in listResponse) {
+
+  await AsyncValue.guard(() => repo).then((value) async {
+    if ((value.value??[]).isNotEmpty) {
+      value.value?.forEach((localElement) async {
+        if(localElement.employeeMissionId == element.missionStatusId){
+          listResponseFinal.add(localElement);
+        }
+      });
+    } else{
+      listResponseFinal.addAll(listResponse);
+    }
+  });
+  }
   await isarInstance.writeTxn(() async {
     //await isarInstance.gamificationResponseRemotes.clear();
-    await isarInstance.gamificationAdditionalDetailRemotes.put(
-        gamificationAdditionalDetailRemotes!);
-    await isarInstance.gamificationResponseRemotes.putAll(listResponse);
+    await isarInstance.gamificationResponseRemotes.putAll(listResponseFinal);
   });
 
   ref.keepAlive();

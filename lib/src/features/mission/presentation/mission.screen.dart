@@ -23,7 +23,14 @@ class MissionScreen extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _MissionScreenState();
 }
 
+Future<void> myAsyncMethodMoved(
+    BuildContext context,
+    GamificationResponseRemote gamification) async {
+  context.goNamed(detailMissionEtamkawa);
+}
+
 class _MissionScreenState extends ConsumerState<MissionScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,6 +44,8 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
           final gamificationInProgress = ref.watch(gamificationInProgressState);
           final gamificationAssigned = ref.watch(gamificationAssignedState);
           final gamificationPast = ref.watch(gamificationPastState);
+          final listGamification = ref.watch(listGamificationState);
+
           return Column(
             children: [
               Padding(
@@ -78,33 +87,37 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                               // Tab 1 content
 
                               ListView.builder(
-                                itemCount: listMissionInProgress.length,
+                                itemCount: gamificationInProgress.length,
                                 itemBuilder: (context, index) {
-                                  return _buildListItem(
-                                      index,
-                                      ctrl,
-                                      ctrlTask,
-                                      listMissionInProgress,
-                                      gamificationInProgress);
+                                  if (gamificationInProgress.isNotEmpty) {
+                                    return _buildListItem(index, ctrl, ctrlTask,
+                                        gamificationInProgress);
+                                  } else {
+                                    return Container();
+                                  }
                                 },
                               ), // Tab 2 content
                               ListView.builder(
-                                itemCount: listMissionAssigned.length,
+                                itemCount: gamificationAssigned.length,
                                 itemBuilder: (context, index) {
-                                  return _buildListItem(
-                                      index,
-                                      ctrl,
-                                      ctrlTask,
-                                      listMissionAssigned,
-                                      gamificationAssigned);
+                                  if (gamificationAssigned.isNotEmpty) {
+                                    return _buildListItem(index, ctrl, ctrlTask,
+                                        gamificationAssigned);
+                                  } else {
+                                    return Container();
+                                  }
                                 },
                               ),
                               // Tab 3 content
                               ListView.builder(
-                                itemCount: listMissionPast.length,
+                                itemCount: gamificationPast.length,
                                 itemBuilder: (context, index) {
-                                  return _buildListItem(index, ctrl, ctrlTask,
-                                      listMissionPast, gamificationPast);
+                                  if (gamificationPast.isNotEmpty) {
+                                    return _buildListItem(index, ctrl, ctrlTask,
+                                        gamificationPast);
+                                  } else {
+                                    return Container();
+                                  }
                                 },
                               ),
                             ],
@@ -122,12 +135,49 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
     );
   }
 
-  Widget _buildListItem(
-      int index,
-      MissionController ctrl,
-      TaskController ctrlTask,
-      List<MissionDatum> listData,
-      GamificationResponseRemote gamification) {
+  Widget _buildListItem(int index, MissionController ctrl,
+      TaskController ctrlTask, List<GamificationResponseRemote> gamification) {
+    Future<void> putdata() async {
+      List<MissionDatum> listMission = [];
+      ref.watch(missionDataState.notifier).state =
+          gamification[index].chapterData?.single.missionData?.single ??
+              MissionDatum();
+      ref.watch(gamificationState.notifier).state = gamification[index];
+      for (var element in gamification) {
+        listMission.add(
+            element.chapterData?.single.missionData?.single ?? MissionDatum());
+      }
+      ref.watch(listMissionState.notifier).state = listMission;
+      List<TaskDatum> listTask = (gamification[index]
+              .chapterData
+              ?.single
+              .missionData
+              ?.single
+              .taskData ??
+          []);
+      ref.watch(listTaskState.notifier).state = listTask;
+    }
+
+    Future<void> putCurrentAnswerFinal() async {
+      if (ref
+          .read(currentTypeTaskState.notifier)
+          .state == TaskType.STX.name) {
+        ref
+            .watch(listSelectOptionStringState.notifier)
+            .state =
+            ref
+                .read(listSelectOptionCurrentStringState.notifier)
+                .state;
+      } else {
+        ref
+            .watch(listSelectOptionState.notifier)
+            .state =
+            ref
+                .read(listSelectOptionCurrentState.notifier)
+                .state;
+      }
+    }
+
     return Card(
       shape: RoundedRectangleBorder(
         side: BorderSide(
@@ -156,25 +206,22 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                             decoration: BoxDecoration(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(5.r)),
-                                color: (gamification.missionStatusId == 0)
-                                    ? ColorTheme.neutral300
-                                    : ColorTheme.secondary100),
+                                color:
+                                    (gamification[index].missionStatusId == 0)
+                                        ? ColorTheme.neutral300
+                                        : ColorTheme.secondary100),
                             child: Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 8.w, vertical: 4.h),
-                              child: Text(gamification.missionStatus!,
-                                  style: SharedComponent.textStyleCustom(
-                                      typographyType: TypographyType.paragraph,
+                              child: Text(gamification[index].missionStatus!,
+                                  style: SharedComponent.textStyleCustom(      typographyType: TypographyType.paragraph,
                                       fontColor:
-                                          (gamification.missionStatusId == 0)
-                                              ? ColorTheme.neutral600
-                                              : ColorTheme.secondary500)
+                                         
+                                        (gamification[index].missionStatusId ==
+                                                0)
+                                                  ? ColorTheme.neutral600
+                                                  : ColorTheme.secondary500)
 
-                                  // TextStyle(
-                                  //     fontSize: 12.sp,
-                                  //     color: (gamification.missionStatusId == 0)
-                                  //         ? ColorTheme.neutral600
-                                  //         : ColorTheme.secondary500),
                                   ),
                             ),
                           ),
@@ -190,7 +237,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(3, 0, 0, 0),
                               child: Text(
-                                  '${listData[index].missionReward.toString()} pts',
+                                  '${gamification[index].chapterData?.single.missionData?.single.missionReward.toString()} pts',
                                   style: SharedComponent.textStyleCustom(
                                       typographyType: TypographyType.paragraph,
                                       fontColor: ColorTheme.neutral500)
@@ -200,7 +247,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                           ],
                         ),
                       ]),
-                  Text(gamification.chapterData![0].chapterName!,
+                  Text(gamification[index].chapterData![0].chapterName!,
                       style: SharedComponent.textStyleCustom(
                           typographyType: TypographyType.largeH5,
                           fontColor: ColorTheme.neutral600)
@@ -209,7 +256,8 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                       //     fontSize: 16.sp,
                       //     color: ColorTheme.neutral600),
                       ),
-                  Text('Mission: ${listData[index].missionName!}',
+                  Text(
+                      'Mission: ${gamification[index].chapterData?.single.missionData?.single.missionName ?? ''}',
                       style: SharedComponent.textStyleCustom(
                           typographyType: TypographyType.paragraph,
                           fontColor: ColorTheme.neutral500)
@@ -228,7 +276,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                         Padding(
                           padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                           child: Text(
-                              'Due: ${CommonUtils.formattedDateHours(gamification.dueDate ?? DateTime.now().toString())}',
+                              'Due: ${CommonUtils.formattedDateHours(gamification[index].dueDate ?? DateTime.now().toString())}',
                               style: SharedComponent.textStyleCustom(
                                   typographyType: TypographyType.small,
                                   fontColor: ColorTheme.neutral500)
@@ -251,46 +299,54 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                           ),
                         ),
                         onPressed: () async {
-                          await ctrlTask.putDetailMissionData(
-                              missionDatum: listData[index],
-                              listMission: listData,
-                              gamificationResponseRemote: gamification).whenComplete(() async {
-                                await ctrlTask.currentQuestion().whenComplete(() {
-                                  if (ref
-                                      .watch(previousTypeTaskState
-                                      .notifier)
-                                      .state ==
-                                      TaskType.STX.name) {
-                                    ref
-                                        .watch(
-                                        listSelectOptionStringState
-                                            .notifier)
-                                        .state =
-                                        ref
-                                            .watch(
-                                            listSelectOptionCurrentStringState
-                                                .notifier)
-                                            .state;
-                                  } else {
-                                    ref
-                                        .watch(listSelectOptionState
-                                        .notifier)
-                                        .state =
-                                        ref
-                                            .watch(
-                                            listSelectOptionCurrentState
-                                                .notifier)
-                                            .state;
-                                  }
-                                  context.goNamed(detailMissionEtamkawa, extra: {
-                                    Constant.gamification: (gamification),
+                          if (gamification[index].missionStatusId == 1) {
+                            await ctrlTask
+                                .putDetailMissionData(
+                                    missionDatum: gamification[index]
+                                            .chapterData
+                                            ?.single
+                                            .missionData
+                                            ?.single ??
+                                        MissionDatum(),
+                                    listGamification: gamification,
+                                    gamificationResponseRemote:
+                                        gamification[index])
+                                .whenComplete(() async {
+                              await putdata().whenComplete(() async {
+                                await ctrlTask
+                                    .currentQuestion()
+                                    .whenComplete(() async {
+                                  await ctrlTask
+                                      .putCurrentAnswerFinal()
+                                      .whenComplete(() async {
+                                    await putCurrentAnswerFinal().whenComplete(() {
+                                      myAsyncMethodMoved(context,
+                                          gamification[index]);
+                                    });
+
                                   });
-
                                 });
-                          });
-
-
-                          // context.goNamed(detailMissionEtamkawa);
+                              });
+                            });
+                          } else {
+                            await ctrlTask
+                                .putDetailMissionData(
+                                    missionDatum: gamification[index]
+                                            .chapterData
+                                            ?.single
+                                            .missionData
+                                            ?.single ??
+                                        MissionDatum(),
+                                    listGamification: gamification,
+                                    gamificationResponseRemote:
+                                        gamification[index])
+                                .whenComplete(() async {
+                              await putdata().whenComplete(() {
+                                myAsyncMethodMoved(
+                                    context, gamification[index]);
+                              });
+                            });
+                          }
                         },
                         child: Text("View",
                             style: SharedComponent.textStyleCustom(

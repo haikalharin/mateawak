@@ -28,37 +28,40 @@ final selectOptionState = StateProvider.autoDispose<int>((ref) => 0);
 final listSelectOptionState = StateProvider.autoDispose<List<int>>((ref) => []);
 
 final listSelectOptionPrevState =
-    StateProvider.autoDispose<List<int>>((ref) => []);
+StateProvider.autoDispose<List<int>>((ref) => []);
 
 final listSelectOptionPrevStringState =
-    StateProvider.autoDispose<List<String>>((ref) => []);
+StateProvider.autoDispose<List<String>>((ref) => []);
 
 final listSelectOptionNextState =
-    StateProvider.autoDispose<List<int>>((ref) => []);
+StateProvider.autoDispose<List<int>>((ref) => []);
 
 final listSelectOptionNextStringState =
-    StateProvider.autoDispose<List<String>>((ref) => []);
+StateProvider.autoDispose<List<String>>((ref) => []);
 
 final listSelectOptionCurrentState =
-    StateProvider.autoDispose<List<int>>((ref) => []);
+StateProvider.autoDispose<List<int>>((ref) => []);
 
 final listSelectOptionCurrentStringState =
-    StateProvider.autoDispose<List<String>>((ref) => []);
+StateProvider.autoDispose<List<String>>((ref) => []);
 
 final listSelectOptionStringState =
-    StateProvider.autoDispose<List<String>>((ref) => []);
+StateProvider.autoDispose<List<String>>((ref) => []);
 
 final selectOptionIndexState = StateProvider.autoDispose<int>((ref) => 0);
 
 final answerState =
-    StateProvider.autoDispose<List<TaskDatumAnswer>>((ref) => []);
-final taskAnswerFinalState = StateProvider.autoDispose<AnswerRequestRemote>(
-    (ref) => AnswerRequestRemote());
+StateProvider.autoDispose<List<TaskDatumAnswer>>((ref) => []);
+final answerCurrentState =
+StateProvider.autoDispose<List<TaskDatumAnswer>>((ref) => []);
+
+final answerFinalState = StateProvider.autoDispose<AnswerRequestRemote>(
+        (ref) => AnswerRequestRemote());
 
 final listTaskState = StateProvider.autoDispose<List<TaskDatum>>((ref) => []);
 
 final listMissionState =
-    StateProvider.autoDispose<List<MissionDatum>>((ref) => []);
+StateProvider.autoDispose<List<MissionDatum>>((ref) => []);
 
 final attachmentBase64State = StateProvider.autoDispose<String>((ref) => '');
 
@@ -67,10 +70,10 @@ final attachmentPathState = StateProvider.autoDispose<String>((ref) => '');
 final attachmentNameState = StateProvider.autoDispose<String>((ref) => '');
 
 final missionDataState =
-    StateProvider.autoDispose<MissionDatum>((ref) => MissionDatum());
+StateProvider.autoDispose<MissionDatum>((ref) => MissionDatum());
 
 final gamificationState = StateProvider.autoDispose<GamificationResponseRemote>(
-    (ref) => GamificationResponseRemote());
+        (ref) => GamificationResponseRemote());
 
 @riverpod
 class TaskController extends _$TaskController {
@@ -87,27 +90,52 @@ class TaskController extends _$TaskController {
 
   Future<void> changeCurrentIndex() async {
     var index = ref.watch(currentIndexState);
-    ref.watch(currentIndexState.notifier).state = index++;
+    ref
+        .watch(currentIndexState.notifier)
+        .state = index++;
   }
 
-  Future<void> putDetailMissionData(
-      {required MissionDatum missionDatum,
-      required GamificationResponseRemote gamificationResponseRemote,
-      required List<MissionDatum> listMission}) async {
-    ref.watch(missionDataState.notifier).state = missionDatum;
-    ref.watch(gamificationState.notifier).state = gamificationResponseRemote;
-    ref.watch(listMissionState.notifier).state = listMission;
+  Future<void> putDetailMissionData({required MissionDatum missionDatum,
+    required GamificationResponseRemote gamificationResponseRemote,
+    required List<GamificationResponseRemote> listGamification}) async {
+    List<MissionDatum>listMission = [];
+
+    ref
+        .watch(missionDataState.notifier)
+        .state = missionDatum;
+    ref
+        .watch(gamificationState.notifier)
+        .state = gamificationResponseRemote;
+    for (var element in listGamification) {
+      listMission.add(
+          element.chapterData?.single.missionData?.single ?? MissionDatum());
+    }
+    ref
+        .watch(listMissionState.notifier)
+        .state = listMission;
     List<TaskDatum> listTask = (missionDatum.taskData ?? []);
-    ref.watch(listTaskState.notifier).state = listTask;
-    var listAnswer = await fetchAnswerData();
-    listAnswer.forEach((element) async {
-      await putTaskAnswer(element);
-    });
+    ref
+        .watch(listTaskState.notifier)
+        .state = listTask;
+
+    if(gamificationResponseRemote.missionStatusId == 1) {
+      List<TaskDatumAnswer> listAnswerCekFromDb = await getAnswerFinal(
+          employeeMissionId: gamificationResponseRemote.employeeMissionId ?? 0);
+      var listAnswer = await fetchAnswerData();
+      if(listAnswer.isNotEmpty) {
+        for (var element in listAnswer) {
+          await putTaskAnswer(element);
+        }
+      }
+    }
+    state = const AsyncValue.data(null);
   }
 
   Future<void> selectOption(int value) async {
     if (value != 0) {
-      ref.watch(selectOptionState.notifier).state = value;
+      ref
+          .watch(selectOptionState.notifier)
+          .state = value;
     }
   }
 
@@ -115,13 +143,42 @@ class TaskController extends _$TaskController {
     return await ref.watch(getAnswerLocalProvider.future);
   }
 
+  Future<List<TaskDatumAnswer>> getAnswerFinal({required int employeeMissionId}) async {
+    return await ref.watch(getAnswerFinalLocalProvider(employeeMissionId:employeeMissionId ).future);
+  }
+
+  Future<void> putCurrentAnswerFinal() async {
+    if (ref
+        .read(currentTypeTaskState.notifier)
+        .state == TaskType.STX.name) {
+      ref
+          .watch(listSelectOptionStringState.notifier)
+          .state =
+          ref
+              .read(listSelectOptionCurrentStringState.notifier)
+              .state;
+      state = const AsyncValue.data(null);
+    } else {
+      ref
+          .watch(listSelectOptionState.notifier)
+          .state =
+          ref
+              .read(listSelectOptionCurrentState.notifier)
+              .state;
+      state = const AsyncValue.data(null);
+
+    }
+  }
+
   Future<void> putAnswerFinal() async {
     final userModel = await ref.read(helperUserProvider).getUserProfile();
     final today = CommonUtils.formatDateRequestParam(DateTime.now().toString());
     List<TaskDatumAnswer> listData = [];
     List<TaskDatumAnswerRequestRemote> dataAnswer =
-        await ref.watch(getAnswerLocalProvider.future);
-    final gamification = ref.read(gamificationState.notifier).state;
+    await ref.watch(getAnswerLocalProvider.future);
+    final gamification = ref
+        .watch(gamificationState.notifier)
+        .state;
     dataAnswer.forEach((element) {
       listData.add(TaskDatumAnswer(
           taskId: element.taskId,
@@ -138,15 +195,20 @@ class TaskController extends _$TaskController {
   }
 
   Future<void> changeStatusTask({isDone = true}) async {
-    final gamification = ref.read(gamificationState.notifier).state;
+    final gamification = ref
+        .read(gamificationState.notifier)
+        .state;
 
     GamificationResponseRemote data = GamificationResponseRemote();
+
     if (isDone) {
       data =
           gamification.copyWith(missionStatusId: 2, missionStatus: 'Submitted');
     } else {
-      data = gamification.copyWith(
-          missionStatusId: 1, missionStatus: 'In Progress');
+      if (gamification.missionStatusId != 2) {
+        data = gamification.copyWith(
+            missionStatusId: 1, missionStatus: 'In Progress');
+      }
     }
     await ref
         .watch(changeStatusTaskLocalProvider(task: data).future)
@@ -159,7 +221,10 @@ class TaskController extends _$TaskController {
     await ref
         .watch(putTaskAnswerLocalProvider(taskAnswer: value).future)
         .whenComplete(() {
-      ref.watch(answerState.notifier).state.add(TaskDatumAnswer(
+      ref
+          .watch(answerState.notifier)
+          .state
+          .add(TaskDatumAnswer(
           taskId: value.taskId,
           answer: value.answer,
           attachment: value.attachment));
@@ -172,7 +237,10 @@ class TaskController extends _$TaskController {
         .watch(deleteAnswerLocalProvider(listTaskAnswer: listTaskAnswer).future)
         .whenComplete(() {
       listTaskAnswer.clear();
-      ref.watch(answerState.notifier).state.clear();
+      ref
+          .watch(answerState.notifier)
+          .state
+          .clear();
     });
   }
 
@@ -180,21 +248,28 @@ class TaskController extends _$TaskController {
     List<String> listString = [];
     List<int> listInt = [];
     List<int> numbersList = [];
-    List<TaskDatumAnswer> listTaskAnswer =
-        ref.watch(taskAnswerFinalState.notifier).state.taskData ?? [];
+    List<TaskDatumAnswer> currentAnswer = ref
+        .read(answerCurrentState.notifier)
+        .state;
+    List<TaskDatumAnswer> listTaskAnswer = currentAnswer.isNotEmpty?currentAnswer:[];
     List<TaskDatumAnswerRequestRemote> dataCek = [];
-    listTaskAnswer.forEach((element) {
-      dataCek.add(TaskDatumAnswerRequestRemote(
-          taskId: element.taskId,
-          answer: element.answer,
-          attachment: element.attachment));
-    });
+    if(listTaskAnswer.isNotEmpty) {
+      for (var element in listTaskAnswer) {
+        dataCek.add(TaskDatumAnswerRequestRemote(
+            taskId: element.taskId,
+            answer: element.answer,
+            attachment: element.attachment));
+      }
+    }
     var index = ref.watch(currentIndexState);
     var answer = '';
     var currentTypeTask = ref.watch(listTaskState)[index].taskTypeCode ?? '';
     var currentTaskId = ref.watch(listTaskState)[index].taskId;
+    ref
+        .watch(currentTypeTaskState.notifier)
+        .state = currentTypeTask;
     TaskDatumAnswerRequestRemote taskDatumAnswer =
-        TaskDatumAnswerRequestRemote();
+    TaskDatumAnswerRequestRemote();
     for (var element in dataCek) {
       if (element.taskId == currentTaskId) {
         answer = element.answer ?? '';
@@ -204,8 +279,9 @@ class TaskController extends _$TaskController {
     if (answer != '') {
       if (currentTypeTask == TaskType.STX.name) {
         listString.add(answer);
-        ref.watch(currentTypeTaskState.notifier).state = currentTypeTask;
-        ref.watch(listSelectOptionCurrentStringState.notifier).state =
+        ref
+            .watch(listSelectOptionCurrentStringState.notifier)
+            .state =
             listString;
       } else {
         if (currentTypeTask == TaskType.MCQ.name) {
@@ -214,11 +290,12 @@ class TaskController extends _$TaskController {
         } else {
           listInt.add(int.parse(answer != '' ? answer : '0'));
         }
-
-        ref.watch(currentTypeTaskState.notifier).state = currentTypeTask;
-        ref.watch(listSelectOptionCurrentState.notifier).state = listInt;
+        ref
+            .watch(listSelectOptionCurrentState.notifier)
+            .state = listInt;
       }
     }
+    state = const AsyncValue.data(null);
   }
 
   Future<void> prevQuestion() async {
@@ -232,7 +309,7 @@ class TaskController extends _$TaskController {
         ref.watch(listTaskState)[index - 1].taskTypeCode ?? '';
     var previousTaskId = ref.watch(listTaskState)[index - 1].taskId;
     TaskDatumAnswerRequestRemote taskDatumAnswer =
-        TaskDatumAnswerRequestRemote();
+    TaskDatumAnswerRequestRemote();
     for (var element in dataCek) {
       if (element.taskId == previousTaskId) {
         answer = element.answer ?? '';
@@ -242,8 +319,12 @@ class TaskController extends _$TaskController {
     if (answer != '') {
       if (previousTypeTask == TaskType.STX.name) {
         listString.add(answer);
-        ref.watch(previousTypeTaskState.notifier).state = previousTypeTask;
-        ref.watch(listSelectOptionPrevStringState.notifier).state = listString;
+        ref
+            .watch(previousTypeTaskState.notifier)
+            .state = previousTypeTask;
+        ref
+            .watch(listSelectOptionPrevStringState.notifier)
+            .state = listString;
       } else {
         if (previousTypeTask == TaskType.MCQ.name) {
           numbersList = answer.split(';').map(int.parse).toList();
@@ -252,8 +333,12 @@ class TaskController extends _$TaskController {
           listInt.add(int.parse(answer != '' ? answer : '0'));
         }
 
-        ref.watch(previousTypeTaskState.notifier).state = previousTypeTask;
-        ref.watch(listSelectOptionPrevState.notifier).state = listInt;
+        ref
+            .watch(previousTypeTaskState.notifier)
+            .state = previousTypeTask;
+        ref
+            .watch(listSelectOptionPrevState.notifier)
+            .state = listInt;
       }
     }
   }
@@ -266,10 +351,10 @@ class TaskController extends _$TaskController {
     var index = ref.watch(currentIndexState);
     var answer = '';
     var nextTypeTask =
-        !isLast ? ref.watch(listTaskState)[index + 1].taskTypeCode ?? '' : '';
+    !isLast ? ref.watch(listTaskState)[index + 1].taskTypeCode ?? '' : '';
     var nextTaskId = !isLast ? ref.watch(listTaskState)[index + 1].taskId : 0;
     TaskDatumAnswerRequestRemote taskDatumAnswer =
-        TaskDatumAnswerRequestRemote();
+    TaskDatumAnswerRequestRemote();
     for (var element in dataCek) {
       if (element.taskId == nextTaskId) {
         answer = element.answer ?? '';
@@ -279,8 +364,12 @@ class TaskController extends _$TaskController {
     if (answer != '') {
       if (nextTypeTask == TaskType.STX.name) {
         listString.add(answer);
-        ref.watch(nextTypeTaskState.notifier).state = nextTypeTask;
-        ref.watch(listSelectOptionNextStringState.notifier).state = listString;
+        ref
+            .watch(nextTypeTaskState.notifier)
+            .state = nextTypeTask;
+        ref
+            .watch(listSelectOptionNextStringState.notifier)
+            .state = listString;
       } else {
         if (nextTypeTask == TaskType.MCQ.name) {
           numbersList = answer.split(';').map(int.parse).toList();
@@ -288,20 +377,26 @@ class TaskController extends _$TaskController {
         } else {
           listInt.add(int.parse(answer != '' ? answer : '0'));
         }
-        ref.watch(nextTypeTaskState.notifier).state = nextTypeTask;
-        ref.watch(listSelectOptionNextState.notifier).state = listInt;
+        ref
+            .watch(nextTypeTaskState.notifier)
+            .state = nextTypeTask;
+        ref
+            .watch(listSelectOptionNextState.notifier)
+            .state = listInt;
       }
     }
   }
 
   Future<void> saveAnswer(int questionId,
       {required List<dynamic>? listSelectedOption,
-      String? attachment,
-      required bool isLast,
-      required String type}) async {
+        String? attachment,
+        required bool isLast,
+        required String type}) async {
     TaskDatumAnswerRequestRemote dataAnswer = TaskDatumAnswerRequestRemote();
     String data = '';
-    var dataCek = ref.watch(answerState.notifier).state;
+    var dataCek = ref
+        .watch(answerState.notifier)
+        .state;
 
     if (listSelectedOption != null) {
       for (int i = 0; i < listSelectedOption.length; i++) {
@@ -325,9 +420,11 @@ class TaskController extends _$TaskController {
   }
 
   Future<void> upsertItem(TaskDatumAnswer newItem) async {
-    var dataCek = ref.watch(answerState.notifier).state;
+    var dataCek = ref
+        .watch(answerState.notifier)
+        .state;
     int existingIndex =
-        dataCek.indexWhere((item) => item.taskId == newItem.taskId);
+    dataCek.indexWhere((item) => item.taskId == newItem.taskId);
 
     if (existingIndex != -1) {
       // If the item exists, update its properties

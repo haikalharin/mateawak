@@ -76,7 +76,7 @@ class CommonUtils {
   }
 
     static String formattedDateHours(String value,
-      {bool withDay = false, bool withHourMinute = false}) {
+      {bool withDay = false, bool withHourMinute = true}) {
     initializeDateFormatting();
     DateTime date = DateTime.parse(value);
     final DateFormat formatter = withHourMinute

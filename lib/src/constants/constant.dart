@@ -239,6 +239,369 @@ class Constant {
   static const readinessTidakBekerja = "TIDAK BEKERJA";
   static const rawMissionDummy = [
     {
+      "employeeMissionId": 5,
+      "employeeId": 70002009,
+      "missionId": 21,
+      "missionStatusId": 0,
+      "missionStatus": "Assigned",
+      "startedDate": "2024-01-01T00:00:00",
+      "dueDate": "2024-01-02T00:00:00",
+      "submittedBy": "2009u1.supervisor@buma365.onmicrosoft.com",
+      "submittedDate": "2022-01-01T00:00:00",
+      "completedBy": "2009u1.supervisor@buma365.onmicrosoft.com",
+      "completedDate": "2024-03-18T06:32:43.167",
+      "chapterData": [
+        {
+          "chapterId": 1,
+          "chapterCode": "C0001",
+          "chapterName": "Chapter 1",
+          "chapterGoal": "Chapter Goal 1",
+          "competencyCode": "C0001",
+          "competencyName": "Coname",
+          "peopleCategoryCode": "PC0001",
+          "peopleCategoryName": "People Category 1",
+          "missionData": [
+            {
+              "missionId": 21,
+              "chapterId": 1,
+              "missionCode": "M0000021",
+              "missionName": "Mission Name 2",
+              "missionInstruction": "Mission Instruction 1",
+              "missionDuration": 2,
+              "missionActiveOnDay": 5,
+              "missionTypeCode": "Quiz",
+              "missionTypeName": "Quiz",
+              "missionReward": 100,
+              "taskData": [
+                {
+                  "taskId": 57,
+                  "missionId": 21,
+                  "attachmentId": 3,
+                  "taskCode": "T0000057",
+                  "taskGroup": "G0002",
+                  "taskCaption": "Task Name 2",
+                  "taskTypeCode": "MCQ",
+                  "taskTypeName": "Multiple Choice",
+                  "taskReward": 100,
+                  "answerData": [
+                    {
+                      "answerId": 96,
+                      "taskId": 57,
+                      "answerCode": "A0000096",
+                      "answerField": "Answer2",
+                      "answerCaption": "Answer 2"
+                    },
+                    {
+                      "answerId": 95,
+                      "taskId": 57,
+                      "answerCode": "A0000095",
+                      "answerField": "Answer1",
+                      "answerCaption": "Answer 1"
+                    },
+                    {
+                      "answerId": 97,
+                      "taskId": 57,
+                      "answerCode": "A0000097",
+                      "answerField": "Answer3",
+                      "answerCaption": "Answer 3"
+                    },
+                    {
+                      "answerId": 99,
+                      "taskId": 57,
+                      "answerCode": "A0000099",
+                      "answerField": "Answer5",
+                      "answerCaption": "Answer 5"
+                    },
+                    {
+                      "answerId": 98,
+                      "taskId": 57,
+                      "answerCode": "A0000098",
+                      "answerField": "Answer4",
+                      "answerCaption": "Answer 4"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "employeeMissionId": 2,
+      "employeeId": 70002009,
+      "missionId": 18,
+      "missionStatusId": 0,
+      "missionStatus": "Complete",
+      "startedDate": "2024-01-01T00:00:00",
+      "dueDate": "2024-01-02T00:00:00",
+      "submittedBy": "2009u1.supervisor@buma365.onmicrosoft.com",
+      "submittedDate": "2022-01-01T00:00:00",
+      "completedBy": "2009u1.supervisor@buma365.onmicrosoft.com",
+      "completedDate": "2024-03-19T02:25:09.577",
+      "chapterData": [
+        {
+          "chapterId": 1,
+          "chapterCode": "C0001",
+          "chapterName": "Chapter 1",
+          "chapterGoal": "Chapter Goal 1",
+          "competencyCode": "C0001",
+          "competencyName": "Coname",
+          "peopleCategoryCode": "PC0001",
+          "peopleCategoryName": "People Category 1",
+          "missionData": [
+            {
+              "missionId": 18,
+              "chapterId": 1,
+              "missionCode": "M0000018",
+              "missionName": "Mission Name 1",
+              "missionInstruction": "Mission Instruction 1",
+              "missionDuration": 2,
+              "missionActiveOnDay": 5,
+              "missionTypeCode": "Quiz",
+              "missionTypeName": "Quiz",
+              "missionReward": 100,
+              "taskData": [
+                {
+                  "taskId": 58,
+                  "missionId": 18,
+                  "attachmentId": 3,
+                  "taskCode": "T0000058",
+                  "taskGroup": "G0002",
+                  "taskCaption": "Task Name 1",
+                  "taskTypeCode": "SCQ",
+                  "taskTypeName": "Single Choice",
+                  "taskReward": 100,
+                  "answerData": [
+                    {
+                      "answerId": 109,
+                      "taskId": 58,
+                      "answerCode": "A0000109",
+                      "answerField": "Answer5",
+                      "answerCaption": "Answer 5"
+                    },
+                    {
+                      "answerId": 108,
+                      "taskId": 58,
+                      "answerCode": "A0000108",
+                      "answerField": "Answer4",
+                      "answerCaption": "Answer 4"
+                    },
+                    {
+                      "answerId": 106,
+                      "taskId": 58,
+                      "answerCode": "A0000106",
+                      "answerField": "Answer2",
+                      "answerCaption": "Answer 2"
+                    },
+                    {
+                      "answerId": 107,
+                      "taskId": 58,
+                      "answerCode": "A0000107",
+                      "answerField": "Answer3",
+                      "answerCaption": "Answer 3"
+                    },
+                    {
+                      "answerId": 105,
+                      "taskId": 58,
+                      "answerCode": "A0000105",
+                      "answerField": "Answer1",
+                      "answerCaption": "Answer 1"
+                    }
+                  ]
+                },
+                {
+                  "taskId": 59,
+                  "missionId": 18,
+                  "attachmentId": 3,
+                  "taskCode": "T0000059",
+                  "taskGroup": "G0002",
+                  "taskCaption": "Task Name 2",
+                  "taskTypeCode": "MCQ",
+                  "taskTypeName": "Multiple Choice",
+                  "taskReward": 100,
+                  "answerData": [
+                    {
+                      "answerId": 114,
+                      "taskId": 59,
+                      "answerCode": "A0000114",
+                      "answerField": "Answer5",
+                      "answerCaption": "Answer 5"
+                    },
+                    {
+                      "answerId": 113,
+                      "taskId": 59,
+                      "answerCode": "A0000113",
+                      "answerField": "Answer4",
+                      "answerCaption": "Answer 4"
+                    },
+                    {
+                      "answerId": 110,
+                      "taskId": 59,
+                      "answerCode": "A0000110",
+                      "answerField": "Answer1",
+                      "answerCaption": "Answer 1"
+                    },
+                    {
+                      "answerId": 112,
+                      "taskId": 59,
+                      "answerCode": "A0000112",
+                      "answerField": "Answer3",
+                      "answerCaption": "Answer 3"
+                    },
+                    {
+                      "answerId": 111,
+                      "taskId": 59,
+                      "answerCode": "A0000111",
+                      "answerField": "Answer2",
+                      "answerCaption": "Answer 2"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "employeeMissionId": 3,
+      "employeeId": 70002009,
+      "missionId": 19,
+      "missionStatusId": 0,
+      "missionStatus": "Assigned",
+      "startedDate": "2024-01-01T00:00:00",
+      "dueDate": "2024-01-02T00:00:00",
+      "submittedBy": "2009u1.supervisor@buma365.onmicrosoft.com",
+      "submittedDate": "2022-01-01T00:00:00",
+      "completedBy": "2009u1.supervisor@buma365.onmicrosoft.com",
+      "completedDate": "2024-03-18T06:32:43.167",
+      "chapterData": [
+        {
+          "chapterId": 1,
+          "chapterCode": "C0001",
+          "chapterName": "Chapter 1",
+          "chapterGoal": "Chapter Goal 1",
+          "competencyCode": "C0001",
+          "competencyName": "Coname",
+          "peopleCategoryCode": "PC0001",
+          "peopleCategoryName": "People Category 1",
+          "missionData": [
+            {
+              "missionId": 19,
+              "chapterId": 1,
+              "missionCode": "M0000019",
+              "missionName": "Mission Name 1",
+              "missionInstruction": "Mission Instruction 1",
+              "missionDuration": 2,
+              "missionActiveOnDay": 10,
+              "missionTypeCode": "Quiz",
+              "missionTypeName": "Quiz",
+              "missionReward": 100,
+              "taskData": [
+                {
+                  "taskId": 60,
+                  "missionId": 19,
+                  "attachmentId": 3,
+                  "taskCode": "T0000060",
+                  "taskGroup": "G0002",
+                  "taskCaption": "Task Name 1",
+                  "taskTypeCode": "SCQ",
+                  "taskTypeName": "Single Choice",
+                  "taskReward": 100,
+                  "answerData": [
+                    {
+                      "answerId": 116,
+                      "taskId": 60,
+                      "answerCode": "A0000116",
+                      "answerField": "Answer2",
+                      "answerCaption": "Answer 2"
+                    },
+                    {
+                      "answerId": 115,
+                      "taskId": 60,
+                      "answerCode": "A0000115",
+                      "answerField": "Answer1",
+                      "answerCaption": "Answer 1"
+                    },
+                    {
+                      "answerId": 117,
+                      "taskId": 60,
+                      "answerCode": "A0000117",
+                      "answerField": "Answer3",
+                      "answerCaption": "Answer 3"
+                    },
+                    {
+                      "answerId": 119,
+                      "taskId": 60,
+                      "answerCode": "A0000119",
+                      "answerField": "Answer5",
+                      "answerCaption": "Answer 5"
+                    },
+                    {
+                      "answerId": 118,
+                      "taskId": 60,
+                      "answerCode": "A0000118",
+                      "answerField": "Answer4",
+                      "answerCaption": "Answer 4"
+                    }
+                  ]
+                },
+                {
+                  "taskId": 61,
+                  "missionId": 19,
+                  "attachmentId": 3,
+                  "taskCode": "T0000061",
+                  "taskGroup": "G0002",
+                  "taskCaption": "Task Name 2",
+                  "taskTypeCode": "MCQ",
+                  "taskTypeName": "Multiple Choice",
+                  "taskReward": 100,
+                  "answerData": [
+                    {
+                      "answerId": 122,
+                      "taskId": 61,
+                      "answerCode": "A0000122",
+                      "answerField": "Answer3",
+                      "answerCaption": "Answer 3"
+                    },
+                    {
+                      "answerId": 121,
+                      "taskId": 61,
+                      "answerCode": "A0000121",
+                      "answerField": "Answer2",
+                      "answerCaption": "Answer 2"
+                    },
+                    {
+                      "answerId": 123,
+                      "taskId": 61,
+                      "answerCode": "A0000123",
+                      "answerField": "Answer4",
+                      "answerCaption": "Answer 4"
+                    },
+                    {
+                      "answerId": 120,
+                      "taskId": 61,
+                      "answerCode": "A0000120",
+                      "answerField": "Answer1",
+                      "answerCaption": "Answer 1"
+                    },
+                    {
+                      "answerId": 124,
+                      "taskId": 61,
+                      "answerCode": "A0000124",
+                      "answerField": "Answer5",
+                      "answerCaption": "Answer 5"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "employeeMissionId": 1,
       "employeeId": 70002009,
       "missionId": 17,
@@ -285,11 +648,25 @@ class Constant {
                   "taskReward": 100,
                   "answerData": [
                     {
+                      "answerId": 176,
+                      "taskId": 77,
+                      "answerCode": "A0000176",
+                      "answerField": "Answer1",
+                      "answerCaption": "Answer 1"
+                    },
+                    {
                       "answerId": 179,
                       "taskId": 77,
                       "answerCode": "A0000179",
                       "answerField": "Answer4",
                       "answerCaption": "Answer 4"
+                    },
+                    {
+                      "answerId": 177,
+                      "taskId": 77,
+                      "answerCode": "A0000177",
+                      "answerField": "Answer2",
+                      "answerCaption": "Answer 2"
                     },
                     {
                       "answerId": 178,
@@ -304,20 +681,6 @@ class Constant {
                       "answerCode": "A0000180",
                       "answerField": "Answer5",
                       "answerCaption": "Answer 5"
-                    },
-                    {
-                      "answerId": 176,
-                      "taskId": 77,
-                      "answerCode": "A0000176",
-                      "answerField": "Answer1",
-                      "answerCaption": "Answer 1"
-                    },
-                    {
-                      "answerId": 177,
-                      "taskId": 77,
-                      "answerCode": "A0000177",
-                      "answerField": "Answer2",
-                      "answerCaption": "Answer 2"
                     }
                   ]
                 },
@@ -332,6 +695,13 @@ class Constant {
                   "taskTypeName": "Multiple Choice",
                   "taskReward": 100,
                   "answerData": [
+                    {
+                      "answerId": 185,
+                      "taskId": 78,
+                      "answerCode": "A0000185",
+                      "answerField": "Answer5",
+                      "answerCaption": "Answer 5"
+                    },
                     {
                       "answerId": 183,
                       "taskId": 78,
@@ -354,18 +724,100 @@ class Constant {
                       "answerCaption": "Answer 2"
                     },
                     {
-                      "answerId": 185,
-                      "taskId": 78,
-                      "answerCode": "A0000185",
-                      "answerField": "Answer5",
-                      "answerCaption": "Answer 5"
-                    },
-                    {
                       "answerId": 184,
                       "taskId": 78,
                       "answerCode": "A0000184",
                       "answerField": "Answer4",
                       "answerCaption": "Answer 4"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "employeeMissionId": 4,
+      "employeeId": 70002009,
+      "missionId": 20,
+      "missionStatusId": 0,
+      "missionStatus": "Assigned",
+      "startedDate": "2024-01-01T00:00:00",
+      "dueDate": "2024-01-02T00:00:00",
+      "submittedBy": "2009u1.supervisor@buma365.onmicrosoft.com",
+      "submittedDate": "2022-01-01T00:00:00",
+      "completedBy": "2009u1.supervisor@buma365.onmicrosoft.com",
+      "completedDate": "2024-03-18T06:32:43.167",
+      "chapterData": [
+        {
+          "chapterId": 1,
+          "chapterCode": "C0001",
+          "chapterName": "Chapter 1",
+          "chapterGoal": "Chapter Goal 1",
+          "competencyCode": "C0001",
+          "competencyName": "Coname",
+          "peopleCategoryCode": "PC0001",
+          "peopleCategoryName": "People Category 1",
+          "missionData": [
+            {
+              "missionId": 20,
+              "chapterId": 1,
+              "missionCode": "M0000020",
+              "missionName": "Mission Name 1",
+              "missionInstruction": "Mission Instruction 1",
+              "missionDuration": 2,
+              "missionActiveOnDay": 5,
+              "missionTypeCode": "Quiz",
+              "missionTypeName": "Quiz",
+              "missionReward": 100,
+              "taskData": [
+                {
+                  "taskId": 92,
+                  "missionId": 20,
+                  "attachmentId": 1,
+                  "taskCode": "T0000092",
+                  "taskGroup": "G0001",
+                  "taskCaption": "Task Name 1",
+                  "taskTypeCode": "SCQ",
+                  "taskTypeName": "Single Choice",
+                  "taskReward": 100,
+                  "answerData": [
+                    {
+                      "answerId": 202,
+                      "taskId": 92,
+                      "answerCode": "A0000202",
+                      "answerField": "Answer5",
+                      "answerCaption": "Answer 5"
+                    },
+                    {
+                      "answerId": 198,
+                      "taskId": 92,
+                      "answerCode": "A0000198",
+                      "answerField": "Answer1",
+                      "answerCaption": "Answer 1"
+                    },
+                    {
+                      "answerId": 201,
+                      "taskId": 92,
+                      "answerCode": "A0000201",
+                      "answerField": "Answer4",
+                      "answerCaption": "Answer 4"
+                    },
+                    {
+                      "answerId": 200,
+                      "taskId": 92,
+                      "answerCode": "A0000200",
+                      "answerField": "Answer3",
+                      "answerCaption": "Answer 3"
+                    },
+                    {
+                      "answerId": 199,
+                      "taskId": 92,
+                      "answerCode": "A0000199",
+                      "answerField": "Answer2",
+                      "answerCaption": "Answer 2"
                     }
                   ]
                 }

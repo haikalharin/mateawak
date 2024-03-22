@@ -382,6 +382,8 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                                 context);
                                                             Navigator.pop(
                                                                 context);
+                                                            Navigator.pop(
+                                                                context);
                                                           });
 
 

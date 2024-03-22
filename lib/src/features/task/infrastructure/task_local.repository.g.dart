@@ -305,137 +305,6 @@ class _DeleteAnswerLocalProviderElement
       (origin as DeleteAnswerLocalProvider).listTaskAnswer;
 }
 
-String _$putAnswerFinalLocalHash() =>
-    r'3d3e75945c8ca501081cfdb2cd1eee5a7bc8af07';
-
-/// See also [putAnswerFinalLocal].
-@ProviderFor(putAnswerFinalLocal)
-const putAnswerFinalLocalProvider = PutAnswerFinalLocalFamily();
-
-/// See also [putAnswerFinalLocal].
-class PutAnswerFinalLocalFamily extends Family<AsyncValue<bool>> {
-  /// See also [putAnswerFinalLocal].
-  const PutAnswerFinalLocalFamily();
-
-  /// See also [putAnswerFinalLocal].
-  PutAnswerFinalLocalProvider call({
-    required AnswerRequestRemote answerRequestRemote,
-  }) {
-    return PutAnswerFinalLocalProvider(
-      answerRequestRemote: answerRequestRemote,
-    );
-  }
-
-  @override
-  PutAnswerFinalLocalProvider getProviderOverride(
-    covariant PutAnswerFinalLocalProvider provider,
-  ) {
-    return call(
-      answerRequestRemote: provider.answerRequestRemote,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'putAnswerFinalLocalProvider';
-}
-
-/// See also [putAnswerFinalLocal].
-class PutAnswerFinalLocalProvider extends AutoDisposeFutureProvider<bool> {
-  /// See also [putAnswerFinalLocal].
-  PutAnswerFinalLocalProvider({
-    required AnswerRequestRemote answerRequestRemote,
-  }) : this._internal(
-          (ref) => putAnswerFinalLocal(
-            ref as PutAnswerFinalLocalRef,
-            answerRequestRemote: answerRequestRemote,
-          ),
-          from: putAnswerFinalLocalProvider,
-          name: r'putAnswerFinalLocalProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$putAnswerFinalLocalHash,
-          dependencies: PutAnswerFinalLocalFamily._dependencies,
-          allTransitiveDependencies:
-              PutAnswerFinalLocalFamily._allTransitiveDependencies,
-          answerRequestRemote: answerRequestRemote,
-        );
-
-  PutAnswerFinalLocalProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.answerRequestRemote,
-  }) : super.internal();
-
-  final AnswerRequestRemote answerRequestRemote;
-
-  @override
-  Override overrideWith(
-    FutureOr<bool> Function(PutAnswerFinalLocalRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: PutAnswerFinalLocalProvider._internal(
-        (ref) => create(ref as PutAnswerFinalLocalRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        answerRequestRemote: answerRequestRemote,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<bool> createElement() {
-    return _PutAnswerFinalLocalProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is PutAnswerFinalLocalProvider &&
-        other.answerRequestRemote == answerRequestRemote;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, answerRequestRemote.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-mixin PutAnswerFinalLocalRef on AutoDisposeFutureProviderRef<bool> {
-  /// The parameter `answerRequestRemote` of this provider.
-  AnswerRequestRemote get answerRequestRemote;
-}
-
-class _PutAnswerFinalLocalProviderElement
-    extends AutoDisposeFutureProviderElement<bool> with PutAnswerFinalLocalRef {
-  _PutAnswerFinalLocalProviderElement(super.provider);
-
-  @override
-  AnswerRequestRemote get answerRequestRemote =>
-      (origin as PutAnswerFinalLocalProvider).answerRequestRemote;
-}
-
 String _$getTaskAnswerFinalLocalHash() =>
     r'ab447036c5a2364bb7b748f3843206b003409f0d';
 
@@ -572,6 +441,273 @@ class _GetTaskAnswerFinalLocalProviderElement
   @override
   int get employeeMissionId =>
       (origin as GetTaskAnswerFinalLocalProvider).employeeMissionId;
+}
+
+String _$putAnswerFinalLocalHash() =>
+    r'427f092911a21fb397bdebf90a2f8f30179ce556';
+
+/// See also [putAnswerFinalLocal].
+@ProviderFor(putAnswerFinalLocal)
+const putAnswerFinalLocalProvider = PutAnswerFinalLocalFamily();
+
+/// See also [putAnswerFinalLocal].
+class PutAnswerFinalLocalFamily extends Family<AsyncValue<bool>> {
+  /// See also [putAnswerFinalLocal].
+  const PutAnswerFinalLocalFamily();
+
+  /// See also [putAnswerFinalLocal].
+  PutAnswerFinalLocalProvider call({
+    required AnswerRequestRemote answerRequestRemote,
+  }) {
+    return PutAnswerFinalLocalProvider(
+      answerRequestRemote: answerRequestRemote,
+    );
+  }
+
+  @override
+  PutAnswerFinalLocalProvider getProviderOverride(
+    covariant PutAnswerFinalLocalProvider provider,
+  ) {
+    return call(
+      answerRequestRemote: provider.answerRequestRemote,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'putAnswerFinalLocalProvider';
+}
+
+/// See also [putAnswerFinalLocal].
+class PutAnswerFinalLocalProvider extends AutoDisposeFutureProvider<bool> {
+  /// See also [putAnswerFinalLocal].
+  PutAnswerFinalLocalProvider({
+    required AnswerRequestRemote answerRequestRemote,
+  }) : this._internal(
+          (ref) => putAnswerFinalLocal(
+            ref as PutAnswerFinalLocalRef,
+            answerRequestRemote: answerRequestRemote,
+          ),
+          from: putAnswerFinalLocalProvider,
+          name: r'putAnswerFinalLocalProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$putAnswerFinalLocalHash,
+          dependencies: PutAnswerFinalLocalFamily._dependencies,
+          allTransitiveDependencies:
+              PutAnswerFinalLocalFamily._allTransitiveDependencies,
+          answerRequestRemote: answerRequestRemote,
+        );
+
+  PutAnswerFinalLocalProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.answerRequestRemote,
+  }) : super.internal();
+
+  final AnswerRequestRemote answerRequestRemote;
+
+  @override
+  Override overrideWith(
+    FutureOr<bool> Function(PutAnswerFinalLocalRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: PutAnswerFinalLocalProvider._internal(
+        (ref) => create(ref as PutAnswerFinalLocalRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        answerRequestRemote: answerRequestRemote,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<bool> createElement() {
+    return _PutAnswerFinalLocalProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is PutAnswerFinalLocalProvider &&
+        other.answerRequestRemote == answerRequestRemote;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, answerRequestRemote.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin PutAnswerFinalLocalRef on AutoDisposeFutureProviderRef<bool> {
+  /// The parameter `answerRequestRemote` of this provider.
+  AnswerRequestRemote get answerRequestRemote;
+}
+
+class _PutAnswerFinalLocalProviderElement
+    extends AutoDisposeFutureProviderElement<bool> with PutAnswerFinalLocalRef {
+  _PutAnswerFinalLocalProviderElement(super.provider);
+
+  @override
+  AnswerRequestRemote get answerRequestRemote =>
+      (origin as PutAnswerFinalLocalProvider).answerRequestRemote;
+}
+
+String _$getAnswerFinalLocalHash() =>
+    r'a5c5fdcf3371f3479684c10e8ddab85a3b914c17';
+
+/// See also [getAnswerFinalLocal].
+@ProviderFor(getAnswerFinalLocal)
+const getAnswerFinalLocalProvider = GetAnswerFinalLocalFamily();
+
+/// See also [getAnswerFinalLocal].
+class GetAnswerFinalLocalFamily
+    extends Family<AsyncValue<List<TaskDatumAnswer>>> {
+  /// See also [getAnswerFinalLocal].
+  const GetAnswerFinalLocalFamily();
+
+  /// See also [getAnswerFinalLocal].
+  GetAnswerFinalLocalProvider call({
+    required int employeeMissionId,
+  }) {
+    return GetAnswerFinalLocalProvider(
+      employeeMissionId: employeeMissionId,
+    );
+  }
+
+  @override
+  GetAnswerFinalLocalProvider getProviderOverride(
+    covariant GetAnswerFinalLocalProvider provider,
+  ) {
+    return call(
+      employeeMissionId: provider.employeeMissionId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getAnswerFinalLocalProvider';
+}
+
+/// See also [getAnswerFinalLocal].
+class GetAnswerFinalLocalProvider
+    extends AutoDisposeFutureProvider<List<TaskDatumAnswer>> {
+  /// See also [getAnswerFinalLocal].
+  GetAnswerFinalLocalProvider({
+    required int employeeMissionId,
+  }) : this._internal(
+          (ref) => getAnswerFinalLocal(
+            ref as GetAnswerFinalLocalRef,
+            employeeMissionId: employeeMissionId,
+          ),
+          from: getAnswerFinalLocalProvider,
+          name: r'getAnswerFinalLocalProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getAnswerFinalLocalHash,
+          dependencies: GetAnswerFinalLocalFamily._dependencies,
+          allTransitiveDependencies:
+              GetAnswerFinalLocalFamily._allTransitiveDependencies,
+          employeeMissionId: employeeMissionId,
+        );
+
+  GetAnswerFinalLocalProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.employeeMissionId,
+  }) : super.internal();
+
+  final int employeeMissionId;
+
+  @override
+  Override overrideWith(
+    FutureOr<List<TaskDatumAnswer>> Function(GetAnswerFinalLocalRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: GetAnswerFinalLocalProvider._internal(
+        (ref) => create(ref as GetAnswerFinalLocalRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        employeeMissionId: employeeMissionId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<List<TaskDatumAnswer>> createElement() {
+    return _GetAnswerFinalLocalProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetAnswerFinalLocalProvider &&
+        other.employeeMissionId == employeeMissionId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, employeeMissionId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin GetAnswerFinalLocalRef
+    on AutoDisposeFutureProviderRef<List<TaskDatumAnswer>> {
+  /// The parameter `employeeMissionId` of this provider.
+  int get employeeMissionId;
+}
+
+class _GetAnswerFinalLocalProviderElement
+    extends AutoDisposeFutureProviderElement<List<TaskDatumAnswer>>
+    with GetAnswerFinalLocalRef {
+  _GetAnswerFinalLocalProviderElement(super.provider);
+
+  @override
+  int get employeeMissionId =>
+      (origin as GetAnswerFinalLocalProvider).employeeMissionId;
 }
 
 String _$changeStatusTaskLocalHash() =>

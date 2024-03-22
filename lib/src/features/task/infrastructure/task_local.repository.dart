@@ -32,6 +32,9 @@ FutureOr<bool> putTaskAnswerLocal(PutTaskAnswerLocalRef ref,
   return true;
 }
 
+
+
+
 @riverpod
 FutureOr<List<TaskDatumAnswerRequestRemote>> getAnswerLocal(
     GetAnswerLocalRef ref) async {
@@ -58,21 +61,6 @@ FutureOr<void> deleteAnswerLocal(DeleteAnswerLocalRef ref,
 }
 
 @riverpod
-FutureOr<bool> putAnswerFinalLocal(PutAnswerFinalLocalRef ref,{required AnswerRequestRemote answerRequestRemote}) async {
-  final isarInstance = await ref.watch(isarInstanceProvider.future);
-
-  await isarInstance.writeTxn(() async {
-    await isarInstance.answerRequestRemotes.put(answerRequestRemote);
-  }).whenComplete(() {
-    ref.watch(taskAnswerFinalState.notifier).state = answerRequestRemote;
-  });
-
-  ref.keepAlive();
-
-  return true;
-}
-
-@riverpod
 FutureOr<List<TaskDatumAnswerRequestRemote>> getTaskAnswerFinalLocal(
     GetTaskAnswerFinalLocalRef ref,
     {required int employeeMissionId}) async {
@@ -91,6 +79,44 @@ FutureOr<List<TaskDatumAnswerRequestRemote>> getTaskAnswerFinalLocal(
   });
   return listDataConvert;
 }
+
+@riverpod
+FutureOr<bool> putAnswerFinalLocal(PutAnswerFinalLocalRef ref,{required AnswerRequestRemote answerRequestRemote}) async {
+  final isarInstance = await ref.watch(isarInstanceProvider.future);
+  List<TaskDatumAnswer> listData = [];
+  await isarInstance.writeTxn(() async {
+    await isarInstance.answerRequestRemotes.put(answerRequestRemote);
+
+  });
+
+  ref.keepAlive();
+
+  return true;
+}
+
+@riverpod
+FutureOr<List<TaskDatumAnswer>> getAnswerFinalLocal(GetAnswerFinalLocalRef ref,{required int employeeMissionId }) async {
+  final isarInstance = await ref.watch(isarInstanceProvider.future);
+
+  final data = await isarInstance.answerRequestRemotes
+      .filter()
+      .employeeMissionIdEqualTo(employeeMissionId)
+      .findAll();
+  List<TaskDatumAnswer> listData = [];
+  if(data.isNotEmpty) {
+    listData = data.single.taskData??[];
+    ref
+        .watch(answerCurrentState.notifier)
+        .state = listData;
+    ref
+        .watch(answerFinalState.notifier)
+        .state = data.single;
+  }
+
+  return listData;
+
+}
+
 
 @riverpod
 FutureOr<bool> changeStatusTaskLocal(ChangeStatusTaskLocalRef ref,

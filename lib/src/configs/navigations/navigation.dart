@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:module_etamkawa/src/configs/navigations/routes.dart';
+import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
 import 'package:module_etamkawa/src/features/mission_detail/presentation/mission.detail.screen.dart';
 import 'package:module_etamkawa/src/features/overview/presentation/overview.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/task.screen.dart';
@@ -32,15 +33,10 @@ GoRouter goRouter(GoRouterRef ref) {
             path: detailMissionEtamkawa,
             name: detailMissionEtamkawa,
             builder: (BuildContext context, GoRouterState state) {
-              Map<String, dynamic> param =
-              state.extra as Map<String, dynamic>;
               return SharedComponent.banner(
                   dotenv.env[EnvConstant.environment]!,
-                  ConnectionListenerWidget(child: MissionDetailScreen(
-                    gamification: param[Constant.gamification],
-                  )));
-            }),
-        GoRoute(
+                  ConnectionListenerWidget(child: MissionDetailScreen()));
+            },routes: [ GoRoute(
             path: taskMissionEtamkawa,
             name: taskMissionEtamkawa,
             builder: (BuildContext context, GoRouterState state) {
@@ -51,7 +47,8 @@ GoRouter goRouter(GoRouterRef ref) {
                   ConnectionListenerWidget(child: TaskScreen(
                     listTask: param[Constant.listTask],
                   )));
-            }),
+            }),]),
+
 
       ]),]);
 }
@@ -73,26 +70,24 @@ List<RouteBase> routeEtamkawa = [
             path: detailMissionEtamkawa,
             name: detailMissionEtamkawa,
             builder: (BuildContext context, GoRouterState state) {
-              Map<String, dynamic> param =
-              state.extra as Map<String, dynamic>;
               return SharedComponent.banner(
                   dotenv.env[EnvConstant.environment]!,
-                   ConnectionListenerWidget(child: MissionDetailScreen(
-                    gamification: param[Constant.gamification],
-                  )));
-            }),
-        GoRoute(
+                   ConnectionListenerWidget(child: MissionDetailScreen()));
+            },
+        routes: [GoRoute(
             path: taskMissionEtamkawa,
             name: taskMissionEtamkawa,
             builder: (BuildContext context, GoRouterState state) {
+              List<TaskDatum> list = [];
               Map<String, dynamic> param =
               state.extra as Map<String, dynamic>;
               return SharedComponent.banner(
                   dotenv.env[EnvConstant.environment]!,
-                   ConnectionListenerWidget(child: TaskScreen(
-                    listTask: param[Constant.listTask],
+                  ConnectionListenerWidget(child: TaskScreen(
+                    listTask: param[Constant.listTask]??list,
                   )));
-            }),
+            }),]),
+
         // GoRoute(
         //     path: notification,
         //     name: notification,

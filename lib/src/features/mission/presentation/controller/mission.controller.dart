@@ -26,14 +26,11 @@ final listMissionPastState =
     StateProvider.autoDispose<List<MissionDatum>>((ref) => []);
 
 final gamificationInProgressState =
-    StateProvider.autoDispose<GamificationResponseRemote>(
-        (ref) => GamificationResponseRemote());
+    StateProvider.autoDispose<List<GamificationResponseRemote>>((ref) => []);
 final gamificationAssignedState =
-    StateProvider.autoDispose<GamificationResponseRemote>(
-        (ref) => GamificationResponseRemote());
+    StateProvider.autoDispose<List<GamificationResponseRemote>>((ref) => []);
 final gamificationPastState =
-    StateProvider.autoDispose<GamificationResponseRemote>(
-        (ref) => GamificationResponseRemote());
+    StateProvider.autoDispose<List<GamificationResponseRemote>>((ref) => []);
 final fixedGamificationAssigned =
     StateProvider.autoDispose<List<GamificationResponseRemote>>((ref) => []);
 var latestSyncDateState =
@@ -49,29 +46,23 @@ class MissionController extends _$MissionController {
   }
 
   Future<void> getMissionListLocal() async {
-    var repo =  ref.read(getMissionLocalProvider.future);
+    var repo = ref.read(getMissionLocalProvider.future);
 
     state = await AsyncValue.guard(() => repo).then((value) async {
       List<MissionDatum> listMissionInProgress = [];
       List<MissionDatum> listMissionAssigned = [];
       List<MissionDatum> listMissionPast = [];
+      List<GamificationResponseRemote> listGamificationInProgress = [];
+      List<GamificationResponseRemote> listGamificationAssigned = [];
+      List<GamificationResponseRemote> listGamificationPast = [];
       if (value.hasValue) {
         value.value?.forEach((element) async {
           if (element.missionStatusId! == 1) {
-            ref.watch(gamificationInProgressState.notifier).state = element;
-            element.chapterData?.forEach((chapter) {
-              listMissionInProgress.addAll(chapter.missionData ?? []);
-            });
+            listGamificationInProgress.add(element);
           } else if (element.missionStatusId! == 0) {
-            ref.watch(gamificationAssignedState.notifier).state = element;
-            element.chapterData?.forEach((chapter) {
-              listMissionAssigned.addAll(chapter.missionData ?? []);
-            });
+            listGamificationAssigned.add(element);
           } else if (element.missionStatusId! >= 2) {
-            ref.watch(gamificationPastState.notifier).state = element;
-            element.chapterData?.forEach((chapter) {
-              listMissionPast.addAll(chapter.missionData ?? []);
-            });
+            listGamificationPast.add(element);
           }
           // } else {
           //   listMissionInProgress = [];
@@ -87,6 +78,11 @@ class MissionController extends _$MissionController {
         ref.watch(listMissionAssignedState.notifier).state =
             listMissionAssigned;
         ref.watch(listMissionPastState.notifier).state = listMissionPast;
+        ref.watch(gamificationInProgressState.notifier).state =
+            listGamificationInProgress;
+        ref.watch(gamificationAssignedState.notifier).state =
+            listGamificationAssigned;
+        ref.watch(gamificationPastState.notifier).state = listGamificationPast;
         ref.watch(listGamificationState.notifier).state = value.value ?? [];
         ref.watch(fixedGamificationAssigned.notifier).state = value.value ?? [];
         listGamification = value.value ?? [];
@@ -94,7 +90,6 @@ class MissionController extends _$MissionController {
       return value;
     });
   }
-
 
   Future<void> getMissionList() async {
     final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
@@ -106,38 +101,30 @@ class MissionController extends _$MissionController {
       List<MissionDatum> listMissionInProgress = [];
       List<MissionDatum> listMissionAssigned = [];
       List<MissionDatum> listMissionPast = [];
+      List<GamificationResponseRemote> listGamificationInProgress = [];
+      List<GamificationResponseRemote> listGamificationAssigned = [];
+      List<GamificationResponseRemote> listGamificationPast = [];
+
       if (value.hasValue) {
         value.value?.forEach((element) async {
           if (element.missionStatusId! == 1) {
-            ref.watch(gamificationInProgressState.notifier).state = element;
-            element.chapterData?.forEach((chapter) {
-              listMissionInProgress.addAll(chapter.missionData ?? []);
-            });
+            listGamificationInProgress.add(element);
           } else if (element.missionStatusId! == 0) {
-            ref.watch(gamificationAssignedState.notifier).state = element;
-            element.chapterData?.forEach((chapter) {
-              listMissionAssigned.addAll(chapter.missionData ?? []);
-            });
+            listGamificationAssigned.add(element);
           } else if (element.missionStatusId! >= 2) {
-            ref.watch(gamificationPastState.notifier).state = element;
-            element.chapterData?.forEach((chapter) {
-              listMissionPast.addAll(chapter.missionData ?? []);
-            });
+            listGamificationPast.add(element);
           }
-          // } else {
-          //   listMissionInProgress = [];
-          //   listMissionAssigned = [];
-          //   listMissionPast = [];
-          //   listGamificationInProgress = [];
-          //   listGamificationAssigned = [];
-          //   listGamificationPast = [];
-          // }
         });
         ref.watch(listMissionInProgressState.notifier).state =
             listMissionInProgress;
         ref.watch(listMissionAssignedState.notifier).state =
             listMissionAssigned;
         ref.watch(listMissionPastState.notifier).state = listMissionPast;
+        ref.watch(gamificationInProgressState.notifier).state =
+            listGamificationInProgress;
+        ref.watch(gamificationAssignedState.notifier).state =
+            listGamificationAssigned;
+        ref.watch(gamificationPastState.notifier).state = listGamificationPast;
         ref.watch(listGamificationState.notifier).state = value.value ?? [];
         ref.watch(fixedGamificationAssigned.notifier).state = value.value ?? [];
         listGamification = value.value ?? [];
@@ -152,46 +139,30 @@ class MissionController extends _$MissionController {
       List<MissionDatum> listMissionInProgress = [];
       List<MissionDatum> listMissionAssigned = [];
       List<MissionDatum> listMissionPast = [];
+      List<GamificationResponseRemote> listGamificationInProgress = [];
+      List<GamificationResponseRemote> listGamificationAssigned = [];
+      List<GamificationResponseRemote> listGamificationPast = [];
+
       if (value.hasValue) {
         value.value?.forEach((element) async {
           if (element.missionStatusId! == 1) {
-            ref.watch(gamificationInProgressState.notifier).state = element;
-            element.chapterData?.forEach((chapter) {
-              listMissionInProgress.addAll(chapter.missionData ?? []);
-            });
+            listGamificationInProgress.add(element);
           } else if (element.missionStatusId! == 0) {
-            ref.watch(gamificationAssignedState.notifier).state = element;
-            element.chapterData?.forEach((chapter) {
-              listMissionAssigned.addAll(chapter.missionData ?? []);
-            });
+            listGamificationAssigned.add(element);
           } else if (element.missionStatusId! >= 2) {
-            ref.watch(gamificationPastState.notifier).state = element;
-            element.chapterData?.forEach((chapter) {
-              listMissionPast.addAll(chapter.missionData ?? []);
-            });
+            listGamificationPast.add(element);
           }
-          // } else {
-          //   listMissionInProgress = [];
-          //   listMissionAssigned = [];
-          //   listMissionPast = [];
-          //   listGamificationInProgress = [];
-          //   listGamificationAssigned = [];
-          //   listGamificationPast = [];
-          // }
         });
         ref.watch(listMissionInProgressState.notifier).state =
-            listMissionInProgress
-                .where((o) =>
-                    o.missionName!.toLowerCase().contains(query.toLowerCase()))
-                .toList();
-        ref.watch(listMissionAssignedState.notifier).state = listMissionAssigned
-            .where((o) =>
-                o.missionName!.toLowerCase().contains(query.toLowerCase()))
-            .toList();
-        ref.watch(listMissionPastState.notifier).state = listMissionPast
-            .where((o) =>
-                o.missionName!.toLowerCase().contains(query.toLowerCase()))
-            .toList();
+            listMissionInProgress;
+        ref.watch(listMissionAssignedState.notifier).state =
+            listMissionAssigned;
+        ref.watch(listMissionPastState.notifier).state = listMissionPast;
+        ref.watch(gamificationInProgressState.notifier).state =
+            listGamificationInProgress;
+        ref.watch(gamificationAssignedState.notifier).state =
+            listGamificationAssigned;
+        ref.watch(gamificationPastState.notifier).state = listGamificationPast;
         ref.watch(listGamificationState.notifier).state = value.value ?? [];
         ref.watch(fixedGamificationAssigned.notifier).state = value.value ?? [];
         listGamification = value.value ?? [];

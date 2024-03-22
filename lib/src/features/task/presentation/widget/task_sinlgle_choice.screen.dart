@@ -379,6 +379,7 @@ class _TaskSingleChoiceScreenState
                                                         .whenComplete(() {
                                                       Navigator.pop(context);
                                                       Navigator.pop(context);
+                                                      Navigator.pop(context);
                                                     });
                                                   });
                                                 });
