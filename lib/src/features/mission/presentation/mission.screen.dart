@@ -24,11 +24,13 @@ class MissionScreen extends ConsumerStatefulWidget {
 }
 
 Future<void> myAsyncMethodMoved(
-    BuildContext context, GamificationResponseRemote gamification) async {
+    BuildContext context,
+    GamificationResponseRemote gamification) async {
   context.goNamed(detailMissionEtamkawa);
 }
 
 class _MissionScreenState extends ConsumerState<MissionScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,6 +45,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
           final gamificationAssigned = ref.watch(gamificationAssignedState);
           final gamificationPast = ref.watch(gamificationPastState);
           final listGamification = ref.watch(listGamificationState);
+
           return Column(
             children: [
               Padding(
@@ -131,6 +134,47 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
 
   Widget _buildListItem(int index, MissionController ctrl,
       TaskController ctrlTask, List<GamificationResponseRemote> gamification) {
+    Future<void> putdata() async {
+      List<MissionDatum> listMission = [];
+      ref.watch(missionDataState.notifier).state =
+          gamification[index].chapterData?.single.missionData?.single ??
+              MissionDatum();
+      ref.watch(gamificationState.notifier).state = gamification[index];
+      for (var element in gamification) {
+        listMission.add(
+            element.chapterData?.single.missionData?.single ?? MissionDatum());
+      }
+      ref.watch(listMissionState.notifier).state = listMission;
+      List<TaskDatum> listTask = (gamification[index]
+              .chapterData
+              ?.single
+              .missionData
+              ?.single
+              .taskData ??
+          []);
+      ref.watch(listTaskState.notifier).state = listTask;
+    }
+
+    Future<void> putCurrentAnswerFinal() async {
+      if (ref
+          .read(currentTypeTaskState.notifier)
+          .state == TaskType.STX.name) {
+        ref
+            .watch(listSelectOptionStringState.notifier)
+            .state =
+            ref
+                .read(listSelectOptionCurrentStringState.notifier)
+                .state;
+      } else {
+        ref
+            .watch(listSelectOptionState.notifier)
+            .state =
+            ref
+                .read(listSelectOptionCurrentState.notifier)
+                .state;
+      }
+    }
+
     return Card(
       shape: RoundedRectangleBorder(
         side: BorderSide(
@@ -204,7 +248,8 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                         fontSize: 16.sp,
                         color: ColorTheme.neutral600),
                   ),
-                  Text('Mission: ${gamification[index].chapterData?.single.missionData?.single.missionName??''}',
+                  Text(
+                      'Mission: ${gamification[index].chapterData?.single.missionData?.single.missionName ?? ''}',
                       style: TextStyle(fontSize: 12.sp)),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
@@ -240,74 +285,51 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                         ),
                         onPressed: () async {
                           if (gamification[index].missionStatusId == 1) {
-                          await ctrlTask
-                              .putDetailMissionData(
-                                  missionDatum: gamification[index]
-                                          .chapterData
-                                          ?.single
-                                          .missionData
-                                          ?.single ??
-                                      MissionDatum(),
-                                  listGamification: gamification,
-                                  gamificationResponseRemote:
-                                      gamification[index])
-                              .whenComplete(() async {
-
-                              await ctrlTask
-                                  .currentQuestion()
-                                  .whenComplete(() async {
+                            await ctrlTask
+                                .putDetailMissionData(
+                                    missionDatum: gamification[index]
+                                            .chapterData
+                                            ?.single
+                                            .missionData
+                                            ?.single ??
+                                        MissionDatum(),
+                                    listGamification: gamification,
+                                    gamificationResponseRemote:
+                                        gamification[index])
+                                .whenComplete(() async {
+                              await putdata().whenComplete(() async {
                                 await ctrlTask
-                                    .putCurrentAnswerFinal()
-                                    .whenComplete(() {
-                                  myAsyncMethodMoved(
-                                      context, gamification[index]);
+                                    .currentQuestion()
+                                    .whenComplete(() async {
+                                  await ctrlTask
+                                      .putCurrentAnswerFinal()
+                                      .whenComplete(() async {
+                                    await putCurrentAnswerFinal().whenComplete(() {
+                                      myAsyncMethodMoved(context,
+                                          gamification[index]);
+                                    });
+
+                                  });
                                 });
                               });
-
-                          });
+                            });
                           } else {
                             await ctrlTask
                                 .putDetailMissionData(
-                                missionDatum: gamification[index]
-                                    .chapterData
-                                    ?.single
-                                    .missionData
-                                    ?.single ??
-                                    MissionDatum(),
-                                listGamification: gamification,
-                                gamificationResponseRemote:
-                                gamification[index])
+                                    missionDatum: gamification[index]
+                                            .chapterData
+                                            ?.single
+                                            .missionData
+                                            ?.single ??
+                                        MissionDatum(),
+                                    listGamification: gamification,
+                                    gamificationResponseRemote:
+                                        gamification[index])
                                 .whenComplete(() async {
-                              List<MissionDatum>listMission = [];
-                              ref
-                                  .watch(missionDataState.notifier)
-                                  .state = gamification[index]
-                                  .chapterData
-                                  ?.single
-                                  .missionData
-                                  ?.single ??
-                                  MissionDatum();
-                              ref
-                                  .watch(gamificationState.notifier)
-                                  .state = gamification[index];
-                              for (var element in gamification) {
-                                listMission.add(
-                                    element.chapterData?.single.missionData?.single ?? MissionDatum());
-                              }
-                              ref
-                                  .watch(listMissionState.notifier)
-                                  .state = listMission;
-                              List<TaskDatum> listTask = ( gamification[index]
-                                  .chapterData
-                                  ?.single
-                                  .missionData
-                                  ?.single.taskData ?? []);
-                              ref
-                                  .watch(listTaskState.notifier)
-                                  .state = listTask;
-                            await  myAsyncMethodMoved(
-                                  context, gamification[index]);
-
+                              await putdata().whenComplete(() {
+                                myAsyncMethodMoved(
+                                    context, gamification[index]);
+                              });
                             });
                           }
                         },
