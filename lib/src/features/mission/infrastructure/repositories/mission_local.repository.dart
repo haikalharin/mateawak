@@ -23,20 +23,20 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(GetMissionLocalRef r
   List<GamificationResponseRemote> listResponse = [];
   List<GamificationResponseRemote> listResponseFinal = [];
   List<GamificationResponseRemote> listAfterInputImage = [];
-  const rawMissionDummy = Constant.rawMissionDummy;
-  // final userModel = await ref.read(helperUserProvider).getUserProfile();
-  // final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
-  // final response = await connect.post(
-  //   modul: ModuleType.etamkawaGamification,
-  //   path: "api/mission/get_employee_mission?${Constant.apiVer}",
-  //   body: {
-  //     "employeeId": userModel?.employeeID,
-  //     "requestDate": latestSyncDate
-  //     //"requestDate": '2024-03-01T03:55:58.918Z'
-  //   }
-  // );
-  // for (var element in response.result?.content) {
-  for (var element in rawMissionDummy) {
+  // const rawMissionDummy = Constant.rawMissionDummy;
+  final userModel = await ref.read(helperUserProvider).getUserProfile();
+  final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
+  final response = await connect.post(
+    modul: ModuleType.etamkawaGamification,
+    path: "api/mission/get_employee_mission?${Constant.apiVer}",
+    body: {
+      "employeeId": userModel?.employeeID,
+      "requestDate": latestSyncDate
+      //"requestDate": '2024-03-01T03:55:58.918Z'
+    }
+  );
+  for (var element in response.result?.content) {
+  // for (var element in rawMissionDummy) {
     final result = GamificationResponseRemote.fromJson(element);
     listResponse.add(result);
   }
