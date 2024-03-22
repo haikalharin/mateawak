@@ -82,7 +82,8 @@ class TaskController extends _$TaskController {
   List<TaskDatumAnswerRequestRemote> listTaskAnswer = [];
 
   @override
-  FutureOr<void> build() async {}
+  FutureOr<void> build() async {
+  }
 
   Future<List<TaskDatumAnswerRequestRemote>> fetchAnswerData() async {
     return await ref.watch(getAnswerLocalProvider.future);
@@ -179,12 +180,12 @@ class TaskController extends _$TaskController {
     final gamification = ref
         .watch(gamificationState.notifier)
         .state;
-    dataAnswer.forEach((element) {
+    for (var element in dataAnswer) {
       listData.add(TaskDatumAnswer(
           taskId: element.taskId,
           answer: element.answer,
           attachment: element.attachment));
-    });
+    }
 
     var taskAnswer = AnswerRequestRemote(
         employeeMissionId: gamification.employeeMissionId,
@@ -268,8 +269,6 @@ class TaskController extends _$TaskController {
     ref
         .watch(currentTypeTaskState.notifier)
         .state = currentTypeTask;
-    TaskDatumAnswerRequestRemote taskDatumAnswer =
-    TaskDatumAnswerRequestRemote();
     for (var element in dataCek) {
       if (element.taskId == currentTaskId) {
         answer = element.answer ?? '';

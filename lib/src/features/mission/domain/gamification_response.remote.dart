@@ -276,6 +276,8 @@ class TaskDatum {
   int? taskId;
   int? missionId;
   int? attachmentId;
+  String? attachmentUrl;
+  String? attachmentPath;
   String? taskCode;
   String? taskGroup;
   String? taskCaption;
@@ -288,6 +290,8 @@ class TaskDatum {
     this.taskId,
     this.missionId,
     this.attachmentId,
+    this.attachmentUrl,
+    this.attachmentPath,
     this.taskCode,
     this.taskGroup,
     this.taskCaption,
@@ -301,6 +305,8 @@ class TaskDatum {
     int? taskId,
     int? missionId,
     int? attachmentId,
+    String? attachmentUrl,
+    String? attachmentPath,
     String? taskCode,
     String? taskGroup,
     String? taskCaption,
@@ -313,6 +319,8 @@ class TaskDatum {
         taskId: taskId ?? this.taskId,
         missionId: missionId ?? this.missionId,
         attachmentId: attachmentId ?? this.attachmentId,
+        attachmentUrl: attachmentUrl ?? this.attachmentUrl,
+        attachmentPath: attachmentPath ?? this.attachmentPath,
         taskCode: taskCode ?? this.taskCode,
         taskGroup: taskGroup ?? this.taskGroup,
         taskCaption: taskCaption ?? this.taskCaption,
@@ -326,6 +334,7 @@ class TaskDatum {
         taskId: json["taskId"],
         missionId: json["missionId"],
         attachmentId: json["attachmentId"],
+        attachmentUrl: json["attachmentUrl"],
         taskCode: json["taskCode"],
         taskGroup: json["taskGroup"],
         taskCaption: json["taskCaption"],
@@ -342,6 +351,7 @@ class TaskDatum {
         "taskId": taskId,
         "missionId": missionId,
         "attachmentId": attachmentId,
+        "attachmentUrl": attachmentUrl,
         "taskCode": taskCode,
         "taskGroup": taskGroup,
         "taskCaption": taskCaption,

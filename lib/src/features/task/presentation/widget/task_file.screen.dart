@@ -166,10 +166,9 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                               height: 200,
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
-                                  image: const DecorationImage(
-                                    image: AssetImage(
-                                      'assets/images/image_news.png',
-                                      package: 'module_etamkawa',
+                                  image:  DecorationImage(
+                                    image: FileImage(
+                                        File(listTask[currentQuestionIndex.state].attachmentPath??'')
                                     ),
                                     fit: BoxFit.cover,
                                   ),

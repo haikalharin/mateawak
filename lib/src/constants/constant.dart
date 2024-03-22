@@ -277,6 +277,7 @@ class Constant {
                   "taskId": 57,
                   "missionId": 21,
                   "attachmentId": 3,
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/btech-61179.jpg?sv=2023-11-03&st=2024-03-22T13%3A55%3A44Z&se=2024-03-23T13%3A55%3A44Z&sr=b&sp=r&sig=Ip89HeF5M6cqnZM60k2HTjQSkacsWtve6itDZdJMi9o%3D",
                   "taskCode": "T0000057",
                   "taskGroup": "G0002",
                   "taskCaption": "Task Name 2",
@@ -285,11 +286,11 @@ class Constant {
                   "taskReward": 100,
                   "answerData": [
                     {
-                      "answerId": 96,
+                      "answerId": 99,
                       "taskId": 57,
-                      "answerCode": "A0000096",
-                      "answerField": "Answer2",
-                      "answerCaption": "Answer 2"
+                      "answerCode": "A0000099",
+                      "answerField": "Answer5",
+                      "answerCaption": "Answer 5"
                     },
                     {
                       "answerId": 95,
@@ -299,18 +300,11 @@ class Constant {
                       "answerCaption": "Answer 1"
                     },
                     {
-                      "answerId": 97,
+                      "answerId": 96,
                       "taskId": 57,
-                      "answerCode": "A0000097",
-                      "answerField": "Answer3",
-                      "answerCaption": "Answer 3"
-                    },
-                    {
-                      "answerId": 99,
-                      "taskId": 57,
-                      "answerCode": "A0000099",
-                      "answerField": "Answer5",
-                      "answerCaption": "Answer 5"
+                      "answerCode": "A0000096",
+                      "answerField": "Answer2",
+                      "answerCaption": "Answer 2"
                     },
                     {
                       "answerId": 98,
@@ -318,6 +312,13 @@ class Constant {
                       "answerCode": "A0000098",
                       "answerField": "Answer4",
                       "answerCaption": "Answer 4"
+                    },
+                    {
+                      "answerId": 97,
+                      "taskId": 57,
+                      "answerCode": "A0000097",
+                      "answerField": "Answer3",
+                      "answerCaption": "Answer 3"
                     }
                   ]
                 }
@@ -366,6 +367,7 @@ class Constant {
                   "taskId": 58,
                   "missionId": 18,
                   "attachmentId": 3,
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/btech-61179.jpg?sv=2023-11-03&st=2024-03-22T13%3A55%3A44Z&se=2024-03-23T13%3A55%3A44Z&sr=b&sp=r&sig=Ip89HeF5M6cqnZM60k2HTjQSkacsWtve6itDZdJMi9o%3D",
                   "taskCode": "T0000058",
                   "taskGroup": "G0002",
                   "taskCaption": "Task Name 1",
@@ -374,18 +376,11 @@ class Constant {
                   "taskReward": 100,
                   "answerData": [
                     {
-                      "answerId": 109,
+                      "answerId": 105,
                       "taskId": 58,
-                      "answerCode": "A0000109",
-                      "answerField": "Answer5",
-                      "answerCaption": "Answer 5"
-                    },
-                    {
-                      "answerId": 108,
-                      "taskId": 58,
-                      "answerCode": "A0000108",
-                      "answerField": "Answer4",
-                      "answerCaption": "Answer 4"
+                      "answerCode": "A0000105",
+                      "answerField": "Answer1",
+                      "answerCaption": "Answer 1"
                     },
                     {
                       "answerId": 106,
@@ -402,11 +397,18 @@ class Constant {
                       "answerCaption": "Answer 3"
                     },
                     {
-                      "answerId": 105,
+                      "answerId": 109,
                       "taskId": 58,
-                      "answerCode": "A0000105",
-                      "answerField": "Answer1",
-                      "answerCaption": "Answer 1"
+                      "answerCode": "A0000109",
+                      "answerField": "Answer5",
+                      "answerCaption": "Answer 5"
+                    },
+                    {
+                      "answerId": 108,
+                      "taskId": 58,
+                      "answerCode": "A0000108",
+                      "answerField": "Answer4",
+                      "answerCaption": "Answer 4"
                     }
                   ]
                 },
@@ -414,6 +416,7 @@ class Constant {
                   "taskId": 59,
                   "missionId": 18,
                   "attachmentId": 3,
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/btech-61179.jpg?sv=2023-11-03&st=2024-03-22T13%3A55%3A44Z&se=2024-03-23T13%3A55%3A44Z&sr=b&sp=r&sig=Ip89HeF5M6cqnZM60k2HTjQSkacsWtve6itDZdJMi9o%3D",
                   "taskCode": "T0000059",
                   "taskGroup": "G0002",
                   "taskCaption": "Task Name 2",
@@ -421,6 +424,27 @@ class Constant {
                   "taskTypeName": "Multiple Choice",
                   "taskReward": 100,
                   "answerData": [
+                    {
+                      "answerId": 112,
+                      "taskId": 59,
+                      "answerCode": "A0000112",
+                      "answerField": "Answer3",
+                      "answerCaption": "Answer 3"
+                    },
+                    {
+                      "answerId": 110,
+                      "taskId": 59,
+                      "answerCode": "A0000110",
+                      "answerField": "Answer1",
+                      "answerCaption": "Answer 1"
+                    },
+                    {
+                      "answerId": 111,
+                      "taskId": 59,
+                      "answerCode": "A0000111",
+                      "answerField": "Answer2",
+                      "answerCaption": "Answer 2"
+                    },
                     {
                       "answerId": 114,
                       "taskId": 59,
@@ -434,27 +458,6 @@ class Constant {
                       "answerCode": "A0000113",
                       "answerField": "Answer4",
                       "answerCaption": "Answer 4"
-                    },
-                    {
-                      "answerId": 110,
-                      "taskId": 59,
-                      "answerCode": "A0000110",
-                      "answerField": "Answer1",
-                      "answerCaption": "Answer 1"
-                    },
-                    {
-                      "answerId": 112,
-                      "taskId": 59,
-                      "answerCode": "A0000112",
-                      "answerField": "Answer3",
-                      "answerCaption": "Answer 3"
-                    },
-                    {
-                      "answerId": 111,
-                      "taskId": 59,
-                      "answerCode": "A0000111",
-                      "answerField": "Answer2",
-                      "answerCaption": "Answer 2"
                     }
                   ]
                 }
@@ -503,6 +506,7 @@ class Constant {
                   "taskId": 60,
                   "missionId": 19,
                   "attachmentId": 3,
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/btech-61179.jpg?sv=2023-11-03&st=2024-03-22T13%3A55%3A44Z&se=2024-03-23T13%3A55%3A44Z&sr=b&sp=r&sig=Ip89HeF5M6cqnZM60k2HTjQSkacsWtve6itDZdJMi9o%3D",
                   "taskCode": "T0000060",
                   "taskGroup": "G0002",
                   "taskCaption": "Task Name 1",
@@ -511,18 +515,18 @@ class Constant {
                   "taskReward": 100,
                   "answerData": [
                     {
-                      "answerId": 116,
-                      "taskId": 60,
-                      "answerCode": "A0000116",
-                      "answerField": "Answer2",
-                      "answerCaption": "Answer 2"
-                    },
-                    {
                       "answerId": 115,
                       "taskId": 60,
                       "answerCode": "A0000115",
                       "answerField": "Answer1",
                       "answerCaption": "Answer 1"
+                    },
+                    {
+                      "answerId": 116,
+                      "taskId": 60,
+                      "answerCode": "A0000116",
+                      "answerField": "Answer2",
+                      "answerCaption": "Answer 2"
                     },
                     {
                       "answerId": 117,
@@ -532,18 +536,18 @@ class Constant {
                       "answerCaption": "Answer 3"
                     },
                     {
-                      "answerId": 119,
-                      "taskId": 60,
-                      "answerCode": "A0000119",
-                      "answerField": "Answer5",
-                      "answerCaption": "Answer 5"
-                    },
-                    {
                       "answerId": 118,
                       "taskId": 60,
                       "answerCode": "A0000118",
                       "answerField": "Answer4",
                       "answerCaption": "Answer 4"
+                    },
+                    {
+                      "answerId": 119,
+                      "taskId": 60,
+                      "answerCode": "A0000119",
+                      "answerField": "Answer5",
+                      "answerCaption": "Answer 5"
                     }
                   ]
                 },
@@ -551,6 +555,7 @@ class Constant {
                   "taskId": 61,
                   "missionId": 19,
                   "attachmentId": 3,
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/btech-61179.jpg?sv=2023-11-03&st=2024-03-22T13%3A55%3A44Z&se=2024-03-23T13%3A55%3A44Z&sr=b&sp=r&sig=Ip89HeF5M6cqnZM60k2HTjQSkacsWtve6itDZdJMi9o%3D",
                   "taskCode": "T0000061",
                   "taskGroup": "G0002",
                   "taskCaption": "Task Name 2",
@@ -566,6 +571,13 @@ class Constant {
                       "answerCaption": "Answer 3"
                     },
                     {
+                      "answerId": 120,
+                      "taskId": 61,
+                      "answerCode": "A0000120",
+                      "answerField": "Answer1",
+                      "answerCaption": "Answer 1"
+                    },
+                    {
                       "answerId": 121,
                       "taskId": 61,
                       "answerCode": "A0000121",
@@ -578,13 +590,6 @@ class Constant {
                       "answerCode": "A0000123",
                       "answerField": "Answer4",
                       "answerCaption": "Answer 4"
-                    },
-                    {
-                      "answerId": 120,
-                      "taskId": 61,
-                      "answerCode": "A0000120",
-                      "answerField": "Answer1",
-                      "answerCaption": "Answer 1"
                     },
                     {
                       "answerId": 124,
@@ -637,9 +642,59 @@ class Constant {
               "missionReward": 100,
               "taskData": [
                 {
+                  "taskId": 78,
+                  "missionId": 17,
+                  "attachmentId": 3,
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/btech-61179.jpg?sv=2023-11-03&st=2024-03-22T13%3A55%3A44Z&se=2024-03-23T13%3A55%3A44Z&sr=b&sp=r&sig=Ip89HeF5M6cqnZM60k2HTjQSkacsWtve6itDZdJMi9o%3D",
+                  "taskCode": "T0000078",
+                  "taskGroup": "G0002",
+                  "taskCaption": "Task Name 2",
+                  "taskTypeCode": "MCQ",
+                  "taskTypeName": "Multiple Choice",
+                  "taskReward": 100,
+                  "answerData": [
+                    {
+                      "answerId": 182,
+                      "taskId": 78,
+                      "answerCode": "A0000182",
+                      "answerField": "Answer2",
+                      "answerCaption": "Answer 2"
+                    },
+                    {
+                      "answerId": 185,
+                      "taskId": 78,
+                      "answerCode": "A0000185",
+                      "answerField": "Answer5",
+                      "answerCaption": "Answer 5"
+                    },
+                    {
+                      "answerId": 184,
+                      "taskId": 78,
+                      "answerCode": "A0000184",
+                      "answerField": "Answer4",
+                      "answerCaption": "Answer 4"
+                    },
+                    {
+                      "answerId": 181,
+                      "taskId": 78,
+                      "answerCode": "A0000181",
+                      "answerField": "Answer1",
+                      "answerCaption": "Answer 1"
+                    },
+                    {
+                      "answerId": 183,
+                      "taskId": 78,
+                      "answerCode": "A0000183",
+                      "answerField": "Answer3",
+                      "answerCaption": "Answer 3"
+                    }
+                  ]
+                },
+                {
                   "taskId": 77,
                   "missionId": 17,
                   "attachmentId": 3,
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/btech-61179.jpg?sv=2023-11-03&st=2024-03-22T13%3A55%3A44Z&se=2024-03-23T13%3A55%3A44Z&sr=b&sp=r&sig=Ip89HeF5M6cqnZM60k2HTjQSkacsWtve6itDZdJMi9o%3D",
                   "taskCode": "T0000077",
                   "taskGroup": "G0002",
                   "taskCaption": "Task Name 1",
@@ -648,11 +703,11 @@ class Constant {
                   "taskReward": 100,
                   "answerData": [
                     {
-                      "answerId": 176,
+                      "answerId": 178,
                       "taskId": 77,
-                      "answerCode": "A0000176",
-                      "answerField": "Answer1",
-                      "answerCaption": "Answer 1"
+                      "answerCode": "A0000178",
+                      "answerField": "Answer3",
+                      "answerCaption": "Answer 3"
                     },
                     {
                       "answerId": 179,
@@ -669,66 +724,18 @@ class Constant {
                       "answerCaption": "Answer 2"
                     },
                     {
-                      "answerId": 178,
-                      "taskId": 77,
-                      "answerCode": "A0000178",
-                      "answerField": "Answer3",
-                      "answerCaption": "Answer 3"
-                    },
-                    {
                       "answerId": 180,
                       "taskId": 77,
                       "answerCode": "A0000180",
                       "answerField": "Answer5",
                       "answerCaption": "Answer 5"
-                    }
-                  ]
-                },
-                {
-                  "taskId": 78,
-                  "missionId": 17,
-                  "attachmentId": 3,
-                  "taskCode": "T0000078",
-                  "taskGroup": "G0002",
-                  "taskCaption": "Task Name 2",
-                  "taskTypeCode": "MCQ",
-                  "taskTypeName": "Multiple Choice",
-                  "taskReward": 100,
-                  "answerData": [
-                    {
-                      "answerId": 185,
-                      "taskId": 78,
-                      "answerCode": "A0000185",
-                      "answerField": "Answer5",
-                      "answerCaption": "Answer 5"
                     },
                     {
-                      "answerId": 183,
-                      "taskId": 78,
-                      "answerCode": "A0000183",
-                      "answerField": "Answer3",
-                      "answerCaption": "Answer 3"
-                    },
-                    {
-                      "answerId": 181,
-                      "taskId": 78,
-                      "answerCode": "A0000181",
+                      "answerId": 176,
+                      "taskId": 77,
+                      "answerCode": "A0000176",
                       "answerField": "Answer1",
                       "answerCaption": "Answer 1"
-                    },
-                    {
-                      "answerId": 182,
-                      "taskId": 78,
-                      "answerCode": "A0000182",
-                      "answerField": "Answer2",
-                      "answerCaption": "Answer 2"
-                    },
-                    {
-                      "answerId": 184,
-                      "taskId": 78,
-                      "answerCode": "A0000184",
-                      "answerField": "Answer4",
-                      "answerCaption": "Answer 4"
                     }
                   ]
                 }
@@ -777,6 +784,7 @@ class Constant {
                   "taskId": 92,
                   "missionId": 20,
                   "attachmentId": 1,
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/btech-24216.jpg?sv=2023-11-03&st=2024-03-22T13%3A55%3A44Z&se=2024-03-23T13%3A55%3A44Z&sr=b&sp=r&sig=UXnQL9ZSwgMXdoCYkSdi6kiIYQEei8uLKoZ%2FCjDKQsU%3D",
                   "taskCode": "T0000092",
                   "taskGroup": "G0001",
                   "taskCaption": "Task Name 1",
@@ -785,11 +793,11 @@ class Constant {
                   "taskReward": 100,
                   "answerData": [
                     {
-                      "answerId": 202,
+                      "answerId": 199,
                       "taskId": 92,
-                      "answerCode": "A0000202",
-                      "answerField": "Answer5",
-                      "answerCaption": "Answer 5"
+                      "answerCode": "A0000199",
+                      "answerField": "Answer2",
+                      "answerCaption": "Answer 2"
                     },
                     {
                       "answerId": 198,
@@ -806,18 +814,18 @@ class Constant {
                       "answerCaption": "Answer 4"
                     },
                     {
+                      "answerId": 202,
+                      "taskId": 92,
+                      "answerCode": "A0000202",
+                      "answerField": "Answer5",
+                      "answerCaption": "Answer 5"
+                    },
+                    {
                       "answerId": 200,
                       "taskId": 92,
                       "answerCode": "A0000200",
                       "answerField": "Answer3",
                       "answerCaption": "Answer 3"
-                    },
-                    {
-                      "answerId": 199,
-                      "taskId": 92,
-                      "answerCode": "A0000199",
-                      "answerField": "Answer2",
-                      "answerCaption": "Answer 2"
                     }
                   ]
                 }

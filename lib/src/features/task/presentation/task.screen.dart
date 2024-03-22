@@ -16,9 +16,8 @@ import '../../mission/domain/gamification_response.remote.dart';
 import 'controller/task.controller.dart';
 
 class TaskScreen extends ConsumerStatefulWidget {
-  final List<TaskDatum> listTask;
 
-  const TaskScreen({super.key, required this.listTask});
+  const TaskScreen({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _TaskScreenState();
@@ -50,7 +49,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     // final isScrolled = ref.watch(isScrollProvider);
 
     // final indexMenuOverview = ref.watch(indexMenuOverviewProvider);
-    return  Consumer(builder: (context, ref, child) {
+    return Consumer(builder: (context, ref, child) {
       final ctrl = ref.watch(taskControllerProvider.notifier);
       final ctrlMission = ref.read(mainNavControllerProvider.notifier);
       final currentQuestionIndex = ref.read(currentIndexState.notifier);
@@ -159,7 +158,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                   ),
                   width: MediaQuery.of(context).size.width,
                   padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: Column(
                     children: [
                       Row(
@@ -173,7 +172,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                               children: [
                                 Text(
                                   gamificationData
-                                      .chapterData?.single.chapterName ??
+                                          .chapterData?.single.chapterName ??
                                       '',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -198,7 +197,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                             decoration: BoxDecoration(
                                 color: ColorTheme.secondary100,
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(5.r))),
+                                    BorderRadius.all(Radius.circular(5.r))),
                             child: const Center(child: Text('In Progress')),
                           ),
                         ],
@@ -262,35 +261,35 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                 ),
               ),
               listTask[currentQuestionIndex.state].taskTypeCode ==
-                  TaskType.SCQ.name ||
-                  listTask[currentQuestionIndex.state].taskTypeCode ==
-                      TaskType.YNQ.name
+                          TaskType.SCQ.name ||
+                      listTask[currentQuestionIndex.state].taskTypeCode ==
+                          TaskType.YNQ.name
                   ? const Expanded(
-                child: TaskSingleChoiceScreen(),
-              )
+                      child: TaskSingleChoiceScreen(),
+                    )
                   : Container(),
               listTask[currentQuestionIndex.state].taskTypeCode ==
-                  TaskType.MCQ.name
+                      TaskType.MCQ.name
                   ? const Expanded(
-                child: TaskMultiChoiceScreen(),
-              )
+                      child: TaskMultiChoiceScreen(),
+                    )
                   : Container(),
               listTask[currentQuestionIndex.state].taskTypeCode ==
-                  TaskType.STX.name
+                      TaskType.STX.name
                   ? const Expanded(
-                child: TaskFreeTextScreen(),
-              )
+                      child: TaskFreeTextScreen(),
+                    )
                   : Container(),
               listTask[currentQuestionIndex.state].taskTypeCode ==
-                  TaskType.RAT.name
+                      TaskType.RAT.name
                   ? const Expanded(
-                child: TaskRatingScreen(),
-              )
+                      child: TaskRatingScreen(),
+                    )
                   : Container(),
               listTask[currentQuestionIndex.state].taskTypeCode == 'TT0005'
                   ? const Expanded(
-                child: TaskFileScreen(),
-              )
+                      child: TaskFileScreen(),
+                    )
                   : Container(),
             ],
           ),
