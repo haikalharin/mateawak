@@ -18,19 +18,29 @@ const NewsResponseRemoteSchema = CollectionSchema(
   name: r'NewsResponseRemote',
   id: 2331556606669645080,
   properties: {
-    r'content': PropertySchema(
+    r'attachmentPath': PropertySchema(
       id: 0,
+      name: r'attachmentPath',
+      type: IsarType.string,
+    ),
+    r'attachmentURL': PropertySchema(
+      id: 1,
+      name: r'attachmentURL',
+      type: IsarType.string,
+    ),
+    r'content': PropertySchema(
+      id: 2,
       name: r'content',
       type: IsarType.string,
     ),
-    r'fileName': PropertySchema(
-      id: 1,
-      name: r'fileName',
+    r'title': PropertySchema(
+      id: 3,
+      name: r'title',
       type: IsarType.string,
     ),
-    r'title': PropertySchema(
-      id: 2,
-      name: r'title',
+    r'updatedDate': PropertySchema(
+      id: 4,
+      name: r'updatedDate',
       type: IsarType.string,
     )
   },
@@ -38,7 +48,7 @@ const NewsResponseRemoteSchema = CollectionSchema(
   serialize: _newsResponseRemoteSerialize,
   deserialize: _newsResponseRemoteDeserialize,
   deserializeProp: _newsResponseRemoteDeserializeProp,
-  idName: r'attachmentId',
+  idName: r'id',
   indexes: {},
   links: {},
   embeddedSchemas: {},
@@ -55,19 +65,31 @@ int _newsResponseRemoteEstimateSize(
 ) {
   var bytesCount = offsets.last;
   {
+    final value = object.attachmentPath;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.attachmentURL;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
     final value = object.content;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
   }
   {
-    final value = object.fileName;
+    final value = object.title;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
   }
   {
-    final value = object.title;
+    final value = object.updatedDate;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -81,9 +103,11 @@ void _newsResponseRemoteSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.content);
-  writer.writeString(offsets[1], object.fileName);
-  writer.writeString(offsets[2], object.title);
+  writer.writeString(offsets[0], object.attachmentPath);
+  writer.writeString(offsets[1], object.attachmentURL);
+  writer.writeString(offsets[2], object.content);
+  writer.writeString(offsets[3], object.title);
+  writer.writeString(offsets[4], object.updatedDate);
 }
 
 NewsResponseRemote _newsResponseRemoteDeserialize(
@@ -93,11 +117,13 @@ NewsResponseRemote _newsResponseRemoteDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = NewsResponseRemote(
-    attachmentId: id,
-    content: reader.readStringOrNull(offsets[0]),
-    fileName: reader.readStringOrNull(offsets[1]),
-    title: reader.readStringOrNull(offsets[2]),
+    attachmentPath: reader.readStringOrNull(offsets[0]),
+    attachmentURL: reader.readStringOrNull(offsets[1]),
+    content: reader.readStringOrNull(offsets[2]),
+    title: reader.readStringOrNull(offsets[3]),
+    updatedDate: reader.readStringOrNull(offsets[4]),
   );
+  object.id = id;
   return object;
 }
 
@@ -114,13 +140,17 @@ P _newsResponseRemoteDeserializeProp<P>(
       return (reader.readStringOrNull(offset)) as P;
     case 2:
       return (reader.readStringOrNull(offset)) as P;
+    case 3:
+      return (reader.readStringOrNull(offset)) as P;
+    case 4:
+      return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
 
 Id _newsResponseRemoteGetId(NewsResponseRemote object) {
-  return object.attachmentId ?? Isar.autoIncrement;
+  return object.id;
 }
 
 List<IsarLinkBase<dynamic>> _newsResponseRemoteGetLinks(
@@ -130,13 +160,12 @@ List<IsarLinkBase<dynamic>> _newsResponseRemoteGetLinks(
 
 void _newsResponseRemoteAttach(
     IsarCollection<dynamic> col, Id id, NewsResponseRemote object) {
-  object.attachmentId = id;
+  object.id = id;
 }
 
 extension NewsResponseRemoteQueryWhereSort
     on QueryBuilder<NewsResponseRemote, NewsResponseRemote, QWhere> {
-  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterWhere>
-      anyAttachmentId() {
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
@@ -146,70 +175,68 @@ extension NewsResponseRemoteQueryWhereSort
 extension NewsResponseRemoteQueryWhere
     on QueryBuilder<NewsResponseRemote, NewsResponseRemote, QWhereClause> {
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterWhereClause>
-      attachmentIdEqualTo(Id attachmentId) {
+      idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
-        lower: attachmentId,
-        upper: attachmentId,
+        lower: id,
+        upper: id,
       ));
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterWhereClause>
-      attachmentIdNotEqualTo(Id attachmentId) {
+      idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(
-              IdWhereClause.lessThan(upper: attachmentId, includeUpper: false),
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
             )
             .addWhereClause(
-              IdWhereClause.greaterThan(
-                  lower: attachmentId, includeLower: false),
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
             );
       } else {
         return query
             .addWhereClause(
-              IdWhereClause.greaterThan(
-                  lower: attachmentId, includeLower: false),
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
             )
             .addWhereClause(
-              IdWhereClause.lessThan(upper: attachmentId, includeUpper: false),
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
             );
       }
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterWhereClause>
-      attachmentIdGreaterThan(Id attachmentId, {bool include = false}) {
+      idGreaterThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        IdWhereClause.greaterThan(lower: attachmentId, includeLower: include),
+        IdWhereClause.greaterThan(lower: id, includeLower: include),
       );
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterWhereClause>
-      attachmentIdLessThan(Id attachmentId, {bool include = false}) {
+      idLessThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        IdWhereClause.lessThan(upper: attachmentId, includeUpper: include),
+        IdWhereClause.lessThan(upper: id, includeUpper: include),
       );
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterWhereClause>
-      attachmentIdBetween(
-    Id lowerAttachmentId,
-    Id upperAttachmentId, {
+      idBetween(
+    Id lowerId,
+    Id upperId, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
-        lower: lowerAttachmentId,
+        lower: lowerId,
         includeLower: includeLower,
-        upper: upperAttachmentId,
+        upper: upperId,
         includeUpper: includeUpper,
       ));
     });
@@ -219,75 +246,309 @@ extension NewsResponseRemoteQueryWhere
 extension NewsResponseRemoteQueryFilter
     on QueryBuilder<NewsResponseRemote, NewsResponseRemote, QFilterCondition> {
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      attachmentIdIsNull() {
+      attachmentPathIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'attachmentId',
+        property: r'attachmentPath',
       ));
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      attachmentIdIsNotNull() {
+      attachmentPathIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'attachmentId',
+        property: r'attachmentPath',
       ));
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      attachmentIdEqualTo(Id? value) {
+      attachmentPathEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'attachmentId',
+        property: r'attachmentPath',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      attachmentIdGreaterThan(
-    Id? value, {
+      attachmentPathGreaterThan(
+    String? value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'attachmentId',
+        property: r'attachmentPath',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      attachmentIdLessThan(
-    Id? value, {
+      attachmentPathLessThan(
+    String? value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'attachmentId',
+        property: r'attachmentPath',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      attachmentIdBetween(
-    Id? lower,
-    Id? upper, {
+      attachmentPathBetween(
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'attachmentId',
+        property: r'attachmentPath',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      attachmentPathStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'attachmentPath',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      attachmentPathEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'attachmentPath',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      attachmentPathContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'attachmentPath',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      attachmentPathMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'attachmentPath',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      attachmentPathIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'attachmentPath',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      attachmentPathIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'attachmentPath',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      attachmentURLIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'attachmentURL',
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      attachmentURLIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'attachmentURL',
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      attachmentURLEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'attachmentURL',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      attachmentURLGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'attachmentURL',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      attachmentURLLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'attachmentURL',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      attachmentURLBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'attachmentURL',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      attachmentURLStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'attachmentURL',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      attachmentURLEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'attachmentURL',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      attachmentURLContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'attachmentURL',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      attachmentURLMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'attachmentURL',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      attachmentURLIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'attachmentURL',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      attachmentURLIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'attachmentURL',
+        value: '',
       ));
     });
   }
@@ -447,155 +708,57 @@ extension NewsResponseRemoteQueryFilter
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      fileNameIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'fileName',
-      ));
-    });
-  }
-
-  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      fileNameIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'fileName',
-      ));
-    });
-  }
-
-  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      fileNameEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+      idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'fileName',
+        property: r'id',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      fileNameGreaterThan(
-    String? value, {
+      idGreaterThan(
+    Id value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'fileName',
+        property: r'id',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      fileNameLessThan(
-    String? value, {
+      idLessThan(
+    Id value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'fileName',
+        property: r'id',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      fileNameBetween(
-    String? lower,
-    String? upper, {
+      idBetween(
+    Id lower,
+    Id upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'fileName',
+        property: r'id',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      fileNameStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'fileName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      fileNameEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'fileName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      fileNameContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'fileName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      fileNameMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'fileName',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      fileNameIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'fileName',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      fileNameIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'fileName',
-        value: '',
       ));
     });
   }
@@ -753,6 +916,160 @@ extension NewsResponseRemoteQueryFilter
       ));
     });
   }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      updatedDateIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'updatedDate',
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      updatedDateIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'updatedDate',
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      updatedDateEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'updatedDate',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      updatedDateGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'updatedDate',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      updatedDateLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'updatedDate',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      updatedDateBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'updatedDate',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      updatedDateStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'updatedDate',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      updatedDateEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'updatedDate',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      updatedDateContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'updatedDate',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      updatedDateMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'updatedDate',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      updatedDateIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'updatedDate',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
+      updatedDateIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'updatedDate',
+        value: '',
+      ));
+    });
+  }
 }
 
 extension NewsResponseRemoteQueryObject
@@ -764,6 +1081,34 @@ extension NewsResponseRemoteQueryLinks
 extension NewsResponseRemoteQuerySortBy
     on QueryBuilder<NewsResponseRemote, NewsResponseRemote, QSortBy> {
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
+      sortByAttachmentPath() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'attachmentPath', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
+      sortByAttachmentPathDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'attachmentPath', Sort.desc);
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
+      sortByAttachmentURL() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'attachmentURL', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
+      sortByAttachmentURLDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'attachmentURL', Sort.desc);
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
       sortByContent() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'content', Sort.asc);
@@ -774,20 +1119,6 @@ extension NewsResponseRemoteQuerySortBy
       sortByContentDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'content', Sort.desc);
-    });
-  }
-
-  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
-      sortByFileName() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'fileName', Sort.asc);
-    });
-  }
-
-  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
-      sortByFileNameDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'fileName', Sort.desc);
     });
   }
 
@@ -804,21 +1135,49 @@ extension NewsResponseRemoteQuerySortBy
       return query.addSortBy(r'title', Sort.desc);
     });
   }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
+      sortByUpdatedDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updatedDate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
+      sortByUpdatedDateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updatedDate', Sort.desc);
+    });
+  }
 }
 
 extension NewsResponseRemoteQuerySortThenBy
     on QueryBuilder<NewsResponseRemote, NewsResponseRemote, QSortThenBy> {
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
-      thenByAttachmentId() {
+      thenByAttachmentPath() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'attachmentId', Sort.asc);
+      return query.addSortBy(r'attachmentPath', Sort.asc);
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
-      thenByAttachmentIdDesc() {
+      thenByAttachmentPathDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'attachmentId', Sort.desc);
+      return query.addSortBy(r'attachmentPath', Sort.desc);
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
+      thenByAttachmentURL() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'attachmentURL', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
+      thenByAttachmentURLDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'attachmentURL', Sort.desc);
     });
   }
 
@@ -837,16 +1196,16 @@ extension NewsResponseRemoteQuerySortThenBy
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
-      thenByFileName() {
+      thenById() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'fileName', Sort.asc);
+      return query.addSortBy(r'id', Sort.asc);
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
-      thenByFileNameDesc() {
+      thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'fileName', Sort.desc);
+      return query.addSortBy(r'id', Sort.desc);
     });
   }
 
@@ -863,21 +1222,44 @@ extension NewsResponseRemoteQuerySortThenBy
       return query.addSortBy(r'title', Sort.desc);
     });
   }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
+      thenByUpdatedDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updatedDate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
+      thenByUpdatedDateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updatedDate', Sort.desc);
+    });
+  }
 }
 
 extension NewsResponseRemoteQueryWhereDistinct
     on QueryBuilder<NewsResponseRemote, NewsResponseRemote, QDistinct> {
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QDistinct>
-      distinctByContent({bool caseSensitive = true}) {
+      distinctByAttachmentPath({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'content', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'attachmentPath',
+          caseSensitive: caseSensitive);
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QDistinct>
-      distinctByFileName({bool caseSensitive = true}) {
+      distinctByAttachmentURL({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'fileName', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'attachmentURL',
+          caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QDistinct>
+      distinctByContent({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'content', caseSensitive: caseSensitive);
     });
   }
 
@@ -887,14 +1269,34 @@ extension NewsResponseRemoteQueryWhereDistinct
       return query.addDistinctBy(r'title', caseSensitive: caseSensitive);
     });
   }
+
+  QueryBuilder<NewsResponseRemote, NewsResponseRemote, QDistinct>
+      distinctByUpdatedDate({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'updatedDate', caseSensitive: caseSensitive);
+    });
+  }
 }
 
 extension NewsResponseRemoteQueryProperty
     on QueryBuilder<NewsResponseRemote, NewsResponseRemote, QQueryProperty> {
-  QueryBuilder<NewsResponseRemote, int, QQueryOperations>
-      attachmentIdProperty() {
+  QueryBuilder<NewsResponseRemote, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'attachmentId');
+      return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, String?, QQueryOperations>
+      attachmentPathProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'attachmentPath');
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, String?, QQueryOperations>
+      attachmentURLProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'attachmentURL');
     });
   }
 
@@ -905,16 +1307,16 @@ extension NewsResponseRemoteQueryProperty
     });
   }
 
-  QueryBuilder<NewsResponseRemote, String?, QQueryOperations>
-      fileNameProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'fileName');
-    });
-  }
-
   QueryBuilder<NewsResponseRemote, String?, QQueryOperations> titleProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'title');
+    });
+  }
+
+  QueryBuilder<NewsResponseRemote, String?, QQueryOperations>
+      updatedDateProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'updatedDate');
     });
   }
 }

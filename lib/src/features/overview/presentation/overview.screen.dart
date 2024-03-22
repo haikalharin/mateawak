@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -158,8 +159,8 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
                                                   .width,
                                               decoration: BoxDecoration(
                                                   image: DecorationImage(
-                                                    image: MemoryImage(
-                                                      imageBytes,
+                                                    image: FileImage(
+                                                        File(news.attachmentPath ?? '')
                                                     ),
                                                     fit: BoxFit.cover,
                                                   ),

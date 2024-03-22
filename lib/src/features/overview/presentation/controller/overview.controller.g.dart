@@ -6,7 +6,7 @@ part of 'overview.controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getImageHash() => r'e99caf0b63a547c53b68bf4699a22e2f0276ab43';
+String _$getImageHash() => r'4cc42f04be7a5c0b740f438c7cc44d1279eb236b';
 
 /// See also [getImage].
 @ProviderFor(getImage)
@@ -23,7 +23,7 @@ final getImageProvider =
 typedef GetImageRef
     = AutoDisposeFutureProviderRef<DownloadAttachmentNewsRequestRemote?>;
 String _$overviewControllerHash() =>
-    r'd46a3f7b92dec3e5269dc18ee9b5ec2e68f74232';
+    r'1cab06389a386d28492a10b5748d1d5eba0ab0b7';
 
 /// See also [OverviewController].
 @ProviderFor(OverviewController)

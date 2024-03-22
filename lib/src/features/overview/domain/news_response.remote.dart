@@ -12,42 +12,47 @@ String newsResponseRemoteToJson(NewsResponseRemote data) => json.encode(data.toJ
 
 @collection
 class NewsResponseRemote {
-  Id? attachmentId;
+  Id id = 1;
+  String? attachmentURL;
+  String? attachmentPath;
   String? title;
-  String? fileName;
+  String? updatedDate;
   String? content;
 
   NewsResponseRemote({
-    this.attachmentId,
+    this.attachmentURL,
+    this.attachmentPath,
     this.title,
-    this.fileName,
+    this.updatedDate,
     this.content,
   });
 
   NewsResponseRemote copyWith({
-    Id? attachmentId,
+    String? attachmentURL,
+    String? attachmentPath,
     String? title,
-    String? fileName,
+    String? updatedDate,
     String? content,
   }) =>
       NewsResponseRemote(
-        attachmentId: attachmentId ?? this.attachmentId,
+        attachmentURL: attachmentURL ?? this.attachmentURL,
+        attachmentPath: attachmentPath ?? this.attachmentPath,
         title: title ?? this.title,
-        fileName: fileName ?? this.fileName,
+        updatedDate: updatedDate ?? this.updatedDate,
         content: content ?? this.content,
       );
 
   factory NewsResponseRemote.fromJson(Map<String, dynamic> json) => NewsResponseRemote(
-    attachmentId: json["attachmentId"],
+    attachmentURL: json["attachmentURL"],
     title: json["title"],
-    fileName: json["fileName"],
+    updatedDate: json["updatedDate"],
     content: json["content"],
   );
 
   Map<String, dynamic> toJson() => {
-    "attachmentId": attachmentId,
+    "attachmentURL": attachmentURL,
     "title": title,
-    "fileName": fileName,
+    "updatedDate": updatedDate,
     "content": content,
   };
 }
