@@ -27,8 +27,8 @@ Future<File> asyncMethodDownload(dynamic image) async {
   var documentDirectory = await getApplicationDocumentsDirectory();
   String stringRandom = getRandomString(3);
   DateTime dateTime = DateTime.now();
-  String dateTimeStringFile = "${dateTime.year}-${dateTime.month}-${dateTime.day}-${dateTime.minute}-${dateTime.second}";
-  String dateTimeStringImage = "${dateTime.year}-${dateTime.month}-${dateTime.day}-${dateTime.hour}-${dateTime.minute}-${dateTime.second}";
+  String dateTimeStringFile = "${dateTime.year}-${dateTime.month}-${dateTime.day}";
+  String dateTimeStringImage = "${dateTime.year}-${dateTime.month}-${dateTime.day}-${dateTime.hour}-${dateTime.minute}-${dateTime.second}-${dateTime.millisecond}";
   var firstPath =
       "${documentDirectory.path}/images-$dateTimeStringFile";
   var filePathAndName =

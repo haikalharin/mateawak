@@ -23,9 +23,9 @@ const NewsResponseRemoteSchema = CollectionSchema(
       name: r'attachmentPath',
       type: IsarType.string,
     ),
-    r'attachmentURL': PropertySchema(
+    r'attachmentUrl': PropertySchema(
       id: 1,
-      name: r'attachmentURL',
+      name: r'attachmentUrl',
       type: IsarType.string,
     ),
     r'content': PropertySchema(
@@ -71,7 +71,7 @@ int _newsResponseRemoteEstimateSize(
     }
   }
   {
-    final value = object.attachmentURL;
+    final value = object.attachmentUrl;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -104,7 +104,7 @@ void _newsResponseRemoteSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.attachmentPath);
-  writer.writeString(offsets[1], object.attachmentURL);
+  writer.writeString(offsets[1], object.attachmentUrl);
   writer.writeString(offsets[2], object.content);
   writer.writeString(offsets[3], object.title);
   writer.writeString(offsets[4], object.updatedDate);
@@ -118,7 +118,7 @@ NewsResponseRemote _newsResponseRemoteDeserialize(
 ) {
   final object = NewsResponseRemote(
     attachmentPath: reader.readStringOrNull(offsets[0]),
-    attachmentURL: reader.readStringOrNull(offsets[1]),
+    attachmentUrl: reader.readStringOrNull(offsets[1]),
     content: reader.readStringOrNull(offsets[2]),
     title: reader.readStringOrNull(offsets[3]),
     updatedDate: reader.readStringOrNull(offsets[4]),
@@ -400,31 +400,31 @@ extension NewsResponseRemoteQueryFilter
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      attachmentURLIsNull() {
+      attachmentUrlIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'attachmentURL',
+        property: r'attachmentUrl',
       ));
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      attachmentURLIsNotNull() {
+      attachmentUrlIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'attachmentURL',
+        property: r'attachmentUrl',
       ));
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      attachmentURLEqualTo(
+      attachmentUrlEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'attachmentURL',
+        property: r'attachmentUrl',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -432,7 +432,7 @@ extension NewsResponseRemoteQueryFilter
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      attachmentURLGreaterThan(
+      attachmentUrlGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -440,7 +440,7 @@ extension NewsResponseRemoteQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'attachmentURL',
+        property: r'attachmentUrl',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -448,7 +448,7 @@ extension NewsResponseRemoteQueryFilter
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      attachmentURLLessThan(
+      attachmentUrlLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -456,7 +456,7 @@ extension NewsResponseRemoteQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'attachmentURL',
+        property: r'attachmentUrl',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -464,7 +464,7 @@ extension NewsResponseRemoteQueryFilter
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      attachmentURLBetween(
+      attachmentUrlBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -473,7 +473,7 @@ extension NewsResponseRemoteQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'attachmentURL',
+        property: r'attachmentUrl',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -484,13 +484,13 @@ extension NewsResponseRemoteQueryFilter
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      attachmentURLStartsWith(
+      attachmentUrlStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'attachmentURL',
+        property: r'attachmentUrl',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -498,13 +498,13 @@ extension NewsResponseRemoteQueryFilter
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      attachmentURLEndsWith(
+      attachmentUrlEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'attachmentURL',
+        property: r'attachmentUrl',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -512,10 +512,10 @@ extension NewsResponseRemoteQueryFilter
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      attachmentURLContains(String value, {bool caseSensitive = true}) {
+      attachmentUrlContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
-        property: r'attachmentURL',
+        property: r'attachmentUrl',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -523,10 +523,10 @@ extension NewsResponseRemoteQueryFilter
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      attachmentURLMatches(String pattern, {bool caseSensitive = true}) {
+      attachmentUrlMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
-        property: r'attachmentURL',
+        property: r'attachmentUrl',
         wildcard: pattern,
         caseSensitive: caseSensitive,
       ));
@@ -534,20 +534,20 @@ extension NewsResponseRemoteQueryFilter
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      attachmentURLIsEmpty() {
+      attachmentUrlIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'attachmentURL',
+        property: r'attachmentUrl',
         value: '',
       ));
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterFilterCondition>
-      attachmentURLIsNotEmpty() {
+      attachmentUrlIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'attachmentURL',
+        property: r'attachmentUrl',
         value: '',
       ));
     });
@@ -1095,16 +1095,16 @@ extension NewsResponseRemoteQuerySortBy
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
-      sortByAttachmentURL() {
+      sortByAttachmentUrl() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'attachmentURL', Sort.asc);
+      return query.addSortBy(r'attachmentUrl', Sort.asc);
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
-      sortByAttachmentURLDesc() {
+      sortByAttachmentUrlDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'attachmentURL', Sort.desc);
+      return query.addSortBy(r'attachmentUrl', Sort.desc);
     });
   }
 
@@ -1168,16 +1168,16 @@ extension NewsResponseRemoteQuerySortThenBy
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
-      thenByAttachmentURL() {
+      thenByAttachmentUrl() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'attachmentURL', Sort.asc);
+      return query.addSortBy(r'attachmentUrl', Sort.asc);
     });
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QAfterSortBy>
-      thenByAttachmentURLDesc() {
+      thenByAttachmentUrlDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'attachmentURL', Sort.desc);
+      return query.addSortBy(r'attachmentUrl', Sort.desc);
     });
   }
 
@@ -1249,9 +1249,9 @@ extension NewsResponseRemoteQueryWhereDistinct
   }
 
   QueryBuilder<NewsResponseRemote, NewsResponseRemote, QDistinct>
-      distinctByAttachmentURL({bool caseSensitive = true}) {
+      distinctByAttachmentUrl({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'attachmentURL',
+      return query.addDistinctBy(r'attachmentUrl',
           caseSensitive: caseSensitive);
     });
   }
@@ -1294,9 +1294,9 @@ extension NewsResponseRemoteQueryProperty
   }
 
   QueryBuilder<NewsResponseRemote, String?, QQueryOperations>
-      attachmentURLProperty() {
+      attachmentUrlProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'attachmentURL');
+      return query.addPropertyName(r'attachmentUrl');
     });
   }
 

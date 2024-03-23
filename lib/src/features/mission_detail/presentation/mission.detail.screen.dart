@@ -383,19 +383,15 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                   width: double.infinity,
                                   child: ElevatedButton(
                                       onPressed: () {
-                                        ctrlTask
-                                            .deleteAnswer(ctrlTask.listTaskAnswer)
-                                            .whenComplete(() {
-                                          context.goNamed(taskMissionEtamkawa,
-                                              extra: {
-                                                Constant.listTask: (gamification
-                                                    .chapterData
-                                                    ?.single
-                                                    .missionData
-                                                    ?.single
-                                                    .taskData)
-                                              });
-                                        });
+                                        context.goNamed(taskMissionEtamkawa,
+                                            extra: {
+                                              Constant.listTask: (gamification
+                                                  .chapterData
+                                                  ?.single
+                                                  .missionData
+                                                  ?.single
+                                                  .taskData)
+                                            });
                                       },
                                       child: Text('Start',
                                           style: SharedComponent.textStyleCustom(

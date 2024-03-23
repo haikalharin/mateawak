@@ -175,7 +175,7 @@ final getAnswerLocalProvider =
 
 typedef GetAnswerLocalRef
     = AutoDisposeFutureProviderRef<List<TaskDatumAnswerRequestRemote>>;
-String _$deleteAnswerLocalHash() => r'a749896ea449a0694cb6c90ddbfdeada5a907c74';
+String _$deleteAnswerLocalHash() => r'02cc4e2bd6253f8bb6656690b435ce7ab3445bfd';
 
 /// See also [deleteAnswerLocal].
 @ProviderFor(deleteAnswerLocal)
@@ -575,7 +575,7 @@ class _PutAnswerFinalLocalProviderElement
 }
 
 String _$getAnswerFinalLocalHash() =>
-    r'a5c5fdcf3371f3479684c10e8ddab85a3b914c17';
+    r'dfc2553ae8d33ee8938edeef6c440099315bb1dc';
 
 /// See also [getAnswerFinalLocal].
 @ProviderFor(getAnswerFinalLocal)

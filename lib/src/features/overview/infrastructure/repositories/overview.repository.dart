@@ -27,23 +27,27 @@ FutureOr<NewsResponseRemote> getNewsRemote(GetNewsRemoteRef ref) async {
     path: "/api/news/get_last_news?${Constant.apiVer}",
   );
   final result = NewsResponseRemote.fromJson(response.result?.content);
-  final responseImage = await connect.downloadImage(
-    url: result.attachmentURL ?? '',
-  );
-  responseImage.data;
-  File file = await asyncMethodDownload(responseImage.data);
+  File file = File('');
+  if(result.attachmentUrl != null) {
+    final responseImage = await connect.downloadImage(
+      url: result.attachmentUrl ?? '',
+    );
+    responseImage.data;
+    file = await asyncMethodDownload(responseImage.data);
+  }
   final isarInstance = await ref.watch(isarInstanceProvider.future);
+  NewsResponseRemote news = NewsResponseRemote(
+      attachmentUrl: result.attachmentUrl,
+      attachmentPath:file.path,
+      title: result.title,
+      content: result.content,
+      updatedDate: result.updatedDate);
   await isarInstance.writeTxn(() async {
-    await isarInstance.newsResponseRemotes.put(NewsResponseRemote(
-        attachmentURL: result.attachmentURL,
-        attachmentPath: file.path,
-        title: result.title,
-        content: result.content,
-        updatedDate: result.updatedDate));
+    await isarInstance.newsResponseRemotes.put(news);
   });
 
   ref.keepAlive();
-  return result;
+  return news;
 }
 
 @riverpod

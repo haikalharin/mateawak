@@ -33,7 +33,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
         final ctrl = ref.watch(taskControllerProvider.notifier);
         final ctrlMission = ref.read(mainNavControllerProvider.notifier);
         final currentQuestionIndex = ref.watch(currentIndexState.notifier);
-        final listSelectedOption = ref.read(listSelectOptionState);
+        final listSelectedOption = ref.watch(listSelectOptionState.notifier);
         final currentQuestionProgress = ref.watch(currentProgressState);
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
@@ -158,7 +158,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                               ),
                               onRatingUpdate: (rating) {
                                 if (rating != 0) {
-                                  if (listSelectedOption.isNotEmpty) {
+                                  if (listSelectedOption.state.isNotEmpty) {
                                     ref
                                         .watch(listSelectOptionState.notifier)
                                         .state
@@ -244,7 +244,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                           Expanded(
                             child: ElevatedButton(
                               onPressed: () {
-                                if (listSelectedOption.isNotEmpty) {
+                                if (listSelectedOption.state.isNotEmpty) {
                                   if ((currentQuestionIndex.state + 1) <
                                           lengthAnswer &&
                                       lengthAnswer != 1) {
@@ -259,7 +259,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                   0,
                                               isLast: false,
                                               listSelectedOption:
-                                                  listSelectedOption,
+                                                  listSelectedOption.state,
                                               type: listTask[
                                                           currentQuestionIndex
                                                               .state]
@@ -308,7 +308,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                 0,
                                             isLast: true,
                                             listSelectedOption:
-                                                listSelectedOption,
+                                                listSelectedOption.state,
                                             type: listTask[
                                                         currentQuestionIndex
                                                             .state]

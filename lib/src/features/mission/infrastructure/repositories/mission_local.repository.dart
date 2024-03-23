@@ -23,20 +23,20 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(GetMissionLocalRef r
   List<GamificationResponseRemote> listResponse = [];
   List<GamificationResponseRemote> listResponseFinal = [];
   List<GamificationResponseRemote> listAfterInputImage = [];
-  // const rawMissionDummy = Constant.rawMissionDummy;
-  final userModel = await ref.read(helperUserProvider).getUserProfile();
-  final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
-  final response = await connect.post(
-    modul: ModuleType.etamkawaGamification,
-    path: "api/mission/get_employee_mission?${Constant.apiVer}",
-    body: {
-      "employeeId": userModel?.employeeID,
-      "requestDate": latestSyncDate
-      //"requestDate": '2024-03-01T03:55:58.918Z'
-    }
-  );
-  for (var element in response.result?.content) {
-  // for (var element in rawMissionDummy) {
+  const rawMissionDummy = Constant.rawMissionDummy;
+  // final userModel = await ref.read(helperUserProvider).getUserProfile();
+  // final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
+  // final response = await connect.post(
+  //   modul: ModuleType.etamkawaGamification,
+  //   path: "api/mission/get_employee_mission?${Constant.apiVer}",
+  //   body: {
+  //     "employeeId": userModel?.employeeID,
+  //     "requestDate": latestSyncDate
+  //     //"requestDate": '2024-03-01T03:55:58.918Z'
+  //   }
+  // );
+  // for (var element in response.result?.content) {
+  for (var element in rawMissionDummy) {
     final result = GamificationResponseRemote.fromJson(element);
     listResponse.add(result);
   }
@@ -67,12 +67,15 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(GetMissionLocalRef r
     int indexTask = 0;
     List<TaskDatum> taskData = [];
     for (var element in listTask) {
-      if (element.attachmentPath == null) {
-        final response = await connect.downloadImage(
-          url: element.attachmentUrl ?? '',
-        );
-        response.data;
-        File file = await asyncMethodDownload(response.data);
+      File file = File('');
+        if (element.attachmentPath == null) {
+          if(element.attachmentUrl != null) {
+          final response = await connect.downloadImage(
+            url: element.attachmentUrl ?? '',
+          );
+          response.data;
+          file = await asyncMethodDownload(response.data);
+        }
         taskData.add(TaskDatum(taskId: element.taskId,
             missionId: element.missionId,
             attachmentId: element.attachmentId,

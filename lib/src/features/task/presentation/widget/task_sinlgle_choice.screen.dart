@@ -33,7 +33,7 @@ class _TaskSingleChoiceScreenState
         final ctrl = ref.watch(taskControllerProvider.notifier);
         final ctrlMission = ref.read(mainNavControllerProvider.notifier);
         final currentQuestionIndex = ref.watch(currentIndexState.notifier);
-        final listSelectedOption = ref.read(listSelectOptionState);
+        final listSelectedOption = ref.watch(listSelectOptionState.notifier);
         final currentQuestionProgress = ref.watch(currentProgressState);
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
@@ -161,7 +161,7 @@ class _TaskSingleChoiceScreenState
                                       const EdgeInsets.symmetric(vertical: 8.0),
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: listSelectedOption.contains(
+                                      color: listSelectedOption.state.contains(
                                               listAnswer?[index].answerId)
                                           ? ColorTheme.primary500
                                           : ColorTheme
@@ -174,13 +174,13 @@ class _TaskSingleChoiceScreenState
                                     title: Text(
                                         listAnswer?[index].answerCaption ?? ''),
                                     value: listAnswer?[index].answerId ?? 0,
-                                    groupValue: listSelectedOption.isNotEmpty
-                                        ? listSelectedOption.first
+                                    groupValue: listSelectedOption.state.isNotEmpty
+                                        ? listSelectedOption.state.first
                                         : 0,
                                     onChanged: (int? value) {
                                       setState(() {
                                         if (value != null) {
-                                          if (listSelectedOption.isNotEmpty) {
+                                          if (listSelectedOption.state.isNotEmpty) {
                                             ref
                                                 .watch(listSelectOptionState
                                                     .notifier)
@@ -278,7 +278,7 @@ class _TaskSingleChoiceScreenState
                           Expanded(
                             child: ElevatedButton(
                               onPressed: () async {
-                                if (listSelectedOption.isNotEmpty) {
+                                if (listSelectedOption.state.isNotEmpty) {
                                   if ((currentQuestionIndex.state + 1) <
                                           lengthAnswer &&
                                       lengthAnswer != 1) {
@@ -293,7 +293,7 @@ class _TaskSingleChoiceScreenState
                                                   0,
                                               isLast: false,
                                               listSelectedOption:
-                                                  listSelectedOption,
+                                                  listSelectedOption.state,
                                               type: listTask[
                                                           currentQuestionIndex
                                                               .state]
@@ -342,7 +342,7 @@ class _TaskSingleChoiceScreenState
                                                 0,
                                             isLast: true,
                                             listSelectedOption:
-                                                listSelectedOption,
+                                                listSelectedOption.state,
                                             type: listTask[currentQuestionIndex
                                                         .state]
                                                     .taskTypeCode ??

@@ -56,7 +56,7 @@ FutureOr<void> deleteAnswerLocal(DeleteAnswerLocalRef ref,
     listId.add(element.taskId ?? 0);
   }
   await isarInstance.writeTxn(() async {
-    await isarInstance.taskDatumAnswerRequestRemotes.deleteAll(listId);
+    await isarInstance.taskDatumAnswerRequestRemotes.clear();
   });
 }
 
@@ -102,18 +102,8 @@ FutureOr<List<TaskDatumAnswer>> getAnswerFinalLocal(GetAnswerFinalLocalRef ref,{
       .filter()
       .employeeMissionIdEqualTo(employeeMissionId)
       .findAll();
-  List<TaskDatumAnswer> listData = [];
-  if(data.isNotEmpty) {
-    listData = data.single.taskData??[];
-    ref
-        .watch(answerCurrentState.notifier)
-        .state = listData;
-    ref
-        .watch(answerFinalState.notifier)
-        .state = data.single;
-  }
 
-  return listData;
+  return data.single.taskData??[];
 
 }
 

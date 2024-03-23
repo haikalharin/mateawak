@@ -13,14 +13,14 @@ String newsResponseRemoteToJson(NewsResponseRemote data) => json.encode(data.toJ
 @collection
 class NewsResponseRemote {
   Id id = 1;
-  String? attachmentURL;
+  String? attachmentUrl;
   String? attachmentPath;
   String? title;
   String? updatedDate;
   String? content;
 
   NewsResponseRemote({
-    this.attachmentURL,
+    this.attachmentUrl,
     this.attachmentPath,
     this.title,
     this.updatedDate,
@@ -28,14 +28,14 @@ class NewsResponseRemote {
   });
 
   NewsResponseRemote copyWith({
-    String? attachmentURL,
+    String? attachmentUrl,
     String? attachmentPath,
     String? title,
     String? updatedDate,
     String? content,
   }) =>
       NewsResponseRemote(
-        attachmentURL: attachmentURL ?? this.attachmentURL,
+        attachmentUrl: attachmentUrl ?? this.attachmentUrl,
         attachmentPath: attachmentPath ?? this.attachmentPath,
         title: title ?? this.title,
         updatedDate: updatedDate ?? this.updatedDate,
@@ -43,14 +43,14 @@ class NewsResponseRemote {
       );
 
   factory NewsResponseRemote.fromJson(Map<String, dynamic> json) => NewsResponseRemote(
-    attachmentURL: json["attachmentURL"],
+    attachmentUrl: json["attachmentUrl"],
     title: json["title"],
     updatedDate: json["updatedDate"],
     content: json["content"],
   );
 
   Map<String, dynamic> toJson() => {
-    "attachmentURL": attachmentURL,
+    "attachmentUrl": attachmentUrl,
     "title": title,
     "updatedDate": updatedDate,
     "content": content,
