@@ -10,7 +10,7 @@ import '../../../../utils/common_utils.dart';
 
 part 'task.controller.g.dart';
 
-enum TaskType { MCQ, SCQ, YNQ, STX, RAT, DEFAULT }
+enum TaskType { MCQ, SCQ, YNQ, STX, RAT, ASM, DEFAULT }
 
 final isScrollProvider = StateProvider.autoDispose<bool>((ref) {
   return false;
