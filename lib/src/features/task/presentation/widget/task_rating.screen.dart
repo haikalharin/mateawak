@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,7 +33,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
         final ctrl = ref.watch(taskControllerProvider.notifier);
         final ctrlMission = ref.read(mainNavControllerProvider.notifier);
         final currentQuestionIndex = ref.watch(currentIndexState.notifier);
-        final listSelectedOption = ref.read(listSelectOptionState);
+        final listSelectedOption = ref.watch(listSelectOptionState.notifier);
         final currentQuestionProgress = ref.watch(currentProgressState);
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
@@ -121,10 +123,9 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                               height: 200,
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
-                                  image: const DecorationImage(
-                                    image: AssetImage(
-                                      'assets/images/image_news.png',
-                                      package: 'module_etamkawa',
+                                  image:  DecorationImage(
+                                    image: FileImage(
+                                        File(listTask[currentQuestionIndex.state].attachmentPath??'')
                                     ),
                                     fit: BoxFit.cover,
                                   ),
@@ -157,7 +158,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                               ),
                               onRatingUpdate: (rating) {
                                 if (rating != 0) {
-                                  if (listSelectedOption.isNotEmpty) {
+                                  if (listSelectedOption.state.isNotEmpty) {
                                     ref
                                         .watch(listSelectOptionState.notifier)
                                         .state
@@ -243,7 +244,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                           Expanded(
                             child: ElevatedButton(
                               onPressed: () {
-                                if (listSelectedOption.isNotEmpty) {
+                                if (listSelectedOption.state.isNotEmpty) {
                                   if ((currentQuestionIndex.state + 1) <
                                           lengthAnswer &&
                                       lengthAnswer != 1) {
@@ -258,7 +259,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                   0,
                                               isLast: false,
                                               listSelectedOption:
-                                                  listSelectedOption,
+                                                  listSelectedOption.state,
                                               type: listTask[
                                                           currentQuestionIndex
                                                               .state]
@@ -307,7 +308,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                 0,
                                             isLast: true,
                                             listSelectedOption:
-                                                listSelectedOption,
+                                                listSelectedOption.state,
                                             type: listTask[
                                                         currentQuestionIndex
                                                             .state]

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -123,10 +125,9 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                   .size
                                   .width,
                               decoration: BoxDecoration(
-                                  image: const DecorationImage(
-                                    image: AssetImage(
-                                      'assets/images/image_news.png',
-                                      package: 'module_etamkawa',
+                                  image:  DecorationImage(
+                                    image: FileImage(
+                                        File(listTask[currentQuestionIndex.state].attachmentPath??'')
                                     ),
                                     fit: BoxFit.cover,
                                   ),

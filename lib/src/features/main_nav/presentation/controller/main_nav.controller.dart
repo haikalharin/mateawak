@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:module_etamkawa/src/features/main_nav/infrastructure/repositories/main_nav.repository.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
+import 'package:module_etamkawa/src/features/mission/infrastructure/repositories/mission_local.repository.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -35,7 +36,7 @@ class MainNavController extends _$MainNavController {
     ref
         .watch(submitStatusState.notifier)
         .state = SubmitStatus.inProgess;
-    final repo = await ref.watch(fetchMissionProvider.future);
+    final repo = await ref.watch(getMissionRemoteProvider.future);
 
     if(repo == true) {
      await ref.watch(missionControllerProvider.notifier).getMissionList();

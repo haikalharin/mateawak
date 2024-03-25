@@ -27,9 +27,9 @@ Future<DownloadAttachmentNewsRequestRemote?> getImage(GetImageRef ref) async {
   final ctrl = ref.watch(overviewControllerProvider.notifier);
   return isConnectionAvailable
       ? await ref
-          .watch(getNewsImageRemoteProvider(id: ctrl.news.attachmentId).future)
+          .watch(getNewsImageRemoteProvider(id: 0).future)
       : await ref
-          .watch(getNewsImageLocalProvider(id: ctrl.news.attachmentId).future);
+          .watch(getNewsImageLocalProvider(id: 0).future);
 }
 
 @riverpod
@@ -48,11 +48,11 @@ class OverviewController extends _$OverviewController {
         ? ref.read(getNewsRemoteProvider.future)
         : ref.read(getNewsLocalProvider.future);
     state = await AsyncValue.guard(() => repo).then((value) async {
-      if (value.hasValue && value.value?.attachmentId != null) {
+      if (value.hasValue && value.value?.content != null) {
         ref.watch(newsState.notifier).state =
             value.value ?? NewsResponseRemote();
         news = value.value ?? NewsResponseRemote();
-        await getImage(id: news.attachmentId);
+        // await getImage(id: news.attachmentId);
       } else {
         state = AsyncError(value.error ?? '', StackTrace.fromString(''));
       }

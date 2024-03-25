@@ -64,14 +64,6 @@ class MissionController extends _$MissionController {
           } else if (element.missionStatusId! >= 2) {
             listGamificationPast.add(element);
           }
-          // } else {
-          //   listMissionInProgress = [];
-          //   listMissionAssigned = [];
-          //   listMissionPast = [];
-          //   listGamificationInProgress = [];
-          //   listGamificationAssigned = [];
-          //   listGamificationPast = [];
-          // }
         });
         ref.watch(listMissionInProgressState.notifier).state =
             listMissionInProgress;

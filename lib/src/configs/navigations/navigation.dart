@@ -40,13 +40,10 @@ GoRouter goRouter(GoRouterRef ref) {
             path: taskMissionEtamkawa,
             name: taskMissionEtamkawa,
             builder: (BuildContext context, GoRouterState state) {
-              Map<String, dynamic> param =
-              state.extra as Map<String, dynamic>;
+
               return SharedComponent.banner(
                   dotenv.env[EnvConstant.environment]!,
-                  ConnectionListenerWidget(child: TaskScreen(
-                    listTask: param[Constant.listTask],
-                  )));
+                  ConnectionListenerWidget(child: TaskScreen()));
             }),]),
 
 
@@ -79,12 +76,9 @@ List<RouteBase> routeEtamkawa = [
             name: taskMissionEtamkawa,
             builder: (BuildContext context, GoRouterState state) {
               List<TaskDatum> list = [];
-              Map<String, dynamic> param =
-              state.extra as Map<String, dynamic>;
               return SharedComponent.banner(
                   dotenv.env[EnvConstant.environment]!,
                   ConnectionListenerWidget(child: TaskScreen(
-                    listTask: param[Constant.listTask]??list,
                   )));
             }),]),
 
