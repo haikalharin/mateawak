@@ -18,7 +18,7 @@ String gamificationResponseRemoteToJson(GamificationResponseRemote data) =>
 class GamificationResponseRemote {
   Id? employeeMissionId;
   int? missionId;
-  int? missionStatusId;
+  int? missionStatusCode;
   String? missionStatus;
   String? startedDate;
   String? dueDate;
@@ -31,7 +31,7 @@ class GamificationResponseRemote {
   GamificationResponseRemote({
     this.employeeMissionId,
     this.missionId,
-    this.missionStatusId,
+    this.missionStatusCode,
     this.missionStatus,
     this.startedDate,
     this.dueDate,
@@ -46,7 +46,7 @@ class GamificationResponseRemote {
     int? employeeMissionId,
     String? employeeUpn,
     int? missionId,
-    int? missionStatusId,
+    int? missionStatusCode,
     String? missionStatus,
     String? startedDate,
     String? dueDate,
@@ -59,7 +59,7 @@ class GamificationResponseRemote {
       GamificationResponseRemote(
         employeeMissionId: employeeMissionId ?? this.employeeMissionId,
         missionId: missionId ?? this.missionId,
-        missionStatusId: missionStatusId ?? this.missionStatusId,
+        missionStatusCode: missionStatusCode ?? this.missionStatusCode,
         missionStatus: missionStatus ?? this.missionStatus,
         startedDate: startedDate ?? this.startedDate,
         dueDate: dueDate ?? this.dueDate,
@@ -74,7 +74,7 @@ class GamificationResponseRemote {
       GamificationResponseRemote(
         employeeMissionId: json["employeeMissionId"],
         missionId: json["missionId"],
-        missionStatusId: json["missionStatusId"],
+        missionStatusCode: json["missionStatusCode"],
         missionStatus: json["missionStatus"],
         startedDate: json["startedDate"],
         dueDate: json["dueDate"],
@@ -91,7 +91,7 @@ class GamificationResponseRemote {
   Map<String, dynamic> toJson() => {
         "employeeMissionId": employeeMissionId,
         "missionId": missionId,
-        "missionStatusId": missionStatusId,
+        "missionStatusCode": missionStatusCode,
         "missionStatus": missionStatus,
         "startedDate": startedDate,
         "dueDate": dueDate,

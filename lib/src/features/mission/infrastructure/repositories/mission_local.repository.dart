@@ -107,7 +107,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(GetMissionLocalRef r
     listAfterInputImage.add(GamificationResponseRemote(
         employeeMissionId: element.employeeMissionId,
         missionId: element.missionId,
-        missionStatusId: element.missionStatusId,
+        missionStatusCode: element.missionStatusCode,
         missionStatus: element.missionStatus,
         startedDate: element.startedDate,
         dueDate: element.dueDate,
