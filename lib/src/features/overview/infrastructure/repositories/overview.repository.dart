@@ -33,7 +33,7 @@ FutureOr<NewsResponseRemote> getNewsRemote(GetNewsRemoteRef ref) async {
       url: result.attachmentUrl ?? '',
     );
     responseImage.data;
-    file = await asyncMethodDownload(responseImage.data);
+    file = await asyncMethodSaveFile(responseImage.data);
   }
   final isarInstance = await ref.watch(isarInstanceProvider.future);
   NewsResponseRemote news = NewsResponseRemote(

@@ -74,7 +74,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(GetMissionLocalRef r
             url: element.attachmentUrl ?? '',
           );
           response.data;
-          file = await asyncMethodDownload(response.data);
+          file = await asyncMethodSaveFile(response.data);
         }
         taskData.add(TaskDatum(taskId: element.taskId,
             missionId: element.missionId,

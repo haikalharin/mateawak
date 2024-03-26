@@ -63,7 +63,7 @@ final listTaskState = StateProvider.autoDispose<List<TaskDatum>>((ref) => []);
 final listMissionState =
 StateProvider.autoDispose<List<MissionDatum>>((ref) => []);
 
-final attachmentBase64State = StateProvider.autoDispose<String>((ref) => '');
+// final attachmentBase64State = StateProvider.autoDispose<String>((ref) => '');
 
 final attachmentPathState = StateProvider.autoDispose<String>((ref) => '');
 

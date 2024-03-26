@@ -15,6 +15,7 @@ import 'package:module_shared/module_shared.dart';
 
 import '../../../../component/widget/dashed_border_widget.dart';
 import '../../../../constants/constant.dart';
+import '../../../../constants/function_utils.dart';
 import '../../../../constants/image.constant.dart';
 import '../../../main_nav/presentation/controller/main_nav.controller.dart';
 import '../controller/task.controller.dart';
@@ -46,7 +47,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
         final ctrl = ref.watch(taskControllerProvider.notifier);
         final ctrlMission = ref.read(mainNavControllerProvider.notifier);
         final currentQuestionIndex = ref.watch(currentIndexState.notifier);
-        final attachment = ref.watch(attachmentBase64State.notifier);
+        final attachment = ref.watch(attachmentPathState.notifier);
         final attachmentName = ref.watch(attachmentNameState.notifier);
         final listSelectedOptionString = ref.read(listSelectOptionStringState);
         final currentQuestionProgress = ref.watch(currentProgressState);
@@ -234,11 +235,6 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                 InkWell(
                                                   onTap: () {
                                                     setState(() {
-                                                      ref
-                                                          .read(
-                                                              attachmentBase64State
-                                                                  .notifier)
-                                                          .state = '';
                                                       ref
                                                           .read(
                                                               attachmentNameState
@@ -480,6 +476,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                         .taskId ??
                                                     0,
                                                 isLast: false,
+                                            attachment: attachment.state,
                                                 listSelectedOption:
                                                     listSelectedOptionString,
                                                 type: listTask[
@@ -497,7 +494,11 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                   .watch(nextTypeTaskState
                                                       .notifier)
                                                   .state ==
-                                              TaskType.STX.name) {
+                                              TaskType.STX.name || ref
+                                              .watch(nextTypeTaskState
+                                              .notifier)
+                                              .state ==
+                                              TaskType.ASM.name) {
                                             ref
                                                     .watch(
                                                         listSelectOptionStringState
@@ -664,10 +665,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
       ]);
       if (croppedFile != null) {
         XFile imageFile = XFile(croppedFile.path);
-        Uint8List imageBytes = await imageFile.readAsBytes();
-        String base64Image = base64Encode(imageBytes);
+        var file = await asyncMethodSaveFile(imageFile.readAsBytes());
         setState(() {
-          ref.read(attachmentBase64State.notifier).state = base64Image;
           ref.read(attachmentNameState.notifier).state = pickedFile.name;
           ref.read(attachmentPathState.notifier).state = imageFile.path;
         });
@@ -685,14 +684,12 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
 
     if (result != null) {
       XFile imageFile = XFile(result.files.single.path ?? '');
-      Uint8List fileBytes = await imageFile.readAsBytes();
-      String base64file = base64Encode(fileBytes);
+      var file = await asyncMethodSaveFile(imageFile.readAsBytes());
       setState(() {
-        ref.read(attachmentBase64State.notifier).state = base64file;
         ref.read(attachmentNameState.notifier).state =
             result.names.single ?? '';
         ref.read(attachmentPathState.notifier).state =
-            result.files.single.path ?? '';
+            file.path ?? '';
       });
     } else {
       // User canceled the picker

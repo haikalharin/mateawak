@@ -144,7 +144,7 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
                                             Text(
                                               news.title??'',
                                               style: TextStyle(
-                                                fontWeight: FontWeight.normal,
+                                                fontWeight: FontWeight.w700,
                                                 fontSize: 16.sp,
                                                 color: ColorTheme.textDark,
                                               ),
