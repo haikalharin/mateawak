@@ -281,7 +281,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                           )
                         : Container(),
                     listTask[currentQuestionIndex.state].taskTypeCode ==
-                            'TT0005'
+                        TaskType.ASM.name
                         ? const Expanded(
                             child: TaskFileScreen(),
                           )

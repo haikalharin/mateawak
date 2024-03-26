@@ -20,7 +20,7 @@ String getRandomString(int length) {
       length, (_) => charset.codeUnitAt(rnd.nextInt(charset.length))));
 }
 
-Future<File> asyncMethodDownload(dynamic image) async {
+Future<File> asyncMethodSaveFile(dynamic bitmap) async {
   //comment out the next two lines to prevent the device from getting
   // the image from the web in order to prove that the picture is
   // coming from the device instead of the web.
@@ -37,6 +37,6 @@ Future<File> asyncMethodDownload(dynamic image) async {
   //to the device to show that it's coming from the internet
   await Directory(firstPath).create(recursive: true); // <-- 1
   File file2 = File(filePathAndName); // <-- 2
-  file2.writeAsBytesSync(image); // <-- 3
+  file2.writeAsBytesSync(bitmap); // <-- 3
   return file2;
 }

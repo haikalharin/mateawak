@@ -10,7 +10,7 @@ import '../../../../utils/common_utils.dart';
 
 part 'task.controller.g.dart';
 
-enum TaskType { MCQ, SCQ, YNQ, STX, RAT, DEFAULT }
+enum TaskType { MCQ, SCQ, YNQ, STX, RAT, ASM, DEFAULT }
 
 final isScrollProvider = StateProvider.autoDispose<bool>((ref) {
   return false;
@@ -63,7 +63,7 @@ final listTaskState = StateProvider.autoDispose<List<TaskDatum>>((ref) => []);
 final listMissionState =
 StateProvider.autoDispose<List<MissionDatum>>((ref) => []);
 
-final attachmentBase64State = StateProvider.autoDispose<String>((ref) => '');
+// final attachmentBase64State = StateProvider.autoDispose<String>((ref) => '');
 
 final attachmentPathState = StateProvider.autoDispose<String>((ref) => '');
 
