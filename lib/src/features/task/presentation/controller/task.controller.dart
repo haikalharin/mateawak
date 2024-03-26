@@ -200,11 +200,11 @@ class TaskController extends _$TaskController {
 
     if (isDone) {
       data =
-          gamification.copyWith(missionStatusId: 2, missionStatus: 'Submitted');
+          gamification.copyWith(missionStatusCode: 2, missionStatus: 'Submitted');
     } else {
-      if (gamification.missionStatusId != 2) {
+      if (gamification.missionStatusCode != 2) {
         data = gamification.copyWith(
-            missionStatusId: 1, missionStatus: 'In Progress');
+            missionStatusCode: 1, missionStatus: 'In Progress');
       }
     }
     await ref

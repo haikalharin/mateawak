@@ -120,7 +120,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(5.r)),
                                           color:
-                                              (gamification.missionStatusId ==
+                                              (gamification.missionStatusCode ==
                                                       0)
                                                   ? ColorTheme.neutral300
                                                   : ColorTheme.secondary100),
@@ -133,7 +133,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                               typographyType:
                                                   TypographyType.paragraph,
                                               fontColor: (gamification
-                                                          .missionStatusId ==
+                                                          .missionStatusCode ==
                                                       0)
                                                   ? ColorTheme.neutral600
                                                   : ColorTheme.secondary500),
