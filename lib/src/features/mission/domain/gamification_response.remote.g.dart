@@ -49,9 +49,9 @@ const GamificationResponseRemoteSchema = CollectionSchema(
       name: r'missionStatus',
       type: IsarType.string,
     ),
-    r'missionStatusId': PropertySchema(
+    r'missionStatusCode': PropertySchema(
       id: 6,
-      name: r'missionStatusId',
+      name: r'missionStatusCode',
       type: IsarType.long,
     ),
     r'startedDate': PropertySchema(
@@ -171,7 +171,7 @@ void _gamificationResponseRemoteSerialize(
   writer.writeString(offsets[3], object.dueDate);
   writer.writeLong(offsets[4], object.missionId);
   writer.writeString(offsets[5], object.missionStatus);
-  writer.writeLong(offsets[6], object.missionStatusId);
+  writer.writeLong(offsets[6], object.missionStatusCode);
   writer.writeString(offsets[7], object.startedDate);
   writer.writeString(offsets[8], object.submittedBy);
   writer.writeString(offsets[9], object.submittedDate);
@@ -196,7 +196,7 @@ GamificationResponseRemote _gamificationResponseRemoteDeserialize(
     employeeMissionId: id,
     missionId: reader.readLongOrNull(offsets[4]),
     missionStatus: reader.readStringOrNull(offsets[5]),
-    missionStatusId: reader.readLongOrNull(offsets[6]),
+    missionStatusCode: reader.readLongOrNull(offsets[6]),
     startedDate: reader.readStringOrNull(offsets[7]),
     submittedBy: reader.readStringOrNull(offsets[8]),
     submittedDate: reader.readStringOrNull(offsets[9]),
@@ -1226,63 +1226,63 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterFilterCondition> missionStatusIdIsNull() {
+      QAfterFilterCondition> missionStatusCodeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'missionStatusId',
+        property: r'missionStatusCode',
       ));
     });
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterFilterCondition> missionStatusIdIsNotNull() {
+      QAfterFilterCondition> missionStatusCodeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'missionStatusId',
+        property: r'missionStatusCode',
       ));
     });
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterFilterCondition> missionStatusIdEqualTo(int? value) {
+      QAfterFilterCondition> missionStatusCodeEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'missionStatusId',
+        property: r'missionStatusCode',
         value: value,
       ));
     });
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterFilterCondition> missionStatusIdGreaterThan(
+      QAfterFilterCondition> missionStatusCodeGreaterThan(
     int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'missionStatusId',
+        property: r'missionStatusCode',
         value: value,
       ));
     });
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterFilterCondition> missionStatusIdLessThan(
+      QAfterFilterCondition> missionStatusCodeLessThan(
     int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'missionStatusId',
+        property: r'missionStatusCode',
         value: value,
       ));
     });
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterFilterCondition> missionStatusIdBetween(
+      QAfterFilterCondition> missionStatusCodeBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -1290,7 +1290,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'missionStatusId',
+        property: r'missionStatusCode',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -1854,16 +1854,16 @@ extension GamificationResponseRemoteQuerySortBy on QueryBuilder<
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterSortBy> sortByMissionStatusId() {
+      QAfterSortBy> sortByMissionStatusCode() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'missionStatusId', Sort.asc);
+      return query.addSortBy(r'missionStatusCode', Sort.asc);
     });
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterSortBy> sortByMissionStatusIdDesc() {
+      QAfterSortBy> sortByMissionStatusCodeDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'missionStatusId', Sort.desc);
+      return query.addSortBy(r'missionStatusCode', Sort.desc);
     });
   }
 
@@ -1997,16 +1997,16 @@ extension GamificationResponseRemoteQuerySortThenBy on QueryBuilder<
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterSortBy> thenByMissionStatusId() {
+      QAfterSortBy> thenByMissionStatusCode() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'missionStatusId', Sort.asc);
+      return query.addSortBy(r'missionStatusCode', Sort.asc);
     });
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QAfterSortBy> thenByMissionStatusIdDesc() {
+      QAfterSortBy> thenByMissionStatusCodeDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'missionStatusId', Sort.desc);
+      return query.addSortBy(r'missionStatusCode', Sort.desc);
     });
   }
 
@@ -2093,9 +2093,9 @@ extension GamificationResponseRemoteQueryWhereDistinct on QueryBuilder<
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
-      QDistinct> distinctByMissionStatusId() {
+      QDistinct> distinctByMissionStatusCode() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'missionStatusId');
+      return query.addDistinctBy(r'missionStatusCode');
     });
   }
 
@@ -2174,9 +2174,9 @@ extension GamificationResponseRemoteQueryProperty on QueryBuilder<
   }
 
   QueryBuilder<GamificationResponseRemote, int?, QQueryOperations>
-      missionStatusIdProperty() {
+      missionStatusCodeProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'missionStatusId');
+      return query.addPropertyName(r'missionStatusCode');
     });
   }
 
