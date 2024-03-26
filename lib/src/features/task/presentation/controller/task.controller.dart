@@ -185,7 +185,7 @@ class TaskController extends _$TaskController {
     var taskAnswer = AnswerRequestRemote(
         employeeMissionId: gamification.employeeMissionId,
         submittedDate: today,
-        status: gamification.missionStatusId,
+        status: gamification.missionStatusCode,
         taskData: listData);
     await ref.watch(
         putAnswerFinalLocalProvider(answerRequestRemote: taskAnswer).future);
