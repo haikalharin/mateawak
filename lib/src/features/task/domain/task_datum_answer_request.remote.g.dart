@@ -27,6 +27,11 @@ const TaskDatumAnswerRequestRemoteSchema = CollectionSchema(
       id: 1,
       name: r'attachment',
       type: IsarType.string,
+    ),
+    r'attachmentId': PropertySchema(
+      id: 2,
+      name: r'attachmentId',
+      type: IsarType.long,
     )
   },
   estimateSize: _taskDatumAnswerRequestRemoteEstimateSize,
@@ -72,6 +77,7 @@ void _taskDatumAnswerRequestRemoteSerialize(
 ) {
   writer.writeString(offsets[0], object.answer);
   writer.writeString(offsets[1], object.attachment);
+  writer.writeLong(offsets[2], object.attachmentId);
 }
 
 TaskDatumAnswerRequestRemote _taskDatumAnswerRequestRemoteDeserialize(
@@ -83,6 +89,7 @@ TaskDatumAnswerRequestRemote _taskDatumAnswerRequestRemoteDeserialize(
   final object = TaskDatumAnswerRequestRemote(
     answer: reader.readStringOrNull(offsets[0]),
     attachment: reader.readStringOrNull(offsets[1]),
+    attachmentId: reader.readLongOrNull(offsets[2]),
     taskId: id,
   );
   return object;
@@ -99,6 +106,8 @@ P _taskDatumAnswerRequestRemoteDeserializeProp<P>(
       return (reader.readStringOrNull(offset)) as P;
     case 1:
       return (reader.readStringOrNull(offset)) as P;
+    case 2:
+      return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -516,6 +525,80 @@ extension TaskDatumAnswerRequestRemoteQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> attachmentIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'attachmentId',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> attachmentIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'attachmentId',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> attachmentIdEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'attachmentId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> attachmentIdGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'attachmentId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> attachmentIdLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'attachmentId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> attachmentIdBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'attachmentId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
       QAfterFilterCondition> taskIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -629,6 +712,20 @@ extension TaskDatumAnswerRequestRemoteQuerySortBy on QueryBuilder<
       return query.addSortBy(r'attachment', Sort.desc);
     });
   }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterSortBy> sortByAttachmentId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'attachmentId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterSortBy> sortByAttachmentIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'attachmentId', Sort.desc);
+    });
+  }
 }
 
 extension TaskDatumAnswerRequestRemoteQuerySortThenBy on QueryBuilder<
@@ -662,6 +759,20 @@ extension TaskDatumAnswerRequestRemoteQuerySortThenBy on QueryBuilder<
   }
 
   QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterSortBy> thenByAttachmentId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'attachmentId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterSortBy> thenByAttachmentIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'attachmentId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
       QAfterSortBy> thenByTaskId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'taskId', Sort.asc);
@@ -691,6 +802,13 @@ extension TaskDatumAnswerRequestRemoteQueryWhereDistinct on QueryBuilder<
       return query.addDistinctBy(r'attachment', caseSensitive: caseSensitive);
     });
   }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QDistinct> distinctByAttachmentId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'attachmentId');
+    });
+  }
 }
 
 extension TaskDatumAnswerRequestRemoteQueryProperty on QueryBuilder<
@@ -715,6 +833,13 @@ extension TaskDatumAnswerRequestRemoteQueryProperty on QueryBuilder<
       attachmentProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'attachment');
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, int?, QQueryOperations>
+      attachmentIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'attachmentId');
     });
   }
 }
