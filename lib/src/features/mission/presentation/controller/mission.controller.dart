@@ -57,11 +57,11 @@ class MissionController extends _$MissionController {
       List<GamificationResponseRemote> listGamificationPast = [];
       if (value.hasValue) {
         value.value?.forEach((element) async {
-          if (element.missionStatusId! == 1) {
+          if (element.missionStatusCode! == 1) {
             listGamificationInProgress.add(element);
-          } else if (element.missionStatusId! == 0) {
+          } else if (element.missionStatusCode! == 0) {
             listGamificationAssigned.add(element);
-          } else if (element.missionStatusId! >= 2) {
+          } else if (element.missionStatusCode! >= 2) {
             listGamificationPast.add(element);
           }
         });
@@ -99,11 +99,11 @@ class MissionController extends _$MissionController {
 
       if (value.hasValue) {
         value.value?.forEach((element) async {
-          if (element.missionStatusId! == 1) {
+          if (element.missionStatusCode! == 1) {
             listGamificationInProgress.add(element);
-          } else if (element.missionStatusId! == 0) {
+          } else if (element.missionStatusCode! == 0) {
             listGamificationAssigned.add(element);
-          } else if (element.missionStatusId! >= 2) {
+          } else if (element.missionStatusCode! >= 2) {
             listGamificationPast.add(element);
           }
         });
@@ -137,11 +137,11 @@ class MissionController extends _$MissionController {
 
       if (value.hasValue) {
         value.value?.forEach((element) async {
-          if (element.missionStatusId! == 1) {
+          if (element.missionStatusCode! == 1) {
             listGamificationInProgress.add(element);
-          } else if (element.missionStatusId! == 0) {
+          } else if (element.missionStatusCode! == 0) {
             listGamificationAssigned.add(element);
-          } else if (element.missionStatusId! >= 2) {
+          } else if (element.missionStatusCode! >= 2) {
             listGamificationPast.add(element);
           }
         });

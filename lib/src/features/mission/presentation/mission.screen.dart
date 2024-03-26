@@ -214,7 +214,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                     borderRadius:
                                     BorderRadius.all(Radius.circular(5.r)),
                                     color:
-                                    (gamification[index].missionStatusId == 0)
+                                    (gamification[index].missionStatusCode == 0)
                                         ? ColorTheme.neutral300
                                         : ColorTheme.secondary100),
                                 child: Padding(
@@ -224,7 +224,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                       style: SharedComponent.textStyleCustom(
                                           typographyType: TypographyType.paragraph,
                                           fontColor: (gamification[index]
-                                              .missionStatusId ==
+                                              .missionStatusCode ==
                                               0)
                                               ? ColorTheme.neutral600
                                               : ColorTheme.secondary500)),
@@ -304,7 +304,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                               ),
                             ),
                             onPressed: () async {
-                              if (gamification[index].missionStatusId == 1) {
+                              if (gamification[index].missionStatusCode == 1) {
                                 await ctrlTask
                                     .putDetailMissionData(
                                     missionDatum: gamification[index]
