@@ -664,11 +664,11 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
         CropAspectRatioPreset.ratio16x9,
       ]);
       if (croppedFile != null) {
-        XFile imageFile = XFile(croppedFile.path);
-        var file = await asyncMethodSaveFile(imageFile.readAsBytes());
+        var fileDuplicate = await asyncMethodSaveFile(croppedFile.readAsBytes());
+        XFile finalFile = XFile(fileDuplicate.path);
         setState(() {
-          ref.read(attachmentNameState.notifier).state = pickedFile.name;
-          ref.read(attachmentPathState.notifier).state = imageFile.path;
+          ref.read(attachmentNameState.notifier).state = finalFile.name;
+          ref.read(attachmentPathState.notifier).state = finalFile.path;
         });
 
         // widget.onImagePicked(base64Image);
@@ -683,13 +683,14 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
     );
 
     if (result != null) {
-      XFile imageFile = XFile(result.files.single.path ?? '');
-      var file = await asyncMethodSaveFile(imageFile.readAsBytes());
+      XFile file = XFile(result.files.single.path ?? '');
+      var fileDuplicate = await asyncMethodSaveFile(file.readAsBytes());
+      XFile finalFile = XFile(fileDuplicate.path);
       setState(() {
         ref.read(attachmentNameState.notifier).state =
-            result.names.single ?? '';
+            finalFile.name;
         ref.read(attachmentPathState.notifier).state =
-            file.path ?? '';
+            finalFile.path ?? '';
       });
     } else {
       // User canceled the picker

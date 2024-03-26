@@ -18,13 +18,18 @@ const AnswerRequestRemoteSchema = CollectionSchema(
   name: r'AnswerRequestRemote',
   id: -3457472311048628609,
   properties: {
-    r'submittedDate': PropertySchema(
+    r'status': PropertySchema(
       id: 0,
+      name: r'status',
+      type: IsarType.long,
+    ),
+    r'submittedDate': PropertySchema(
+      id: 1,
       name: r'submittedDate',
       type: IsarType.string,
     ),
     r'taskData': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'taskData',
       type: IsarType.objectList,
       target: r'TaskDatumAnswer',
@@ -79,9 +84,10 @@ void _answerRequestRemoteSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.submittedDate);
+  writer.writeLong(offsets[0], object.status);
+  writer.writeString(offsets[1], object.submittedDate);
   writer.writeObjectList<TaskDatumAnswer>(
-    offsets[1],
+    offsets[2],
     allOffsets,
     TaskDatumAnswerSchema.serialize,
     object.taskData,
@@ -96,9 +102,10 @@ AnswerRequestRemote _answerRequestRemoteDeserialize(
 ) {
   final object = AnswerRequestRemote(
     employeeMissionId: id,
-    submittedDate: reader.readStringOrNull(offsets[0]),
+    status: reader.readLongOrNull(offsets[0]),
+    submittedDate: reader.readStringOrNull(offsets[1]),
     taskData: reader.readObjectList<TaskDatumAnswer>(
-      offsets[1],
+      offsets[2],
       TaskDatumAnswerSchema.deserialize,
       allOffsets,
       TaskDatumAnswer(),
@@ -115,8 +122,10 @@ P _answerRequestRemoteDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 1:
+      return (reader.readStringOrNull(offset)) as P;
+    case 2:
       return (reader.readObjectList<TaskDatumAnswer>(
         offset,
         TaskDatumAnswerSchema.deserialize,
@@ -297,6 +306,80 @@ extension AnswerRequestRemoteQueryFilter on QueryBuilder<AnswerRequestRemote,
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'employeeMissionId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterFilterCondition>
+      statusIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'status',
+      ));
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterFilterCondition>
+      statusIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'status',
+      ));
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterFilterCondition>
+      statusEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'status',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterFilterCondition>
+      statusGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'status',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterFilterCondition>
+      statusLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'status',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterFilterCondition>
+      statusBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'status',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -583,6 +666,20 @@ extension AnswerRequestRemoteQueryLinks on QueryBuilder<AnswerRequestRemote,
 extension AnswerRequestRemoteQuerySortBy
     on QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QSortBy> {
   QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterSortBy>
+      sortByStatus() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'status', Sort.asc);
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterSortBy>
+      sortByStatusDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'status', Sort.desc);
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterSortBy>
       sortBySubmittedDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'submittedDate', Sort.asc);
@@ -614,6 +711,20 @@ extension AnswerRequestRemoteQuerySortThenBy
   }
 
   QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterSortBy>
+      thenByStatus() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'status', Sort.asc);
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterSortBy>
+      thenByStatusDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'status', Sort.desc);
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterSortBy>
       thenBySubmittedDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'submittedDate', Sort.asc);
@@ -631,6 +742,13 @@ extension AnswerRequestRemoteQuerySortThenBy
 extension AnswerRequestRemoteQueryWhereDistinct
     on QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QDistinct> {
   QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QDistinct>
+      distinctByStatus() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'status');
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QDistinct>
       distinctBySubmittedDate({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'submittedDate',
@@ -645,6 +763,12 @@ extension AnswerRequestRemoteQueryProperty
       employeeMissionIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'employeeMissionId');
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, int?, QQueryOperations> statusProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'status');
     });
   }
 
@@ -684,8 +808,13 @@ const TaskDatumAnswerSchema = Schema(
       name: r'attachment',
       type: IsarType.string,
     ),
-    r'taskId': PropertySchema(
+    r'attachmentId': PropertySchema(
       id: 2,
+      name: r'attachmentId',
+      type: IsarType.long,
+    ),
+    r'taskId': PropertySchema(
+      id: 3,
       name: r'taskId',
       type: IsarType.long,
     )
@@ -725,7 +854,8 @@ void _taskDatumAnswerSerialize(
 ) {
   writer.writeString(offsets[0], object.answer);
   writer.writeString(offsets[1], object.attachment);
-  writer.writeLong(offsets[2], object.taskId);
+  writer.writeLong(offsets[2], object.attachmentId);
+  writer.writeLong(offsets[3], object.taskId);
 }
 
 TaskDatumAnswer _taskDatumAnswerDeserialize(
@@ -737,7 +867,8 @@ TaskDatumAnswer _taskDatumAnswerDeserialize(
   final object = TaskDatumAnswer(
     answer: reader.readStringOrNull(offsets[0]),
     attachment: reader.readStringOrNull(offsets[1]),
-    taskId: reader.readLongOrNull(offsets[2]),
+    attachmentId: reader.readLongOrNull(offsets[2]),
+    taskId: reader.readLongOrNull(offsets[3]),
   );
   return object;
 }
@@ -754,6 +885,8 @@ P _taskDatumAnswerDeserializeProp<P>(
     case 1:
       return (reader.readStringOrNull(offset)) as P;
     case 2:
+      return (reader.readLongOrNull(offset)) as P;
+    case 3:
       return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1066,6 +1199,80 @@ extension TaskDatumAnswerQueryFilter
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'attachment',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      attachmentIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'attachmentId',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      attachmentIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'attachmentId',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      attachmentIdEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'attachmentId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      attachmentIdGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'attachmentId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      attachmentIdLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'attachmentId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      attachmentIdBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'attachmentId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }
