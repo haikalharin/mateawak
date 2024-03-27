@@ -63,11 +63,9 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                 Text(
                                   "${currentQuestionIndex.state + 1}/${listTask
                                       .length}",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.sp,
-                                    color: ColorTheme.textDark,
-                                  ),
+                                  style:SharedComponent.textStyleCustom(
+                                      typographyType: TypographyType.largeH5,
+                                      fontColor: ColorTheme.textDark)
                                 ),
                                 Container(
                                   width: 75.h,
@@ -95,11 +93,9 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                   Text(
                                                     " +${listTask[currentQuestionIndex
                                                         .state].taskReward}",
-                                                    style: TextStyle(
-                                                      fontSize: 12.sp,
-                                                      color:
-                                                      ColorTheme.secondary500,
-                                                    ),
+                                                    style: SharedComponent.textStyleCustom(
+                                                        typographyType: TypographyType.body,
+                                                        fontColor: ColorTheme.secondary500),
                                                   ),
                                                 ],
                                               ),
@@ -142,8 +138,9 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                               listTask[currentQuestionIndex.state]
                                   .taskCaption ??
                                   '',
-                              style: const TextStyle(
-                                  fontSize: 14.0, fontWeight: FontWeight.w500),
+                              style: SharedComponent.textStyleCustom(
+                                  typographyType: TypographyType.medium,
+                                  fontColor: ColorTheme.textDark),
                             ),
                             const Divider(),
                             const SizedBox(height: 20.0),

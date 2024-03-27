@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:module_etamkawa/src/features/overview/domain/news_response.remote.dart';
 import 'package:module_etamkawa/src/features/overview/infrastructure/repositories/overview.repository.dart';
 import 'package:module_etamkawa/src/features/overview/infrastructure/repositories/overview_local.repository.dart';
+import 'package:module_shared/module_shared.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../shared_component/connection_listener_widget.dart';
@@ -21,6 +22,9 @@ final imageNewsState =
 final newsState = StateProvider.autoDispose<NewsResponseRemote>(
     (ref) => NewsResponseRemote());
 
+final userProfileState = StateProvider.autoDispose<UserModel>(
+    (ref) => UserModel());
+
 @riverpod
 Future<DownloadAttachmentNewsRequestRemote?> getImage(GetImageRef ref) async {
   final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
@@ -37,10 +41,20 @@ class OverviewController extends _$OverviewController {
   NewsResponseRemote news = NewsResponseRemote();
   DownloadAttachmentNewsRequestRemote imageNews =
       DownloadAttachmentNewsRequestRemote();
+  UserModel userProfile = UserModel();
   @override
   FutureOr<void> build() async {
+    await getUserProfile();
     await getNews();
   }
+
+  Future<void> getUserProfile() async {
+    final userModel = await ref.read(helperUserProvider).getUserProfile();
+    userProfile = userModel??UserModel();
+    ref.watch(userProfileState.notifier).state = userModel??UserModel();
+
+  }
+
 
   Future<void> getNews() async {
     final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);

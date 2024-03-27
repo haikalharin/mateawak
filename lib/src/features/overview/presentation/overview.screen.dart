@@ -59,6 +59,7 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
           final ctrl = ref.watch(overviewControllerProvider.notifier);
           final news = ref.watch(newsState);
           final imageNews = ref.watch(imageNewsState);
+          final userProfile = ref.watch(userProfileState);
           Uint8List imageBytes = imageNews.attachmentId != 0
               ? base64Decode(imageNews.formattedName ?? '')
               : Uint8List(1);
@@ -84,9 +85,16 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
                               width: 50,
                               height: 50,
                               decoration: BoxDecoration(
-                                  color: ColorTheme.textDark,
+                                  color: ColorTheme.primary100,
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(100.r))),
+                              child: Center(
+                                  child: Text(
+                                (userProfile.empName ?? '')[0].toUpperCase(),
+                                style: SharedComponent.textStyleCustom(
+                                    typographyType: TypographyType.largeH2,
+                                    fontColor: ColorTheme.textDark),
+                              )),
                             ),
                             Container(
                               margin:
@@ -96,20 +104,16 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Richard Papangayan',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16.sp,
-                                      color: ColorTheme.textWhite,
-                                    ),
+                                    userProfile.empName ?? '',
+                                    style: SharedComponent.textStyleCustom(
+                                        typographyType: TypographyType.largeH5,
+                                        fontColor: ColorTheme.textWhite)
                                   ),
                                   Text(
-                                    'Supervisor',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 10.sp,
-                                      color: ColorTheme.textWhite,
-                                    ),
+                                    userProfile.positionName ?? '',
+                                    style: SharedComponent.textStyleCustom(
+                                        typographyType: TypographyType.body,
+                                        fontColor: ColorTheme.textWhite)
                                   ),
                                 ],
                               ),
@@ -139,12 +143,10 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              news.title??'',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 16.sp,
-                                                color: ColorTheme.textDark,
-                                              ),
+                                              news.title ?? '',
+                                              style: SharedComponent.textStyleCustom(
+                                                  typographyType: TypographyType.largeH5,
+                                                  fontColor: ColorTheme.textDark)
                                             ),
                                             const SizedBox(
                                               height: 8,
@@ -156,9 +158,9 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
                                                   .width,
                                               decoration: BoxDecoration(
                                                   image: DecorationImage(
-                                                    image: FileImage(
-                                                        File(news.attachmentPath ?? '')
-                                                    ),
+                                                    image: FileImage(File(
+                                                        news.attachmentPath ??
+                                                            '')),
                                                     fit: BoxFit.cover,
                                                   ),
                                                   color: ColorTheme

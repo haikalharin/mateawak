@@ -160,19 +160,15 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                       gamificationData.chapterData?.single
                                               .chapterName ??
                                           '',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16.sp,
-                                        color: ColorTheme.textDark,
-                                      ),
+                                      style: SharedComponent.textStyleCustom(
+                                          typographyType: TypographyType.largeH5,
+                                          fontColor: ColorTheme.textLightDark)
                                     ),
                                     Text(
                                       'Mission: ${missionData.missionName}',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 12.sp,
-                                        color: ColorTheme.textLightDark,
-                                      ),
+                                      style:  SharedComponent.textStyleCustom(
+                                          typographyType: TypographyType.smallH8,
+                                          fontColor: ColorTheme.textLightDark)
                                     ),
                                   ],
                                 ),
@@ -196,11 +192,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                               children: [
                                 Text(
                                   'Overall progress',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 12.sp,
-                                    color: ColorTheme.textLightDark,
-                                  ),
+                                  style: SharedComponent.textStyleCustom(
+                                      typographyType: TypographyType.body,
+                                      fontColor: ColorTheme.textDark)
                                 ),
                                 Stack(
                                   children: [
@@ -218,9 +212,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                             alignment: Alignment.centerLeft,
                                             child: Text(
                                               '0%',
-                                              style: TextStyle(
-                                                  color:
-                                                      ColorTheme.primary500),
+                                              style: SharedComponent.textStyleCustom(
+                                                  typographyType: TypographyType.body,
+                                                  fontColor: ColorTheme.primary500)
                                             ))),
                                     Container(
                                         height: 24,
@@ -240,9 +234,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                             alignment: Alignment.centerRight,
                                             child: Text(
                                                 '${((currentQuestionProgress) * 100) ~/ listTask.length}%',
-                                                style: TextStyle(
-                                                    color: ColorTheme
-                                                        .backgroundLight))))
+                                                style: SharedComponent.textStyleCustom(
+                                                    typographyType: TypographyType.body,
+                                                    fontColor: ColorTheme.backgroundLight))))
                                   ],
                                 ),
                               ],
