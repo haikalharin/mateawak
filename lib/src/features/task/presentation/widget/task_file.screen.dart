@@ -229,7 +229,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                   ),
                                                 ),
                                                 InkWell(
-                                                  onTap: () {
+                                                  onTap: () async {
+                                                    await File(attachment.state).delete();
                                                     setState(() {
                                                       ref
                                                           .read(
