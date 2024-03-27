@@ -69,9 +69,6 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
                 children: [
                   Column(
                     children: [
-                      const Divider(
-                        height: 0.5,
-                      ),
                       Container(
                         height: 80,
                         width: MediaQuery.of(context).size.width,

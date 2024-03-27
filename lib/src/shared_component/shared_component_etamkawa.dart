@@ -4,40 +4,49 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:module_shared/module_shared.dart';
 
-class SharedComponentEtamkawa{
+class SharedComponentEtamkawa {
   static PreferredSizeWidget appBar(
       {required BuildContext context,
-        required String title,
-        List<Widget>? actions,
-        bool? centerTitle,
-        Function()? onBack,
-        Brightness? brightnessIconStatusBar = Brightness.light,
-        bool? isLeading}) {
+      required String title,
+      List<Widget>? actions,
+      Color? backgroundColor,
+      Color? titleColor,
+      double? elevation,
+      bool? centerTitle,
+      Function()? onBack,
+      Brightness? brightnessIconStatusBar = Brightness.light,
+      bool? isLeading}) {
     return AppBar(
+      elevation: elevation,
+      shadowColor: ColorTheme.textLightDark,
+      backgroundColor:backgroundColor?? ColorTheme.primary500,
+      foregroundColor: titleColor,
+      surfaceTintColor: titleColor,
       centerTitle: centerTitle,
-      title: Text(title),
-      flexibleSpace: Container(
-        decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(ImageSharedConstant.appBarTitle), fit: BoxFit.fill)),
+      title: Text(
+        title,
+        style: TextStyle(color: titleColor),
       ),
       leading: (isLeading ?? true)
           ? IconButton(
-        icon: const Icon(Icons.arrow_back),
-        onPressed: onBack ?? () {
-          Navigator.of(context).pop();
-        },
-      )
+              icon: const Icon(Icons.close),
+              onPressed: onBack ??
+                  () {
+                    Navigator.of(context).pop();
+                  },
+            )
           : null,
       actions: actions,
       systemOverlayStyle: (brightnessIconStatusBar == null)
           ? null
           : Platform.isIOS
-          ? (brightnessIconStatusBar == Brightness.light)
-          ? SystemUiOverlayStyle.light
-          : SystemUiOverlayStyle.dark
-          : SystemUiOverlayStyle(
-        statusBarIconBrightness: brightnessIconStatusBar,
-        statusBarColor: Colors.transparent,
-      ),
+              ? (brightnessIconStatusBar == Brightness.light)
+                  ? SystemUiOverlayStyle.light
+                  : SystemUiOverlayStyle.dark
+              : SystemUiOverlayStyle(
+                  statusBarIconBrightness: brightnessIconStatusBar,
+                  statusBarColor: Colors.transparent,
+                ),
     );
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,24 +23,53 @@ IndexedStack pages({required int currentIndex}) {
 }
 
 class MainNavScreen extends ConsumerWidget {
-  const MainNavScreen({super.key});
+   const MainNavScreen({super.key});
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Consumer(
-        builder: (BuildContext context, WidgetRef ref, Widget? child) {
-          final submitStatus = ref.watch(submitStatusState);
-          return AsyncValueSharedWidget(
-          value: ref.watch(mainNavControllerProvider),
-          data: (data) {
-            final ctrl = ref.read(mainNavControllerProvider.notifier);
+
+    return AsyncValueSharedWidget(
+        value: ref.watch(mainNavControllerProvider),
+        data: (data) {
+          final ctrl = ref.read(mainNavControllerProvider.notifier);
+
+      final submitStatus = ref.watch(submitStatusState);
+      return Consumer(
+          builder: (BuildContext context, WidgetRef ref, Widget? child) {
+            String title = '';
+            switch (ctrl.indexNav) {
+              case 0:
+               title = 'People Product';
+              case 1:
+                title = 'Growth';
+              case 2:
+                title = 'Mission';
+              case 3:
+                title = 'Approval';
+              case 4:
+                title = 'Profile';
+              default:
+
+            }
             return AnnotatedRegion<SystemUiOverlayStyle>(
+
               value: SystemUiOverlayStyle.light,
               child: Scaffold(
-                  backgroundColor: ColorTheme.primary500,
                   appBar: SharedComponentEtamkawa.appBar(
+                    backgroundColor: ctrl.indexNav == 0
+                        ? ColorTheme.primary500
+                        : ColorTheme.backgroundWhite,
+                    titleColor: ctrl.indexNav == 0
+                        ? ColorTheme.textWhite
+                        : ColorTheme.textDark,
                     context: context,
-                    title: 'People Product',
+                    elevation: ctrl.indexNav == 0 ? 0.0 : 0.5,
+                    title: title,
+                    onBack: (){
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    },
                     actions: [
                       InkWell(
                           onTap: () async {
@@ -52,7 +80,7 @@ class MainNavScreen extends ConsumerWidget {
                       const Icon(Icons.notifications),
                       SizedBox(width: 20.w),
                     ],
-                    brightnessIconStatusBar: Brightness.light,
+                    brightnessIconStatusBar:ctrl.indexNav == 0? Brightness.light:Brightness.dark,
                   ),
                   body: Stack(children: [
                     pages(currentIndex: ctrl.indexNav),
@@ -117,11 +145,10 @@ class MainNavScreen extends ConsumerWidget {
                     ),
                   )),
             );
-          },
-          skipError: true,
-          onPressed: () {
-            ref.invalidate(mainNavControllerProvider);
           });
-    });
+    },  skipError: true,
+        onPressed: () {
+          ref.invalidate(mainNavControllerProvider);
+        });
   }
 }

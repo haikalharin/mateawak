@@ -208,6 +208,10 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                 ),
                 Card(
                   child: Container(
+                    decoration: BoxDecoration(
+                        color: ColorTheme.backgroundWhite,
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(10.0),topRight: Radius.circular(10.0))),
                     padding: const EdgeInsets.all(16.0),
                     width: double.infinity,
                     child: Align(

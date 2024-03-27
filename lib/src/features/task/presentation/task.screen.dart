@@ -95,7 +95,10 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                 appBar: SharedComponentEtamkawa.appBar(
                     context: context,
                     title: 'Mission',
+                    backgroundColor: ColorTheme.backgroundWhite,
+                    titleColor: ColorTheme.textDark,
                     brightnessIconStatusBar: Brightness.light,
+
                     onBack: () async {
                       await showDialog(
                         context: context,
@@ -132,126 +135,120 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                     const Divider(
                       height: 0.5,
                     ),
-                    Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.r)),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: ColorTheme.backgroundWhite,
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(10.r),
                       ),
-                      margin: const EdgeInsets.all(8),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: ColorTheme.backgroundWhite,
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
-                        width: MediaQuery.of(context).size.width,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        child: Column(
-                          children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      width: MediaQuery.of(context).size.width,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      child: Column(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      gamificationData.chapterData?.single
+                                              .chapterName ??
+                                          '',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.sp,
+                                        color: ColorTheme.textDark,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Mission: ${missionData.missionName}',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 12.sp,
+                                        color: ColorTheme.textLightDark,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                width: 83,
+                                height: 26,
+                                decoration: BoxDecoration(
+                                    color: ColorTheme.secondary100,
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(5.r))),
+                                child:
+                                    const Center(child: Text('In Progress')),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(top: 24),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        gamificationData.chapterData?.single
-                                                .chapterName ??
-                                            '',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16.sp,
-                                          color: ColorTheme.textDark,
-                                        ),
-                                      ),
-                                      Text(
-                                        'Mission: ${missionData.missionName}',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12.sp,
-                                          color: ColorTheme.textLightDark,
-                                        ),
-                                      ),
-                                    ],
+                                Text(
+                                  'Overall progress',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12.sp,
+                                    color: ColorTheme.textLightDark,
                                   ),
                                 ),
-                                Container(
-                                  width: 83,
-                                  height: 26,
-                                  decoration: BoxDecoration(
-                                      color: ColorTheme.secondary100,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5.r))),
-                                  child:
-                                      const Center(child: Text('In Progress')),
+                                Stack(
+                                  children: [
+                                    Container(
+                                        padding:
+                                            const EdgeInsets.only(left: 8),
+                                        height: 24,
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          color: ColorTheme.bgGreenLight,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(4.r)),
+                                        ),
+                                        child: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              '0%',
+                                              style: TextStyle(
+                                                  color:
+                                                      ColorTheme.primary500),
+                                            ))),
+                                    Container(
+                                        height: 24,
+                                        padding:
+                                            const EdgeInsets.only(right: 8),
+                                        width: MediaQuery.of(context)
+                                                .size
+                                                .width *
+                                            ((currentQuestionProgress) /
+                                                listTask.length),
+                                        decoration: BoxDecoration(
+                                          color: ColorTheme.primary500,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(4.r)),
+                                        ),
+                                        child: Align(
+                                            alignment: Alignment.centerRight,
+                                            child: Text(
+                                                '${((currentQuestionProgress) * 100) ~/ listTask.length}%',
+                                                style: TextStyle(
+                                                    color: ColorTheme
+                                                        .backgroundLight))))
+                                  ],
                                 ),
                               ],
                             ),
-                            Container(
-                              margin: const EdgeInsets.only(top: 24),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Overall progress',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 12.sp,
-                                      color: ColorTheme.textLightDark,
-                                    ),
-                                  ),
-                                  Stack(
-                                    children: [
-                                      Container(
-                                          padding:
-                                              const EdgeInsets.only(left: 8),
-                                          height: 24,
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                            color: ColorTheme.bgGreenLight,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(4.r)),
-                                          ),
-                                          child: Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(
-                                                '0%',
-                                                style: TextStyle(
-                                                    color:
-                                                        ColorTheme.primary500),
-                                              ))),
-                                      Container(
-                                          height: 24,
-                                          padding:
-                                              const EdgeInsets.only(right: 8),
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              ((currentQuestionProgress) /
-                                                  listTask.length),
-                                          decoration: BoxDecoration(
-                                            color: ColorTheme.primary500,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(4.r)),
-                                          ),
-                                          child: Align(
-                                              alignment: Alignment.centerRight,
-                                              child: Text(
-                                                  '${((currentQuestionProgress) * 100) ~/ listTask.length}%',
-                                                  style: TextStyle(
-                                                      color: ColorTheme
-                                                          .backgroundLight))))
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                     listTask[currentQuestionIndex.state].taskTypeCode ==
