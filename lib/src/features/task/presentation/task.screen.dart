@@ -7,6 +7,7 @@ import 'package:module_etamkawa/src/features/task/presentation/widget/task_free_
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_multi_choice.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_rating.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_sinlgle_choice.screen.dart';
+import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../configs/theme/color.theme.dart';
@@ -64,29 +65,29 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
               onWillPop: () async {
                 await showDialog(
                   context: context,
-                  builder: (_) => AlertDialog(
-                    title: const Text('Quiz Finished'),
-                    content: const Text('You have completed the quiz.'),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () async {
-                          await ctrl.putAnswerFinal().whenComplete(() async {
-                            await ctrl
-                                .changeStatusTask(isDone: false)
-                                .whenComplete(() async {
-                              await ctrlMission
-                                  .fetchMissionListLocal()
+                  builder: (context) {
+                    return CustomDialog(
+                        title: "Confirmation",
+                        content: "Are you sure want to leave",
+                        label: "Stay",
+                        type: DialogType.question,
+                        onClosed: () async => {
+                              await ctrl
+                                  .putAnswerFinal()
                                   .whenComplete(() async {
-                                Navigator.of(context).pop();
-                                Navigator.of(context).pop();
-                              });
+                                await ctrl
+                                    .changeStatusTask(isDone: false)
+                                    .whenComplete(() async {
+                                  await ctrlMission
+                                      .fetchMissionListLocal()
+                                      .whenComplete(() async {
+                                    //Navigator.of(context).pop();
+                                    //Navigator.of(context).pop();
+                                  });
+                                });
+                              })
                             });
-                          });
-                        },
-                        child: const Text('OK'),
-                      )
-                    ],
-                  ),
+                  },
                 );
                 return Future.value(true);
               },
@@ -98,37 +99,32 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                     backgroundColor: ColorTheme.backgroundWhite,
                     titleColor: ColorTheme.textDark,
                     brightnessIconStatusBar: Brightness.light,
-
                     onBack: () async {
                       await showDialog(
-                        context: context,
-                        builder: (_) => AlertDialog(
-                          title: const Text('Quiz Finished'),
-                          content: const Text('You have completed the quiz.'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () async {
-                                await ctrl
-                                    .putAnswerFinal()
-                                    .whenComplete(() async {
-                                  await ctrl
-                                      .changeStatusTask(isDone: false)
-                                      .whenComplete(() async {
-                                    await ctrlMission
-                                        .fetchMissionListLocal()
-                                        .whenComplete(() async {
-                                      Navigator.of(context).pop();
-                                      Navigator.of(context).pop();
-                                      Navigator.of(context).pop();
+                          context: context,
+                          builder: (context) {
+                            return CustomDialog(
+                                title: "Confirmation",
+                                content: "Are you sure want to leave",
+                                label: "Stay",
+                                type: DialogType.question,
+                                onClosed: () async => {
+                                      await ctrl
+                                          .putAnswerFinal()
+                                          .whenComplete(() async {
+                                        await ctrl
+                                            .changeStatusTask(isDone: false)
+                                            .whenComplete(() async {
+                                          await ctrlMission
+                                              .fetchMissionListLocal()
+                                              .whenComplete(() async {
+                                            //Navigator.of(context).pop();
+                                            //Navigator.of(context).pop();
+                                          });
+                                        });
+                                      })
                                     });
-                                  });
-                                });
-                              },
-                              child: const Text('OK'),
-                            )
-                          ],
-                        ),
-                      );
+                          });
                     }),
                 body: Column(
                   children: [
@@ -153,23 +149,23 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                               Container(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      gamificationData.chapterData?.single
-                                              .chapterName ??
-                                          '',
-                                      style: SharedComponent.textStyleCustom(
-                                          typographyType: TypographyType.largeH5,
-                                          fontColor: ColorTheme.textLightDark)
-                                    ),
-                                    Text(
-                                      'Mission: ${missionData.missionName}',
-                                      style:  SharedComponent.textStyleCustom(
-                                          typographyType: TypographyType.smallH8,
-                                          fontColor: ColorTheme.textLightDark)
-                                    ),
+                                        gamificationData.chapterData?.single
+                                                .chapterName ??
+                                            '',
+                                        style: SharedComponent.textStyleCustom(
+                                            typographyType:
+                                                TypographyType.largeH5,
+                                            fontColor:
+                                                ColorTheme.textLightDark)),
+                                    Text('Mission: ${missionData.missionName}',
+                                        style: SharedComponent.textStyleCustom(
+                                            typographyType:
+                                                TypographyType.smallH8,
+                                            fontColor:
+                                                ColorTheme.textLightDark)),
                                   ],
                                 ),
                               ),
@@ -178,10 +174,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                 height: 26,
                                 decoration: BoxDecoration(
                                     color: ColorTheme.secondary100,
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.r))),
-                                child:
-                                    const Center(child: Text('In Progress')),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.r))),
+                                child: const Center(child: Text('In Progress')),
                               ),
                             ],
                           ),
@@ -190,17 +185,14 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  'Overall progress',
-                                  style: SharedComponent.textStyleCustom(
-                                      typographyType: TypographyType.body,
-                                      fontColor: ColorTheme.textDark)
-                                ),
+                                Text('Overall progress',
+                                    style: SharedComponent.textStyleCustom(
+                                        typographyType: TypographyType.body,
+                                        fontColor: ColorTheme.textDark)),
                                 Stack(
                                   children: [
                                     Container(
-                                        padding:
-                                            const EdgeInsets.only(left: 8),
+                                        padding: const EdgeInsets.only(left: 8),
                                         height: 24,
                                         width: double.infinity,
                                         decoration: BoxDecoration(
@@ -210,12 +202,13 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                         ),
                                         child: Align(
                                             alignment: Alignment.centerLeft,
-                                            child: Text(
-                                              '0%',
-                                              style: SharedComponent.textStyleCustom(
-                                                  typographyType: TypographyType.body,
-                                                  fontColor: ColorTheme.primary500)
-                                            ))),
+                                            child: Text('0%',
+                                                style: SharedComponent
+                                                    .textStyleCustom(
+                                                        typographyType:
+                                                            TypographyType.body,
+                                                        fontColor: ColorTheme
+                                                            .primary500)))),
                                     Container(
                                         height: 24,
                                         padding:
@@ -234,9 +227,12 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                             alignment: Alignment.centerRight,
                                             child: Text(
                                                 '${((currentQuestionProgress) * 100) ~/ listTask.length}%',
-                                                style: SharedComponent.textStyleCustom(
-                                                    typographyType: TypographyType.body,
-                                                    fontColor: ColorTheme.backgroundLight))))
+                                                style: SharedComponent
+                                                    .textStyleCustom(
+                                                        typographyType:
+                                                            TypographyType.body,
+                                                        fontColor: ColorTheme
+                                                            .backgroundLight))))
                                   ],
                                 ),
                               ],
@@ -272,7 +268,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                           )
                         : Container(),
                     listTask[currentQuestionIndex.state].taskTypeCode ==
-                        TaskType.ASM.name
+                            TaskType.ASM.name
                         ? const Expanded(
                             child: TaskFileScreen(),
                           )

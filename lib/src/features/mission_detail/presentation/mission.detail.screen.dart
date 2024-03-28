@@ -51,6 +51,8 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final gamification = ref.read(gamificationState.notifier).state;
         final ctrlTask = ref.watch(taskControllerProvider.notifier);
+        final missionType = gamification
+            .chapterData?.single.missionData?.single.missionTypeName;
         return AsyncValueWidget(
           value: ref.watch(taskControllerProvider),
           data: (data) {
@@ -252,33 +254,18 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                           SizedBox(height: 10.h),
                                         ],
                                       ),
-                                      addVerticalDividerIfQuizz(gamification
-                                              .chapterData
-                                              ?.single
-                                              .missionData
-                                              ?.single
-                                              .missionTypeName !=
-                                          'Assignment'),
-                                      addTaskIfQuizz(
-                                          gamification
-                                                  .chapterData
-                                                  ?.single
-                                                  .missionData
-                                                  ?.single
-                                                  .missionTypeName !=
-                                              'Assignment',
-                                          (gamification
-                                                      .chapterData
-                                                      ?.single
-                                                      .missionData
-                                                      ?.single
-                                                      .taskData ??
-                                                  [])
-                                              .length),
-                                      VerticalDivider(
-                                        thickness: 1.sp,
-                                        color: ColorTheme.strokeTertiary,
-                                      ),
+                                      if (missionType != 'Assignment')
+                                        addVerticalDivider(),
+                                      if (missionType != 'Assignment')
+                                        addTaskIfQuizz(gamification
+                                                .chapterData
+                                                ?.single
+                                                .missionData
+                                                ?.single
+                                                .taskData
+                                                ?.length ??
+                                            0),
+                                      addVerticalDivider(),
                                       Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -323,60 +310,61 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                           ),
                         ),
                       ),
-                      const Divider(
-                        height: 0.5,
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                color: ColorTheme.strokeTertiary,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.r)),
+                            ),
+                            elevation: 0,
+                            margin: const EdgeInsets.all(15),
+                            child: Container(
+                                width: MediaQuery.sizeOf(context).width,
+                                margin: const EdgeInsets.all(15),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Before you start',
+                                      style: SharedComponent.textStyleCustom(
+                                          typographyType: TypographyType.bold,
+                                          fontColor: ColorTheme.neutral600),
+                                    ),
+                                    Text(
+                                        gamification
+                                                .chapterData
+                                                ?.single
+                                                .missionData
+                                                ?.single
+                                                .missionInstruction ??
+                                            '',
+                                        style: SharedComponent.textStyleCustom(
+                                            typographyType:
+                                                TypographyType.paragraph,
+                                            fontColor: ColorTheme.neutral600)),
+                                  ],
+                                )),
+                          ),
+                        ),
                       ),
                       Card(
                         shape: RoundedRectangleBorder(
                           side: BorderSide(
                             color: ColorTheme.strokeTertiary,
                           ),
-                          borderRadius: BorderRadius.all(Radius.circular(10.r)),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10.r),
+                              topRight: Radius.circular(10.r)),
                         ),
                         elevation: 0,
-                        margin: const EdgeInsets.all(15),
-                        child: Container(
-                            width: MediaQuery.sizeOf(context).width,
-                            margin: const EdgeInsets.all(15),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Before you start',
-                                  style: SharedComponent.textStyleCustom(
-                                      typographyType: TypographyType.bold,
-                                      fontColor: ColorTheme.neutral600),
-                                ),
-                                Text(
-                                    gamification.chapterData?.single.missionData
-                                            ?.single.missionInstruction ??
-                                        '',
-                                    style: SharedComponent.textStyleCustom(
-                                        typographyType:
-                                            TypographyType.paragraph,
-                                        fontColor: ColorTheme.neutral600)),
-                              ],
-                            )),
-                      ),
-                      const Spacer(),
-                      Card(
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        color: ColorTheme.strokeTertiary,
-                      ),
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10.r),
-                          topRight: Radius.circular(10.r)),
-                    ),
-                    elevation: 0,
-                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  
+                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                         child: Column(
                           children: [
-                            const Divider(
-                              height: 0.5,
-                            ),
                             Padding(
                               padding: const EdgeInsets.all(16),
                               child: SizedBox(
@@ -394,9 +382,10 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                             });
                                       },
                                       child: Text('Start',
-                                          style: SharedComponent.textStyleCustom(
-                                              typographyType:
-                                                  TypographyType.paragraph)))),
+                                          style:
+                                              SharedComponent.textStyleCustom(
+                                                  typographyType: TypographyType
+                                                      .paragraph)))),
                             ),
                           ],
                         ),
@@ -409,14 +398,14 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
   }
 }
 
-Widget addVerticalDividerIfQuizz(bool isAssignment) {
+Widget addVerticalDivider() {
   return VerticalDivider(
-                                        thickness: 1.sp,
-                                        color: ColorTheme.strokeTertiary,
-                                      );
+    thickness: 1.sp,
+    color: ColorTheme.strokeTertiary,
+  );
 }
 
-Widget addTaskIfQuizz(bool isAssignment, int totalTask) {
+Widget addTaskIfQuizz(int totalTask) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     mainAxisSize: MainAxisSize.min,
