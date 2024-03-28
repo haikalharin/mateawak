@@ -175,7 +175,8 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
                                             const SizedBox(
                                               height: 8,
                                             ),
-                                            HtmlWidget(news.content ?? ''),
+                                            Html(news.content ?? '',
+                                            ),
                                           ],
                                         ),
                                       )
