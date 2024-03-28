@@ -412,7 +412,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                           .showSnackBar(
                                         const SnackBar(
                                             content: Text(
-                                                'Please select an option!')),
+                                          'Please write your answer')),
                                       );
                                     }
                                   },

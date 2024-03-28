@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -21,34 +22,43 @@ String getRandomString(int length) {
       length, (_) => charset.codeUnitAt(rnd.nextInt(charset.length))));
 }
 
-Future<File> asyncMethodSaveFile(dynamic bitmap, {XFile? file}) async {
-  //comment out the next two lines to prevent the device from getting
-  // the image from the web in order to prove that the picture is
-  // coming from the device instead of the web.
+Future<File> asyncMethodSaveFile(dynamic bitmap) async {
+  var documentDirectory = await getApplicationDocumentsDirectory();
+  DateTime dateTime = DateTime.now();
+  var filePath = '';
+  var filePathAndName = '';
+  String dateTimeStringFile =
+      "${dateTime.year}-${dateTime.month}-${dateTime.day}";
+  String dateTimeStringImage =
+      "${dateTime.year}-${dateTime.month}-${dateTime.day}-${dateTime.hour}-${dateTime.minute}-${dateTime.second}-${dateTime.millisecond}";
+    filePath = "${documentDirectory.path}/downloads-$dateTimeStringFile";
+    filePathAndName =
+        '${documentDirectory.path}/downloads-$dateTimeStringFile/file-$dateTimeStringImage.jpg';
+  await Directory(filePath).create(recursive: true); // <-- 1
+  File file2 = File(filePathAndName); // <-- 2
+  file2.writeAsBytesSync(bitmap); // <-- 3
+  return file2;
+}
+
+Future<PlatformFile> asyncMethodUploadFile( {required PlatformFile file}) async {
   var documentDirectory = await getApplicationDocumentsDirectory();
   String stringRandom = getRandomString(3);
   DateTime dateTime = DateTime.now();
-  var firstPath = '';
-  var filePathAndName ='';
-  String dateTimeStringFile = "${dateTime.year}-${dateTime.month}-${dateTime.day}";
-  String dateTimeStringImage = "${dateTime.year}-${dateTime.month}-${dateTime.day}-${dateTime.hour}-${dateTime.minute}-${dateTime.second}-${dateTime.millisecond}";
-  if(file != null && file.mimeType != 'jpg'){
-    firstPath =
-    "${documentDirectory.path}/file-$dateTimeStringFile";
-    filePathAndName =
-    '${documentDirectory
-        .path}/file-$dateTimeStringFile/file-$dateTimeStringImage.${file.mimeType}';
-  }else {
-     firstPath =
-        "${documentDirectory.path}/downloads-$dateTimeStringFile";
-     filePathAndName =
-        '${documentDirectory
-        .path}/downloads-$dateTimeStringFile/file-$dateTimeStringImage.jpg';
-  }
-  //comment out the next three lines top revent the image from being saved
-  //to the device to show that it's coming from the internet
-  await Directory(firstPath).create(recursive: true); // <-- 1
-  File file2 = File(filePathAndName); // <-- 2
-  file2.writeAsBytesSync(bitmap); // <-- 3
+  String dateTimeStringFile =
+      "${dateTime.year}-${dateTime.month}-${dateTime.day}";
+  String dateTimeStringImage =
+      "${dateTime.year}-${dateTime.month}-${dateTime.day}-${dateTime.hour}-${dateTime.minute}-${dateTime.second}-${dateTime.millisecond}";
+  var filePath = "${documentDirectory.path}/file-$dateTimeStringFile";
+  var  fileName = "file-$dateTimeStringImage-${file.name}";
+  var  filePathAndName =
+        '${documentDirectory.path}/file-$dateTimeStringFile/$fileName';
+
+  await Directory(filePath).create(recursive: true); // <-- 1
+  PlatformFile file2 = PlatformFile(
+    path: filePathAndName,
+    name:fileName,
+    size: file.size ?? 0,
+    bytes: file.bytes
+  ); // <-- 2
   return file2;
 }

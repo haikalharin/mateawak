@@ -49,7 +49,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
         final currentQuestionIndex = ref.watch(currentIndexState.notifier);
         final attachment = ref.watch(attachmentPathState.notifier);
         final attachmentName = ref.watch(attachmentNameState.notifier);
-        final listSelectedOptionString = ref.read(listSelectOptionStringState);
+        final listSelectedOptionString = ref.watch(listSelectOptionStringState);
         final currentQuestionProgress = ref.watch(currentProgressState);
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
@@ -88,11 +88,10 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "${currentQuestionIndex.state + 1}/${listTask.length}",
-                            style:  SharedComponent.textStyleCustom(
-                                typographyType: TypographyType.largeH5,
-                                fontColor: ColorTheme.textDark)
-                          ),
+                              "${currentQuestionIndex.state + 1}/${listTask.length}",
+                              style: SharedComponent.textStyleCustom(
+                                  typographyType: TypographyType.largeH5,
+                                  fontColor: ColorTheme.textDark)),
                           Container(
                             width: 75.h,
                             child: Row(
@@ -117,9 +116,12 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                         ),
                                         Text(
                                           " +${listTask[currentQuestionIndex.state].taskReward}",
-                                          style:SharedComponent.textStyleCustom(
-                                              typographyType: TypographyType.body,
-                                              fontColor: ColorTheme.secondary500),
+                                          style:
+                                              SharedComponent.textStyleCustom(
+                                                  typographyType:
+                                                      TypographyType.body,
+                                                  fontColor:
+                                                      ColorTheme.secondary500),
                                         ),
                                       ],
                                     ),
@@ -194,15 +196,24 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                 text: TextSpan(
                                                   text:
                                                       'Evidence (one file only)',
-                                                  style: SharedComponent.textStyleCustom(
-                                                      typographyType: TypographyType.body,
-                                                      fontColor: ColorTheme.textDark),
-                                                  children:  [
+                                                  style: SharedComponent
+                                                      .textStyleCustom(
+                                                          typographyType:
+                                                              TypographyType
+                                                                  .body,
+                                                          fontColor: ColorTheme
+                                                              .textDark),
+                                                  children: [
                                                     TextSpan(
                                                       text: '*',
-                                                      style: SharedComponent.textStyleCustom(
-                                                          typographyType: TypographyType.body,
-                                                          fontColor: ColorTheme.danger500),
+                                                      style: SharedComponent
+                                                          .textStyleCustom(
+                                                              typographyType:
+                                                                  TypographyType
+                                                                      .body,
+                                                              fontColor:
+                                                                  ColorTheme
+                                                                      .danger500),
                                                     ),
                                                   ],
                                                 ),
@@ -230,18 +241,21 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                 ),
                                                 InkWell(
                                                   onTap: () async {
-                                                    await File(attachment.state).delete();
-                                                    setState(() {
-                                                      ref
-                                                          .read(
-                                                              attachmentNameState
-                                                                  .notifier)
-                                                          .state = '';
-                                                      ref
-                                                          .read(
-                                                              attachmentPathState
-                                                                  .notifier)
-                                                          .state = '';
+                                                    await File(attachment.state)
+                                                        .delete()
+                                                        .whenComplete(() {
+                                                      setState(() {
+                                                        ref
+                                                            .read(
+                                                                attachmentNameState
+                                                                    .notifier)
+                                                            .state = '';
+                                                        ref
+                                                            .read(
+                                                                attachmentPathState
+                                                                    .notifier)
+                                                            .state = '';
+                                                      });
                                                     });
                                                   },
                                                   child: Icon(
@@ -260,7 +274,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                   ))
                                 : InkWell(
                                     onTap: () {
-                                      _showPicker(context);
+                                      pickDocFile();
                                     },
                                     child: DottedBorder(
                                       color: ColorTheme.primary500,
@@ -369,19 +383,21 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                 ),
                                 maxLines: 10,
                                 onChanged: (value) {
-                                  if (value.isNotEmpty) {
-                                    if (listSelectedOptionString.isNotEmpty) {
+                                  setState(() {
+                                    if (value.isNotEmpty) {
+                                      if (listSelectedOptionString.isNotEmpty) {
+                                        ref
+                                            .watch(listSelectOptionStringState
+                                                .notifier)
+                                            .state
+                                            .clear();
+                                      }
                                       ref
                                           .watch(listSelectOptionStringState
                                               .notifier)
-                                          .state
-                                          .clear();
+                                          .state = [value];
                                     }
-                                    ref
-                                        .watch(listSelectOptionStringState
-                                            .notifier)
-                                        .state = [value];
-                                  }
+                                  });
                                 }, // Allows multiple lines of input
                               ),
                             ),
@@ -395,9 +411,9 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                   decoration: BoxDecoration(
                       color: ColorTheme.backgroundWhite,
                       borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(10.0),topRight: Radius.circular(10.0))),
+                          topLeft: Radius.circular(10.0),
+                          topRight: Radius.circular(10.0))),
                   padding: const EdgeInsets.all(16.0),
-
                   width: double.infinity,
                   child: Align(
                     alignment: Alignment.bottomCenter,
@@ -463,7 +479,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                           Expanded(
                             child: ElevatedButton(
                               onPressed: () {
-                                if (listSelectedOptionString.isNotEmpty) {
+                                if (listSelectedOptionString.isNotEmpty && attachment.state.isNotEmpty) {
                                   if ((currentQuestionIndex.state + 1) <
                                           lengthAnswer &&
                                       lengthAnswer != 1) {
@@ -477,7 +493,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                       .taskId ??
                                                   0,
                                               isLast: false,
-                                          attachment: attachment.state,
+                                              attachment: attachment.state,
                                               listSelectedOption:
                                                   listSelectedOptionString,
                                               type: listTask[
@@ -492,14 +508,15 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                 currentProgressState.notifier)
                                             .state++;
                                         if (ref
-                                                .watch(nextTypeTaskState
-                                                    .notifier)
-                                                .state ==
-                                            TaskType.STX.name || ref
-                                            .watch(nextTypeTaskState
-                                            .notifier)
-                                            .state ==
-                                            TaskType.ASM.name) {
+                                                    .watch(nextTypeTaskState
+                                                        .notifier)
+                                                    .state ==
+                                                TaskType.STX.name ||
+                                            ref
+                                                    .watch(nextTypeTaskState
+                                                        .notifier)
+                                                    .state ==
+                                                TaskType.ASM.name) {
                                           ref
                                                   .watch(
                                                       listSelectOptionStringState
@@ -529,17 +546,15 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                   } else {
                                     ctrl
                                         .saveAnswer(
-                                            listTask[currentQuestionIndex
-                                                        .state]
+                                            listTask[currentQuestionIndex.state]
                                                     .taskId ??
                                                 0,
                                             isLast: true,
                                             attachment: attachment.state,
                                             listSelectedOption:
                                                 listSelectedOptionString,
-                                            type: listTask[
-                                                        currentQuestionIndex
-                                                            .state]
+                                            type: listTask[currentQuestionIndex
+                                                        .state]
                                                     .taskTypeCode ??
                                                 '')
                                         .whenComplete(() {
@@ -595,7 +610,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                         content:
-                                            Text('Please select an option!')),
+                                            Text('Please write and fill your answer')),
                                   );
                                 }
                               },
@@ -627,13 +642,6 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
               child: Wrap(
                 children: [
                   ListTile(
-                      leading: const Icon(Icons.photo_library),
-                      title: const Text('Photo Library'),
-                      onTap: () async {
-                        Navigator.pop(context);
-                        pickAndCropImageGallery();
-                      }),
-                  ListTile(
                     leading: const Icon(Icons.file_present),
                     title: const Text('File'),
                     onTap: () async {
@@ -648,34 +656,6 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
         });
   }
 
-  void pickAndCropImageGallery() async {
-    final pickedFile = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 25,
-    );
-
-    if (pickedFile != null) {
-      CroppedFile? croppedFile = await ImageCropper.platform
-          .cropImage(sourcePath: pickedFile.path, aspectRatioPresets: [
-        CropAspectRatioPreset.square,
-        CropAspectRatioPreset.ratio3x2,
-        CropAspectRatioPreset.original,
-        CropAspectRatioPreset.ratio4x3,
-        CropAspectRatioPreset.ratio16x9,
-      ]);
-      if (croppedFile != null) {
-        var fileDuplicate = await asyncMethodSaveFile(croppedFile.readAsBytes(),file: XFile(croppedFile.path) );
-        XFile finalFile = XFile(fileDuplicate.path);
-        setState(() {
-          ref.read(attachmentNameState.notifier).state = finalFile.name;
-          ref.read(attachmentPathState.notifier).state = finalFile.path;
-        });
-
-        // widget.onImagePicked(base64Image);
-      }
-    }
-  }
-
   Future<void> pickDocFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -683,14 +663,11 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
     );
 
     if (result != null) {
-      XFile file = XFile(result.files.single.path ?? '');
-      var fileDuplicate = await asyncMethodSaveFile(file.readAsBytes(),file: file);
-      XFile finalFile = XFile(fileDuplicate.path);
+      var fileDuplicate =
+          await asyncMethodUploadFile(file: result.files.single);
       setState(() {
-        ref.read(attachmentNameState.notifier).state =
-            finalFile.name;
-        ref.read(attachmentPathState.notifier).state =
-            finalFile.path ?? '';
+        ref.read(attachmentNameState.notifier).state = fileDuplicate.name;
+        ref.read(attachmentPathState.notifier).state = fileDuplicate.path ?? '';
       });
     } else {
       // User canceled the picker
