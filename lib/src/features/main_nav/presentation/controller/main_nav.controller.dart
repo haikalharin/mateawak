@@ -38,7 +38,7 @@ class MainNavController extends _$MainNavController {
         .state = SubmitStatus.inProgess;
     final repo = await ref.watch(getMissionRemoteProvider.future);
 
-    if(repo == true) {
+    if(repo.isNotEmpty == true) {
      await ref.watch(missionControllerProvider.notifier).getMissionList();
       Future.delayed(const Duration(seconds: 2), () {
         ref.watch(submitStatusState.notifier)
