@@ -131,20 +131,20 @@ class MissionController extends _$MissionController {
             listGamificationInProgress
                 .where((element) => (element.chapterData?.single.missionData
                             ?.single.missionName ??
-                        '')
+                        '').toLowerCase()
                     .contains(query.toLowerCase()))
                 .toList();
         ref.watch(gamificationAssignedState.notifier).state =
             listGamificationAssigned
                 .where((element) => (element.chapterData?.single.missionData
                 ?.single.missionName ??
-                '')
+                '').toLowerCase()
                 .contains(query.toLowerCase()))
                 .toList();
         ref.watch(gamificationPastState.notifier).state =  listGamificationPast
             .where((element) => (element.chapterData?.single.missionData
             ?.single.missionName ??
-            '')
+            '').toLowerCase()
             .contains(query.toLowerCase()))
             .toList();
         ref.watch(listGamificationState.notifier).state = value.value ?? [];
