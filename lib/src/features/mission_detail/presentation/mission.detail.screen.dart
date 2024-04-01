@@ -390,6 +390,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                           ],
                         ),
                       )
+
                     ])));
           },
         );

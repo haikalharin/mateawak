@@ -13,6 +13,7 @@ import 'package:module_shared/module_shared.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import '../../../shared_component/async_value_widget.dart';
 import '../../../shared_component/refreshable_starter_widget.dart';
+import '../../../utils/custom_html_widget.dart';
 
 class OverviewScreen extends ConsumerStatefulWidget {
   const OverviewScreen({super.key});
@@ -175,7 +176,8 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
                                             const SizedBox(
                                               height: 8,
                                             ),
-                                            HtmlWidget(news.content ?? ''),
+                                            customHtmlWidget(news.content ?? '',
+                                            ),
                                           ],
                                         ),
                                       )

@@ -252,7 +252,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                               ],
                             ),
                           ]),
-                      Text(gamification[index].chapterData![0].chapterName!,
+                      Text(gamification[index].chapterData?.single.missionData?.single.missionName??'',
                           style: SharedComponent.textStyleCustom(
                               typographyType: TypographyType.largeH5,
                               fontColor: ColorTheme.neutral600)
@@ -262,7 +262,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                         //     color: ColorTheme.neutral600),
                       ),
                       Text(
-                          'Mission: ${gamification[index].chapterData?.single.missionData?.single.missionName ?? ''}',
+                          gamification[index].chapterData?[0].chapterName??'',
                           style: SharedComponent.textStyleCustom(
                               typographyType: TypographyType.paragraph,
                               fontColor: ColorTheme.neutral500)
