@@ -11,6 +11,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:module_etamkawa/src/configs/theme/color.theme.dart';
+import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../../component/widget/dashed_border_widget.dart';
@@ -53,6 +54,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
         final currentQuestionProgress = ref.watch(currentProgressState);
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
+        final gamificationData = ref.watch(gamificationState);
         if (ref.watch(previousTypeTaskState.notifier).state ==
                 TaskType.STX.name ||
             ref.watch(nextTypeTaskState.notifier).state == TaskType.STX.name) {
@@ -77,70 +79,75 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(10.r)),
                   ),
                   margin: const EdgeInsets.all(8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                              "${currentQuestionIndex.state + 1}/${listTask.length}",
-                              style: SharedComponent.textStyleCustom(
-                                  typographyType: TypographyType.largeH5,
-                                  fontColor: ColorTheme.textDark)),
-                          Container(
-                            width: 75.h,
-                            child: Row(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(4),
-                                  decoration: BoxDecoration(
-                                      color: ColorTheme.secondary100,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5.r))),
-                                  child: Center(
-                                      child: Container(
-                                    height: 24.h,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Icon(
-                                          Icons.star,
-                                          color: ColorTheme.secondary500,
-                                          size: 12.h,
-                                        ),
-                                        Text(
-                                          " +${listTask[currentQuestionIndex.state].taskReward}",
-                                          style:
-                                              SharedComponent.textStyleCustom(
-                                                  typographyType:
-                                                      TypographyType.body,
-                                                  fontColor:
-                                                      ColorTheme.secondary500),
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                                ),
-                                Icon(
-                                  Icons.info,
-                                  color: ColorTheme.primary500,
-                                  size: 24.h,
-                                ),
-                              ],
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                                (gamificationData
+                                            .chapterData
+                                            ?.single
+                                            .missionData
+                                            ?.single
+                                            .missionTypeName ==
+                                        "Assignment"
+                                    ? "Assignment"
+                                    : "Task ${currentQuestionIndex.state + 1}/${listTask.length}"),
+                                style: SharedComponent.textStyleCustom(
+                                    typographyType: TypographyType.largeH5,
+                                    fontColor: ColorTheme.textDark)),
+                            Container(
+                              width: 75.h,
+                              child: Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(4),
+                                    decoration: BoxDecoration(
+                                        color: ColorTheme.secondary100,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.r))),
+                                    child: Center(
+                                        child: Container(
+                                      height: 24.h,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Icon(
+                                            Icons.star,
+                                            color: ColorTheme.secondary500,
+                                            size: 12.h,
+                                          ),
+                                          Text(
+                                            " +${listTask[currentQuestionIndex.state].taskReward}",
+                                            style:
+                                                SharedComponent.textStyleCustom(
+                                                    typographyType:
+                                                        TypographyType.body,
+                                                    fontColor: ColorTheme
+                                                        .secondary500),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                                  ),
+                                  Icon(
+                                    Icons.info,
+                                    color: ColorTheme.primary500,
+                                    size: 24.h,
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 16),
-                        child: Column(
+                          ],
+                        ),
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(
@@ -352,7 +359,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                     ),
                                   ),
                             const SizedBox(height: 8.0),
-                            Container(
+                            SizedBox(
                               width: MediaQuery.of(context).size.width,
                               child: Expanded(
                                 child: Text(
@@ -365,7 +372,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 12,
                             ),
                             const SizedBox(height: 8.0),
@@ -402,9 +409,9 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                               ),
                             ),
                           ],
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 Container(
@@ -479,7 +486,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                           Expanded(
                             child: ElevatedButton(
                               onPressed: () {
-                                if (listSelectedOptionString.isNotEmpty && attachment.state.isNotEmpty) {
+                                if (listSelectedOptionString.isNotEmpty &&
+                                    attachment.state.isNotEmpty) {
                                   if ((currentQuestionIndex.state + 1) <
                                           lengthAnswer &&
                                       lengthAnswer != 1) {
@@ -576,41 +584,38 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                       isInit = true;
                                       showDialog(
                                         context: context,
-                                        builder: (_) => AlertDialog(
-                                          title: const Text('Quiz Finished'),
-                                          content: const Text(
-                                              'You have completed the quiz.'),
-                                          actions: <Widget>[
-                                            TextButton(
-                                              onPressed: () async {
-                                                await ctrl
-                                                    .putAnswerFinal()
-                                                    .whenComplete(() async {
-                                                  await ctrl
-                                                      .changeStatusTask()
-                                                      .whenComplete(() async {
-                                                    await ctrlMission
-                                                        .fetchMissionList()
-                                                        .whenComplete(() {
-                                                      Navigator.pop(context);
-                                                      Navigator.pop(context);
-                                                      Navigator.pop(context);
-                                                    });
+                                        builder: (context) {
+                                          return CustomDialog(
+                                              title:
+                                                  "Are you sure want to submit your ${(gamificationData.chapterData?.single.missionData?.single.missionTypeName == "Assignment" ? "assignment" : "answers")}",
+                                              content:
+                                                  "Are you sure want to leave",
+                                              label: "Submit",
+                                              type: DialogType.mission,
+                                              onClosed: () async => {
+                                                    await ctrl
+                                                        .putAnswerFinal()
+                                                        .whenComplete(() async {
+                                                      await ctrl
+                                                          .changeStatusTask()
+                                                          .whenComplete(
+                                                              () async {
+                                                        await ctrlMission
+                                                            .fetchMissionList()
+                                                            .whenComplete(() {
+                                                        });
+                                                      });
+                                                    })
                                                   });
-                                                });
-                                              },
-                                              child: const Text('OK'),
-                                            )
-                                          ],
-                                        ),
+                                        },
                                       );
                                     });
                                   }
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                        content:
-                                            Text('Please write and fill your answer')),
+                                        content: Text(
+                                            'Please write and fill your answer')),
                                   );
                                 }
                               },

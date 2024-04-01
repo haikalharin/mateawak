@@ -7,7 +7,7 @@ import 'package:module_shared/module_shared.dart';
 import '../constants/constant.dart';
 import '../constants/image.constant.dart';
 
-enum DialogType { success, error, info, question }
+enum DialogType { success, error, info, question, mission }
 
 class CustomDialog extends StatelessWidget {
   const CustomDialog(
@@ -32,7 +32,7 @@ class CustomDialog extends StatelessWidget {
         imageConstant = ImageConstant.iconDialogInfo;
       case DialogType.error:
         imageConstant = ImageConstant.iconDialogError;
-      case DialogType.question:
+      case DialogType.question || DialogType.mission:
         imageConstant = ImageConstant.iconDialogQuestion;
       default:
         imageConstant = ImageConstant.iconDialogSuccess;
@@ -70,8 +70,8 @@ class CustomDialog extends StatelessWidget {
             SizedBox(height: 16.h),
             SizedBox(
               width: double.infinity,
-              child: (type == DialogType.question)
-                  ? confirmationButton(context, label, onClosed)
+              child: (type == DialogType.question || type == DialogType.mission)
+                  ? confirmationButton(context, label, onClosed, type)
                   : SharedComponent.btnWidget(
                       label: label,
                       typographyType: TypographyType.body,
@@ -92,31 +92,37 @@ class CustomDialog extends StatelessWidget {
 }
 
 Widget confirmationButton(
-    BuildContext context, String label, Function()? onClosed) {
+    BuildContext context, String label, Function()? onClosed, DialogType type) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       SharedComponent.btnWidget(
-        label: 'Leave',
+        label: type == DialogType.mission ? 'Cancel' : 'Leave',
         typographyType: TypographyType.body,
         color: ColorTheme.neutral200,
         fontColor: ColorTheme.neutral600,
         onPressed: () {
           context.pop();
-          showDialog(
-              context: context,
-              builder: (context) {
-                return CustomDialog(
-                    title: "Hooray!",
-                    content: "Progress successfully saved. We're saving your activity in this mission as a Draft. Come back soon.",
-                    label: "Okay",
-                    type: DialogType.success,
-                    onClosed: () async => {
-                          Navigator.of(context).pop(),
-                          Navigator.of(context).pop()
-                        });
-              });
-          onClosed!();
+          if (type == DialogType.question) {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return CustomDialog(
+                      title: "Hooray!",
+                      content: type == DialogType.mission
+                          ? "Yeay, your mission has been completed!"
+                          : "Progress successfully saved. We're saving your activity in this mission as a Draft. Come back soon.",
+                      label: type == DialogType.mission
+                          ? "Okay"
+                          : "Back to Mission List",
+                      type: DialogType.success,
+                      onClosed: () async => {
+                            Navigator.of(context).pop(),
+                            Navigator.of(context).pop()
+                          });
+                });
+            onClosed!();
+          }
         },
         radius: 5.r,
       ),
@@ -128,6 +134,26 @@ Widget confirmationButton(
         typographyType: TypographyType.body,
         onPressed: () {
           context.pop();
+          if (type == DialogType.mission) {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return CustomDialog(
+                      title: "Hooray!",
+                      content: type == DialogType.mission
+                          ? "Yeay, your assignment has been completed!"
+                          : "Progress successfully saved. We're saving your activity in this mission as a Draft. Come back soon.",
+                      label: type == DialogType.mission
+                          ? "Okay"
+                          : "Back to Mission List",
+                      type: DialogType.success,
+                      onClosed: () async => {
+                            Navigator.of(context).pop(),
+                            Navigator.of(context).pop()
+                          });
+                });
+            onClosed!();
+          }
         },
         radius: 5.r,
       ),

@@ -180,6 +180,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                               ),
                             ],
                           ),
+                          if (gamificationData.chapterData?.single.missionData?.single.missionTypeName != "Assignment") 
                           Container(
                             margin: const EdgeInsets.only(top: 24),
                             child: Column(
@@ -237,7 +238,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                 ),
                               ],
                             ),
-                          ),
+                          ) ,
                         ],
                       ),
                     ),

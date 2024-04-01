@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../../configs/theme/color.theme.dart';
@@ -63,11 +64,10 @@ class _TaskSingleChoiceScreenState
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "${currentQuestionIndex.state + 1}/${listTask.length}",
-                                  style: SharedComponent.textStyleCustom(
-                                      typographyType: TypographyType.largeH5,
-                                      fontColor: ColorTheme.textDark)
-                                ),
+                                    "Task ${currentQuestionIndex.state + 1}/${listTask.length}",
+                                    style: SharedComponent.textStyleCustom(
+                                        typographyType: TypographyType.largeH5,
+                                        fontColor: ColorTheme.textDark)),
                                 Container(
                                   width: 75.h,
                                   child: Row(
@@ -75,8 +75,7 @@ class _TaskSingleChoiceScreenState
                                       Container(
                                         padding: EdgeInsets.all(4),
                                         decoration: BoxDecoration(
-                                            color:
-                                                ColorTheme.secondary100,
+                                            color: ColorTheme.secondary100,
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(5.r))),
                                         child: Center(
@@ -88,16 +87,18 @@ class _TaskSingleChoiceScreenState
                                             children: [
                                               Icon(
                                                 Icons.star,
-                                                color: ColorTheme
-                                                    .secondary500,
+                                                color: ColorTheme.secondary500,
                                                 size: 12.h,
                                               ),
                                               Text(
-                                                " +${listTask[currentQuestionIndex.state].taskReward}",
-                                                style: SharedComponent.textStyleCustom(
-                                                    typographyType: TypographyType.largeH5,
-                                                    fontColor: ColorTheme.secondary500)
-                                              ),
+                                                  " +${listTask[currentQuestionIndex.state].taskReward}",
+                                                  style: SharedComponent
+                                                      .textStyleCustom(
+                                                          typographyType:
+                                                              TypographyType
+                                                                  .largeH5,
+                                                          fontColor: ColorTheme
+                                                              .secondary500)),
                                             ],
                                           ),
                                         )),
@@ -119,10 +120,11 @@ class _TaskSingleChoiceScreenState
                               height: 200,
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
-                                  image:  DecorationImage(
-                                    image: FileImage(
-                                      File(listTask[currentQuestionIndex.state].attachmentPath??'')
-                                    ),
+                                  image: DecorationImage(
+                                    image: FileImage(File(
+                                        listTask[currentQuestionIndex.state]
+                                                .attachmentPath ??
+                                            '')),
                                     fit: BoxFit.cover,
                                   ),
                                   color: ColorTheme.backgroundWhite,
@@ -136,7 +138,7 @@ class _TaskSingleChoiceScreenState
                               listTask[currentQuestionIndex.state]
                                       .taskCaption ??
                                   '',
-                              style:  SharedComponent.textStyleCustom(
+                              style: SharedComponent.textStyleCustom(
                                   typographyType: TypographyType.medium,
                                   fontColor: ColorTheme.textDark),
                             ),
@@ -171,13 +173,15 @@ class _TaskSingleChoiceScreenState
                                     title: Text(
                                         listAnswer?[index].answerCaption ?? ''),
                                     value: listAnswer?[index].answerId ?? 0,
-                                    groupValue: listSelectedOption.state.isNotEmpty
-                                        ? listSelectedOption.state.first
-                                        : 0,
+                                    groupValue:
+                                        listSelectedOption.state.isNotEmpty
+                                            ? listSelectedOption.state.first
+                                            : 0,
                                     onChanged: (int? value) {
                                       setState(() {
                                         if (value != null) {
-                                          if (listSelectedOption.state.isNotEmpty) {
+                                          if (listSelectedOption
+                                              .state.isNotEmpty) {
                                             ref
                                                 .watch(listSelectOptionState
                                                     .notifier)
@@ -207,7 +211,8 @@ class _TaskSingleChoiceScreenState
                   decoration: BoxDecoration(
                       color: ColorTheme.backgroundWhite,
                       borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(10.0),topRight: Radius.circular(10.0))),
+                          topLeft: Radius.circular(10.0),
+                          topRight: Radius.circular(10.0))),
                   padding: const EdgeInsets.all(16.0),
                   child: Align(
                     alignment: Alignment.bottomCenter,
@@ -359,33 +364,30 @@ class _TaskSingleChoiceScreenState
                                           .state = [];
                                       showDialog(
                                         context: context,
-                                        builder: (_) => AlertDialog(
-                                          title: const Text('Quiz Finished'),
-                                          content: const Text(
-                                              'You have completed the quiz.'),
-                                          actions: <Widget>[
-                                            TextButton(
-                                              onPressed: () async {
-                                                await ctrl
-                                                    .putAnswerFinal()
-                                                    .whenComplete(() async {
-                                                  await ctrl
-                                                      .changeStatusTask()
-                                                      .whenComplete(() async {
-                                                    await ctrlMission
-                                                        .fetchMissionListLocal()
-                                                        .whenComplete(() {
-                                                      Navigator.pop(context);
-                                                      Navigator.pop(context);
-                                                      Navigator.pop(context);
-                                                    });
+                                        builder: (context) {
+                                          return CustomDialog(
+                                              title:
+                                                  "Are you sure want to submit your ${(gamificationData.chapterData?.single.missionData?.single.missionTypeName == "Assignment" ? "assignment" : "answers")}",
+                                              content:
+                                                  "Are you sure want to leave",
+                                              label: "Submit",
+                                              type: DialogType.mission,
+                                              onClosed: () async => {
+                                                    await ctrl
+                                                        .putAnswerFinal()
+                                                        .whenComplete(() async {
+                                                      await ctrl
+                                                          .changeStatusTask()
+                                                          .whenComplete(
+                                                              () async {
+                                                        await ctrlMission
+                                                            .fetchMissionList()
+                                                            .whenComplete(
+                                                                () {});
+                                                      });
+                                                    })
                                                   });
-                                                });
-                                              },
-                                              child: const Text('OK'),
-                                            )
-                                          ],
-                                        ),
+                                        },
                                       );
                                     });
                                   }

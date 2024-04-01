@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -63,11 +64,10 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "${currentQuestionIndex.state + 1}/${listTask.length}",
-                                  style:SharedComponent.textStyleCustom(
-                                      typographyType: TypographyType.largeH5,
-                                      fontColor: ColorTheme.textDark)
-                                ),
+                                    "Task ${currentQuestionIndex.state + 1}/${listTask.length}",
+                                    style: SharedComponent.textStyleCustom(
+                                        typographyType: TypographyType.largeH5,
+                                        fontColor: ColorTheme.textDark)),
                                 Container(
                                   width: 75.h,
                                   child: Row(
@@ -75,8 +75,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                       Container(
                                         padding: EdgeInsets.all(4),
                                         decoration: BoxDecoration(
-                                            color:
-                                                ColorTheme.secondary100,
+                                            color: ColorTheme.secondary100,
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(5.r))),
                                         child: Center(
@@ -88,16 +87,18 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                             children: [
                                               Icon(
                                                 Icons.star,
-                                                color: ColorTheme
-                                                    .secondary500,
+                                                color: ColorTheme.secondary500,
                                                 size: 12.h,
                                               ),
                                               Text(
-                                                " +${listTask[currentQuestionIndex.state].taskReward}",
-                                                style: SharedComponent.textStyleCustom(
-                                                    typographyType: TypographyType.body,
-                                                    fontColor: ColorTheme.secondary500)
-                                              ),
+                                                  " +${listTask[currentQuestionIndex.state].taskReward}",
+                                                  style: SharedComponent
+                                                      .textStyleCustom(
+                                                          typographyType:
+                                                              TypographyType
+                                                                  .body,
+                                                          fontColor: ColorTheme
+                                                              .secondary500)),
                                             ],
                                           ),
                                         )),
@@ -119,10 +120,11 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                               height: 200,
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
-                                  image:  DecorationImage(
-                                    image: FileImage(
-                                        File(listTask[currentQuestionIndex.state].attachmentPath??'')
-                                    ),
+                                  image: DecorationImage(
+                                    image: FileImage(File(
+                                        listTask[currentQuestionIndex.state]
+                                                .attachmentPath ??
+                                            '')),
                                     fit: BoxFit.cover,
                                   ),
                                   color: ColorTheme.backgroundWhite,
@@ -177,9 +179,9 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                   decoration: BoxDecoration(
                       color: ColorTheme.backgroundWhite,
                       borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(10.0),topRight: Radius.circular(10.0))),
+                          topLeft: Radius.circular(10.0),
+                          topRight: Radius.circular(10.0))),
                   padding: const EdgeInsets.all(16.0),
-
                   width: double.infinity,
                   child: Align(
                     alignment: Alignment.bottomCenter,
@@ -273,8 +275,8 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                 currentProgressState.notifier)
                                             .state++;
                                         if (ref
-                                                .watch(nextTypeTaskState
-                                                    .notifier)
+                                                .watch(
+                                                    nextTypeTaskState.notifier)
                                                 .state ==
                                             TaskType.STX.name) {
                                           ref
@@ -303,16 +305,14 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                   } else {
                                     ctrl
                                         .saveAnswer(
-                                            listTask[currentQuestionIndex
-                                                        .state]
+                                            listTask[currentQuestionIndex.state]
                                                     .taskId ??
                                                 0,
                                             isLast: true,
                                             listSelectedOption:
                                                 listSelectedOption.state,
-                                            type: listTask[
-                                                        currentQuestionIndex
-                                                            .state]
+                                            type: listTask[currentQuestionIndex
+                                                        .state]
                                                     .taskTypeCode ??
                                                 '')
                                         .whenComplete(() {
@@ -326,38 +326,34 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                       }
 
                                       ref
-                                          .watch(
-                                              listSelectOptionState.notifier)
+                                          .watch(listSelectOptionState.notifier)
                                           .state = [];
                                       showDialog(
                                         context: context,
-                                        builder: (_) => AlertDialog(
-                                          title: const Text('Quiz Finished'),
-                                          content: const Text(
-                                              'You have completed the quiz.'),
-                                          actions: <Widget>[
-                                            TextButton(
-                                              onPressed: () async {
-                                                await ctrl
-                                                    .putAnswerFinal()
-                                                    .whenComplete(() async {
-                                                  await ctrl
-                                                      .changeStatusTask()
-                                                      .whenComplete(() async {
-                                                    await ctrlMission
-                                                        .fetchMissionList()
-                                                        .whenComplete(() {
-                                                      Navigator.pop(context);
-                                                      Navigator.pop(context);
-                                                      Navigator.pop(context);
-                                                    });
+                                        builder: (context) {
+                                          return CustomDialog(
+                                              title:
+                                                  "Are you sure want to submit your ${(gamificationData.chapterData?.single.missionData?.single.missionTypeName == "Assignment" ? "assignment" : "answers")}",
+                                              content:
+                                                  "Are you sure want to leave",
+                                              label: "Submit",
+                                              type: DialogType.mission,
+                                              onClosed: () async => {
+                                                    await ctrl
+                                                        .putAnswerFinal()
+                                                        .whenComplete(() async {
+                                                      await ctrl
+                                                          .changeStatusTask()
+                                                          .whenComplete(
+                                                              () async {
+                                                        await ctrlMission
+                                                            .fetchMissionList()
+                                                            .whenComplete(
+                                                                () {});
+                                                      });
+                                                    })
                                                   });
-                                                });
-                                              },
-                                              child: const Text('OK'),
-                                            )
-                                          ],
-                                        ),
+                                        },
                                       );
                                     });
                                   }
