@@ -8,6 +8,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:module_shared/module_shared.dart';
 
+import '../features/main_nav/presentation/background_service/news_background_services.dart';
+import '../features/main_nav/presentation/controller/main_nav.controller.dart';
+
 final isConnectionAvailableProvider = StateProvider<bool>((ref) {
   return true;
 });
@@ -28,10 +31,12 @@ class _ConnectionListenerWidgetState
 
   @override
   void initState() {
+    final ctrl = ref.read(mainNavControllerProvider.notifier);
     connectionListener =
         InternetConnectionChecker().onStatusChange.listen((status) {
       switch (status) {
         case InternetConnectionStatus.connected:
+          intializedNewsBackgroundService();
           ref.read(isConnectionAvailableProvider.notifier).state = true;
           break;
         case InternetConnectionStatus.disconnected:
