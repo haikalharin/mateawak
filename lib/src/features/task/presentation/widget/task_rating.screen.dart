@@ -345,11 +345,11 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                       .changeStatusTask()
                                                       .whenComplete(() async {
                                                     await ctrlMission
-                                                        .fetchMissionList()
-                                                        .whenComplete(() {
-                                                      Navigator.pop(context);
-                                                      Navigator.pop(context);
-                                                      Navigator.pop(context);
+                                                        .fetchMissionListLocal()
+                                                        .whenComplete(() async {
+                                                      Navigator.of(context).pop();
+                                                      Navigator.of(context).pop();
+                                                      Navigator.of(context).pop();
                                                     });
                                                   });
                                                 });

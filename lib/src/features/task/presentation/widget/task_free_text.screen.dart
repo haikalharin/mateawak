@@ -387,16 +387,13 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                           .changeStatusTask()
                                                           .whenComplete(
                                                               () async {
-                                                        await ctrlMission
-                                                            .fetchMissionList()
-                                                            .whenComplete(() {
-                                                          Navigator.pop(
-                                                              context);
-                                                          Navigator.pop(
-                                                              context);
-                                                          Navigator.pop(
-                                                              context);
-                                                        });
+                                                                await ctrlMission
+                                                                    .fetchMissionListLocal()
+                                                                    .whenComplete(() async {
+                                                                  Navigator.of(context).pop();
+                                                                  Navigator.of(context).pop();
+                                                                  Navigator.of(context).pop();
+                                                                });
                                                       });
                                                     });
                                                   },

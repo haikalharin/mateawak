@@ -6,7 +6,7 @@ import 'dart:ui';
 
 import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
+import 'package:module_shared/src/configs/services/connect_background_sevices.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:isar/isar.dart';
@@ -19,9 +19,8 @@ import '../../../../constants/constant.dart';
 import '../../../../constants/function_utils.dart';
 import '../../../../utils/common_utils.dart';
 import '../../../mission/domain/gamification_response.remote.dart';
-part 'mission_background_services.g.dart';
-@riverpod
-Future<void> intializedMissionBackgroundService() async {
+
+FutureOr<void> intializedMissionBackgroundService() async {
   log('intializedBackgroundService');
   final service = FlutterBackgroundService();
   await service.configure(
@@ -62,7 +61,8 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
           Isar.getInstance(Constant.etamkawaIsarInstance);
 
       final isarInstance = existingIsarInstance ??
-          Isar.openSync([NewsResponseRemoteSchema],
+          Isar.openSync(
+              [NewsResponseRemoteSchema, GamificationResponseRemoteSchema],
               directory: dir.path, name: Constant.etamkawaIsarInstance);
 
       List<GamificationResponseRemote> listResponse = [];
@@ -70,8 +70,14 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
       List<GamificationResponseRemote> listAfterInputImage = [];
       final employeeId = payload?['employeeId'] as int;
       final requestDate = payload?['requestDate'] as String;
-      final repo = payload?['repo'] as Future<List<GamificationResponseRemote>>;
-       post(
+      final repo = payload?['repo'] as List<dynamic>;
+      List<GamificationResponseRemote> listRepo = [];
+      if (repo.isNotEmpty) {
+        for (var element in repo) {
+          listRepo.add(gamificationResponseRemoteFromJson(element));
+        }
+      }
+      ConnectBackgroundService().post(
         accessToken: payload?['accessToken'] as String,
         path: payload?['path'] as String,
         url: payload?['url'] as String,
@@ -90,19 +96,18 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
         // final today = CommonUtils.formatDateRequestParam(DateTime.now().toString());
         // ref.watch(latestSyncDateState.notifier).state = today;
         for (var element in listResponse) {
-          await AsyncValue.guard(() => repo).then((value) async {
-            if ((value.value ?? []).isNotEmpty) {
-              bool exists = (value.value ?? []).any((item) =>
-              item.employeeMissionId == element.employeeMissionId);
-              if (!exists) {
-                listResponseFinal.add(element);
-              }
-            } else {
+          if (listRepo.isNotEmpty) {
+            bool exists = (listRepo).any(
+                (item) => item.employeeMissionId == element.employeeMissionId);
+            if (!exists) {
               listResponseFinal.add(element);
             }
-          });
+          } else {
+            listResponseFinal.add(element);
+          }
         }
-        List<GamificationResponseRemote> listResponseFinalFix = listResponseFinal.toSet().toList();
+        List<GamificationResponseRemote> listResponseFinalFix =
+            listResponseFinal.toSet().toList();
         int index = 0;
         for (var element in listResponseFinalFix) {
           List<TaskDatum> listTask =
@@ -112,14 +117,15 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
           for (var element in listTask) {
             File file = File('');
             if (element.attachmentPath == null) {
-              if(element.attachmentUrl != null) {
-                final response = await downloadImage(
+              if (element.attachmentUrl != null) {
+                final response = await ConnectBackgroundService().downloadImage(
                   url: element.attachmentUrl ?? '',
                 );
                 response.data;
                 file = await asyncMethodSaveFile(response.data);
               }
-              taskData.add(TaskDatum(taskId: element.taskId,
+              taskData.add(TaskDatum(
+                  taskId: element.taskId,
                   missionId: element.missionId,
                   attachmentId: element.attachmentId,
                   attachmentUrl: element.attachmentUrl,
@@ -132,8 +138,9 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
                   taskReward: element.taskReward,
                   answerData: element.answerData));
               indexTask++;
-            }else{
-              taskData.add(TaskDatum(taskId: element.taskId,
+            } else {
+              taskData.add(TaskDatum(
+                  taskId: element.taskId,
                   missionId: element.missionId,
                   attachmentId: element.attachmentId,
                   attachmentUrl: element.attachmentUrl,
@@ -158,46 +165,61 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
               submittedDate: element.submittedDate,
               completedBy: element.completedBy,
               completedDate: element.completedDate,
-              chapterData: [ChapterDatum(
-                chapterId: element.chapterData?.single.chapterId,
-                chapterCode: element.chapterData?.single.chapterCode,
-                chapterName: element.chapterData?.single.chapterName,
-                chapterGoal: element.chapterData?.single.chapterGoal,
-                competencyCode: element.chapterData?.single.competencyCode,
-                competencyName: element.chapterData?.single.competencyName,
-                peopleCategoryCode: element.chapterData?.single.peopleCategoryCode,
-                peopleCategoryName: element.chapterData?.single.peopleCategoryName,
-                missionData: [
-                  MissionDatum(
-                    missionId:element.chapterData?.single.missionData?.single.missionId,
-                    chapterId:element.chapterData?.single.missionData?.single.chapterId,
-                    missionCode:element.chapterData?.single.missionData?.single.missionCode,
-                    missionName:element.chapterData?.single.missionData?.single.missionName,
-                    missionInstruction:element.chapterData?.single.missionData?.single.missionInstruction,
-                    missionDuration:element.chapterData?.single.missionData?.single.missionDuration,
-                    missionActiveOnDay:element.chapterData?.single.missionData?.single.missionActiveOnDay,
-                    missionTypeCode:element.chapterData?.single.missionData?.single.missionTypeCode,
-                    missionTypeName:element.chapterData?.single.missionData?.single.missionTypeName,
-                    missionReward:element.chapterData?.single.missionData?.single.missionReward,
-                    taskData: taskData,)
-                ],
-              )
+              chapterData: [
+                ChapterDatum(
+                  chapterId: element.chapterData?.single.chapterId,
+                  chapterCode: element.chapterData?.single.chapterCode,
+                  chapterName: element.chapterData?.single.chapterName,
+                  chapterGoal: element.chapterData?.single.chapterGoal,
+                  competencyCode: element.chapterData?.single.competencyCode,
+                  competencyName: element.chapterData?.single.competencyName,
+                  peopleCategoryCode:
+                      element.chapterData?.single.peopleCategoryCode,
+                  peopleCategoryName:
+                      element.chapterData?.single.peopleCategoryName,
+                  missionData: [
+                    MissionDatum(
+                      missionId: element
+                          .chapterData?.single.missionData?.single.missionId,
+                      chapterId: element
+                          .chapterData?.single.missionData?.single.chapterId,
+                      missionCode: element
+                          .chapterData?.single.missionData?.single.missionCode,
+                      missionName: element
+                          .chapterData?.single.missionData?.single.missionName,
+                      missionInstruction: element.chapterData?.single
+                          .missionData?.single.missionInstruction,
+                      missionDuration: element.chapterData?.single.missionData
+                          ?.single.missionDuration,
+                      missionActiveOnDay: element.chapterData?.single
+                          .missionData?.single.missionActiveOnDay,
+                      missionTypeCode: element.chapterData?.single.missionData
+                          ?.single.missionTypeCode,
+                      missionTypeName: element.chapterData?.single.missionData
+                          ?.single.missionTypeName,
+                      missionReward: element.chapterData?.single.missionData
+                          ?.single.missionReward,
+                      taskData: taskData,
+                    )
+                  ],
+                )
               ]));
           index++;
         }
 
         await isarInstance.writeTxn(() async {
           //await isarInstance.gamificationResponseRemotes.clear();
-          await isarInstance.gamificationResponseRemotes.putAll(listAfterInputImage);
+          await isarInstance.gamificationResponseRemotes
+              .putAll(listAfterInputImage);
         });
-        final data = await isarInstance.gamificationResponseRemotes
-            .filter()
-            .employeeMissionIdIsNotNull()
-            .findAll();
+        // final data = await isarInstance.gamificationResponseRemotes
+        //     .filter()
+        //     .employeeMissionIdIsNotNull()
+        //     .findAll();
 
-        if (isarInstance.isOpen) {
-          await isarInstance.close();
-        }
+        // if (isarInstance.isOpen) {
+        //   await isarInstance.close();
+        // }
         //await serviceInstance.stopSelf();
       });
     } catch (e) {
@@ -205,103 +227,4 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
       throw Exception(e);
     }
   });
-}
-
-Future<ApiResponse> post(
-    {required String url,
-    required String path,
-    required body,
-    required accessToken}) async {
-  BaseOptions options = BaseOptions(
-      baseUrl: url,
-      receiveDataWhenStatusError: true,
-      connectTimeout: const Duration(seconds: 60),
-      receiveTimeout: const Duration(seconds: 60),
-      headers: {
-        'Accept': 'application/json',
-      });
-
-  final dio = Dio(options);
-  dio.interceptors.add(LogInterceptor(
-      responseBody: true,
-      requestBody: true,
-      requestHeader: true,
-      responseHeader: true));
-  dio.interceptors.add(QueuedInterceptorsWrapper(
-      onRequest: (options, handler) async {
-        if (accessToken != null) {
-          options.headers['Authorization'] = 'Bearer $accessToken';
-        }
-        return handler.next(options);
-      },
-      onResponse: (e, handler) => handler.next(e)));
-
-  try {
-    final response = await dio.post(
-      path,
-      data: body
-    );
-    ApiResponse apiResponse =
-        ApiResponse.fromJson(response.data as Map<String, dynamic>);
-
-    debugPrint('responsesubmitData: $apiResponse');
-
-    if (apiResponse.result?.isError == true) {
-      throw apiResponse.result!.message.toString();
-    } else {
-      return apiResponse;
-    }
-  } on DioException {
-    return ApiResponse();
-  } catch (e) {
-    return ApiResponse();
-  }
-}
-
-Future<Response> downloadImage(
-    {required String url,
-      Map<String, dynamic>? query,
-      CancelToken? cancelToken}) async {
-  try {
-    Dio dioDownload = Dio();
-    dioDownload.interceptors.add(ChuckerDioInterceptor());
-    void showDownloadProgress(received, total) {
-      if (total != -1) {
-        if (kDebugMode) {
-          print((received / total * 100).toStringAsFixed(0) + "%");
-        }
-      }
-    }
-
-    Response response = await dioDownload.get(
-      url,
-      queryParameters: query,
-      onReceiveProgress: showDownloadProgress,
-      options: Options(
-          responseType: ResponseType.bytes),
-    );
-    if (response.statusCode != 200) {
-
-      throw response.statusMessage.toString();
-    } else {
-      return response;
-    }
-  } on DioException catch (e) {
-    return exceptionDio(e);
-  } catch (e) {
-    rethrow;
-  }
-}
-
-exceptionDio(DioException e) {
-  return switch (e.type) {
-    DioExceptionType.connectionError => throw 'Connection Error',
-    DioExceptionType.badCertificate => throw 'Bad Certificate',
-    DioExceptionType.badResponse => throw 'Bad Response',
-    DioExceptionType.cancel => throw 'Cancel',
-    DioExceptionType.connectionTimeout => throw 'Connection Timeout',
-    DioExceptionType.receiveTimeout => throw 'Receive Timeout',
-    DioExceptionType.sendTimeout => throw 'Send Timeout',
-    DioExceptionType.unknown => throw 'Unknown',
-  };
 }

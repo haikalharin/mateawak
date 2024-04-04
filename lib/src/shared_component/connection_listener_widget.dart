@@ -28,6 +28,7 @@ class ConnectionListenerWidget extends ConsumerStatefulWidget {
 class _ConnectionListenerWidgetState
     extends ConsumerState<ConnectionListenerWidget> {
   late StreamSubscription<InternetConnectionStatus> connectionListener;
+  bool isInit = true;
 
   @override
   void initState() {
@@ -36,10 +37,14 @@ class _ConnectionListenerWidgetState
         InternetConnectionChecker().onStatusChange.listen((status) {
       switch (status) {
         case InternetConnectionStatus.connected:
-          intializedNewsBackgroundService();
+          if (isInit) {
+            ctrl.fetchMissionListBackgroundService();
+            isInit = false;
+          }
           ref.read(isConnectionAvailableProvider.notifier).state = true;
           break;
         case InternetConnectionStatus.disconnected:
+          isInit = true;
           ref.read(isConnectionAvailableProvider.notifier).state = false;
           break;
       }

@@ -590,11 +590,11 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                       .changeStatusTask()
                                                       .whenComplete(() async {
                                                     await ctrlMission
-                                                        .fetchMissionList()
-                                                        .whenComplete(() {
-                                                      Navigator.pop(context);
-                                                      Navigator.pop(context);
-                                                      Navigator.pop(context);
+                                                        .fetchMissionListLocal()
+                                                        .whenComplete(() async {
+                                                      Navigator.of(context).pop();
+                                                      Navigator.of(context).pop();
+                                                      Navigator.of(context).pop();
                                                     });
                                                   });
                                                 });
