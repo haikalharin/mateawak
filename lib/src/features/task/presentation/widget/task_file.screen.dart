@@ -11,6 +11,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:module_etamkawa/src/configs/theme/color.theme.dart';
+import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../../component/widget/dashed_border_widget.dart';
@@ -45,7 +46,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final ctrl = ref.watch(taskControllerProvider.notifier);
-        final ctrlMission = ref.read(mainNavControllerProvider.notifier);
+        final ctrlMainNav = ref.read(mainNavControllerProvider.notifier);
+        final ctrlMission = ref.read(missionControllerProvider.notifier);
         final currentQuestionIndex = ref.watch(currentIndexState.notifier);
         final attachment = ref.watch(attachmentPathState.notifier);
         final attachmentName = ref.watch(attachmentNameState.notifier);
@@ -590,7 +592,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                       .changeStatusTask()
                                                       .whenComplete(() async {
                                                     await ctrlMission
-                                                        .fetchMissionListLocal()
+                                                        .getMissionList()
                                                         .whenComplete(() async {
                                                       Navigator.of(context).pop();
                                                       Navigator.of(context).pop();

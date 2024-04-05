@@ -90,7 +90,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                       InkWell(
                           onTap: () async {
                             await ctrl
-                                .fetchMissionListBackgroundService();
+                                .fetchMissionList();
                           },
                           child: const Icon(Icons.sync)),
                       SizedBox(width: 20.w),
@@ -157,10 +157,12 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                         )
                       ],
                       currentIndex: ctrl.indexNav,
-                      onTap: (value) {
+                      onTap: (value) async {
                         ctrl.onItemTapped(value);
                         if(ctrl.indexNav == 2){
-                          ctrlMission.getMissionList();
+                          await ctrl
+                              .fetchMissionList();
+
                         }
                       },
                     ),

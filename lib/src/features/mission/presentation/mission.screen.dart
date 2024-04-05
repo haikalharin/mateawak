@@ -113,7 +113,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen>{
                                     // Tab 1 content
                                     RefreshableStarterWidget(
                                       onRefresh: () async {
-                                        ctrl.getMissionListLocal();
+                                        ctrl.getMissionList();
                                       },
                                       slivers: [
                                         SliverList(

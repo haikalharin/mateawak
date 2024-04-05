@@ -42,7 +42,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(GetMissionLocalRef r
   }
   final today = CommonUtils.formatDateRequestParam(DateTime.now().toString());
   ref.watch(latestSyncDateState.notifier).state = today;
-  var repo = ref.read(getMissionLocalProvider.future);
+  var repo = ref.watch(getMissionLocalProvider.future);
 
   for (var element in listResponse) {
 
@@ -162,11 +162,22 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(GetMissionLocalRef r
 @riverpod
 FutureOr<List<GamificationResponseRemote>> getMissionLocal(GetMissionLocalRef ref) async {
   final isarInstance = await ref.watch(isarInstanceProvider.future);
+  List<GamificationResponseRemote> listResponse = [];
 
   final data = await isarInstance.gamificationResponseRemotes
       .filter()
       .employeeMissionIdIsNotNull()
       .findAll();
+
+  for (var element in data) {
+    listResponse.add(element);
+  }
+
+  await isarInstance.writeTxn(() async {
+    //await isarInstance.gamificationResponseRemotes.clear();
+    await isarInstance.gamificationResponseRemotes.putAll(listResponse);
+  });
+  ref.keepAlive();
   return data;
 }
 

@@ -6,7 +6,7 @@ part of 'main_nav.controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$mainNavControllerHash() => r'a7cc0c68d896d127397e90bdb8fd2c118e41ece5';
+String _$mainNavControllerHash() => r'bdfb3997a72e472fa504ee380f7de5131f44b3e2';
 
 /// See also [MainNavController].
 @ProviderFor(MainNavController)
