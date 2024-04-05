@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../../configs/theme/color.theme.dart';
@@ -37,6 +38,7 @@ class _TaskSingleChoiceScreenState
         final currentQuestionProgress = ref.watch(currentProgressState);
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
+        final gamificationData = ref.watch(gamificationState);
         return Scaffold(
             backgroundColor: ColorTheme.backgroundLight,
             body: ListView(
@@ -359,33 +361,30 @@ class _TaskSingleChoiceScreenState
                                           .state = [];
                                       showDialog(
                                         context: context,
-                                        builder: (_) => AlertDialog(
-                                          title: const Text('Quiz Finished'),
-                                          content: const Text(
-                                              'You have completed the quiz.'),
-                                          actions: <Widget>[
-                                            TextButton(
-                                              onPressed: () async {
-                                                await ctrl
-                                                    .putAnswerFinal()
-                                                    .whenComplete(() async {
-                                                  await ctrl
-                                                      .changeStatusTask()
-                                                      .whenComplete(() async {
-                                                    await ctrlMission
-                                                        .fetchMissionListLocal()
-                                                        .whenComplete(() {
-                                                      Navigator.pop(context);
-                                                      Navigator.pop(context);
-                                                      Navigator.pop(context);
-                                                    });
+                                        builder: (context) {
+                                          return CustomDialog(
+                                              title:
+                                                  "Are you sure want to submit your ${(gamificationData.chapterData?.single.missionData?.single.missionTypeName == "Assignment" ? "assignment" : "answers")}",
+                                              content:
+                                                  "Are you sure want to leave",
+                                              label: "Submit",
+                                              type: DialogType.mission,
+                                              onClosed: () async => {
+                                                    await ctrl
+                                                        .putAnswerFinal()
+                                                        .whenComplete(() async {
+                                                      await ctrl
+                                                          .changeStatusTask()
+                                                          .whenComplete(
+                                                              () async {
+                                                        await ctrlMission
+                                                            .fetchMissionList()
+                                                            .whenComplete(
+                                                                () {});
+                                                      });
+                                                    })
                                                   });
-                                                });
-                                              },
-                                              child: const Text('OK'),
-                                            )
-                                          ],
-                                        ),
+                                        },
                                       );
                                     });
                                   }

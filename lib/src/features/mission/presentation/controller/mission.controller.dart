@@ -77,9 +77,8 @@ class MissionController extends _$MissionController {
 
   Future<void> getMissionList() async {
     final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
-    var repo = isConnectionAvailable
-        ? ref.read(getMissionRemoteProvider.future)
-        : ref.read(getMissionLocalProvider.future);
+    var repo = ref.read(getMissionRemoteProvider.future);
+
 
     state = await AsyncValue.guard(() => repo).then((value) async {
       List<GamificationResponseRemote> listGamificationInProgress = [];

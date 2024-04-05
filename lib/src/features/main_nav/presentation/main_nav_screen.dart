@@ -160,8 +160,8 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                       onTap: (value) async {
                         ctrl.onItemTapped(value);
                         if(ctrl.indexNav == 2){
-                          await ctrl
-                              .fetchMissionList();
+                          await ctrlMission
+                              .getMissionList();
 
                         }
                       },
