@@ -14,7 +14,11 @@ String formatDateTime(DateTime dateTime) {
       "${dateTime.second.toString().padLeft(2, '0')}."
       "${dateTime.millisecond.toString().padLeft(3, '0')}";
 }
-
+int calculateDifferenceDays(DateTime date1, DateTime date2) {
+  // Menghitung selisih hari
+  Duration different = date2.difference(date1);
+  return different.inDays.abs(); // Menggunakan abs() untuk menghindari hasil negatif
+}
 String getRandomString(int length) {
   const charset = 'abcdefghijklmnopqrstuvwxyz0123456789';
   Random rnd = Random();

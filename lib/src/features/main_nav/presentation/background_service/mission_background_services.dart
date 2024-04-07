@@ -68,6 +68,7 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
       List<GamificationResponseRemote> listResponse = [];
       List<GamificationResponseRemote> listResponseFinal = [];
       List<GamificationResponseRemote> listAfterInputImage = [];
+      List<GamificationResponseRemote> listAfterCheckIsIncomplete = [];
       final employeeId = payload?['employeeId'] as int;
       final requestDate = payload?['requestDate'] as String;
       final repo = payload?['repo'] as List<dynamic>;
@@ -207,10 +208,32 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
           index++;
         }
 
+        for (var element in listAfterInputImage) {
+          DateTime dueDate =  DateTime.parse(element.dueDate??'2024-00-00T00:00:00');
+          int different =calculateDifferenceDays(DateTime.now(),dueDate);
+          if(different>=30){
+            listAfterCheckIsIncomplete.add(GamificationResponseRemote(
+                employeeMissionId: element.employeeMissionId,
+                missionId: element.missionId,
+                missionStatusCode: 4,
+                missionStatus: 'Incomplete',
+                startedDate: element.startedDate,
+                dueDate: element.dueDate,
+                submittedBy: element.submittedBy,
+                submittedDate: element.submittedDate,
+                completedBy: element.completedBy,
+                completedDate: element.completedDate,
+                chapterData: element.chapterData ));
+
+          } else{
+            listAfterCheckIsIncomplete.add(element);
+          }
+        }
+
         await isarInstance.writeTxn(() async {
           //await isarInstance.gamificationResponseRemotes.clear();
           await isarInstance.gamificationResponseRemotes
-              .putAll(listAfterInputImage);
+              .putAll(listAfterCheckIsIncomplete);
         });
         // final data = await isarInstance.gamificationResponseRemotes
         //     .filter()
