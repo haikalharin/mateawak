@@ -84,15 +84,12 @@ class _MissionScreenState extends ConsumerState<MissionScreen>{
                                 switch (index) {
                                   case 0:
                                     ctrl.getMissionList();
-                                    print("###############");
                                     break;
                                   case 1:
                                     ctrl.getMissionList();
-                                    print("@@@@@@@@@@@@@@@");
                                     break;
                                   case 2:
                                     ctrl.getMissionList();
-                                    print("***************");
                                     break;
                                 }
                               },
