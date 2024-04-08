@@ -2,11 +2,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_file.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_free_text.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_multi_choice.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_rating.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_sinlgle_choice.screen.dart';
+import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../configs/theme/color.theme.dart';
@@ -50,7 +52,8 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     // final indexMenuOverview = ref.watch(indexMenuOverviewProvider);
     return Consumer(builder: (context, ref, child) {
       final ctrl = ref.watch(taskControllerProvider.notifier);
-      final ctrlMission = ref.read(mainNavControllerProvider.notifier);
+      final ctrlMainNav = ref.read(mainNavControllerProvider.notifier);
+      final ctrlMission = ref.read(missionControllerProvider.notifier);
       final currentQuestionIndex = ref.read(currentIndexState.notifier);
       final currentQuestionProgress = ref.watch(currentProgressState);
       final listTask = ref.watch(listTaskState);
@@ -64,29 +67,30 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
               onWillPop: () async {
                 await showDialog(
                   context: context,
-                  builder: (_) => AlertDialog(
-                    title: const Text('Quiz Finished'),
-                    content: const Text('You have completed the quiz.'),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () async {
-                          await ctrl.putAnswerFinal().whenComplete(() async {
-                            await ctrl
-                                .changeStatusTask(isDone: false)
-                                .whenComplete(() async {
-                              await ctrlMission
-                                  .fetchMissionListLocal()
+                  builder: (context) {
+                    return CustomDialog(
+                        title: "Confirmation",
+                        content: "Are you sure want to leave",
+                        label: "Stay",
+                        type: DialogType.question,
+                        onClosed: () async => {
+                              await ctrl
+                                  .putAnswerFinal()
                                   .whenComplete(() async {
-                                Navigator.of(context).pop();
-                                Navigator.of(context).pop();
-                              });
+                                await ctrl
+                                    .changeStatusTask(isDone: false)
+                                    .whenComplete(() async {
+                                  await ctrlMission
+                                      .getMissionList()
+                                      .whenComplete(() async {
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
+
+                                  });
+                                });
+                              })
                             });
-                          });
-                        },
-                        child: const Text('OK'),
-                      )
-                    ],
-                  ),
+                  },
                 );
                 return Future.value(true);
               },
@@ -98,37 +102,32 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                     backgroundColor: ColorTheme.backgroundWhite,
                     titleColor: ColorTheme.textDark,
                     brightnessIconStatusBar: Brightness.light,
-
                     onBack: () async {
                       await showDialog(
-                        context: context,
-                        builder: (_) => AlertDialog(
-                          title: const Text('Quiz Finished'),
-                          content: const Text('You have completed the quiz.'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () async {
-                                await ctrl
-                                    .putAnswerFinal()
-                                    .whenComplete(() async {
-                                  await ctrl
-                                      .changeStatusTask(isDone: false)
-                                      .whenComplete(() async {
-                                    await ctrlMission
-                                        .fetchMissionListLocal()
-                                        .whenComplete(() async {
-                                      Navigator.of(context).pop();
-                                      Navigator.of(context).pop();
-                                      Navigator.of(context).pop();
+                          context: context,
+                          builder: (context) {
+                            return CustomDialog(
+                                title: "Confirmation",
+                                content: "Are you sure want to leave",
+                                label: "Stay",
+                                type: DialogType.question,
+                                onClosed: () async => {
+                                      await ctrl
+                                          .putAnswerFinal()
+                                          .whenComplete(() async {
+                                        await ctrl
+                                            .changeStatusTask(isDone: false)
+                                            .whenComplete(() async {
+                                          await ctrlMission
+                                              .getMissionList()
+                                              .whenComplete(() async {
+                                            Navigator.of(context).pop();
+                                            Navigator.of(context).pop();
+                                          });
+                                        });
+                                      })
                                     });
-                                  });
-                                });
-                              },
-                              child: const Text('OK'),
-                            )
-                          ],
-                        ),
-                      );
+                          });
                     }),
                 body: Column(
                   children: [

@@ -23,7 +23,7 @@ final getImageProvider =
 typedef GetImageRef
     = AutoDisposeFutureProviderRef<DownloadAttachmentNewsRequestRemote?>;
 String _$overviewControllerHash() =>
-    r'1cab06389a386d28492a10b5748d1d5eba0ab0b7';
+    r'50f7873f083f13dacef08eda1145854ecd412e35';
 
 /// See also [OverviewController].
 @ProviderFor(OverviewController)

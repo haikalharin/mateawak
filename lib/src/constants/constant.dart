@@ -127,6 +127,8 @@ class Constant {
 
   //background service
   static const bgMainNavClose = 'mainNav-close';
+  static const bgMainNavInit= 'mainNav-init';
+  static const bgMissionInit= 'mission-init';
   static const bgMainNavStopServiceManual = 'stop-service-manual';
 
   static const dateSelectorModeDari = 'Dari';

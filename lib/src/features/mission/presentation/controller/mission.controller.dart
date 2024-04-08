@@ -77,9 +77,8 @@ class MissionController extends _$MissionController {
 
   Future<void> getMissionList() async {
     final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
-    var repo = isConnectionAvailable
-        ? ref.read(getMissionRemoteProvider.future)
-        : ref.read(getMissionLocalProvider.future);
+    var repo = ref.read(getMissionRemoteProvider.future);
+
 
     state = await AsyncValue.guard(() => repo).then((value) async {
       List<GamificationResponseRemote> listGamificationInProgress = [];
@@ -88,12 +87,14 @@ class MissionController extends _$MissionController {
 
       if (value.hasValue) {
         value.value?.forEach((element) async {
-          if (element.missionStatusCode! == 1) {
-            listGamificationInProgress.add(element);
-          } else if (element.missionStatusCode! == 0) {
-            listGamificationAssigned.add(element);
-          } else if (element.missionStatusCode! >= 2) {
-            listGamificationPast.add(element);
+          if (element.missionStatusCode != null) {
+            if (element.missionStatusCode! == 1) {
+              listGamificationInProgress.add(element);
+            } else if (element.missionStatusCode! == 0) {
+              listGamificationAssigned.add(element);
+            } else if (element.missionStatusCode! >= 2) {
+              listGamificationPast.add(element);
+            }
           }
         });
         ref.watch(gamificationInProgressState.notifier).state =

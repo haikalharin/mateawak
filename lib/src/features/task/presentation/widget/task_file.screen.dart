@@ -11,6 +11,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:module_etamkawa/src/configs/theme/color.theme.dart';
+import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../../component/widget/dashed_border_widget.dart';
@@ -18,6 +19,7 @@ import '../../../../constants/constant.dart';
 import '../../../../constants/function_utils.dart';
 import '../../../../constants/image.constant.dart';
 import '../../../main_nav/presentation/controller/main_nav.controller.dart';
+import '../../../mission/presentation/controller/mission.controller.dart';
 import '../controller/task.controller.dart';
 
 class TaskFileScreen extends ConsumerStatefulWidget {
@@ -45,7 +47,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final ctrl = ref.watch(taskControllerProvider.notifier);
-        final ctrlMission = ref.read(mainNavControllerProvider.notifier);
+        final ctrlMainNav = ref.read(mainNavControllerProvider.notifier);
+        final ctrlMission = ref.read(missionControllerProvider.notifier);
         final currentQuestionIndex = ref.watch(currentIndexState.notifier);
         final attachment = ref.watch(attachmentPathState.notifier);
         final attachmentName = ref.watch(attachmentNameState.notifier);
@@ -53,6 +56,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
         final currentQuestionProgress = ref.watch(currentProgressState);
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
+        final gamificationData = ref.watch(gamificationState);
         if (ref.watch(previousTypeTaskState.notifier).state ==
                 TaskType.STX.name ||
             ref.watch(nextTypeTaskState.notifier).state == TaskType.STX.name) {
@@ -479,7 +483,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                           Expanded(
                             child: ElevatedButton(
                               onPressed: () {
-                                if (listSelectedOptionString.isNotEmpty && attachment.state.isNotEmpty) {
+                                if (listSelectedOptionString.isNotEmpty) {
                                   if ((currentQuestionIndex.state + 1) <
                                           lengthAnswer &&
                                       lengthAnswer != 1) {
@@ -576,33 +580,30 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                       isInit = true;
                                       showDialog(
                                         context: context,
-                                        builder: (_) => AlertDialog(
-                                          title: const Text('Quiz Finished'),
-                                          content: const Text(
-                                              'You have completed the quiz.'),
-                                          actions: <Widget>[
-                                            TextButton(
-                                              onPressed: () async {
-                                                await ctrl
-                                                    .putAnswerFinal()
-                                                    .whenComplete(() async {
-                                                  await ctrl
-                                                      .changeStatusTask()
-                                                      .whenComplete(() async {
-                                                    await ctrlMission
-                                                        .fetchMissionList()
-                                                        .whenComplete(() {
-                                                      Navigator.pop(context);
-                                                      Navigator.pop(context);
-                                                      Navigator.pop(context);
-                                                    });
+                                        builder: (context) {
+                                          return CustomDialog(
+                                              title:
+                                                  "Are you sure want to submit your ${(gamificationData.chapterData?.single.missionData?.single.missionTypeName == "Assignment" ? "assignment" : "answers")}",
+                                              content:
+                                                  "Are you sure want to leave",
+                                              label: "Submit",
+                                              type: DialogType.mission,
+                                              onClosed: () async => {
+                                                    await ctrl
+                                                        .putAnswerFinal()
+                                                        .whenComplete(() async {
+                                                      await ctrl
+                                                          .changeStatusTask()
+                                                          .whenComplete(
+                                                              () async {
+                                                        await ctrlMission
+                                                            .getMissionList()
+                                                            .whenComplete(() {
+                                                        });
+                                                      });
+                                                    })
                                                   });
-                                                });
-                                              },
-                                              child: const Text('OK'),
-                                            )
-                                          ],
-                                        ),
+                                        },
                                       );
                                     });
                                   }

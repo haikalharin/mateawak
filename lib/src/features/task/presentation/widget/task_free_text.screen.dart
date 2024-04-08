@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_etamkawa/src/configs/theme/color.theme.dart';
+import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../main_nav/presentation/controller/main_nav.controller.dart';
+import '../../../mission/presentation/controller/mission.controller.dart';
 import '../controller/task.controller.dart';
 
 class TaskFreeTextScreen extends ConsumerStatefulWidget {
@@ -34,11 +36,13 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final ctrl = ref.watch(taskControllerProvider.notifier);
         final currentQuestionIndex = ref.watch(currentIndexState.notifier);
-        final ctrlMission = ref.read(mainNavControllerProvider.notifier);
+        final ctrlMainNav = ref.read(mainNavControllerProvider.notifier);
+        final ctrlMission = ref.read(missionControllerProvider.notifier);
         final listSelectedOptionString = ref.read(listSelectOptionStringState);
         final currentQuestionProgress = ref.watch(currentProgressState);
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
+        final gamificationData = ref.watch(gamificationState);
         // _textController =
         if (ref.watch(previousTypeTaskState.notifier).state ==
                 TaskType.STX.name ||
@@ -372,38 +376,31 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                           isInit = true;
                                           showDialog(
                                             context: context,
-                                            builder: (_) => AlertDialog(
-                                              title:
-                                                  const Text('Quiz Finished'),
-                                              content: const Text(
-                                                  'You have completed the quiz.'),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  onPressed: () async {
-                                                    await ctrl
-                                                        .putAnswerFinal()
-                                                        .whenComplete(() async {
-                                                      await ctrl
-                                                          .changeStatusTask()
-                                                          .whenComplete(
-                                                              () async {
-                                                        await ctrlMission
-                                                            .fetchMissionList()
-                                                            .whenComplete(() {
-                                                          Navigator.pop(
-                                                              context);
-                                                          Navigator.pop(
-                                                              context);
-                                                          Navigator.pop(
-                                                              context);
-                                                        });
+                                            builder: (context) {
+                                              return CustomDialog(
+                                                  title:
+                                                      "Are you sure want to submit your ${(gamificationData.chapterData?.single.missionData?.single.missionTypeName == "Assignment" ? "assignment" : "answers")}",
+                                                  content:
+                                                      "Are you sure want to leave",
+                                                  label: "Submit",
+                                                  type: DialogType.mission,
+                                                  onClosed: () async => {
+                                                        await ctrl
+                                                            .putAnswerFinal()
+                                                            .whenComplete(
+                                                                () async {
+                                                          await ctrl
+                                                              .changeStatusTask()
+                                                              .whenComplete(
+                                                                  () async {
+                                                            await ctrlMission
+                                                                .getMissionList()
+                                                                .whenComplete(
+                                                                    () {});
+                                                          });
+                                                        })
                                                       });
-                                                    });
-                                                  },
-                                                  child: const Text('OK'),
-                                                )
-                                              ],
-                                            ),
+                                            },
                                           );
                                         });
                                       }

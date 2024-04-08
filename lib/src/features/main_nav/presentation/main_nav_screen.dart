@@ -3,11 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_etamkawa/src/features/main_nav/presentation/controller/main_nav.controller.dart';
+import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/mission.screen.dart';
 import 'package:module_etamkawa/src/features/overview/presentation/overview.screen.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../shared_component/shared_component_etamkawa.dart';
+import 'background_service/mission_background_services.dart';
 
 IndexedStack pages({required int currentIndex}) {
   return IndexedStack(
@@ -22,25 +24,41 @@ IndexedStack pages({required int currentIndex}) {
   );
 }
 
-class MainNavScreen extends ConsumerWidget {
-   const MainNavScreen({super.key});
-
+class MainNavScreen extends ConsumerStatefulWidget {
+  const MainNavScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _MainNavScreenState();
+}
 
+class _MainNavScreenState extends ConsumerState<MainNavScreen>
+    with WidgetsBindingObserver {
+  Future<void> initEtamkawa() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await intializedMissionBackgroundService();
+  }
+
+  @override
+  void initState() {
+    initEtamkawa();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return AsyncValueSharedWidget(
         value: ref.watch(mainNavControllerProvider),
         data: (data) {
-          final ctrl = ref.read(mainNavControllerProvider.notifier);
+          final ctrl = ref.watch(mainNavControllerProvider.notifier);
+          final ctrlMission = ref.watch(missionControllerProvider.notifier);
 
-      final submitStatus = ref.watch(submitStatusState);
-      return Consumer(
-          builder: (BuildContext context, WidgetRef ref, Widget? child) {
+          final submitStatus = ref.watch(submitStatusState);
+          return Consumer(
+              builder: (BuildContext context, WidgetRef ref, Widget? child) {
             String title = '';
             switch (ctrl.indexNav) {
               case 0:
-               title = 'People Product';
+                title = 'People Product';
               case 1:
                 title = 'Growth';
               case 2:
@@ -50,10 +68,8 @@ class MainNavScreen extends ConsumerWidget {
               case 4:
                 title = 'Profile';
               default:
-
             }
             return AnnotatedRegion<SystemUiOverlayStyle>(
-
               value: SystemUiOverlayStyle.light,
               child: Scaffold(
                   appBar: SharedComponentEtamkawa.appBar(
@@ -66,21 +82,23 @@ class MainNavScreen extends ConsumerWidget {
                     context: context,
                     elevation: ctrl.indexNav == 0 ? 0.0 : 0.5,
                     title: title,
-                    onBack: (){
+                    onBack: () {
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
                     },
                     actions: [
                       InkWell(
                           onTap: () async {
-                            ctrl.fetchMissionList();
+                            await ctrl
+                                .fetchMissionList();
                           },
                           child: const Icon(Icons.sync)),
                       SizedBox(width: 20.w),
                       const Icon(Icons.notifications),
                       SizedBox(width: 20.w),
                     ],
-                    brightnessIconStatusBar:ctrl.indexNav == 0? Brightness.light:Brightness.dark,
+                    brightnessIconStatusBar:
+                        ctrl.indexNav == 0 ? Brightness.light : Brightness.dark,
                   ),
                   body: Stack(children: [
                     pages(currentIndex: ctrl.indexNav),
@@ -139,14 +157,20 @@ class MainNavScreen extends ConsumerWidget {
                         )
                       ],
                       currentIndex: ctrl.indexNav,
-                      onTap: (value) {
+                      onTap: (value) async {
                         ctrl.onItemTapped(value);
+                        if(ctrl.indexNav == 2){
+                          await ctrlMission
+                              .getMissionList();
+
+                        }
                       },
                     ),
                   )),
             );
           });
-    },  skipError: true,
+        },
+        skipError: true,
         onPressed: () {
           ref.invalidate(mainNavControllerProvider);
         });

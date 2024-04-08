@@ -97,6 +97,7 @@ class ImageConstant {
   static const String iconDialogSuccess =
       'assets/images/icon_dialog_success.svg';
   static const String iconDialogInfo = 'assets/images/icon_dialog_info.svg';
+  static const String iconDialogQuestion = 'assets/images/icon_dialog_question.svg';
   static const String iconDialogError = 'assets/images/icon_dialog_error.svg';
 
   //Auto Assignment

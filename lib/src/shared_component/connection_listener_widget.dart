@@ -1,12 +1,17 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:module_etamkawa/src/shared_component/reset_transformer_time.dart';
 import 'package:module_shared/module_shared.dart';
+
+import '../features/main_nav/presentation/background_service/news_background_services.dart';
+import '../features/main_nav/presentation/controller/main_nav.controller.dart';
 
 final isConnectionAvailableProvider = StateProvider<bool>((ref) {
   return true;
@@ -23,18 +28,37 @@ class ConnectionListenerWidget extends ConsumerStatefulWidget {
 }
 
 class _ConnectionListenerWidgetState
-    extends ConsumerState<ConnectionListenerWidget> {
+    extends ConsumerState<ConnectionListenerWidget>  with WidgetsBindingObserver {
   late StreamSubscription<InternetConnectionStatus> connectionListener;
+  late StreamSubscription<int> timeListener;
+  final stream = Stream.periodic(const Duration(seconds: 1), (i) => i);
+  bool isInit = true;
 
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    final ctrl = ref.read(mainNavControllerProvider.notifier);
+    // Initialize a new stream listener when connected
+    timeListener = stream.listen((value) {
+      // if (kDebugMode) {
+      //   print(value);
+      // }
+      if (value % 7200 == 0) {
+        ctrl.fetchMissionListBackgroundService();
+      }
+    });
     connectionListener =
-        InternetConnectionChecker().onStatusChange.listen((status) {
+        InternetConnectionChecker().onStatusChange.listen((status) async {
       switch (status) {
         case InternetConnectionStatus.connected:
+          if (isInit) {
+            ctrl.fetchMissionListBackgroundService();
+            isInit = false;
+          }
           ref.read(isConnectionAvailableProvider.notifier).state = true;
           break;
         case InternetConnectionStatus.disconnected:
+          isInit = true;
           ref.read(isConnectionAvailableProvider.notifier).state = false;
           break;
       }
@@ -46,7 +70,17 @@ class _ConnectionListenerWidgetState
   @override
   void dispose() {
     connectionListener.cancel();
+    timeListener.cancel();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+    }
+    if (state == AppLifecycleState.resumed) {
+    }
+    super.didChangeAppLifecycleState(state);
   }
 
   @override
@@ -62,8 +96,10 @@ class _ConnectionListenerWidgetState
         children: [
           Consumer(builder: (context, widgetRef, _) {
             if (!widgetRef.watch(isConnectionAvailableProvider)) {
+              timeListener.pause();
               return const ConnectionStatusWidget();
             } else {
+              timeListener.resume();
               return const SizedBox.shrink();
             }
           }),
