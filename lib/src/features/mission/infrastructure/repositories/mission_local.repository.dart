@@ -162,23 +162,24 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(GetMissionLocalRef r
     for (var element in listAfterInputImage) {
       DateTime dueDate =  DateTime.parse(element.dueDate??'2024-00-00T00:00:00');
       int different =calculateDifferenceDays(DateTime.now(),dueDate);
-      if(different>=30){
-        listAfterCheckIsIncomplete.add(GamificationResponseRemote(
-            employeeMissionId: element.employeeMissionId,
-            missionId: element.missionId,
-            missionStatusCode: 4,
-            missionStatus: 'Incomplete',
-            startedDate: element.startedDate,
-            dueDate: element.dueDate,
-            submittedBy: element.submittedBy,
-            submittedDate: element.submittedDate,
-            completedBy: element.completedBy,
-            completedDate: element.completedDate,
-            chapterData: element.chapterData ));
-
-      } else{
-        listAfterCheckIsIncomplete.add(element);
-      }
+     if(element.missionStatusCode != null) {
+       if (different >= 30 && element.missionStatusCode! < 2) {
+         listAfterCheckIsIncomplete.add(GamificationResponseRemote(
+             employeeMissionId: element.employeeMissionId,
+             missionId: element.missionId,
+             missionStatusCode: 4,
+             missionStatus: 'Incomplete',
+             startedDate: element.startedDate,
+             dueDate: element.dueDate,
+             submittedBy: element.submittedBy,
+             submittedDate: element.submittedDate,
+             completedBy: element.completedBy,
+             completedDate: element.completedDate,
+             chapterData: element.chapterData));
+       } else {
+         listAfterCheckIsIncomplete.add(element);
+       }
+     }
     }
 
     await isarInstance.writeTxn(() async {
