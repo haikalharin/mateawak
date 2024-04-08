@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:isar/isar.dart';
+import 'package:module_etamkawa/src/features/mission/domain/gamification_additional_detail.remote.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/utils/common_utils.dart';
@@ -37,6 +38,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(GetMissionLocalRef r
   );
   for (var element in response.result?.content) {
   // for (var element in rawMissionDummy) {
+    
     final result = GamificationResponseRemote.fromJson(element);
     listResponse.add(result);
   }
@@ -64,7 +66,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(GetMissionLocalRef r
   for (var element in listResponseFinalFix) {
     List<TaskDatum> listTask =
         element.chapterData?.single.missionData?.single.taskData ?? [];
-    int indexTask = 0;
+    var indexTask = 0;
     List<TaskDatum> taskData = [];
     for (var element in listTask) {
       File file = File('');
@@ -144,6 +146,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(GetMissionLocalRef r
   }
   await isarInstance.writeTxn(() async {
     //await isarInstance.gamificationResponseRemotes.clear();
+    await isarInstance.gamificationAdditionalDetailRemotes.put(GamificationAdditionalDetailRemote(latestSyncDate: latestSyncDate));
     await isarInstance.gamificationResponseRemotes.putAll(listAfterInputImage);
   });
 

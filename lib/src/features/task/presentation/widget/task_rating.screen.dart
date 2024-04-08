@@ -333,7 +333,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                         builder: (context) {
                                           return CustomDialog(
                                               title:
-                                                  "Are you sure want to submit your ${(gamificationData.chapterData?.single.missionData?.single.missionTypeName == "Assignment" ? "assignment" : "answers")}",
+                                                  "Are you sure want to submit your answers",
                                               content:
                                                   "Are you sure want to leave",
                                               label: "Submit",

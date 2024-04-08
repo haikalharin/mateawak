@@ -33,7 +33,6 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
         final listTask = ref.watch(listTaskState);
         final currentQuestionProgress = ref.watch(currentProgressState);
         final lengthAnswer = ref.watch(listTaskState).length;
-
         return Scaffold(
             backgroundColor: ColorTheme.backgroundLight,
             body: ListView(
@@ -359,7 +358,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                           builder: (context) {
                                             return CustomDialog(
                                                 title:
-                                                    "Are you sure want to submit your ${(gamificationData.chapterData?.single.missionData?.single.missionTypeName == "Assignment" ? "assignment" : "answers")}",
+                                                  "Are you sure want to submit your answers",
                                                 content:
                                                     "Are you sure want to leave",
                                                 label: "Submit",
