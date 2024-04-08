@@ -17,7 +17,7 @@ String formatDateTime(DateTime dateTime) {
 int calculateDifferenceDays(DateTime date1, DateTime date2) {
   // Menghitung selisih hari
   Duration different = date2.difference(date1);
-  return different.inDays.abs(); // Menggunakan abs() untuk menghindari hasil negatif
+  return different.inDays; // Menggunakan abs() untuk menghindari hasil negatif
 }
 String getRandomString(int length) {
   const charset = 'abcdefghijklmnopqrstuvwxyz0123456789';

@@ -161,9 +161,9 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(GetMissionLocalRef r
     }
     for (var element in listAfterInputImage) {
       DateTime dueDate =  DateTime.parse(element.dueDate??'2024-00-00T00:00:00');
-      int different =calculateDifferenceDays(DateTime.now(),dueDate);
+      int different =calculateDifferenceDays(dueDate,DateTime.now());
      if(element.missionStatusCode != null) {
-       if (different >= 30 && element.missionStatusCode! < 2) {
+       if (different >0 && element.missionStatusCode! < 2) {
          listAfterCheckIsIncomplete.add(GamificationResponseRemote(
              employeeMissionId: element.employeeMissionId,
              missionId: element.missionId,
