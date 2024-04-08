@@ -483,7 +483,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                           Expanded(
                             child: ElevatedButton(
                               onPressed: () {
-                                if (listSelectedOptionString.isNotEmpty && attachment.state.isNotEmpty) {
+                                if (listSelectedOptionString.isNotEmpty) {
                                   if ((currentQuestionIndex.state + 1) <
                                           lengthAnswer &&
                                       lengthAnswer != 1) {

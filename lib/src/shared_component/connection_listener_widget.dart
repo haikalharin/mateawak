@@ -43,7 +43,7 @@ class _ConnectionListenerWidgetState
       // if (kDebugMode) {
       //   print(value);
       // }
-      if (value % 720 == 0) {
+      if (value % 7200 == 0) {
         ctrl.fetchMissionListBackgroundService();
       }
     });
