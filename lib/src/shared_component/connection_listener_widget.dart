@@ -77,10 +77,8 @@ class _ConnectionListenerWidgetState
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
-      timeListener.pause();
     }
     if (state == AppLifecycleState.resumed) {
-      timeListener.resume();
     }
     super.didChangeAppLifecycleState(state);
   }

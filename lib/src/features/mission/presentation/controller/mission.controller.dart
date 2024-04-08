@@ -87,12 +87,14 @@ class MissionController extends _$MissionController {
 
       if (value.hasValue) {
         value.value?.forEach((element) async {
-          if (element.missionStatusCode! == 1) {
-            listGamificationInProgress.add(element);
-          } else if (element.missionStatusCode! == 0) {
-            listGamificationAssigned.add(element);
-          } else if (element.missionStatusCode! >= 2) {
-            listGamificationPast.add(element);
+          if (element.missionStatusCode != null) {
+            if (element.missionStatusCode! == 1) {
+              listGamificationInProgress.add(element);
+            } else if (element.missionStatusCode! == 0) {
+              listGamificationAssigned.add(element);
+            } else if (element.missionStatusCode! >= 2) {
+              listGamificationPast.add(element);
+            }
           }
         });
         ref.watch(gamificationInProgressState.notifier).state =
