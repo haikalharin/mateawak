@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
+import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../../configs/theme/color.theme.dart';
@@ -38,6 +39,7 @@ class _TaskSingleChoiceScreenState
         final currentQuestionProgress = ref.watch(currentProgressState);
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
+        final gamificationData = ref.watch(gamificationState);
         return Scaffold(
             backgroundColor: ColorTheme.backgroundLight,
             body: ListView(

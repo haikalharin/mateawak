@@ -6,7 +6,7 @@ part of 'mission_local.repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getMissionRemoteHash() => r'11dd5c3c693b3f92e6b133757a8b3e750587f761';
+String _$getMissionRemoteHash() => r'0dcb41146db084f04eb3025b7f1d1eeb534878a9';
 
 /// See also [getMissionRemote].
 @ProviderFor(getMissionRemote)
@@ -23,7 +23,7 @@ final getMissionRemoteProvider =
 
 typedef GetMissionRemoteRef
     = AutoDisposeFutureProviderRef<List<GamificationResponseRemote>>;
-String _$getMissionLocalHash() => r'2f34fe7fc3e12765a24960ee5a6bd5f71f2b295b';
+String _$getMissionLocalHash() => r'1f9059cd17a812120ab6013799cdaebccf359db7';
 
 /// See also [getMissionLocal].
 @ProviderFor(getMissionLocal)
