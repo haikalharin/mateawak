@@ -118,8 +118,6 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                       await ctrlMission
                                           .getMissionList()
                                           .whenComplete(() {
-                                        context.pop();
-                                        context.pop();
                                       });
                                     });
                                   });

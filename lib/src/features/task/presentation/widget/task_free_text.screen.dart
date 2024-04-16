@@ -384,6 +384,33 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                               .clear();
                                           _textController.clear();
                                           isInit = true;
+                                          if (ref
+                                                  .watch(nextTypeTaskState
+                                                      .notifier)
+                                                  .state ==
+                                              TaskType.STX.name) {
+                                            ref
+                                                    .watch(
+                                                        listSelectOptionStringState
+                                                            .notifier)
+                                                    .state =
+                                                ref
+                                                    .watch(
+                                                        listSelectOptionNextStringState
+                                                            .notifier)
+                                                    .state;
+                                          } else {
+                                            ref
+                                                    .watch(listSelectOptionState
+                                                        .notifier)
+                                                    .state =
+                                                ref
+                                                    .watch(
+                                                        listSelectOptionNextState
+                                                            .notifier)
+                                                    .state;
+                                          }
+
                                           showDialog(
                                             context: context,
                                             builder: (context) {
@@ -412,10 +439,10 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                                   .addPostFrameCallback(
                                                                       (_) {
                                                                 Navigator.of(
-                                                                    context)
+                                                                        context)
                                                                     .pop();
                                                                 Navigator.of(
-                                                                    context)
+                                                                        context)
                                                                     .pop();
                                                               });
                                                             });

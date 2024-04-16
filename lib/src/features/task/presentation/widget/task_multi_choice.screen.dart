@@ -23,6 +23,7 @@ class TaskMultiChoiceScreen extends ConsumerStatefulWidget {
 class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
   // int currentQuestionIndex = 0;
   List<int> listData = [];
+  bool isInit =true;
 
   @override
   Widget build(BuildContext context) {
@@ -154,6 +155,13 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                 var listAnswer =
                                     listTask[currentQuestionIndex.state]
                                         .answerData;
+                               if(isInit) {
+                                 isInit = false;
+                                 listData.addAll(ref
+                                     .watch(listSelectOptionState
+                                     .notifier)
+                                     .state);
+                               }
                                 return Container(
                                   margin:
                                       const EdgeInsets.symmetric(vertical: 8.0),
@@ -363,6 +371,32 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                   currentProgressState.notifier)
                                               .state++;
                                         }
+                                        if (ref
+                                            .watch(
+                                            nextTypeTaskState.notifier)
+                                            .state ==
+                                            TaskType.STX.name) {
+                                          ref
+                                              .watch(
+                                              listSelectOptionStringState
+                                                  .notifier)
+                                              .state =
+                                              ref
+                                                  .watch(
+                                                  listSelectOptionNextStringState
+                                                      .notifier)
+                                                  .state;
+                                        } else {
+                                          ref
+                                              .watch(listSelectOptionState
+                                              .notifier)
+                                              .state =
+                                              ref
+                                                  .watch(
+                                                  listSelectOptionNextState
+                                                      .notifier)
+                                                  .state;
+                                        }
                                         listData.clear();
                                         showDialog(
                                           context: context,
@@ -387,10 +421,6 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                               .getMissionList()
                                                               .whenComplete(
                                                                   () {
-                                                                    SchedulerBinding.instance.addPostFrameCallback((_) {
-                                                                      Navigator.of(context).pop();
-                                                                      Navigator.of(context).pop();
-                                                                    });
                                                                   });
                                                         });
                                                       })

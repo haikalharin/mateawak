@@ -336,7 +336,20 @@ class TaskController extends _$TaskController {
     List<String> listString = [];
     List<int> listInt = [];
     List<int> numbersList = [];
-    List<TaskDatumAnswerRequestRemote> dataCek = await getTaskAnswer();
+    List<TaskDatumAnswer> currentAnswer =  await ref
+        .watch(getAnswerFinalLocalProvider(employeeMissionId:ref
+        .watch(gamificationState.notifier)
+        .state.employeeMissionId??0 ).future);
+    List<TaskDatumAnswer> listTaskAnswer = currentAnswer.isNotEmpty?currentAnswer:[];
+    List<TaskDatumAnswerRequestRemote> dataCek = [];
+    if(listTaskAnswer.isNotEmpty) {
+      for (var element in listTaskAnswer) {
+        dataCek.add(TaskDatumAnswerRequestRemote(
+            taskId: element.taskId,
+            answer: element.answer,
+            attachment: element.attachment));
+      }
+    }
     var index = ref.watch(currentIndexState);
     var answer = '';
     var nextTypeTask =
@@ -393,18 +406,20 @@ class TaskController extends _$TaskController {
             ? listSelectedOption[i]
             : listSelectedOption[i].toString();
         data += code;
-        if (i < listSelectedOption.length ) {
-          dataAnswer = TaskDatumAnswerRequestRemote(
-              taskId: questionId, answer: data, attachment: attachment ?? '');
+        if(listSelectedOption.length > 1){
+          if (i < listSelectedOption.length-1) {
+            data += ';';
+          }
 
-          await putTaskAnswer(dataAnswer);
-          listTaskAnswer.add(dataAnswer);
-          if (isLast) {}
-        }
-        if (i != listSelectedOption.length) {
-          data += ';';
         }
       }
+        dataAnswer = TaskDatumAnswerRequestRemote(
+            taskId: questionId, answer: data, attachment: attachment ?? '');
+
+        await putTaskAnswer(dataAnswer);
+        listTaskAnswer.add(dataAnswer);
+        if (isLast) {}
+
     }
   }
 

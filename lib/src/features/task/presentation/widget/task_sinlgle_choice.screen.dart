@@ -398,7 +398,7 @@ class _TaskSingleChoiceScreenState
                                                   "Are you sure want to leave",
                                               label: "Submit",
                                               type: DialogType.mission,
-                                              onClosed: () async => {
+                                              onClosed: () async {
                                                     await ctrl
                                                         .putAnswerFinal()
                                                         .whenComplete(() async {
@@ -416,7 +416,7 @@ class _TaskSingleChoiceScreenState
                                                                   });
                                                                 });
                                                       });
-                                                    })
+                                                    });
                                                   });
                                         },
                                       );
