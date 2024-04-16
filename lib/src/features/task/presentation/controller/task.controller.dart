@@ -202,10 +202,10 @@ class TaskController extends _$TaskController {
       data =
           gamification.copyWith(missionStatusCode: 2, missionStatus: 'Submitted');
     } else {
-      if (gamification.missionStatusCode != 2) {
+      // if ((gamification.missionStatusCode??0) > 1) {
         data = gamification.copyWith(
             missionStatusCode: 1, missionStatus: 'In Progress');
-      }
+      // }
     }
     await ref
         .watch(changeStatusTaskLocalProvider(task: data).future)
@@ -393,7 +393,7 @@ class TaskController extends _$TaskController {
             ? listSelectedOption[i]
             : listSelectedOption[i].toString();
         data += code;
-        if (i == listSelectedOption.length - 1) {
+        if (i < listSelectedOption.length ) {
           dataAnswer = TaskDatumAnswerRequestRemote(
               taskId: questionId, answer: data, attachment: attachment ?? '');
 

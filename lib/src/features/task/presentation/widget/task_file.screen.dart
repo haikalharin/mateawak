@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -278,7 +279,11 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                   ))
                                 : InkWell(
                                     onTap: () {
-                                      pickDocFile();
+                                      if ((gamificationData.missionStatusCode ??
+                                              0) <=
+                                          1) {
+                                        pickDocFile();
+                                      }
                                     },
                                     child: DottedBorder(
                                       color: ColorTheme.primary500,
@@ -376,6 +381,9 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                             SizedBox(
                               height: 150.0,
                               child: TextFormField(
+                                readOnly:
+                                    (gamificationData.missionStatusCode ?? 0) >
+                                        1,
                                 controller: _textController,
                                 maxLength: 100,
                                 textInputAction: TextInputAction.done,
@@ -598,8 +606,13 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                               () async {
                                                         await ctrlMission
                                                             .getMissionList()
-                                                            .whenComplete(() {
-                                                        });
+                                                            .whenComplete(
+                                                                () {
+                                                                  SchedulerBinding.instance.addPostFrameCallback((_) {
+                                                                    Navigator.of(context).pop();
+                                                                    Navigator.of(context).pop();
+                                                                  });
+                                                                });
                                                       });
                                                     })
                                                   });
@@ -610,8 +623,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                        content:
-                                            Text('Please write and fill your answer')),
+                                        content: Text(
+                                            'Please write and fill your answer')),
                                   );
                                 }
                               },

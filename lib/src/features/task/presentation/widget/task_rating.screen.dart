@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
@@ -67,11 +68,10 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "${currentQuestionIndex.state + 1}/${listTask.length}",
-                                  style:SharedComponent.textStyleCustom(
-                                      typographyType: TypographyType.largeH5,
-                                      fontColor: ColorTheme.textDark)
-                                ),
+                                    "${currentQuestionIndex.state + 1}/${listTask.length}",
+                                    style: SharedComponent.textStyleCustom(
+                                        typographyType: TypographyType.largeH5,
+                                        fontColor: ColorTheme.textDark)),
                                 Container(
                                   width: 75.h,
                                   child: Row(
@@ -79,8 +79,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                       Container(
                                         padding: EdgeInsets.all(4),
                                         decoration: BoxDecoration(
-                                            color:
-                                                ColorTheme.secondary100,
+                                            color: ColorTheme.secondary100,
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(5.r))),
                                         child: Center(
@@ -92,16 +91,18 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                             children: [
                                               Icon(
                                                 Icons.star,
-                                                color: ColorTheme
-                                                    .secondary500,
+                                                color: ColorTheme.secondary500,
                                                 size: 12.h,
                                               ),
                                               Text(
-                                                " +${listTask[currentQuestionIndex.state].taskReward}",
-                                                style: SharedComponent.textStyleCustom(
-                                                    typographyType: TypographyType.body,
-                                                    fontColor: ColorTheme.secondary500)
-                                              ),
+                                                  " +${listTask[currentQuestionIndex.state].taskReward}",
+                                                  style: SharedComponent
+                                                      .textStyleCustom(
+                                                          typographyType:
+                                                              TypographyType
+                                                                  .body,
+                                                          fontColor: ColorTheme
+                                                              .secondary500)),
                                             ],
                                           ),
                                         )),
@@ -123,10 +124,11 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                               height: 200,
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
-                                  image:  DecorationImage(
-                                    image: FileImage(
-                                        File(listTask[currentQuestionIndex.state].attachmentPath??'')
-                                    ),
+                                  image: DecorationImage(
+                                    image: FileImage(File(
+                                        listTask[currentQuestionIndex.state]
+                                                .attachmentPath ??
+                                            '')),
                                     fit: BoxFit.cover,
                                   ),
                                   color: ColorTheme.backgroundWhite,
@@ -158,16 +160,19 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                 color: Colors.amber,
                               ),
                               onRatingUpdate: (rating) {
-                                if (rating != 0) {
-                                  if (listSelectedOption.state.isNotEmpty) {
+                                if ((gamificationData.missionStatusCode ?? 0) <=
+                                    1) {
+                                  if (rating != 0) {
+                                    if (listSelectedOption.state.isNotEmpty) {
+                                      ref
+                                          .watch(listSelectOptionState.notifier)
+                                          .state
+                                          .clear();
+                                    }
                                     ref
                                         .watch(listSelectOptionState.notifier)
-                                        .state
-                                        .clear();
+                                        .state = [rating.toInt()];
                                   }
-                                  ref
-                                      .watch(listSelectOptionState.notifier)
-                                      .state = [rating.toInt()];
                                 }
                               },
                             ),
@@ -181,9 +186,9 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                   decoration: BoxDecoration(
                       color: ColorTheme.backgroundWhite,
                       borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(10.0),topRight: Radius.circular(10.0))),
+                          topLeft: Radius.circular(10.0),
+                          topRight: Radius.circular(10.0))),
                   padding: const EdgeInsets.all(16.0),
-
                   width: double.infinity,
                   child: Align(
                     alignment: Alignment.bottomCenter,
@@ -277,8 +282,8 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                 currentProgressState.notifier)
                                             .state++;
                                         if (ref
-                                                .watch(nextTypeTaskState
-                                                    .notifier)
+                                                .watch(
+                                                    nextTypeTaskState.notifier)
                                                 .state ==
                                             TaskType.STX.name) {
                                           ref
@@ -307,16 +312,14 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                   } else {
                                     ctrl
                                         .saveAnswer(
-                                            listTask[currentQuestionIndex
-                                                        .state]
+                                            listTask[currentQuestionIndex.state]
                                                     .taskId ??
                                                 0,
                                             isLast: true,
                                             listSelectedOption:
                                                 listSelectedOption.state,
-                                            type: listTask[
-                                                        currentQuestionIndex
-                                                            .state]
+                                            type: listTask[currentQuestionIndex
+                                                        .state]
                                                     .taskTypeCode ??
                                                 '')
                                         .whenComplete(() {
@@ -330,8 +333,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                       }
 
                                       ref
-                                          .watch(
-                                              listSelectOptionState.notifier)
+                                          .watch(listSelectOptionState.notifier)
                                           .state = [];
                                       showDialog(
                                         context: context,
@@ -354,7 +356,12 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                         await ctrlMission
                                                             .getMissionList()
                                                             .whenComplete(
-                                                                () {});
+                                                                () {
+                                                                  SchedulerBinding.instance.addPostFrameCallback((_) {
+                                                                    Navigator.of(context).pop();
+                                                                    Navigator.of(context).pop();
+                                                                  });
+                                                                });
                                                       });
                                                     })
                                                   });

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_etamkawa/src/configs/theme/color.theme.dart';
@@ -89,11 +90,11 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "${currentQuestionIndex.state + 1}/${listTask.length}",
-                                    style: SharedComponent.textStyleCustom(
-                                        typographyType: TypographyType.largeH5,
-                                        fontColor: ColorTheme.textDark)
-                                  ),
+                                      "${currentQuestionIndex.state + 1}/${listTask.length}",
+                                      style: SharedComponent.textStyleCustom(
+                                          typographyType:
+                                              TypographyType.largeH5,
+                                          fontColor: ColorTheme.textDark)),
                                   Container(
                                     width: 75.h,
                                     child: Row(
@@ -101,8 +102,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                         Container(
                                           padding: EdgeInsets.all(4),
                                           decoration: BoxDecoration(
-                                              color: ColorTheme
-                                                  .secondary100,
+                                              color: ColorTheme.secondary100,
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(5.r))),
                                           child: Center(
@@ -114,15 +114,19 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                               children: [
                                                 Icon(
                                                   Icons.star,
-                                                  color: ColorTheme
-                                                      .secondary500,
+                                                  color:
+                                                      ColorTheme.secondary500,
                                                   size: 12.h,
                                                 ),
                                                 Text(
                                                   " +${listTask[currentQuestionIndex.state].taskReward}",
-                                                  style:SharedComponent.textStyleCustom(
-                                                      typographyType: TypographyType.body,
-                                                      fontColor: ColorTheme.secondary500),
+                                                  style: SharedComponent
+                                                      .textStyleCustom(
+                                                          typographyType:
+                                                              TypographyType
+                                                                  .body,
+                                                          fontColor: ColorTheme
+                                                              .secondary500),
                                                 ),
                                               ],
                                             ),
@@ -145,10 +149,11 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                 height: 200,
                                 width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
-                                    image:  DecorationImage(
-                                      image: FileImage(
-                                          File(listTask[currentQuestionIndex.state].attachmentPath??'')
-                                      ),
+                                    image: DecorationImage(
+                                      image: FileImage(File(
+                                          listTask[currentQuestionIndex.state]
+                                                  .attachmentPath ??
+                                              '')),
                                       fit: BoxFit.cover,
                                     ),
                                     color: ColorTheme.backgroundWhite,
@@ -171,6 +176,10 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                               SizedBox(
                                 height: 150.0,
                                 child: TextFormField(
+                                  readOnly:
+                                      (gamificationData.missionStatusCode ??
+                                              0) >
+                                          1,
                                   controller: _textController,
                                   maxLength: 100,
                                   textInputAction: TextInputAction.done,
@@ -213,7 +222,8 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                       decoration: BoxDecoration(
                           color: ColorTheme.backgroundWhite,
                           borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(10.0),topRight: Radius.circular(10.0))),
+                              topLeft: Radius.circular(10.0),
+                              topRight: Radius.circular(10.0))),
                       padding: const EdgeInsets.all(16.0),
                       width: double.infinity,
                       child: Align(
@@ -396,7 +406,19 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                             await ctrlMission
                                                                 .getMissionList()
                                                                 .whenComplete(
-                                                                    () {});
+                                                                    () {
+                                                              SchedulerBinding
+                                                                  .instance
+                                                                  .addPostFrameCallback(
+                                                                      (_) {
+                                                                Navigator.of(
+                                                                    context)
+                                                                    .pop();
+                                                                Navigator.of(
+                                                                    context)
+                                                                    .pop();
+                                                              });
+                                                            });
                                                           });
                                                         })
                                                       });
@@ -409,7 +431,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                           .showSnackBar(
                                         const SnackBar(
                                             content: Text(
-                                          'Please write your answer')),
+                                                'Please write your answer')),
                                       );
                                     }
                                   },

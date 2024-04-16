@@ -369,7 +369,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen>{
                               ),
                             ),
                             onPressed: () async {
-                              if (gamification[index].missionStatusCode == 1) {
+                              if ((gamification[index].missionStatusCode??0) > 0) {
                                 await ctrlTask
                                     .putDetailMissionData(
                                         missionDatum: gamification[index]
