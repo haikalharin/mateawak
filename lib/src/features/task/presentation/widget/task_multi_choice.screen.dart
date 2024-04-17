@@ -38,7 +38,13 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
         final currentQuestionProgress = ref.watch(currentProgressState);
         final gamificationData = ref.watch(gamificationState);
         final lengthAnswer = ref.watch(listTaskState).length;
-
+        if(isInit) {
+          isInit = false;
+          listData.addAll(ref
+              .watch(listSelectOptionState
+              .notifier)
+              .state);
+        }
         return Scaffold(
             backgroundColor: ColorTheme.backgroundLight,
             body: ListView(
@@ -155,13 +161,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                 var listAnswer =
                                     listTask[currentQuestionIndex.state]
                                         .answerData;
-                               if(isInit) {
-                                 isInit = false;
-                                 listData.addAll(ref
-                                     .watch(listSelectOptionState
-                                     .notifier)
-                                     .state);
-                               }
+
                                 return Container(
                                   margin:
                                       const EdgeInsets.symmetric(vertical: 8.0),

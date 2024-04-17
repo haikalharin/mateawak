@@ -205,10 +205,10 @@ class TaskController extends _$TaskController {
       data =
           gamification.copyWith(missionStatusCode: 2, missionStatus: 'Submitted');
     } else {
-      if ((gamification.missionStatusCode??0) < 1) {
+      // if ((gamification.missionStatusCode??0) < 1) {
         data = gamification.copyWith(
             missionStatusCode: 1, missionStatus: 'In Progress');
-      }
+      // }
     }
     await ref
         .watch(changeStatusTaskLocalProvider(task: data).future)
@@ -249,48 +249,55 @@ class TaskController extends _$TaskController {
     List<String> listString = [];
     List<int> listInt = [];
     List<int> numbersList = [];
-    List<TaskDatumAnswer> currentAnswer =  await ref
-        .watch(getAnswerFinalLocalProvider(employeeMissionId:employeeMissionId ).future);
-    List<TaskDatumAnswer> listTaskAnswer = currentAnswer.isNotEmpty?currentAnswer:[];
-    List<TaskDatumAnswerRequestRemote> dataCek = [];
-    if(listTaskAnswer.isNotEmpty) {
-      for (var element in listTaskAnswer) {
-        dataCek.add(TaskDatumAnswerRequestRemote(
-            taskId: element.taskId,
-            answer: element.answer,
-            attachmentName: element.attachmentName,
-            attachment: element.attachment));
-      }
-    }
-     index = ref.watch(currentIndexState);
-     currentTypeTask = ref.watch(listTaskState)[index].taskTypeCode ?? '';
-     currentTaskId = ref.watch(listTaskState)[index].taskId??0;
-    for (var element in dataCek) {
-      if (element.taskId == currentTaskId) {
-        // await deleteAnswer(dataCek);
-        await putTaskAnswer(element);
-        answer = element.answer ?? '';
-        attachment = element.attachment??'';
-        attachmentName = element.attachmentName??'';
-      }
-    }
+  var currentAnswer =  ref
+        .read(getAnswerFinalLocalProvider(employeeMissionId:employeeMissionId ).future);
+        List<TaskDatumAnswerRequestRemote> dataCek = [];
 
-    if (answer != '') {
-      if (currentTypeTask == TaskType.STX.name || currentTypeTask == TaskType.ASM.name ) {
-        listString.add(answer);
-        listSelectOptionCurrentString = listString;
-      } else {
-        if (currentTypeTask == TaskType.MCQ.name) {
-          numbersList = answer.split(';').map(int.parse).toList();
-          listInt.addAll(numbersList);
-        } else {
-          listInt.add(int.parse(answer != '' ? answer : '0'));
+    state = await AsyncValue.guard(() => currentAnswer).then((value) async {
+      List<TaskDatumAnswer> listTaskAnswer = value.value ?? [];
+
+
+
+      if (listTaskAnswer.isNotEmpty) {
+        for (var element in listTaskAnswer) {
+          dataCek.add(TaskDatumAnswerRequestRemote(
+              taskId: element.taskId,
+              answer: element.answer,
+              attachmentName: element.attachmentName,
+              attachment: element.attachment));
         }
-
-        listSelectOptionCurrent = listInt;
       }
-    }
-    state = const AsyncValue.data(null);
+      index = ref.watch(currentIndexState);
+      currentTypeTask = ref.watch(listTaskState)[index].taskTypeCode ?? '';
+      currentTaskId = ref.watch(listTaskState)[index].taskId ?? 0;
+      for (var element in dataCek) {
+        if (element.taskId == currentTaskId) {
+          // await deleteAnswer(dataCek);
+          await putTaskAnswer(element);
+          answer = element.answer ?? '';
+          attachment = element.attachment ?? '';
+          attachmentName = element.attachmentName ?? '';
+        }
+      }
+
+      if (answer != '') {
+        if (currentTypeTask == TaskType.STX.name ||
+            currentTypeTask == TaskType.ASM.name) {
+          listString.add(answer);
+          listSelectOptionCurrentString = listString;
+        } else {
+          if (currentTypeTask == TaskType.MCQ.name) {
+            numbersList = answer.split(';').map(int.parse).toList();
+            listInt.addAll(numbersList);
+          } else {
+            listInt.add(int.parse(answer != '' ? answer : '0'));
+          }
+
+          listSelectOptionCurrent = listInt;
+        }
+      }
+      return value;
+    });
   }
 
   Future<void> prevQuestion() async {

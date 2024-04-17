@@ -198,32 +198,30 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                             width: MediaQuery.of(context)
                                                 .size
                                                 .width,
-                                            child: Expanded(
-                                              child: RichText(
-                                                text: TextSpan(
-                                                  text:
-                                                      'Evidence (one file only)',
-                                                  style: SharedComponent
-                                                      .textStyleCustom(
-                                                          typographyType:
-                                                              TypographyType
-                                                                  .body,
-                                                          fontColor: ColorTheme
-                                                              .textDark),
-                                                  children: [
-                                                    TextSpan(
-                                                      text: '*',
-                                                      style: SharedComponent
-                                                          .textStyleCustom(
-                                                              typographyType:
-                                                                  TypographyType
-                                                                      .body,
-                                                              fontColor:
-                                                                  ColorTheme
-                                                                      .danger500),
-                                                    ),
-                                                  ],
-                                                ),
+                                            child: RichText(
+                                              text: TextSpan(
+                                                text:
+                                                    'Evidence (one file only)',
+                                                style: SharedComponent
+                                                    .textStyleCustom(
+                                                        typographyType:
+                                                            TypographyType
+                                                                .body,
+                                                        fontColor: ColorTheme
+                                                            .textDark),
+                                                children: [
+                                                  TextSpan(
+                                                    text: '*',
+                                                    style: SharedComponent
+                                                        .textStyleCustom(
+                                                            typographyType:
+                                                                TypographyType
+                                                                    .body,
+                                                            fontColor:
+                                                                ColorTheme
+                                                                    .danger500),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),
@@ -334,14 +332,12 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                                 .size
                                                                 .width /
                                                             1.5,
-                                                        child: Expanded(
-                                                          child: Text(
-                                                            'Drop your files here or click to upload',
-                                                            style: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .titleLarge,
-                                                          ),
+                                                        child: Text(
+                                                          'Drop your files here or click to upload',
+                                                          style: Theme.of(
+                                                                  context)
+                                                              .textTheme
+                                                              .titleLarge,
                                                         ),
                                                       ),
                                                       Container(
@@ -350,14 +346,12 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                                 .size
                                                                 .width /
                                                             1.5,
-                                                        child: Expanded(
-                                                          child: Text(
-                                                            "Allowed files .jpg, .jpeg, .png, .gif, .pdf, .doc",
-                                                            style: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .bodyLarge,
-                                                          ),
+                                                        child: Text(
+                                                          "Allowed files .jpg, .jpeg, .png, .gif, .pdf, .doc",
+                                                          style: Theme.of(
+                                                                  context)
+                                                              .textTheme
+                                                              .bodyLarge,
                                                         ),
                                                       ),
                                                     ],
@@ -371,14 +365,12 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                             const SizedBox(height: 8.0),
                             Container(
                               width: MediaQuery.of(context).size.width,
-                              child: Expanded(
-                                child: Text(
-                                  'Please ensure that your file is in the correct format.',
-                                  style: TextStyle(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: ColorTheme.textLightDark,
-                                  ),
+                              child: Text(
+                                'Please ensure that your file is in the correct format.',
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: ColorTheme.textLightDark,
                                 ),
                               ),
                             ),
