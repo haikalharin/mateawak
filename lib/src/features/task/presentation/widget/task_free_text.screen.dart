@@ -46,7 +46,8 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
         final gamificationData = ref.watch(gamificationState);
         // _textController =
         if (ref.watch(previousTypeTaskState.notifier).state ==
-                TaskType.STX.name ||
+                TaskType.STX.name || ref.watch(previousTypeTaskState.notifier).state ==
+            TaskType.STX.name ||
             ref.watch(nextTypeTaskState.notifier).state == TaskType.STX.name) {
           if (isInit) {
             if (ref
@@ -384,32 +385,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                               .clear();
                                           _textController.clear();
                                           isInit = true;
-                                          if (ref
-                                                  .watch(nextTypeTaskState
-                                                      .notifier)
-                                                  .state ==
-                                              TaskType.STX.name) {
-                                            ref
-                                                    .watch(
-                                                        listSelectOptionStringState
-                                                            .notifier)
-                                                    .state =
-                                                ref
-                                                    .watch(
-                                                        listSelectOptionNextStringState
-                                                            .notifier)
-                                                    .state;
-                                          } else {
-                                            ref
-                                                    .watch(listSelectOptionState
-                                                        .notifier)
-                                                    .state =
-                                                ref
-                                                    .watch(
-                                                        listSelectOptionNextState
-                                                            .notifier)
-                                                    .state;
-                                          }
+
 
                                           showDialog(
                                             context: context,

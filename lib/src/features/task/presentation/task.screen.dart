@@ -89,7 +89,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                             });
                   },
                 );
-                return Future.value(true);
+                return Future.value(false);
               },
               child: Scaffold(
                 backgroundColor: ColorTheme.backgroundLight,

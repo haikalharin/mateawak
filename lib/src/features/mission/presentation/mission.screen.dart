@@ -31,8 +31,9 @@ Future<void> myAsyncMethodMoved(
   context.goNamed(detailMissionEtamkawa);
 }
 
-class _MissionScreenState extends ConsumerState<MissionScreen>{
+class _MissionScreenState extends ConsumerState<MissionScreen> {
   late TabController _tabController;
+
   @override
   void initState() {
     super.initState();
@@ -226,10 +227,13 @@ class _MissionScreenState extends ConsumerState<MissionScreen>{
     }
 
     Future<void> putCurrentAnswerFinal() async {
-      ref.read(currentTypeTaskState.notifier).state = ctrlTask.currentTypeTask;
-      if (ctrlTask.currentTypeTask == TaskType.STX.name) {
+      ref.watch(currentTypeTaskState.notifier).state = ctrlTask.currentTypeTask;
+      if (ctrlTask.currentTypeTask == TaskType.STX.name ||
+          ctrlTask.currentTypeTask == TaskType.ASM.name) {
         ref.watch(listSelectOptionStringState.notifier).state =
             ctrlTask.listSelectOptionCurrentString;
+        ref.watch(attachmentPathState.notifier).state = ctrlTask.attachment;
+        ref.watch(attachmentNameState.notifier).state = ctrlTask.attachmentName;
       } else {
         ref.watch(listSelectOptionState.notifier).state =
             ctrlTask.listSelectOptionCurrent;
@@ -369,7 +373,8 @@ class _MissionScreenState extends ConsumerState<MissionScreen>{
                               ),
                             ),
                             onPressed: () async {
-                              if ((gamification[index].missionStatusCode??0) > 0) {
+                              if ((gamification[index].missionStatusCode ?? 0) >
+                                  0) {
                                 await ctrlTask
                                     .putDetailMissionData(
                                         missionDatum: gamification[index]

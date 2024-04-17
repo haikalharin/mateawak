@@ -59,8 +59,10 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
         final listTask = ref.watch(listTaskState);
         final gamificationData = ref.watch(gamificationState);
         if (ref.watch(previousTypeTaskState.notifier).state ==
-                TaskType.STX.name ||
-            ref.watch(nextTypeTaskState.notifier).state == TaskType.STX.name) {
+                TaskType.ASM.name ||
+            ref.watch(currentTypeTaskState.notifier).state ==
+                TaskType.ASM.name ||
+            ref.watch(nextTypeTaskState.notifier).state == TaskType.ASM.name) {
           if (isInit) {
             if (ref
                 .watch(listSelectOptionStringState.notifier)
@@ -246,22 +248,28 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                 ),
                                                 InkWell(
                                                   onTap: () async {
-                                                    await File(attachment.state)
-                                                        .delete()
-                                                        .whenComplete(() {
-                                                      setState(() {
-                                                        ref
-                                                            .read(
-                                                                attachmentNameState
-                                                                    .notifier)
-                                                            .state = '';
-                                                        ref
-                                                            .read(
-                                                                attachmentPathState
-                                                                    .notifier)
-                                                            .state = '';
+                                                    if ((gamificationData
+                                                                .missionStatusCode ??
+                                                            0) <=
+                                                        1) {
+                                                      await File(
+                                                              attachment.state)
+                                                          .delete()
+                                                          .whenComplete(() {
+                                                        setState(() {
+                                                          ref
+                                                              .read(
+                                                                  attachmentNameState
+                                                                      .notifier)
+                                                              .state = '';
+                                                          ref
+                                                              .read(
+                                                                  attachmentPathState
+                                                                      .notifier)
+                                                              .state = '';
+                                                        });
                                                       });
-                                                    });
+                                                    }
                                                   },
                                                   child: Icon(
                                                     Icons.cancel,
@@ -506,6 +514,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                   0,
                                               isLast: false,
                                               attachment: attachment.state,
+                                              attachmentName:
+                                                  attachmentName.state,
                                               listSelectedOption:
                                                   listSelectedOptionString,
                                               type: listTask[
@@ -563,6 +573,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                 0,
                                             isLast: true,
                                             attachment: attachment.state,
+                                            attachmentName:
+                                                attachmentName.state,
                                             listSelectedOption:
                                                 listSelectedOptionString,
                                             type: listTask[currentQuestionIndex
@@ -586,37 +598,6 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                           .clear();
                                       _textController.clear();
                                       isInit = true;
-                                      if (ref
-                                          .watch(nextTypeTaskState
-                                          .notifier)
-                                          .state ==
-                                          TaskType.STX.name ||
-                                          ref
-                                              .watch(nextTypeTaskState
-                                              .notifier)
-                                              .state ==
-                                              TaskType.ASM.name) {
-                                        ref
-                                            .watch(
-                                            listSelectOptionStringState
-                                                .notifier)
-                                            .state =
-                                            ref
-                                                .watch(
-                                                listSelectOptionNextStringState
-                                                    .notifier)
-                                                .state;
-                                      } else {
-                                        ref
-                                            .watch(listSelectOptionState
-                                            .notifier)
-                                            .state =
-                                            ref
-                                                .watch(
-                                                listSelectOptionNextState
-                                                    .notifier)
-                                                .state;
-                                      }
                                       showDialog(
                                         context: context,
                                         builder: (context) {
@@ -638,12 +619,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                         await ctrlMission
                                                             .getMissionList()
                                                             .whenComplete(
-                                                                () {
-                                                                  SchedulerBinding.instance.addPostFrameCallback((_) {
-                                                                    Navigator.of(context).pop();
-                                                                    Navigator.of(context).pop();
-                                                                  });
-                                                                });
+                                                                () {});
                                                       });
                                                     })
                                                   });

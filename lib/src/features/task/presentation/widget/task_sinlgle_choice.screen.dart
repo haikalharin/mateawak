@@ -362,32 +362,6 @@ class _TaskSingleChoiceScreenState
                                             .state++;
                                       }
 
-                                      if (ref
-                                          .watch(
-                                          nextTypeTaskState.notifier)
-                                          .state ==
-                                          TaskType.STX.name) {
-                                        ref
-                                            .watch(
-                                            listSelectOptionStringState
-                                                .notifier)
-                                            .state =
-                                            ref
-                                                .watch(
-                                                listSelectOptionNextStringState
-                                                    .notifier)
-                                                .state;
-                                      } else {
-                                        ref
-                                            .watch(listSelectOptionState
-                                            .notifier)
-                                            .state =
-                                            ref
-                                                .watch(
-                                                listSelectOptionNextState
-                                                    .notifier)
-                                                .state;
-                                      }
                                       showDialog(
                                         context: context,
                                         builder: (context) {
