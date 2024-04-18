@@ -19,7 +19,6 @@ FutureOr<List<ValidationResponseRemote>> getValidationRemote(GetValidationLocalR
   final isarInstance = await ref.watch(isarInstanceProvider.future);
   final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
 
-  debugPrint('isarprinted');
   if(isConnectionAvailable) {
     final connect = ref.read(connectProvider.notifier);
     List<ValidationResponseRemote> listResponse = [];
