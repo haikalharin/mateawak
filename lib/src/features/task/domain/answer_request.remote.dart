@@ -58,12 +58,14 @@ class TaskDatumAnswer {
   int? taskId;
   String? answer;
   String? attachment;
+  String? attachmentName;
   int? attachmentId;
 
   TaskDatumAnswer({
     this.taskId,
     this.answer,
     this.attachment,
+    this.attachmentName,
     this.attachmentId,
   });
 
@@ -71,11 +73,13 @@ class TaskDatumAnswer {
     int? taskId,
     String? answer,
     String? attachment,
+    String? attachmentName,
     int? attachmentId,
   }) =>
       TaskDatumAnswer(
         taskId: taskId ?? this.taskId,
         answer: answer ?? this.answer,
+        attachmentName: attachmentName ?? this.attachmentName,
         attachment: attachment ?? this.attachment,
         attachmentId: attachmentId ?? this.attachmentId,
       );

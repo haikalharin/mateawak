@@ -32,6 +32,11 @@ const TaskDatumAnswerRequestRemoteSchema = CollectionSchema(
       id: 2,
       name: r'attachmentId',
       type: IsarType.long,
+    ),
+    r'attachmentName': PropertySchema(
+      id: 3,
+      name: r'attachmentName',
+      type: IsarType.string,
     )
   },
   estimateSize: _taskDatumAnswerRequestRemoteEstimateSize,
@@ -66,6 +71,12 @@ int _taskDatumAnswerRequestRemoteEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
+  {
+    final value = object.attachmentName;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -78,6 +89,7 @@ void _taskDatumAnswerRequestRemoteSerialize(
   writer.writeString(offsets[0], object.answer);
   writer.writeString(offsets[1], object.attachment);
   writer.writeLong(offsets[2], object.attachmentId);
+  writer.writeString(offsets[3], object.attachmentName);
 }
 
 TaskDatumAnswerRequestRemote _taskDatumAnswerRequestRemoteDeserialize(
@@ -90,6 +102,7 @@ TaskDatumAnswerRequestRemote _taskDatumAnswerRequestRemoteDeserialize(
     answer: reader.readStringOrNull(offsets[0]),
     attachment: reader.readStringOrNull(offsets[1]),
     attachmentId: reader.readLongOrNull(offsets[2]),
+    attachmentName: reader.readStringOrNull(offsets[3]),
     taskId: id,
   );
   return object;
@@ -108,6 +121,8 @@ P _taskDatumAnswerRequestRemoteDeserializeProp<P>(
       return (reader.readStringOrNull(offset)) as P;
     case 2:
       return (reader.readLongOrNull(offset)) as P;
+    case 3:
+      return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -599,6 +614,162 @@ extension TaskDatumAnswerRequestRemoteQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> attachmentNameIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'attachmentName',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> attachmentNameIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'attachmentName',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> attachmentNameEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'attachmentName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> attachmentNameGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'attachmentName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> attachmentNameLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'attachmentName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> attachmentNameBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'attachmentName',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> attachmentNameStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'attachmentName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> attachmentNameEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'attachmentName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+          QAfterFilterCondition>
+      attachmentNameContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'attachmentName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+          QAfterFilterCondition>
+      attachmentNameMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'attachmentName',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> attachmentNameIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'attachmentName',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> attachmentNameIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'attachmentName',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
       QAfterFilterCondition> taskIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -726,6 +897,20 @@ extension TaskDatumAnswerRequestRemoteQuerySortBy on QueryBuilder<
       return query.addSortBy(r'attachmentId', Sort.desc);
     });
   }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterSortBy> sortByAttachmentName() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'attachmentName', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterSortBy> sortByAttachmentNameDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'attachmentName', Sort.desc);
+    });
+  }
 }
 
 extension TaskDatumAnswerRequestRemoteQuerySortThenBy on QueryBuilder<
@@ -773,6 +958,20 @@ extension TaskDatumAnswerRequestRemoteQuerySortThenBy on QueryBuilder<
   }
 
   QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterSortBy> thenByAttachmentName() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'attachmentName', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterSortBy> thenByAttachmentNameDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'attachmentName', Sort.desc);
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
       QAfterSortBy> thenByTaskId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'taskId', Sort.asc);
@@ -809,6 +1008,14 @@ extension TaskDatumAnswerRequestRemoteQueryWhereDistinct on QueryBuilder<
       return query.addDistinctBy(r'attachmentId');
     });
   }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QDistinct> distinctByAttachmentName({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'attachmentName',
+          caseSensitive: caseSensitive);
+    });
+  }
 }
 
 extension TaskDatumAnswerRequestRemoteQueryProperty on QueryBuilder<
@@ -840,6 +1047,13 @@ extension TaskDatumAnswerRequestRemoteQueryProperty on QueryBuilder<
       attachmentIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'attachmentId');
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, String?, QQueryOperations>
+      attachmentNameProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'attachmentName');
     });
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_etamkawa/src/configs/theme/color.theme.dart';
@@ -46,7 +47,8 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
         final gamificationData = ref.watch(gamificationState);
         // _textController =
         if (ref.watch(previousTypeTaskState.notifier).state ==
-                TaskType.STX.name ||
+                TaskType.STX.name || ref.watch(previousTypeTaskState.notifier).state ==
+            TaskType.STX.name ||
             ref.watch(nextTypeTaskState.notifier).state == TaskType.STX.name) {
           if (isInit) {
             if (ref
@@ -103,6 +105,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                           padding: EdgeInsets.all(4),
                                           decoration: BoxDecoration(
                                               color: ColorTheme.secondary100,
+                                              color: ColorTheme.secondary100,
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(5.r))),
                                           child: Center(
@@ -116,10 +119,19 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                   Icons.star,
                                                   color:
                                                       ColorTheme.secondary500,
+                                                  color:
+                                                      ColorTheme.secondary500,
                                                   size: 12.h,
                                                 ),
                                                 Text(
                                                   " +${listTask[currentQuestionIndex.state].taskReward}",
+                                                  style: SharedComponent
+                                                      .textStyleCustom(
+                                                          typographyType:
+                                                              TypographyType
+                                                                  .body,
+                                                          fontColor: ColorTheme
+                                                              .secondary500),
                                                   style: SharedComponent
                                                       .textStyleCustom(
                                                           typographyType:
@@ -154,6 +166,11 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                           listTask[currentQuestionIndex.state]
                                                   .attachmentPath ??
                                               '')),
+                                    image: DecorationImage(
+                                      image: FileImage(File(
+                                          listTask[currentQuestionIndex.state]
+                                                  .attachmentPath ??
+                                              '')),
                                       fit: BoxFit.cover,
                                     ),
                                     color: ColorTheme.backgroundWhite,
@@ -176,6 +193,10 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                               SizedBox(
                                 height: 150.0,
                                 child: TextFormField(
+                                  readOnly:
+                                      (gamificationData.missionStatusCode ??
+                                              0) >
+                                          1,
                                   controller: _textController,
                                   maxLength: 100,
                                   textInputAction: TextInputAction.done,
@@ -380,6 +401,8 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                               .clear();
                                           _textController.clear();
                                           isInit = true;
+
+
                                           showDialog(
                                             context: context,
                                             builder: (context) {
@@ -402,7 +425,19 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                             await ctrlMission
                                                                 .getMissionList()
                                                                 .whenComplete(
-                                                                    () {});
+                                                                    () {
+                                                              SchedulerBinding
+                                                                  .instance
+                                                                  .addPostFrameCallback(
+                                                                      (_) {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              });
+                                                            });
                                                           });
                                                         })
                                                       });

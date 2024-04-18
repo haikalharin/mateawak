@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
@@ -23,6 +24,7 @@ class TaskMultiChoiceScreen extends ConsumerStatefulWidget {
 class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
   // int currentQuestionIndex = 0;
   List<int> listData = [];
+  bool isInit =true;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,15 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
         final listSelectedOption = ref.watch(listSelectOptionState.notifier);
         final listTask = ref.watch(listTaskState);
         final currentQuestionProgress = ref.watch(currentProgressState);
+        final gamificationData = ref.watch(gamificationState);
         final lengthAnswer = ref.watch(listTaskState).length;
+        if(isInit) {
+          isInit = false;
+          listData.addAll(ref
+              .watch(listSelectOptionState
+              .notifier)
+              .state);
+        }
         return Scaffold(
             backgroundColor: ColorTheme.backgroundLight,
             body: ListView(
@@ -152,6 +162,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                 var listAnswer =
                                     listTask[currentQuestionIndex.state]
                                         .answerData;
+
                                 return Container(
                                   margin:
                                       const EdgeInsets.symmetric(vertical: 8.0),
@@ -177,19 +188,25 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                         .contains(
                                             listAnswer?[index].answerId ?? 0),
                                     onChanged: (bool? value) {
-                                      setState(() {
-                                        if (value != null && value) {
-                                          listData.add(
-                                              listAnswer?[index].answerId ?? 0);
-                                        } else {
-                                          listData.remove(
-                                              listAnswer?[index].answerId ?? 0);
-                                        }
-                                        ref
-                                            .watch(
-                                                listSelectOptionState.notifier)
-                                            .state = listData;
-                                      });
+                                      if ((gamificationData.missionStatusCode ??
+                                              0) <=
+                                          1) {
+                                        setState(() {
+                                          if (value != null && value) {
+                                            listData.add(
+                                                listAnswer?[index].answerId ??
+                                                    0);
+                                          } else {
+                                            listData.remove(
+                                                listAnswer?[index].answerId ??
+                                                    0);
+                                          }
+                                          ref
+                                              .watch(listSelectOptionState
+                                                  .notifier)
+                                              .state = listData;
+                                        });
+                                      }
                                     },
                                   ),
                                 );
@@ -382,7 +399,8 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                           await ctrlMission
                                                               .getMissionList()
                                                               .whenComplete(
-                                                                  () {});
+                                                                  () {
+                                                                  });
                                                         });
                                                       })
                                                     });

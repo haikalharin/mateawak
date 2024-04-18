@@ -19,12 +19,14 @@ class TaskDatumAnswerRequestRemote {
   Id? taskId;
   String? answer;
   String? attachment;
+  String? attachmentName;
   int? attachmentId;
 
   TaskDatumAnswerRequestRemote({
     this.taskId,
     this.answer,
     this.attachment,
+    this.attachmentName,
     this.attachmentId,
   });
 
@@ -32,12 +34,14 @@ class TaskDatumAnswerRequestRemote {
     Id? taskId,
     String? answer,
     String? attachment,
+    String? attachmentName,
     int? attachmentId,
   }) =>
       TaskDatumAnswerRequestRemote(
         taskId: taskId ?? this.taskId,
         answer: answer ?? this.answer,
         attachment: attachment ?? this.attachment,
+        attachmentName: attachmentName ?? this.attachmentName,
         attachmentId: attachmentId ?? this.attachmentId,
       );
 

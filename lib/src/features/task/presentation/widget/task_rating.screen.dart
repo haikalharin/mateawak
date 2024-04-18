@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
@@ -160,16 +161,19 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                 color: Colors.amber,
                               ),
                               onRatingUpdate: (rating) {
-                                if (rating != 0) {
-                                  if (listSelectedOption.state.isNotEmpty) {
+                                if ((gamificationData.missionStatusCode ?? 0) <=
+                                    1) {
+                                  if (rating != 0) {
+                                    if (listSelectedOption.state.isNotEmpty) {
+                                      ref
+                                          .watch(listSelectOptionState.notifier)
+                                          .state
+                                          .clear();
+                                    }
                                     ref
                                         .watch(listSelectOptionState.notifier)
-                                        .state
-                                        .clear();
+                                        .state = [rating.toInt()];
                                   }
-                                  ref
-                                      .watch(listSelectOptionState.notifier)
-                                      .state = [rating.toInt()];
                                 }
                               },
                             ),
@@ -332,6 +336,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                       ref
                                           .watch(listSelectOptionState.notifier)
                                           .state = [];
+
                                       showDialog(
                                         context: context,
                                         builder: (context) {
@@ -353,7 +358,12 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                         await ctrlMission
                                                             .getMissionList()
                                                             .whenComplete(
-                                                                () {});
+                                                                () {
+                                                                  SchedulerBinding.instance.addPostFrameCallback((_) {
+                                                                    Navigator.of(context).pop();
+                                                                    Navigator.of(context).pop();
+                                                                  });
+                                                                });
                                                       });
                                                     })
                                                   });

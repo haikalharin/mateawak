@@ -1,9 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
+import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 
@@ -33,7 +34,8 @@ class _TaskSingleChoiceScreenState
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final ctrl = ref.watch(taskControllerProvider.notifier);
-        final ctrlMission = ref.read(mainNavControllerProvider.notifier);
+        final ctrlMainNav = ref.read(mainNavControllerProvider.notifier);
+        final ctrlMission = ref.read(missionControllerProvider.notifier);
         final currentQuestionIndex = ref.watch(currentIndexState.notifier);
         final listSelectedOption = ref.watch(listSelectOptionState.notifier);
         final currentQuestionProgress = ref.watch(currentProgressState);
@@ -180,24 +182,26 @@ class _TaskSingleChoiceScreenState
                                             ? listSelectedOption.state.first
                                             : 0,
                                     onChanged: (int? value) {
-                                      setState(() {
-                                        if (value != null) {
-                                          if (listSelectedOption
-                                              .state.isNotEmpty) {
+                                      if((gamificationData.missionStatusCode??0)<=1) {
+                                        setState(() {
+                                          if (value != null) {
+                                            if (listSelectedOption.state
+                                                .isNotEmpty) {
+                                              ref
+                                                  .watch(listSelectOptionState
+                                                  .notifier)
+                                                  .state
+                                                  .clear();
+                                            }
                                             ref
                                                 .watch(listSelectOptionState
-                                                    .notifier)
-                                                .state
-                                                .clear();
+                                                .notifier)
+                                                .state = [
+                                              listAnswer?[index].answerId ?? 0
+                                            ];
                                           }
-                                          ref
-                                              .watch(listSelectOptionState
-                                                  .notifier)
-                                              .state = [
-                                            listAnswer?[index].answerId ?? 0
-                                          ];
-                                        }
-                                      });
+                                        });
+                                      }
                                     },
                                   ),
                                 );
@@ -339,7 +343,7 @@ class _TaskSingleChoiceScreenState
                                       });
                                     });
                                   } else {
-                                    ctrl
+                                   await ctrl
                                         .saveAnswer(
                                             listTask[currentQuestionIndex.state]
                                                     .taskId ??
@@ -361,9 +365,6 @@ class _TaskSingleChoiceScreenState
                                             .state++;
                                       }
 
-                                      ref
-                                          .watch(listSelectOptionState.notifier)
-                                          .state = [];
                                       showDialog(
                                         context: context,
                                         builder: (context) {
@@ -374,7 +375,7 @@ class _TaskSingleChoiceScreenState
                                                   "Are you sure want to leave",
                                               label: "Submit",
                                               type: DialogType.mission,
-                                              onClosed: () async => {
+                                              onClosed: () async {
                                                     await ctrl
                                                         .putAnswerFinal()
                                                         .whenComplete(() async {
@@ -383,11 +384,16 @@ class _TaskSingleChoiceScreenState
                                                           .whenComplete(
                                                               () async {
                                                         await ctrlMission
-                                                            .fetchMissionList()
+                                                            .getMissionList()
                                                             .whenComplete(
-                                                                () {});
+                                                                () {
+                                                                  SchedulerBinding.instance.addPostFrameCallback((_) {
+                                                                    Navigator.of(context).pop();
+                                                                    Navigator.of(context).pop();
+                                                                  });
+                                                                });
                                                       });
-                                                    })
+                                                    });
                                                   });
                                         },
                                       );

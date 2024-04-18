@@ -813,8 +813,13 @@ const TaskDatumAnswerSchema = Schema(
       name: r'attachmentId',
       type: IsarType.long,
     ),
-    r'taskId': PropertySchema(
+    r'attachmentName': PropertySchema(
       id: 3,
+      name: r'attachmentName',
+      type: IsarType.string,
+    ),
+    r'taskId': PropertySchema(
+      id: 4,
       name: r'taskId',
       type: IsarType.long,
     )
@@ -843,6 +848,12 @@ int _taskDatumAnswerEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
+  {
+    final value = object.attachmentName;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -855,7 +866,8 @@ void _taskDatumAnswerSerialize(
   writer.writeString(offsets[0], object.answer);
   writer.writeString(offsets[1], object.attachment);
   writer.writeLong(offsets[2], object.attachmentId);
-  writer.writeLong(offsets[3], object.taskId);
+  writer.writeString(offsets[3], object.attachmentName);
+  writer.writeLong(offsets[4], object.taskId);
 }
 
 TaskDatumAnswer _taskDatumAnswerDeserialize(
@@ -868,7 +880,8 @@ TaskDatumAnswer _taskDatumAnswerDeserialize(
     answer: reader.readStringOrNull(offsets[0]),
     attachment: reader.readStringOrNull(offsets[1]),
     attachmentId: reader.readLongOrNull(offsets[2]),
-    taskId: reader.readLongOrNull(offsets[3]),
+    attachmentName: reader.readStringOrNull(offsets[3]),
+    taskId: reader.readLongOrNull(offsets[4]),
   );
   return object;
 }
@@ -887,6 +900,8 @@ P _taskDatumAnswerDeserializeProp<P>(
     case 2:
       return (reader.readLongOrNull(offset)) as P;
     case 3:
+      return (reader.readStringOrNull(offset)) as P;
+    case 4:
       return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1273,6 +1288,160 @@ extension TaskDatumAnswerQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      attachmentNameIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'attachmentName',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      attachmentNameIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'attachmentName',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      attachmentNameEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'attachmentName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      attachmentNameGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'attachmentName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      attachmentNameLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'attachmentName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      attachmentNameBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'attachmentName',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      attachmentNameStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'attachmentName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      attachmentNameEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'attachmentName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      attachmentNameContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'attachmentName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      attachmentNameMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'attachmentName',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      attachmentNameIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'attachmentName',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      attachmentNameIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'attachmentName',
+        value: '',
       ));
     });
   }

@@ -1,3 +1,4 @@
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -83,14 +84,13 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                     .whenComplete(() async {
                                   await ctrlMission
                                       .getMissionList()
-                                      .whenComplete(() async {
-                                  });
+                                      .whenComplete(() async {});
                                 });
                               })
                             });
                   },
                 );
-                return Future.value(true);
+                return Future.value(false);
               },
               child: Scaffold(
                 backgroundColor: ColorTheme.backgroundLight,
@@ -109,22 +109,20 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                 content: "Are you sure want to leave",
                                 label: "Stay",
                                 type: DialogType.question,
-                                onClosed: () async => {
-                                      await ctrl
-                                          .putAnswerFinal()
-                                          .whenComplete(() async {
-                                        await ctrl
-                                            .changeStatusTask(isDone: false)
-                                            .whenComplete(() async {
-                                          await ctrlMission
-                                              .getMissionList()
-                                              .whenComplete(() async {
-                                            //Navigator.of(context).pop();
-                                            //Navigator.of(context).pop();
-                                          });
-                                        });
-                                      })
+                                onClosed: () async {
+                                  await ctrl
+                                      .putAnswerFinal()
+                                      .whenComplete(() async {
+                                    await ctrl
+                                        .changeStatusTask(isDone: false)
+                                        .whenComplete(() async {
+                                      await ctrlMission
+                                          .getMissionList()
+                                          .whenComplete(() {
+                                      });
                                     });
+                                  });
+                                });
                           });
                     }),
                 body: Column(
