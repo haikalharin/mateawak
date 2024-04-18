@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -58,8 +59,10 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
         final listTask = ref.watch(listTaskState);
         final gamificationData = ref.watch(gamificationState);
         if (ref.watch(previousTypeTaskState.notifier).state ==
-                TaskType.STX.name ||
-            ref.watch(nextTypeTaskState.notifier).state == TaskType.STX.name) {
+                TaskType.ASM.name ||
+            ref.watch(currentTypeTaskState.notifier).state ==
+                TaskType.ASM.name ||
+            ref.watch(nextTypeTaskState.notifier).state == TaskType.ASM.name) {
           if (isInit) {
             if (ref
                 .watch(listSelectOptionStringState.notifier)
@@ -195,32 +198,30 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                             width: MediaQuery.of(context)
                                                 .size
                                                 .width,
-                                            child: Expanded(
-                                              child: RichText(
-                                                text: TextSpan(
-                                                  text:
-                                                      'Evidence (one file only)',
-                                                  style: SharedComponent
-                                                      .textStyleCustom(
-                                                          typographyType:
-                                                              TypographyType
-                                                                  .body,
-                                                          fontColor: ColorTheme
-                                                              .textDark),
-                                                  children: [
-                                                    TextSpan(
-                                                      text: '*',
-                                                      style: SharedComponent
-                                                          .textStyleCustom(
-                                                              typographyType:
-                                                                  TypographyType
-                                                                      .body,
-                                                              fontColor:
-                                                                  ColorTheme
-                                                                      .danger500),
-                                                    ),
-                                                  ],
-                                                ),
+                                            child: RichText(
+                                              text: TextSpan(
+                                                text:
+                                                    'Evidence (one file only)',
+                                                style: SharedComponent
+                                                    .textStyleCustom(
+                                                        typographyType:
+                                                            TypographyType
+                                                                .body,
+                                                        fontColor: ColorTheme
+                                                            .textDark),
+                                                children: [
+                                                  TextSpan(
+                                                    text: '*',
+                                                    style: SharedComponent
+                                                        .textStyleCustom(
+                                                            typographyType:
+                                                                TypographyType
+                                                                    .body,
+                                                            fontColor:
+                                                                ColorTheme
+                                                                    .danger500),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),
@@ -245,22 +246,28 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                 ),
                                                 InkWell(
                                                   onTap: () async {
-                                                    await File(attachment.state)
-                                                        .delete()
-                                                        .whenComplete(() {
-                                                      setState(() {
-                                                        ref
-                                                            .read(
-                                                                attachmentNameState
-                                                                    .notifier)
-                                                            .state = '';
-                                                        ref
-                                                            .read(
-                                                                attachmentPathState
-                                                                    .notifier)
-                                                            .state = '';
+                                                    if ((gamificationData
+                                                                .missionStatusCode ??
+                                                            0) <=
+                                                        1) {
+                                                      await File(
+                                                              attachment.state)
+                                                          .delete()
+                                                          .whenComplete(() {
+                                                        setState(() {
+                                                          ref
+                                                              .read(
+                                                                  attachmentNameState
+                                                                      .notifier)
+                                                              .state = '';
+                                                          ref
+                                                              .read(
+                                                                  attachmentPathState
+                                                                      .notifier)
+                                                              .state = '';
+                                                        });
                                                       });
-                                                    });
+                                                    }
                                                   },
                                                   child: Icon(
                                                     Icons.cancel,
@@ -278,7 +285,11 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                   ))
                                 : InkWell(
                                     onTap: () {
-                                      pickDocFile();
+                                      if ((gamificationData.missionStatusCode ??
+                                              0) <=
+                                          1) {
+                                        pickDocFile();
+                                      }
                                     },
                                     child: DottedBorder(
                                       color: ColorTheme.primary500,
@@ -321,14 +332,12 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                                 .size
                                                                 .width /
                                                             1.5,
-                                                        child: Expanded(
-                                                          child: Text(
-                                                            'Drop your files here or click to upload',
-                                                            style: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .titleLarge,
-                                                          ),
+                                                        child: Text(
+                                                          'Drop your files here or click to upload',
+                                                          style: Theme.of(
+                                                                  context)
+                                                              .textTheme
+                                                              .titleLarge,
                                                         ),
                                                       ),
                                                       Container(
@@ -337,14 +346,12 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                                 .size
                                                                 .width /
                                                             1.5,
-                                                        child: Expanded(
-                                                          child: Text(
-                                                            "Allowed files .jpg, .jpeg, .png, .gif, .pdf, .doc",
-                                                            style: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .bodyLarge,
-                                                          ),
+                                                        child: Text(
+                                                          "Allowed files .jpg, .jpeg, .png, .gif, .pdf, .doc",
+                                                          style: Theme.of(
+                                                                  context)
+                                                              .textTheme
+                                                              .bodyLarge,
                                                         ),
                                                       ),
                                                     ],
@@ -358,14 +365,12 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                             const SizedBox(height: 8.0),
                             Container(
                               width: MediaQuery.of(context).size.width,
-                              child: Expanded(
-                                child: Text(
-                                  'Please ensure that your file is in the correct format.',
-                                  style: TextStyle(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: ColorTheme.textLightDark,
-                                  ),
+                              child: Text(
+                                'Please ensure that your file is in the correct format.',
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: ColorTheme.textLightDark,
                                 ),
                               ),
                             ),
@@ -376,6 +381,9 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                             SizedBox(
                               height: 150.0,
                               child: TextFormField(
+                                readOnly:
+                                    (gamificationData.missionStatusCode ?? 0) >
+                                        1,
                                 controller: _textController,
                                 maxLength: 100,
                                 textInputAction: TextInputAction.done,
@@ -498,6 +506,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                   0,
                                               isLast: false,
                                               attachment: attachment.state,
+                                              attachmentName:
+                                                  attachmentName.state,
                                               listSelectedOption:
                                                   listSelectedOptionString,
                                               type: listTask[
@@ -555,6 +565,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                 0,
                                             isLast: true,
                                             attachment: attachment.state,
+                                            attachmentName:
+                                                attachmentName.state,
                                             listSelectedOption:
                                                 listSelectedOptionString,
                                             type: listTask[currentQuestionIndex
@@ -598,8 +610,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                               () async {
                                                         await ctrlMission
                                                             .getMissionList()
-                                                            .whenComplete(() {
-                                                        });
+                                                            .whenComplete(
+                                                                () {});
                                                       });
                                                     })
                                                   });
@@ -610,8 +622,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                        content:
-                                            Text('Please write and fill your answer')),
+                                        content: Text(
+                                            'Please write and fill your answer')),
                                   );
                                 }
                               },

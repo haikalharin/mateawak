@@ -1,3 +1,4 @@
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -82,17 +83,13 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                     .whenComplete(() async {
                                   await ctrlMission
                                       .getMissionList()
-                                      .whenComplete(() async {
-                                    Navigator.of(context).pop();
-                                    Navigator.of(context).pop();
-
-                                  });
+                                      .whenComplete(() async {});
                                 });
                               })
                             });
                   },
                 );
-                return Future.value(true);
+                return Future.value(false);
               },
               child: Scaffold(
                 backgroundColor: ColorTheme.backgroundLight,
@@ -111,22 +108,20 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                 content: "Are you sure want to leave",
                                 label: "Stay",
                                 type: DialogType.question,
-                                onClosed: () async => {
-                                      await ctrl
-                                          .putAnswerFinal()
-                                          .whenComplete(() async {
-                                        await ctrl
-                                            .changeStatusTask(isDone: false)
-                                            .whenComplete(() async {
-                                          await ctrlMission
-                                              .getMissionList()
-                                              .whenComplete(() async {
-                                            Navigator.of(context).pop();
-                                            Navigator.of(context).pop();
-                                          });
-                                        });
-                                      })
+                                onClosed: () async {
+                                  await ctrl
+                                      .putAnswerFinal()
+                                      .whenComplete(() async {
+                                    await ctrl
+                                        .changeStatusTask(isDone: false)
+                                        .whenComplete(() async {
+                                      await ctrlMission
+                                          .getMissionList()
+                                          .whenComplete(() {
+                                      });
                                     });
+                                  });
+                                });
                           });
                     }),
                 body: Column(
@@ -152,23 +147,23 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                               Container(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      gamificationData.chapterData?.single
-                                              .chapterName ??
-                                          '',
-                                      style: SharedComponent.textStyleCustom(
-                                          typographyType: TypographyType.largeH5,
-                                          fontColor: ColorTheme.textLightDark)
-                                    ),
-                                    Text(
-                                      'Mission: ${missionData.missionName}',
-                                      style:  SharedComponent.textStyleCustom(
-                                          typographyType: TypographyType.smallH8,
-                                          fontColor: ColorTheme.textLightDark)
-                                    ),
+                                        gamificationData.chapterData?.single
+                                                .chapterName ??
+                                            '',
+                                        style: SharedComponent.textStyleCustom(
+                                            typographyType:
+                                                TypographyType.largeH5,
+                                            fontColor:
+                                                ColorTheme.textLightDark)),
+                                    Text('Mission: ${missionData.missionName}',
+                                        style: SharedComponent.textStyleCustom(
+                                            typographyType:
+                                                TypographyType.smallH8,
+                                            fontColor:
+                                                ColorTheme.textLightDark)),
                                   ],
                                 ),
                               ),
@@ -177,10 +172,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                 height: 26,
                                 decoration: BoxDecoration(
                                     color: ColorTheme.secondary100,
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.r))),
-                                child:
-                                    const Center(child: Text('In Progress')),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.r))),
+                                child: const Center(child: Text('In Progress')),
                               ),
                             ],
                           ),
@@ -189,17 +183,14 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  'Overall progress',
-                                  style: SharedComponent.textStyleCustom(
-                                      typographyType: TypographyType.body,
-                                      fontColor: ColorTheme.textDark)
-                                ),
+                                Text('Overall progress',
+                                    style: SharedComponent.textStyleCustom(
+                                        typographyType: TypographyType.body,
+                                        fontColor: ColorTheme.textDark)),
                                 Stack(
                                   children: [
                                     Container(
-                                        padding:
-                                            const EdgeInsets.only(left: 8),
+                                        padding: const EdgeInsets.only(left: 8),
                                         height: 24,
                                         width: double.infinity,
                                         decoration: BoxDecoration(
@@ -209,12 +200,13 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                         ),
                                         child: Align(
                                             alignment: Alignment.centerLeft,
-                                            child: Text(
-                                              '0%',
-                                              style: SharedComponent.textStyleCustom(
-                                                  typographyType: TypographyType.body,
-                                                  fontColor: ColorTheme.primary500)
-                                            ))),
+                                            child: Text('0%',
+                                                style: SharedComponent
+                                                    .textStyleCustom(
+                                                        typographyType:
+                                                            TypographyType.body,
+                                                        fontColor: ColorTheme
+                                                            .primary500)))),
                                     Container(
                                         height: 24,
                                         padding:
@@ -233,9 +225,12 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                             alignment: Alignment.centerRight,
                                             child: Text(
                                                 '${((currentQuestionProgress) * 100) ~/ listTask.length}%',
-                                                style: SharedComponent.textStyleCustom(
-                                                    typographyType: TypographyType.body,
-                                                    fontColor: ColorTheme.backgroundLight))))
+                                                style: SharedComponent
+                                                    .textStyleCustom(
+                                                        typographyType:
+                                                            TypographyType.body,
+                                                        fontColor: ColorTheme
+                                                            .backgroundLight))))
                                   ],
                                 ),
                               ],
@@ -271,7 +266,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                           )
                         : Container(),
                     listTask[currentQuestionIndex.state].taskTypeCode ==
-                        TaskType.ASM.name
+                            TaskType.ASM.name
                         ? const Expanded(
                             child: TaskFileScreen(),
                           )

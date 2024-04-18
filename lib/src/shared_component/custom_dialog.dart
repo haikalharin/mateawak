@@ -79,10 +79,10 @@ class CustomDialog extends StatelessWidget {
                   : SharedComponent.btnWidget(
                       label: label,
                       typographyType: TypographyType.body,
-                      onPressed: () {
+                      onPressed: () async {
                         context.pop();
                         if (onClosed == null) return;
-                        onClosed!();
+                      await  onClosed!();
                       },
                       radius: 5.r,
                     ),
@@ -105,7 +105,7 @@ Widget confirmationButton(
         typographyType: TypographyType.body,
         color: ColorTheme.neutral200,
         fontColor: ColorTheme.neutral600,
-        onPressed: () {
+        onPressed: () async {
           context.pop();
           if (type == DialogType.question) {
             showDialog(
@@ -120,12 +120,12 @@ Widget confirmationButton(
                           ? "Okay"
                           : "Back to Mission List",
                       type: DialogType.success,
-                      onClosed: () async => {
-                            Navigator.of(context).pop(),
-                            Navigator.of(context).pop()
+                      onClosed: () async  {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
                           });
                 });
-            onClosed!();
+            await onClosed!();
           }
         },
         radius: 5.r,

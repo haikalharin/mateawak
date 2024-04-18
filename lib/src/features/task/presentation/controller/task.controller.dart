@@ -84,6 +84,8 @@ class TaskController extends _$TaskController {
   var answer = '';
   var currentTypeTask = '';
   var currentTaskId = 0;
+  var attachment = '';
+  var attachmentName = '';
   List<int> listSelectOptionCurrent = [];
   List<String> listSelectOptionCurrentString = [];
   @override
@@ -179,6 +181,7 @@ class TaskController extends _$TaskController {
       listData.add(TaskDatumAnswer(
           taskId: element.taskId,
           answer: element.answer,
+          attachmentName: element.attachmentName,
           attachment: element.attachment));
     }
 
@@ -202,7 +205,7 @@ class TaskController extends _$TaskController {
       data =
           gamification.copyWith(missionStatusCode: 2, missionStatus: 'Submitted');
     } else {
-      if (gamification.missionStatusCode != 2) {
+      if ((gamification.missionStatusCode??0) < 1) {
         data = gamification.copyWith(
             missionStatusCode: 1, missionStatus: 'In Progress');
       }
@@ -224,6 +227,7 @@ class TaskController extends _$TaskController {
           .add(TaskDatumAnswer(
           taskId: value.taskId,
           answer: value.answer,
+          attachmentName: value.attachmentName,
           attachment: value.attachment));
     });
   }
@@ -245,46 +249,55 @@ class TaskController extends _$TaskController {
     List<String> listString = [];
     List<int> listInt = [];
     List<int> numbersList = [];
-    List<TaskDatumAnswer> currentAnswer =  await ref
-        .watch(getAnswerFinalLocalProvider(employeeMissionId:employeeMissionId ).future);
-    List<TaskDatumAnswer> listTaskAnswer = currentAnswer.isNotEmpty?currentAnswer:[];
-    List<TaskDatumAnswerRequestRemote> dataCek = [];
-    if(listTaskAnswer.isNotEmpty) {
-      for (var element in listTaskAnswer) {
-        dataCek.add(TaskDatumAnswerRequestRemote(
-            taskId: element.taskId,
-            answer: element.answer,
-            attachment: element.attachment));
-      }
-    }
-     index = ref.watch(currentIndexState);
-     answer = '';
-     currentTypeTask = ref.watch(listTaskState)[index].taskTypeCode ?? '';
-     currentTaskId = ref.watch(listTaskState)[index].taskId??0;
-    for (var element in dataCek) {
-      if (element.taskId == currentTaskId) {
-        // await deleteAnswer(dataCek);
-        await putTaskAnswer(element);
-        answer = element.answer ?? '';
-      }
-    }
+  var currentAnswer =  ref
+        .read(getAnswerFinalLocalProvider(employeeMissionId:employeeMissionId ).future);
+        List<TaskDatumAnswerRequestRemote> dataCek = [];
 
-    if (answer != '') {
-      if (currentTypeTask == TaskType.STX.name) {
-        listString.add(answer);
-        listSelectOptionCurrentString = listString;
-      } else {
-        if (currentTypeTask == TaskType.MCQ.name) {
-          numbersList = answer.split(';').map(int.parse).toList();
-          listInt.addAll(numbersList);
-        } else {
-          listInt.add(int.parse(answer != '' ? answer : '0'));
+    state = await AsyncValue.guard(() => currentAnswer).then((value) async {
+      List<TaskDatumAnswer> listTaskAnswer = value.value ?? [];
+
+
+
+      if (listTaskAnswer.isNotEmpty) {
+        for (var element in listTaskAnswer) {
+          dataCek.add(TaskDatumAnswerRequestRemote(
+              taskId: element.taskId,
+              answer: element.answer,
+              attachmentName: element.attachmentName,
+              attachment: element.attachment));
         }
-
-        listSelectOptionCurrent = listInt;
       }
-    }
-    state = const AsyncValue.data(null);
+      index = ref.watch(currentIndexState);
+      currentTypeTask = ref.watch(listTaskState)[index].taskTypeCode ?? '';
+      currentTaskId = ref.watch(listTaskState)[index].taskId ?? 0;
+      for (var element in dataCek) {
+        if (element.taskId == currentTaskId) {
+          // await deleteAnswer(dataCek);
+          await putTaskAnswer(element);
+          answer = element.answer ?? '';
+          attachment = element.attachment ?? '';
+          attachmentName = element.attachmentName ?? '';
+        }
+      }
+
+      if (answer != '') {
+        if (currentTypeTask == TaskType.STX.name ||
+            currentTypeTask == TaskType.ASM.name) {
+          listString.add(answer);
+          listSelectOptionCurrentString = listString;
+        } else {
+          if (currentTypeTask == TaskType.MCQ.name) {
+            numbersList = answer.split(';').map(int.parse).toList();
+            listInt.addAll(numbersList);
+          } else {
+            listInt.add(int.parse(answer != '' ? answer : '0'));
+          }
+
+          listSelectOptionCurrent = listInt;
+        }
+      }
+      return value;
+    });
   }
 
   Future<void> prevQuestion() async {
@@ -294,6 +307,8 @@ class TaskController extends _$TaskController {
     List<TaskDatumAnswerRequestRemote> dataCek = await getTaskAnswer();
     var index = ref.watch(currentIndexState);
     var answer = '';
+    var attachment = '';
+    var attachmentName = '';
     var previousTypeTask =
         ref.watch(listTaskState)[index - 1].taskTypeCode ?? '';
     var previousTaskId = ref.watch(listTaskState)[index - 1].taskId;
@@ -302,11 +317,13 @@ class TaskController extends _$TaskController {
     for (var element in dataCek) {
       if (element.taskId == previousTaskId) {
         answer = element.answer ?? '';
+        attachment = element.attachment??'';
+        attachmentName = element.attachmentName??'';
       }
     }
 
     if (answer != '') {
-      if (previousTypeTask == TaskType.STX.name) {
+      if (previousTypeTask == TaskType.STX.name || currentTypeTask == TaskType.ASM.name) {
         listString.add(answer);
         ref
             .watch(previousTypeTaskState.notifier)
@@ -314,6 +331,10 @@ class TaskController extends _$TaskController {
         ref
             .watch(listSelectOptionPrevStringState.notifier)
             .state = listString;
+
+        ref.watch(attachmentPathState.notifier).state = attachment;
+        ref.watch(attachmentNameState.notifier).state = attachmentName;
+
       } else {
         if (previousTypeTask == TaskType.MCQ.name) {
           numbersList = answer.split(';').map(int.parse).toList();
@@ -336,22 +357,40 @@ class TaskController extends _$TaskController {
     List<String> listString = [];
     List<int> listInt = [];
     List<int> numbersList = [];
-    List<TaskDatumAnswerRequestRemote> dataCek = await getTaskAnswer();
+    List<TaskDatumAnswer> currentAnswer =  await ref
+        .watch(getAnswerFinalLocalProvider(employeeMissionId:ref
+        .watch(gamificationState.notifier)
+        .state.employeeMissionId??0 ).future);
+    List<TaskDatumAnswer> listTaskAnswer = currentAnswer.isNotEmpty?currentAnswer:[];
+    List<TaskDatumAnswerRequestRemote> dataCek = [];
+    if(listTaskAnswer.isNotEmpty) {
+      for (var element in listTaskAnswer) {
+        dataCek.add(TaskDatumAnswerRequestRemote(
+            taskId: element.taskId,
+            answer: element.answer,
+            attachment: element.attachment));
+      }
+    }
     var index = ref.watch(currentIndexState);
     var answer = '';
+    var attachment = '';
+    var attachmentName = '';
     var nextTypeTask =
     !isLast ? ref.watch(listTaskState)[index + 1].taskTypeCode ?? '' : '';
+
     var nextTaskId = !isLast ? ref.watch(listTaskState)[index + 1].taskId : 0;
     TaskDatumAnswerRequestRemote taskDatumAnswer =
     TaskDatumAnswerRequestRemote();
     for (var element in dataCek) {
       if (element.taskId == nextTaskId) {
         answer = element.answer ?? '';
+        attachment = element.attachment??'';
+        attachmentName = element.attachmentName??'';
       }
     }
 
     if (answer != '') {
-      if (nextTypeTask == TaskType.STX.name) {
+      if (nextTypeTask == TaskType.STX.name || currentTypeTask == TaskType.ASM.name) {
         listString.add(answer);
         ref
             .watch(nextTypeTaskState.notifier)
@@ -359,6 +398,9 @@ class TaskController extends _$TaskController {
         ref
             .watch(listSelectOptionNextStringState.notifier)
             .state = listString;
+        ref.watch(attachmentPathState.notifier).state = attachment;
+        ref.watch(attachmentNameState.notifier).state = attachmentName;
+
       } else {
         if (nextTypeTask == TaskType.MCQ.name) {
           numbersList = answer.split(';').map(int.parse).toList();
@@ -379,6 +421,7 @@ class TaskController extends _$TaskController {
   Future<void> saveAnswer(int questionId,
       {required List<dynamic>? listSelectedOption,
         String? attachment,
+        String? attachmentName,
         required bool isLast,
         required String type}) async {
     TaskDatumAnswerRequestRemote dataAnswer = TaskDatumAnswerRequestRemote();
@@ -393,18 +436,20 @@ class TaskController extends _$TaskController {
             ? listSelectedOption[i]
             : listSelectedOption[i].toString();
         data += code;
-        if (i == listSelectedOption.length - 1) {
-          dataAnswer = TaskDatumAnswerRequestRemote(
-              taskId: questionId, answer: data, attachment: attachment ?? '');
+        if(listSelectedOption.length > 1){
+          if (i < listSelectedOption.length-1) {
+            data += ';';
+          }
 
-          await putTaskAnswer(dataAnswer);
-          listTaskAnswer.add(dataAnswer);
-          if (isLast) {}
-        }
-        if (i != listSelectedOption.length) {
-          data += ';';
         }
       }
+        dataAnswer = TaskDatumAnswerRequestRemote(
+            taskId: questionId, answer: data, attachment: attachment ?? '',attachmentName: attachmentName??'');
+
+        await putTaskAnswer(dataAnswer);
+        listTaskAnswer.add(dataAnswer);
+        if (isLast) {}
+
     }
   }
 
