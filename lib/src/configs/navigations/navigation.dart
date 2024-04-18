@@ -6,6 +6,7 @@ import 'package:module_etamkawa/src/features/mission/domain/gamification_respons
 import 'package:module_etamkawa/src/features/mission_detail/presentation/mission.detail.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/task.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/task_assignment.screen.dart';
+import 'package:module_etamkawa/src/features/validation_detail/presentation/validation.detail.screen.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../features/main_nav/presentation/main_nav_screen.dart';
@@ -56,6 +57,16 @@ GoRouter goRouter(GoRouterRef ref) {
                               child: TaskAssignmentScreen()));
                     }),
               ]),
+          GoRoute(
+            path: detailValidationEtamkawa,
+            name: detailValidationEtamkawa,
+            builder: (BuildContext context, GoRouterState state) {
+              return SharedComponent.banner(
+                  dotenv.env[EnvConstant.environment]!,
+                  const ConnectionListenerWidget(
+                      child: ValidationDetailScreen()));
+            },
+          ),
         ]),
   ]);
 }
@@ -91,22 +102,15 @@ List<RouteBase> routeEtamkawa = [
                         const ConnectionListenerWidget(child: TaskScreen()));
                   }),
             ]),
-
-        // GoRoute(
-        //     path: notification,
-        //     name: notification,
-        //     builder: (BuildContext context, GoRouterState state) {
-        //       return SharedComponent.banner(
-        //           dotenv.env[EnvConstant.environment]!,
-        //           const ConnectionListenerWidget(child: NotificationScreen()));
-        //     }),
-        // GoRoute(
-        //     path: unitbreakdown,
-        //     name: unitbreakdown,
-        //     builder: (BuildContext context, GoRouterState state) {
-        //       return SharedComponent.banner(
-        //           dotenv.env[EnvConstant.environment]!,
-        //           const ConnectionListenerWidget(child: UnitBreakdownScreen()));
-        //     }),
+        GoRoute(
+          path: detailValidationEtamkawa,
+          name: detailValidationEtamkawa,
+          builder: (BuildContext context, GoRouterState state) {
+            return SharedComponent.banner(
+                dotenv.env[EnvConstant.environment]!,
+                const ConnectionListenerWidget(
+                    child: ValidationDetailScreen()));
+          },
+        ),
       ]),
 ];

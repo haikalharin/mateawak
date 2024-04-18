@@ -24,6 +24,8 @@ class ImageConstant {
   //mission
   static const String iconReward = 'assets/images/icon_reward.svg';
   static const String iconCalendar = 'assets/images/icon_calendar.svg';
+  static const String iconChecklist = 'assets/images/icon_checklist.svg';
+  static const String iconValidated = 'assets/images/icon_validated.svg';
   static const String iconTask = 'assets/images/icon_task.svg';
   static const String iconDuration = 'assets/images/icon_duration.svg';
 

@@ -8,6 +8,7 @@ import 'package:module_etamkawa/src/features/overview/domain/download_attachment
 import 'package:module_etamkawa/src/features/overview/domain/unit_breakdown_response.remote.dart';
 import 'package:module_etamkawa/src/features/task/domain/answer_request.remote.dart';
 import 'package:module_etamkawa/src/features/task/domain/task_datum_answer_request.remote.dart';
+import 'package:module_etamkawa/src/features/validation/domain/validation_response.remote.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -33,7 +34,8 @@ Future<Isar> isarInstance(IsarInstanceRef ref) async {
         GamificationResponseRemoteSchema,
         TaskDatumAnswerRequestRemoteSchema,
         AnswerRequestRemoteSchema,
-        GamificationAdditionalDetailRemoteSchema
+        GamificationAdditionalDetailRemoteSchema,
+        ValidationResponseRemoteSchema,
       ], directory: dir.path, name: Constant.etamkawaIsarInstance);
 
   return isar;

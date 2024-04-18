@@ -24,7 +24,7 @@ class TaskMultiChoiceScreen extends ConsumerStatefulWidget {
 class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
   // int currentQuestionIndex = 0;
   List<int> listData = [];
-  bool isInit =true;
+  bool isInit = true;
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +39,9 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
         final currentQuestionProgress = ref.watch(currentProgressState);
         final gamificationData = ref.watch(gamificationState);
         final lengthAnswer = ref.watch(listTaskState).length;
-        if(isInit) {
+        if (isInit) {
           isInit = false;
-          listData.addAll(ref
-              .watch(listSelectOptionState
-              .notifier)
-              .state);
+          listData.addAll(ref.watch(listSelectOptionState.notifier).state);
         }
         return Scaffold(
             backgroundColor: ColorTheme.backgroundLight,
@@ -378,7 +375,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                           builder: (context) {
                                             return CustomDialog(
                                                 title:
-                                                  "Are you sure want to submit your answers",
+                                                    "Are you sure want to submit your answers",
                                                 content:
                                                     "Are you sure want to leave",
                                                 label: "Submit",
@@ -388,19 +385,14 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                           .putAnswerFinal()
                                                           .whenComplete(
                                                               () async {
-                                                          .whenComplete(
-                                                              () async {
                                                         await ctrl
                                                             .changeStatusTask()
-                                                            .whenComplete(
-                                                                () async {
                                                             .whenComplete(
                                                                 () async {
                                                           await ctrlMission
                                                               .getMissionList()
                                                               .whenComplete(
-                                                                  () {
-                                                                  });
+                                                                  () {});
                                                         });
                                                       })
                                                     });

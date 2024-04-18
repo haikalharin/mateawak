@@ -105,7 +105,6 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                           padding: EdgeInsets.all(4),
                                           decoration: BoxDecoration(
                                               color: ColorTheme.secondary100,
-                                              color: ColorTheme.secondary100,
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(5.r))),
                                           child: Center(
@@ -119,19 +118,10 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                   Icons.star,
                                                   color:
                                                       ColorTheme.secondary500,
-                                                  color:
-                                                      ColorTheme.secondary500,
                                                   size: 12.h,
                                                 ),
                                                 Text(
                                                   " +${listTask[currentQuestionIndex.state].taskReward}",
-                                                  style: SharedComponent
-                                                      .textStyleCustom(
-                                                          typographyType:
-                                                              TypographyType
-                                                                  .body,
-                                                          fontColor: ColorTheme
-                                                              .secondary500),
                                                   style: SharedComponent
                                                       .textStyleCustom(
                                                           typographyType:
@@ -166,11 +156,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                           listTask[currentQuestionIndex.state]
                                                   .attachmentPath ??
                                               '')),
-                                    image: DecorationImage(
-                                      image: FileImage(File(
-                                          listTask[currentQuestionIndex.state]
-                                                  .attachmentPath ??
-                                              '')),
+                                  
                                       fit: BoxFit.cover,
                                     ),
                                     color: ColorTheme.backgroundWhite,

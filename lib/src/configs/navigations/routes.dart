@@ -2,6 +2,7 @@ const String homeEtakawaInit = '/';
 const String homeEtakawa = 'home-etamkawa';
 const String testHomeEtakawa = 'test-home-etamkawa';
 const String detailMissionEtamkawa = 'detail-mission-etamkawa';
+const String detailValidationEtamkawa = 'detail-validation-etamkawa';
 const String taskMissionEtamkawa = 'task-mission-etamkawa';
 const String taskAssignmentMissionEtamkawa = 'task-assignment-mission-etamkawa';
 const String setting = 'setting-etamkawa';
