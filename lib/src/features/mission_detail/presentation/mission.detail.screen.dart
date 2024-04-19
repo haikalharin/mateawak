@@ -65,6 +65,8 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                 child: Scaffold(
                     backgroundColor: ColorTheme.neutral100,
                     appBar: SharedComponentEtamkawa.appBar(
+                      backgroundColor: ColorTheme.backgroundWhite,
+                      titleColor: ColorTheme.textDark,
                       context: context,
                       title: 'Mission Detail',
                       brightnessIconStatusBar: Brightness.light,

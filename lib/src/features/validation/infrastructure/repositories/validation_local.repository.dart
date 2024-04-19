@@ -150,7 +150,7 @@ FutureOr<List<ValidationResponseRemote>> getValidationRemote(GetValidationLocalR
     
     await isarInstance.writeTxn(() async {
       await isarInstance.validationResponseRemotes.putAll(
-          listResponse);
+          listAfterInputImage);
     });
     ref.keepAlive();
   }

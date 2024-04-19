@@ -1,8 +1,10 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
 import 'package:module_etamkawa/src/constants/constant.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
+import 'package:module_etamkawa/src/features/overview/presentation/controller/overview.controller.dart';
 import 'package:module_etamkawa/src/features/task/domain/answer_request.remote.dart';
 import 'package:module_etamkawa/src/features/task/presentation/controller/task.controller.dart';
 import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
@@ -87,8 +89,6 @@ FutureOr<bool> putAnswerFinalLocal(PutAnswerFinalLocalRef ref,
   await isarInstance.writeTxn(() async {
     await isarInstance.answerRequestRemotes.put(answerRequestRemote);
   });
-
-  submitMission(ref, answerRequestRemote: answerRequestRemote);
   ref.keepAlive();
 
   return true;
@@ -125,16 +125,20 @@ FutureOr<bool> changeStatusTaskLocal(ChangeStatusTaskLocalRef ref,
   return true;
 }
 
-Future<void> submitMission(PutAnswerFinalLocalRef ref,
+@riverpod
+Future<void> submitMission(SubmitMissionRef ref,
     {required AnswerRequestRemote answerRequestRemote}) async {
+      final userModel = await ref.read(helperUserProvider).getUserProfile();
+    
   final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
   if (isConnectionAvailable) {
+    answerRequestRemote.taskData?.single.attachmentId = 64;
     final connect = ref.read(connectProvider.notifier);
     final response = await connect.post(
         modul: ModuleType.etamkawaGamification,
-        path: "api/mission/submit_employee_mission?${Constant.apiVer}",
-        body: {
-          AnswerRequestRemote,
-        });
+        path: "api/mission/submit_employee_mission?userAccount=${userModel?.email??''}&${Constant.apiVer}",
+        body: 
+          answerRequestRemoteToJson(answerRequestRemote).replaceAll("\\\\", "")
+        );
   }
 }

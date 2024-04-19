@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 
@@ -37,7 +38,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final ctrl = ref.watch(taskControllerProvider.notifier);
-        final ctrlMission = ref.read(mainNavControllerProvider.notifier);
+        final ctrlMission = ref.read(missionControllerProvider.notifier);
         final currentQuestionIndex = ref.watch(currentIndexState.notifier);
         final attachment = ref.watch(attachmentPathState.notifier);
         final attachmentName = ref.watch(attachmentNameState.notifier);
@@ -470,7 +471,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                             child: ElevatedButton(
                               onPressed: () {
                                 if (listSelectedOptionString.isNotEmpty &&
-                                    attachment.state.isNotEmpty) {
+                                    ((gamificationData.chapterData?.single.missionData?.single.isMandatoryAttachment == 1 && attachment.state.isNotEmpty) || gamificationData.chapterData?.single.missionData?.single.isMandatoryAttachment == 0)) {
                                   if ((currentQuestionIndex.state + 1) <
                                           lengthAnswer &&
                                       lengthAnswer != 1) {
@@ -584,7 +585,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                           .whenComplete(
                                                               () async {
                                                         await ctrlMission
-                                                            .fetchMissionList()
+                                                            .getMissionList()
                                                             .whenComplete(() {
                                                         });
                                                       });
