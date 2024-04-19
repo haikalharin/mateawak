@@ -241,48 +241,74 @@ class _TaskSingleChoiceScreenState
                                           MaterialStateProperty.all<Color>(
                                               Colors.white),
                                     ),
-                                    onPressed: () {
-                                      setState(() async {
-                                        ref.refresh(taskControllerProvider);
-                                        await ctrl
-                                            .currentQuestion(
-                                                employeeMissionId:
-                                                    gamificationData
-                                                            .employeeMissionId ??
-                                                        0,
-                                                pagePosition: PagePosition.PREV)
-                                            .whenComplete(() {
-                                          currentQuestionIndex.state--;
-                                          ref
-                                              .watch(
-                                                  currentProgressState.notifier)
-                                              .state--;
-                                          if (ctrl.currentTypeTask ==
-                                                  TaskType.STX.name ||
-                                              ctrl.currentTypeTask ==
-                                                  TaskType.ASM.name) {
-                                            ref
-                                                    .watch(
-                                                        listSelectOptionStringState
-                                                            .notifier)
-                                                    .state =
-                                                ctrl.listSelectOptionCurrentString;
-                                            ref
-                                                .watch(attachmentPathState
-                                                    .notifier)
-                                                .state = ctrl.attachment;
-                                            ref
-                                                .watch(attachmentNameState
-                                                    .notifier)
-                                                .state = ctrl.attachmentName;
-                                          } else {
-                                            ref
-                                                    .watch(listSelectOptionState
+                                    onPressed: () async {
+                                      ref.refresh(taskControllerProvider);
+                                      await ctrl
+                                          .currentQuestion(
+                                              employeeMissionId:
+                                                  gamificationData
+                                                          .employeeMissionId ??
+                                                      0,
+                                              pagePosition: PagePosition.PREV)
+                                          .whenComplete(() {
+                                        currentQuestionIndex.state--;
+                                        ref
+                                            .watch(
+                                                currentProgressState.notifier)
+                                            .state--;
+                                        ref
+                                            .watch(
+                                                currentProgressState.notifier)
+                                            .state--;
+                                        if (ref
+                                                    .watch(currentTypeTaskState
                                                         .notifier)
-                                                    .state =
-                                                ctrl.listSelectOptionCurrent;
-                                          }
-                                        });
+                                                    .state ==
+                                                TaskType.STX.name ||
+                                            ref
+                                                    .watch(currentTypeTaskState
+                                                        .notifier)
+                                                    .state ==
+                                                TaskType.ASM.name) {
+                                          ref
+                                                  .watch(
+                                                      listSelectOptionStringState
+                                                          .notifier)
+                                                  .state =
+                                              ref
+                                                  .watch(
+                                                      listSelectOptionCurrentStringState
+                                                          .notifier)
+                                                  .state;
+                                          ref
+                                                  .watch(attachmentNameState
+                                                      .notifier)
+                                                  .state =
+                                              ref
+                                                  .watch(
+                                                      attachmentNameCurrentState
+                                                          .notifier)
+                                                  .state;
+                                          ref
+                                                  .watch(attachmentPathState
+                                                      .notifier)
+                                                  .state =
+                                              ref
+                                                  .watch(
+                                                      attachmentPathCurrentState
+                                                          .notifier)
+                                                  .state;
+                                        } else {
+                                          ref
+                                                  .watch(listSelectOptionState
+                                                      .notifier)
+                                                  .state =
+                                              ref
+                                                  .watch(
+                                                      listSelectOptionCurrentState
+                                                          .notifier)
+                                                  .state;
+                                        }
                                       });
                                     },
                                     child: Text(
@@ -416,28 +442,29 @@ class _TaskSingleChoiceScreenState
                                           builder: (context) {
                                             return CustomDialog(
                                                 title:
-                                                "Are you sure want to submit your ${(gamificationData.chapterData?.single.missionData?.single.missionTypeName == "Assignment" ? "assignment" : "answers")}",
+                                                    "Are you sure want to submit your ${(gamificationData.chapterData?.single.missionData?.single.missionTypeName == "Assignment" ? "assignment" : "answers")}",
                                                 content:
-                                                "Are you sure want to leave",
+                                                    "Are you sure want to leave",
                                                 label: "Submit",
                                                 type: DialogType.mission,
                                                 onClosed: () async {
                                                   await ctrl
-                                                      .changeStatusTask()
+                                                      .putAnswerFinal(
+                                                          isSubmitted: true)
                                                       .whenComplete(() async {
-                                                    await ctrlMission
-                                                        .getMissionList()
-                                                        .whenComplete(() {
-                                                      ref.refresh(
-                                                          taskControllerProvider);
+                                                    await ctrl
+                                                        .changeStatusTask()
+                                                        .whenComplete(() async {
+                                                      await ctrlMission
+                                                          .getMissionList()
+                                                          .whenComplete(() {});
                                                     });
                                                   });
                                                 });
                                           },
                                         );
+                                        ref.refresh(taskControllerProvider);
                                       });
-
-
                                     });
                                   }
                                 } else {

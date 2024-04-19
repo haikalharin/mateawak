@@ -60,6 +60,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(GetMissionLocalRef r
           item.employeeMissionId == element.employeeMissionId);
           if (!exists) {
             listResponseFinal.add(element);
+
           }
         } else {
           listResponseFinal.add(element);
@@ -160,6 +161,8 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(GetMissionLocalRef r
           ]));
       index++;
     }
+    listResponseFinalFix.clear();
+    listResponseFinal.clear();
     for (var element in listAfterInputImage) {
       DateTime dueDate =  DateTime.parse(element.dueDate??'2024-00-00T00:00:00');
       int different =calculateDifferenceDays(dueDate,DateTime.now());

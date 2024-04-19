@@ -6,6 +6,7 @@ import 'package:module_etamkawa/src/features/task/infrastructure/task_local.repo
 import 'package:module_shared/module_shared.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../shared_component/connection_listener_widget.dart';
 import '../../../../utils/common_utils.dart';
 import '../../../main_nav/presentation/controller/main_nav.controller.dart';
 
@@ -158,7 +159,7 @@ class TaskController extends _$TaskController {
     }
   }
 
-  Future<void> putAnswerFinal() async {
+  Future<void> putAnswerFinal({bool isSubmitted = false}) async {
     final userModel = await ref.read(helperUserProvider).getUserProfile();
     final today = CommonUtils.formatDateRequestParam(DateTime.now().toUtc().toString());
     List<TaskDatumAnswer> listData = [];
@@ -181,8 +182,20 @@ class TaskController extends _$TaskController {
           submittedDate: today,
           status: gamification.missionStatusCode,
           taskData: listData);
-      await ref.watch(
-          putAnswerFinalLocalProvider(answerRequestRemote: taskAnswer).future);
+      final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
+      if (isConnectionAvailable) {
+        if(isSubmitted) {
+          await ref
+              .watch(
+              submitMissionProvider(answerRequestRemote: taskAnswer).future);
+        } else{
+          await ref.watch(
+              putAnswerFinalLocalProvider(answerRequestRemote: taskAnswer).future);
+        }
+      } else {
+        await ref.watch(
+            putAnswerFinalLocalProvider(answerRequestRemote: taskAnswer).future);
+      }
 
     });
      }
@@ -198,10 +211,10 @@ class TaskController extends _$TaskController {
       data =
           gamification.copyWith(missionStatusCode: 2, missionStatus: 'Submitted');
     } else {
-      if ((gamification.missionStatusCode??0) < 1) {
+      // if ((gamification.missionStatusCode??0) < 1) {
         data = gamification.copyWith(
             missionStatusCode: 1, missionStatus: 'In Progress');
-      }
+      // }
     }
     await ref
         .watch(changeStatusTaskLocalProvider(task: data).future)
@@ -348,7 +361,6 @@ class TaskController extends _$TaskController {
             taskId: questionId, answer: data, attachment: attachment ?? '',attachmentName: attachmentName??'');
 
         await putTaskAnswer(dataAnswer);
-        listTaskAnswer.add(dataAnswer);
         if (isLast) {}
 
     }

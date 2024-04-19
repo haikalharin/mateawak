@@ -86,6 +86,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                     Expanded(
                       child: DefaultTabController(
                         length: 3,
+                        initialIndex: 1,
                         child: Column(
                           children: [
                             TabBar(
