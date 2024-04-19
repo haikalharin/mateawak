@@ -4,10 +4,15 @@ import 'package:module_etamkawa/src/features/mission/infrastructure/repositories
 import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../main_nav/presentation/controller/main_nav.controller.dart';
+
 part 'mission.controller.g.dart';
 
 final isScrollProvider = StateProvider.autoDispose<bool>((ref) {
   return false;
+});
+final submitStatusMissionState = StateProvider.autoDispose<SubmitStatus>((ref) {
+  return SubmitStatus.initial;
 });
 
 final indexMtdYtdSliderProvider = StateProvider.autoDispose<int>((ref) => 0);
@@ -47,32 +52,57 @@ class MissionController extends _$MissionController {
 
   Future<void> getMissionListLocal() async {
     var repo = ref.read(getMissionLocalProvider.future);
-
+    ref
+        .watch(submitStatusState.notifier)
+        .state = SubmitStatus.inProgess;
     state = await AsyncValue.guard(() => repo).then((value) async {
-      List<GamificationResponseRemote> listGamificationInProgress = [];
-      List<GamificationResponseRemote> listGamificationAssigned = [];
-      List<GamificationResponseRemote> listGamificationPast = [];
-      if (value.hasValue) {
-        value.value?.forEach((element) async {
-          if (element.missionStatusCode! == 1) {
-            listGamificationInProgress.add(element);
-          } else if (element.missionStatusCode! == 0) {
-            listGamificationAssigned.add(element);
-          } else if (element.missionStatusCode! >= 2) {
-            listGamificationPast.add(element);
-          }
-        });
-        ref.watch(gamificationInProgressState.notifier).state =
-            listGamificationInProgress;
-        ref.watch(gamificationAssignedState.notifier).state =
-            listGamificationAssigned;
-        ref.watch(gamificationPastState.notifier).state = listGamificationPast;
-        ref.watch(listGamificationState.notifier).state = value.value ?? [];
-        ref.watch(fixedGamificationAssigned.notifier).state = value.value ?? [];
-        listGamification = value.value ?? [];
-      }
+     if(value.value != null) {
+       List<GamificationResponseRemote> listGamificationInProgress = [];
+       List<GamificationResponseRemote> listGamificationAssigned = [];
+       List<GamificationResponseRemote> listGamificationPast = [];
+       if (value.hasValue) {
+         value.value?.forEach((element) async {
+           if (element.missionStatusCode! == 1) {
+             listGamificationInProgress.add(element);
+           } else if (element.missionStatusCode! == 0) {
+             listGamificationAssigned.add(element);
+           } else if (element.missionStatusCode! >= 2) {
+             listGamificationPast.add(element);
+           }
+         });
+         ref
+             .watch(gamificationInProgressState.notifier)
+             .state =
+             listGamificationInProgress;
+         ref
+             .watch(gamificationAssignedState.notifier)
+             .state =
+             listGamificationAssigned;
+         ref
+             .watch(gamificationPastState.notifier)
+             .state = listGamificationPast;
+         ref
+             .watch(listGamificationState.notifier)
+             .state = value.value ?? [];
+         ref
+             .watch(fixedGamificationAssigned.notifier)
+             .state = value.value ?? [];
+         listGamification = value.value ?? [];
+         ref
+             .watch(submitStatusState.notifier)
+             .state = SubmitStatus.success;
+       }
+       ref
+           .watch(submitStatusState.notifier)
+           .state = SubmitStatus.success;
+     } else{
+       ref
+           .watch(submitStatusState.notifier)
+           .state = SubmitStatus.failure;
+     }
       return value;
     });
+
   }
 
   Future<void> getMissionList() async {

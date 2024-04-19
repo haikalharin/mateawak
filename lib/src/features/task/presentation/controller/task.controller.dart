@@ -7,10 +7,12 @@ import 'package:module_shared/module_shared.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../utils/common_utils.dart';
+import '../../../main_nav/presentation/controller/main_nav.controller.dart';
 
 part 'task.controller.g.dart';
 
 enum TaskType { MCQ, SCQ, YNQ, STX, RAT, ASM, DEFAULT }
+enum PagePosition { NEXT, PREV, CURRENT }
 
 final isScrollProvider = StateProvider.autoDispose<bool>((ref) {
   return false;
@@ -19,25 +21,11 @@ final isScrollProvider = StateProvider.autoDispose<bool>((ref) {
 final currentIndexState = StateProvider.autoDispose<int>((ref) => 0);
 final currentProgressState = StateProvider.autoDispose<int>((ref) => 0);
 
-final previousTypeTaskState = StateProvider.autoDispose<String>((ref) => '');
 final currentTypeTaskState = StateProvider.autoDispose<String>((ref) => '');
-final nextTypeTaskState = StateProvider.autoDispose<String>((ref) => '');
 
 final selectOptionState = StateProvider.autoDispose<int>((ref) => 0);
 
 final listSelectOptionState = StateProvider.autoDispose<List<int>>((ref) => []);
-
-final listSelectOptionPrevState =
-StateProvider.autoDispose<List<int>>((ref) => []);
-
-final listSelectOptionPrevStringState =
-StateProvider.autoDispose<List<String>>((ref) => []);
-
-final listSelectOptionNextState =
-StateProvider.autoDispose<List<int>>((ref) => []);
-
-final listSelectOptionNextStringState =
-StateProvider.autoDispose<List<String>>((ref) => []);
 
 final listSelectOptionCurrentState =
 StateProvider.autoDispose<List<int>>((ref) => []);
@@ -65,8 +53,10 @@ StateProvider.autoDispose<List<MissionDatum>>((ref) => []);
 
 // final attachmentBase64State = StateProvider.autoDispose<String>((ref) => '');
 
+final attachmentPathCurrentState = StateProvider.autoDispose<String>((ref) => '');
 final attachmentPathState = StateProvider.autoDispose<String>((ref) => '');
 
+final attachmentNameCurrentState = StateProvider.autoDispose<String>((ref) => '');
 final attachmentNameState = StateProvider.autoDispose<String>((ref) => '');
 
 final missionDataState =
@@ -172,27 +162,30 @@ class TaskController extends _$TaskController {
     final userModel = await ref.read(helperUserProvider).getUserProfile();
     final today = CommonUtils.formatDateRequestParam(DateTime.now().toUtc().toString());
     List<TaskDatumAnswer> listData = [];
-    List<TaskDatumAnswerRequestRemote> dataAnswer =
-    await ref.watch(getAnswerLocalProvider.future);
+    var repo =
+     ref.watch(getAnswerLocalProvider.future);
     final gamification = ref
         .watch(gamificationState.notifier)
         .state;
-    for (var element in dataAnswer) {
-      listData.add(TaskDatumAnswer(
-          taskId: element.taskId,
-          answer: element.answer,
-          attachmentName: element.attachmentName,
-          attachment: element.attachment));
-    }
+    await AsyncValue.guard(() => repo).then((dataAnswer) async {
+      for (var element in dataAnswer.value??[]) {
+        listData.add(TaskDatumAnswer(
+            taskId: element.taskId,
+            answer: element.answer,
+            attachmentName: element.attachmentName,
+            attachment: element.attachment));
+      }
 
-    var taskAnswer = AnswerRequestRemote(
-        employeeMissionId: gamification.employeeMissionId,
-        submittedDate: today,
-        status: gamification.missionStatusCode,
-        taskData: listData);
-    await ref.watch(
-        putAnswerFinalLocalProvider(answerRequestRemote: taskAnswer).future);
-  }
+      var taskAnswer = AnswerRequestRemote(
+          employeeMissionId: gamification.employeeMissionId,
+          submittedDate: today,
+          status: gamification.missionStatusCode,
+          taskData: listData);
+      await ref.watch(
+          putAnswerFinalLocalProvider(answerRequestRemote: taskAnswer).future);
+
+    });
+     }
 
   Future<void> changeStatusTask({isDone = true}) async {
     final gamification = ref
@@ -245,16 +238,27 @@ class TaskController extends _$TaskController {
     });
   }
 
-  Future<void> currentQuestion({required int employeeMissionId}) async {
+  Future<void> currentQuestion({required int employeeMissionId,required PagePosition pagePosition, bool isLast =false}) async {
     List<String> listString = [];
     List<int> listInt = [];
     List<int> numbersList = [];
+    List<TaskDatumAnswer> listTaskAnswer = [];
+    int page = 0;
+    if(pagePosition == PagePosition.NEXT){
+      page = 1;
+    } else if (pagePosition == PagePosition.PREV){
+      page = -1;
+    }
   var currentAnswer =  ref
         .read(getAnswerFinalLocalProvider(employeeMissionId:employeeMissionId ).future);
         List<TaskDatumAnswerRequestRemote> dataCek = [];
 
+
     state = await AsyncValue.guard(() => currentAnswer).then((value) async {
-      List<TaskDatumAnswer> listTaskAnswer = value.value ?? [];
+   if(value.value != null){
+     listTaskAnswer = value.value ?? [];
+   }
+
 
 
 
@@ -267,13 +271,13 @@ class TaskController extends _$TaskController {
               attachment: element.attachment));
         }
       }
-      index = ref.watch(currentIndexState);
-      currentTypeTask = ref.watch(listTaskState)[index].taskTypeCode ?? '';
-      currentTaskId = ref.watch(listTaskState)[index].taskId ?? 0;
+      index = await ref.watch(currentIndexState);
+      currentTypeTask =  !isLast ? ref.watch(listTaskState)[index+page].taskTypeCode ?? '':'';
+      currentTaskId = !isLast ? ref.watch(listTaskState)[index+page].taskId ?? 0:0;
       for (var element in dataCek) {
+        await putTaskAnswer(element);
         if (element.taskId == currentTaskId) {
           // await deleteAnswer(dataCek);
-          await putTaskAnswer(element);
           answer = element.answer ?? '';
           attachment = element.attachment ?? '';
           attachmentName = element.attachmentName ?? '';
@@ -285,6 +289,15 @@ class TaskController extends _$TaskController {
             currentTypeTask == TaskType.ASM.name) {
           listString.add(answer);
           listSelectOptionCurrentString = listString;
+          ref
+                    .watch(currentTypeTaskState.notifier)
+                    .state = currentTypeTask;
+                ref
+                    .watch(listSelectOptionCurrentStringState.notifier)
+                    .state = listString;
+
+                ref.watch(attachmentPathCurrentState.notifier).state = attachment;
+                ref.watch(attachmentNameCurrentState.notifier).state = attachmentName;
         } else {
           if (currentTypeTask == TaskType.MCQ.name) {
             numbersList = answer.split(';').map(int.parse).toList();
@@ -294,128 +307,16 @@ class TaskController extends _$TaskController {
           }
 
           listSelectOptionCurrent = listInt;
+          ref
+                    .watch(currentTypeTaskState.notifier)
+                    .state = currentTypeTask;
+                ref
+                    .watch(listSelectOptionCurrentState.notifier)
+                    .state = listSelectOptionCurrent;
         }
       }
       return value;
     });
-  }
-
-  Future<void> prevQuestion() async {
-    List<String> listString = [];
-    List<int> listInt = [];
-    List<int> numbersList = [];
-    List<TaskDatumAnswerRequestRemote> dataCek = await getTaskAnswer();
-    var index = ref.watch(currentIndexState);
-    var answer = '';
-    var attachment = '';
-    var attachmentName = '';
-    var previousTypeTask =
-        ref.watch(listTaskState)[index - 1].taskTypeCode ?? '';
-    var previousTaskId = ref.watch(listTaskState)[index - 1].taskId;
-    TaskDatumAnswerRequestRemote taskDatumAnswer =
-    TaskDatumAnswerRequestRemote();
-    for (var element in dataCek) {
-      if (element.taskId == previousTaskId) {
-        answer = element.answer ?? '';
-        attachment = element.attachment??'';
-        attachmentName = element.attachmentName??'';
-      }
-    }
-
-    if (answer != '') {
-      if (previousTypeTask == TaskType.STX.name || currentTypeTask == TaskType.ASM.name) {
-        listString.add(answer);
-        ref
-            .watch(previousTypeTaskState.notifier)
-            .state = previousTypeTask;
-        ref
-            .watch(listSelectOptionPrevStringState.notifier)
-            .state = listString;
-
-        ref.watch(attachmentPathState.notifier).state = attachment;
-        ref.watch(attachmentNameState.notifier).state = attachmentName;
-
-      } else {
-        if (previousTypeTask == TaskType.MCQ.name) {
-          numbersList = answer.split(';').map(int.parse).toList();
-          listInt.addAll(numbersList);
-        } else {
-          listInt.add(int.parse(answer != '' ? answer : '0'));
-        }
-
-        ref
-            .watch(previousTypeTaskState.notifier)
-            .state = previousTypeTask;
-        ref
-            .watch(listSelectOptionPrevState.notifier)
-            .state = listInt;
-      }
-    }
-  }
-
-  Future<void> nextQuestion({required bool isLast}) async {
-    List<String> listString = [];
-    List<int> listInt = [];
-    List<int> numbersList = [];
-    List<TaskDatumAnswer> currentAnswer =  await ref
-        .watch(getAnswerFinalLocalProvider(employeeMissionId:ref
-        .watch(gamificationState.notifier)
-        .state.employeeMissionId??0 ).future);
-    List<TaskDatumAnswer> listTaskAnswer = currentAnswer.isNotEmpty?currentAnswer:[];
-    List<TaskDatumAnswerRequestRemote> dataCek = [];
-    if(listTaskAnswer.isNotEmpty) {
-      for (var element in listTaskAnswer) {
-        dataCek.add(TaskDatumAnswerRequestRemote(
-            taskId: element.taskId,
-            answer: element.answer,
-            attachment: element.attachment));
-      }
-    }
-    var index = ref.watch(currentIndexState);
-    var answer = '';
-    var attachment = '';
-    var attachmentName = '';
-    var nextTypeTask =
-    !isLast ? ref.watch(listTaskState)[index + 1].taskTypeCode ?? '' : '';
-
-    var nextTaskId = !isLast ? ref.watch(listTaskState)[index + 1].taskId : 0;
-    TaskDatumAnswerRequestRemote taskDatumAnswer =
-    TaskDatumAnswerRequestRemote();
-    for (var element in dataCek) {
-      if (element.taskId == nextTaskId) {
-        answer = element.answer ?? '';
-        attachment = element.attachment??'';
-        attachmentName = element.attachmentName??'';
-      }
-    }
-
-    if (answer != '') {
-      if (nextTypeTask == TaskType.STX.name || currentTypeTask == TaskType.ASM.name) {
-        listString.add(answer);
-        ref
-            .watch(nextTypeTaskState.notifier)
-            .state = nextTypeTask;
-        ref
-            .watch(listSelectOptionNextStringState.notifier)
-            .state = listString;
-        ref.watch(attachmentPathState.notifier).state = attachment;
-        ref.watch(attachmentNameState.notifier).state = attachmentName;
-
-      } else {
-        if (nextTypeTask == TaskType.MCQ.name) {
-          numbersList = answer.split(';').map(int.parse).toList();
-          listInt.addAll(numbersList);
-        } else {
-          listInt.add(int.parse(answer != '' ? answer : '0'));
-        }
-        ref
-            .watch(nextTypeTaskState.notifier)
-            .state = nextTypeTask;
-        ref
-            .watch(listSelectOptionNextState.notifier)
-            .state = listInt;
-      }
-    }
   }
 
   Future<void> saveAnswer(int questionId,

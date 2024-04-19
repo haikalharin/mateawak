@@ -109,9 +109,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                 label: "Stay",
                                 type: DialogType.question,
                                 onClosed: () async {
-                                  await ctrl
-                                      .putAnswerFinal()
-                                      .whenComplete(() async {
+
                                     await ctrl
                                         .changeStatusTask(isDone: false)
                                         .whenComplete(() async {
@@ -121,7 +119,6 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                       });
                                     });
                                   });
-                                });
                           });
                     }),
                 body: Column(

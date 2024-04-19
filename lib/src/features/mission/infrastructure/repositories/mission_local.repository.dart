@@ -185,7 +185,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(GetMissionLocalRef r
     await isarInstance.writeTxn(() async {
       //await isarInstance.gamificationResponseRemotes.clear();
       await isarInstance.gamificationResponseRemotes.putAll(
-          listAfterCheckIsIncomplete);
+          listAfterInputImage);
     });
 
 

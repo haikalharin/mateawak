@@ -241,13 +241,230 @@ class Constant {
   static const readinessTidakBekerja = "TIDAK BEKERJA";
   static const rawMissionDummy = [
     {
+      "employeeMissionId": 35,
+      "employeeId": 70002009,
+      "missionId": 105,
+      "missionStatusCode": 0,
+      "missionStatus": "Assigned",
+      "startedDate": "2024-04-18T00:00:00",
+      "dueDate": "2024-04-25T00:00:00",
+      "submittedBy": "",
+      "submittedDate": null,
+      "completedBy": "",
+      "completedDate": null,
+      "chapterData": [
+        {
+          "chapterId": 3,
+          "chapterCode": "C0002",
+          "chapterName": "Chapter 2",
+          "chapterGoal": "Chapter Goal 2",
+          "competencyCode": "C0001",
+          "competencyName": "Coname",
+          "peopleCategoryCode": "Safe",
+          "peopleCategoryName": "Safe",
+          "missionData": [
+            {
+              "missionId": 105,
+              "chapterId": 3,
+              "missionCode": "M0000105",
+              "missionName": "General Knowledge Plant : Misi 1",
+              "missionInstruction": "Langkah Kerja\n\n1. Tuliskan NIK dan NAMA Anda secara benar\n2. Bacalah pertanyaan soal dengan seksama dan pilihlah jawaban yang tepat\n3. Ketika sudah menjawab seluruh pertanyaan, klik \"submit\"\n4. Jawaban hanya bisa dikerjakan hingga 15 Februari 2024 pukul 10.00 WITA dan diambil nilai tertinggi, sehingga perlu untuk dikerjakan secara teliti, jika membutuhkan bantuan bisa diskusi / bertanya dengan rekan kerja atau atasan terkait soal yang ditanyakan\n\nSebarkan informasi yang anda dapatkan dari kuis, ke rekan kerja anda untuk berbagi pengetahuan.",
+              "missionDuration": 2,
+              "missionActiveOnDay": 7,
+              "missionTypeCode": "Quiz",
+              "missionTypeName": "Quiz",
+              "missionReward": 20,
+              "isMandatoryAttachment": null,
+              "taskData": [
+                {
+                  "taskId": 182,
+                  "missionId": 105,
+                  "attachmentId": 2,
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/png-40110.png?sv=2023-11-03&st=2024-04-19T09%3A52%3A18Z&se=2024-04-20T09%3A52%3A18Z&sr=b&sp=r&sig=pCQVR%2Fj0tbM4ghg3CzJqAe9AICiqiwh9fo11%2F8YilV8%3D",
+                  "taskCode": "T0000182",
+                  "taskGroup": "G0001",
+                  "taskCaption": "Apa yang merupakan upaya untuk menghindari resiko terjepit pada saat melakukan pekerjaan maintenance alat berat ?",
+                  "taskTypeCode": "SCQ",
+                  "taskTypeName": "Single Choice",
+                  "taskReward": 4,
+                  "answerData": [
+                    {
+                      "answerId": 334,
+                      "taskId": 182,
+                      "answerCode": "A0000334",
+                      "answerField": "Answer2",
+                      "answerCaption": "Memastikan tool, alat bantu kerja sesuai dengan standard, dan menggunakan APD"
+                    },
+                    {
+                      "answerId": 333,
+                      "taskId": 182,
+                      "answerCode": "A0000333",
+                      "answerField": "Answer1",
+                      "answerCaption": "Bekerja dengan pengawasan dan selalu saling mengingatkan pada saat melakukan tahapan aktivitas peker"
+                    },
+                    {
+                      "answerId": 335,
+                      "taskId": 182,
+                      "answerCode": "A0000335",
+                      "answerField": "Answer3",
+                      "answerCaption": "Membaca dan menyampaikan JSA sebelum bekerja"
+                    }
+                  ]
+                },
+                {
+                  "taskId": 185,
+                  "missionId": 105,
+                  "attachmentId": 2,
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/png-40110.png?sv=2023-11-03&st=2024-04-19T09%3A52%3A18Z&se=2024-04-20T09%3A52%3A18Z&sr=b&sp=r&sig=pCQVR%2Fj0tbM4ghg3CzJqAe9AICiqiwh9fo11%2F8YilV8%3D",
+                  "taskCode": "T0000185",
+                  "taskGroup": "G0001",
+                  "taskCaption": "Site IPR memiliki program UBI yang bertujuan untuk mencegah terjadinya Tindakan Tidak Aman saat bekerja. Apa kepanjangan dari UBI tersebut ?",
+                  "taskTypeCode": "SCQ",
+                  "taskTypeName": "Single Choice",
+                  "taskReward": 4,
+                  "answerData": [
+                    {
+                      "answerId": 342,
+                      "taskId": 185,
+                      "answerCode": "A0000342",
+                      "answerField": "Answer1",
+                      "answerCaption": "Unsafe Behaviour Inspection"
+                    },
+                    {
+                      "answerId": 344,
+                      "taskId": 185,
+                      "answerCode": "A0000344",
+                      "answerField": "Answer3",
+                      "answerCaption": "Unsafe Behaviour Indicator"
+                    },
+                    {
+                      "answerId": 343,
+                      "taskId": 185,
+                      "answerCode": "A0000343",
+                      "answerField": "Answer2",
+                      "answerCaption": "Unsafe Behaviour Intervention"
+                    }
+                  ]
+                },
+                {
+                  "taskId": 186,
+                  "missionId": 105,
+                  "attachmentId": 2,
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/png-40110.png?sv=2023-11-03&st=2024-04-19T09%3A52%3A18Z&se=2024-04-20T09%3A52%3A18Z&sr=b&sp=r&sig=pCQVR%2Fj0tbM4ghg3CzJqAe9AICiqiwh9fo11%2F8YilV8%3D",
+                  "taskCode": "T0000186",
+                  "taskGroup": "G0001",
+                  "taskCaption": "Unit HDCT77077 beroperasi selama 77 jam, lalu breakdown Low Power selama 2 jam. Beroperasi kembali selama 111 jam lalu service PS500 selama 12 jam. Berapakah MTBS dari unit HDCT77077 pada periode tersebut ?",
+                  "taskTypeCode": "SCQ",
+                  "taskTypeName": "Single Choice",
+                  "taskReward": 4,
+                  "answerData": [
+                    {
+                      "answerId": 345,
+                      "taskId": 186,
+                      "answerCode": "A0000345",
+                      "answerField": "Answer1",
+                      "answerCaption": "90 jam"
+                    },
+                    {
+                      "answerId": 347,
+                      "taskId": 186,
+                      "answerCode": "A0000347",
+                      "answerField": "Answer3",
+                      "answerCaption": "93 jam"
+                    },
+                    {
+                      "answerId": 346,
+                      "taskId": 186,
+                      "answerCode": "A0000346",
+                      "answerField": "Answer2",
+                      "answerCaption": "91 jam"
+                    }
+                  ]
+                },
+                {
+                  "taskId": 183,
+                  "missionId": 105,
+                  "attachmentId": 2,
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/png-40110.png?sv=2023-11-03&st=2024-04-19T09%3A52%3A18Z&se=2024-04-20T09%3A52%3A18Z&sr=b&sp=r&sig=pCQVR%2Fj0tbM4ghg3CzJqAe9AICiqiwh9fo11%2F8YilV8%3D",
+                  "taskCode": "T0000183",
+                  "taskGroup": "G0001",
+                  "taskCaption": "Mana saja aktifitas maintenance yang menjadi bagian dari strategi CBM Plant BUMA?",
+                  "taskTypeCode": "SCQ",
+                  "taskTypeName": "Single Choice",
+                  "taskReward": 4,
+                  "answerData": [
+                    {
+                      "answerId": 336,
+                      "taskId": 183,
+                      "answerCode": "A0000336",
+                      "answerField": "Answer1",
+                      "answerCaption": "Schedule Oil Sampling, On Board Monitoring System, Filter Cut Rating, Digiman"
+                    },
+                    {
+                      "answerId": 337,
+                      "taskId": 183,
+                      "answerCode": "A0000337",
+                      "answerField": "Answer2",
+                      "answerCaption": "Magnetig Plug Rating, Pre-Service Inspection, On Board Monitoring System, Filter Cut Rating"
+                    },
+                    {
+                      "answerId": 338,
+                      "taskId": 183,
+                      "answerCode": "A0000338",
+                      "answerField": "Answer3",
+                      "answerCaption": "Schedule Oil Sampling, Program Pengecekan Undercarriage, On Board Monitoring System, Magnetig Plug R"
+                    }
+                  ]
+                },
+                {
+                  "taskId": 184,
+                  "missionId": 105,
+                  "attachmentId": 2,
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/png-40110.png?sv=2023-11-03&st=2024-04-19T09%3A52%3A18Z&se=2024-04-20T09%3A52%3A18Z&sr=b&sp=r&sig=pCQVR%2Fj0tbM4ghg3CzJqAe9AICiqiwh9fo11%2F8YilV8%3D",
+                  "taskCode": "T0000184",
+                  "taskGroup": "G0001",
+                  "taskCaption": "Pada PM’s Message bulan Februari 2024, Pak Agung Riyanto menyampaikan kita perlu tetap konsisten dalam menjalankan hal-hal yang sudah baik serta terus menumbuhkan semangat Continuous Improvement dan Zero Incident Mindset dalam operasional kita.\n\n“Selalu konsisten menggunakan APD saat bekerja dan melakukan pekerjaan sesuai dengan prosedur kerja dan keselamatan walaupun tidak ada yang melihat” mencerminkan tugas apa dalam pesan Pak Agung Riyanto ?",
+                  "taskTypeCode": "SCQ",
+                  "taskTypeName": "Single Choice",
+                  "taskReward": 4,
+                  "answerData": [
+                    {
+                      "answerId": 340,
+                      "taskId": 184,
+                      "answerCode": "A0000340",
+                      "answerField": "Answer2",
+                      "answerCaption": "Membangun komunikasi terbuka"
+                    },
+                    {
+                      "answerId": 339,
+                      "taskId": 184,
+                      "answerCode": "A0000339",
+                      "answerField": "Answer1",
+                      "answerCaption": "Evaluasi pekerjaan di area masing-masing"
+                    },
+                    {
+                      "answerId": 341,
+                      "taskId": 184,
+                      "answerCode": "A0000341",
+                      "answerField": "Answer3",
+                      "answerCaption": "Melakukan achievement drive dan menjadi role model perubahan untuk menciptakan safety behavior yang "
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "employeeMissionId": 1,
       "employeeId": 70002009,
       "missionId": 230,
-      "missionStatusCode": 99,
-      "missionStatus": "Complete",
+      "missionStatusCode": 0,
+      "missionStatus": "Assigned",
       "startedDate": "2024-01-01T00:00:00",
-      "dueDate": "2024-01-02T00:00:00",
+      "dueDate": "2025-01-02T00:00:00",
       "submittedBy": "2009u1.supervisor@buma365.onmicrosoft.com",
       "submittedDate": "2022-01-01T00:00:00",
       "completedBy": "2009u1.supervisor@buma365.onmicrosoft.com",
@@ -260,8 +477,8 @@ class Constant {
           "chapterGoal": "Chapter Goal 1",
           "competencyCode": "C0001",
           "competencyName": "Coname",
-          "peopleCategoryCode": "PC0001",
-          "peopleCategoryName": "People Category 1",
+          "peopleCategoryCode": "Safe",
+          "peopleCategoryName": "Safe",
           "missionData": [
             {
               "missionId": 230,
@@ -280,7 +497,7 @@ class Constant {
                   "taskId": 263,
                   "missionId": 230,
                   "attachmentId": 3,
-                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/btech-61179.jpg?sv=2023-11-03&st=2024-04-16T13%3A20%3A14Z&se=2024-04-17T13%3A20%3A14Z&sr=b&sp=r&sig=VWLpsJHs3gIX%2FBxC7EsGeAXGOBwNk0f3331FWXZRQv8%3D",
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/btech-61179.jpg?sv=2023-11-03&st=2024-04-19T09%3A52%3A18Z&se=2024-04-20T09%3A52%3A18Z&sr=b&sp=r&sig=eYHWaMfYj0ZFtvZhot1L4Ux4250XFVu0BwElkfyq8Lk%3D",
                   "taskCode": "T0000264",
                   "taskGroup": "G0002",
                   "taskCaption": "Judul JSA yang dilakukan Review.\nPoin - poin yang di revisi atau ditambahkan (urutan langkah tugas, bahaya/risiko, kode bahaya dan rekomendasi / prosedur pengendalian bahaya)\n\nMisalnya : JSA yang dipilih Dumping Material di Jalan Tambang, poin yang perlu ditambahkan dalam rekomendasi pengendalian bahaya tersebut adalah penggunaan rambu penanda perbaikan jalan, sehingga unit hauler yang lain dapat mengetahui dan akan mengurangi kecepatan saat melewati area perbaikan jalan tersebut.",
@@ -307,10 +524,10 @@ class Constant {
       "employeeMissionId": 2,
       "employeeId": 70002009,
       "missionId": 231,
-      "missionStatusCode": 99,
-      "missionStatus": "Complete",
+      "missionStatusCode": 0,
+      "missionStatus": "Assigned",
       "startedDate": "2024-01-01T00:00:00",
-      "dueDate": "2024-01-02T00:00:00",
+      "dueDate": "2025-01-02T00:00:00",
       "submittedBy": "2009u1.supervisor@buma365.onmicrosoft.com",
       "submittedDate": "2022-01-01T00:00:00",
       "completedBy": "2009u1.supervisor@buma365.onmicrosoft.com",
@@ -323,8 +540,8 @@ class Constant {
           "chapterGoal": "Chapter Goal 1",
           "competencyCode": "C0001",
           "competencyName": "Coname",
-          "peopleCategoryCode": "PC0001",
-          "peopleCategoryName": "People Category 1",
+          "peopleCategoryCode": "Safe",
+          "peopleCategoryName": "Safe",
           "missionData": [
             {
               "missionId": 231,
@@ -343,7 +560,7 @@ class Constant {
                   "taskId": 264,
                   "missionId": 231,
                   "attachmentId": 3,
-                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/btech-61179.jpg?sv=2023-11-03&st=2024-04-16T13%3A20%3A14Z&se=2024-04-17T13%3A20%3A14Z&sr=b&sp=r&sig=VWLpsJHs3gIX%2FBxC7EsGeAXGOBwNk0f3331FWXZRQv8%3D",
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/btech-61179.jpg?sv=2023-11-03&st=2024-04-19T09%3A52%3A18Z&se=2024-04-20T09%3A52%3A18Z&sr=b&sp=r&sig=eYHWaMfYj0ZFtvZhot1L4Ux4250XFVu0BwElkfyq8Lk%3D",
                   "taskCode": "T0000266",
                   "taskGroup": "G0002",
                   "taskCaption": "Mana saja aktifitas maintenance yang menjadi bagian dari strategi CBM Plant BUMA?",
@@ -359,18 +576,18 @@ class Constant {
                       "answerCaption": "Magnetig Plug Rating, Pre-Service Inspection, On Board Monitoring System, Filter Cut Rating"
                     },
                     {
-                      "answerId": 506,
-                      "taskId": 264,
-                      "answerCode": "A0000510",
-                      "answerField": "Answer3",
-                      "answerCaption": "Schedule Oil Sampling, Program Pengecekan Undercarriage, On Board Monitoring System, Magnetig Plug R"
-                    },
-                    {
                       "answerId": 504,
                       "taskId": 264,
                       "answerCode": "A0000508",
                       "answerField": "Answer1",
                       "answerCaption": "Schedule Oil Sampling, On Board Monitoring System, Filter Cut Rating, Digiman"
+                    },
+                    {
+                      "answerId": 506,
+                      "taskId": 264,
+                      "answerCode": "A0000510",
+                      "answerField": "Answer3",
+                      "answerCaption": "Schedule Oil Sampling, Program Pengecekan Undercarriage, On Board Monitoring System, Magnetig Plug R"
                     }
                   ]
                 },
@@ -378,7 +595,7 @@ class Constant {
                   "taskId": 265,
                   "missionId": 231,
                   "attachmentId": 3,
-                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/btech-61179.jpg?sv=2023-11-03&st=2024-04-16T13%3A20%3A14Z&se=2024-04-17T13%3A20%3A14Z&sr=b&sp=r&sig=VWLpsJHs3gIX%2FBxC7EsGeAXGOBwNk0f3331FWXZRQv8%3D",
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/btech-61179.jpg?sv=2023-11-03&st=2024-04-19T09%3A52%3A18Z&se=2024-04-20T09%3A52%3A18Z&sr=b&sp=r&sig=eYHWaMfYj0ZFtvZhot1L4Ux4250XFVu0BwElkfyq8Lk%3D",
                   "taskCode": "T0000265",
                   "taskGroup": "G0002",
                   "taskCaption": "Pada PM’s Message bulan Februari 2024, Pak Agung Riyanto menyampaikan kita perlu tetap konsisten dalam menjalankan hal-hal yang sudah baik serta terus menumbuhkan semangat Continuous Improvement dan Zero Incident Mindset dalam operasional kita.\n\n“Selalu konsisten menggunakan APD saat bekerja dan melakukan pekerjaan sesuai dengan prosedur kerja dan keselamatan walaupun tidak ada yang melihat” mencerminkan tugas apa dalam pesan Pak Agung Riyanto ?",
@@ -387,11 +604,11 @@ class Constant {
                   "taskReward": 1,
                   "answerData": [
                     {
-                      "answerId": 507,
+                      "answerId": 508,
                       "taskId": 265,
-                      "answerCode": "A0000504",
-                      "answerField": "Answer1",
-                      "answerCaption": "Evaluasi pekerjaan di area masing-masing"
+                      "answerCode": "A0000505",
+                      "answerField": "Answer2",
+                      "answerCaption": "Membangun komunikasi terbuka"
                     },
                     {
                       "answerId": 509,
@@ -408,11 +625,11 @@ class Constant {
                       "answerCaption": "More collaboration dan more communication"
                     },
                     {
-                      "answerId": 508,
+                      "answerId": 507,
                       "taskId": 265,
-                      "answerCode": "A0000505",
-                      "answerField": "Answer2",
-                      "answerCaption": "Membangun komunikasi terbuka"
+                      "answerCode": "A0000504",
+                      "answerField": "Answer1",
+                      "answerCaption": "Evaluasi pekerjaan di area masing-masing"
                     }
                   ]
                 }
@@ -426,8 +643,8 @@ class Constant {
       "employeeMissionId": 3,
       "employeeId": 70002009,
       "missionId": 232,
-      "missionStatusCode": 0,
-      "missionStatus": "Assigned",
+      "missionStatusCode": 3,
+      "missionStatus": "Under Review",
       "startedDate": "2024-01-01T00:00:00",
       "dueDate": "2024-01-02T00:00:00",
       "submittedBy": "2009u1.supervisor@buma365.onmicrosoft.com",
@@ -442,8 +659,8 @@ class Constant {
           "chapterGoal": "Chapter Goal 1",
           "competencyCode": "C0001",
           "competencyName": "Coname",
-          "peopleCategoryCode": "PC0001",
-          "peopleCategoryName": "People Category 1",
+          "peopleCategoryCode": "Safe",
+          "peopleCategoryName": "Safe",
           "missionData": [
             {
               "missionId": 232,
@@ -462,8 +679,71 @@ class Constant {
                   "taskId": 268,
                   "missionId": 232,
                   "attachmentId": 1,
-                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/btech-24216.jpg?sv=2023-11-03&st=2024-04-16T13%3A20%3A14Z&se=2024-04-17T13%3A20%3A14Z&sr=b&sp=r&sig=C13ZZOzfxVAASNkpuc0bwvMASyqc74M%2FHK5fmFe91mM%3D",
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/btech-24216.jpg?sv=2023-11-03&st=2024-04-19T09%3A52%3A18Z&se=2024-04-20T09%3A52%3A18Z&sr=b&sp=r&sig=vJvujdrTazyp7nSb9a%2BspmUcOo%2B1aO11bHlPI9OEfgM%3D",
                   "taskCode": "T0000268",
+                  "taskGroup": "G0001",
+                  "taskCaption": "Judul JSA yang dilakukan Review.\nPoin - poin yang di revisi atau ditambahkan (urutan langkah tugas, bahaya/risiko, kode bahaya dan rekomendasi / prosedur pengendalian bahaya)\n\nMisalnya : JSA yang dipilih Dumping Material di Jalan Tambang, poin yang perlu ditambahkan dalam rekomendasi pengendalian bahaya tersebut adalah penggunaan rambu penanda perbaikan jalan, sehingga unit hauler yang lain dapat mengetahui dan akan mengurangi kecepatan saat melewati area perbaikan jalan tersebut.",
+                  "taskTypeCode": "ASM",
+                  "taskTypeName": "Assignment",
+                  "taskReward": 100,
+                  "answerData": [
+                    {
+                      "answerId": 0,
+                      "taskId": 0,
+                      "answerCode": null,
+                      "answerField": null,
+                      "answerCaption": null
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "employeeMissionId": 30,
+      "employeeId": 70002009,
+      "missionId": 234,
+      "missionStatusCode": 3,
+      "missionStatus": "Under Review",
+      "startedDate": "2024-01-01T00:00:00",
+      "dueDate": "2024-01-02T00:00:00",
+      "submittedBy": "2009u1.supervisor@buma365.onmicrosoft.com",
+      "submittedDate": "2022-01-01T00:00:00",
+      "completedBy": "2009u1.supervisor@buma365.onmicrosoft.com",
+      "completedDate": "2024-03-28T06:32:43.167",
+      "chapterData": [
+        {
+          "chapterId": 1,
+          "chapterCode": "C0001",
+          "chapterName": "Chapter 1",
+          "chapterGoal": "Chapter Goal 1",
+          "competencyCode": "C0001",
+          "competencyName": "Coname",
+          "peopleCategoryCode": "Safe",
+          "peopleCategoryName": "Safe",
+          "missionData": [
+            {
+              "missionId": 234,
+              "chapterId": 1,
+              "missionCode": "M0000235",
+              "missionName": "Review JSA Plant",
+              "missionInstruction": "Panduan Langkah Penyelesaian Misi :\n1. Pilihlah JSA yang sesuai dengan pekerjaan area kerja masing-masing, yang isinya berhubungan dalam prosedur pengendalian potensi jari terjepit, contoh : area kerja di Workshop, memilih JSAP Melepas dan memasang final drive OHT 777 D/E\n2. Lakukan diskusi dengan tim simulasi Anda (foreman dan mekanik), terkait isi dari JSA tersebut, terutama langkah pekerjaan yang memiliki bahaya / risiko jari terjepit, dan bagaimana prosedur pengendaliannya\n3. Dari JSA yang anda review tersebut dengan tim anda, apakah ada poin yang perlu untuk di revisi / ditambahkan untuk pengendalian potensi risiko jari terjepit.\n4. Dokumentasikan diskusi bersama tim anda tersebut dan upload evidennya di google form\n5. Poin dari anggota tim, akan didapatkan ketika supervisor mengupload foto full team bersama foreman dan 2 mekaniknya, jika ada team yang cuti, silahkan isi pada form\n6. Jika supervisor cuti, delegasikan tugas ini kepada foreman dalam tim anda",
+              "missionDuration": 3,
+              "missionActiveOnDay": 9,
+              "missionTypeCode": "Assignment",
+              "missionTypeName": "Assignment",
+              "missionReward": 100,
+              "isMandatoryAttachment": null,
+              "taskData": [
+                {
+                  "taskId": 272,
+                  "missionId": 234,
+                  "attachmentId": 1,
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/btech-24216.jpg?sv=2023-11-03&st=2024-04-19T09%3A52%3A18Z&se=2024-04-20T09%3A52%3A18Z&sr=b&sp=r&sig=vJvujdrTazyp7nSb9a%2BspmUcOo%2B1aO11bHlPI9OEfgM%3D",
+                  "taskCode": "T0000272",
                   "taskGroup": "G0001",
                   "taskCaption": "Judul JSA yang dilakukan Review.\nPoin - poin yang di revisi atau ditambahkan (urutan langkah tugas, bahaya/risiko, kode bahaya dan rekomendasi / prosedur pengendalian bahaya)\n\nMisalnya : JSA yang dipilih Dumping Material di Jalan Tambang, poin yang perlu ditambahkan dalam rekomendasi pengendalian bahaya tersebut adalah penggunaan rambu penanda perbaikan jalan, sehingga unit hauler yang lain dapat mengetahui dan akan mengurangi kecepatan saat melewati area perbaikan jalan tersebut.",
                   "taskTypeCode": "ASM",
@@ -488,9 +768,9 @@ class Constant {
     {
       "employeeMissionId": 29,
       "employeeId": 70002009,
-      "missionId": 233,
-      "missionStatusCode": 0,
-      "missionStatus": "Assigned",
+      "missionId": 235,
+      "missionStatusCode": 3,
+      "missionStatus": "Under Review",
       "startedDate": "2024-01-01T00:00:00",
       "dueDate": "2024-01-02T00:00:00",
       "submittedBy": "2009u1.supervisor@buma365.onmicrosoft.com",
@@ -505,15 +785,78 @@ class Constant {
           "chapterGoal": "Chapter Goal 1",
           "competencyCode": "C0001",
           "competencyName": "Coname",
-          "peopleCategoryCode": "PC0001",
-          "peopleCategoryName": "People Category 1",
+          "peopleCategoryCode": "Safe",
+          "peopleCategoryName": "Safe",
           "missionData": [
             {
-              "missionId": 233,
+              "missionId": 235,
               "chapterId": 1,
-              "missionCode": "M0000234",
-              "missionName": "General Knowledge Plant : Misi 1",
-              "missionInstruction": "Langkah Kerja\n\n1. Tuliskan NIK dan NAMA Anda secara benar\n2. Bacalah pertanyaan soal dengan seksama dan pilihlah jawaban yang tepat\n3. Ketika sudah menjawab seluruh pertanyaan, klik \"submit\"\n4. Jawaban hanya bisa dikerjakan hingga 15 Februari 2024 pukul 10.00 WITA dan diambil nilai tertinggi, sehingga perlu untuk dikerjakan secara teliti, jika membutuhkan bantuan bisa diskusi / bertanya dengan rekan kerja atau atasan terkait soal yang ditanyakan\n\nSebarkan informasi yang anda dapatkan dari kuis, ke rekan kerja anda untuk berbagi pengetahuan.",
+              "missionCode": "M0000236",
+              "missionName": "Review JSA Plant",
+              "missionInstruction": "Panduan Langkah Penyelesaian Misi :\n1. Pilihlah JSA yang sesuai dengan pekerjaan area kerja masing-masing, yang isinya berhubungan dalam prosedur pengendalian potensi jari terjepit, contoh : area kerja di Workshop, memilih JSAP Melepas dan memasang final drive OHT 777 D/E\n2. Lakukan diskusi dengan tim simulasi Anda (foreman dan mekanik), terkait isi dari JSA tersebut, terutama langkah pekerjaan yang memiliki bahaya / risiko jari terjepit, dan bagaimana prosedur pengendaliannya\n3. Dari JSA yang anda review tersebut dengan tim anda, apakah ada poin yang perlu untuk di revisi / ditambahkan untuk pengendalian potensi risiko jari terjepit.\n4. Dokumentasikan diskusi bersama tim anda tersebut dan upload evidennya di google form\n5. Poin dari anggota tim, akan didapatkan ketika supervisor mengupload foto full team bersama foreman dan 2 mekaniknya, jika ada team yang cuti, silahkan isi pada form\n6. Jika supervisor cuti, delegasikan tugas ini kepada foreman dalam tim anda",
+              "missionDuration": 3,
+              "missionActiveOnDay": 9,
+              "missionTypeCode": "Assignment",
+              "missionTypeName": "Assignment",
+              "missionReward": 100,
+              "isMandatoryAttachment": null,
+              "taskData": [
+                {
+                  "taskId": 273,
+                  "missionId": 235,
+                  "attachmentId": 3,
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/btech-61179.jpg?sv=2023-11-03&st=2024-04-19T09%3A52%3A18Z&se=2024-04-20T09%3A52%3A18Z&sr=b&sp=r&sig=eYHWaMfYj0ZFtvZhot1L4Ux4250XFVu0BwElkfyq8Lk%3D",
+                  "taskCode": "T0000274",
+                  "taskGroup": "G0002",
+                  "taskCaption": "Judul JSA yang dilakukan Review.\nPoin - poin yang di revisi atau ditambahkan (urutan langkah tugas, bahaya/risiko, kode bahaya dan rekomendasi / prosedur pengendalian bahaya)\n\nMisalnya : JSA yang dipilih Dumping Material di Jalan Tambang, poin yang perlu ditambahkan dalam rekomendasi pengendalian bahaya tersebut adalah penggunaan rambu penanda perbaikan jalan, sehingga unit hauler yang lain dapat mengetahui dan akan mengurangi kecepatan saat melewati area perbaikan jalan tersebut.",
+                  "taskTypeCode": "ASM",
+                  "taskTypeName": "Assignment",
+                  "taskReward": 5,
+                  "answerData": [
+                    {
+                      "answerId": 0,
+                      "taskId": 0,
+                      "answerCode": null,
+                      "answerField": null,
+                      "answerCaption": null
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "employeeMissionId": 37,
+      "employeeId": 70002009,
+      "missionId": 236,
+      "missionStatusCode": 0,
+      "missionStatus": "Assigned",
+      "startedDate": "2024-04-18T00:00:00",
+      "dueDate": "2024-04-25T00:00:00",
+      "submittedBy": "",
+      "submittedDate": null,
+      "completedBy": "",
+      "completedDate": null,
+      "chapterData": [
+        {
+          "chapterId": 1,
+          "chapterCode": "C0001",
+          "chapterName": "Chapter 1",
+          "chapterGoal": "Chapter Goal 1",
+          "competencyCode": "C0001",
+          "competencyName": "Coname",
+          "peopleCategoryCode": "Safe",
+          "peopleCategoryName": "Safe",
+          "missionData": [
+            {
+              "missionId": 236,
+              "chapterId": 1,
+              "missionCode": "M0000237",
+              "missionName": "MISI BANG",
+              "missionInstruction": "Langkah Kerja\n\n1. Tuliskan NIK dan NAMA Anda secara benar\n2. Bacalah pertanyaan soal dengan seksama dan pilihlah jawaban yang tepat\ntahuan.",
               "missionDuration": 2,
               "missionActiveOnDay": 7,
               "missionTypeCode": "Quiz",
@@ -522,79 +865,310 @@ class Constant {
               "isMandatoryAttachment": null,
               "taskData": [
                 {
-                  "taskId": 269,
-                  "missionId": 233,
-                  "attachmentId": 1,
-                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/btech-24216.jpg?sv=2023-11-03&st=2024-04-16T13%3A20%3A14Z&se=2024-04-17T13%3A20%3A14Z&sr=b&sp=r&sig=C13ZZOzfxVAASNkpuc0bwvMASyqc74M%2FHK5fmFe91mM%3D",
-                  "taskCode": "T0000270",
-                  "taskGroup": "G0001",
-                  "taskCaption": "Mana saja aktifitas maintenance yang menjadi bagian dari strategi CBM Plant BUMA?",
-                  "taskTypeCode": "SCQ",
-                  "taskTypeName": "Single Choice",
-                  "taskReward": 20,
+                  "taskId": 594,
+                  "missionId": 236,
+                  "attachmentId": 201,
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/a-26662.jpg?sv=2023-11-03&st=2024-04-19T09%3A52%3A18Z&se=2024-04-20T09%3A52%3A18Z&sr=b&sp=r&sig=cKIwZke9%2BhDmp1yCMWyHxyHKcgC68SoqXR8HKuTrJRg%3D",
+                  "taskCode": "T0000594",
+                  "taskGroup": "AjW8j9Nf8iwwl6V",
+                  "taskCaption": "SOLAT APA GAK?",
+                  "taskTypeCode": "YNQ",
+                  "taskTypeName": "Yes/ No",
+                  "taskReward": 10,
                   "answerData": [
                     {
-                      "answerId": 513,
-                      "taskId": 269,
-                      "answerCode": "A0000517",
+                      "answerId": 546,
+                      "taskId": 594,
+                      "answerCode": "A0000546",
                       "answerField": "Answer1",
-                      "answerCaption": "Schedule Oil Sampling, On Board Monitoring System, Filter Cut Rating, Digiman"
+                      "answerCaption": "Y"
                     },
                     {
-                      "answerId": 515,
-                      "taskId": 269,
-                      "answerCode": "A0000519",
-                      "answerField": "Answer3",
-                      "answerCaption": "Schedule Oil Sampling, Program Pengecekan Undercarriage, On Board Monitoring System, Magnetig Plug R"
-                    },
-                    {
-                      "answerId": 514,
-                      "taskId": 269,
-                      "answerCode": "A0000518",
+                      "answerId": 547,
+                      "taskId": 594,
+                      "answerCode": "A0000547",
                       "answerField": "Answer2",
-                      "answerCaption": "Magnetig Plug Rating, Pre-Service Inspection, On Board Monitoring System, Filter Cut Rating"
+                      "answerCaption": "G"
                     }
                   ]
                 },
                 {
-                  "taskId": 270,
-                  "missionId": 233,
-                  "attachmentId": 1,
-                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/btech-24216.jpg?sv=2023-11-03&st=2024-04-16T13%3A20%3A14Z&se=2024-04-17T13%3A20%3A14Z&sr=b&sp=r&sig=C13ZZOzfxVAASNkpuc0bwvMASyqc74M%2FHK5fmFe91mM%3D",
-                  "taskCode": "T0000269",
-                  "taskGroup": "G0001",
+                  "taskId": 595,
+                  "missionId": 236,
+                  "attachmentId": 198,
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/b-99524.jpg?sv=2023-11-03&st=2024-04-19T09%3A52%3A18Z&se=2024-04-20T09%3A52%3A18Z&sr=b&sp=r&sig=ej6dlzXj1lpXHyF107ZxAVCDUrKOEIPtKeXy7IseEYA%3D",
+                  "taskCode": "T0000595",
+                  "taskGroup": "AjW8j9Nf8iwwl6V",
+                  "taskCaption": "foto selpi dong",
+                  "taskTypeCode": "ASM",
+                  "taskTypeName": "Assignment",
+                  "taskReward": 10,
+                  "answerData": [
+                    {
+                      "answerId": 0,
+                      "taskId": 0,
+                      "answerCode": null,
+                      "answerField": null,
+                      "answerCaption": null
+                    }
+                  ]
+                },
+                {
+                  "taskId": 597,
+                  "missionId": 236,
+                  "attachmentId": 200,
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/d-20333.jpg?sv=2023-11-03&st=2024-04-19T09%3A52%3A18Z&se=2024-04-20T09%3A52%3A18Z&sr=b&sp=r&sig=BQUUeylF6lL399vW8TBoJywjWw1WRkqhJ4QGFlldofw%3D",
+                  "taskCode": "T0000597",
+                  "taskGroup": "AjW8j9Nf8iwwl6V",
+                  "taskCaption": "TULIS DOA SEBELUM TIDUR",
+                  "taskTypeCode": "STX",
+                  "taskTypeName": "Short Answer",
+                  "taskReward": 10,
+                  "answerData": [
+                    {
+                      "answerId": 0,
+                      "taskId": 0,
+                      "answerCode": null,
+                      "answerField": null,
+                      "answerCaption": null
+                    }
+                  ]
+                },
+                {
+                  "taskId": 593,
+                  "missionId": 236,
+                  "attachmentId": 199,
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/e-14078.jpg?sv=2023-11-03&st=2024-04-19T09%3A52%3A18Z&se=2024-04-20T09%3A52%3A18Z&sr=b&sp=r&sig=5hoDOWB6Zg6x1T1YPq4MTyKJr%2FPPqIx9CZTrko%2BTnr8%3D",
+                  "taskCode": "T0000593",
+                  "taskGroup": "AjW8j9Nf8iwwl6V",
                   "taskCaption": "Pada PM’s Message bulan Februari 2024, Pak Agung Riyanto menyampaikan kita perlu tetap konsisten dalam menjalankan hal-hal yang sudah baik serta terus menumbuhkan semangat Continuous Improvement dan Zero Incident Mindset dalam operasional kita.\n\n“Selalu konsisten menggunakan APD saat bekerja dan melakukan pekerjaan sesuai dengan prosedur kerja dan keselamatan walaupun tidak ada yang melihat” mencerminkan tugas apa dalam pesan Pak Agung Riyanto ?",
                   "taskTypeCode": "MCQ",
                   "taskTypeName": "Multiple Choice",
                   "taskReward": 20,
                   "answerData": [
                     {
-                      "answerId": 518,
-                      "taskId": 270,
-                      "answerCode": "A0000515",
-                      "answerField": "Answer3",
-                      "answerCaption": "Melakukan achievement drive dan menjadi role model perubahan untuk menciptakan safety behavior yang "
-                    },
-                    {
-                      "answerId": 519,
-                      "taskId": 270,
-                      "answerCode": "A0000516",
-                      "answerField": "Answer4",
-                      "answerCaption": "More collaboration dan more communication"
-                    },
-                    {
-                      "answerId": 516,
-                      "taskId": 270,
-                      "answerCode": "A0000513",
+                      "answerId": 542,
+                      "taskId": 593,
+                      "answerCode": "A0000542",
                       "answerField": "Answer1",
                       "answerCaption": "Evaluasi pekerjaan di area masing-masing"
                     },
                     {
-                      "answerId": 517,
-                      "taskId": 270,
-                      "answerCode": "A0000514",
+                      "answerId": 545,
+                      "taskId": 593,
+                      "answerCode": "A0000545",
+                      "answerField": "Answer4",
+                      "answerCaption": "More collaboration dan more communication"
+                    },
+                    {
+                      "answerId": 543,
+                      "taskId": 593,
+                      "answerCode": "A0000543",
                       "answerField": "Answer2",
                       "answerCaption": "Membangun komunikasi terbuka"
+                    },
+                    {
+                      "answerId": 544,
+                      "taskId": 593,
+                      "answerCode": "A0000544",
+                      "answerField": "Answer3",
+                      "answerCaption": "Melakukan achievement drive dan menjadi role model perubahan untuk menciptakan safety behavior yang "
+                    }
+                  ]
+                },
+                {
+                  "taskId": 596,
+                  "missionId": 236,
+                  "attachmentId": 197,
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/c-79151.jpg?sv=2023-11-03&st=2024-04-19T09%3A52%3A18Z&se=2024-04-20T09%3A52%3A18Z&sr=b&sp=r&sig=45Zb8rHd2Gwq0LlWxy%2Bx%2Bu54VTBfXmaaG6eaGa8fVEE%3D",
+                  "taskCode": "T0000596",
+                  "taskGroup": "AjW8j9Nf8iwwl6V",
+                  "taskCaption": "1+1 berapa hayo?",
+                  "taskTypeCode": "SCQ",
+                  "taskTypeName": "Single Choice",
+                  "taskReward": 10,
+                  "answerData": [
+                    {
+                      "answerId": 551,
+                      "taskId": 596,
+                      "answerCode": "A0000551",
+                      "answerField": "Answer4",
+                      "answerCaption": "4"
+                    },
+                    {
+                      "answerId": 549,
+                      "taskId": 596,
+                      "answerCode": "A0000549",
+                      "answerField": "Answer2",
+                      "answerCaption": "3"
+                    },
+                    {
+                      "answerId": 548,
+                      "taskId": 596,
+                      "answerCode": "A0000548",
+                      "answerField": "Answer1",
+                      "answerCaption": "10"
+                    },
+                    {
+                      "answerId": 550,
+                      "taskId": 596,
+                      "answerCode": "A0000550",
+                      "answerField": "Answer3",
+                      "answerCaption": "5"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "employeeMissionId": 38,
+      "employeeId": 70002009,
+      "missionId": 240,
+      "missionStatusCode": 0,
+      "missionStatus": "Assigned",
+      "startedDate": "2024-04-18T00:00:00",
+      "dueDate": "2024-04-25T00:00:00",
+      "submittedBy": "",
+      "submittedDate": null,
+      "completedBy": "",
+      "completedDate": null,
+      "chapterData": [
+        {
+          "chapterId": 1,
+          "chapterCode": "C0001",
+          "chapterName": "Chapter 1",
+          "chapterGoal": "Chapter Goal 1",
+          "competencyCode": "C0001",
+          "competencyName": "Coname",
+          "peopleCategoryCode": "Safe",
+          "peopleCategoryName": "Safe",
+          "missionData": [
+            {
+              "missionId": 240,
+              "chapterId": 1,
+              "missionCode": "M0000241",
+              "missionName": "MISI LAGI BANG",
+              "missionInstruction": "Langkah Kerja\n\n1. Tuliskan NIK dan NAMA Anda secara benar\n2. Bacalah pertanyaan soal dengan seksama dan pilihlah jawaban yang tepat\ntahuan.",
+              "missionDuration": 2,
+              "missionActiveOnDay": 7,
+              "missionTypeCode": "Quiz",
+              "missionTypeName": "Quiz",
+              "missionReward": 10,
+              "isMandatoryAttachment": null,
+              "taskData": [
+                {
+                  "taskId": 601,
+                  "missionId": 240,
+                  "attachmentId": 203,
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/b-68167.jpg?sv=2023-11-03&st=2024-04-19T09%3A52%3A18Z&se=2024-04-20T09%3A52%3A18Z&sr=b&sp=r&sig=eSIUEGkv%2BIrPCsRLxGWLTJYXgza00BaDuT%2BTlSoJ%2Be4%3D",
+                  "taskCode": "T0000598",
+                  "taskGroup": "PBJXjkczYUb1HSG",
+                  "taskCaption": "BERAPA RATING PANDU SEBAGAI TESTER?",
+                  "taskTypeCode": "RAT",
+                  "taskTypeName": "Rating",
+                  "taskReward": 2,
+                  "answerData": [
+                    {
+                      "answerId": 0,
+                      "taskId": 0,
+                      "answerCode": null,
+                      "answerField": null,
+                      "answerCaption": null
+                    }
+                  ]
+                },
+                {
+                  "taskId": 598,
+                  "missionId": 240,
+                  "attachmentId": 202,
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/c-55375.jpg?sv=2023-11-03&st=2024-04-19T09%3A52%3A18Z&se=2024-04-20T09%3A52%3A18Z&sr=b&sp=r&sig=a4EaGAW3RJfmNnhEI7YljxA%2BcJ%2FSVVyf%2FhYWqqwqnTo%3D",
+                  "taskCode": "T0000599",
+                  "taskGroup": "PBJXjkczYUb1HSG",
+                  "taskCaption": "1+1 berapa hayo?",
+                  "taskTypeCode": "SCQ",
+                  "taskTypeName": "Single Choice",
+                  "taskReward": 2,
+                  "answerData": [
+                    {
+                      "answerId": 552,
+                      "taskId": 598,
+                      "answerCode": "A0000552",
+                      "answerField": "Answer1",
+                      "answerCaption": "10"
+                    },
+                    {
+                      "answerId": 555,
+                      "taskId": 598,
+                      "answerCode": "A0000555",
+                      "answerField": "Answer4",
+                      "answerCaption": "4"
+                    },
+                    {
+                      "answerId": 553,
+                      "taskId": 598,
+                      "answerCode": "A0000553",
+                      "answerField": "Answer2",
+                      "answerCaption": "3"
+                    },
+                    {
+                      "answerId": 554,
+                      "taskId": 598,
+                      "answerCode": "A0000554",
+                      "answerField": "Answer3",
+                      "answerCaption": "5"
+                    }
+                  ]
+                },
+                {
+                  "taskId": 599,
+                  "missionId": 240,
+                  "attachmentId": 206,
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/a-78696.jpg?sv=2023-11-03&st=2024-04-19T09%3A52%3A18Z&se=2024-04-20T09%3A52%3A18Z&sr=b&sp=r&sig=k5wxuFD9RnZNJiONuvVcdtoJnDv4Atv5Pqy%2Fylh%2FaLQ%3D",
+                  "taskCode": "T0000601",
+                  "taskGroup": "PBJXjkczYUb1HSG",
+                  "taskCaption": "SOLAT APA GAK?",
+                  "taskTypeCode": "YNQ",
+                  "taskTypeName": "Yes/ No",
+                  "taskReward": 2,
+                  "answerData": [
+                    {
+                      "answerId": 557,
+                      "taskId": 599,
+                      "answerCode": "A0000557",
+                      "answerField": "Answer2",
+                      "answerCaption": "G"
+                    },
+                    {
+                      "answerId": 556,
+                      "taskId": 599,
+                      "answerCode": "A0000556",
+                      "answerField": "Answer1",
+                      "answerCaption": "Y"
+                    }
+                  ]
+                },
+                {
+                  "taskId": 600,
+                  "missionId": 240,
+                  "attachmentId": 205,
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/d-62579.jpg?sv=2023-11-03&st=2024-04-19T09%3A52%3A18Z&se=2024-04-20T09%3A52%3A18Z&sr=b&sp=r&sig=QW6WVv2GE8FfK03iyupuQZirj335ONS4uxMGEN3hcTQ%3D",
+                  "taskCode": "T0000600",
+                  "taskGroup": "PBJXjkczYUb1HSG",
+                  "taskCaption": "TULIS DOA SEBELUM TIDUR",
+                  "taskTypeCode": "STX",
+                  "taskTypeName": "Short Answer",
+                  "taskReward": 2,
+                  "answerData": [
+                    {
+                      "answerId": 0,
+                      "taskId": 0,
+                      "answerCode": null,
+                      "answerField": null,
+                      "answerCaption": null
                     }
                   ]
                 }

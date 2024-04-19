@@ -54,7 +54,8 @@ class CommonUtils {
     int idx = value.indexOf(":");
     final first = value.substring(0,idx).trim().replaceAll(' ', 'T');
     final last = value.substring(idx+1).trim();
-    return '$first:$last';
+    final lastTrimmed = last.substring(0, last.length - 3);
+    return '$first:${lastTrimmed}Z';
   }
 
   static String formatDateTimeRequestParam(String value) {
