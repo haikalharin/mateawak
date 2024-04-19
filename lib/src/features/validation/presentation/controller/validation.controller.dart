@@ -63,7 +63,6 @@ class ValidationController extends _$ValidationController {
       }
       return value;
     });
-    debugPrint('validationget');
   }
 
   Future<void> filterValidationList(String query) async {
