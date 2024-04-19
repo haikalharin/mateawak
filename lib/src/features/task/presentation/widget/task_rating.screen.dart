@@ -5,6 +5,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
+import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -68,7 +69,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                    "${currentQuestionIndex.state + 1}/${listTask.length}",
+                                    "Task ${currentQuestionIndex.state + 1}/${listTask.length}",
                                     style: SharedComponent.textStyleCustom(
                                         typographyType: TypographyType.largeH5,
                                         fontColor: ColorTheme.textDark)),
@@ -341,7 +342,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                         builder: (context) {
                                           return CustomDialog(
                                               title:
-                                                  "Are you sure want to submit your ${(gamificationData.chapterData?.single.missionData?.single.missionTypeName == "Assignment" ? "assignment" : "answers")}",
+                                                  "Are you sure want to submit your answers",
                                               content:
                                                   "Are you sure want to leave",
                                               label: "Submit",

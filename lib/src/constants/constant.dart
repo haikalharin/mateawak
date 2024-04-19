@@ -607,4 +607,220 @@ class Constant {
   ];
   static const htmlNews =
       "<p><strong><span style=\"font-family: 'Verdana',sans-serif; color: #333333;\">BUMA Rampungkan Penerbitan Obligasi I</span></strong><span style=\"font-family: 'Verdana',sans-serif; color: #333333;\">&nbsp;<strong><span style=\"font-family: 'Verdana',sans-serif;\">Tahun&nbsp;2023</span></strong></span></p> <p style=\"line-height: 14.25pt;\"><span style=\"font-size: 8.0pt; font-family: 'Verdana',sans-serif; color: black;\">Selasa, 16 Jan 2026</span></p> <p style=\"line-height: 14.25pt;\"><span style=\"font-family: 'Verdana',sans-serif; color: #333333;\">Torem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus.</span></p> <p style=\"line-height: 14.25pt; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; text-align: start; widows: 2; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; word-spacing: 0px;\"><span style=\"font-family: 'Verdana',sans-serif; color: #333333;\">Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam.</span></p>";
+
+  static const rawValidationDummy = [
+    {
+                "employeeMissionId": 3,
+                "employeeId": 70002009,
+                "missionId": 232,
+                "missionStatusCode": 3,
+                "missionStatus": "Under Review",
+                "startedDate": "2024-01-01T00:00:00",
+                "dueDate": "2024-01-02T00:00:00",
+                "submittedBy": "2009u1.supervisor@buma365.onmicrosoft.com",
+                "submittedDate": "2022-01-01T00:00:00",
+                "completedBy": "2009u1.supervisor@buma365.onmicrosoft.com",
+                "completedDate": "2024-03-18T06:32:43.167",
+                "validatorId": 2801070,
+                "chapterData": [
+                    {
+                        "chapterId": 1,
+                        "chapterCode": "C0001",
+                        "chapterName": "Chapter 1",
+                        "chapterGoal": "Chapter Goal 1",
+                        "competencyCode": "C0001",
+                        "competencyName": "Coname",
+                        "peopleCategoryCode": "PC0001",
+                        "peopleCategoryName": "People Category 1",
+                        "missionData": [
+                            {
+                                "missionId": 232,
+                                "chapterId": 1,
+                                "missionCode": "M0000233",
+                                "missionName": "Review JSA Plant",
+                                "missionInstruction": "Panduan Langkah Penyelesaian Misi :\n1. Pilihlah JSA yang sesuai dengan pekerjaan area kerja masing-masing, yang isinya berhubungan dalam prosedur pengendalian potensi jari terjepit, contoh : area kerja di Workshop, memilih JSAP Melepas dan memasang final drive OHT 777 D/E\n2. Lakukan diskusi dengan tim simulasi Anda (foreman dan mekanik), terkait isi dari JSA tersebut, terutama langkah pekerjaan yang memiliki bahaya / risiko jari terjepit, dan bagaimana prosedur pengendaliannya\n3. Dari JSA yang anda review tersebut dengan tim anda, apakah ada poin yang perlu untuk di revisi / ditambahkan untuk pengendalian potensi risiko jari terjepit.\n4. Dokumentasikan diskusi bersama tim anda tersebut dan upload evidennya di google form\n5. Poin dari anggota tim, akan didapatkan ketika supervisor mengupload foto full team bersama foreman dan 2 mekaniknya, jika ada team yang cuti, silahkan isi pada form\n6. Jika supervisor cuti, delegasikan tugas ini kepada foreman dalam tim anda",
+                                "missionDuration": 3,
+                                "missionActiveOnDay": 9,
+                                "missionTypeCode": "Assignment",
+                                "missionTypeName": "Assignment",
+                                "missionReward": 100,
+                                "isMandatoryAttachment": null,
+                                "taskData": [
+                                    {
+                                        "taskId": 268,
+                                        "missionId": 232,
+                                        "attachmentId": 1,
+                                        "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/btech-24216.jpg?sv=2023-11-03&st=2024-04-17T11%3A14%3A01Z&se=2024-04-18T11%3A14%3A01Z&sr=b&sp=r&sig=JKLBlTsIuorHzwQcv%2B2fqtu69dp3%2FEWFoer%2FnR3Tppw%3D",
+                                        "taskCode": "T0000268",
+                                        "taskGroup": "G0001",
+                                        "taskCaption": "Judul JSA yang dilakukan Review.\nPoin - poin yang di revisi atau ditambahkan (urutan langkah tugas, bahaya/risiko, kode bahaya dan rekomendasi / prosedur pengendalian bahaya)\n\nMisalnya : JSA yang dipilih Dumping Material di Jalan Tambang, poin yang perlu ditambahkan dalam rekomendasi pengendalian bahaya tersebut adalah penggunaan rambu penanda perbaikan jalan, sehingga unit hauler yang lain dapat mengetahui dan akan mengurangi kecepatan saat melewati area perbaikan jalan tersebut.",
+                                        "taskTypeCode": "ASM",
+                                        "taskTypeName": "Assignment",
+                                        "taskReward": 100,
+                                        "taskAnswerId": 13,
+                                        "answer": "Test",
+                                        "answerAttachmentId": 70,
+                                        "answerAttachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/btech-31145.jpg?sv=2023-11-03&st=2024-04-17T11%3A14%3A01Z&se=2024-04-18T11%3A14%3A01Z&sr=b&sp=r&sig=BdufpXme4FJ9gkRf7cxLVU2cyQOowQs5yzaAgw292M0%3D",
+                                        "answerReward": 0,
+                                        "feedbackComment": null,
+                                        "qualitativeScoreId": 0,
+                                        "answerData": [
+                                            {
+                                                "answerId": 0,
+                                                "taskId": 0,
+                                                "answerCode": null,
+                                                "answerField": null,
+                                                "answerCaption": null
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "employeeMissionId": 30,
+                "employeeId": 70002009,
+                "missionId": 234,
+                "missionStatusCode": 3,
+                "missionStatus": "Under Review",
+                "startedDate": "2024-01-01T00:00:00",
+                "dueDate": "2024-01-02T00:00:00",
+                "submittedBy": "2009u1.supervisor@buma365.onmicrosoft.com",
+                "submittedDate": "2022-01-01T00:00:00",
+                "completedBy": "2009u1.supervisor@buma365.onmicrosoft.com",
+                "completedDate": "2024-03-28T06:32:43.167",
+                "validatorId": 2801070,
+                "chapterData": [
+                    {
+                        "chapterId": 1,
+                        "chapterCode": "C0001",
+                        "chapterName": "Chapter 1",
+                        "chapterGoal": "Chapter Goal 1",
+                        "competencyCode": "C0001",
+                        "competencyName": "Coname",
+                        "peopleCategoryCode": "PC0001",
+                        "peopleCategoryName": "People Category 1",
+                        "missionData": [
+                            {
+                                "missionId": 234,
+                                "chapterId": 1,
+                                "missionCode": "M0000235",
+                                "missionName": "Review JSA Plant",
+                                "missionInstruction": "Panduan Langkah Penyelesaian Misi :\n1. Pilihlah JSA yang sesuai dengan pekerjaan area kerja masing-masing, yang isinya berhubungan dalam prosedur pengendalian potensi jari terjepit, contoh : area kerja di Workshop, memilih JSAP Melepas dan memasang final drive OHT 777 D/E\n2. Lakukan diskusi dengan tim simulasi Anda (foreman dan mekanik), terkait isi dari JSA tersebut, terutama langkah pekerjaan yang memiliki bahaya / risiko jari terjepit, dan bagaimana prosedur pengendaliannya\n3. Dari JSA yang anda review tersebut dengan tim anda, apakah ada poin yang perlu untuk di revisi / ditambahkan untuk pengendalian potensi risiko jari terjepit.\n4. Dokumentasikan diskusi bersama tim anda tersebut dan upload evidennya di google form\n5. Poin dari anggota tim, akan didapatkan ketika supervisor mengupload foto full team bersama foreman dan 2 mekaniknya, jika ada team yang cuti, silahkan isi pada form\n6. Jika supervisor cuti, delegasikan tugas ini kepada foreman dalam tim anda",
+                                "missionDuration": 3,
+                                "missionActiveOnDay": 9,
+                                "missionTypeCode": "Assignment",
+                                "missionTypeName": "Assignment",
+                                "missionReward": 100,
+                                "isMandatoryAttachment": null,
+                                "taskData": [
+                                    {
+                                        "taskId": 272,
+                                        "missionId": 234,
+                                        "attachmentId": 1,
+                                        "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/btech-24216.jpg?sv=2023-11-03&st=2024-04-17T11%3A14%3A01Z&se=2024-04-18T11%3A14%3A01Z&sr=b&sp=r&sig=JKLBlTsIuorHzwQcv%2B2fqtu69dp3%2FEWFoer%2FnR3Tppw%3D",
+                                        "taskCode": "T0000272",
+                                        "taskGroup": "G0001",
+                                        "taskCaption": "Judul JSA yang dilakukan Review.\nPoin - poin yang di revisi atau ditambahkan (urutan langkah tugas, bahaya/risiko, kode bahaya dan rekomendasi / prosedur pengendalian bahaya)\n\nMisalnya : JSA yang dipilih Dumping Material di Jalan Tambang, poin yang perlu ditambahkan dalam rekomendasi pengendalian bahaya tersebut adalah penggunaan rambu penanda perbaikan jalan, sehingga unit hauler yang lain dapat mengetahui dan akan mengurangi kecepatan saat melewati area perbaikan jalan tersebut.",
+                                        "taskTypeCode": "ASM",
+                                        "taskTypeName": "Assignment",
+                                        "taskReward": 100,
+                                        "taskAnswerId": 14,
+                                        "answer": "Test",
+                                        "answerAttachmentId": 0,
+                                        "answerAttachmentUrl": null,
+                                        "answerReward": 0,
+                                        "feedbackComment": null,
+                                        "qualitativeScoreId": 0,
+                                        "answerData": [
+                                            {
+                                                "answerId": 0,
+                                                "taskId": 0,
+                                                "answerCode": null,
+                                                "answerField": null,
+                                                "answerCaption": null
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "employeeMissionId": 29,
+                "employeeId": 70002009,
+                "missionId": 235,
+                "missionStatusCode": 3,
+                "missionStatus": "Under Review",
+                "startedDate": "2024-01-01T00:00:00",
+                "dueDate": "2024-01-02T00:00:00",
+                "submittedBy": "2009u1.supervisor@buma365.onmicrosoft.com",
+                "submittedDate": "2022-01-01T00:00:00",
+                "completedBy": "2009u1.supervisor@buma365.onmicrosoft.com",
+                "completedDate": "2024-03-28T06:32:43.167",
+                "validatorId": 2801070,
+                "chapterData": [
+                    {
+                        "chapterId": 1,
+                        "chapterCode": "C0001",
+                        "chapterName": "Chapter 1",
+                        "chapterGoal": "Chapter Goal 1",
+                        "competencyCode": "C0001",
+                        "competencyName": "Coname",
+                        "peopleCategoryCode": "PC0001",
+                        "peopleCategoryName": "People Category 1",
+                        "missionData": [
+                            {
+                                "missionId": 235,
+                                "chapterId": 1,
+                                "missionCode": "M0000236",
+                                "missionName": "Review JSA Plant",
+                                "missionInstruction": "Panduan Langkah Penyelesaian Misi :\n1. Pilihlah JSA yang sesuai dengan pekerjaan area kerja masing-masing, yang isinya berhubungan dalam prosedur pengendalian potensi jari terjepit, contoh : area kerja di Workshop, memilih JSAP Melepas dan memasang final drive OHT 777 D/E\n2. Lakukan diskusi dengan tim simulasi Anda (foreman dan mekanik), terkait isi dari JSA tersebut, terutama langkah pekerjaan yang memiliki bahaya / risiko jari terjepit, dan bagaimana prosedur pengendaliannya\n3. Dari JSA yang anda review tersebut dengan tim anda, apakah ada poin yang perlu untuk di revisi / ditambahkan untuk pengendalian potensi risiko jari terjepit.\n4. Dokumentasikan diskusi bersama tim anda tersebut dan upload evidennya di google form\n5. Poin dari anggota tim, akan didapatkan ketika supervisor mengupload foto full team bersama foreman dan 2 mekaniknya, jika ada team yang cuti, silahkan isi pada form\n6. Jika supervisor cuti, delegasikan tugas ini kepada foreman dalam tim anda",
+                                "missionDuration": 3,
+                                "missionActiveOnDay": 9,
+                                "missionTypeCode": "Assignment",
+                                "missionTypeName": "Assignment",
+                                "missionReward": 100,
+                                "isMandatoryAttachment": null,
+                                "taskData": [
+                                    {
+                                        "taskId": 273,
+                                        "missionId": 235,
+                                        "attachmentId": 3,
+                                        "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/btech-61179.jpg?sv=2023-11-03&st=2024-04-17T11%3A14%3A01Z&se=2024-04-18T11%3A14%3A01Z&sr=b&sp=r&sig=JV4nFoEiMnuWDCwWMy6SYNWByDXNKVkcCTB1zlujg5Q%3D",
+                                        "taskCode": "T0000274",
+                                        "taskGroup": "G0002",
+                                        "taskCaption": "Judul JSA yang dilakukan Review.\nPoin - poin yang di revisi atau ditambahkan (urutan langkah tugas, bahaya/risiko, kode bahaya dan rekomendasi / prosedur pengendalian bahaya)\n\nMisalnya : JSA yang dipilih Dumping Material di Jalan Tambang, poin yang perlu ditambahkan dalam rekomendasi pengendalian bahaya tersebut adalah penggunaan rambu penanda perbaikan jalan, sehingga unit hauler yang lain dapat mengetahui dan akan mengurangi kecepatan saat melewati area perbaikan jalan tersebut.",
+                                        "taskTypeCode": "ASM",
+                                        "taskTypeName": "Assignment",
+                                        "taskReward": 5,
+                                        "taskAnswerId": 15,
+                                        "answer": "Test",
+                                        "answerAttachmentId": 64,
+                                        "answerAttachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/btech-85109-84197.jpg?sv=2023-11-03&st=2024-04-17T11%3A14%3A01Z&se=2024-04-18T11%3A14%3A01Z&sr=b&sp=r&sig=U5pooj0oOdWE88RtuWKPFHuksQ8%2B00vPTPOIFw34bqQ%3D",
+                                        "answerReward": 0,
+                                        "feedbackComment": null,
+                                        "qualitativeScoreId": 0,
+                                        "answerData": [
+                                            {
+                                                "answerId": 0,
+                                                "taskId": 0,
+                                                "answerCode": null,
+                                                "answerField": null,
+                                                "answerCaption": null
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+  ];
 }

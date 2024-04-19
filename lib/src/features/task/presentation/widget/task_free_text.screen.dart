@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_etamkawa/src/configs/theme/color.theme.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
+import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../main_nav/presentation/controller/main_nav.controller.dart';
@@ -91,7 +92,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                      "${currentQuestionIndex.state + 1}/${listTask.length}",
+                                      "Task ${currentQuestionIndex.state + 1}/${listTask.length}",
                                       style: SharedComponent.textStyleCustom(
                                           typographyType:
                                               TypographyType.largeH5,
@@ -155,6 +156,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                           listTask[currentQuestionIndex.state]
                                                   .attachmentPath ??
                                               '')),
+                                  
                                       fit: BoxFit.cover,
                                     ),
                                     color: ColorTheme.backgroundWhite,
@@ -392,7 +394,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                             builder: (context) {
                                               return CustomDialog(
                                                   title:
-                                                      "Are you sure want to submit your ${(gamificationData.chapterData?.single.missionData?.single.missionTypeName == "Assignment" ? "assignment" : "answers")}",
+                                                      "Are you sure want to submit your answers",
                                                   content:
                                                       "Are you sure want to leave",
                                                   label: "Submit",

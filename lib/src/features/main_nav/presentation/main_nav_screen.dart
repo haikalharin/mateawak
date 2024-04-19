@@ -6,6 +6,8 @@ import 'package:module_etamkawa/src/features/main_nav/presentation/controller/ma
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/mission.screen.dart';
 import 'package:module_etamkawa/src/features/overview/presentation/overview.screen.dart';
+import 'package:module_etamkawa/src/features/validation/presentation/controller/validation.controller.dart';
+import 'package:module_etamkawa/src/features/validation/presentation/validation.screen.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../shared_component/shared_component_etamkawa.dart';
@@ -18,7 +20,7 @@ IndexedStack pages({required int currentIndex}) {
       OverviewScreen(),
       UnderConstructionScreen(),
       MissionScreen(),
-      UnderConstructionScreen(),
+      ValidationScreen(),
       UnderConstructionScreen(),
     ],
   );
@@ -51,6 +53,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
         data: (data) {
           final ctrl = ref.watch(mainNavControllerProvider.notifier);
           final ctrlMission = ref.watch(missionControllerProvider.notifier);
+          final ctrlValidation = ref.watch(validationControllerProvider.notifier);
 
           final submitStatus = ref.watch(submitStatusState);
           return Consumer(
@@ -64,7 +67,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
               case 2:
                 title = 'Mission';
               case 3:
-                title = 'Approval';
+                title = 'Validation';
               case 4:
                 title = 'Profile';
               default:
@@ -141,7 +144,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                         ),
                         BottomNavigationBarItem(
                           icon: const Icon(Icons.check_circle),
-                          label: 'Approval',
+                          label: 'Validation',
                           activeIcon: Icon(
                             Icons.check_circle,
                             color: ColorTheme.primary500,
@@ -162,7 +165,9 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                         if(ctrl.indexNav == 2){
                           await ctrlMission
                               .getMissionList();
-
+                        } else if(ctrl.indexNav == 3){
+                          await ctrlValidation
+                              .getValidationList();
                         }
                       },
                     ),

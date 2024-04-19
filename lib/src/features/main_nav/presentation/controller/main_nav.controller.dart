@@ -50,7 +50,6 @@ class MainNavController extends _$MainNavController {
          ref.watch(submitStatusState.notifier)
              .state = SubmitStatus.success;
          ref.read(goRouterProvider).goNamed(homeEtakawaInit);});
-
      });
 
   } else{

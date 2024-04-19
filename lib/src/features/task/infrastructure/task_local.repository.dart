@@ -1,9 +1,13 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
+import 'package:module_etamkawa/src/constants/constant.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
+import 'package:module_etamkawa/src/features/overview/presentation/controller/overview.controller.dart';
 import 'package:module_etamkawa/src/features/task/domain/answer_request.remote.dart';
 import 'package:module_etamkawa/src/features/task/presentation/controller/task.controller.dart';
+import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
 import 'package:module_shared/module_shared.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -31,9 +35,6 @@ FutureOr<bool> putTaskAnswerLocal(PutTaskAnswerLocalRef ref,
 
   return true;
 }
-
-
-
 
 @riverpod
 FutureOr<List<TaskDatumAnswerRequestRemote>> getAnswerLocal(
@@ -81,21 +82,21 @@ FutureOr<List<TaskDatumAnswerRequestRemote>> getTaskAnswerFinalLocal(
 }
 
 @riverpod
-FutureOr<bool> putAnswerFinalLocal(PutAnswerFinalLocalRef ref,{required AnswerRequestRemote answerRequestRemote}) async {
+FutureOr<bool> putAnswerFinalLocal(PutAnswerFinalLocalRef ref,
+    {required AnswerRequestRemote answerRequestRemote}) async {
   final isarInstance = await ref.watch(isarInstanceProvider.future);
   List<TaskDatumAnswer> listData = [];
   await isarInstance.writeTxn(() async {
     await isarInstance.answerRequestRemotes.put(answerRequestRemote);
-
   });
-
   ref.keepAlive();
 
   return true;
 }
 
 @riverpod
-FutureOr<List<TaskDatumAnswer>> getAnswerFinalLocal(GetAnswerFinalLocalRef ref,{required int employeeMissionId }) async {
+FutureOr<List<TaskDatumAnswer>> getAnswerFinalLocal(GetAnswerFinalLocalRef ref,
+    {required int employeeMissionId}) async {
   final isarInstance = await ref.watch(isarInstanceProvider.future);
 
   final data = await isarInstance.answerRequestRemotes
@@ -103,10 +104,8 @@ FutureOr<List<TaskDatumAnswer>> getAnswerFinalLocal(GetAnswerFinalLocalRef ref,{
       .employeeMissionIdEqualTo(employeeMissionId)
       .findAll();
 
-  return data.single.taskData??[];
-
+  return data.single.taskData ?? [];
 }
-
 
 @riverpod
 FutureOr<bool> changeStatusTaskLocal(ChangeStatusTaskLocalRef ref,
@@ -124,4 +123,22 @@ FutureOr<bool> changeStatusTaskLocal(ChangeStatusTaskLocalRef ref,
   ref.keepAlive();
 
   return true;
+}
+
+@riverpod
+Future<void> submitMission(SubmitMissionRef ref,
+    {required AnswerRequestRemote answerRequestRemote}) async {
+      final userModel = await ref.read(helperUserProvider).getUserProfile();
+  final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
+  if (isConnectionAvailable) {
+    answerRequestRemote.taskData?.single.attachmentId = 64;
+    answerRequestRemote.status = 2;
+    final connect = ref.read(connectProvider.notifier);
+    final response = await connect.post(
+        modul: ModuleType.etamkawaGamification,
+        path: "api/mission/submit_employee_mission?userAccount=${userModel?.email??''}&${Constant.apiVer}",
+        body: 
+          answerRequestRemote.toJson()
+        );
+  }
 }

@@ -48,11 +48,7 @@ class CustomDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             SvgPicture.asset(
-              (type == DialogType.info)
-                  ? ImageConstant.iconDialogInfo
-                  : (type == DialogType.error)
-                      ? ImageConstant.iconDialogError
-                      : ImageConstant.iconDialogSuccess,
+              imageConstant,
               package: Constant.moduleEtamkawa,
             ),
             SizedBox(height: 10.h),

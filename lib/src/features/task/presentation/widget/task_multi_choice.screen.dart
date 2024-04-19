@@ -5,6 +5,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
+import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../../configs/theme/color.theme.dart';
@@ -23,7 +24,7 @@ class TaskMultiChoiceScreen extends ConsumerStatefulWidget {
 class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
   // int currentQuestionIndex = 0;
   List<int> listData = [];
-  bool isInit =true;
+  bool isInit = true;
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +39,9 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
         final currentQuestionProgress = ref.watch(currentProgressState);
         final gamificationData = ref.watch(gamificationState);
         final lengthAnswer = ref.watch(listTaskState).length;
-        if(isInit) {
+        if (isInit) {
           isInit = false;
-          listData.addAll(ref
-              .watch(listSelectOptionState
-              .notifier)
-              .state);
+          listData.addAll(ref.watch(listSelectOptionState.notifier).state);
         }
         return Scaffold(
             backgroundColor: ColorTheme.backgroundLight,
@@ -71,7 +69,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                    "${currentQuestionIndex.state + 1}/${listTask.length}",
+                                    "Task ${currentQuestionIndex.state + 1}/${listTask.length}",
                                     style: SharedComponent.textStyleCustom(
                                         typographyType: TypographyType.largeH5,
                                         fontColor: ColorTheme.textDark)),
@@ -377,7 +375,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                           builder: (context) {
                                             return CustomDialog(
                                                 title:
-                                                    "Are you sure want to submit your ${(gamificationData.chapterData?.single.missionData?.single.missionTypeName == "Assignment" ? "assignment" : "answers")}",
+                                                    "Are you sure want to submit your answers",
                                                 content:
                                                     "Are you sure want to leave",
                                                 label: "Submit",
@@ -394,8 +392,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                           await ctrlMission
                                                               .getMissionList()
                                                               .whenComplete(
-                                                                  () {
-                                                                  });
+                                                                  () {});
                                                         });
                                                       })
                                                     });

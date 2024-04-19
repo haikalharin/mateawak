@@ -68,11 +68,10 @@ class _TaskSingleChoiceScreenState
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "${currentQuestionIndex.state + 1}/${listTask.length}",
-                                  style: SharedComponent.textStyleCustom(
-                                      typographyType: TypographyType.largeH5,
-                                      fontColor: ColorTheme.textDark)
-                                ),
+                                    "Task ${currentQuestionIndex.state + 1}/${listTask.length}",
+                                    style: SharedComponent.textStyleCustom(
+                                        typographyType: TypographyType.largeH5,
+                                        fontColor: ColorTheme.textDark)),
                                 Container(
                                   width: 75.h,
                                   child: Row(
@@ -80,8 +79,7 @@ class _TaskSingleChoiceScreenState
                                       Container(
                                         padding: EdgeInsets.all(4),
                                         decoration: BoxDecoration(
-                                            color:
-                                                ColorTheme.secondary100,
+                                            color: ColorTheme.secondary100,
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(5.r))),
                                         child: Center(
@@ -93,16 +91,18 @@ class _TaskSingleChoiceScreenState
                                             children: [
                                               Icon(
                                                 Icons.star,
-                                                color: ColorTheme
-                                                    .secondary500,
+                                                color: ColorTheme.secondary500,
                                                 size: 12.h,
                                               ),
                                               Text(
-                                                " +${listTask[currentQuestionIndex.state].taskReward}",
-                                                style: SharedComponent.textStyleCustom(
-                                                    typographyType: TypographyType.largeH5,
-                                                    fontColor: ColorTheme.secondary500)
-                                              ),
+                                                  " +${listTask[currentQuestionIndex.state].taskReward}",
+                                                  style: SharedComponent
+                                                      .textStyleCustom(
+                                                          typographyType:
+                                                              TypographyType
+                                                                  .largeH5,
+                                                          fontColor: ColorTheme
+                                                              .secondary500)),
                                             ],
                                           ),
                                         )),
@@ -124,10 +124,11 @@ class _TaskSingleChoiceScreenState
                               height: 200,
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
-                                  image:  DecorationImage(
-                                    image: FileImage(
-                                      File(listTask[currentQuestionIndex.state].attachmentPath??'')
-                                    ),
+                                  image: DecorationImage(
+                                    image: FileImage(File(
+                                        listTask[currentQuestionIndex.state]
+                                                .attachmentPath ??
+                                            '')),
                                     fit: BoxFit.cover,
                                   ),
                                   color: ColorTheme.backgroundWhite,
@@ -141,7 +142,7 @@ class _TaskSingleChoiceScreenState
                               listTask[currentQuestionIndex.state]
                                       .taskCaption ??
                                   '',
-                              style:  SharedComponent.textStyleCustom(
+                              style: SharedComponent.textStyleCustom(
                                   typographyType: TypographyType.medium,
                                   fontColor: ColorTheme.textDark),
                             ),
@@ -176,9 +177,10 @@ class _TaskSingleChoiceScreenState
                                     title: Text(
                                         listAnswer?[index].answerCaption ?? ''),
                                     value: listAnswer?[index].answerId ?? 0,
-                                    groupValue: listSelectedOption.state.isNotEmpty
-                                        ? listSelectedOption.state.first
-                                        : 0,
+                                    groupValue:
+                                        listSelectedOption.state.isNotEmpty
+                                            ? listSelectedOption.state.first
+                                            : 0,
                                     onChanged: (int? value) {
                                       if((gamificationData.missionStatusCode??0)<=1) {
                                         setState(() {
@@ -215,7 +217,8 @@ class _TaskSingleChoiceScreenState
                   decoration: BoxDecoration(
                       color: ColorTheme.backgroundWhite,
                       borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(10.0),topRight: Radius.circular(10.0))),
+                          topLeft: Radius.circular(10.0),
+                          topRight: Radius.circular(10.0))),
                   padding: const EdgeInsets.all(16.0),
                   child: Align(
                     alignment: Alignment.bottomCenter,
@@ -367,7 +370,7 @@ class _TaskSingleChoiceScreenState
                                         builder: (context) {
                                           return CustomDialog(
                                               title:
-                                                  "Are you sure want to submit your ${(gamificationData.chapterData?.single.missionData?.single.missionTypeName == "Assignment" ? "assignment" : "answers")}",
+                                                  "Are you sure want to submit your answers",
                                               content:
                                                   "Are you sure want to leave",
                                               label: "Submit",

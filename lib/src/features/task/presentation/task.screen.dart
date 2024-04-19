@@ -10,6 +10,7 @@ import 'package:module_etamkawa/src/features/task/presentation/widget/task_multi
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_rating.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_sinlgle_choice.screen.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
+import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../configs/theme/color.theme.dart';
@@ -178,6 +179,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                               ),
                             ],
                           ),
+                          if (gamificationData.chapterData?.single.missionData?.single.missionTypeName != "Assignment") 
                           Container(
                             margin: const EdgeInsets.only(top: 24),
                             child: Column(
@@ -235,7 +237,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                 ),
                               ],
                             ),
-                          ),
+                          ) ,
                         ],
                       ),
                     ),

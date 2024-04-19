@@ -194,6 +194,7 @@ class MissionDatum {
   String? missionTypeCode;
   String? missionTypeName;
   int? missionReward;
+  int? isMandatoryAttachment;
   List<TaskDatum>? taskData;
 
   MissionDatum({
@@ -207,6 +208,7 @@ class MissionDatum {
     this.missionTypeCode,
     this.missionTypeName,
     this.missionReward,
+    this.isMandatoryAttachment,
     this.taskData,
   });
 
@@ -221,6 +223,7 @@ class MissionDatum {
     String? missionTypeCode,
     String? missionTypeName,
     int? missionReward,
+    int? isMandatoryAttachment,
     List<TaskDatum>? taskData,
   }) =>
       MissionDatum(
@@ -234,6 +237,7 @@ class MissionDatum {
         missionTypeCode: missionTypeCode ?? this.missionTypeCode,
         missionTypeName: missionTypeName ?? this.missionTypeName,
         missionReward: missionReward ?? this.missionReward,
+        isMandatoryAttachment: isMandatoryAttachment ?? this.isMandatoryAttachment,
         taskData: taskData ?? this.taskData,
       );
 
@@ -248,6 +252,7 @@ class MissionDatum {
         missionTypeCode: json["missionTypeCode"],
         missionTypeName: json["missionTypeName"],
         missionReward: json["missionReward"],
+        isMandatoryAttachment: json["isMandatoryAttachment"],
         taskData: json["taskData"] == null
             ? []
             : List<TaskDatum>.from(
@@ -265,6 +270,7 @@ class MissionDatum {
         "missionTypeCode": missionTypeCode,
         "missionTypeName": missionTypeName,
         "missionReward": missionReward,
+        "isMandatoryAttachment": isMandatoryAttachment,
         "taskData": taskData == null
             ? []
             : List<dynamic>.from(taskData!.map((x) => x.toJson())),
