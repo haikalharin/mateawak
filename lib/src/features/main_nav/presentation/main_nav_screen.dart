@@ -36,6 +36,7 @@ class MainNavScreen extends ConsumerStatefulWidget {
 
 class _MainNavScreenState extends ConsumerState<MainNavScreen>
     with WidgetsBindingObserver {
+  bool isInit =false;
   Future<void> initEtamkawa() async {
     WidgetsFlutterBinding.ensureInitialized();
     await intializedMissionBackgroundService();
@@ -43,6 +44,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
 
   @override
   void initState() {
+    isInit =true;
     initEtamkawa();
     super.initState();
   }
@@ -166,7 +168,9 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                         ctrl.onItemTapped(value);
                         if(ctrl.indexNav == 2){
                           await ctrlMission
-                              .getMissionList(isInit: true);
+                              .getMissionList(isInit: isInit).whenComplete(() {
+                                isInit =false;
+                          });
                         } else if(ctrl.indexNav == 3){
                           await ctrlValidation
                               .getValidationList();
