@@ -13,7 +13,6 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:module_etamkawa/src/configs/theme/color.theme.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
-import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../../component/widget/dashed_border_widget.dart';
@@ -56,21 +55,25 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
         final attachmentName = ref.watch(attachmentNameState.notifier);
         final listSelectedOptionString = ref.watch(listSelectOptionStringState);
         final currentQuestionProgress = ref.watch(currentProgressState);
-        final lengthAnswer = ref.watch(listTaskState).length;
+        final lengthAnswer = ref
+            .watch(listTaskState)
+            .length;
         final listTask = ref.watch(listTaskState);
         final gamificationData = ref.watch(gamificationState);
-        if (ref.watch(previousTypeTaskState.notifier).state ==
-                TaskType.ASM.name ||
-            ref.watch(currentTypeTaskState.notifier).state ==
-                TaskType.ASM.name ||
-            ref.watch(nextTypeTaskState.notifier).state == TaskType.ASM.name) {
+        if (ref
+            .watch(currentTypeTaskState.notifier)
+            .state ==
+            TaskType.ASM.name) {
           if (isInit) {
             if (ref
                 .watch(listSelectOptionStringState.notifier)
                 .state
                 .isNotEmpty) {
               _textController.text =
-                  ref.watch(listSelectOptionStringState.notifier).state.single;
+                  ref
+                      .watch(listSelectOptionStringState.notifier)
+                      .state
+                      .single;
             }
           }
           isInit = false;
@@ -85,75 +88,71 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(10.r)),
                   ),
                   margin: const EdgeInsets.all(8),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                                (gamificationData
-                                            .chapterData
-                                            ?.single
-                                            .missionData
-                                            ?.single
-                                            .missionTypeName ==
-                                        "Assignment"
-                                    ? "Assignment"
-                                    : "Task ${currentQuestionIndex.state + 1}/${listTask.length}"),
-                                style: SharedComponent.textStyleCustom(
-                                    typographyType: TypographyType.largeH5,
-                                    fontColor: ColorTheme.textDark)),
-                            Container(
-                              width: 75.h,
-                              child: Row(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.all(4),
-                                    decoration: BoxDecoration(
-                                        color: ColorTheme.secondary100,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.r))),
-                                    child: Center(
-                                        child: Container(
-                                      height: 24.h,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Icon(
-                                            Icons.star,
-                                            color: ColorTheme.secondary500,
-                                            size: 12.h,
-                                          ),
-                                          Text(
-                                            " +${listTask[currentQuestionIndex.state].taskReward}",
-                                            style:
-                                                SharedComponent.textStyleCustom(
-                                                    typographyType:
-                                                        TypographyType.body,
-                                                    fontColor: ColorTheme
-                                                        .secondary500),
-                                          ),
-                                        ],
-                                      ),
-                                    )),
-                                  ),
-                                  Icon(
-                                    Icons.info,
-                                    color: ColorTheme.primary500,
-                                    size: 24.h,
-                                  ),
-                                ],
-                              ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                              "Task ${currentQuestionIndex.state + 1}/${listTask.length}",
+                              style: SharedComponent.textStyleCustom(
+                                  typographyType: TypographyType.largeH5,
+                                  fontColor: ColorTheme.textDark)),
+                          Container(
+                            width: 75.h,
+                            child: Row(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                      color: ColorTheme.secondary100,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.r))),
+                                  child: Center(
+                                      child: Container(
+                                        height: 24.h,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Icon(
+                                              Icons.star,
+                                              color: ColorTheme.secondary500,
+                                              size: 12.h,
+                                            ),
+                                            Text(
+                                              " +${listTask[currentQuestionIndex
+                                                  .state].taskReward}",
+                                              style:
+                                              SharedComponent.textStyleCustom(
+                                                  typographyType:
+                                                  TypographyType.body,
+                                                  fontColor:
+                                                  ColorTheme.secondary500),
+                                            ),
+                                          ],
+                                        ),
+                                      )),
+                                ),
+                                Icon(
+                                  Icons.info,
+                                  color: ColorTheme.primary500,
+                                  size: 24.h,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        Column(
+                          ),
+                        ],
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 16),
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(
@@ -161,12 +160,15 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                             ),
                             Container(
                               height: 200,
-                              width: MediaQuery.of(context).size.width,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width,
                               decoration: BoxDecoration(
                                   image: DecorationImage(
                                     image: FileImage(File(
                                         listTask[currentQuestionIndex.state]
-                                                .attachmentPath ??
+                                            .attachmentPath ??
                                             '')),
                                     fit: BoxFit.cover,
                                   ),
@@ -174,12 +176,12 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(10))),
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              const EdgeInsets.symmetric(horizontal: 16),
                             ),
                             const SizedBox(height: 10.0),
                             Text(
                               listTask[currentQuestionIndex.state]
-                                      .taskCaption ??
+                                  .taskCaption ??
                                   '',
                               style: SharedComponent.textStyleCustom(
                                   typographyType: TypographyType.medium,
@@ -189,188 +191,197 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                             const SizedBox(height: 20.0),
                             attachment.state != ''
                                 ? Container(
-                                    child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            child: RichText(
-                                              text: TextSpan(
-                                                text:
-                                                    'Evidence (one file only)',
-                                                style: SharedComponent
-                                                    .textStyleCustom(
-                                                        typographyType:
-                                                            TypographyType
-                                                                .body,
-                                                        fontColor: ColorTheme
-                                                            .textDark),
-                                                children: [
-                                                  TextSpan(
-                                                    text: '*',
-                                                    style: SharedComponent
-                                                        .textStyleCustom(
-                                                            typographyType:
-                                                                TypographyType
-                                                                    .body,
-                                                            fontColor:
-                                                                ColorTheme
-                                                                    .danger500),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 12,
-                                          ),
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                child: Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: MediaQuery
+                                              .of(context)
+                                              .size
+                                              .width,
+                                          child: RichText(
+                                            text: TextSpan(
+                                              text:
+                                              'Evidence (one file only)',
+                                              style: SharedComponent
+                                                  .textStyleCustom(
+                                                  typographyType:
+                                                  TypographyType.body,
+                                                  fontColor: ColorTheme
+                                                      .textDark),
                                               children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    attachmentName.state ?? '',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .titleLarge,
-                                                  ),
-                                                ),
-                                                InkWell(
-                                                  onTap: () async {
-                                                    if ((gamificationData
-                                                                .missionStatusCode ??
-                                                            0) <=
-                                                        1) {
-                                                      await File(
-                                                              attachment.state)
-                                                          .delete()
-                                                          .whenComplete(() {
-                                                        setState(() {
-                                                          ref
-                                                              .read(
-                                                                  attachmentNameState
-                                                                      .notifier)
-                                                              .state = '';
-                                                          ref
-                                                              .read(
-                                                                  attachmentPathState
-                                                                      .notifier)
-                                                              .state = '';
-                                                        });
-                                                      });
-                                                    }
-                                                  },
-                                                  child: Icon(
-                                                    Icons.cancel,
-                                                    color: ColorTheme
-                                                        .backgroundDark,
-                                                    size: 25.h,
-                                                  ),
+                                                TextSpan(
+                                                  text: '*',
+                                                  style: SharedComponent
+                                                      .textStyleCustom(
+                                                      typographyType:
+                                                      TypographyType
+                                                          .body,
+                                                      fontColor:
+                                                      ColorTheme
+                                                          .danger500),
                                                 ),
                                               ],
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    ],
-                                  ))
-                                : InkWell(
-                                    onTap: () {
-                                      if ((gamificationData.missionStatusCode ??
-                                              0) <=
-                                          1) {
-                                        pickDocFile();
-                                      }
-                                    },
-                                    child: DottedBorder(
-                                      color: ColorTheme.primary500,
-                                      radius: Radius.circular(12),
-                                      strokeWidth: 3,
-                                      //thickness of dash/dots
-                                      dashPattern: [10, 6],
-                                      child: Container(
-                                          height: 150,
-                                          color: ColorTheme.bgGreenLight,
-                                          child: Column(
+                                        ),
+                                        SizedBox(
+                                          height: 12,
+                                        ),
+                                        Container(
+                                          width: MediaQuery
+                                              .of(context)
+                                              .size
+                                              .width,
+                                          child: Row(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                            CrossAxisAlignment.start,
                                             children: [
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: [
-                                                  Icon(
-                                                    Icons.upload_file_rounded,
-                                                    color:
-                                                        ColorTheme.primary500,
-                                                    size: 40.h,
-                                                  ),
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            1.5,
-                                                        child: Text(
-                                                          'Drop your files here or click to upload',
-                                                          style: Theme.of(
-                                                                  context)
-                                                              .textTheme
-                                                              .titleLarge,
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            1.5,
-                                                        child: Text(
-                                                          "Allowed files .jpg, .jpeg, .png, .gif, .pdf, .doc",
-                                                          style: Theme.of(
-                                                                  context)
-                                                              .textTheme
-                                                              .bodyLarge,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
+                                              Expanded(
+                                                child: Text(
+                                                  attachmentName.state ?? '',
+                                                  style: Theme
+                                                      .of(context)
+                                                      .textTheme
+                                                      .titleLarge,
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () async {
+                                                  if ((gamificationData
+                                                      .missionStatusCode ??
+                                                      0) <=
+                                                      1) {
+                                                    await File(
+                                                        attachment.state)
+                                                        .delete()
+                                                        .whenComplete(() {
+                                                      setState(() {
+                                                        ref
+                                                            .read(
+                                                            attachmentNameState
+                                                                .notifier)
+                                                            .state = '';
+                                                        ref
+                                                            .read(
+                                                            attachmentPathState
+                                                                .notifier)
+                                                            .state = '';
+                                                      });
+                                                    });
+                                                  }
+                                                },
+                                                child: Icon(
+                                                  Icons.cancel,
+                                                  color: ColorTheme
+                                                      .backgroundDark,
+                                                  size: 25.h,
+                                                ),
                                               ),
                                             ],
-                                          )),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
+                                  ],
+                                ))
+                                : InkWell(
+                              onTap: () {
+                                if ((gamificationData.missionStatusCode ??
+                                    0) <=
+                                    1) {
+                                  pickDocFile();
+                                }
+                              },
+                              child: DottedBorder(
+                                color: ColorTheme.primary500,
+                                radius: Radius.circular(12),
+                                strokeWidth: 3,
+                                //thickness of dash/dots
+                                dashPattern: [10, 6],
+                                child: Container(
+                                    height: 150,
+                                    color: ColorTheme.bgGreenLight,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                          MainAxisAlignment
+                                              .spaceEvenly,
+                                          children: [
+                                            Icon(
+                                              Icons.upload_file_rounded,
+                                              color:
+                                              ColorTheme.primary500,
+                                              size: 40.h,
+                                            ),
+                                            Column(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment
+                                                  .start,
+                                              children: [
+                                                Container(
+                                                  width: MediaQuery
+                                                      .of(
+                                                      context)
+                                                      .size
+                                                      .width /
+                                                      1.5,
+                                                  child: Text(
+                                                    'Drop your files here or click to upload',
+                                                    style:
+                                                    Theme
+                                                        .of(context)
+                                                        .textTheme
+                                                        .titleLarge,
+                                                  ),
+                                                ),
+                                                Container(
+                                                  width: MediaQuery
+                                                      .of(
+                                                      context)
+                                                      .size
+                                                      .width /
+                                                      1.5,
+                                                  child: Text(
+                                                    "Allowed files .jpg, .jpeg, .png, .gif, .pdf, .doc",
+                                                    style:
+                                                    Theme
+                                                        .of(context)
+                                                        .textTheme
+                                                        .bodyLarge,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    )),
+                              ),
+                            ),
                             const SizedBox(height: 8.0),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width,
+                            Container(
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width,
                               child: Text(
                                 'Please ensure that your file is in the correct format.',
                                 style: TextStyle(
@@ -380,7 +391,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                 ),
                               ),
                             ),
-                            const SizedBox(
+                            SizedBox(
                               height: 12,
                             ),
                             const SizedBox(height: 8.0),
@@ -388,8 +399,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                               height: 150.0,
                               child: TextFormField(
                                 readOnly:
-                                    (gamificationData.missionStatusCode ?? 0) >
-                                        1,
+                                (gamificationData.missionStatusCode ?? 0) >
+                                    1,
                                 controller: _textController,
                                 maxLength: 100,
                                 textInputAction: TextInputAction.done,
@@ -402,27 +413,31 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                 maxLines: 10,
                                 onChanged: (value) {
                                   setState(() {
-                                    if (value.isNotEmpty) {
-                                      if (listSelectedOptionString.isNotEmpty) {
-                                        ref
-                                            .watch(listSelectOptionStringState
-                                                .notifier)
-                                            .state
-                                            .clear();
-                                      }
+
+                                    if (value.isEmpty) {
                                       ref
                                           .watch(listSelectOptionStringState
-                                              .notifier)
+                                          .notifier)
+                                          .state = [];
+
+                                      _textController.clear();
+
+
+                                    }else {
+                                      ref
+                                          .watch(listSelectOptionStringState
+                                          .notifier)
                                           .state = [value];
                                     }
+
                                   });
                                 }, // Allows multiple lines of input
                               ),
                             ),
                           ],
-                        )
-                      ],
-                    ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
                 Container(
@@ -443,187 +458,257 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                         children: [
                           0 < currentQuestionIndex.state && lengthAnswer != 1
                               ? Expanded(
-                                  child: ElevatedButton(
-                                    style: ButtonStyle(
-                                      foregroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Colors.black),
-                                      backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Colors.white),
-                                    ),
-                                    onPressed: () {
-                                      ctrl.prevQuestion().whenComplete(() {
-                                        currentQuestionIndex.state--;
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                foregroundColor:
+                                MaterialStateProperty.all<Color>(
+                                    Colors.black),
+                                backgroundColor:
+                                MaterialStateProperty.all<Color>(
+                                    Colors.white),
+                              ),
+                              onPressed: () async {
+                                setState(() async {
+                                  await ctrl
+                                      .currentQuestion(
+                                      employeeMissionId:
+                                      gamificationData
+                                          .employeeMissionId ??
+                                          0,
+                                      pagePosition: PagePosition.PREV)
+                                      .whenComplete(() {
+                                    currentQuestionIndex.state--;
+                                    ref
+                                        .watch(
+                                        currentProgressState.notifier)
+                                        .state--;
+                                    if (ref
+                                        .watch(
+                                        currentTypeTaskState
+                                            .notifier)
+                                        .state ==
+                                        TaskType.STX.name ||
                                         ref
                                             .watch(
-                                                currentProgressState.notifier)
-                                            .state--;
-                                        if (ref
-                                                .watch(previousTypeTaskState
-                                                    .notifier)
-                                                .state ==
-                                            TaskType.STX.name) {
+                                            currentTypeTaskState
+                                                .notifier)
+                                            .state ==
+                                            TaskType.ASM.name) {
+                                      ref
+                                          .watch(
+                                          listSelectOptionStringState
+                                              .notifier)
+                                          .state =
                                           ref
-                                                  .watch(
-                                                      listSelectOptionStringState
-                                                          .notifier)
-                                                  .state =
-                                              ref
-                                                  .watch(
-                                                      listSelectOptionPrevStringState
-                                                          .notifier)
-                                                  .state;
-                                        } else {
+                                              .watch(
+                                              listSelectOptionCurrentStringState
+                                                  .notifier)
+                                              .state;
+                                      ref
+                                          .watch(attachmentNameState
+                                          .notifier)
+                                          .state =
                                           ref
-                                                  .watch(listSelectOptionState
-                                                      .notifier)
-                                                  .state =
-                                              ref
-                                                  .watch(
-                                                      listSelectOptionPrevState
-                                                          .notifier)
-                                                  .state;
-                                        }
-                                      });
-                                    },
-                                    child: Text(
-                                      'Previous',
-                                    ),
-                                  ),
-                                )
+                                              .watch(
+                                              attachmentNameCurrentState
+                                                  .notifier)
+                                              .state;
+                                      ref
+                                          .watch(attachmentPathState
+                                          .notifier)
+                                          .state =
+                                          ref
+                                              .watch(
+                                              attachmentPathCurrentState
+                                                  .notifier)
+                                              .state;
+                                    } else {
+                                      ref
+                                          .watch(listSelectOptionState
+                                          .notifier)
+                                          .state =
+                                          ref
+                                              .watch(
+                                              listSelectOptionCurrentState
+                                                  .notifier)
+                                              .state;
+                                    }
+                                  });
+                                });
+                              },
+                              child: const Text(
+                                'Previous',
+                              ),
+                            ),
+                          )
                               : Container(),
                           SizedBox(width: 8),
                           Expanded(
                             child: ElevatedButton(
                               onPressed: () {
-                                if (listSelectedOptionString.isNotEmpty &&
-                                    attachment.state.isNotEmpty) {
+                                if (listSelectedOptionString.isNotEmpty) {
                                   if ((currentQuestionIndex.state + 1) <
-                                          lengthAnswer &&
+                                      lengthAnswer &&
                                       lengthAnswer != 1) {
                                     ctrl
-                                        .nextQuestion(isLast: false)
+                                        .currentQuestion(
+                                        employeeMissionId: gamificationData
+                                            .employeeMissionId ??
+                                            0,
+                                        pagePosition: PagePosition.NEXT)
                                         .whenComplete(() async {
                                       await ctrl
                                           .saveAnswer(
-                                              listTask[currentQuestionIndex
-                                                          .state]
-                                                      .taskId ??
-                                                  0,
-                                              isLast: false,
-                                              attachment: attachment.state,
-                                              attachmentName:
-                                                  attachmentName.state,
-                                              listSelectedOption:
-                                                  listSelectedOptionString,
-                                              type: listTask[
-                                                          currentQuestionIndex
-                                                              .state]
-                                                      .taskTypeCode ??
-                                                  '')
-                                          .whenComplete(() {
-                                        currentQuestionIndex.state++;
-                                        ref
-                                            .watch(
-                                                currentProgressState.notifier)
-                                            .state++;
-                                        if (ref
-                                                    .watch(nextTypeTaskState
-                                                        .notifier)
-                                                    .state ==
-                                                TaskType.STX.name ||
-                                            ref
-                                                    .watch(nextTypeTaskState
-                                                        .notifier)
-                                                    .state ==
-                                                TaskType.ASM.name) {
+                                          listTask[currentQuestionIndex
+                                              .state]
+                                              .taskId ??
+                                              0,
+                                          isLast: false,
+                                          attachment: attachment.state,
+                                          attachmentName:
+                                          attachmentName.state,
+                                          listSelectedOption:
+                                          listSelectedOptionString,
+                                          type: listTask[
+                                          currentQuestionIndex
+                                              .state]
+                                              .taskTypeCode ??
+                                              '')
+                                          .whenComplete(() async {
+                                        await ctrl
+                                            .putAnswerFinal()
+                                            .whenComplete(() async {
+                                          currentQuestionIndex.state++;
                                           ref
-                                                  .watch(
-                                                      listSelectOptionStringState
-                                                          .notifier)
-                                                  .state =
-                                              ref
-                                                  .watch(
-                                                      listSelectOptionNextStringState
-                                                          .notifier)
-                                                  .state;
-                                        } else {
-                                          ref
-                                                  .watch(listSelectOptionState
-                                                      .notifier)
-                                                  .state =
-                                              ref
-                                                  .watch(
-                                                      listSelectOptionNextState
-                                                          .notifier)
-                                                  .state;
-                                        }
+                                              .watch(
+                                              currentProgressState.notifier)
+                                              .state++;
 
-                                        _textController.clear();
-                                        isInit = true;
+                                          if (ref
+                                              .watch(
+                                              currentTypeTaskState
+                                                  .notifier)
+                                              .state ==
+                                              TaskType.STX.name ||
+                                              ref
+                                                  .watch(
+                                                  currentTypeTaskState
+                                                      .notifier)
+                                                  .state ==
+                                                  TaskType.ASM.name) {
+                                            ref
+                                                .watch(
+                                                listSelectOptionStringState
+                                                    .notifier)
+                                                .state =
+                                                ref
+                                                    .watch(
+                                                    listSelectOptionCurrentStringState
+                                                        .notifier)
+                                                    .state;
+                                            ref
+                                                .watch(attachmentNameState
+                                                .notifier)
+                                                .state =
+                                                ref
+                                                    .watch(
+                                                    attachmentNameCurrentState
+                                                        .notifier)
+                                                    .state;
+                                            ref
+                                                .watch(attachmentPathState
+                                                .notifier)
+                                                .state =
+                                                ref
+                                                    .watch(
+                                                    attachmentPathCurrentState
+                                                        .notifier)
+                                                    .state;
+                                          } else {
+                                            ref
+                                                .watch(listSelectOptionState
+                                                .notifier)
+                                                .state =
+                                                ref
+                                                    .watch(
+                                                    listSelectOptionCurrentState
+                                                        .notifier)
+                                                    .state;
+                                          }
+                                            _textController.clear();
+                                            isInit = true;
+
+                                        });
                                       });
                                     });
                                   } else {
                                     ctrl
                                         .saveAnswer(
-                                            listTask[currentQuestionIndex.state]
-                                                    .taskId ??
-                                                0,
-                                            isLast: true,
-                                            attachment: attachment.state,
-                                            attachmentName:
-                                                attachmentName.state,
-                                            listSelectedOption:
-                                                listSelectedOptionString,
-                                            type: listTask[currentQuestionIndex
-                                                        .state]
-                                                    .taskTypeCode ??
-                                                '')
-                                        .whenComplete(() {
+                                        listTask[currentQuestionIndex.state]
+                                            .taskId ??
+                                            0,
+                                        isLast: true,
+                                        attachment: attachment.state,
+                                        attachmentName:
+                                        attachmentName.state,
+                                        listSelectedOption:
+                                        listSelectedOptionString,
+                                        type: listTask[currentQuestionIndex
+                                            .state]
+                                            .taskTypeCode ??
+                                            '')
+                                        .whenComplete(() async {
                                       if (((currentQuestionProgress) * 100) ~/
-                                              listTask.length <
+                                          listTask.length <
                                           100) {
                                         ref
                                             .watch(
-                                                currentProgressState.notifier)
+                                            currentProgressState.notifier)
                                             .state++;
                                       }
-
-                                      ref
-                                          .watch(listSelectOptionStringState
-                                              .notifier)
-                                          .state
-                                          .clear();
-                                      _textController.clear();
-                                      isInit = true;
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return CustomDialog(
-                                              title:
-                                                  "Are you sure want to submit your ${(gamificationData.chapterData?.single.missionData?.single.missionTypeName == "Assignment" ? "assignment" : "answers")}",
-                                              content:
-                                                  "Are you sure want to leave",
-                                              label: "Submit",
-                                              type: DialogType.mission,
-                                              onClosed: () async => {
-                                                    await ctrl
-                                                        .putAnswerFinal()
-                                                        .whenComplete(() async {
-                                                      await ctrl
-                                                          .changeStatusTask()
-                                                          .whenComplete(
-                                                              () async {
-                                                        await ctrlMission
-                                                            .getMissionList()
+                                      await ctrl
+                                          .putAnswerFinal()
+                                          .whenComplete(() async {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return CustomDialog(
+                                                title:
+                                                "Are you sure want to submit your answers",
+                                                content:
+                                                "Are you sure want to leave",
+                                                label: "Submit",
+                                                type: DialogType.mission,
+                                                onClosed: () async =>
+                                                {
+                                                  await ctrl
+                                                      .putAnswerFinal(
+                                                      isSubmitted: true)
+                                                      .whenComplete(
+                                                          () async {
+                                                        await ctrl
+                                                            .changeStatusTask()
                                                             .whenComplete(
-                                                                () {});
-                                                      });
-                                                    })
-                                                  });
-                                        },
-                                      );
+                                                                () async {
+                                                              await ctrlMission
+                                                                  .getMissionList()
+                                                                  .whenComplete(() {
+                                                                _textController
+                                                                    .clear();
+                                                                isInit = true;
+                                                              });
+                                                            });
+                                                      })
+                                                });
+                                          },
+                                        );
+                                        ref
+                                            .watch(
+                                            listSelectOptionStringState
+                                                .notifier)
+                                            .state
+                                            .clear();
+                                      });
                                     });
                                   }
                                 } else {
@@ -636,7 +721,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                               },
                               child: Text(
                                 (currentQuestionIndex.state + 1) <
-                                        listTask.length
+                                    listTask.length
                                     ? 'Next'
                                     : 'Finish',
                               ),
@@ -684,10 +769,14 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
 
     if (result != null) {
       var fileDuplicate =
-          await asyncMethodUploadFile(file: result.files.single);
+      await asyncMethodUploadFile(file: result.files.single);
       setState(() {
-        ref.read(attachmentNameState.notifier).state = fileDuplicate.name;
-        ref.read(attachmentPathState.notifier).state = fileDuplicate.path ?? '';
+        ref
+            .read(attachmentNameState.notifier)
+            .state = fileDuplicate.name;
+        ref
+            .read(attachmentPathState.notifier)
+            .state = fileDuplicate.path ?? '';
       });
     } else {
       // User canceled the picker
