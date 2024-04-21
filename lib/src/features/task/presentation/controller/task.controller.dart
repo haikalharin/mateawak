@@ -172,8 +172,12 @@ class TaskController extends _$TaskController {
         taskData: listData);
     final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
     if (isConnectionAvailable) {
-      await ref
-          .watch(submitMissionProvider(answerRequestRemote: taskAnswer).future);
+      var status = 2;
+      if (gamification.chapterData?.single.missionData?.single.missionTypeName == 'Assignment'){
+        status = 99;
+      }
+      var result = await ref
+          .watch(submitMissionProvider(answerRequestRemote: taskAnswer, status: status).future);
     } else {
       await ref.watch(
           putAnswerFinalLocalProvider(answerRequestRemote: taskAnswer).future);

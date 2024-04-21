@@ -126,19 +126,17 @@ FutureOr<bool> changeStatusTaskLocal(ChangeStatusTaskLocalRef ref,
 }
 
 @riverpod
-Future<void> submitMission(SubmitMissionRef ref,
-    {required AnswerRequestRemote answerRequestRemote}) async {
-      final userModel = await ref.read(helperUserProvider).getUserProfile();
-  final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
-  if (isConnectionAvailable) {
-    answerRequestRemote.taskData?.single.attachmentId = 64;
-    answerRequestRemote.status = 2;
-    final connect = ref.read(connectProvider.notifier);
-    final response = await connect.post(
-        modul: ModuleType.etamkawaGamification,
-        path: "api/mission/submit_employee_mission?userAccount=${userModel?.email??''}&${Constant.apiVer}",
-        body: 
-          answerRequestRemote.toJson()
-        );
-  }
+Future<dynamic> submitMission(SubmitMissionRef ref,
+    {required AnswerRequestRemote answerRequestRemote, required int status}) async {
+  final userModel = await ref.read(helperUserProvider).getUserProfile();
+  answerRequestRemote.taskData?.single.attachmentId = 64;
+  answerRequestRemote.status = status;
+  final connect = ref.read(connectProvider.notifier);
+  final response = await connect.post(
+      modul: ModuleType.etamkawaGamification,
+      path:
+          "api/mission/submit_employee_mission?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}",
+      body: answerRequestRemote.toJson());
+
+  return response;
 }

@@ -444,7 +444,7 @@ class _GetTaskAnswerFinalLocalProviderElement
 }
 
 String _$putAnswerFinalLocalHash() =>
-    r'460a4a1e2332c0d8c43d2f0e760bde4444f87691';
+    r'427f092911a21fb397bdebf90a2f8f30179ce556';
 
 /// See also [putAnswerFinalLocal].
 @ProviderFor(putAnswerFinalLocal)
@@ -841,23 +841,25 @@ class _ChangeStatusTaskLocalProviderElement
       (origin as ChangeStatusTaskLocalProvider).task;
 }
 
-String _$submitMissionHash() => r'22132b376e359509982e347cf453073ec7bb34e2';
+String _$submitMissionHash() => r'dd8a6ad1539887b2ca5f63095edfc3e24ae28f4d';
 
 /// See also [submitMission].
 @ProviderFor(submitMission)
 const submitMissionProvider = SubmitMissionFamily();
 
 /// See also [submitMission].
-class SubmitMissionFamily extends Family<AsyncValue<void>> {
+class SubmitMissionFamily extends Family<AsyncValue<dynamic>> {
   /// See also [submitMission].
   const SubmitMissionFamily();
 
   /// See also [submitMission].
   SubmitMissionProvider call({
     required AnswerRequestRemote answerRequestRemote,
+    required int status,
   }) {
     return SubmitMissionProvider(
       answerRequestRemote: answerRequestRemote,
+      status: status,
     );
   }
 
@@ -867,6 +869,7 @@ class SubmitMissionFamily extends Family<AsyncValue<void>> {
   ) {
     return call(
       answerRequestRemote: provider.answerRequestRemote,
+      status: provider.status,
     );
   }
 
@@ -886,14 +889,16 @@ class SubmitMissionFamily extends Family<AsyncValue<void>> {
 }
 
 /// See also [submitMission].
-class SubmitMissionProvider extends AutoDisposeFutureProvider<void> {
+class SubmitMissionProvider extends AutoDisposeFutureProvider<dynamic> {
   /// See also [submitMission].
   SubmitMissionProvider({
     required AnswerRequestRemote answerRequestRemote,
+    required int status,
   }) : this._internal(
           (ref) => submitMission(
             ref as SubmitMissionRef,
             answerRequestRemote: answerRequestRemote,
+            status: status,
           ),
           from: submitMissionProvider,
           name: r'submitMissionProvider',
@@ -905,6 +910,7 @@ class SubmitMissionProvider extends AutoDisposeFutureProvider<void> {
           allTransitiveDependencies:
               SubmitMissionFamily._allTransitiveDependencies,
           answerRequestRemote: answerRequestRemote,
+          status: status,
         );
 
   SubmitMissionProvider._internal(
@@ -915,13 +921,15 @@ class SubmitMissionProvider extends AutoDisposeFutureProvider<void> {
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.answerRequestRemote,
+    required this.status,
   }) : super.internal();
 
   final AnswerRequestRemote answerRequestRemote;
+  final int status;
 
   @override
   Override overrideWith(
-    FutureOr<void> Function(SubmitMissionRef provider) create,
+    FutureOr<dynamic> Function(SubmitMissionRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -933,42 +941,50 @@ class SubmitMissionProvider extends AutoDisposeFutureProvider<void> {
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         answerRequestRemote: answerRequestRemote,
+        status: status,
       ),
     );
   }
 
   @override
-  AutoDisposeFutureProviderElement<void> createElement() {
+  AutoDisposeFutureProviderElement<dynamic> createElement() {
     return _SubmitMissionProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
     return other is SubmitMissionProvider &&
-        other.answerRequestRemote == answerRequestRemote;
+        other.answerRequestRemote == answerRequestRemote &&
+        other.status == status;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, answerRequestRemote.hashCode);
+    hash = _SystemHash.combine(hash, status.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
-mixin SubmitMissionRef on AutoDisposeFutureProviderRef<void> {
+mixin SubmitMissionRef on AutoDisposeFutureProviderRef<dynamic> {
   /// The parameter `answerRequestRemote` of this provider.
   AnswerRequestRemote get answerRequestRemote;
+
+  /// The parameter `status` of this provider.
+  int get status;
 }
 
 class _SubmitMissionProviderElement
-    extends AutoDisposeFutureProviderElement<void> with SubmitMissionRef {
+    extends AutoDisposeFutureProviderElement<dynamic> with SubmitMissionRef {
   _SubmitMissionProviderElement(super.provider);
 
   @override
   AnswerRequestRemote get answerRequestRemote =>
       (origin as SubmitMissionProvider).answerRequestRemote;
+  @override
+  int get status => (origin as SubmitMissionProvider).status;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
