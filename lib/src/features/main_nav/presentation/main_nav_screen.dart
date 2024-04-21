@@ -10,6 +10,7 @@ import 'package:module_etamkawa/src/features/validation/presentation/controller/
 import 'package:module_etamkawa/src/features/validation/presentation/validation.screen.dart';
 import 'package:module_shared/module_shared.dart';
 
+import '../../../shared_component/progress_dialog.dart';
 import '../../../shared_component/shared_component_etamkawa.dart';
 import 'background_service/mission_background_services.dart';
 
@@ -56,6 +57,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
           final ctrlValidation = ref.watch(validationControllerProvider.notifier);
 
           final submitStatus = ref.watch(submitStatusState);
+          final submitStatusMission = ref.watch(submitStatusMissionState);
           return Consumer(
               builder: (BuildContext context, WidgetRef ref, Widget? child) {
             String title = '';
@@ -109,6 +111,15 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                         ? const Center(
                             child: CircularProgressIndicator(),
                           )
+                        : Container(),
+                    submitStatusMission == SubmitStatus.inProgess
+                        ?    Container(
+                        color: Colors.white.withAlpha(130),
+                        child: const Center(
+                            child: ProgressDialog(
+                              title: 'Sedang memuat data',
+                              isProgressed: true,
+                            )))
                         : Container()
                   ]),
                   bottomNavigationBar: SharedComponent.containerBottomNavBar(

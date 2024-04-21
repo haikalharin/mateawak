@@ -5,6 +5,7 @@ import 'package:module_etamkawa/src/shared_component/connection_listener_widget.
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../main_nav/presentation/controller/main_nav.controller.dart';
+import '../../../task/presentation/controller/task.controller.dart';
 
 part 'mission.controller.g.dart';
 
@@ -47,13 +48,13 @@ class MissionController extends _$MissionController {
 
   @override
   FutureOr<void> build() async {
-    await getMissionList();
+    // await getMissionList();
   }
 
   Future<void> getMissionListLocal() async {
     var repo = ref.read(getMissionLocalProvider.future);
     ref
-        .watch(submitStatusState.notifier)
+        .watch(submitStatusMissionState.notifier)
         .state = SubmitStatus.inProgess;
     state = await AsyncValue.guard(() => repo).then((value) async {
      if(value.value != null) {
@@ -89,15 +90,15 @@ class MissionController extends _$MissionController {
              .state = value.value ?? [];
          listGamification = value.value ?? [];
          ref
-             .watch(submitStatusState.notifier)
+             .watch(submitStatusMissionState.notifier)
              .state = SubmitStatus.success;
        }
        ref
-           .watch(submitStatusState.notifier)
+           .watch(submitStatusMissionState.notifier)
            .state = SubmitStatus.success;
      } else{
        ref
-           .watch(submitStatusState.notifier)
+           .watch(submitStatusMissionState.notifier)
            .state = SubmitStatus.failure;
      }
       return value;
@@ -107,37 +108,60 @@ class MissionController extends _$MissionController {
 
   Future<void> getMissionList() async {
     final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
-    var repo = ref.read(getMissionRemoteProvider.future);
+    ref
+        .watch(submitStatusMissionState.notifier)
+        .state = SubmitStatus.inProgess;
+      var repo = ref.read(getMissionRemoteProvider.future);
 
 
-    state = await AsyncValue.guard(() => repo).then((value) async {
-      List<GamificationResponseRemote> listGamificationInProgress = [];
-      List<GamificationResponseRemote> listGamificationAssigned = [];
-      List<GamificationResponseRemote> listGamificationPast = [];
+      state = await AsyncValue.guard(() => repo).then((value) async {
+        if(value.value != null && value.value != []) {
+        List<GamificationResponseRemote> listGamificationInProgress = [];
+        List<GamificationResponseRemote> listGamificationAssigned = [];
+        List<GamificationResponseRemote> listGamificationPast = [];
 
-      if (value.hasValue) {
-        value.value?.forEach((element) async {
-          if (element.missionStatusCode != null) {
-            if (element.missionStatusCode! == 1) {
-              listGamificationInProgress.add(element);
-            } else if (element.missionStatusCode! == 0) {
-              listGamificationAssigned.add(element);
-            } else if (element.missionStatusCode! >= 2) {
-              listGamificationPast.add(element);
+        if (value.hasValue) {
+          value.value?.forEach((element) async {
+            if (element.missionStatusCode != null) {
+              if (element.missionStatusCode! == 1) {
+                listGamificationInProgress.add(element);
+              } else if (element.missionStatusCode! == 0) {
+                listGamificationAssigned.add(element);
+              } else if (element.missionStatusCode! >= 2) {
+                listGamificationPast.add(element);
+              }
             }
-          }
-        });
-        ref.watch(gamificationInProgressState.notifier).state =
-            listGamificationInProgress;
-        ref.watch(gamificationAssignedState.notifier).state =
-            listGamificationAssigned;
-        ref.watch(gamificationPastState.notifier).state = listGamificationPast;
-        ref.watch(listGamificationState.notifier).state = value.value ?? [];
-        ref.watch(fixedGamificationAssigned.notifier).state = value.value ?? [];
-        listGamification = value.value ?? [];
-      }
-      return value;
-    });
+          });
+          ref
+              .watch(gamificationInProgressState.notifier)
+              .state =
+              listGamificationInProgress;
+          ref
+              .watch(gamificationAssignedState.notifier)
+              .state =
+              listGamificationAssigned;
+          ref
+              .watch(gamificationPastState.notifier)
+              .state = listGamificationPast;
+          ref
+              .watch(listGamificationState.notifier)
+              .state = value.value ?? [];
+          ref
+              .watch(fixedGamificationAssigned.notifier)
+              .state = value.value ?? [];
+          listGamification = value.value ?? [];
+        }
+        ref
+            .watch(submitStatusMissionState.notifier)
+            .state = SubmitStatus.success;
+        } else{
+          ref
+              .watch(submitStatusMissionState.notifier)
+              .state = SubmitStatus.failure;
+        }
+        return value;
+      });
+
   }
 
   Future<void> filterMissionList(String query) async {
@@ -184,5 +208,32 @@ class MissionController extends _$MissionController {
       }
       return value;
     });
+  }
+
+
+  Future<void> putDetailMissionData({required MissionDatum missionDatum,
+    required GamificationResponseRemote gamificationResponseRemote,
+    List<GamificationResponseRemote>? listGamification}) async {
+    List<MissionDatum>listMission = [];
+
+    ref
+        .watch(missionDataState.notifier)
+        .state = missionDatum;
+    ref
+        .watch(gamificationState.notifier)
+        .state = gamificationResponseRemote;
+    for (var element in listGamification??[]) {
+      listMission.add(
+          element.chapterData?.single.missionData?.single ?? MissionDatum());
+    }
+    ref
+        .watch(listMissionState.notifier)
+        .state = listMission;
+    List<TaskDatum> listTask = (missionDatum.taskData ?? []);
+    ref
+        .watch(listTaskState.notifier)
+        .state = listTask;
+
+    state = const AsyncValue.data(null);
   }
 }

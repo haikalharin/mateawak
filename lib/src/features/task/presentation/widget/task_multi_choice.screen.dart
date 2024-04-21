@@ -242,8 +242,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                             MaterialStateProperty.all<Color>(
                                                 Colors.white),
                                       ),
-                                      onPressed: () {
-                                        setState(() async {
+                                      onPressed: () async {
                                           ref.refresh(taskControllerProvider);
                                           await ctrl
                                               .currentQuestion(
@@ -312,7 +311,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                       .state;
                                             }
                                           });
-                                        });
+
                                       },
                                       child: Text(
                                         'Previous',

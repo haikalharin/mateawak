@@ -256,10 +256,6 @@ class _TaskSingleChoiceScreenState
                                             .watch(
                                                 currentProgressState.notifier)
                                             .state--;
-                                        ref
-                                            .watch(
-                                                currentProgressState.notifier)
-                                            .state--;
                                         if (ref
                                                     .watch(currentTypeTaskState
                                                         .notifier)

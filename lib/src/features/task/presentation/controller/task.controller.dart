@@ -94,31 +94,6 @@ class TaskController extends _$TaskController {
         .state = index++;
   }
 
-  Future<void> putDetailMissionData({required MissionDatum missionDatum,
-    required GamificationResponseRemote gamificationResponseRemote,
-    required List<GamificationResponseRemote> listGamification}) async {
-    List<MissionDatum>listMission = [];
-
-    ref
-        .watch(missionDataState.notifier)
-        .state = missionDatum;
-    ref
-        .watch(gamificationState.notifier)
-        .state = gamificationResponseRemote;
-    for (var element in listGamification) {
-      listMission.add(
-          element.chapterData?.single.missionData?.single ?? MissionDatum());
-    }
-    ref
-        .watch(listMissionState.notifier)
-        .state = listMission;
-    List<TaskDatum> listTask = (missionDatum.taskData ?? []);
-    ref
-        .watch(listTaskState.notifier)
-        .state = listTask;
-
-    state = const AsyncValue.data(null);
-  }
 
   Future<void> selectOption(int value) async {
     if (value != 0) {
@@ -268,7 +243,7 @@ class TaskController extends _$TaskController {
 
 
     state = await AsyncValue.guard(() => currentAnswer).then((value) async {
-   if(value.value != null){
+   if(value.value != null && value.value != []){
      listTaskAnswer = value.value ?? [];
    }
 

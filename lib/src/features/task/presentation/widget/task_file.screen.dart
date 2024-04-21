@@ -636,10 +636,9 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                         .notifier)
                                                     .state;
                                           }
-                                          setState(() async {
                                             _textController.clear();
                                             isInit = true;
-                                          });
+
                                         });
                                       });
                                     });

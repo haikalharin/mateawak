@@ -13,6 +13,7 @@ import 'package:module_shared/module_shared.dart';
 
 import '../../../constants/constant.dart';
 import '../../../shared_component/async_value_widget.dart';
+import '../../../shared_component/progress_dialog.dart';
 import '../../../shared_component/refreshable_starter_widget.dart';
 import '../../main_nav/presentation/controller/main_nav.controller.dart';
 import '../../task/domain/answer_request.remote.dart';
@@ -29,11 +30,11 @@ class MissionScreen extends ConsumerStatefulWidget {
 
 Future<void> myAsyncMethodMoved(
     BuildContext context, GamificationResponseRemote gamification) async {
- if((gamification.missionStatusCode??0)>1){
-   context.goNamed(taskMissionEtamkawa);
- }else {
-   context.goNamed(detailMissionEtamkawa);
- }
+  if ((gamification.missionStatusCode ?? 0) > 1) {
+    context.goNamed(taskMissionEtamkawa);
+  } else {
+    context.goNamed(detailMissionEtamkawa);
+  }
 }
 
 class _MissionScreenState extends ConsumerState<MissionScreen> {
@@ -57,16 +58,16 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
       final gamificationAssigned = ref.watch(gamificationAssignedState);
       final gamificationPast = ref.watch(gamificationPastState);
       final listGamification = ref.watch(listGamificationState);
-      final submitStatus = ref.watch(submitStatusState);
+      final submitStatus = ref.watch(submitStatusMissionState);
 
       return AsyncValueWidget(
           value: ref.watch(missionControllerProvider),
           data: (data) {
             return Scaffold(
                 body: Stack(
+              children: [
+                Column(
                   children: [
-              Column(
-                children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
@@ -93,13 +94,20 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                               onTap: (index) {
                                 switch (index) {
                                   case 0:
-                                    ctrl.getMissionList();
+                                    ctrl.getMissionList().whenComplete(() {
+                                      ref.refresh(missionControllerProvider);
+                                    });
+
                                     break;
                                   case 1:
-                                    ctrl.getMissionList();
+                                    ctrl.getMissionList().whenComplete(() {
+                                      ref.refresh(missionControllerProvider);
+                                    });
                                     break;
                                   case 2:
-                                    ctrl.getMissionList();
+                                    ctrl.getMissionList().whenComplete(() {
+                                      ref.refresh(missionControllerProvider);
+                                    });
                                     break;
                                 }
                               },
@@ -154,14 +162,19 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                           delegate: SliverChildBuilderDelegate(
                                             (context, index) {
                                               // Build items for Tab 2
-                                              if (gamificationAssigned.isNotEmpty) {
-                                                return _buildListItem(index, ctrl,
-                                                    ctrlTask, gamificationAssigned);
+                                              if (gamificationAssigned
+                                                  .isNotEmpty) {
+                                                return _buildListItem(
+                                                    index,
+                                                    ctrl,
+                                                    ctrlTask,
+                                                    gamificationAssigned);
                                               } else {
                                                 return Container();
                                               }
                                             },
-                                            childCount: gamificationAssigned.length,
+                                            childCount:
+                                                gamificationAssigned.length,
                                           ),
                                         ),
                                       ],
@@ -176,8 +189,11 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                             (context, index) {
                                               // Build items for Tab 2
                                               if (gamificationPast.isNotEmpty) {
-                                                return _buildListItem(index, ctrl,
-                                                    ctrlTask, gamificationPast);
+                                                return _buildListItem(
+                                                    index,
+                                                    ctrl,
+                                                    ctrlTask,
+                                                    gamificationPast);
                                               } else {
                                                 return Container();
                                               }
@@ -196,15 +212,10 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                         ),
                       ),
                     ),
-                ],
-              ),
-                    submitStatus == SubmitStatus.inProgess
-                        ? const Center(
-                      child: CircularProgressIndicator(),
-                    )
-                        : Container()
-            ],
-                ));
+                  ],
+                ),
+              ],
+            ));
           });
     });
   }
@@ -381,7 +392,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                             onPressed: () async {
                               if ((gamification[index].missionStatusCode ?? 0) >
                                   0) {
-                                await ctrlTask
+                                await ctrl
                                     .putDetailMissionData(
                                         missionDatum: gamification[index]
                                                 .chapterData
@@ -393,26 +404,23 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                         gamificationResponseRemote:
                                             gamification[index])
                                     .whenComplete(() async {
-                                  await putData().whenComplete(() async {
-                                    ref.refresh(taskControllerProvider);
-                                    await ctrlTask
-                                        .currentQuestion(
-                                            employeeMissionId:
-                                                gamification[index]
-                                                        .employeeMissionId ??
-                                                    0,
-                                            pagePosition: PagePosition.CURRENT)
-                                        .whenComplete(() async {
-                                      await putCurrentAnswerFinal()
-                                          .whenComplete(() {
-                                        myAsyncMethodMoved(
-                                            context, gamification[index]);
-                                      });
+                                  ref.refresh(taskControllerProvider);
+                                  await ctrlTask
+                                      .currentQuestion(
+                                          employeeMissionId: gamification[index]
+                                                  .employeeMissionId ??
+                                              0,
+                                          pagePosition: PagePosition.CURRENT)
+                                      .whenComplete(() async {
+                                    await putCurrentAnswerFinal()
+                                        .whenComplete(() {
+                                      myAsyncMethodMoved(
+                                          context, gamification[index]);
                                     });
                                   });
                                 });
                               } else {
-                                await ctrlTask
+                                await ctrl
                                     .putDetailMissionData(
                                         missionDatum: gamification[index]
                                                 .chapterData
@@ -424,10 +432,8 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                         gamificationResponseRemote:
                                             gamification[index])
                                     .whenComplete(() async {
-                                  await putData().whenComplete(() async {
-                                    myAsyncMethodMoved(
-                                        context, gamification[index]);
-                                  });
+                                  myAsyncMethodMoved(
+                                      context, gamification[index]);
                                 });
                               }
                             },
