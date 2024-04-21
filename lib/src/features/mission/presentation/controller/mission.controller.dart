@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,6 +22,9 @@ final submitStatusMissionState = StateProvider.autoDispose<SubmitStatus>((ref) {
   return SubmitStatus.initial;
 });
 
+final isInitMissionState = StateProvider.autoDispose<bool>((ref) {
+  return false;
+});
 final indexMtdYtdSliderProvider = StateProvider.autoDispose<int>((ref) => 0);
 
 final listGamificationState =
@@ -53,7 +57,7 @@ class MissionController extends _$MissionController {
 
   @override
   FutureOr<void> build() async {
-    await getMissionList();
+    await getMissionListBackgroundServices();
   }
 
   Future<void> getMissionListLocal() async {
@@ -149,107 +153,120 @@ class MissionController extends _$MissionController {
   Future<void> getMissionListBackgroundServices() async {
     final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
     var repo = ref.read(getMissionRemoteProvider.future);
+try {
+  state = await AsyncValue.guard(() => repo).then((value) async {
+    if (value.value != null && value.value != []) {
+      List<GamificationResponseRemote> listGamificationInProgress = [];
+      List<GamificationResponseRemote> listGamificationAssigned = [];
+      List<GamificationResponseRemote> listGamificationPast = [];
 
-
-    state = await AsyncValue.guard(() => repo).then((value) async {
-      if(value.value != null && value.value != []) {
-        List<GamificationResponseRemote> listGamificationInProgress = [];
-        List<GamificationResponseRemote> listGamificationAssigned = [];
-        List<GamificationResponseRemote> listGamificationPast = [];
-
-        if (value.hasValue) {
-          value.value?.forEach((element) async {
-            if (element.missionStatusCode != null) {
-              if (element.missionStatusCode! == 1) {
-                listGamificationInProgress.add(element);
-              } else if (element.missionStatusCode! == 0) {
-                listGamificationAssigned.add(element);
-              } else if (element.missionStatusCode! >= 2) {
-                listGamificationPast.add(element);
-              }
+      if (value.hasValue) {
+        value.value?.forEach((element) async {
+          if (element.missionStatusCode != null) {
+            if (element.missionStatusCode! == 1) {
+              listGamificationInProgress.add(element);
+            } else if (element.missionStatusCode! == 0) {
+              listGamificationAssigned.add(element);
+            } else if (element.missionStatusCode! >= 2) {
+              listGamificationPast.add(element);
             }
-          });
-          ref
-              .watch(gamificationInProgressState.notifier)
-              .state =
-              listGamificationInProgress;
-          ref
-              .watch(gamificationAssignedState.notifier)
-              .state =
-              listGamificationAssigned;
-          ref
-              .watch(gamificationPastState.notifier)
-              .state = listGamificationPast;
-          ref
-              .watch(listGamificationState.notifier)
-              .state = value.value ?? [];
-          ref
-              .watch(fixedGamificationAssigned.notifier)
-              .state = value.value ?? [];
-          listGamification = value.value ?? [];
-        }
-
+          }
+        });
+        ref
+            .watch(gamificationInProgressState.notifier)
+            .state =
+            listGamificationInProgress;
+        ref
+            .watch(gamificationAssignedState.notifier)
+            .state =
+            listGamificationAssigned;
+        ref
+            .watch(gamificationPastState.notifier)
+            .state = listGamificationPast;
+        ref
+            .watch(listGamificationState.notifier)
+            .state = value.value ?? [];
+        ref
+            .watch(fixedGamificationAssigned.notifier)
+            .state = value.value ?? [];
+        listGamification = value.value ?? [];
       }
-      return value;
-    });
+    }
+    return value;
+  });
+}catch(e){
+  if (kDebugMode) {
+    print(e);
+  }
+}
 
   }
 
-  Future<void> getMissionList() async {
+  Future<void> getMissionList({bool isInit = false}) async {
     final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
     ref
-        .watch(submitStatusMissionState.notifier)
+        .read(submitStatusMissionState.notifier)
         .state = SubmitStatus.inProgess;
+     ref
+        .read(isInitMissionState.notifier)
+        .state = isInit;
+
+    try {
       var repo = ref.read(getMissionRemoteProvider.future);
 
 
       state = await AsyncValue.guard(() => repo).then((value) async {
-        if(value.value != null && value.value != []) {
-        List<GamificationResponseRemote> listGamificationInProgress = [];
-        List<GamificationResponseRemote> listGamificationAssigned = [];
-        List<GamificationResponseRemote> listGamificationPast = [];
+        if (value.value != null && value.value != []) {
+          List<GamificationResponseRemote> listGamificationInProgress = [];
+          List<GamificationResponseRemote> listGamificationAssigned = [];
+          List<GamificationResponseRemote> listGamificationPast = [];
 
-        if (value.hasValue) {
-          value.value?.forEach((element) async {
-            if (element.missionStatusCode != null) {
-              if (element.missionStatusCode! == 1) {
-                listGamificationInProgress.add(element);
-              } else if (element.missionStatusCode! == 0) {
-                listGamificationAssigned.add(element);
-              } else if (element.missionStatusCode! >= 2) {
-                listGamificationPast.add(element);
+          if (value.hasValue) {
+            value.value?.forEach((element) async {
+              if (element.missionStatusCode != null) {
+                if (element.missionStatusCode! == 1) {
+                  listGamificationInProgress.add(element);
+                } else if (element.missionStatusCode! == 0) {
+                  listGamificationAssigned.add(element);
+                } else if (element.missionStatusCode! >= 2) {
+                  listGamificationPast.add(element);
+                }
               }
-            }
-          });
+            });
+            ref
+                .watch(gamificationInProgressState.notifier)
+                .state =
+                listGamificationInProgress;
+            ref
+                .watch(gamificationAssignedState.notifier)
+                .state =
+                listGamificationAssigned;
+            ref
+                .watch(gamificationPastState.notifier)
+                .state = listGamificationPast;
+            ref
+                .watch(listGamificationState.notifier)
+                .state = value.value ?? [];
+            ref
+                .watch(fixedGamificationAssigned.notifier)
+                .state = value.value ?? [];
+            listGamification = value.value ?? [];
+          }
           ref
-              .watch(gamificationInProgressState.notifier)
-              .state =
-              listGamificationInProgress;
+              .read(submitStatusMissionState.notifier)
+              .state = SubmitStatus.success;
+        } else {
           ref
-              .watch(gamificationAssignedState.notifier)
-              .state =
-              listGamificationAssigned;
-          ref
-              .watch(gamificationPastState.notifier)
-              .state = listGamificationPast;
-          ref
-              .watch(listGamificationState.notifier)
-              .state = value.value ?? [];
-          ref
-              .watch(fixedGamificationAssigned.notifier)
-              .state = value.value ?? [];
-          listGamification = value.value ?? [];
-        }
-        ref
-            .watch(submitStatusMissionState.notifier)
-            .state = SubmitStatus.success;
-        } else{
-          ref
-              .watch(submitStatusMissionState.notifier)
+              .read(submitStatusMissionState.notifier)
               .state = SubmitStatus.failure;
         }
         return value;
       });
+    }catch(e){
+      ref
+          .watch(submitStatusMissionState.notifier)
+          .state = SubmitStatus.failure;
+    }
 
   }
 
