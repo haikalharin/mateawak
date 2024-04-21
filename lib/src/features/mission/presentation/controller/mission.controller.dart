@@ -1,9 +1,14 @@
+import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
 import 'package:module_etamkawa/src/features/mission/infrastructure/repositories/mission_local.repository.dart';
 import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
+import 'package:module_shared/module_shared.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../../module_etamkawa.dart';
+import '../../../../constants/constant.dart';
 import '../../../main_nav/presentation/controller/main_nav.controller.dart';
 import '../../../task/presentation/controller/task.controller.dart';
 
@@ -102,6 +107,41 @@ class MissionController extends _$MissionController {
            .state = SubmitStatus.failure;
      }
       return value;
+    });
+
+  }
+  Future<void> fetchMissionListBackgroundService() async {
+    final backgroundServices = FlutterBackgroundService();
+    final isBgServiceRunning = await backgroundServices.isRunning();
+    if (!isBgServiceRunning) {
+      await backgroundServices.startService();
+    }
+    final userModel = await ref.read(helperUserProvider).getUserProfile();
+    final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
+    var repo = ref.read(getMissionLocalProvider.future);
+    List<dynamic> listRepo = [];
+    await AsyncValue.guard(() => repo).then((value) async {
+      if(value.value != null){
+        value.value?.forEach((element) {
+          listRepo.add( gamificationResponseRemoteToJson(element));
+        });
+
+      }
+    });
+
+    backgroundServices.invoke(Constant.bgMissionInit, {
+      'employeeId': userModel?.employeeID,
+      'requestDate': latestSyncDate,
+      'repo':listRepo,
+      'url': dotenv.env[EnvConstant.rootUrl],
+      'path':
+      '/${BspaceModule.getRootUrl(moduleType: ModuleType.etamkawaGamification)}/api/mission/get_employee_mission?${Constant.apiVer}',
+      'accessToken': await ref.read(storageProvider.notifier).read(
+        storage: TableConstant.tbMProfile,
+        key: ProfileKeyConstant.keyTokenGeneral,
+      )
+    });
+    await ref.watch(missionControllerProvider.notifier).getMissionList().whenComplete(() {
     });
 
   }
