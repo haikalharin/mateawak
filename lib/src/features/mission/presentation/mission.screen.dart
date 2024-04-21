@@ -59,6 +59,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
       final gamificationPast = ref.watch(gamificationPastState);
       final listGamification = ref.watch(listGamificationState);
       final submitStatus = ref.watch(submitStatusMissionState);
+      final isInit = ref.watch(isInitMissionState);
 
       return AsyncValueWidget(
           value: ref.watch(missionControllerProvider),
@@ -214,6 +215,15 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                     ),
                   ],
                 ),
+                submitStatus == SubmitStatus.inProgess && isInit== true
+                    ?    Container(
+                    color: Colors.white.withAlpha(130),
+                    child: const Center(
+                        child: ProgressDialog(
+                          title: 'Sedang memuat data',
+                          isProgressed: true,
+                        )))
+                    : Container()
               ],
             ));
           });
