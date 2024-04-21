@@ -161,7 +161,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                             ctrl.onItemTapped(value);
                             if(ctrl.indexNav == 2){
                               await ctrlMission
-                                  .getMissionList();
+                                  .fetchMissionListBackgroundService();
                             } else if(ctrl.indexNav == 3){
                               await ctrlValidation
                                   .getValidationList();

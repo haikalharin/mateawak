@@ -53,7 +53,7 @@ class MissionController extends _$MissionController {
 
   @override
   FutureOr<void> build() async {
-    // await getMissionList();
+    await getMissionList();
   }
 
   Future<void> getMissionListLocal() async {
@@ -141,7 +141,56 @@ class MissionController extends _$MissionController {
         key: ProfileKeyConstant.keyTokenGeneral,
       )
     });
-    await ref.watch(missionControllerProvider.notifier).getMissionList().whenComplete(() {
+    await ref.watch(missionControllerProvider.notifier).getMissionListBackgroundServices().whenComplete(() {
+    });
+
+  }
+
+  Future<void> getMissionListBackgroundServices() async {
+    final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
+    var repo = ref.read(getMissionRemoteProvider.future);
+
+
+    state = await AsyncValue.guard(() => repo).then((value) async {
+      if(value.value != null && value.value != []) {
+        List<GamificationResponseRemote> listGamificationInProgress = [];
+        List<GamificationResponseRemote> listGamificationAssigned = [];
+        List<GamificationResponseRemote> listGamificationPast = [];
+
+        if (value.hasValue) {
+          value.value?.forEach((element) async {
+            if (element.missionStatusCode != null) {
+              if (element.missionStatusCode! == 1) {
+                listGamificationInProgress.add(element);
+              } else if (element.missionStatusCode! == 0) {
+                listGamificationAssigned.add(element);
+              } else if (element.missionStatusCode! >= 2) {
+                listGamificationPast.add(element);
+              }
+            }
+          });
+          ref
+              .watch(gamificationInProgressState.notifier)
+              .state =
+              listGamificationInProgress;
+          ref
+              .watch(gamificationAssignedState.notifier)
+              .state =
+              listGamificationAssigned;
+          ref
+              .watch(gamificationPastState.notifier)
+              .state = listGamificationPast;
+          ref
+              .watch(listGamificationState.notifier)
+              .state = value.value ?? [];
+          ref
+              .watch(fixedGamificationAssigned.notifier)
+              .state = value.value ?? [];
+          listGamification = value.value ?? [];
+        }
+
+      }
+      return value;
     });
 
   }

@@ -94,18 +94,18 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                               onTap: (index) {
                                 switch (index) {
                                   case 0:
-                                    ctrl.getMissionList().whenComplete(() {
+                                    ctrl.fetchMissionListBackgroundService().whenComplete(() {
                                       ref.refresh(missionControllerProvider);
                                     });
 
                                     break;
                                   case 1:
-                                    ctrl.getMissionList().whenComplete(() {
+                                    ctrl.fetchMissionListBackgroundService().whenComplete(() {
                                       ref.refresh(missionControllerProvider);
                                     });
                                     break;
                                   case 2:
-                                    ctrl.getMissionList().whenComplete(() {
+                                    ctrl.fetchMissionListBackgroundService().whenComplete(() {
                                       ref.refresh(missionControllerProvider);
                                     });
                                     break;
