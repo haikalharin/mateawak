@@ -219,10 +219,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                     ?    Container(
                     color: Colors.white.withAlpha(130),
                     child: const Center(
-                        child: ProgressDialog(
-                          title: 'Sedang memuat data',
-                          isProgressed: true,
-                        )))
+                        child:  CircularProgressIndicator()))
                     : Container()
               ],
             ));
