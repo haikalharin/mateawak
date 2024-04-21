@@ -126,17 +126,31 @@ FutureOr<bool> changeStatusTaskLocal(ChangeStatusTaskLocalRef ref,
 }
 
 @riverpod
-Future<dynamic> submitMission(SubmitMissionRef ref,
+Future<void> submitMission(SubmitMissionRef ref,
     {required AnswerRequestRemote answerRequestRemote, required int status}) async {
   final userModel = await ref.read(helperUserProvider).getUserProfile();
-  answerRequestRemote.taskData?.single.attachmentId = 64;
-  answerRequestRemote.status = status;
-  final connect = ref.read(connectProvider.notifier);
-  final response = await connect.post(
-      modul: ModuleType.etamkawaGamification,
-      path:
-          "api/mission/submit_employee_mission?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}",
-      body: answerRequestRemote.toJson());
+  //final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
+  final isarInstance = await ref.watch(isarInstanceProvider.future);
+  //if (isConnectionAvailable) {
+    answerRequestRemote.taskData?.first.attachmentId = 64;
+    answerRequestRemote.status = status;
+    final connect = ref.read(connectProvider.notifier);
+    final response = await connect.post(
+        modul: ModuleType.etamkawaGamification,
+        path:
+            "api/mission/submit_employee_mission?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}",
+        body: answerRequestRemote.toJson());
 
-  return response;
+    if (response.statusCode == 200) {
+      await isarInstance.writeTxn(() async {
+        await isarInstance.answerRequestRemotes
+            .delete(answerRequestRemote.employeeMissionId ?? 0)
+            .whenComplete(() async {
+          await isarInstance.gamificationResponseRemotes
+              .delete(answerRequestRemote.employeeMissionId ?? 0);
+        });
+      });
+    }
+    return response;
+  //}
 }

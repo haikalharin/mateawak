@@ -13,7 +13,9 @@ import 'package:module_shared/module_shared.dart';
 
 import '../../../constants/constant.dart';
 import '../../../shared_component/async_value_widget.dart';
+import '../../../shared_component/progress_dialog.dart';
 import '../../../shared_component/refreshable_starter_widget.dart';
+import '../../main_nav/presentation/controller/main_nav.controller.dart';
 import '../../task/domain/answer_request.remote.dart';
 import '../../task/presentation/controller/task.controller.dart';
 
@@ -28,7 +30,11 @@ class MissionScreen extends ConsumerStatefulWidget {
 
 Future<void> myAsyncMethodMoved(
     BuildContext context, GamificationResponseRemote gamification) async {
-  context.goNamed(detailMissionEtamkawa);
+  if ((gamification.missionStatusCode ?? 0) > 1) {
+    context.goNamed(taskMissionEtamkawa);
+  } else {
+    context.goNamed(detailMissionEtamkawa);
+  }
 }
 
 class _MissionScreenState extends ConsumerState<MissionScreen> {
@@ -41,23 +47,27 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Consumer(
+    return Consumer(
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
-          final ctrl = ref.watch(missionControllerProvider.notifier);
-          final ctrlTask = ref.watch(taskControllerProvider.notifier);
-          final listMissionInProgress = ref.watch(listMissionInProgressState);
-          final listMissionAssigned = ref.watch(listMissionAssignedState);
-          final listMissionPast = ref.watch(listMissionPastState);
-          final gamificationInProgress = ref.watch(gamificationInProgressState);
-          final gamificationAssigned = ref.watch(gamificationAssignedState);
-          final gamificationPast = ref.watch(gamificationPastState);
-          final listGamification = ref.watch(listGamificationState);
+      final ctrl = ref.watch(missionControllerProvider.notifier);
+      final ctrlTask = ref.watch(taskControllerProvider.notifier);
+      final listMissionInProgress = ref.watch(listMissionInProgressState);
+      final listMissionAssigned = ref.watch(listMissionAssignedState);
+      final listMissionPast = ref.watch(listMissionPastState);
+      final gamificationInProgress = ref.watch(gamificationInProgressState);
+      final gamificationAssigned = ref.watch(gamificationAssignedState);
+      final gamificationPast = ref.watch(gamificationPastState);
+      final listGamification = ref.watch(listGamificationState);
+      final submitStatus = ref.watch(submitStatusMissionState);
+      final isInit = ref.watch(isInitMissionState);
 
-          return AsyncValueWidget(
-              value: ref.watch(taskControllerProvider),
-              data: (data) {
-                return Column(
+      return AsyncValueWidget(
+          value: ref.watch(missionControllerProvider),
+          data: (data) {
+            return Scaffold(
+                body: Stack(
+              children: [
+                Column(
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -78,19 +88,27 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                     Expanded(
                       child: DefaultTabController(
                         length: 3,
+                        initialIndex: 1,
                         child: Column(
                           children: [
                             TabBar(
                               onTap: (index) {
                                 switch (index) {
                                   case 0:
-                                    ctrl.getMissionList();
+                                    ctrl.fetchMissionListBackgroundService().whenComplete(() {
+                                      ref.refresh(missionControllerProvider);
+                                    });
+
                                     break;
                                   case 1:
-                                    ctrl.getMissionList();
+                                    ctrl.fetchMissionListBackgroundService().whenComplete(() {
+                                      ref.refresh(missionControllerProvider);
+                                    });
                                     break;
                                   case 2:
-                                    ctrl.getMissionList();
+                                    ctrl.fetchMissionListBackgroundService().whenComplete(() {
+                                      ref.refresh(missionControllerProvider);
+                                    });
                                     break;
                                 }
                               },
@@ -196,11 +214,17 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                       ),
                     ),
                   ],
-                );
-              });
-        },
-      ),
-    );
+                ),
+                submitStatus == SubmitStatus.inProgess && isInit== true
+                    ?    Container(
+                    color: Colors.white.withAlpha(130),
+                    child: const Center(
+                        child:  CircularProgressIndicator()))
+                    : Container()
+              ],
+            ));
+          });
+    });
   }
 
   Widget _buildListItem(int index, MissionController ctrl,
@@ -375,7 +399,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                             onPressed: () async {
                               if ((gamification[index].missionStatusCode ?? 0) >
                                   0) {
-                                await ctrlTask
+                                await ctrl
                                     .putDetailMissionData(
                                         missionDatum: gamification[index]
                                                 .chapterData
@@ -387,25 +411,23 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                         gamificationResponseRemote:
                                             gamification[index])
                                     .whenComplete(() async {
-                                  await putData().whenComplete(() async {
-                                    ref.refresh(taskControllerProvider);
-                                    await ctrlTask
-                                        .currentQuestion(
-                                            employeeMissionId:
-                                                gamification[index]
-                                                        .employeeMissionId ??
-                                                    0)
-                                        .whenComplete(() async {
-                                      await putCurrentAnswerFinal()
-                                          .whenComplete(() {
-                                        myAsyncMethodMoved(
-                                            context, gamification[index]);
-                                      });
+                                  ref.refresh(taskControllerProvider);
+                                  await ctrlTask
+                                      .currentQuestion(
+                                          employeeMissionId: gamification[index]
+                                                  .employeeMissionId ??
+                                              0,
+                                          pagePosition: PagePosition.CURRENT)
+                                      .whenComplete(() async {
+                                    await putCurrentAnswerFinal()
+                                        .whenComplete(() {
+                                      myAsyncMethodMoved(
+                                          context, gamification[index]);
                                     });
                                   });
                                 });
                               } else {
-                                await ctrlTask
+                                await ctrl
                                     .putDetailMissionData(
                                         missionDatum: gamification[index]
                                                 .chapterData
@@ -417,10 +439,8 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                         gamificationResponseRemote:
                                             gamification[index])
                                     .whenComplete(() async {
-                                  await putData().whenComplete(() async {
-                                    myAsyncMethodMoved(
-                                        context, gamification[index]);
-                                  });
+                                  myAsyncMethodMoved(
+                                      context, gamification[index]);
                                 });
                               }
                             },

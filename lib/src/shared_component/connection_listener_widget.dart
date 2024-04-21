@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/shared_component/reset_transformer_time.dart';
 import 'package:module_shared/module_shared.dart';
 
@@ -37,7 +38,7 @@ class _ConnectionListenerWidgetState
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
-    final ctrl = ref.read(mainNavControllerProvider.notifier);
+    final ctrl = ref.read(missionControllerProvider.notifier);
     // Initialize a new stream listener when connected
     timeListener = stream.listen((value) {
       // if (kDebugMode) {

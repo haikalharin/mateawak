@@ -5,7 +5,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
-import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../../configs/theme/color.theme.dart';
@@ -243,19 +242,34 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                             MaterialStateProperty.all<Color>(
                                                 Colors.white),
                                       ),
-                                      onPressed: () {
-                                        setState(() {
-                                          ctrl.prevQuestion().whenComplete(() {
+                                      onPressed: () async {
+                                          ref.refresh(taskControllerProvider);
+                                          await ctrl
+                                              .currentQuestion(
+                                                  employeeMissionId:
+                                                      gamificationData
+                                                              .employeeMissionId ??
+                                                          0,
+                                                  pagePosition:
+                                                      PagePosition.PREV)
+                                              .whenComplete(() {
                                             currentQuestionIndex.state--;
                                             ref
                                                 .watch(currentProgressState
                                                     .notifier)
                                                 .state--;
                                             if (ref
-                                                    .watch(previousTypeTaskState
-                                                        .notifier)
-                                                    .state ==
-                                                TaskType.STX.name) {
+                                                        .watch(
+                                                            currentTypeTaskState
+                                                                .notifier)
+                                                        .state ==
+                                                    TaskType.STX.name ||
+                                                ref
+                                                        .watch(
+                                                            currentTypeTaskState
+                                                                .notifier)
+                                                        .state ==
+                                                    TaskType.ASM.name) {
                                               ref
                                                       .watch(
                                                           listSelectOptionStringState
@@ -263,7 +277,25 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                       .state =
                                                   ref
                                                       .watch(
-                                                          listSelectOptionPrevStringState
+                                                          listSelectOptionCurrentStringState
+                                                              .notifier)
+                                                      .state;
+                                              ref
+                                                      .watch(attachmentNameState
+                                                          .notifier)
+                                                      .state =
+                                                  ref
+                                                      .watch(
+                                                          attachmentNameCurrentState
+                                                              .notifier)
+                                                      .state;
+                                              ref
+                                                      .watch(attachmentPathState
+                                                          .notifier)
+                                                      .state =
+                                                  ref
+                                                      .watch(
+                                                          attachmentPathCurrentState
                                                               .notifier)
                                                       .state;
                                             } else {
@@ -274,12 +306,12 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                       .state =
                                                   ref
                                                       .watch(
-                                                          listSelectOptionPrevState
+                                                          listSelectOptionCurrentState
                                                               .notifier)
                                                       .state;
                                             }
                                           });
-                                        });
+
                                       },
                                       child: Text(
                                         'Previous',
@@ -295,8 +327,13 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                     if ((currentQuestionIndex.state + 1) <
                                             lengthAnswer &&
                                         lengthAnswer != 1) {
-                                      ctrl
-                                          .nextQuestion(isLast: false)
+                                      await ctrl
+                                          .currentQuestion(
+                                              employeeMissionId:
+                                                  gamificationData
+                                                          .employeeMissionId ??
+                                                      0,
+                                              pagePosition: PagePosition.NEXT)
                                           .whenComplete(() async {
                                         await ctrl
                                             .saveAnswer(
@@ -311,39 +348,71 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                                 .state]
                                                         .taskTypeCode ??
                                                     '')
-                                            .whenComplete(() {
-                                          currentQuestionIndex.state++;
-                                          ref
-                                              .watch(
-                                                  currentProgressState.notifier)
-                                              .state++;
-                                          if (ref
-                                                  .watch(nextTypeTaskState
-                                                      .notifier)
-                                                  .state ==
-                                              TaskType.STX.name) {
+                                            .whenComplete(() async {
+                                          await ctrl
+                                              .putAnswerFinal()
+                                              .whenComplete(() async {
+                                            currentQuestionIndex.state++;
                                             ref
-                                                    .watch(
-                                                        listSelectOptionStringState
-                                                            .notifier)
-                                                    .state =
+                                                .watch(currentProgressState
+                                                    .notifier)
+                                                .state++;
+
+                                            if (ref
+                                                        .watch(
+                                                            currentTypeTaskState
+                                                                .notifier)
+                                                        .state ==
+                                                    TaskType.STX.name ||
                                                 ref
-                                                    .watch(
-                                                        listSelectOptionNextStringState
-                                                            .notifier)
-                                                    .state;
-                                          } else {
-                                            ref
-                                                    .watch(listSelectOptionState
-                                                        .notifier)
-                                                    .state =
-                                                ref
-                                                    .watch(
-                                                        listSelectOptionNextState
-                                                            .notifier)
-                                                    .state;
-                                          }
-                                          listData.clear();
+                                                        .watch(
+                                                            currentTypeTaskState
+                                                                .notifier)
+                                                        .state ==
+                                                    TaskType.ASM.name) {
+                                              ref
+                                                      .watch(
+                                                          listSelectOptionStringState
+                                                              .notifier)
+                                                      .state =
+                                                  ref
+                                                      .watch(
+                                                          listSelectOptionCurrentStringState
+                                                              .notifier)
+                                                      .state;
+                                              ref
+                                                      .watch(attachmentNameState
+                                                          .notifier)
+                                                      .state =
+                                                  ref
+                                                      .watch(
+                                                          attachmentNameCurrentState
+                                                              .notifier)
+                                                      .state;
+                                              ref
+                                                      .watch(attachmentPathState
+                                                          .notifier)
+                                                      .state =
+                                                  ref
+                                                      .watch(
+                                                          attachmentPathCurrentState
+                                                              .notifier)
+                                                      .state;
+                                            } else {
+                                              ref
+                                                      .watch(
+                                                          listSelectOptionState
+                                                              .notifier)
+                                                      .state =
+                                                  ref
+                                                      .watch(
+                                                          listSelectOptionCurrentState
+                                                              .notifier)
+                                                      .state;
+                                            }
+
+                                            listData.clear();
+                                          });
                                         });
                                       });
                                     } else {
@@ -360,7 +429,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                               .state]
                                                       .taskTypeCode ??
                                                   '')
-                                          .whenComplete(() {
+                                          .whenComplete(() async {
                                         if (((currentQuestionProgress) * 100) ~/
                                                 listTask.length <
                                             100) {
@@ -370,34 +439,44 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                               .state++;
                                         }
                                         listData.clear();
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return CustomDialog(
-                                                title:
-                                                    "Are you sure want to submit your answers",
-                                                content:
-                                                    "Are you sure want to leave",
-                                                label: "Submit",
-                                                type: DialogType.mission,
-                                                onClosed: () async => {
-                                                      await ctrl
-                                                          .putAnswerFinal()
-                                                          .whenComplete(
-                                                              () async {
+                                        await ctrl
+                                            .putAnswerFinal()
+                                            .whenComplete(() async {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return CustomDialog(
+                                                  title:
+                                                      "Are you sure want to submit your answers",
+                                                  content:
+                                                      "Are you sure want to leave",
+                                                  label: "Submit",
+                                                  type: DialogType.mission,
+                                                  onClosed: () async => {
                                                         await ctrl
-                                                            .changeStatusTask()
+                                                            .putAnswerFinal(
+                                                                isSubmitted:
+                                                                    true)
                                                             .whenComplete(
                                                                 () async {
-                                                          await ctrlMission
-                                                              .getMissionList()
+                                                          await ctrl
+                                                              .changeStatusTask()
                                                               .whenComplete(
-                                                                  () {});
-                                                        });
-                                                      })
-                                                    });
-                                          },
-                                        );
+                                                                  () async {
+                                                            await ctrlMission
+                                                                .getMissionList()
+                                                                .whenComplete(
+                                                                    () {
+                                                                 });
+                                                          });
+                                                        })
+                                                      });
+                                            },
+                                          );
+                                          ref.refresh(
+                                              taskControllerProvider);
+
+                                        });
                                       });
                                     }
                                   } else {

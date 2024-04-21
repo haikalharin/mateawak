@@ -58,53 +58,6 @@ class MainNavController extends _$MainNavController {
     }
   }
 
-  Future<void> fetchMissionListBackgroundService() async {
-    final backgroundServices = FlutterBackgroundService();
-    final isBgServiceRunning = await backgroundServices.isRunning();
-    if (!isBgServiceRunning) {
-      await backgroundServices.startService();
-    }
-    final userModel = await ref.read(helperUserProvider).getUserProfile();
-    final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
-    var repo = ref.read(getMissionLocalProvider.future);
-    List<dynamic> listRepo = [];
-    await AsyncValue.guard(() => repo).then((value) async {
-     if(value.value != null){
-       value.value?.forEach((element) {
-         listRepo.add( gamificationResponseRemoteToJson(element));
-       });
-
-     }
-    });
-
-    backgroundServices.invoke(Constant.bgMissionInit, {
-      'employeeId': userModel?.employeeID,
-      'requestDate': latestSyncDate,
-      'repo':listRepo,
-      'url': dotenv.env[EnvConstant.rootUrl],
-      'path':
-      '/${BspaceModule.getRootUrl(moduleType: ModuleType.etamkawaGamification)}/api/mission/get_employee_mission?${Constant.apiVer}',
-      'accessToken': await ref.read(storageProvider.notifier).read(
-        storage: TableConstant.tbMProfile,
-        key: ProfileKeyConstant.keyTokenGeneral,
-      )
-    });
-
-    final repoLocal = await ref.watch(getMissionLocalProvider.future);
-
-    if(repoLocal.isNotEmpty == true) {
-      await ref.watch(missionControllerProvider.notifier).getMissionList().whenComplete(() {
-        Future.delayed(const Duration(seconds: 2), () {
-          ref.watch(submitStatusState.notifier)
-              .state = SubmitStatus.success;
-          ref.read(goRouterProvider).goNamed(homeEtakawaInit);});
-      });
-
-    } else{
-      ref.watch(submitStatusState.notifier)
-          .state = SubmitStatus.failure;
-    }
-  }
 
 
 

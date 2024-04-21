@@ -10,6 +10,7 @@ import 'package:module_etamkawa/src/features/validation/presentation/controller/
 import 'package:module_etamkawa/src/features/validation/presentation/validation.screen.dart';
 import 'package:module_shared/module_shared.dart';
 
+import '../../../shared_component/progress_dialog.dart';
 import '../../../shared_component/shared_component_etamkawa.dart';
 import 'background_service/mission_background_services.dart';
 
@@ -35,6 +36,7 @@ class MainNavScreen extends ConsumerStatefulWidget {
 
 class _MainNavScreenState extends ConsumerState<MainNavScreen>
     with WidgetsBindingObserver {
+  bool isInit =false;
   Future<void> initEtamkawa() async {
     WidgetsFlutterBinding.ensureInitialized();
     await intializedMissionBackgroundService();
@@ -42,6 +44,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
 
   @override
   void initState() {
+    isInit =true;
     initEtamkawa();
     super.initState();
   }
@@ -56,6 +59,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
           final ctrlValidation = ref.watch(validationControllerProvider.notifier);
 
           final submitStatus = ref.watch(submitStatusState);
+          final submitStatusMission = ref.watch(submitStatusMissionState);
           return Consumer(
               builder: (BuildContext context, WidgetRef ref, Widget? child) {
             String title = '';
@@ -92,8 +96,8 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                     actions: [
                       InkWell(
                           onTap: () async {
-                            await ctrl
-                                .fetchMissionList();
+                            await ctrlMission
+                                .fetchMissionListBackgroundService();
                           },
                           child: const Icon(Icons.sync)),
                       SizedBox(width: 20.w),
@@ -109,7 +113,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                         ? const Center(
                             child: CircularProgressIndicator(),
                           )
-                        : Container()
+                        : Container(),
                   ]),
                   bottomNavigationBar: SharedComponent.containerBottomNavBar(
                     bottomNavigationBar: BottomNavigationBar(
@@ -164,7 +168,9 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                         ctrl.onItemTapped(value);
                         if(ctrl.indexNav == 2){
                           await ctrlMission
-                              .getMissionList();
+                              .getMissionList(isInit: isInit).whenComplete(() {
+                                isInit =false;
+                          });
                         } else if(ctrl.indexNav == 3){
                           await ctrlValidation
                               .getValidationList();
