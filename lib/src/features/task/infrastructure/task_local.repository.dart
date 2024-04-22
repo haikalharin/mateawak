@@ -126,7 +126,7 @@ FutureOr<bool> changeStatusTaskLocal(ChangeStatusTaskLocalRef ref,
 }
 
 @riverpod
-Future<void> submitMission(SubmitMissionRef ref,
+Future<dynamic> submitMission(SubmitMissionRef ref,
     {required AnswerRequestRemote answerRequestRemote, required int status}) async {
   final userModel = await ref.read(helperUserProvider).getUserProfile();
   //final isConnectionAvailable = ref.read(isConnectionAvailableProvider);

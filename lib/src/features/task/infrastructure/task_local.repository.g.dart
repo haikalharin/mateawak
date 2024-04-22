@@ -841,7 +841,7 @@ class _ChangeStatusTaskLocalProviderElement
       (origin as ChangeStatusTaskLocalProvider).task;
 }
 
-String _$submitMissionHash() => r'7e3e260e34b277e54719d06a53016d0230663be7';
+String _$submitMissionHash() => r'eed45f6c0ef0180d1281f59c4f69c8ac79484e14';
 
 /// See also [submitMission].
 @ProviderFor(submitMission)

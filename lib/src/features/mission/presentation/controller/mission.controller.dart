@@ -62,58 +62,45 @@ class MissionController extends _$MissionController {
 
   Future<void> getMissionListLocal() async {
     var repo = ref.read(getMissionLocalProvider.future);
-    ref
-        .watch(submitStatusMissionState.notifier)
-        .state = SubmitStatus.inProgess;
+    ref.watch(submitStatusMissionState.notifier).state = SubmitStatus.inProgess;
     state = await AsyncValue.guard(() => repo).then((value) async {
-     if(value.value != null) {
-       List<GamificationResponseRemote> listGamificationInProgress = [];
-       List<GamificationResponseRemote> listGamificationAssigned = [];
-       List<GamificationResponseRemote> listGamificationPast = [];
-       if (value.hasValue) {
-         value.value?.forEach((element) async {
-           if (element.missionStatusCode! == 1) {
-             listGamificationInProgress.add(element);
-           } else if (element.missionStatusCode! == 0) {
-             listGamificationAssigned.add(element);
-           } else if (element.missionStatusCode! >= 2) {
-             listGamificationPast.add(element);
-           }
-         });
-         ref
-             .watch(gamificationInProgressState.notifier)
-             .state =
-             listGamificationInProgress;
-         ref
-             .watch(gamificationAssignedState.notifier)
-             .state =
-             listGamificationAssigned;
-         ref
-             .watch(gamificationPastState.notifier)
-             .state = listGamificationPast;
-         ref
-             .watch(listGamificationState.notifier)
-             .state = value.value ?? [];
-         ref
-             .watch(fixedGamificationAssigned.notifier)
-             .state = value.value ?? [];
-         listGamification = value.value ?? [];
-         ref
-             .watch(submitStatusMissionState.notifier)
-             .state = SubmitStatus.success;
-       }
-       ref
-           .watch(submitStatusMissionState.notifier)
-           .state = SubmitStatus.success;
-     } else{
-       ref
-           .watch(submitStatusMissionState.notifier)
-           .state = SubmitStatus.failure;
-     }
+      if (value.value != null) {
+        List<GamificationResponseRemote> listGamificationInProgress = [];
+        List<GamificationResponseRemote> listGamificationAssigned = [];
+        List<GamificationResponseRemote> listGamificationPast = [];
+        if (value.hasValue) {
+          value.value?.forEach((element) async {
+            if (element.missionStatusCode! == 1) {
+              listGamificationInProgress.add(element);
+            } else if (element.missionStatusCode! == 0) {
+              listGamificationAssigned.add(element);
+            } else if (element.missionStatusCode! >= 2) {
+              listGamificationPast.add(element);
+            }
+          });
+          ref.watch(gamificationInProgressState.notifier).state =
+              listGamificationInProgress;
+          ref.watch(gamificationAssignedState.notifier).state =
+              listGamificationAssigned;
+          ref.watch(gamificationPastState.notifier).state =
+              listGamificationPast;
+          ref.watch(listGamificationState.notifier).state = value.value ?? [];
+          ref.watch(fixedGamificationAssigned.notifier).state =
+              value.value ?? [];
+          listGamification = value.value ?? [];
+          ref.watch(submitStatusMissionState.notifier).state =
+              SubmitStatus.success;
+        }
+        ref.watch(submitStatusMissionState.notifier).state =
+            SubmitStatus.success;
+      } else {
+        ref.watch(submitStatusMissionState.notifier).state =
+            SubmitStatus.failure;
+      }
       return value;
     });
-
   }
+
   Future<void> fetchMissionListBackgroundService() async {
     final backgroundServices = FlutterBackgroundService();
     final isBgServiceRunning = await backgroundServices.isRunning();
@@ -125,95 +112,81 @@ class MissionController extends _$MissionController {
     var repo = ref.read(getMissionLocalProvider.future);
     List<dynamic> listRepo = [];
     await AsyncValue.guard(() => repo).then((value) async {
-      if(value.value != null){
+      if (value.value != null) {
         value.value?.forEach((element) {
-          listRepo.add( gamificationResponseRemoteToJson(element));
+          listRepo.add(gamificationResponseRemoteToJson(element));
         });
-
       }
     });
 
     backgroundServices.invoke(Constant.bgMissionInit, {
       'employeeId': userModel?.employeeID,
       'requestDate': latestSyncDate,
-      'repo':listRepo,
+      'repo': listRepo,
       'url': dotenv.env[EnvConstant.rootUrl],
       'path':
-      '/${BspaceModule.getRootUrl(moduleType: ModuleType.etamkawaGamification)}/api/mission/get_employee_mission?${Constant.apiVer}',
+          '/${BspaceModule.getRootUrl(moduleType: ModuleType.etamkawaGamification)}/api/mission/get_employee_mission?${Constant.apiVer}',
       'accessToken': await ref.read(storageProvider.notifier).read(
-        storage: TableConstant.tbMProfile,
-        key: ProfileKeyConstant.keyTokenGeneral,
-      )
+            storage: TableConstant.tbMProfile,
+            key: ProfileKeyConstant.keyTokenGeneral,
+          )
     });
-    await ref.watch(missionControllerProvider.notifier).getMissionListBackgroundServices().whenComplete(() {
-    });
-
+    await ref
+        .watch(missionControllerProvider.notifier)
+        .getMissionListBackgroundServices()
+        .whenComplete(() {});
   }
 
   Future<void> getMissionListBackgroundServices() async {
     final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
     var repo = ref.read(getMissionRemoteProvider.future);
-try {
-  state = await AsyncValue.guard(() => repo).then((value) async {
-    if (value.value != null && value.value != []) {
-      List<GamificationResponseRemote> listGamificationInProgress = [];
-      List<GamificationResponseRemote> listGamificationAssigned = [];
-      List<GamificationResponseRemote> listGamificationPast = [];
+    try {
+      state = await AsyncValue.guard(() => repo).then((value) async {
+        if (value.value != null && value.value != []) {
+          List<GamificationResponseRemote> listGamificationInProgress = [];
+          List<GamificationResponseRemote> listGamificationAssigned = [];
+          List<GamificationResponseRemote> listGamificationPast = [];
 
-      if (value.hasValue) {
-        value.value?.forEach((element) async {
-          if (element.missionStatusCode != null) {
-            if (element.missionStatusCode! == 1) {
-              listGamificationInProgress.add(element);
-            } else if (element.missionStatusCode! == 0) {
-              listGamificationAssigned.add(element);
-            } else if (element.missionStatusCode! >= 2) {
-              listGamificationPast.add(element);
-            }
+          if (value.hasValue) {
+            value.value?.forEach((element) async {
+              if (element.missionStatusCode != null) {
+                if (element.missionStatusCode! == 1) {
+                  listGamificationInProgress.add(element);
+                } else if (element.missionStatusCode! == 0) {
+                  listGamificationAssigned.add(element);
+                } else if (element.missionStatusCode! >= 2) {
+                  listGamificationPast.add(element);
+                }
+              }
+            });
+            ref.watch(gamificationInProgressState.notifier).state =
+                listGamificationInProgress;
+            ref.watch(gamificationAssignedState.notifier).state =
+                listGamificationAssigned;
+            ref.watch(gamificationPastState.notifier).state =
+                listGamificationPast;
+            ref.watch(listGamificationState.notifier).state = value.value ?? [];
+            ref.watch(fixedGamificationAssigned.notifier).state =
+                value.value ?? [];
+            listGamification = value.value ?? [];
           }
-        });
-        ref
-            .watch(gamificationInProgressState.notifier)
-            .state =
-            listGamificationInProgress;
-        ref
-            .watch(gamificationAssignedState.notifier)
-            .state =
-            listGamificationAssigned;
-        ref
-            .watch(gamificationPastState.notifier)
-            .state = listGamificationPast;
-        ref
-            .watch(listGamificationState.notifier)
-            .state = value.value ?? [];
-        ref
-            .watch(fixedGamificationAssigned.notifier)
-            .state = value.value ?? [];
-        listGamification = value.value ?? [];
+        }
+        return value;
+      });
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
       }
     }
-    return value;
-  });
-}catch(e){
-  if (kDebugMode) {
-    print(e);
-  }
-}
-
   }
 
   Future<void> getMissionList({bool isInit = false}) async {
     final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
-    ref
-        .read(submitStatusMissionState.notifier)
-        .state = SubmitStatus.inProgess;
-     ref
-        .read(isInitMissionState.notifier)
-        .state = isInit;
+    ref.read(submitStatusMissionState.notifier).state = SubmitStatus.inProgess;
+    ref.read(isInitMissionState.notifier).state = isInit;
 
     try {
       var repo = ref.read(getMissionRemoteProvider.future);
-
 
       state = await AsyncValue.guard(() => repo).then((value) async {
         if (value.value != null && value.value != []) {
@@ -233,41 +206,28 @@ try {
                 }
               }
             });
-            ref
-                .watch(gamificationInProgressState.notifier)
-                .state =
+            ref.watch(gamificationInProgressState.notifier).state =
                 listGamificationInProgress;
-            ref
-                .watch(gamificationAssignedState.notifier)
-                .state =
+            ref.watch(gamificationAssignedState.notifier).state =
                 listGamificationAssigned;
-            ref
-                .watch(gamificationPastState.notifier)
-                .state = listGamificationPast;
-            ref
-                .watch(listGamificationState.notifier)
-                .state = value.value ?? [];
-            ref
-                .watch(fixedGamificationAssigned.notifier)
-                .state = value.value ?? [];
+            ref.watch(gamificationPastState.notifier).state =
+                listGamificationPast;
+            ref.watch(listGamificationState.notifier).state = value.value ?? [];
+            ref.watch(fixedGamificationAssigned.notifier).state =
+                value.value ?? [];
             listGamification = value.value ?? [];
           }
-          ref
-              .read(submitStatusMissionState.notifier)
-              .state = SubmitStatus.success;
+          ref.read(submitStatusMissionState.notifier).state =
+              SubmitStatus.success;
         } else {
-          ref
-              .read(submitStatusMissionState.notifier)
-              .state = SubmitStatus.failure;
+          ref.read(submitStatusMissionState.notifier).state =
+              SubmitStatus.failure;
         }
         return value;
       });
-    }catch(e){
-      ref
-          .watch(submitStatusMissionState.notifier)
-          .state = SubmitStatus.failure;
+    } catch (e) {
+      ref.watch(submitStatusMissionState.notifier).state = SubmitStatus.failure;
     }
-
   }
 
   Future<void> filterMissionList(String query) async {
@@ -292,21 +252,24 @@ try {
             listGamificationInProgress
                 .where((element) => (element.chapterData?.single.missionData
                             ?.single.missionName ??
-                        '').toLowerCase()
+                        '')
+                    .toLowerCase()
                     .contains(query.toLowerCase()))
                 .toList();
         ref.watch(gamificationAssignedState.notifier).state =
             listGamificationAssigned
                 .where((element) => (element.chapterData?.single.missionData
-                ?.single.missionName ??
-                '').toLowerCase()
-                .contains(query.toLowerCase()))
+                            ?.single.missionName ??
+                        '')
+                    .toLowerCase()
+                    .contains(query.toLowerCase()))
                 .toList();
-        ref.watch(gamificationPastState.notifier).state =  listGamificationPast
-            .where((element) => (element.chapterData?.single.missionData
-            ?.single.missionName ??
-            '').toLowerCase()
-            .contains(query.toLowerCase()))
+        ref.watch(gamificationPastState.notifier).state = listGamificationPast
+            .where((element) =>
+                (element.chapterData?.single.missionData?.single.missionName ??
+                        '')
+                    .toLowerCase()
+                    .contains(query.toLowerCase()))
             .toList();
         ref.watch(listGamificationState.notifier).state = value.value ?? [];
         ref.watch(fixedGamificationAssigned.notifier).state = value.value ?? [];
@@ -316,29 +279,21 @@ try {
     });
   }
 
+  Future<void> putDetailMissionData(
+      {required MissionDatum missionDatum,
+      required GamificationResponseRemote gamificationResponseRemote,
+      List<GamificationResponseRemote>? listGamification}) async {
+    List<MissionDatum> listMission = [];
 
-  Future<void> putDetailMissionData({required MissionDatum missionDatum,
-    required GamificationResponseRemote gamificationResponseRemote,
-    List<GamificationResponseRemote>? listGamification}) async {
-    List<MissionDatum>listMission = [];
-
-    ref
-        .watch(missionDataState.notifier)
-        .state = missionDatum;
-    ref
-        .watch(gamificationState.notifier)
-        .state = gamificationResponseRemote;
-    for (var element in listGamification??[]) {
+    ref.watch(missionDataState.notifier).state = missionDatum;
+    ref.watch(gamificationState.notifier).state = gamificationResponseRemote;
+    for (var element in listGamification ?? []) {
       listMission.add(
           element.chapterData?.single.missionData?.single ?? MissionDatum());
     }
-    ref
-        .watch(listMissionState.notifier)
-        .state = listMission;
+    ref.watch(listMissionState.notifier).state = listMission;
     List<TaskDatum> listTask = (missionDatum.taskData ?? []);
-    ref
-        .watch(listTaskState.notifier)
-        .state = listTask;
+    ref.watch(listTaskState.notifier).state = listTask;
 
     state = const AsyncValue.data(null);
   }
