@@ -1,3 +1,6 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
 import 'package:module_etamkawa/src/features/task/domain/answer_request.remote.dart';
@@ -6,13 +9,16 @@ import 'package:module_etamkawa/src/features/task/infrastructure/task_local.repo
 import 'package:module_shared/module_shared.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../constants/constant.dart';
 import '../../../../shared_component/connection_listener_widget.dart';
 import '../../../../utils/common_utils.dart';
 import '../../../main_nav/presentation/controller/main_nav.controller.dart';
+import '../../../mission/presentation/controller/mission.controller.dart';
 
 part 'task.controller.g.dart';
 
 enum TaskType { MCQ, SCQ, YNQ, STX, RAT, ASM, DEFAULT }
+
 
 enum PagePosition { NEXT, PREV, CURRENT }
 
@@ -82,6 +88,7 @@ class TaskController extends _$TaskController {
   var attachmentName = '';
   List<int> listSelectOptionCurrent = [];
   List<String> listSelectOptionCurrentString = [];
+
   @override
   FutureOr<void> build() async {}
 
@@ -334,6 +341,47 @@ class TaskController extends _$TaskController {
     } else {
       // If the item does not exist, add it to the list
       dataCek.add(newItem);
+    }
+  }
+
+  Future<void> sendAnswerBackgroundService() async {
+    ref.watch(submitStatusMissionBgServicesState.notifier).state =
+        SubmitStatus.inProgress;
+    try {
+      final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
+      final backgroundServices = FlutterBackgroundService();
+      final isBgServiceRunning = await backgroundServices.isRunning();
+      if (!isBgServiceRunning) {
+        await backgroundServices.startService();
+      }
+      final userModel = await ref.read(helperUserProvider).getUserProfile();
+      final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
+
+      backgroundServices.invoke(Constant.bgMissionInit, {
+        'employeeId': userModel?.employeeID,
+        'requestDate': latestSyncDate,
+        'url': dotenv.env[EnvConstant.rootUrl],
+        'path':
+            '/${BspaceModule.getRootUrl(moduleType: ModuleType.etamkawaGamification)}/api/mission/submit_employee_mission?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}',
+        'accessToken': await ref.read(storageProvider.notifier).read(
+              storage: TableConstant.tbMProfile,
+              key: ProfileKeyConstant.keyTokenGeneral,
+            )
+      });
+
+      if (isConnectionAvailable) {
+        ref.read(submitStatusMissionState.notifier).state =
+            SubmitStatus.success;
+      } else {
+        ref.watch(submitStatusMissionBgServicesState.notifier).state =
+            SubmitStatus.failure;
+      }
+    } catch (e) {
+      ref.watch(submitStatusMissionBgServicesState.notifier).state =
+          SubmitStatus.failure;
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 }

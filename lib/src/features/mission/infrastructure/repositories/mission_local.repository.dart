@@ -96,7 +96,6 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
 
       index++;
     }
-    listResponseFinal.clear();
     var indexIncompleted = 0;
     for (var element in listResponseFinal) {
       DateTime dueDate =
@@ -112,6 +111,9 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
 
     await isarInstance.writeTxn(() async {
       //await isarInstance.gamificationResponseRemotes.clear();
+      if (kDebugMode) {
+        print("##########sebelum"+listResponseFinal.length.toString());
+      }
       await isarInstance.gamificationResponseRemotes
           .putAll(listResponseFinal);
     });
@@ -123,7 +125,9 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
       .filter()
       .employeeMissionIdIsNotNull()
       .findAll();
-
+  if (kDebugMode) {
+    print("##########sesudah"+data.length.toString());
+  }
   return data;
 }
 
@@ -142,10 +146,6 @@ FutureOr<List<GamificationResponseRemote>> getMissionLocal(
     listResponse.add(element);
   }
 
-  await isarInstance.writeTxn(() async {
-    //await isarInstance.gamificationResponseRemotes.clear();
-    await isarInstance.gamificationResponseRemotes.putAll(listResponse);
-  });
-  ref.keepAlive();
+
   return data;
 }

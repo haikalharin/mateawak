@@ -57,6 +57,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
       final gamificationAssigned = ref.watch(gamificationAssignedState);
       final gamificationPast = ref.watch(gamificationPastState);
       final submitStatus = ref.watch(submitStatusMissionState);
+      final submitStatusBgServices = ref.watch(submitStatusMissionBgServicesState);
       final isInit = ref.watch(isInitMissionState);
       final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
 
@@ -94,26 +95,35 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                               onTap: (index) {
                                 switch (index) {
                                   case 0:
-                                    ctrl
-                                        .fetchMissionListBackgroundService()
-                                        .whenComplete(() {
+                                    submitStatus !=
+                                        SubmitStatus.inProgress &&
+                                        submitStatusBgServices !=
+                                            SubmitStatus.inProgress
+                                        ?
+                                    ctrl.fetchMissionListBackgroundService().whenComplete(() {
                                       ref.refresh(missionControllerProvider);
-                                    });
+                                    }):null;
 
                                     break;
                                   case 1:
-                                    ctrl
-                                        .fetchMissionListBackgroundService()
-                                        .whenComplete(() {
+                                    submitStatus !=
+                                        SubmitStatus.inProgress &&
+                                        submitStatusBgServices !=
+                                            SubmitStatus.inProgress
+                                        ?
+                                    ctrl.fetchMissionListBackgroundService().whenComplete(() {
                                       ref.refresh(missionControllerProvider);
-                                    });
+                                    }):null;
                                     break;
                                   case 2:
-                                    ctrl
-                                        .fetchMissionListBackgroundService()
-                                        .whenComplete(() {
+                                    submitStatus !=
+                                        SubmitStatus.inProgress &&
+                                        submitStatusBgServices !=
+                                            SubmitStatus.inProgress
+                                        ?
+                                    ctrl.fetchMissionListBackgroundService().whenComplete(() {
                                       ref.refresh(missionControllerProvider);
-                                    });
+                                    }):null;
                                     break;
                                 }
                               },
@@ -134,7 +144,12 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                     // Tab 1 content
                                     RefreshableStarterWidget(
                                       onRefresh: () async {
-                                        ctrl.getMissionList();
+                                        submitStatus !=
+                                            SubmitStatus.inProgress &&
+                                            submitStatusBgServices !=
+                                                SubmitStatus.inProgress
+                                            ?
+                                        ctrl.getMissionList():null;
                                       },
                                       slivers: [
                                         SliverList(
@@ -226,10 +241,11 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                     ),
                   ],
                 ),
-                submitStatus == SubmitStatus.inProgess && isInit == true
-                    ? Container(
-                        color: Colors.white.withAlpha(130),
-                        child: const Center(child: CircularProgressIndicator()))
+                submitStatus == SubmitStatus.inProgress && isInit== true
+                    ?    Container(
+                    color: Colors.white.withAlpha(130),
+                    child: const Center(
+                        child:  CircularProgressIndicator()))
                     : Container()
               ],
             ));

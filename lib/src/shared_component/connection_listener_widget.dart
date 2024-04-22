@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
+import 'package:module_etamkawa/src/features/task/presentation/controller/task.controller.dart';
 import 'package:module_etamkawa/src/shared_component/reset_transformer_time.dart';
 import 'package:module_shared/module_shared.dart';
 
@@ -39,13 +40,17 @@ class _ConnectionListenerWidgetState
   void initState() {
     WidgetsBinding.instance.addObserver(this);
     final ctrl = ref.read(missionControllerProvider.notifier);
+    final ctrlTask = ref.read(taskControllerProvider.notifier);
     // Initialize a new stream listener when connected
-    timeListener = stream.listen((value) {
+    timeListener = stream.listen((value) async {
       // if (kDebugMode) {
       //   print(value);
       // }
       if (value % 7200 == 0) {
-        ctrl.fetchMissionListBackgroundService();
+       await ctrlTask.sendAnswerBackgroundService().whenComplete(() async {
+         await  ctrl.fetchMissionListBackgroundService();
+        });
+
       }
     });
     connectionListener =
@@ -53,7 +58,9 @@ class _ConnectionListenerWidgetState
       switch (status) {
         case InternetConnectionStatus.connected:
           if (isInit) {
-            ctrl.fetchMissionListBackgroundService();
+            await ctrlTask.sendAnswerBackgroundService().whenComplete(() async {
+              await  ctrl.fetchMissionListBackgroundService();
+            });
             isInit = false;
           }
           ref.read(isConnectionAvailableProvider.notifier).state = true;

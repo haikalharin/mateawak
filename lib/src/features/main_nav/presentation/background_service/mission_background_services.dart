@@ -19,6 +19,7 @@ import '../../../../constants/constant.dart';
 import '../../../../constants/function_utils.dart';
 import '../../../../utils/common_utils.dart';
 import '../../../mission/domain/gamification_response.remote.dart';
+import '../../../task/domain/answer_request.remote.dart';
 
 FutureOr<void> intializedMissionBackgroundService() async {
   log('intializedBackgroundService');
@@ -62,23 +63,15 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
 
       final isarInstance = existingIsarInstance ??
           Isar.openSync(
-              [NewsResponseRemoteSchema, GamificationResponseRemoteSchema],
+              [NewsResponseRemoteSchema, GamificationResponseRemoteSchema,AnswerRequestRemoteSchema],
               directory: dir.path, name: Constant.etamkawaIsarInstance);
 
       List<GamificationResponseRemote> listResponse = [];
       List<GamificationResponseRemote> listResponseFinal = [];
-      List<GamificationResponseRemote> listAfterInputImage = [];
-      List<GamificationResponseRemote> listAfterCheckIsIncomplete = [];
       final employeeId = payload?['employeeId'] as int;
       final requestDate = payload?['requestDate'] as String;
-      // final repo = payload?['repo'] as List<dynamic>;
-      // List<GamificationResponseRemote> listRepo = [];
-      // if (repo.isNotEmpty) {
-      //   for (var element in repo) {
-      //     listRepo.add(gamificationResponseRemoteFromJson(element));
-      //   }
-      // }
-      ConnectBackgroundService().post(
+
+     final response = await ConnectBackgroundService().post(
         accessToken: payload?['accessToken'] as String,
         path: payload?['path'] as String,
         url: payload?['url'] as String,
@@ -87,90 +80,93 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
           "requestDate": requestDate
           //"requestDate": '2024-03-01T03:55:58.918Z'
         },
-      ).then((value) async {
-        log('submit data result: $value');
-        for (var element in value.result?.content) {
-          // for (var element in rawMissionDummy) {
-          final result = GamificationResponseRemote.fromJson(element);
-          listResponse.add(result);
-        }
-        // final today = CommonUtils.formatDateRequestParam(DateTime.now().toString());
-        // ref.watch(latestSyncDateState.notifier).state = today;
+      );
+     if(response.statusCode == 200){
+       log('submit data result: ${response.result}');
+       for (var element in response.result?.content) {
+         // for (var element in rawMissionDummy) {
+         final result = GamificationResponseRemote.fromJson(element);
+         listResponse.add(result);
+       }
+       // final today = CommonUtils.formatDateRequestParam(DateTime.now().toString());
+       // ref.watch(latestSyncDateState.notifier).state = today;
 
-        final repo = isarInstance.gamificationResponseRemotes
-            .filter()
-            .employeeMissionIdIsNotNull()
-            .findAll();
+       final repo = isarInstance.gamificationResponseRemotes
+           .filter()
+           .employeeMissionIdIsNotNull()
+           .findAll();
 
-        await AsyncValue.guard(() => repo).then((value) async {
-          for (var element in listResponse) {
-            if ((value.value ?? []).isNotEmpty) {
-              bool exists = (value.value ?? []).any(
-                      (item) =>
-                  item.employeeMissionId == element.employeeMissionId);
+       await AsyncValue.guard(() => repo).then((value) async {
+         if(listResponse.isNotEmpty) {
+           for (var element in listResponse) {
+             if ((value.value ?? []).isNotEmpty) {
+               bool exists = (value.value ?? []).any(
+                       (item) =>
+                   item.employeeMissionId == element.employeeMissionId);
 
-              if (!exists) {
-                listResponseFinal.add(element);
-              }
-            } else {
-              listResponseFinal.add(element);
-            }
-          }
-        });
-        int index = 0;
-        for (var element in listResponseFinal) {
-          List<TaskDatum> listTask =
-              element.chapterData?.single.missionData?.single.taskData ?? [];
-          int indexTask = 0;
-          for (var element in listTask) {
-            File file = File('');
-            if (element.attachmentPath == null) {
-              if (element.attachmentUrl != null) {
-                final response = ConnectBackgroundService().downloadImage(
-                  url: element.attachmentUrl ?? '',
-                );
-                await AsyncValue.guard(() => response).then((value) async {
-                  file = await asyncMethodSaveFile(value.value?.data);
-                  listResponseFinal[index].chapterData?.single.missionData?.single
-                      .taskData?[indexTask].attachmentPath = file.path;
-                  indexTask++;
-                });
-              }
-            }
-          }
+               if (!exists) {
+                 listResponseFinal.add(element);
+               }
+             } else {
+               listResponseFinal.add(element);
+             }
+           }
+         }
+       });
+       int index = 0;
+       for (var element in listResponseFinal) {
+         List<TaskDatum> listTask =
+             element.chapterData?.single.missionData?.single.taskData ?? [];
+         int indexTask = 0;
+         for (var element in listTask) {
+           File file = File('');
+           if (element.attachmentPath == null) {
+             if (element.attachmentUrl != null) {
+               final response = ConnectBackgroundService().downloadImage(
+                 url: element.attachmentUrl ?? '',
+               );
+               await AsyncValue.guard(() => response).then((value) async {
+                 file = await asyncMethodSaveFile(value.value?.data);
+                 listResponseFinal[index].chapterData?.single.missionData?.single
+                     .taskData?[indexTask].attachmentPath = file.path;
+                 indexTask++;
+               });
+             }
+           }
+         }
 
-          index++;
-        }
-        listResponseFinal.clear();
-        var indexInCompleted = 0;
-        for (var element in listResponseFinal) {
-          DateTime dueDate =
-          DateTime.parse(element.dueDate ?? '2024-00-00T00:00:00');
-          int different = calculateDifferenceDays(dueDate, DateTime.now());
-          if (element.missionStatusCode != null) {
-            if (different > 0 && element.missionStatusCode! < 2) {
-              listResponseFinal[indexInCompleted].missionStatusCode = 4;
-              listResponseFinal[indexInCompleted].missionStatus = 'InCompleted';
-            }
-          }
-        }
+         index++;
+       }
+       listResponseFinal.clear();
+       var indexInCompleted = 0;
+       for (var element in listResponseFinal) {
+         DateTime dueDate =
+         DateTime.parse(element.dueDate ?? '2024-00-00T00:00:00');
+         int different = calculateDifferenceDays(dueDate, DateTime.now());
+         if (element.missionStatusCode != null) {
+           if (different > 0 && element.missionStatusCode! < 2) {
+             listResponseFinal[indexInCompleted].missionStatusCode = 4;
+             listResponseFinal[indexInCompleted].missionStatus = 'InCompleted';
+           }
+         }
+       }
 
-        await isarInstance.writeTxn(() async {
-          //await isarInstance.gamificationResponseRemotes.clear();
-          await isarInstance.gamificationResponseRemotes
-              .putAll(listResponseFinal);
-        });
+       await isarInstance.writeTxn(() async {
+         //await isarInstance.gamificationResponseRemotes.clear();
+         await isarInstance.gamificationResponseRemotes
+             .putAll(listResponseFinal);
+       });
 
-        // final data = await isarInstance.gamificationResponseRemotes
-        //     .filter()
-        //     .employeeMissionIdIsNotNull()
-        //     .findAll();
+       // final data = await isarInstance.gamificationResponseRemotes
+       //     .filter()
+       //     .employeeMissionIdIsNotNull()
+       //     .findAll();
 
-        // if (isarInstance.isOpen) {
-        //   await isarInstance.close();
-        // }
-        //await serviceInstance.stopSelf();
-      });
+       // if (isarInstance.isOpen) {
+       //   await isarInstance.close();
+       // }
+       //await serviceInstance.stopSelf();
+     }
     } catch (e) {
       log('background service error: $e');
       throw Exception(e);
