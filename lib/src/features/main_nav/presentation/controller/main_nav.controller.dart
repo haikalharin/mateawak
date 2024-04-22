@@ -14,7 +14,7 @@ import '../../../../shared_component/connection_listener_widget.dart';
 
 part 'main_nav.controller.g.dart';
 
-enum SubmitStatus { initial, inProgess, success, failure }
+enum SubmitStatus { initial, inProgress, success, failure }
 
 final isScrollProvider = StateProvider.autoDispose<bool>((ref) {
   return false;
@@ -23,6 +23,7 @@ final isScrollProvider = StateProvider.autoDispose<bool>((ref) {
 final submitStatusState = StateProvider.autoDispose<SubmitStatus>((ref) {
   return SubmitStatus.initial;
 });
+
 
 final indexMtdYtdSliderProvider = StateProvider.autoDispose<int>((ref) => 0);
 
@@ -41,7 +42,7 @@ class MainNavController extends _$MainNavController {
 
     ref
         .watch(submitStatusState.notifier)
-        .state = SubmitStatus.inProgess;
+        .state = SubmitStatus.inProgress;
     final repo = await ref.watch(getMissionRemoteProvider.future);
 
     if(repo.isNotEmpty == true) {
@@ -64,7 +65,7 @@ class MainNavController extends _$MainNavController {
   Future<void> fetchMissionListLocal() async {
     ref
         .watch(submitStatusState.notifier)
-        .state = SubmitStatus.inProgess;
+        .state = SubmitStatus.inProgress;
     final repo = await ref.watch(getMissionLocalProvider.future);
 
     if(repo.isNotEmpty == true) {
