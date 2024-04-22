@@ -3,10 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:module_etamkawa/module_etamkawa.dart';
 import 'package:module_etamkawa/src/constants/image.constant.dart';
-import 'package:module_etamkawa/src/features/validation/domain/validation_response.remote.dart';
-import 'package:module_etamkawa/src/features/validation/presentation/controller/validation.controller.dart';
+import 'package:module_etamkawa/src/features/mission_past/domain/mission_past_response.remote.dart';
+import 'package:module_etamkawa/src/features/mission_past/presentation/controller/mission_past.controller.dart';
 import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
@@ -15,20 +14,20 @@ import '../../../shared_component/async_value_widget.dart';
 import '../../../shared_component/refreshable_starter_widget.dart';
 import '../../task/presentation/controller/task.controller.dart';
 
-class ValidationScreen extends ConsumerStatefulWidget {
-  const ValidationScreen({super.key});
+class MissionPastScreen extends ConsumerStatefulWidget {
+  const MissionPastScreen({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _ValidationScreenState();
+      _MissionPastScreenState();
 }
 
 Future<void> myAsyncMethodMoved(
-    BuildContext context, ValidationResponseRemote validation) async {
-  context.goNamed(detailValidationEtamkawa);
+    BuildContext context, MissionPastResponseRemote missionPast) async {
+  //context.goNamed(detailMissionEtamkawa);
 }
 
-class _ValidationScreenState extends ConsumerState<ValidationScreen> {
+class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
   @override
   void initState() {
     super.initState();
@@ -39,49 +38,33 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
     return Scaffold(
       body: Consumer(
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
-          final ctrl = ref.watch(validationControllerProvider.notifier);
-          final listValidation = ref.watch(validationInReviewState);
-          debugPrint(listValidation.toString());
+          final ctrl = ref.watch(missionPastControllerProvider.notifier);
+          final listMissionPast = ref.watch(listMissionPastResponseRemoteState);
+          debugPrint(listMissionPast.toString());
           return AsyncValueWidget(
               value: ref.watch(taskControllerProvider),
               data: (data) {
                 return Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        textInputAction: TextInputAction.search,
-                        decoration: InputDecoration(
-                          hintText: "Search...",
-                          suffixIcon: const Icon(Icons.search),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                        onFieldSubmitted: (keyword) {
-                          ctrl.filterValidationList(keyword);
-                        },
-                      ),
-                    ),
                     Expanded(
                       child: Container(
                         color: ColorTheme.neutral100,
                         child: RefreshableStarterWidget(
                           onRefresh: () async {
-                            ctrl.getValidationList();
+                            ctrl.getMissionPastList();
                           },
                           slivers: [
                             SliverList(
                               delegate: SliverChildBuilderDelegate(
                                 (context, index) {
-                                  if (listValidation.isNotEmpty) {
+                                  if (listMissionPast.isNotEmpty) {
                                     return _buildListItem(
-                                        index, ctrl, listValidation);
+                                        index, ctrl, listMissionPast);
                                   } else {
                                     return Container();
                                   }
                                 },
-                                childCount: listValidation.length,
+                                childCount: listMissionPast.length,
                               ),
                             ),
                           ],
@@ -96,21 +79,8 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
     );
   }
 
-  Widget _buildListItem(int index, ValidationController ctrl,
-      List<ValidationResponseRemote> validation) {
-    Future<void> putData() async {
-      List<MissionValidationDatum> listValidation = [];
-      for (var element in validation) {
-        listValidation.add(element.chapterData?.single.missionData?.single ??
-            MissionValidationDatum());
-      }
-      //ref.watch(listValidationState.notifier).state = listValidation;
-      List<TaskValidationDatum> listTask =
-          (validation[index].chapterData?.single.missionData?.single.taskData ??
-              []);
-      //ref.watch(listTaskState.notifier).state = listTask;
-    }
-
+  Widget _buildListItem(int index, MissionPastController ctrl,
+      List<MissionPastResponseRemote> missionPast) {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         return Card(
@@ -142,18 +112,18 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(5.r)),
                                     color:
-                                        (validation[index].missionStatusCode ==
+                                        (missionPast[index].missionStatusCode ==
                                                 3)
                                             ? ColorTheme.danger100
                                             : ColorTheme.primary100),
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 8.w, vertical: 4.h),
-                                  child: Text(validation[index].missionStatus!,
+                                  child: Text(missionPast[index].missionStatus!,
                                       style: SharedComponent.textStyleCustom(
                                           typographyType:
                                               TypographyType.paragraph,
-                                          fontColor: (validation[index]
+                                          fontColor: (missionPast[index]
                                                       .missionStatusCode ==
                                                   3)
                                               ? ColorTheme.danger500
@@ -173,7 +143,7 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                                   padding:
                                       const EdgeInsets.fromLTRB(3, 0, 0, 0),
                                   child: Text(
-                                      '${validation[index].chapterData?.single.missionData?.single.taskData?.single.answerReward.toString()} pts',
+                                      '${missionPast[index].missionReward.toString()} pts',
                                       style: SharedComponent.textStyleCustom(
                                           typographyType:
                                               TypographyType.paragraph,
@@ -184,51 +154,14 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                               ],
                             ),
                           ]),
-                      Text(
-                          validation[index]
-                                  .chapterData
-                                  ?.single
-                                  .missionData
-                                  ?.single
-                                  .missionName ??
-                              '',
+                      Text(missionPast[index].missionName ?? '',
                           style: SharedComponent.textStyleCustom(
                               typographyType: TypographyType.largeH5,
                               fontColor: ColorTheme.neutral600)),
-                      Text(validation[index].chapterData?[0].chapterName ?? '',
+                      Text(missionPast[index].chapterName ?? '',
                           style: SharedComponent.textStyleCustom(
                               typographyType: TypographyType.paragraph,
                               fontColor: ColorTheme.neutral500)),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              width: 16.sp,
-                              height: 16.sp,
-                              decoration: BoxDecoration(
-                                  color: ColorTheme.primary100,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(100.r))),
-                              child: Center(
-                                  child: Text(
-                                (validation[index].submittedBy ?? '')[0]
-                                    .toUpperCase(),
-                              )),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                              child: Text(validation[index].submittedBy ?? '',
-                                  style: SharedComponent.textStyleCustom(
-                                      typographyType: TypographyType.small,
-                                      fontColor: ColorTheme.primary500)
-                                  ),
-                            ),
-                          ],
-                        ),
-                      ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                         child: Row(
@@ -242,7 +175,7 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                               child: Text(
-                                  'Submitted at: ${CommonUtils.formattedDateHours(validation[index].submittedDate ?? DateTime.now().toString())}',
+                                  'Submitted at: ${CommonUtils.formattedDateHours(missionPast[index].submittedDate ?? DateTime.now().toString())}',
                                   style: SharedComponent.textStyleCustom(
                                       typographyType: TypographyType.small,
                                       fontColor: ColorTheme.neutral500)
@@ -252,7 +185,7 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                           ],
                         ),
                       ),
-                      if (validation[index].missionStatusCode != 3)
+                      if (missionPast[index].missionStatusCode != 3)
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                           child: Row(
@@ -266,7 +199,7 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                                 child: Text(
-                                    'Validated at: ${CommonUtils.formattedDateHours(validation[index].completedDate ?? DateTime.now().toString())}',
+                                    'Validated at: ${CommonUtils.formattedDateHours(missionPast[index].completedDate ?? DateTime.now().toString())}',
                                     style: SharedComponent.textStyleCustom(
                                         typographyType: TypographyType.small,
                                         fontColor: ColorTheme.neutral500)
@@ -289,33 +222,33 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                               ),
                             ),
                             onPressed: () async {
-                              // if ((validation[index].missionStatusCode ?? 0) >
+                              // if ((missionPast[index].missionStatusCode ?? 0) >
                               //     0) {
                               //   await ctrlTask
                               //       .putDetailMissionData(
-                              //           missionDatum: validation[index]
+                              //           missionDatum: missionPast[index]
                               //                   .chapterData
                               //                   ?.single
                               //                   .missionData
                               //                   ?.single ??
-                              //               MissionValidationDatum(),
-                              //           listGamification: validation,
+                              //               MissionMissionPastDatum(),
+                              //           listGamification: missionPast,
                               //           gamificationResponseRemote:
-                              //               validation[index])
+                              //               missionPast[index])
                               //       .whenComplete(() async {
                               //     await putData().whenComplete(() async {
                               //       ref.refresh(taskControllerProvider);
                               //       await ctrlTask
                               //           .currentQuestion(
                               //               employeeMissionId:
-                              //                   validation[index]
+                              //                   missionPast[index]
                               //                           .employeeMissionId ??
                               //                       0)
                               //           .whenComplete(() async {
                               //         await putCurrentAnswerFinal()
                               //             .whenComplete(() {
                               //           myAsyncMethodMoved(
-                              //               context, validation[index]);
+                              //               context, missionPast[index]);
                               //         });
                               //       });
                               //     });
@@ -323,24 +256,23 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                               // } else {
                               //   await ctrlTask
                               //       .putDetailMissionData(
-                              //           missionDatum: validation[index]
+                              //           missionDatum: missionPast[index]
                               //                   .chapterData
                               //                   ?.single
                               //                   .missionData
                               //                   ?.single ??
-                              //               MissionValidationDatum(),
-                              //           listGamification: validation,
+                              //               MissionMissionPastDatum(),
+                              //           listGamification: missionPast,
                               //           gamificationResponseRemote:
-                              //               validation[index])
+                              //               missionPast[index])
                               //       .whenComplete(() async {
                               //     await putData().whenComplete(() async {
                               //       myAsyncMethodMoved(
-                              //           context, validation[index]);
+                              //           context, missionPast[index]);
                               //     });
                               //   });
                               // }
-                              myAsyncMethodMoved(
-                                        context, validation[index]);
+                              myAsyncMethodMoved(context, missionPast[index]);
                             },
                             child: Text("View",
                                 style: SharedComponent.textStyleCustom(

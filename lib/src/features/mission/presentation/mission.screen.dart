@@ -8,6 +8,8 @@ import 'package:module_etamkawa/src/constants/function_utils.dart';
 import 'package:module_etamkawa/src/constants/image.constant.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
+import 'package:module_etamkawa/src/features/mission_past/presentation/mission_past.screen.dart';
+import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
 import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
@@ -51,15 +53,12 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
       final ctrl = ref.watch(missionControllerProvider.notifier);
       final ctrlTask = ref.watch(taskControllerProvider.notifier);
-      final listMissionInProgress = ref.watch(listMissionInProgressState);
-      final listMissionAssigned = ref.watch(listMissionAssignedState);
-      final listMissionPast = ref.watch(listMissionPastState);
       final gamificationInProgress = ref.watch(gamificationInProgressState);
       final gamificationAssigned = ref.watch(gamificationAssignedState);
       final gamificationPast = ref.watch(gamificationPastState);
-      final listGamification = ref.watch(listGamificationState);
       final submitStatus = ref.watch(submitStatusMissionState);
       final isInit = ref.watch(isInitMissionState);
+      final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
 
       return AsyncValueWidget(
           value: ref.watch(missionControllerProvider),
@@ -95,18 +94,24 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                               onTap: (index) {
                                 switch (index) {
                                   case 0:
-                                    ctrl.fetchMissionListBackgroundService().whenComplete(() {
+                                    ctrl
+                                        .fetchMissionListBackgroundService()
+                                        .whenComplete(() {
                                       ref.refresh(missionControllerProvider);
                                     });
 
                                     break;
                                   case 1:
-                                    ctrl.fetchMissionListBackgroundService().whenComplete(() {
+                                    ctrl
+                                        .fetchMissionListBackgroundService()
+                                        .whenComplete(() {
                                       ref.refresh(missionControllerProvider);
                                     });
                                     break;
                                   case 2:
-                                    ctrl.fetchMissionListBackgroundService().whenComplete(() {
+                                    ctrl
+                                        .fetchMissionListBackgroundService()
+                                        .whenComplete(() {
                                       ref.refresh(missionControllerProvider);
                                     });
                                     break;
@@ -180,30 +185,36 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                         ),
                                       ],
                                     ),
-                                    RefreshableStarterWidget(
-                                      onRefresh: () async {
-                                        ctrl.getMissionList();
-                                      },
-                                      slivers: [
-                                        SliverList(
-                                          delegate: SliverChildBuilderDelegate(
-                                            (context, index) {
-                                              // Build items for Tab 2
-                                              if (gamificationPast.isNotEmpty) {
-                                                return _buildListItem(
-                                                    index,
-                                                    ctrl,
-                                                    ctrlTask,
-                                                    gamificationPast);
-                                              } else {
-                                                return Container();
-                                              }
+                                    // Tab 3 content
+                                    isConnectionAvailable
+                                        ? const MissionPastScreen()
+                                        : RefreshableStarterWidget(
+                                            onRefresh: () async {
+                                              ctrl.getMissionList();
                                             },
-                                            childCount: gamificationPast.length,
+                                            slivers: [
+                                              SliverList(
+                                                delegate:
+                                                    SliverChildBuilderDelegate(
+                                                  (context, index) {
+                                                    // Build items for Tab 3
+                                                    if (gamificationPast
+                                                        .isNotEmpty) {
+                                                      return _buildListItem(
+                                                          index,
+                                                          ctrl,
+                                                          ctrlTask,
+                                                          gamificationPast);
+                                                    } else {
+                                                      return Container();
+                                                    }
+                                                  },
+                                                  childCount:
+                                                      gamificationPast.length,
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                      ],
-                                    ),
                                     // Add more tabs as needed
                                   ],
                                 ),
@@ -215,11 +226,10 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                     ),
                   ],
                 ),
-                submitStatus == SubmitStatus.inProgess && isInit== true
-                    ?    Container(
-                    color: Colors.white.withAlpha(130),
-                    child: const Center(
-                        child:  CircularProgressIndicator()))
+                submitStatus == SubmitStatus.inProgess && isInit == true
+                    ? Container(
+                        color: Colors.white.withAlpha(130),
+                        child: const Center(child: CircularProgressIndicator()))
                     : Container()
               ],
             ));
