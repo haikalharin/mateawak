@@ -129,6 +129,7 @@ class Constant {
   static const bgMainNavClose = 'mainNav-close';
   static const bgMainNavInit= 'mainNav-init';
   static const bgMissionInit= 'mission-init';
+  static const bgSendAnswer= 'send-answer';
   static const bgMainNavStopServiceManual = 'stop-service-manual';
 
   static const dateSelectorModeDari = 'Dari';

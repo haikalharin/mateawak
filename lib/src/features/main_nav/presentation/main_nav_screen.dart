@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,6 +7,7 @@ import 'package:module_etamkawa/src/features/main_nav/presentation/controller/ma
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/mission.screen.dart';
 import 'package:module_etamkawa/src/features/overview/presentation/overview.screen.dart';
+import 'package:module_etamkawa/src/features/task/presentation/controller/task.controller.dart';
 import 'package:module_etamkawa/src/features/validation/presentation/controller/validation.controller.dart';
 import 'package:module_etamkawa/src/features/validation/presentation/validation.screen.dart';
 import 'package:module_shared/module_shared.dart';
@@ -56,6 +58,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
         value: ref.watch(mainNavControllerProvider),
         data: (data) {
           final ctrl = ref.watch(mainNavControllerProvider.notifier);
+          final ctrlTask = ref.watch(taskControllerProvider.notifier);
           final ctrlMission = ref.watch(missionControllerProvider.notifier);
           final ctrlValidation =
               ref.watch(validationControllerProvider.notifier);
@@ -101,8 +104,16 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                     actions: [
                       InkWell(
                           onTap: () async {
-                            await ctrlMission
-                                .fetchMissionListBackgroundService();
+                            submitStatusMission != SubmitStatus.inProgress &&
+                                    submitStatusMissionBgServices !=
+                                        SubmitStatus.inProgress
+                                ? await ctrlTask
+                                    .sendAnswerBackgroundService()
+                                    .whenComplete(() async {
+                                    await ctrlMission
+                                        .fetchMissionListBackgroundService();
+                                  })
+                                : null;
                           },
                           child: (submitStatusMissionBgServices ==
                                       SubmitStatus.inProgress) ||
@@ -133,69 +144,82 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                           )
                         : Container(),
                   ]),
-                  bottomNavigationBar: SharedComponent.containerBottomNavBar(
-                    bottomNavigationBar: BottomNavigationBar(
-                      type: BottomNavigationBarType.fixed,
-                      selectedFontSize: 10.sp,
-                      items: <BottomNavigationBarItem>[
-                        BottomNavigationBarItem(
-                          icon: const Icon(
-                            Icons.home,
-                          ),
-                          label: 'Home',
-                          activeIcon: Icon(
-                            Icons.home,
-                            color: ColorTheme.primary500,
+                  bottomNavigationBar: Stack(
+                      alignment: AlignmentDirectional.bottomCenter,
+                      children: [
+                        SharedComponent.containerBottomNavBar(
+                          bottomNavigationBar: BottomNavigationBar(
+                            type: BottomNavigationBarType.fixed,
+                            selectedFontSize: 10.sp,
+                            items: <BottomNavigationBarItem>[
+                              BottomNavigationBarItem(
+                                icon: const Icon(
+                                  Icons.home,
+                                ),
+                                label: 'Home',
+                                activeIcon: Icon(
+                                  Icons.home,
+                                  color: ColorTheme.primary500,
+                                ),
+                              ),
+                              BottomNavigationBarItem(
+                                icon: const Icon(Icons.group),
+                                label: 'Growth',
+                                activeIcon: Icon(
+                                  Icons.group,
+                                  color: ColorTheme.primary500,
+                                ),
+                              ),
+                              BottomNavigationBarItem(
+                                icon: const Icon(Icons.checklist),
+                                label: 'Mission',
+                                activeIcon: Icon(
+                                  Icons.checklist,
+                                  color: ColorTheme.primary500,
+                                ),
+                              ),
+                              BottomNavigationBarItem(
+                                icon: const Icon(Icons.check_circle),
+                                label: 'Validation',
+                                activeIcon: Icon(
+                                  Icons.check_circle,
+                                  color: ColorTheme.primary500,
+                                ),
+                              ),
+                              BottomNavigationBarItem(
+                                icon: const Icon(Icons.account_circle_rounded),
+                                label: 'Profile',
+                                activeIcon: Icon(
+                                  Icons.account_circle_rounded,
+                                  color: ColorTheme.primary500,
+                                ),
+                              )
+                            ],
+                            currentIndex: ctrl.indexNav,
+                            onTap: (value) async {
+                              ctrl.onItemTapped(value);
+                              if (ctrl.indexNav == 2) {
+                                if (
+                                    submitStatusMission !=
+                                        SubmitStatus.inProgress &&
+                                    submitStatusMissionBgServices !=
+                                        SubmitStatus.inProgress) {
+                                  if (kDebugMode) {
+                                    print('###################Kena');
+                                  }
+                                  await ctrlMission
+                                      .getMissionList(isInit: isInit)
+                                      .whenComplete(() {
+                                    isInit = false;
+                                  });
+                                }
+                              } else if (ctrl.indexNav == 3) {
+                                await ctrlValidation.getValidationList();
+                              }
+                            },
                           ),
                         ),
-                        BottomNavigationBarItem(
-                          icon: const Icon(Icons.group),
-                          label: 'Growth',
-                          activeIcon: Icon(
-                            Icons.group,
-                            color: ColorTheme.primary500,
-                          ),
-                        ),
-                        BottomNavigationBarItem(
-                          icon: const Icon(Icons.checklist),
-                          label: 'Mission',
-                          activeIcon: Icon(
-                            Icons.checklist,
-                            color: ColorTheme.primary500,
-                          ),
-                        ),
-                        BottomNavigationBarItem(
-                          icon: const Icon(Icons.check_circle),
-                          label: 'Validation',
-                          activeIcon: Icon(
-                            Icons.check_circle,
-                            color: ColorTheme.primary500,
-                          ),
-                        ),
-                        BottomNavigationBarItem(
-                          icon: const Icon(Icons.account_circle_rounded),
-                          label: 'Profile',
-                          activeIcon: Icon(
-                            Icons.account_circle_rounded,
-                            color: ColorTheme.primary500,
-                          ),
-                        )
-                      ],
-                      currentIndex: ctrl.indexNav,
-                      onTap: (value) async {
-                        ctrl.onItemTapped(value);
-                        if (ctrl.indexNav == 2) {
-                          await ctrlMission
-                              .getMissionList(isInit: isInit)
-                              .whenComplete(() {
-                            isInit = false;
-                          });
-                        } else if (ctrl.indexNav == 3) {
-                          await ctrlValidation.getValidationList();
-                        }
-                      },
-                    ),
-                  )),
+                      ])),
             );
           });
         },

@@ -114,20 +114,11 @@ class MissionController extends _$MissionController {
       }
       final userModel = await ref.read(helperUserProvider).getUserProfile();
       final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
-      var repo = ref.read(getMissionLocalProvider.future);
-      List<dynamic> listRepo = [];
-      await AsyncValue.guard(() => repo).then((value) async {
-        if (value.value != null) {
-          value.value?.forEach((element) {
-            listRepo.add(gamificationResponseRemoteToJson(element));
-          });
-        }
-      });
+
 
       backgroundServices.invoke(Constant.bgMissionInit, {
         'employeeId': userModel?.employeeID,
         'requestDate': latestSyncDate,
-        'repo': listRepo,
         'url': dotenv.env[EnvConstant.rootUrl],
         'path':
             '/${BspaceModule.getRootUrl(moduleType: ModuleType.etamkawaGamification)}/api/mission/get_employee_mission?${Constant.apiVer}',
