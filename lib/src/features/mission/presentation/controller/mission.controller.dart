@@ -114,20 +114,11 @@ class MissionController extends _$MissionController {
       }
       final userModel = await ref.read(helperUserProvider).getUserProfile();
       final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
-      var repo = ref.read(getMissionLocalProvider.future);
-      List<dynamic> listRepo = [];
-      await AsyncValue.guard(() => repo).then((value) async {
-        if (value.value != null) {
-          value.value?.forEach((element) {
-            listRepo.add(gamificationResponseRemoteToJson(element));
-          });
-        }
-      });
+
 
       backgroundServices.invoke(Constant.bgMissionInit, {
         'employeeId': userModel?.employeeID,
         'requestDate': latestSyncDate,
-        'repo': listRepo,
         'url': dotenv.env[EnvConstant.rootUrl],
         'path':
             '/${BspaceModule.getRootUrl(moduleType: ModuleType.etamkawaGamification)}/api/mission/get_employee_mission?${Constant.apiVer}',
@@ -141,6 +132,8 @@ class MissionController extends _$MissionController {
           .getMissionListBackgroundServices()
           .whenComplete(() {});
     } catch (e) {
+      ref.watch(submitStatusMissionBgServicesState.notifier).state =
+          SubmitStatus.failure;
       if (kDebugMode) {
         print(e);
       }
@@ -183,8 +176,15 @@ class MissionController extends _$MissionController {
                 value.value ?? [];
             listGamification = value.value ?? [];
           }
-          ref.watch(submitStatusMissionBgServicesState.notifier).state =
-              SubmitStatus.success;
+          if(isConnectionAvailable){
+            ref.read(submitStatusMissionBgServicesState.notifier).state =
+                SubmitStatus.success;
+          }else {
+            ref
+                .read(submitStatusMissionBgServicesState.notifier)
+                .state =
+                SubmitStatus.failure;
+          }
         } else{
           ref.watch(submitStatusMissionBgServicesState.notifier).state =
               SubmitStatus.failure;
@@ -192,6 +192,8 @@ class MissionController extends _$MissionController {
         return value;
       });
     } catch (e) {
+      ref.watch(submitStatusMissionBgServicesState.notifier).state =
+          SubmitStatus.failure;
       if (kDebugMode) {
         print(e);
       }
@@ -203,6 +205,7 @@ class MissionController extends _$MissionController {
         SubmitStatus.inProgress;
     try {
       final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
+
       ref.read(isInitMissionState.notifier).state = isInit;
 
       var repo = ref.read(getMissionRemoteProvider.future);
@@ -236,14 +239,25 @@ class MissionController extends _$MissionController {
                 value.value ?? [];
             listGamification = value.value ?? [];
           }
-          ref.read(submitStatusMissionState.notifier).state =
-              SubmitStatus.success;
+          if(isConnectionAvailable){
+            ref.read(submitStatusMissionState.notifier).state =
+                SubmitStatus.success;
+          }else {
+            ref
+                .read(submitStatusMissionState.notifier)
+                .state =
+                SubmitStatus.failure;
+          }
         } else {
           ref.read(submitStatusMissionState.notifier).state =
               SubmitStatus.failure;
         }
         return value;
       });
+      if(!isConnectionAvailable){
+        ref.read(submitStatusMissionState.notifier).state =
+            SubmitStatus.failure;
+      }
     } catch (e) {
       ref.watch(submitStatusMissionState.notifier).state = SubmitStatus.failure;
     }
