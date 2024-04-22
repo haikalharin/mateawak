@@ -215,7 +215,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                     ),
                   ],
                 ),
-                submitStatus == SubmitStatus.inProgess && isInit== true
+                submitStatus == SubmitStatus.inProgress && isInit== true
                     ?    Container(
                     color: Colors.white.withAlpha(130),
                     child: const Center(

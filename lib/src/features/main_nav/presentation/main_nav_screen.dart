@@ -36,7 +36,8 @@ class MainNavScreen extends ConsumerStatefulWidget {
 
 class _MainNavScreenState extends ConsumerState<MainNavScreen>
     with WidgetsBindingObserver {
-  bool isInit =false;
+  bool isInit = false;
+
   Future<void> initEtamkawa() async {
     WidgetsFlutterBinding.ensureInitialized();
     await intializedMissionBackgroundService();
@@ -44,7 +45,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
 
   @override
   void initState() {
-    isInit =true;
+    isInit = true;
     initEtamkawa();
     super.initState();
   }
@@ -56,10 +57,14 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
         data: (data) {
           final ctrl = ref.watch(mainNavControllerProvider.notifier);
           final ctrlMission = ref.watch(missionControllerProvider.notifier);
-          final ctrlValidation = ref.watch(validationControllerProvider.notifier);
+          final ctrlValidation =
+              ref.watch(validationControllerProvider.notifier);
 
           final submitStatus = ref.watch(submitStatusState);
           final submitStatusMission = ref.watch(submitStatusMissionState);
+
+          final submitStatusMissionBgServices =
+              ref.watch(submitStatusMissionBgServicesState);
           return Consumer(
               builder: (BuildContext context, WidgetRef ref, Widget? child) {
             String title = '';
@@ -99,7 +104,20 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                             await ctrlMission
                                 .fetchMissionListBackgroundService();
                           },
-                          child: const Icon(Icons.sync)),
+                          child: (submitStatusMissionBgServices ==
+                                      SubmitStatus.inProgress) ||
+                                  (submitStatusMission ==
+                                          SubmitStatus.inProgress &&
+                                      isInit == false)
+                              ? Center(
+                                  child: Container(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2.5,
+                                      )),
+                                )
+                              : const Icon(Icons.sync)),
                       SizedBox(width: 20.w),
                       const Icon(Icons.notifications),
                       SizedBox(width: 20.w),
@@ -109,7 +127,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                   ),
                   body: Stack(children: [
                     pages(currentIndex: ctrl.indexNav),
-                    submitStatus == SubmitStatus.inProgess
+                    submitStatus == SubmitStatus.inProgress
                         ? const Center(
                             child: CircularProgressIndicator(),
                           )
@@ -166,14 +184,14 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                       currentIndex: ctrl.indexNav,
                       onTap: (value) async {
                         ctrl.onItemTapped(value);
-                        if(ctrl.indexNav == 2){
+                        if (ctrl.indexNav == 2) {
                           await ctrlMission
-                              .getMissionList(isInit: isInit).whenComplete(() {
-                                isInit =false;
+                              .getMissionList(isInit: isInit)
+                              .whenComplete(() {
+                            isInit = false;
                           });
-                        } else if(ctrl.indexNav == 3){
-                          await ctrlValidation
-                              .getValidationList();
+                        } else if (ctrl.indexNav == 3) {
+                          await ctrlValidation.getValidationList();
                         }
                       },
                     ),
