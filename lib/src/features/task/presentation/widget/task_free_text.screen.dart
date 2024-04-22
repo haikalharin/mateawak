@@ -192,20 +192,17 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                   maxLines: 10,
                                   onChanged: (value) {
                                     setState(() {
-
                                       if (value.isEmpty) {
                                         ref
                                             .watch(listSelectOptionStringState
-                                            .notifier)
+                                                .notifier)
                                             .state = [];
 
                                         _textController.clear();
-
-
-                                      }else {
+                                      } else {
                                         ref
                                             .watch(listSelectOptionStringState
-                                            .notifier)
+                                                .notifier)
                                             .state = [value];
                                       }
                                     });
@@ -248,76 +245,73 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                   Colors.white),
                                         ),
                                         onPressed: () async {
-                                            await ctrl
-                                                .currentQuestion(
-                                                    employeeMissionId:
-                                                        gamificationData
-                                                                .employeeMissionId ??
-                                                            0,
-                                                    pagePosition:
-                                                        PagePosition.PREV)
-                                                .whenComplete(() {
-                                              currentQuestionIndex.state--;
+                                          await ctrl
+                                              .currentQuestion(
+                                                  employeeMissionId:
+                                                      gamificationData
+                                                              .employeeMissionId ??
+                                                          0,
+                                                  pagePosition:
+                                                      PagePosition.PREV)
+                                              .whenComplete(() {
+                                            currentQuestionIndex.state--;
+                                            ref
+                                                .watch(currentProgressState
+                                                    .notifier)
+                                                .state--;
+                                            if (ref
+                                                        .watch(
+                                                            currentTypeTaskState
+                                                                .notifier)
+                                                        .state ==
+                                                    TaskType.STX.name ||
+                                                ref
+                                                        .watch(
+                                                            currentTypeTaskState
+                                                                .notifier)
+                                                        .state ==
+                                                    TaskType.ASM.name) {
                                               ref
-                                                  .watch(currentProgressState
-                                                      .notifier)
-                                                  .state--;
-                                              if (ref
-                                                          .watch(
-                                                              currentTypeTaskState
-                                                                  .notifier)
-                                                          .state ==
-                                                      TaskType.STX.name ||
+                                                      .watch(
+                                                          listSelectOptionStringState
+                                                              .notifier)
+                                                      .state =
                                                   ref
-                                                          .watch(
-                                                              currentTypeTaskState
-                                                                  .notifier)
-                                                          .state ==
-                                                      TaskType.ASM.name) {
-                                                ref
-                                                        .watch(
-                                                            listSelectOptionStringState
-                                                                .notifier)
-                                                        .state =
-                                                    ref
-                                                        .watch(
-                                                            listSelectOptionCurrentStringState
-                                                                .notifier)
-                                                        .state;
-                                                ref
-                                                        .watch(
-                                                            attachmentNameState
-                                                                .notifier)
-                                                        .state =
-                                                    ref
-                                                        .watch(
-                                                            attachmentNameCurrentState
-                                                                .notifier)
-                                                        .state;
-                                                ref
-                                                        .watch(
-                                                            attachmentPathState
-                                                                .notifier)
-                                                        .state =
-                                                    ref
-                                                        .watch(
-                                                            attachmentPathCurrentState
-                                                                .notifier)
-                                                        .state;
-                                              } else {
-                                                ref
-                                                        .watch(
-                                                            listSelectOptionState
-                                                                .notifier)
-                                                        .state =
-                                                    ref
-                                                        .watch(
-                                                            listSelectOptionCurrentState
-                                                                .notifier)
-                                                        .state;
-                                              }
-                                            });
-
+                                                      .watch(
+                                                          listSelectOptionCurrentStringState
+                                                              .notifier)
+                                                      .state;
+                                              ref
+                                                      .watch(attachmentNameState
+                                                          .notifier)
+                                                      .state =
+                                                  ref
+                                                      .watch(
+                                                          attachmentNameCurrentState
+                                                              .notifier)
+                                                      .state;
+                                              ref
+                                                      .watch(attachmentPathState
+                                                          .notifier)
+                                                      .state =
+                                                  ref
+                                                      .watch(
+                                                          attachmentPathCurrentState
+                                                              .notifier)
+                                                      .state;
+                                            } else {
+                                              ref
+                                                      .watch(
+                                                          listSelectOptionState
+                                                              .notifier)
+                                                      .state =
+                                                  ref
+                                                      .watch(
+                                                          listSelectOptionCurrentState
+                                                              .notifier)
+                                                      .state;
+                                            }
+                                          });
                                         },
                                         child: Text(
                                           'Previous',
@@ -423,7 +417,6 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                 _textController.clear();
                                                 isInit = true;
                                               });
-
                                             });
                                           });
                                         });
@@ -459,10 +452,9 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                               context: context,
                                               builder: (context) {
                                                 return CustomDialog(
-                                                    title:
-                                                        "Are you sure want to submit your answers",
+                                                    title: "Confirmation",
                                                     content:
-                                                        "Are you sure want to leave",
+                                                        "Are you sure want to submit your answers?",
                                                     label: "Submit",
                                                     type: DialogType.mission,
                                                     onClosed: () async => {
@@ -480,9 +472,9 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                                   .getMissionList()
                                                                   .whenComplete(
                                                                       () async {
-                                                                  _textController
-                                                                      .clear();
-                                                                  isInit = true;
+                                                                _textController
+                                                                    .clear();
+                                                                isInit = true;
                                                               });
                                                             });
                                                           })

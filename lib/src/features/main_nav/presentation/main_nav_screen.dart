@@ -63,8 +63,6 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
           final ctrlMission = ref.watch(missionControllerProvider.notifier);
           final ctrlValidation =
               ref.watch(validationControllerProvider.notifier);
-          final ctrlValidation =
-              ref.watch(validationControllerProvider.notifier);
 
           final latestSyncDate = ref.watch(latestSyncDateState.notifier).state;
           final submitStatus = ref.watch(submitStatusState);

@@ -634,9 +634,9 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                           builder: (context) {
                                             return CustomDialog(
                                                 title:
-                                                "Are you sure want to submit your assignment",
+                                                "Confirmation",
                                                 content:
-                                                    "Are you sure want to leave",
+                                                "Are you sure want to submit your Assignment?",
                                                 label: "Submit",
                                                 type: DialogType.mission,
                                                 onClosed: () async => {

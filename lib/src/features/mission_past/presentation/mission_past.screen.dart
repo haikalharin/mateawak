@@ -113,9 +113,9 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
                                         BorderRadius.all(Radius.circular(5.r)),
                                     color:
                                         (missionPast[index].missionStatusCode ==
-                                                3)
-                                            ? ColorTheme.danger100
-                                            : ColorTheme.primary100),
+                                                '99')
+                                            ? ColorTheme.primary100
+                                            : ColorTheme.danger100),
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 8.w, vertical: 4.h),
@@ -125,9 +125,9 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
                                               TypographyType.paragraph,
                                           fontColor: (missionPast[index]
                                                       .missionStatusCode ==
-                                                  3)
-                                              ? ColorTheme.danger500
-                                              : ColorTheme.primary500)),
+                                                  '99')
+                                              ? ColorTheme.primary500
+                                              : ColorTheme.danger500)),
                                 ),
                               ),
                             ),
@@ -162,53 +162,54 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
                           style: SharedComponent.textStyleCustom(
                               typographyType: TypographyType.paragraph,
                               fontColor: ColorTheme.neutral500)),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SvgPicture.asset(ImageConstant.iconCalendar,
-                                width: 16.sp,
-                                height: 16.sp,
-                                package: Constant.moduleEtamkawa),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                              child: Text(
-                                  'Submitted at: ${CommonUtils.formattedDateHours(missionPast[index].submittedDate ?? DateTime.now().toString())}',
-                                  style: SharedComponent.textStyleCustom(
-                                      typographyType: TypographyType.small,
-                                      fontColor: ColorTheme.neutral500)
-                                  //TextStyle(fontSize: 11.sp),
-                                  ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      if (missionPast[index].missionStatusCode != 3)
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SvgPicture.asset(ImageConstant.iconValidated,
-                                  width: 16.sp,
-                                  height: 16.sp,
-                                  package: Constant.moduleEtamkawa),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                                child: Text(
-                                    'Validated at: ${CommonUtils.formattedDateHours(missionPast[index].completedDate ?? DateTime.now().toString())}',
-                                    style: SharedComponent.textStyleCustom(
-                                        typographyType: TypographyType.small,
-                                        fontColor: ColorTheme.neutral500)
-                                    //TextStyle(fontSize: 11.sp),
-                                    ),
-                              ),
-                            ],
-                          ),
-                        ),
+                      // if (missionPast[index].missionStatusCode == '2') Padding(
+                      //   padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.center,
+                      //     mainAxisSize: MainAxisSize.min,
+                      //     children: [
+                      //       SvgPicture.asset(ImageConstant.iconCalendar,
+                      //           width: 16.sp,
+                      //           height: 16.sp,
+                      //           package: Constant.moduleEtamkawa),
+                      //       Padding(
+                      //         padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                      //         child: Text(
+                      //             'Submitted at: ${CommonUtils.formattedDateHours(missionPast[index].submittedDate ?? DateTime.now().toString())}',
+                      //             style: SharedComponent.textStyleCustom(
+                      //                 typographyType: TypographyType.small,
+                      //                 fontColor: ColorTheme.neutral500)
+                      //             //TextStyle(fontSize: 11.sp),
+                      //             ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      // if (missionPast[index].missionStatusCode != 3)
+                      //   Padding(
+                      //     padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                      //     child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.center,
+                      //       mainAxisSize: MainAxisSize.min,
+                      //       children: [
+                      //         SvgPicture.asset(ImageConstant.iconValidated,
+                      //             width: 16.sp,
+                      //             height: 16.sp,
+                      //             package: Constant.moduleEtamkawa),
+                              
+                      //         Padding(
+                      //           padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                      //           child: Text(
+                      //               'Validated at: ${CommonUtils.formattedDateHours(missionPast[index].completedDate ?? DateTime.now().toString())}',
+                      //               style: SharedComponent.textStyleCustom(
+                      //                   typographyType: TypographyType.small,
+                      //                   fontColor: ColorTheme.neutral500)
+                      //               //TextStyle(fontSize: 11.sp),
+                      //               ),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 15, 0, 7),
                         child: SizedBox(

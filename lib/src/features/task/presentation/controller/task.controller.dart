@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
 import 'package:module_etamkawa/src/features/task/domain/answer_request.remote.dart';
+import 'package:module_etamkawa/src/features/task/domain/result_submission_request.remote.dart';
 import 'package:module_etamkawa/src/features/task/domain/task_datum_answer_request.remote.dart';
 import 'package:module_etamkawa/src/features/task/infrastructure/task_local.repository.dart';
 import 'package:module_shared/module_shared.dart';
@@ -74,6 +75,9 @@ final missionDataState =
 
 final gamificationState = StateProvider.autoDispose<GamificationResponseRemote>(
     (ref) => GamificationResponseRemote());
+
+final resultSubmissionState = StateProvider.autoDispose<ResultSubmissionRequestRemote>(
+    (ref) => ResultSubmissionRequestRemote());
 
 @riverpod
 class TaskController extends _$TaskController {
@@ -148,21 +152,24 @@ class TaskController extends _$TaskController {
 
       var taskAnswer = AnswerRequestRemote(
           employeeMissionId: gamification.employeeMissionId,
-          submittedDate: today,
+          submittedDate: today.substring(0, today.length - 6),
           status: gamification.missionStatusCode,
           taskData: listData);
       final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
       if (isConnectionAvailable) {
         if (isSubmitted) {
-          var status = 2;
+          var status = 99;
           if (gamification
                   .chapterData?.single.missionData?.single.missionTypeName ==
               'Assignment') {
-            status = 99;
+            status = 3;
           }
-          var result = await ref.watch(submitMissionProvider(
+          var resultSubmission = await ref.watch(submitMissionProvider(
                   answerRequestRemote: taskAnswer, status: status)
               .future);
+              if (resultSubmission != null) {
+                ref.watch(resultSubmissionState.notifier).state = resultSubmission;
+              }
         } else {
           await ref.watch(
               putAnswerFinalLocalProvider(answerRequestRemote: taskAnswer)

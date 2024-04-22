@@ -6,6 +6,7 @@ import 'package:module_etamkawa/src/constants/constant.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
 import 'package:module_etamkawa/src/features/overview/presentation/controller/overview.controller.dart';
 import 'package:module_etamkawa/src/features/task/domain/answer_request.remote.dart';
+import 'package:module_etamkawa/src/features/task/domain/result_submission_request.remote.dart';
 import 'package:module_etamkawa/src/features/task/presentation/controller/task.controller.dart';
 import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
 import 'package:module_shared/module_shared.dart';
@@ -126,31 +127,34 @@ FutureOr<bool> changeStatusTaskLocal(ChangeStatusTaskLocalRef ref,
 }
 
 @riverpod
-Future<dynamic> submitMission(SubmitMissionRef ref,
-    {required AnswerRequestRemote answerRequestRemote, required int status}) async {
+Future<ResultSubmissionRequestRemote> submitMission(SubmitMissionRef ref,
+    {required AnswerRequestRemote answerRequestRemote,
+    required int status}) async {
   final userModel = await ref.read(helperUserProvider).getUserProfile();
   //final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
   final isarInstance = await ref.watch(isarInstanceProvider.future);
   //if (isConnectionAvailable) {
+  answerRequestRemote.status = status;
+  if (status == 3) {
     answerRequestRemote.taskData?.first.attachmentId = 64;
-    answerRequestRemote.status = status;
-    final connect = ref.read(connectProvider.notifier);
-    final response = await connect.post(
-        modul: ModuleType.etamkawaGamification,
-        path:
-            "api/mission/submit_employee_mission?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}",
-        body: answerRequestRemote.toJson());
+  }
+  final connect = ref.read(connectProvider.notifier);
+  final response = await connect.post(
+      modul: ModuleType.etamkawaGamification,
+      path:
+          "api/mission/submit_employee_mission?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}",
+      body: answerRequestRemote.toJson());
 
-    if (response.statusCode == 200) {
-      await isarInstance.writeTxn(() async {
-        await isarInstance.answerRequestRemotes
-            .delete(answerRequestRemote.employeeMissionId ?? 0)
-            .whenComplete(() async {
-          await isarInstance.gamificationResponseRemotes
-              .delete(answerRequestRemote.employeeMissionId ?? 0);
-        });
+  if (response.statusCode == 200) {
+    await isarInstance.writeTxn(() async {
+      await isarInstance.answerRequestRemotes
+          .delete(answerRequestRemote.employeeMissionId ?? 0)
+          .whenComplete(() async {
+        await isarInstance.gamificationResponseRemotes
+            .delete(answerRequestRemote.employeeMissionId ?? 0);
       });
-    }
-    return response;
+    });
+  }
+  return response.result?.content;
   //}
 }

@@ -437,10 +437,9 @@ class _TaskSingleChoiceScreenState
                                           context: context,
                                           builder: (context) {
                                             return CustomDialog(
-                                                title:
-                                                    "Are you sure want to submit your answers",
+                                                title: "Confirmation",
                                                 content:
-                                                    "Are you sure want to leave",
+                                                    "Are you sure want to submit your answers?",
                                                 label: "Submit",
                                                 type: DialogType.mission,
                                                 onClosed: () async {
