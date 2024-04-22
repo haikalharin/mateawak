@@ -340,6 +340,7 @@ class TaskController extends _$TaskController {
     ref.watch(submitStatusMissionBgServicesState.notifier).state =
         SubmitStatus.inProgress;
     try {
+      final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
       final backgroundServices = FlutterBackgroundService();
       final isBgServiceRunning = await backgroundServices.isRunning();
       if (!isBgServiceRunning) {
@@ -359,8 +360,14 @@ class TaskController extends _$TaskController {
               key: ProfileKeyConstant.keyTokenGeneral,
             )
       });
-      ref.watch(submitStatusMissionBgServicesState.notifier).state =
-          SubmitStatus.success;
+
+      if (isConnectionAvailable) {
+        ref.read(submitStatusMissionState.notifier).state =
+            SubmitStatus.success;
+      } else {
+        ref.watch(submitStatusMissionBgServicesState.notifier).state =
+            SubmitStatus.failure;
+      }
     } catch (e) {
       ref.watch(submitStatusMissionBgServicesState.notifier).state =
           SubmitStatus.failure;

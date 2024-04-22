@@ -128,7 +128,12 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                                         strokeWidth: 2.5,
                                       )),
                                 )
-                              : const Icon(Icons.sync)),
+                              : (submitStatusMissionBgServices ==
+                                          SubmitStatus.failure)
+                                  ? Icon(
+                                      Icons.sync_disabled,
+                                      color: ColorTheme.danger500,
+                                    ):const Icon(Icons.sync)),
                       SizedBox(width: 20.w),
                       const Icon(Icons.notifications),
                       SizedBox(width: 20.w),
@@ -199,8 +204,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                             onTap: (value) async {
                               ctrl.onItemTapped(value);
                               if (ctrl.indexNav == 2) {
-                                if (
-                                    submitStatusMission !=
+                                if (submitStatusMission !=
                                         SubmitStatus.inProgress &&
                                     submitStatusMissionBgServices !=
                                         SubmitStatus.inProgress) {
