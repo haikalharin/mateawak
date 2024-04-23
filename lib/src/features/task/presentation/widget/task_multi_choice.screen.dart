@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:module_etamkawa/src/features/task/presentation/widget/reward_dialog.dart';
+import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 
@@ -37,6 +39,8 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
         final listTask = ref.watch(listTaskState);
         final currentQuestionProgress = ref.watch(currentProgressState);
         final gamificationData = ref.watch(gamificationState);
+        final resultSubmissionData = ref.watch(resultSubmissionState);
+        final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
         final lengthAnswer = ref.watch(listTaskState).length;
         if (isInit) {
           isInit = false;
@@ -440,6 +444,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                             .putAnswerFinal()
                                             .whenComplete(() async {
                                           showDialog(
+                                          barrierDismissible: false,
                                             context: context,
                                             builder: (context) {
                                               return CustomDialog(
@@ -448,6 +453,8 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                       "Are you sure want to submit your answers?",
                                                   label: "Submit",
                                                   type: DialogType.mission,
+                                                resultSubmissionData: resultSubmissionData,
+                                                isConnectionAvailable: isConnectionAvailable,
                                                   onClosed: () async => {
                                                         await ctrl
                                                             .putAnswerFinal(

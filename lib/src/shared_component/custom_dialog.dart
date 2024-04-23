@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:module_etamkawa/src/features/task/domain/result_submission_request.remote.dart';
+import 'package:module_etamkawa/src/features/task/presentation/widget/reward_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../constants/constant.dart';
@@ -16,12 +18,16 @@ class CustomDialog extends StatelessWidget {
       required this.title,
       required this.content,
       required this.label,
+      this.resultSubmissionData,
+      this.isConnectionAvailable,
       this.onClosed});
 
   final DialogType type;
   final String title;
   final String content;
   final String label;
+  final ResultSubmissionRequestRemote? resultSubmissionData;
+  final bool? isConnectionAvailable;
   final Function()? onClosed;
 
   @override
@@ -71,14 +77,14 @@ class CustomDialog extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: (type == DialogType.question || type == DialogType.mission)
-                  ? confirmationButton(context, label, onClosed, type)
+                  ? confirmationButton(context, label, onClosed, type, resultSubmissionData, isConnectionAvailable)
                   : SharedComponent.btnWidget(
                       label: label,
                       typographyType: TypographyType.body,
                       onPressed: () async {
                         context.pop();
                         if (onClosed == null) return;
-                      await  onClosed!();
+                        await onClosed!();
                       },
                       radius: 5.r,
                     ),
@@ -92,7 +98,7 @@ class CustomDialog extends StatelessWidget {
 }
 
 Widget confirmationButton(
-    BuildContext context, String label, Function()? onClosed, DialogType type) {
+    BuildContext context, String label, Function()? onClosed, DialogType type, ResultSubmissionRequestRemote? resultSubmissionData, bool? isConnectionAvailable){
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -109,17 +115,14 @@ Widget confirmationButton(
                 builder: (context) {
                   return CustomDialog(
                       title: "Hooray!",
-                      content: type == DialogType.mission
-                          ? "Yeay, your mission has been completed!"
-                          : "Progress successfully saved. We're saving your activity in this mission as a Draft. Come back soon.",
-                      label: type == DialogType.mission
-                          ? "Okay"
-                          : "Back to Mission List",
+                      content:
+                          "Progress successfully saved. We're saving your activity in this mission as a Draft. Come back soon.",
+                      label: "Back to Mission List",
                       type: DialogType.success,
-                      onClosed: () async  {
-                            Navigator.of(context).pop();
-                            Navigator.of(context).pop();
-                          });
+                      onClosed: () async {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                      });
                 });
             await onClosed!();
           }
@@ -135,24 +138,30 @@ Widget confirmationButton(
         onPressed: () {
           context.pop();
           if (type == DialogType.mission) {
+            onClosed!();
             showDialog(
+                barrierDismissible: false,
                 context: context,
                 builder: (context) {
-                  return CustomDialog(
-                      title: "Hooray!",
-                      content: type == DialogType.mission
-                          ? "Yeay, your assignment has been completed!"
-                          : "Progress successfully saved. We're saving your activity in this mission as a Draft. Come back soon.",
-                      label: type == DialogType.mission
-                          ? "Okay"
-                          : "Back to Mission List",
-                      type: DialogType.success,
-                      onClosed: () async => {
-                            Navigator.of(context).pop(),
-                            Navigator.of(context).pop()
-                          });
+                  return RewardDialog(
+                    rewardResponse: resultSubmissionData!,
+                    isConnectionAvailable: isConnectionAvailable!,
+                  );
                 });
-            onClosed!();
+            // showDialog(
+            //     context: context,
+            //     builder: (context) {
+            //       return CustomDialog(
+            //           title: "Hooray!",
+            //           content: "Yeay, your assignment has been completed!",
+            //           label: "Okay",
+            //           type: DialogType.success,
+            //           onClosed: () async => {
+            //                 Navigator.of(context).pop(),
+            //                 Navigator.of(context).pop()
+            //               });
+            //     });
+            // onClosed!();
           }
         },
         radius: 5.r,

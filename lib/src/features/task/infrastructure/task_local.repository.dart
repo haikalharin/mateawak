@@ -155,6 +155,7 @@ Future<ResultSubmissionRequestRemote> submitMission(SubmitMissionRef ref,
       });
     });
   }
-  return response.result?.content;
+  ResultSubmissionRequestRemote result  = ResultSubmissionRequestRemote.fromJson(response.result?.content);
+  return result;
   //}
 }
