@@ -28,6 +28,8 @@ class ImageConstant {
   static const String iconValidated = 'assets/images/icon_validated.svg';
   static const String iconTask = 'assets/images/icon_task.svg';
   static const String iconDuration = 'assets/images/icon_duration.svg';
+  static const String iconAchievment = 'assets/images/icon_achievment.svg';
+  static const String iconAccuracy = 'assets/images/icon_accuracy.svg';
 
   //main nav
   static const String iconOverview = 'assets/images/icon_overview.svg';

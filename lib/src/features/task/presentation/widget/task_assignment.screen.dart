@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
+import 'package:module_etamkawa/src/features/task/presentation/widget/reward_dialog.dart';
+import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 
@@ -48,6 +50,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
         final gamificationData = ref.watch(gamificationState);
+        final resultSubmissionData = ref.watch(resultSubmissionState);
+        final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
         if (ref.watch(currentTypeTaskState.notifier).state ==
             TaskType.ASM.name) {
           if (isInit) {
@@ -630,15 +634,18 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                           .putAnswerFinal()
                                           .whenComplete(() async {
                                         showDialog(
+                                          barrierDismissible: false,
                                           context: context,
                                           builder: (context) {
                                             return CustomDialog(
                                                 title:
-                                                "Are you sure want to submit your assignment",
+                                                "Confirmation",
                                                 content:
-                                                    "Are you sure want to leave",
+                                                "Are you sure want to submit your Assignment?",
                                                 label: "Submit",
                                                 type: DialogType.mission,
+                                                resultSubmissionData: resultSubmissionData,
+                                                isConnectionAvailable: isConnectionAvailable,
                                                 onClosed: () async => {
                                                       await ctrl
                                                           .putAnswerFinal(
