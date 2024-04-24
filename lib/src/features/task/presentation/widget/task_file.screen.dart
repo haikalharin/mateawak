@@ -23,6 +23,7 @@ import '../../../../constants/function_utils.dart';
 import '../../../../constants/image.constant.dart';
 import '../../../main_nav/presentation/controller/main_nav.controller.dart';
 import '../../../mission/presentation/controller/mission.controller.dart';
+import '../../../mission_past/presentation/controller/mission_past.controller.dart';
 import '../controller/task.controller.dart';
 
 class TaskFileScreen extends ConsumerStatefulWidget {

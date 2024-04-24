@@ -7,6 +7,7 @@ import 'package:module_shared/module_shared.dart';
 import '../../../shared_component/async_value_widget.dart';
 import '../../../shared_component/shared_component_etamkawa.dart';
 import '../../main_nav/presentation/controller/main_nav.controller.dart';
+import '../../mission_past/presentation/controller/mission_past.controller.dart';
 import 'controller/task.controller.dart';
 
 class TaskAssignmentScreen extends ConsumerStatefulWidget {

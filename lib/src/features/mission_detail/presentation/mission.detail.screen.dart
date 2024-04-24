@@ -14,6 +14,7 @@ import '../../../configs/theme/color.theme.dart';
 import '../../../shared_component/async_value_widget.dart';
 import '../../../shared_component/shared_component_etamkawa.dart';
 import '../../mission/domain/gamification_response.remote.dart';
+import '../../mission_past/presentation/controller/mission_past.controller.dart';
 
 class MissionDetailScreen extends ConsumerStatefulWidget {
   const MissionDetailScreen({super.key});
@@ -293,7 +294,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                                         ColorTheme.neutral600),
                                           ),
                                           Text(
-                                            '${CommonUtils.daysBetween(DateTime.now(), DateTime.parse(gamification.dueDate!))} days',
+                                            '${CommonUtils.daysBetween(DateTime.now(), DateTime.parse(gamification.dueDate??'2021-01-30T00:00:00'))} days',
                                             style:
                                                 SharedComponent.textStyleCustom(
                                                     typographyType:

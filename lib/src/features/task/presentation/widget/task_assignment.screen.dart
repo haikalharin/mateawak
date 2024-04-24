@@ -13,6 +13,7 @@ import 'package:module_shared/module_shared.dart';
 
 import '../../../../constants/function_utils.dart';
 import '../../../main_nav/presentation/controller/main_nav.controller.dart';
+import '../../../mission_past/presentation/controller/mission_past.controller.dart';
 import '../controller/task.controller.dart';
 
 class TaskAssignmentScreen extends ConsumerStatefulWidget {

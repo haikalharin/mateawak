@@ -18,6 +18,7 @@ import '../../../shared_component/async_value_widget.dart';
 import '../../../shared_component/progress_dialog.dart';
 import '../../../shared_component/refreshable_starter_widget.dart';
 import '../../main_nav/presentation/controller/main_nav.controller.dart';
+import '../../mission_past/presentation/controller/mission_past.controller.dart';
 import '../../task/domain/answer_request.remote.dart';
 import '../../task/presentation/controller/task.controller.dart';
 
@@ -32,7 +33,7 @@ class MissionScreen extends ConsumerStatefulWidget {
 
 Future<void> myAsyncMethodMoved(
     BuildContext context, GamificationResponseRemote gamification) async {
-  if ((gamification.missionStatusCode ?? 0) > 1) {
+  if ((gamification.missionStatusCode ?? 0) > 0) {
     context.goNamed(taskMissionEtamkawa);
   } else {
     context.goNamed(detailMissionEtamkawa);

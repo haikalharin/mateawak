@@ -1,17 +1,22 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:module_etamkawa/src/constants/image.constant.dart';
+import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
+import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/features/mission_past/domain/mission_past_response.remote.dart';
 import 'package:module_etamkawa/src/features/mission_past/presentation/controller/mission_past.controller.dart';
 import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
+import '../../../../module_etamkawa.dart';
 import '../../../constants/constant.dart';
 import '../../../shared_component/async_value_widget.dart';
 import '../../../shared_component/refreshable_starter_widget.dart';
+import '../../main_nav/presentation/controller/main_nav.controller.dart';
 import '../../task/presentation/controller/task.controller.dart';
 
 class MissionPastScreen extends ConsumerStatefulWidget {
@@ -23,8 +28,8 @@ class MissionPastScreen extends ConsumerStatefulWidget {
 }
 
 Future<void> myAsyncMethodMoved(
-    BuildContext context, MissionPastResponseRemote missionPast) async {
-  //context.goNamed(detailMissionEtamkawa);
+    BuildContext context) async {
+  context.goNamed(taskMissionEtamkawa);
 }
 
 class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
@@ -39,38 +44,53 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
       body: Consumer(
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
           final ctrl = ref.watch(missionPastControllerProvider.notifier);
+          final ctrlPastMission = ref.watch(missionPastControllerProvider.notifier);
+          final ctrlMission = ref.watch(missionControllerProvider.notifier);
           final listMissionPast = ref.watch(listMissionPastResponseRemoteState);
           debugPrint(listMissionPast.toString());
+          final ctrlTask = ref.read(taskControllerProvider.notifier);
+          final gamificationDetail = ref.watch(gamificationDetailState);
+          final submitStatusDetail = ref.watch(submitStatusDetailState);
           return AsyncValueWidget(
-              value: ref.watch(taskControllerProvider),
+              value: ref.watch(missionPastControllerProvider),
               data: (data) {
-                return Column(
+                return Stack(
                   children: [
-                    Expanded(
-                      child: Container(
-                        color: ColorTheme.neutral100,
-                        child: RefreshableStarterWidget(
-                          onRefresh: () async {
-                            ctrl.getMissionPastList();
-                          },
-                          slivers: [
-                            SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                (context, index) {
-                                  if (listMissionPast.isNotEmpty) {
-                                    return _buildListItem(
-                                        index, ctrl, listMissionPast);
-                                  } else {
-                                    return Container();
-                                  }
-                                },
-                                childCount: listMissionPast.length,
-                              ),
+                    Column(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            color: ColorTheme.neutral100,
+                            child: RefreshableStarterWidget(
+                              onRefresh: () async {
+                                ctrl.getMissionPastList();
+                              },
+                              slivers: [
+                                SliverList(
+                                  delegate: SliverChildBuilderDelegate(
+                                    (context, index) {
+                                      if (listMissionPast.isNotEmpty) {
+                                        return _buildListItem(index, ctrl, ctrlTask,ctrlPastMission,
+                                            ctrlMission,gamificationDetail, listMissionPast);
+                                      } else {
+                                        return Container();
+                                      }
+                                    },
+                                    childCount: listMissionPast.length,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
+                    submitStatusDetail == SubmitStatus.inProgress
+                        ?    Container(
+                        color: Colors.white.withAlpha(130),
+                        child: const Center(
+                            child:  CircularProgressIndicator()))
+                        : Container()
                   ],
                 );
               });
@@ -79,8 +99,28 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
     );
   }
 
-  Widget _buildListItem(int index, MissionPastController ctrl,
+  Widget _buildListItem(
+      int index,
+      MissionPastController ctrl,
+      TaskController ctrlTask,
+      MissionPastController ctrlPastMission,
+      MissionController ctrlMission,
+      GamificationResponseRemote gamificationResponseRemote,
       List<MissionPastResponseRemote> missionPast) {
+    Future<void> putCurrentAnswerFinal() async {
+      ref.watch(currentTypeTaskState.notifier).state = ctrlTask.currentTypeTask;
+      if (ctrlTask.currentTypeTask == TaskType.STX.name ||
+          ctrlTask.currentTypeTask == TaskType.ASM.name) {
+        ref.watch(listSelectOptionStringState.notifier).state =
+            ctrlTask.listSelectOptionCurrentString;
+        ref.watch(attachmentPathState.notifier).state = ctrlTask.attachment;
+        ref.watch(attachmentNameState.notifier).state = ctrlTask.attachmentName;
+      } else {
+        ref.watch(listSelectOptionState.notifier).state =
+            ctrlTask.listSelectOptionCurrent;
+      }
+    }
+
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         return Card(
@@ -196,7 +236,7 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
                       //             width: 16.sp,
                       //             height: 16.sp,
                       //             package: Constant.moduleEtamkawa),
-                              
+
                       //         Padding(
                       //           padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                       //           child: Text(
@@ -223,57 +263,19 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
                               ),
                             ),
                             onPressed: () async {
-                              // if ((missionPast[index].missionStatusCode ?? 0) >
-                              //     0) {
-                              //   await ctrlTask
-                              //       .putDetailMissionData(
-                              //           missionDatum: missionPast[index]
-                              //                   .chapterData
-                              //                   ?.single
-                              //                   .missionData
-                              //                   ?.single ??
-                              //               MissionMissionPastDatum(),
-                              //           listGamification: missionPast,
-                              //           gamificationResponseRemote:
-                              //               missionPast[index])
-                              //       .whenComplete(() async {
-                              //     await putData().whenComplete(() async {
-                              //       ref.refresh(taskControllerProvider);
-                              //       await ctrlTask
-                              //           .currentQuestion(
-                              //               employeeMissionId:
-                              //                   missionPast[index]
-                              //                           .employeeMissionId ??
-                              //                       0)
-                              //           .whenComplete(() async {
-                              //         await putCurrentAnswerFinal()
-                              //             .whenComplete(() {
-                              //           myAsyncMethodMoved(
-                              //               context, missionPast[index]);
-                              //         });
-                              //       });
-                              //     });
-                              //   });
-                              // } else {
-                              //   await ctrlTask
-                              //       .putDetailMissionData(
-                              //           missionDatum: missionPast[index]
-                              //                   .chapterData
-                              //                   ?.single
-                              //                   .missionData
-                              //                   ?.single ??
-                              //               MissionMissionPastDatum(),
-                              //           listGamification: missionPast,
-                              //           gamificationResponseRemote:
-                              //               missionPast[index])
-                              //       .whenComplete(() async {
-                              //     await putData().whenComplete(() async {
-                              //       myAsyncMethodMoved(
-                              //           context, missionPast[index]);
-                              //     });
-                              //   });
-                              // }
-                              myAsyncMethodMoved(context, missionPast[index]);
+                                await ctrlPastMission
+                                    .getDetailMission(
+                                        employeeMissionId: missionPast[index].employeeMissionId ??
+                                            0)
+                                    .whenComplete(() async {
+
+                                      await putCurrentAnswerFinal()
+                                          .whenComplete(() {
+                                        myAsyncMethodMoved(
+                                            context);
+                                      });
+                                    });
+
                             },
                             child: Text("View",
                                 style: SharedComponent.textStyleCustom(

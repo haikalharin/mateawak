@@ -3,6 +3,7 @@ import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
+import 'package:module_etamkawa/src/features/mission_past/infrastructure/repositories/mission_past.repository.dart';
 import 'package:module_etamkawa/src/features/task/domain/answer_request.remote.dart';
 import 'package:module_etamkawa/src/features/task/domain/result_submission_request.remote.dart';
 import 'package:module_etamkawa/src/features/task/domain/task_datum_answer_request.remote.dart';
@@ -14,12 +15,15 @@ import '../../../../constants/constant.dart';
 import '../../../../shared_component/connection_listener_widget.dart';
 import '../../../../utils/common_utils.dart';
 import '../../../main_nav/presentation/controller/main_nav.controller.dart';
+import '../../../mission/domain/gamification_mission_detail_response.remote.dart'
+    as detail;
+import '../../../mission/infrastructure/repositories/mission_local.repository.dart';
 import '../../../mission/presentation/controller/mission.controller.dart';
+import '../../../mission_past/presentation/controller/mission_past.controller.dart';
 
 part 'task.controller.g.dart';
 
 enum TaskType { MCQ, SCQ, YNQ, STX, RAT, ASM, DEFAULT }
-
 
 enum PagePosition { NEXT, PREV, CURRENT }
 
@@ -76,8 +80,9 @@ final missionDataState =
 final gamificationState = StateProvider.autoDispose<GamificationResponseRemote>(
     (ref) => GamificationResponseRemote());
 
-final resultSubmissionState = StateProvider.autoDispose<ResultSubmissionRequestRemote>(
-    (ref) => ResultSubmissionRequestRemote());
+final resultSubmissionState =
+    StateProvider.autoDispose<ResultSubmissionRequestRemote>(
+        (ref) => ResultSubmissionRequestRemote());
 
 @riverpod
 class TaskController extends _$TaskController {
@@ -167,9 +172,9 @@ class TaskController extends _$TaskController {
           var resultSubmission = await ref.watch(submitMissionProvider(
                   answerRequestRemote: taskAnswer, status: status)
               .future);
-              if (resultSubmission != null) {
-                ref.watch(resultSubmissionState.notifier).state = resultSubmission;
-              }
+          if (resultSubmission != null) {
+            ref.watch(resultSubmissionState.notifier).state = resultSubmission;
+          }
         } else {
           await ref.watch(
               putAnswerFinalLocalProvider(answerRequestRemote: taskAnswer)
@@ -229,6 +234,7 @@ class TaskController extends _$TaskController {
   Future<void> currentQuestion(
       {required int employeeMissionId,
       required PagePosition pagePosition,
+      List<TaskDatumAnswer>? listData,
       bool isLast = false}) async {
     List<String> listString = [];
     List<int> listInt = [];
@@ -244,11 +250,19 @@ class TaskController extends _$TaskController {
         getAnswerFinalLocalProvider(employeeMissionId: employeeMissionId)
             .future);
     List<TaskDatumAnswerRequestRemote> dataCek = [];
-
+    if (kDebugMode) {
+      print('#######Haloo');
+    }
+    if(listData != null){
+      listTaskAnswer = listData;
+    }else{
     state = await AsyncValue.guard(() => currentAnswer).then((value) async {
       if (value.value != null && value.value != []) {
         listTaskAnswer = value.value ?? [];
       }
+      return value;
+    });
+    }
 
       if (listTaskAnswer.isNotEmpty) {
         for (var element in listTaskAnswer) {
@@ -300,8 +314,6 @@ class TaskController extends _$TaskController {
               listSelectOptionCurrent;
         }
       }
-      return value;
-    });
   }
 
   Future<void> saveAnswer(int questionId,
