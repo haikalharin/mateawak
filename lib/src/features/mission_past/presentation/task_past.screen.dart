@@ -194,7 +194,7 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
                                     color: ColorTheme.secondary100,
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(5.r))),
-                                child: const Center(child: Text('In Progress')),
+                                child:  Center(child: Text(gamificationData.missionStatus??'')),
                               ),
                             ],
                           ),
