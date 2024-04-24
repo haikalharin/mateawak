@@ -29,7 +29,7 @@ class MissionPastScreen extends ConsumerStatefulWidget {
 
 Future<void> myAsyncMethodMoved(
     BuildContext context) async {
-  context.goNamed(taskMissionEtamkawa);
+  context.goNamed(detailMissionPastEtamkawa);
 }
 
 class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
@@ -108,16 +108,16 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
       GamificationResponseRemote gamificationResponseRemote,
       List<MissionPastResponseRemote> missionPast) {
     Future<void> putCurrentAnswerFinal() async {
-      ref.watch(currentTypeTaskState.notifier).state = ctrlTask.currentTypeTask;
-      if (ctrlTask.currentTypeTask == TaskType.STX.name ||
-          ctrlTask.currentTypeTask == TaskType.ASM.name) {
+      ref.watch(currentTypeTaskState.notifier).state = ctrl.currentTypeTask;
+      if (ctrl.currentTypeTask == TaskType.STX.name ||
+          ctrl.currentTypeTask == TaskType.ASM.name) {
         ref.watch(listSelectOptionStringState.notifier).state =
-            ctrlTask.listSelectOptionCurrentString;
-        ref.watch(attachmentPathState.notifier).state = ctrlTask.attachment;
-        ref.watch(attachmentNameState.notifier).state = ctrlTask.attachmentName;
+            ctrl.listSelectOptionCurrentString;
+        ref.watch(attachmentPathState.notifier).state = ctrl.attachment;
+        ref.watch(attachmentNameState.notifier).state = ctrl.attachmentName;
       } else {
         ref.watch(listSelectOptionState.notifier).state =
-            ctrlTask.listSelectOptionCurrent;
+            ctrl.listSelectOptionCurrent;
       }
     }
 

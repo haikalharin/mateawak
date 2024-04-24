@@ -214,6 +214,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                   }, // Allows multiple lines of input
                                 ),
                               ),
+
                             ],
                           ),
                         )

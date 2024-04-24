@@ -183,7 +183,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                             ),
                             const Divider(),
                             const SizedBox(height: 20.0),
-                            attachment.state != ''
+                            attachmentName.state != ''
                                 ? Container(
                                     child: Column(
                                     crossAxisAlignment:
@@ -414,6 +414,57 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                 }, // Allows multiple lines of input
                               ),
                             ),
+                            gamificationData.missionStatusCode == 99?
+                            (listTask[currentQuestionIndex.state]
+                                            .answerReward !=
+                                            null &&
+                                    listTask[currentQuestionIndex.state]
+                                            .answerReward !=
+                                        0 )
+                                ? Column(
+                                    children: [
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                              'Your answer is correct!',
+                                              style:
+                                                  SharedComponent.textStyleCustom(
+                                                      typographyType:
+                                                          TypographyType.body,
+                                                      fontColor:
+                                                          ColorTheme.buttonPrimary)
+                                              //TextStyle(fontSize: 12.sp)
+                                              ),
+
+                                        ],
+
+                                      ),
+
+                                    ],
+                                  )
+                                :  Column(
+                              children: [
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                    'Your answer is incorrect!',
+                                    style:
+                                    SharedComponent.textStyleCustom(
+                                        typographyType:
+                                        TypographyType.body,
+                                        fontColor:
+                                        ColorTheme.danger500)
+                                  //TextStyle(fontSize: 12.sp)
+                                ),
+
+                              ],
+                            ):Container(),
                           ],
                         ),
                       )
@@ -659,8 +710,10 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                     "Are you sure want to submit your answers?",
                                                 label: "Submit",
                                                 type: DialogType.mission,
-                                                resultSubmissionData: resultSubmissionData,
-                                                isConnectionAvailable: isConnectionAvailable,
+                                                resultSubmissionData:
+                                                    resultSubmissionData,
+                                                isConnectionAvailable:
+                                                    isConnectionAvailable,
                                                 onClosed: () async => {
                                                       await ctrl
                                                           .putAnswerFinal(
