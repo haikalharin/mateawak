@@ -19,20 +19,21 @@ import '../../../task/presentation/controller/task.controller.dart';
 import '../../domain/task_answer_past.remote.dart';
 import '../controller/mission_past.controller.dart';
 
-class TaskFilePastScreen extends ConsumerStatefulWidget {
+class TaskAssignmentPastScreen extends ConsumerStatefulWidget {
   // final List<TaskDatum> listTask;
   final int index;
   final TaskAnswerPastRemote taskDatum;
 
-  const TaskFilePastScreen(
+  const TaskAssignmentPastScreen(
       {super.key, required this.index, required this.taskDatum});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _TaskFilePastScreenState();
+      _TaskAssignmentPastScreenState();
 }
 
-class _TaskFilePastScreenState extends ConsumerState<TaskFilePastScreen> {
+class _TaskAssignmentPastScreenState
+    extends ConsumerState<TaskAssignmentPastScreen> {
   var groupValue = 0;
   TextEditingController _textController = TextEditingController();
 
@@ -45,17 +46,15 @@ class _TaskFilePastScreenState extends ConsumerState<TaskFilePastScreen> {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final gamificationData = ref.watch(gamificationDetailState);
-        final listTask = gamificationData.chapterData?.single.missionData?.single.taskData;
         if (widget.taskDatum.taskTypeCode ==
             TaskType.ASM.name) {
-            if ((widget.taskDatum.listSelectedOptionString??[])
-                .isNotEmpty) {
-              _textController.text =
-                  _textController.text =
-              (widget.taskDatum.listSelectedOptionString??[]).single;
-            }
+          if ((widget.taskDatum.listSelectedOptionString ?? [])
+              .isNotEmpty) {
+            _textController.text =
+            (widget.taskDatum.listSelectedOptionString??[]).single;
+          }
         }
-        return  Column(
+        return Column(
           children: [
             Card(
               shape: RoundedRectangleBorder(
@@ -72,23 +71,11 @@ class _TaskFilePastScreenState extends ConsumerState<TaskFilePastScreen> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 16),
                     child: ExpansionTile(
-                      title:  Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.taskDatum.taskCaption ?? '',
-                            style: SharedComponent.textStyleCustom(
-                                typographyType: TypographyType.mediumH6,
-                                fontColor: ColorTheme.textDark),
-                          ),
-                          SizedBox(height: 8,),
-                          Text(
-                              "Question ${widget.index + 1} of ${listTask?.length}",
-                              style: SharedComponent.textStyleCustom(
-                                  typographyType: TypographyType.body,
-                                  fontColor: ColorTheme.neutral500)),
-                        ],
+                      title: Text(
+                        widget.taskDatum.taskCaption ?? '',
+                        style: SharedComponent.textStyleCustom(
+                            typographyType: TypographyType.mediumH6,
+                            fontColor: ColorTheme.textDark),
                       ),
                       children: <Widget>[
                         Container(
@@ -96,12 +83,14 @@ class _TaskFilePastScreenState extends ConsumerState<TaskFilePastScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const SizedBox(height: 20.0),
-                              widget.taskDatum.attachmentName != null &&widget.taskDatum.attachmentName != ''
+                              widget.taskDatum.attachmentName != null &&
+                                  widget.taskDatum.attachmentName != ''
                                   ? Container(
                                   child: Column(
                                     crossAxisAlignment:
                                     CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .center,
                                     children: [
                                       Column(
                                         mainAxisAlignment:
@@ -110,7 +99,8 @@ class _TaskFilePastScreenState extends ConsumerState<TaskFilePastScreen> {
                                         CrossAxisAlignment.start,
                                         children: [
                                           Container(
-                                            width: MediaQuery.of(context)
+                                            width: MediaQuery
+                                                .of(context)
                                                 .size
                                                 .width,
                                             child: RichText(
@@ -143,7 +133,8 @@ class _TaskFilePastScreenState extends ConsumerState<TaskFilePastScreen> {
                                             height: 12,
                                           ),
                                           Container(
-                                            width: MediaQuery.of(context)
+                                            width: MediaQuery
+                                                .of(context)
                                                 .size
                                                 .width,
                                             child: Row(
@@ -152,8 +143,11 @@ class _TaskFilePastScreenState extends ConsumerState<TaskFilePastScreen> {
                                               children: [
                                                 Expanded(
                                                   child: Text(
-                                                    widget.taskDatum.attachmentName ?? '',
-                                                    style: Theme.of(context)
+                                                    widget.taskDatum
+                                                        .attachmentName ??
+                                                        '',
+                                                    style: Theme
+                                                        .of(context)
                                                         .textTheme
                                                         .titleLarge,
                                                   ),
@@ -183,7 +177,8 @@ class _TaskFilePastScreenState extends ConsumerState<TaskFilePastScreen> {
                                 height: 150.0,
                                 child: TextFormField(
                                   readOnly:
-                                  (gamificationData.missionStatusCode ?? 0) >
+                                  (gamificationData.missionStatusCode ??
+                                      0) >
                                       1,
                                   controller: _textController,
                                   maxLength: 100,
@@ -199,15 +194,17 @@ class _TaskFilePastScreenState extends ConsumerState<TaskFilePastScreen> {
                                     setState(() {
                                       if (value.isEmpty) {
                                         ref
-                                            .watch(listSelectOptionStringState
-                                            .notifier)
+                                            .watch(
+                                            listSelectOptionStringState
+                                                .notifier)
                                             .state = [];
 
                                         _textController.clear();
                                       } else {
                                         ref
-                                            .watch(listSelectOptionStringState
-                                            .notifier)
+                                            .watch(
+                                            listSelectOptionStringState
+                                                .notifier)
                                             .state = [value];
                                       }
                                     });
@@ -215,26 +212,24 @@ class _TaskFilePastScreenState extends ConsumerState<TaskFilePastScreen> {
                                 ),
                               ),
                               gamificationData.missionStatusCode == 99
-                                  ? (widget.taskDatum
-                                  .answerReward !=
+                                  ? widget.taskDatum.feedbackComment !=
                                   null &&
                                   widget.taskDatum
-                                      .answerReward !=
-                                      0)
-                                  ? Column(
+                                      .feedbackComment != '' ? Column(
                                 children: [
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
+                                  const SizedBox(height: 10,),
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .center,
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceBetween,
                                     children: [
-                                      Text('Your answer is correct!',
+                                      Text(
+                                          widget.taskDatum
+                                              .qualitativeScoreName ?? '',
                                           style: SharedComponent
                                               .textStyleCustom(
-                                              typographyType:
-                                              TypographyType
+                                              typographyType: TypographyType
                                                   .body,
                                               fontColor: ColorTheme
                                                   .buttonPrimary)
@@ -249,7 +244,8 @@ class _TaskFilePastScreenState extends ConsumerState<TaskFilePastScreen> {
                                               children: [
                                                 Icon(
                                                   Icons.star,
-                                                  color: ColorTheme.secondary500,
+                                                  color: ColorTheme
+                                                      .secondary500,
                                                   size: 12.h,
                                                 ),
                                                 Text(
@@ -266,60 +262,51 @@ class _TaskFilePastScreenState extends ConsumerState<TaskFilePastScreen> {
                                           )),
                                     ],
                                   ),
+                                  const SizedBox(height: 10,),
+                                  const Divider(),
+                                  const SizedBox(height: 10,),
+                                  Text(
+                                      'Feedback',
+                                      style: SharedComponent
+                                          .textStyleCustom(
+                                          typographyType: TypographyType
+                                              .bold,
+                                          fontColor: ColorTheme.neutral600)
+                                    //TextStyle(fontSize: 12.sp)
+                                  ),
+                                  const SizedBox(height: 8,),
 
+                                  Text(
+                                      widget.taskDatum
+                                          .feedbackComment ?? '',
+                                      style: SharedComponent
+                                          .textStyleCustom(
+                                          typographyType: TypographyType
+                                              .body,
+                                          fontColor: ColorTheme.neutral600)
+                                    //TextStyle(fontSize: 12.sp)
+                                  )
                                 ],
-                              )
-                                  : Column(
+                              ) : Container() : gamificationData
+                                  .missionStatusCode == 3 ?
+                              Column(
                                 children: [
                                   const SizedBox(
                                     height: 10,
                                   ),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                          'Your answer is incorrect!',
-                                          style: SharedComponent
-                                              .textStyleCustom(
-                                              typographyType:
-                                              TypographyType
-                                                  .body,
-                                              fontColor:
-                                              ColorTheme
-                                                  .danger500)
-                                        //TextStyle(fontSize: 12.sp)
-                                      ),
-                                      Center(
-                                          child: Container(
-                                            height: 24.h,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                Icon(
-                                                  Icons.star,
-                                                  color: ColorTheme.secondary500,
-                                                  size: 12.h,
-                                                ),
-                                                Text(
-                                                  " +${widget.taskDatum.taskReward}",
-                                                  style: SharedComponent
-                                                      .textStyleCustom(
-                                                      typographyType:
-                                                      TypographyType.body,
-                                                      fontColor: ColorTheme
-                                                          .neutral600),
-                                                ),
-                                              ],
-                                            ),
-                                          )),
-                                    ],
+                                  Text(
+                                      'Not yet rated',
+                                      style:
+                                      SharedComponent.textStyleCustom(
+                                          typographyType:
+                                          TypographyType.body,
+                                          fontColor:
+                                          ColorTheme.neutral500)
+                                    //TextStyle(fontSize: 12.sp)
                                   ),
 
                                 ],
-                              )
-                                  : Container(),
+                              ) : Container(),
                             ],
                           ),
                         )

@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
-import 'package:module_etamkawa/src/features/mission_past/presentation/widget/task_assignment.screen.dart.dart';
+import 'package:module_etamkawa/src/features/mission_past/presentation/widget/task_assignment_past.screen.dart.dart';
 import 'package:module_etamkawa/src/features/mission_past/presentation/widget/task_file_past.screen.dart.dart';
 import 'package:module_etamkawa/src/features/mission_past/presentation/widget/task_free_text_past.screen.dart.dart';
 import 'package:module_etamkawa/src/features/mission_past/presentation/widget/task_multiple_choice_past.screen.dart.dart';
@@ -97,8 +97,8 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
             listWidget.add(TaskAssignmentPastScreen(
                 index: index, taskDatum: listTask[index]));
           } else {
-            listWidget.add(
-                TaskFilePastScreen(index: index, taskDatum: listTask[index]));
+            // listWidget.add(
+            //     TaskFilePastScreen(index: index, taskDatum: listTask[index]));
           }
         }
         index++;
@@ -108,30 +108,7 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
           data: (data) {
             return WillPopScope(
               onWillPop: () async {
-                await showDialog(
-                  context: context,
-                  builder: (context) {
-                    return CustomDialog(
-                        title: "Confirmation",
-                        content: "Are you sure want to leave",
-                        label: "Stay",
-                        type: DialogType.question,
-                        onClosed: () async => {
-                              await ctrl
-                                  .putAnswerFinal()
-                                  .whenComplete(() async {
-                                await ctrl
-                                    .changeStatusTask(isDone: false)
-                                    .whenComplete(() async {
-                                  await ctrlMission
-                                      .getMissionList()
-                                      .whenComplete(() async {});
-                                });
-                              })
-                            });
-                  },
-                );
-                return Future.value(false);
+                return Future.value(true);
               },
               child: Scaffold(
                 backgroundColor: ColorTheme.backgroundLight,
@@ -178,12 +155,16 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
                                                 TypographyType.largeH5,
                                             fontColor:
                                                 ColorTheme.textLightDark)),
-                                    Text('Mission: ${missionData.missionName}',
-                                        style: SharedComponent.textStyleCustom(
-                                            typographyType:
-                                                TypographyType.smallH8,
-                                            fontColor:
-                                                ColorTheme.textLightDark)),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width/1.5,
+                                      child: Text('Mission: ${missionData.missionName}',
+                                          maxLines: 5,
+                                          style: SharedComponent.textStyleCustom(
+                                              typographyType:
+                                                  TypographyType.smallH8,
+                                              fontColor:
+                                                  ColorTheme.textLightDark)),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -191,10 +172,44 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
                                 width: 83,
                                 height: 26,
                                 decoration: BoxDecoration(
-                                    color: ColorTheme.secondary100,
+                                    color: gamificationData.missionStatusCode ==
+                                            0
+                                        ? ColorTheme.neutral300
+                                        : gamificationData.missionStatusCode ==
+                                                1
+                                            ? ColorTheme.secondary100
+                                            : gamificationData
+                                                            .missionStatusCode ==
+                                                        3 ||
+                                                    gamificationData
+                                                            .missionStatusCode ==
+                                                        4
+                                                ? ColorTheme.danger100
+                                                : ColorTheme.primary100,
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(5.r))),
-                                child:  Center(child: Text(gamificationData.missionStatus??'')),
+                                child: Center(
+                                    child: Text(
+                                  gamificationData.missionStatus ?? '',
+                                  style: SharedComponent.textStyleCustom(
+                                      typographyType: TypographyType.small,
+                                      fontColor: gamificationData
+                                                  .missionStatusCode ==
+                                              0
+                                          ? ColorTheme.neutral500
+                                          : gamificationData
+                                                      .missionStatusCode ==
+                                                  1
+                                              ? ColorTheme.secondary500
+                                              : gamificationData
+                                                              .missionStatusCode ==
+                                                          3 ||
+                                                      gamificationData
+                                                              .missionStatusCode ==
+                                                          4
+                                                  ? ColorTheme.danger500
+                                                  : ColorTheme.primary500),
+                                )),
                               ),
                             ],
                           ),
@@ -214,6 +229,58 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
                                     MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SizedBox(height: 10.h),
+                                      SvgPicture.asset(ImageConstant.iconReward,
+                                          width: 16.sp,
+                                          height: 20.sp,
+                                          package: Constant.moduleEtamkawa),
+                                      const SizedBox(
+                                        height: 6,
+                                      ),
+                                      Text(
+                                        'Rewards',
+                                        style: SharedComponent.textStyleCustom(
+                                            typographyType: TypographyType.bold,
+                                            fontColor: ColorTheme.neutral600),
+                                      ),
+                                      Text(
+                                        '${(gamificationData.chapterData?.single.missionData?.single.missionReward ?? 0).toString()} total',
+                                        style: SharedComponent.textStyleCustom(
+                                            typographyType:
+                                                TypographyType.paragraph,
+                                            fontColor: ColorTheme.neutral500),
+                                      ),
+                                      SizedBox(height: 10.h),
+                                    ],
+                                  ),
+                                  if (gamificationData
+                                          .chapterData
+                                          ?.single
+                                          .missionData
+                                          ?.single
+                                          .missionTypeName !=
+                                      'Assignment')
+                                    addVerticalDivider(),
+                                  if (gamificationData
+                                          .chapterData
+                                          ?.single
+                                          .missionData
+                                          ?.single
+                                          .missionTypeName !=
+                                      'Assignment')
+                                    addTaskIfQuizz(gamificationData
+                                            .chapterData
+                                            ?.single
+                                            .missionData
+                                            ?.single
+                                            .taskData
+                                            ?.length ??
+                                        0),
+                                  addVerticalDivider(),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.min,
@@ -249,45 +316,6 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
                                       SizedBox(height: 10.h),
                                     ],
                                   ),
-                                  addVerticalDivider(),
-                                  addTaskIfQuizz(gamificationData
-                                          .chapterData
-                                          ?.single
-                                          .missionData
-                                          ?.single
-                                          .taskData
-                                          ?.length ??
-                                      0),
-                                  addVerticalDivider(),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      SizedBox(height: 10.h),
-                                      SvgPicture.asset(
-                                          ImageConstant.iconDuration,
-                                          width: 16.sp,
-                                          height: 20.sp,
-                                          package: Constant.moduleEtamkawa),
-                                      const SizedBox(
-                                        height: 8,
-                                      ),
-                                      Text(
-                                        'Duration',
-                                        style: SharedComponent.textStyleCustom(
-                                            typographyType: TypographyType.bold,
-                                            fontColor: ColorTheme.neutral600),
-                                      ),
-                                      Text(
-                                        '${CommonUtils.daysBetween(DateTime.now(), DateTime.parse(gamificationData.dueDate ?? '2021-01-30T00:00:00'))} days',
-                                        style: SharedComponent.textStyleCustom(
-                                            typographyType:
-                                                TypographyType.paragraph,
-                                            fontColor: ColorTheme.neutral500),
-                                      ),
-                                      SizedBox(height: 10.h),
-                                    ],
-                                  ),
                                 ],
                               ),
                             ),
@@ -295,8 +323,10 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
                         ],
                       ),
                     ),
-                    Column(
-                      children: listWidget,
+                    Expanded(
+                      child: ListView(
+                        children: listWidget,
+                      ),
                     )
                   ],
                 ),

@@ -79,20 +79,17 @@ class MissionPastController extends _$MissionPastController {
               .future);
 
       await AsyncValue.guard(() => repo).then((value) async {
-        var repoPutAnswer = ref.watch(putAnswerDetailProvider(
-                employeeMissionId: employeeMissionId,
-                gamificationResponseRemote:
-                    value.value ?? GamificationResponseRemote())
-            .future);
 
         List<TaskAnswerPastRemote> listData = [];
-        List<AnswerDatumPast> listAnswer = [];
-        List<int> listSelectedOption = [];
-        List<String> listSelectedOptionString = [];
+
+
         for (var element
             in value.value?.chapterData?.single.missionData?.single.taskData ??
                 []) {
           TaskDatum data = element;
+          List<AnswerDatumPast> listAnswer = [];
+          List<int> listSelectedOption = [];
+          List<String> listSelectedOptionString = [];
           if (data.taskTypeCode == TaskType.STX.name ||
               data.taskTypeCode == TaskType.ASM.name) {
             listSelectedOptionString.add(data.answer ?? '');
@@ -102,7 +99,7 @@ class MissionPastController extends _$MissionPastController {
               listSelectedOption.addAll(numbersList ?? []);
             } else {
               listSelectedOption
-                  .add(int.parse(answer != '' ? data.answer ?? '0' : '0'));
+                  .add(int.parse(data.answer != '' ? data.answer ?? '0' : '0'));
             }
           }
           data.answerData?.forEach((element) {
@@ -118,6 +115,7 @@ class MissionPastController extends _$MissionPastController {
           listData.add(TaskAnswerPastRemote(
               taskId: data.taskId,
               answer: data.answer,
+              answerReward: data.answerReward,
               attachmentName: data.answerAttachmentName,
               taskReward: data.taskReward,
               feedbackComment: data.feedbackComment,

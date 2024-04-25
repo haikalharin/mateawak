@@ -321,24 +321,43 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                 decoration: BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(5.r)),
-                                    color: (gamification[index]
-                                                .missionStatusCode ==
-                                            0)
+                                    color:  gamification[index].missionStatusCode ==
+                                        0
                                         ? ColorTheme.neutral300
-                                        : ColorTheme.secondary100),
+                                        : gamification[index].missionStatusCode ==
+                                        1
+                                        ? ColorTheme.secondary100
+                                        : gamification[index]
+                                        .missionStatusCode ==
+                                        3 ||
+                                        gamification[index]
+                                            .missionStatusCode ==
+                                            4
+                                        ? ColorTheme.danger100
+                                        : ColorTheme.primary100),
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 8.w, vertical: 4.h),
                                   child: Text(
                                       gamification[index].missionStatus!,
-                                      style: SharedComponent.textStyleCustom(
-                                          typographyType:
-                                              TypographyType.paragraph,
-                                          fontColor: (gamification[index]
-                                                      .missionStatusCode ==
-                                                  0)
-                                              ? ColorTheme.neutral600
-                                              : ColorTheme.secondary500)),
+                                    style: SharedComponent.textStyleCustom(
+                                        typographyType: TypographyType.small,
+                                        fontColor: gamification[index]
+                                            .missionStatusCode ==
+                                            0
+                                            ? ColorTheme.neutral500
+                                            : gamification[index]
+                                            .missionStatusCode ==
+                                            1
+                                            ? ColorTheme.secondary500
+                                            : gamification[index]
+                                            .missionStatusCode ==
+                                            3 ||
+                                            gamification[index]
+                                                .missionStatusCode ==
+                                                4
+                                            ? ColorTheme.danger500
+                                            : ColorTheme.primary500)),
                                 ),
                               ),
                             ),

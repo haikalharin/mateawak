@@ -40,199 +40,209 @@ class _TaskMultipleChoicePastScreenState extends ConsumerState<TaskMultipleChoic
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final gamificationData = ref.watch(gamificationDetailState);
-        return Scaffold(
-            backgroundColor: ColorTheme.backgroundLight,
-            body: ListView(
-              children: [
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.r)),
+        final listTask = gamificationData.chapterData?.single.missionData?.single.taskData;
+
+        return Column(
+          children: [
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.r)),
+              ),
+              margin: const EdgeInsets.all(8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 8,
                   ),
-                  margin: const EdgeInsets.all(8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 16),
-                        child: ExpansionTile(
-                          title: Text(
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16),
+                    child: ExpansionTile(
+                      title:  Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
                             widget.taskDatum.taskCaption ?? '',
                             style: SharedComponent.textStyleCustom(
-                                typographyType: TypographyType.medium,
+                                typographyType: TypographyType.mediumH6,
                                 fontColor: ColorTheme.textDark),
                           ),
-                          children: <Widget>[
-                            Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(height: 20.0),
-                                  ListView.builder(
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemCount: widget.taskDatum
-                                        .answerData
-                                        ?.length,
-                                    itemBuilder: (BuildContext context, int index) {
-                                      var listAnswer =
-                                          widget.taskDatum
-                                              .answerData;
-
-                                      return Container(
-                                        margin:
-                                        const EdgeInsets.symmetric(vertical: 8.0),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color:  (widget.taskDatum
-                                                .listSelectedOption ??
-                                                []).contains(
-                                                listAnswer?[index].answerId)
-                                                ? ColorTheme.primary500
-                                                : ColorTheme
-                                                .backgroundLight, // Border color based on selection
-                                          ),
-                                          borderRadius: BorderRadius.circular(
-                                              8.0), // Border radius
-                                        ),
-                                        child: CheckboxListTile(
-                                          controlAffinity:
-                                          ListTileControlAffinity.leading,
-                                          title: Text(
-                                              listAnswer?[index].answerCaption ?? ''),
-                                          value: ref
-                                              .watch(listSelectOptionState.notifier)
-                                              .state
-                                              .contains(
-                                              listAnswer?[index].answerId ?? 0),
-                                          onChanged: (bool? value) {
-
-                                          },
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                  gamificationData.missionStatusCode == 99
-                                      ? (widget.taskDatum
-                                      .answerReward !=
-                                      null &&
-                                      widget.taskDatum
-                                          .answerReward !=
-                                          0)
-                                      ? Column(
-                                    children: [
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text('Your answer is correct!',
-                                              style: SharedComponent
-                                                  .textStyleCustom(
-                                                  typographyType:
-                                                  TypographyType
-                                                      .body,
-                                                  fontColor: ColorTheme
-                                                      .buttonPrimary)
-                                            //TextStyle(fontSize: 12.sp)
-                                          ),
-                                          Center(
-                                              child: Container(
-                                                height: 24.h,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.star,
-                                                      color: ColorTheme.secondary500,
-                                                      size: 12.h,
-                                                    ),
-                                                    Text(
-                                                      " +${widget.taskDatum.taskReward}",
-                                                      style: SharedComponent
-                                                          .textStyleCustom(
-                                                          typographyType:
-                                                          TypographyType.body,
-                                                          fontColor: ColorTheme
-                                                              .neutral600),
-                                                    ),
-                                                  ],
-                                                ),
-                                              )),
-                                        ],
-                                      ),
-
-                                    ],
-                                  )
-                                      : Column(
-                                    children: [
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                              'Your answer is incorrect!',
-                                              style: SharedComponent
-                                                  .textStyleCustom(
-                                                  typographyType:
-                                                  TypographyType
-                                                      .body,
-                                                  fontColor:
-                                                  ColorTheme
-                                                      .danger500)
-                                            //TextStyle(fontSize: 12.sp)
-                                          ),
-                                          Center(
-                                              child: Container(
-                                                height: 24.h,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.star,
-                                                      color: ColorTheme.secondary500,
-                                                      size: 12.h,
-                                                    ),
-                                                    Text(
-                                                      " +${widget.taskDatum.taskReward}",
-                                                      style: SharedComponent
-                                                          .textStyleCustom(
-                                                          typographyType:
-                                                          TypographyType.body,
-                                                          fontColor: ColorTheme
-                                                              .neutral600),
-                                                    ),
-                                                  ],
-                                                ),
-                                              )),
-                                        ],
-                                      ),
-
-                                    ],
-                                  )
-                                      : Container(),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
+                          SizedBox(height: 8,),
+                          Text(
+                              "Question ${widget.index + 1} of ${listTask?.length}",
+                              style: SharedComponent.textStyleCustom(
+                                  typographyType: TypographyType.body,
+                                  fontColor: ColorTheme.neutral500)),
+                        ],
                       ),
-                    ],
+                      children: <Widget>[
+                        Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 20.0),
+                              ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: widget.taskDatum
+                                    .answerData
+                                    ?.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  var listAnswer =
+                                      widget.taskDatum
+                                          .answerData;
+
+                                  return Container(
+                                    margin:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color:  (widget.taskDatum
+                                            .listSelectedOption ??
+                                            []).contains(
+                                            listAnswer?[index].answerId)
+                                            ? ColorTheme.primary500
+                                            : ColorTheme
+                                            .backgroundLight, // Border color based on selection
+                                      ),
+                                      borderRadius: BorderRadius.circular(
+                                          8.0), // Border radius
+                                    ),
+                                    child: CheckboxListTile(
+                                      controlAffinity:
+                                      ListTileControlAffinity.leading,
+                                      title: Text(
+                                          listAnswer?[index].answerCaption ?? ''),
+                                      value: (widget.taskDatum.listSelectedOption??[])
+                                          .contains(
+                                          listAnswer?[index].answerId ?? 0),
+                                      onChanged: (bool? value) {
+
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
+                              gamificationData.missionStatusCode == 99
+                                  ? (widget.taskDatum
+                                  .answerReward !=
+                                  null &&
+                                  widget.taskDatum
+                                      .answerReward !=
+                                      0)
+                                  ? Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('Your answer is correct!',
+                                          style: SharedComponent
+                                              .textStyleCustom(
+                                              typographyType:
+                                              TypographyType
+                                                  .body,
+                                              fontColor: ColorTheme
+                                                  .buttonPrimary)
+                                        //TextStyle(fontSize: 12.sp)
+                                      ),
+                                      Center(
+                                          child: Container(
+                                            height: 24.h,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Icon(
+                                                  Icons.star,
+                                                  color: ColorTheme.secondary500,
+                                                  size: 12.h,
+                                                ),
+                                                Text(
+                                                  " +${widget.taskDatum.answerReward}",
+                                                  style: SharedComponent
+                                                      .textStyleCustom(
+                                                      typographyType:
+                                                      TypographyType.body,
+                                                      fontColor: ColorTheme
+                                                          .neutral600),
+                                                ),
+                                              ],
+                                            ),
+                                          )),
+                                    ],
+                                  ),
+
+                                ],
+                              )
+                                  : Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                          'Your answer is incorrect!',
+                                          style: SharedComponent
+                                              .textStyleCustom(
+                                              typographyType:
+                                              TypographyType
+                                                  .body,
+                                              fontColor:
+                                              ColorTheme
+                                                  .danger500)
+                                        //TextStyle(fontSize: 12.sp)
+                                      ),
+                                      Center(
+                                          child: Container(
+                                            height: 24.h,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Icon(
+                                                  Icons.star,
+                                                  color: ColorTheme.secondary500,
+                                                  size: 12.h,
+                                                ),
+                                                Text(
+                                                  " +${widget.taskDatum.taskReward}",
+                                                  style: SharedComponent
+                                                      .textStyleCustom(
+                                                      typographyType:
+                                                      TypographyType.body,
+                                                      fontColor: ColorTheme
+                                                          .neutral600),
+                                                ),
+                                              ],
+                                            ),
+                                          )),
+                                    ],
+                                  ),
+
+                                ],
+                              )
+                                  : Container(),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(height: 10)
-              ],
-            ));
+                ],
+              ),
+            ),
+            SizedBox(height: 5)
+          ],
+        );
       },
     );
   }

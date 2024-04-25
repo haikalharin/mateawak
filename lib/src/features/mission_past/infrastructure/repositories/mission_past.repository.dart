@@ -91,30 +91,30 @@ FutureOr<GamificationResponseRemote> getMissionDetail(GetMissionDetailRef ref,
         // for (var element in rawMissionDummy) {
         result = GamificationResponseRemote.fromJson(element);
       }
-
-      List<TaskDatum> listTask =
-          result.chapterData?.single.missionData?.single.taskData ?? [];
-      int indexTask = 0;
-      List<TaskDatum> taskData = [];
-      for (var element in listTask) {
-        File file = File('');
-        if (element.attachmentPath == null) {
-          if (element.attachmentUrl != null) {
-            final response = connect.downloadImage(
-              url: element.attachmentUrl ?? '',
-            );
-            await AsyncValue.guard(() => response).then((value) async {
-              file = await asyncMethodSaveFile(value.value?.data);
-              result.chapterData?.single.missionData?.single
-                  .taskData?[indexTask].attachmentPath = file.path;
-              indexTask++;
-            });
-          }
-        } else {
-          result.chapterData?.single.missionData?.single
-              .taskData?[indexTask].attachmentPath = file.path;
-        }
-      }
+      //
+      // List<TaskDatum> listTask =
+      //     result.chapterData?.single.missionData?.single.taskData ?? [];
+      // int indexTask = 0;
+      // List<TaskDatum> taskData = [];
+      // for (var element in listTask) {
+      //   File file = File('');
+      //   if (element.attachmentPath == null) {
+      //     if (element.attachmentUrl != null) {
+      //       final response = connect.downloadImage(
+      //         url: element.attachmentUrl ?? '',
+      //       );
+      //       await AsyncValue.guard(() => response).then((value) async {
+      //         file = await asyncMethodSaveFile(value.value?.data);
+      //         result.chapterData?.single.missionData?.single
+      //             .taskData?[indexTask].attachmentPath = file.path;
+      //         indexTask++;
+      //       });
+      //     }
+      //   } else {
+      //     result.chapterData?.single.missionData?.single
+      //         .taskData?[indexTask].attachmentPath = file.path;
+      //   }
+      // }
     }
   });
 

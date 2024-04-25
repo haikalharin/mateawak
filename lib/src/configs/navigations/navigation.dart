@@ -124,6 +124,25 @@ List<RouteBase> routeEtamkawa = [
                   }),
             ]),
         GoRoute(
+            path: detailMissionPastEtamkawa,
+            name: detailMissionPastEtamkawa,
+            builder: (BuildContext context, GoRouterState state) {
+              return SharedComponent.banner(
+                  dotenv.env[EnvConstant.environment]!,
+                  const ConnectionListenerWidget(
+                      child: MissionPastDetailScreen()));
+            },
+            routes: [
+              GoRoute(
+                  path: taskMissionPastEtamkawa,
+                  name: taskMissionPastEtamkawa,
+                  builder: (BuildContext context, GoRouterState state) {
+                    return SharedComponent.banner(
+                        dotenv.env[EnvConstant.environment]!,
+                        const ConnectionListenerWidget(child: TaskPastScreen()));
+                  }),
+            ]),
+        GoRoute(
           path: detailValidationEtamkawa,
           name: detailValidationEtamkawa,
           builder: (BuildContext context, GoRouterState state) {

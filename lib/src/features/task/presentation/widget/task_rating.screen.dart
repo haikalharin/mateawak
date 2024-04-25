@@ -409,9 +409,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                             .state++;
                                       }
 
-                                      ref
-                                          .watch(listSelectOptionState.notifier)
-                                          .state = [];
+
                                       await ctrl
                                           .putAnswerFinal()
                                           .whenComplete(() async {
@@ -428,6 +426,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                 resultSubmissionData: resultSubmissionData,
                                                 isConnectionAvailable: isConnectionAvailable,
                                                 onClosed: () async => {
+
                                                       await ctrl
                                                           .putAnswerFinal(
                                                               isSubmitted: true)

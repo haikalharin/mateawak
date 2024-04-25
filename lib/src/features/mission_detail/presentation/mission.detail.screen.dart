@@ -126,23 +126,43 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(5.r)),
                                           color:
-                                              (gamification.missionStatusCode ==
-                                                      0)
-                                                  ? ColorTheme.neutral300
-                                                  : ColorTheme.secondary100),
+                                          gamification.missionStatusCode ==
+                                              0
+                                              ? ColorTheme.neutral300
+                                              : gamification.missionStatusCode ==
+                                              1
+                                              ? ColorTheme.secondary100
+                                              : gamification
+                                              .missionStatusCode ==
+                                              3 ||
+                                              gamification
+                                                  .missionStatusCode ==
+                                                  4
+                                              ? ColorTheme.danger100
+                                              : ColorTheme.primary100),
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 8.w, vertical: 4.h),
                                         child: Text(
                                           gamification.missionStatus ?? '',
                                           style: SharedComponent.textStyleCustom(
-                                              typographyType:
-                                                  TypographyType.paragraph,
-                                              fontColor: (gamification
-                                                          .missionStatusCode ==
-                                                      0)
-                                                  ? ColorTheme.neutral600
-                                                  : ColorTheme.secondary500),
+                                              typographyType: TypographyType.small,
+                                              fontColor: gamification
+                                                  .missionStatusCode ==
+                                                  0
+                                                  ? ColorTheme.neutral500
+                                                  : gamification
+                                                  .missionStatusCode ==
+                                                  1
+                                                  ? ColorTheme.secondary500
+                                                  : gamification
+                                                  .missionStatusCode ==
+                                                  3 ||
+                                                  gamification
+                                                      .missionStatusCode ==
+                                                      4
+                                                  ? ColorTheme.danger500
+                                                  : ColorTheme.primary500),
                                         ),
                                       ),
                                     ),
