@@ -74,15 +74,19 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
           .findAll();
 
       await AsyncValue.guard(() => repo).then((value) async {
-        for (var element in value.value??[]) {
+        for (var element in value.value ?? []) {
           AnswerRequestRemote data = element;
-          data.status = 2;
-         final response = await ConnectBackgroundService().post(
+          if (data.status != 99) {
+
+          if (data.status == 3) {
+            data.taskData?.first.attachmentId = 64;
+          }
+          final response = await ConnectBackgroundService().post(
               accessToken: payload?['accessToken'] as String,
               path: payload?['path'] as String,
               url: payload?['url'] as String,
               body: data.toJson());
-          if(response.statusCode ==200){
+          if (response.statusCode == 200) {
             await isarInstance.writeTxn(() async {
               await isarInstance.answerRequestRemotes
                   .delete(data.employeeMissionId ?? 0)
@@ -93,6 +97,7 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
             });
           }
         }
+      }
       });
     } catch (e) {
       log('background service error: $e');

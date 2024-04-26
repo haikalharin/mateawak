@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_additional_detail.remote.dart';
-import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
+import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart' ;
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
@@ -15,6 +15,7 @@ import '../../../../constants/constant.dart';
 import '../../../../constants/function_utils.dart';
 import '../../../../shared_component/connection_listener_widget.dart';
 import '../../../offline_mode/infrastructure/repositories/isar.repository.dart';
+import '../../domain/gamification_mission_detail_response.remote.dart'as gamificationDetail;
 
 part 'mission_local.repository.g.dart';
 
@@ -56,8 +57,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
       for (var element in listResponse) {
         if ((value.value ?? []).isNotEmpty) {
           bool exists = (value.value ?? []).any(
-                  (item) =>
-              item.employeeMissionId == element.employeeMissionId);
+              (item) => item.employeeMissionId == element.employeeMissionId);
 
           if (!exists) {
             listResponseFinal.add(element);
@@ -82,15 +82,24 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
             );
             await AsyncValue.guard(() => response).then((value) async {
               file = await asyncMethodSaveFile(value.value?.data);
-              listResponseFinal[index].chapterData?.single.missionData?.single
-                  .taskData?[indexTask].attachmentPath = file.path;
+              listResponseFinal[index]
+                  .chapterData
+                  ?.single
+                  .missionData
+                  ?.single
+                  .taskData?[indexTask]
+                  .attachmentPath = file.path;
               indexTask++;
             });
           }
         } else {
-          listResponseFinal[indexTask].chapterData?.single.missionData?.single
-              .taskData?[indexTask].attachmentPath = element.attachmentPath;
-
+          listResponseFinal[indexTask]
+              .chapterData
+              ?.single
+              .missionData
+              ?.single
+              .taskData?[indexTask]
+              .attachmentPath = element.attachmentPath;
         }
       }
 
@@ -112,10 +121,9 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
     await isarInstance.writeTxn(() async {
       //await isarInstance.gamificationResponseRemotes.clear();
       if (kDebugMode) {
-        print("##########sebelum"+listResponseFinal.length.toString());
+        print("##########sebelum" + listResponseFinal.length.toString());
       }
-      await isarInstance.gamificationResponseRemotes
-          .putAll(listResponseFinal);
+      await isarInstance.gamificationResponseRemotes.putAll(listResponseFinal);
     });
 
     ref.keepAlive();
@@ -126,7 +134,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
       .employeeMissionIdIsNotNull()
       .findAll();
   if (kDebugMode) {
-    print("##########sesudah"+data.length.toString());
+    print("##########sesudah" + data.length.toString());
   }
   return data;
 }
@@ -146,6 +154,8 @@ FutureOr<List<GamificationResponseRemote>> getMissionLocal(
     listResponse.add(element);
   }
 
-
   return data;
 }
+
+
+

@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:module_etamkawa/src/configs/navigations/routes.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
 import 'package:module_etamkawa/src/features/mission_detail/presentation/mission.detail.screen.dart';
+import 'package:module_etamkawa/src/features/mission_past/presentation/mission_past_detail.screen.dart';
+import 'package:module_etamkawa/src/features/mission_past/presentation/task_past.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/task.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/task_assignment.screen.dart';
 import 'package:module_etamkawa/src/features/validation_detail/presentation/validation.detail.screen.dart';
@@ -58,6 +60,25 @@ GoRouter goRouter(GoRouterRef ref) {
                     }),
               ]),
           GoRoute(
+              path: detailMissionPastEtamkawa,
+              name: detailMissionPastEtamkawa,
+              builder: (BuildContext context, GoRouterState state) {
+                return SharedComponent.banner(
+                    dotenv.env[EnvConstant.environment]!,
+                    const ConnectionListenerWidget(
+                        child: MissionPastDetailScreen()));
+              },
+              routes: [
+                GoRoute(
+                    path: taskMissionPastEtamkawa,
+                    name: taskMissionPastEtamkawa,
+                    builder: (BuildContext context, GoRouterState state) {
+                      return SharedComponent.banner(
+                          dotenv.env[EnvConstant.environment]!,
+                          const ConnectionListenerWidget(child: TaskPastScreen()));
+                    }),
+              ]),
+          GoRoute(
             path: detailValidationEtamkawa,
             name: detailValidationEtamkawa,
             builder: (BuildContext context, GoRouterState state) {
@@ -100,6 +121,25 @@ List<RouteBase> routeEtamkawa = [
                     return SharedComponent.banner(
                         dotenv.env[EnvConstant.environment]!,
                         const ConnectionListenerWidget(child: TaskScreen()));
+                  }),
+            ]),
+        GoRoute(
+            path: detailMissionPastEtamkawa,
+            name: detailMissionPastEtamkawa,
+            builder: (BuildContext context, GoRouterState state) {
+              return SharedComponent.banner(
+                  dotenv.env[EnvConstant.environment]!,
+                  const ConnectionListenerWidget(
+                      child: MissionPastDetailScreen()));
+            },
+            routes: [
+              GoRoute(
+                  path: taskMissionPastEtamkawa,
+                  name: taskMissionPastEtamkawa,
+                  builder: (BuildContext context, GoRouterState state) {
+                    return SharedComponent.banner(
+                        dotenv.env[EnvConstant.environment]!,
+                        const ConnectionListenerWidget(child: TaskPastScreen()));
                   }),
             ]),
         GoRoute(

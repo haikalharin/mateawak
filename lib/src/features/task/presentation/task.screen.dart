@@ -18,6 +18,7 @@ import '../../../shared_component/async_value_widget.dart';
 import '../../../shared_component/shared_component_etamkawa.dart';
 import '../../main_nav/presentation/controller/main_nav.controller.dart';
 import '../../mission/domain/gamification_response.remote.dart';
+import '../../mission_past/presentation/controller/mission_past.controller.dart';
 import 'controller/task.controller.dart';
 
 class TaskScreen extends ConsumerStatefulWidget {
@@ -42,6 +43,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   @override
   void dispose() {
     _scrollController.dispose();
+
     super.dispose();
   }
 
@@ -229,7 +231,8 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                                         typographyType:
                                                             TypographyType.body,
                                                         fontColor: ColorTheme
-                                                            .backgroundLight))))
+                                                            .backgroundLight))
+                                        ))
                                   ],
                                 ),
                               ],

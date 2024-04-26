@@ -575,7 +575,7 @@ class _PutAnswerFinalLocalProviderElement
 }
 
 String _$getAnswerFinalLocalHash() =>
-    r'dfc2553ae8d33ee8938edeef6c440099315bb1dc';
+    r'aa50d8b1ed41d69c9340235198adaaa70f436d7b';
 
 /// See also [getAnswerFinalLocal].
 @ProviderFor(getAnswerFinalLocal)
@@ -841,14 +841,15 @@ class _ChangeStatusTaskLocalProviderElement
       (origin as ChangeStatusTaskLocalProvider).task;
 }
 
-String _$submitMissionHash() => r'c4b1dc7469431d7b8d0532fceb8752e4aa72d1cc';
+String _$submitMissionHash() => r'bffda46003417a3882a0424a8d8ba3664c251667';
 
 /// See also [submitMission].
 @ProviderFor(submitMission)
 const submitMissionProvider = SubmitMissionFamily();
 
 /// See also [submitMission].
-class SubmitMissionFamily extends Family<AsyncValue<dynamic>> {
+class SubmitMissionFamily
+    extends Family<AsyncValue<ResultSubmissionRequestRemote>> {
   /// See also [submitMission].
   const SubmitMissionFamily();
 
@@ -889,7 +890,8 @@ class SubmitMissionFamily extends Family<AsyncValue<dynamic>> {
 }
 
 /// See also [submitMission].
-class SubmitMissionProvider extends AutoDisposeFutureProvider<dynamic> {
+class SubmitMissionProvider
+    extends AutoDisposeFutureProvider<ResultSubmissionRequestRemote> {
   /// See also [submitMission].
   SubmitMissionProvider({
     required AnswerRequestRemote answerRequestRemote,
@@ -929,7 +931,8 @@ class SubmitMissionProvider extends AutoDisposeFutureProvider<dynamic> {
 
   @override
   Override overrideWith(
-    FutureOr<dynamic> Function(SubmitMissionRef provider) create,
+    FutureOr<ResultSubmissionRequestRemote> Function(SubmitMissionRef provider)
+        create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -947,7 +950,8 @@ class SubmitMissionProvider extends AutoDisposeFutureProvider<dynamic> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<dynamic> createElement() {
+  AutoDisposeFutureProviderElement<ResultSubmissionRequestRemote>
+      createElement() {
     return _SubmitMissionProviderElement(this);
   }
 
@@ -968,7 +972,8 @@ class SubmitMissionProvider extends AutoDisposeFutureProvider<dynamic> {
   }
 }
 
-mixin SubmitMissionRef on AutoDisposeFutureProviderRef<dynamic> {
+mixin SubmitMissionRef
+    on AutoDisposeFutureProviderRef<ResultSubmissionRequestRemote> {
   /// The parameter `answerRequestRemote` of this provider.
   AnswerRequestRemote get answerRequestRemote;
 
@@ -977,7 +982,8 @@ mixin SubmitMissionRef on AutoDisposeFutureProviderRef<dynamic> {
 }
 
 class _SubmitMissionProviderElement
-    extends AutoDisposeFutureProviderElement<dynamic> with SubmitMissionRef {
+    extends AutoDisposeFutureProviderElement<ResultSubmissionRequestRemote>
+    with SubmitMissionRef {
   _SubmitMissionProviderElement(super.provider);
 
   @override

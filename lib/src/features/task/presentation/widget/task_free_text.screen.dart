@@ -12,6 +12,7 @@ import 'package:module_shared/module_shared.dart';
 
 import '../../../main_nav/presentation/controller/main_nav.controller.dart';
 import '../../../mission/presentation/controller/mission.controller.dart';
+import '../../../mission_past/presentation/controller/mission_past.controller.dart';
 import '../controller/task.controller.dart';
 
 class TaskFreeTextScreen extends ConsumerStatefulWidget {
@@ -213,6 +214,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                   }, // Allows multiple lines of input
                                 ),
                               ),
+
                             ],
                           ),
                         )
