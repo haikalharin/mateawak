@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
+import 'package:module_etamkawa/src/features/task/presentation/widget/task_assignment.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_file.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_free_text.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_multi_choice.screen.dart';
@@ -63,7 +64,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
       final listTask = ref.watch(listTaskState);
       final missionData = ref.watch(missionDataState);
       final gamificationData = ref.watch(gamificationState);
-
+      final isAssignment = gamificationData.chapterData?.single.missionData?.single.missionTypeCode?.toLowerCase() == "assignment";
       return AsyncValueWidget(
           value: ref.watch(taskControllerProvider),
           data: (data) {
@@ -268,9 +269,14 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                           )
                         : Container(),
                     listTask[currentQuestionIndex.state].taskTypeCode ==
-                            TaskType.ASM.name
+                            TaskType.ASM.name && !isAssignment
                         ? const Expanded(
-                            child: TaskFileScreen(),
+                            child: TaskScreen(),
+                          )
+                        : Container(),
+                    isAssignment
+                        ? const Expanded(
+                            child: TaskAssignmentScreen(),
                           )
                         : Container(),
                   ],

@@ -3950,7 +3950,7 @@ const MissionDatumSchema = Schema(
     r'isMandatoryAttachment': PropertySchema(
       id: 1,
       name: r'isMandatoryAttachment',
-      type: IsarType.long,
+      type: IsarType.bool,
     ),
     r'missionActiveOnDay': PropertySchema(
       id: 2,
@@ -4070,7 +4070,7 @@ void _missionDatumSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeLong(offsets[0], object.chapterId);
-  writer.writeLong(offsets[1], object.isMandatoryAttachment);
+  writer.writeBool(offsets[1], object.isMandatoryAttachment);
   writer.writeLong(offsets[2], object.missionActiveOnDay);
   writer.writeString(offsets[3], object.missionCode);
   writer.writeLong(offsets[4], object.missionDuration);
@@ -4096,7 +4096,7 @@ MissionDatum _missionDatumDeserialize(
 ) {
   final object = MissionDatum(
     chapterId: reader.readLongOrNull(offsets[0]),
-    isMandatoryAttachment: reader.readLongOrNull(offsets[1]),
+    isMandatoryAttachment: reader.readBoolOrNull(offsets[1]),
     missionActiveOnDay: reader.readLongOrNull(offsets[2]),
     missionCode: reader.readStringOrNull(offsets[3]),
     missionDuration: reader.readLongOrNull(offsets[4]),
@@ -4126,7 +4126,7 @@ P _missionDatumDeserializeProp<P>(
     case 0:
       return (reader.readLongOrNull(offset)) as P;
     case 1:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 2:
       return (reader.readLongOrNull(offset)) as P;
     case 3:
@@ -4252,57 +4252,11 @@ extension MissionDatumQueryFilter
   }
 
   QueryBuilder<MissionDatum, MissionDatum, QAfterFilterCondition>
-      isMandatoryAttachmentEqualTo(int? value) {
+      isMandatoryAttachmentEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'isMandatoryAttachment',
         value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<MissionDatum, MissionDatum, QAfterFilterCondition>
-      isMandatoryAttachmentGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'isMandatoryAttachment',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<MissionDatum, MissionDatum, QAfterFilterCondition>
-      isMandatoryAttachmentLessThan(
-    int? value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'isMandatoryAttachment',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<MissionDatum, MissionDatum, QAfterFilterCondition>
-      isMandatoryAttachmentBetween(
-    int? lower,
-    int? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'isMandatoryAttachment',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
       ));
     });
   }

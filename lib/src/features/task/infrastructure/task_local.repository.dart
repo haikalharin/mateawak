@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
@@ -135,12 +137,36 @@ Future<ResultSubmissionRequestRemote> submitMission(SubmitMissionRef ref,
   final userModel = await ref.read(helperUserProvider).getUserProfile();
   //final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
   final isarInstance = await ref.watch(isarInstanceProvider.future);
+  final connect = ref.read(connectProvider.notifier);
   //if (isConnectionAvailable) {
-  answerRequestRemote.status = status;
   if (status == 3) {
     answerRequestRemote.taskData?.first.attachmentId = 64;
   }
-  final connect = ref.read(connectProvider.notifier);
+  answerRequestRemote.taskData?.forEach((element) async {
+    //if (element.attachment == null && element.attachmentId == null) {
+
+    debugPrint(element.attachment.toString());
+    File imageFile = File(element.attachment ?? '');
+    List<int> imageBytes = imageFile.readAsBytesSync();
+    String base64Image = base64.encode(imageBytes);
+    final response = await connect.post(
+        modul: ModuleType.etamkawaGamification,
+        path:
+            "api/attachment/insert_attachment?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}",
+        body: {"Group": element.taskGroup, "File": base64Image});
+
+    debugPrint(response.result?.content.toString());
+    if (response.statusCode == 200) {
+      int id = 64;
+      if (response.result?.content["resultData"] != null) {
+        id = int.parse(response.result?.content["resultData"]);
+      }
+      debugPrint(id.toString());
+      element.attachmentId = id;
+    }
+    //}
+  });
+  answerRequestRemote.status = 2;
   final response = await connect.post(
       modul: ModuleType.etamkawaGamification,
       path:
@@ -157,7 +183,7 @@ Future<ResultSubmissionRequestRemote> submitMission(SubmitMissionRef ref,
       });
     });
   }
-  ResultSubmissionRequestRemote result  = ResultSubmissionRequestRemote.fromJson(response.result?.content);
+  ResultSubmissionRequestRemote result =
+      ResultSubmissionRequestRemote.fromJson(response.result?.content);
   return result;
-  //}
 }

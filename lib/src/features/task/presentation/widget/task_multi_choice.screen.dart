@@ -40,7 +40,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
         final listTask = ref.watch(listTaskState);
         final currentQuestionProgress = ref.watch(currentProgressState);
         final gamificationData = ref.watch(gamificationState);
-        final resultSubmissionData = ref.watch(resultSubmissionState);
+        final resultSubmissionData = ref.watch(resultSubmissionState.notifier).state;
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
         final lengthAnswer = ref.watch(listTaskState).length;
         if (isInit) {
@@ -78,11 +78,12 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                         typographyType: TypographyType.largeH5,
                                         fontColor: ColorTheme.textDark)),
                                 Container(
-                                  width: 75.h,
                                   child: Row(
                                     children: [
                                       Container(
-                                        padding: EdgeInsets.all(4),
+                                        padding: const EdgeInsets.fromLTRB(
+                                            8, 0, 8, 0),
+                                        margin: EdgeInsets.only(right: 4.sp),
                                         decoration: BoxDecoration(
                                             color: ColorTheme.secondary100,
                                             borderRadius: BorderRadius.all(
@@ -125,23 +126,26 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                             const SizedBox(
                               height: 8,
                             ),
-                            Container(
-                              height: 200,
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: FileImage(File(
-                                        listTask[currentQuestionIndex.state]
-                                                .attachmentPath ??
-                                            '')),
-                                    fit: BoxFit.cover,
-                                  ),
-                                  color: ColorTheme.backgroundWhite,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10))),
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                            ),
+                            listTask[0].attachmentPath != null
+                                ? Container(
+                                    height: 200,
+                                    width: MediaQuery.of(context).size.width,
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: FileImage(File(listTask[
+                                                      currentQuestionIndex
+                                                          .state]
+                                                  .attachmentPath ??
+                                              '')),
+                                          fit: BoxFit.cover,
+                                        ),
+                                        color: ColorTheme.backgroundWhite,
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(10))),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                  )
+                                : Container(),
                             const SizedBox(height: 10.0),
                             Text(
                               listTask[currentQuestionIndex.state]
@@ -445,7 +449,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                             .putAnswerFinal()
                                             .whenComplete(() async {
                                           showDialog(
-                                          barrierDismissible: false,
+                                            barrierDismissible: false,
                                             context: context,
                                             builder: (context) {
                                               return CustomDialog(
@@ -454,8 +458,10 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                       "Are you sure want to submit your answers?",
                                                   label: "Submit",
                                                   type: DialogType.mission,
-                                                resultSubmissionData: resultSubmissionData,
-                                                isConnectionAvailable: isConnectionAvailable,
+                                                  resultSubmissionData:
+                                                      resultSubmissionData,
+                                                  isConnectionAvailable:
+                                                      isConnectionAvailable,
                                                   onClosed: () async => {
                                                         await ctrl
                                                             .putAnswerFinal(

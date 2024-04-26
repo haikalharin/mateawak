@@ -21,6 +21,7 @@ class TaskDatumAnswerRequestRemote {
   String? attachment;
   String? attachmentName;
   int? attachmentId;
+  String? taskGroup;
 
   TaskDatumAnswerRequestRemote({
     this.taskId,
@@ -28,6 +29,7 @@ class TaskDatumAnswerRequestRemote {
     this.attachment,
     this.attachmentName,
     this.attachmentId,
+    this.taskGroup,
   });
 
   TaskDatumAnswerRequestRemote copyWith({
@@ -36,6 +38,7 @@ class TaskDatumAnswerRequestRemote {
     String? attachment,
     String? attachmentName,
     int? attachmentId,
+    String? taskGroup
   }) =>
       TaskDatumAnswerRequestRemote(
         taskId: taskId ?? this.taskId,
@@ -43,6 +46,7 @@ class TaskDatumAnswerRequestRemote {
         attachment: attachment ?? this.attachment,
         attachmentName: attachmentName ?? this.attachmentName,
         attachmentId: attachmentId ?? this.attachmentId,
+        taskGroup: taskGroup ?? this.taskGroup,
       );
 
   factory TaskDatumAnswerRequestRemote.fromJson(Map<String, dynamic> json) =>
@@ -50,11 +54,13 @@ class TaskDatumAnswerRequestRemote {
         taskId: json["taskId"],
         answer: json["answer"],
         attachmentId: json["attachmentId"],
+        taskGroup: json["taskGroup"],
       );
 
   Map<String, dynamic> toJson() => {
         "taskId": taskId,
         "answer": answer,
         "attachmentId": attachmentId,
+        "taskGroup": taskGroup,
       };
 }

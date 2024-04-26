@@ -53,7 +53,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
             .length;
         final listTask = ref.watch(listTaskState);
         final gamificationData = ref.watch(gamificationState);
-        final resultSubmissionData = ref.watch(resultSubmissionState);
+        final resultSubmissionData = ref.watch(resultSubmissionState.notifier).state;
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
         if (ref
             .watch(currentTypeTaskState.notifier)
@@ -90,28 +90,28 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text("Assignment",
                                 style: SharedComponent.textStyleCustom(
                                     typographyType: TypographyType.largeH5,
                                     fontColor: ColorTheme.textDark)),
-                            Container(
-                              width: 75.h,
+                            SizedBox(
                               child: Row(
                                 children: [
                                   Container(
-                                    padding: EdgeInsets.all(4),
+                                    padding: const EdgeInsets.fromLTRB(8,0,8,0),
+                                    margin: EdgeInsets.only(right: 4.sp),
                                     decoration: BoxDecoration(
                                         color: ColorTheme.secondary100,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5.r))),
                                     child: Center(
-                                        child: Container(
-                                          height: 24.h,
-                                          child: Row(
-                                            mainAxisAlignment:
+                                        child: SizedBox(
+                                      height: 24.h,
+                                      child: Row(
+                                        mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                             children: [
                                               Icon(
@@ -149,6 +149,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                             const SizedBox(
                               height: 8,
                             ),
+                            listTask[0]
+                                                .attachmentPath != null ?
                             Container(
                               height: 200,
                               width: MediaQuery
@@ -158,8 +160,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                               decoration: BoxDecoration(
                                   image: DecorationImage(
                                     image: FileImage(File(
-                                        listTask[currentQuestionIndex.state]
-                                            .attachmentPath ??
+                                        listTask[0]
+                                                .attachmentPath ??
                                             '')),
                                     fit: BoxFit.cover,
                                   ),
@@ -167,12 +169,12 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(10))),
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 16),
-                            ),
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                            ) : Container(),
                             const SizedBox(height: 10.0),
                             Text(
-                              listTask[currentQuestionIndex.state]
-                                  .taskCaption ??
+                              listTask[0]
+                                      .taskCaption ??
                                   '',
                               style: SharedComponent.textStyleCustom(
                                   typographyType: TypographyType.medium,
@@ -182,188 +184,181 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                             const SizedBox(height: 20.0),
                             attachmentName.state != ''
                                 ? Container(
-                                child: Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: MediaQuery
-                                              .of(context)
-                                              .size
-                                              .width,
-                                          child: Expanded(
-                                            child: RichText(
-                                              text: TextSpan(
-                                                text:
-                                                'Evidence (one file only)',
-                                                style: SharedComponent
-                                                    .textStyleCustom(
-                                                    typographyType:
-                                                    TypographyType
-                                                        .body,
-                                                    fontColor: ColorTheme
-                                                        .textDark),
-                                                children: [
-                                                  TextSpan(
-                                                    text: '*',
-                                                    style: SharedComponent
-                                                        .textStyleCustom(
-                                                        typographyType:
-                                                        TypographyType
-                                                            .body,
-                                                        fontColor:
-                                                        ColorTheme
-                                                            .danger500),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 12,
-                                        ),
-                                        Container(
-                                          width: MediaQuery
-                                              .of(context)
-                                              .size
-                                              .width,
-                                          child: Row(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              Expanded(
-                                                child: Text(
-                                                  attachmentName.state ?? '',
-                                                  style: Theme
-                                                      .of(context)
-                                                      .textTheme
-                                                      .titleLarge,
-                                                ),
-                                              ),
-                                              InkWell(
-                                                onTap: () async {
-                                                  await File(attachment.state)
-                                                      .delete()
-                                                      .whenComplete(() {
-                                                    setState(() {
-                                                      ref
-                                                          .read(
-                                                          attachmentNameState
-                                                              .notifier)
-                                                          .state = '';
-                                                      ref
-                                                          .read(
-                                                          attachmentPathState
-                                                              .notifier)
-                                                          .state = '';
-                                                    });
-                                                  });
-                                                },
-                                                child: Icon(
-                                                  Icons.cancel,
-                                                  color: ColorTheme
-                                                      .backgroundDark,
-                                                  size: 25.h,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ))
-                                : InkWell(
-                              onTap: () {
-                                pickDocFile();
-                              },
-                              child: DottedBorder(
-                                color: ColorTheme.primary500,
-                                radius: Radius.circular(12),
-                                strokeWidth: 3,
-                                //thickness of dash/dots
-                                dashPattern: [10, 6],
-                                child: Container(
-                                    height: 150,
-                                    color: ColorTheme.bgGreenLight,
                                     child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                      children: [
-                                        Row(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                          MainAxisAlignment
-                                              .spaceEvenly,
-                                          children: [
-                                            Icon(
-                                              Icons.upload_file_rounded,
-                                              color:
-                                              ColorTheme.primary500,
-                                              size: 40.h,
-                                            ),
-                                            Column(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment
-                                                  .start,
-                                              children: [
-                                                Container(
-                                                  width: MediaQuery
-                                                      .of(
-                                                      context)
-                                                      .size
-                                                      .width /
-                                                      1.5,
-                                                  child: Expanded(
-                                                    child: Text(
-                                                      'Drop your files here or click to upload',
-                                                      style: Theme
-                                                          .of(
-                                                          context)
-                                                          .textTheme
-                                                          .titleLarge,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            child: Expanded(
+                                              child: RichText(
+                                                text: TextSpan(
+                                                  text:
+                                                      'Evidence (one file only)',
+                                                  style: SharedComponent
+                                                      .textStyleCustom(
+                                                          typographyType:
+                                                              TypographyType
+                                                                  .body,
+                                                          fontColor: ColorTheme
+                                                              .textDark),
+                                                  children: [
+                                                    TextSpan(
+                                                      text: '*',
+                                                      style: SharedComponent
+                                                          .textStyleCustom(
+                                                              typographyType:
+                                                                  TypographyType
+                                                                      .body,
+                                                              fontColor:
+                                                                  ColorTheme
+                                                                      .danger500),
                                                     ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 12,
+                                          ),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    attachmentName.state ?? '',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .titleLarge,
                                                   ),
                                                 ),
-                                                Container(
-                                                  width: MediaQuery
-                                                      .of(
-                                                      context)
-                                                      .size
-                                                      .width /
-                                                      1.5,
-                                                  child: Expanded(
-                                                    child: Text(
-                                                      "Allowed files .jpg, .jpeg, .png, .gif, .pdf, .doc",
-                                                      style: Theme
-                                                          .of(
-                                                          context)
-                                                          .textTheme
-                                                          .bodyLarge,
-                                                    ),
+                                                InkWell(
+                                                  onTap: () async {
+                                                    await File(attachment.state)
+                                                        .delete()
+                                                        .whenComplete(() {
+                                                      setState(() {
+                                                        ref
+                                                            .read(
+                                                                attachmentNameState
+                                                                    .notifier)
+                                                            .state = '';
+                                                        ref
+                                                            .read(
+                                                                attachmentPathState
+                                                                    .notifier)
+                                                            .state = '';
+                                                      });
+                                                    });
+                                                  },
+                                                  child: Icon(
+                                                    Icons.cancel,
+                                                    color: ColorTheme
+                                                        .backgroundDark,
+                                                    size: 25.h,
                                                   ),
                                                 ),
                                               ],
                                             ),
-                                          ],
-                                        ),
-                                      ],
-                                    )),
-                              ),
-                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ))
+                                : InkWell(
+                                    onTap: () {
+                                      pickDocFile();
+                                    },
+                                    child: DottedBorder(
+                                      color: ColorTheme.primary500,
+                                      radius: const Radius.circular(12),
+                                      strokeWidth: 3,
+                                      //thickness of dash/dots
+                                      dashPattern: [10, 6],
+                                      child: Container(
+                                          height: 150,
+                                          color: ColorTheme.bgGreenLight,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  Icon(
+                                                    Icons.upload_file_rounded,
+                                                    color:
+                                                        ColorTheme.primary500,
+                                                    size: 40.h,
+                                                  ),
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            1.5,
+                                                        child: Expanded(
+                                                          child: Text(
+                                                            'Drop your files here or click to upload',
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .titleLarge,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            1.5,
+                                                        child: Expanded(
+                                                          child: Text(
+                                                            "Allowed files .jpg, .jpeg, .png, .gif, .pdf, .doc",
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyLarge,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          )),
+                                    ),
+                                  ),
                             const SizedBox(height: 8.0),
                             SizedBox(
                               width: MediaQuery
@@ -440,7 +435,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          0 < currentQuestionIndex.state && lengthAnswer != 1
+                          lengthAnswer != 1
                               ? Expanded(
                             child: ElevatedButton(
                               style: ButtonStyle(
@@ -526,7 +521,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                             ),
                           )
                               : Container(),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           Expanded(
                             child: ElevatedButton(
                               onPressed: () {
@@ -665,6 +660,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                 "Are you sure want to submit your Assignment?",
                                                 label: "Submit",
                                                 type: DialogType.mission,
+                                                isAssignment: true,
                                                 resultSubmissionData: resultSubmissionData,
                                                 isConnectionAvailable: isConnectionAvailable,
                                                 onClosed: () async =>
@@ -727,28 +723,6 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
     );
   }
 
-  void _showPicker(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return SafeArea(
-            child: Container(
-              child: Wrap(
-                children: [
-                  ListTile(
-                    leading: const Icon(Icons.file_present),
-                    title: const Text('File'),
-                    onTap: () async {
-                      Navigator.pop(context);
-                      pickDocFile();
-                    },
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
 
   Future<void> pickDocFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -767,6 +741,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
             .read(attachmentPathState.notifier)
             .state = fileDuplicate.path ?? '';
       });
+      debugPrint("${fileDuplicate.name} ${fileDuplicate.path}");
     } else {
       // User canceled the picker
     }

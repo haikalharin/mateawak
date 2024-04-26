@@ -6,7 +6,6 @@ const String detailMissionPastEtamkawa = 'detail-mission-past-etamkawa';
 const String detailValidationEtamkawa = 'detail-validation-etamkawa';
 const String taskMissionEtamkawa = 'task-mission-etamkawa';
 const String taskMissionPastEtamkawa = 'task-mission-past-etamkawa';
-const String taskAssignmentMissionEtamkawa = 'task-assignment-mission-etamkawa';
 const String setting = 'setting-etamkawa';
 const String unitbreakdown = 'unitbreakdown';
 const String unitstatusdetail = 'unitstatusdetail';

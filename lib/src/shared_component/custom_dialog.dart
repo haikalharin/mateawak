@@ -18,6 +18,7 @@ class CustomDialog extends StatelessWidget {
       required this.title,
       required this.content,
       required this.label,
+      this.isAssignment,
       this.resultSubmissionData,
       this.isConnectionAvailable,
       this.onClosed});
@@ -26,6 +27,7 @@ class CustomDialog extends StatelessWidget {
   final String title;
   final String content;
   final String label;
+  final bool? isAssignment;
   final ResultSubmissionRequestRemote? resultSubmissionData;
   final bool? isConnectionAvailable;
   final Function()? onClosed;
@@ -77,7 +79,14 @@ class CustomDialog extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: (type == DialogType.question || type == DialogType.mission)
-                  ? confirmationButton(context, label, onClosed, type, resultSubmissionData, isConnectionAvailable)
+                  ? confirmationButton(
+                      context,
+                      label,
+                      onClosed,
+                      type,
+                      resultSubmissionData,
+                      isConnectionAvailable,
+                      isAssignment ?? false)
                   : SharedComponent.btnWidget(
                       label: label,
                       typographyType: TypographyType.body,
@@ -98,7 +107,13 @@ class CustomDialog extends StatelessWidget {
 }
 
 Widget confirmationButton(
-    BuildContext context, String label, Function()? onClosed, DialogType type, ResultSubmissionRequestRemote? resultSubmissionData, bool? isConnectionAvailable){
+    BuildContext context,
+    String label,
+    Function()? onClosed,
+    DialogType type,
+    ResultSubmissionRequestRemote? resultSubmissionData,
+    bool? isConnectionAvailable,
+    bool? isAssignment) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -139,29 +154,31 @@ Widget confirmationButton(
           context.pop();
           if (type == DialogType.mission) {
             onClosed!();
-            showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (context) {
-                  return RewardDialog(
-                    rewardResponse: resultSubmissionData!,
-                    isConnectionAvailable: isConnectionAvailable!,
-                  );
-                });
-            // showDialog(
-            //     context: context,
-            //     builder: (context) {
-            //       return CustomDialog(
-            //           title: "Hooray!",
-            //           content: "Yeay, your assignment has been completed!",
-            //           label: "Okay",
-            //           type: DialogType.success,
-            //           onClosed: () async => {
-            //                 Navigator.of(context).pop(),
-            //                 Navigator.of(context).pop()
-            //               });
-            //     });
-            // onClosed!();
+            if (!isAssignment!) {
+              showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) {
+                    return RewardDialog(
+                      rewardResponse: resultSubmissionData!,
+                      isConnectionAvailable: isConnectionAvailable!,
+                    );
+                  });
+            } else {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return CustomDialog(
+                        title: "Hooray!",
+                        content: "Yeay, your assignment has been completed!",
+                        label: "Okay",
+                        type: DialogType.success,
+                        onClosed: () async => {
+                              Navigator.of(context).pop(),
+                              Navigator.of(context).pop()
+                            });
+                  });
+            }
           }
         },
         radius: 5.r,

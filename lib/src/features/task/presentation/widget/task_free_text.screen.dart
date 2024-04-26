@@ -47,7 +47,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
         final gamificationData = ref.watch(gamificationState);
-        final resultSubmissionData = ref.watch(resultSubmissionState);
+        final resultSubmissionData = ref.watch(resultSubmissionState.notifier).state;
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
         // _textController =
         if (ref.watch(currentTypeTaskState.notifier).state ==
@@ -100,11 +100,12 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                               TypographyType.largeH5,
                                           fontColor: ColorTheme.textDark)),
                                   Container(
-                                    width: 75.h,
                                     child: Row(
                                       children: [
                                         Container(
-                                          padding: EdgeInsets.all(4),
+                                          padding: const EdgeInsets.fromLTRB(
+                                              8, 0, 8, 0),
+                                          margin: EdgeInsets.only(right: 4.sp),
                                           decoration: BoxDecoration(
                                               color: ColorTheme.secondary100,
                                               borderRadius: BorderRadius.all(
@@ -149,23 +150,26 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                               const SizedBox(
                                 height: 8,
                               ),
-                              Container(
-                                height: 200,
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: FileImage(File(
-                                          listTask[currentQuestionIndex.state]
-                                                  .attachmentPath ??
-                                              '')),
-                                      fit: BoxFit.cover,
-                                    ),
-                                    color: ColorTheme.backgroundWhite,
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(10))),
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
-                              ),
+                              listTask[0].attachmentPath != null
+                                  ? Container(
+                                      height: 200,
+                                      width: MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            image: FileImage(File(listTask[
+                                                        currentQuestionIndex
+                                                            .state]
+                                                    .attachmentPath ??
+                                                '')),
+                                            fit: BoxFit.cover,
+                                          ),
+                                          color: ColorTheme.backgroundWhite,
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(10))),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16),
+                                    )
+                                  : Container(),
                               const SizedBox(height: 10.0),
                               Text(
                                 listTask[currentQuestionIndex.state]
@@ -464,8 +468,10 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                         "Are you sure want to submit your answers?",
                                                     label: "Submit",
                                                     type: DialogType.mission,
-                                                resultSubmissionData: resultSubmissionData,
-                                                isConnectionAvailable: isConnectionAvailable,
+                                                    resultSubmissionData:
+                                                        resultSubmissionData,
+                                                    isConnectionAvailable:
+                                                        isConnectionAvailable,
                                                     onClosed: () async => {
                                                           await ctrl
                                                               .putAnswerFinal(

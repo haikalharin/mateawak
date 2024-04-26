@@ -37,6 +37,11 @@ const TaskDatumAnswerRequestRemoteSchema = CollectionSchema(
       id: 3,
       name: r'attachmentName',
       type: IsarType.string,
+    ),
+    r'taskGroup': PropertySchema(
+      id: 4,
+      name: r'taskGroup',
+      type: IsarType.string,
     )
   },
   estimateSize: _taskDatumAnswerRequestRemoteEstimateSize,
@@ -77,6 +82,12 @@ int _taskDatumAnswerRequestRemoteEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
+  {
+    final value = object.taskGroup;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -90,6 +101,7 @@ void _taskDatumAnswerRequestRemoteSerialize(
   writer.writeString(offsets[1], object.attachment);
   writer.writeLong(offsets[2], object.attachmentId);
   writer.writeString(offsets[3], object.attachmentName);
+  writer.writeString(offsets[4], object.taskGroup);
 }
 
 TaskDatumAnswerRequestRemote _taskDatumAnswerRequestRemoteDeserialize(
@@ -103,6 +115,7 @@ TaskDatumAnswerRequestRemote _taskDatumAnswerRequestRemoteDeserialize(
     attachment: reader.readStringOrNull(offsets[1]),
     attachmentId: reader.readLongOrNull(offsets[2]),
     attachmentName: reader.readStringOrNull(offsets[3]),
+    taskGroup: reader.readStringOrNull(offsets[4]),
     taskId: id,
   );
   return object;
@@ -122,6 +135,8 @@ P _taskDatumAnswerRequestRemoteDeserializeProp<P>(
     case 2:
       return (reader.readLongOrNull(offset)) as P;
     case 3:
+      return (reader.readStringOrNull(offset)) as P;
+    case 4:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -770,6 +785,162 @@ extension TaskDatumAnswerRequestRemoteQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> taskGroupIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'taskGroup',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> taskGroupIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'taskGroup',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> taskGroupEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'taskGroup',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> taskGroupGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'taskGroup',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> taskGroupLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'taskGroup',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> taskGroupBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'taskGroup',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> taskGroupStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'taskGroup',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> taskGroupEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'taskGroup',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+          QAfterFilterCondition>
+      taskGroupContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'taskGroup',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+          QAfterFilterCondition>
+      taskGroupMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'taskGroup',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> taskGroupIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'taskGroup',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> taskGroupIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'taskGroup',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
       QAfterFilterCondition> taskIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -911,6 +1082,20 @@ extension TaskDatumAnswerRequestRemoteQuerySortBy on QueryBuilder<
       return query.addSortBy(r'attachmentName', Sort.desc);
     });
   }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterSortBy> sortByTaskGroup() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'taskGroup', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterSortBy> sortByTaskGroupDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'taskGroup', Sort.desc);
+    });
+  }
 }
 
 extension TaskDatumAnswerRequestRemoteQuerySortThenBy on QueryBuilder<
@@ -972,6 +1157,20 @@ extension TaskDatumAnswerRequestRemoteQuerySortThenBy on QueryBuilder<
   }
 
   QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterSortBy> thenByTaskGroup() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'taskGroup', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterSortBy> thenByTaskGroupDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'taskGroup', Sort.desc);
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
       QAfterSortBy> thenByTaskId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'taskId', Sort.asc);
@@ -1016,6 +1215,13 @@ extension TaskDatumAnswerRequestRemoteQueryWhereDistinct on QueryBuilder<
           caseSensitive: caseSensitive);
     });
   }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QDistinct> distinctByTaskGroup({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'taskGroup', caseSensitive: caseSensitive);
+    });
+  }
 }
 
 extension TaskDatumAnswerRequestRemoteQueryProperty on QueryBuilder<
@@ -1054,6 +1260,13 @@ extension TaskDatumAnswerRequestRemoteQueryProperty on QueryBuilder<
       attachmentNameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'attachmentName');
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, String?, QQueryOperations>
+      taskGroupProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'taskGroup');
     });
   }
 }
