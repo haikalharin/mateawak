@@ -106,8 +106,10 @@ FutureOr<List<TaskDatumAnswer>> getAnswerFinalLocal(GetAnswerFinalLocalRef ref,
       .filter()
       .employeeMissionIdEqualTo(employeeMissionId)
       .findAll();
-
-  return data.single.taskData ?? [];
+  if (kDebugMode) {
+    print('#######Haloo2 ${data}');
+  }
+  return data.first.taskData ?? [];
 }
 
 @riverpod

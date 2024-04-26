@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'gamification_response.remote.dart';
+part of 'gamification_mission_detail_response.remote.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator
@@ -9,14 +9,14 @@ part of 'gamification_response.remote.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
-extension GetGamificationResponseRemoteCollection on Isar {
-  IsarCollection<GamificationResponseRemote> get gamificationResponseRemotes =>
-      this.collection();
+extension GetGamificationMissionDetailRemoteCollection on Isar {
+  IsarCollection<GamificationMissionDetailRemote>
+      get gamificationMissionDetailRemotes => this.collection();
 }
 
-const GamificationResponseRemoteSchema = CollectionSchema(
-  name: r'GamificationResponseRemote',
-  id: -7235016258457041350,
+const GamificationMissionDetailRemoteSchema = CollectionSchema(
+  name: r'GamificationMissionDetailRemote',
+  id: 4754583709474461889,
   properties: {
     r'chapterData': PropertySchema(
       id: 0,
@@ -80,10 +80,10 @@ const GamificationResponseRemoteSchema = CollectionSchema(
       type: IsarType.long,
     )
   },
-  estimateSize: _gamificationResponseRemoteEstimateSize,
-  serialize: _gamificationResponseRemoteSerialize,
-  deserialize: _gamificationResponseRemoteDeserialize,
-  deserializeProp: _gamificationResponseRemoteDeserializeProp,
+  estimateSize: _gamificationMissionDetailRemoteEstimateSize,
+  serialize: _gamificationMissionDetailRemoteSerialize,
+  deserialize: _gamificationMissionDetailRemoteDeserialize,
+  deserializeProp: _gamificationMissionDetailRemoteDeserializeProp,
   idName: r'employeeMissionId',
   indexes: {},
   links: {},
@@ -93,14 +93,14 @@ const GamificationResponseRemoteSchema = CollectionSchema(
     r'TaskDatum': TaskDatumSchema,
     r'AnswerDatum': AnswerDatumSchema
   },
-  getId: _gamificationResponseRemoteGetId,
-  getLinks: _gamificationResponseRemoteGetLinks,
-  attach: _gamificationResponseRemoteAttach,
+  getId: _gamificationMissionDetailRemoteGetId,
+  getLinks: _gamificationMissionDetailRemoteGetLinks,
+  attach: _gamificationMissionDetailRemoteAttach,
   version: '3.1.0+1',
 );
 
-int _gamificationResponseRemoteEstimateSize(
-  GamificationResponseRemote object,
+int _gamificationMissionDetailRemoteEstimateSize(
+  GamificationMissionDetailRemote object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -164,8 +164,8 @@ int _gamificationResponseRemoteEstimateSize(
   return bytesCount;
 }
 
-void _gamificationResponseRemoteSerialize(
-  GamificationResponseRemote object,
+void _gamificationMissionDetailRemoteSerialize(
+  GamificationMissionDetailRemote object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
@@ -189,13 +189,13 @@ void _gamificationResponseRemoteSerialize(
   writer.writeLong(offsets[11], object.validatorId);
 }
 
-GamificationResponseRemote _gamificationResponseRemoteDeserialize(
+GamificationMissionDetailRemote _gamificationMissionDetailRemoteDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = GamificationResponseRemote(
+  final object = GamificationMissionDetailRemote(
     chapterData: reader.readObjectList<ChapterDatum>(
       offsets[0],
       ChapterDatumSchema.deserialize,
@@ -218,7 +218,7 @@ GamificationResponseRemote _gamificationResponseRemoteDeserialize(
   return object;
 }
 
-P _gamificationResponseRemoteDeserializeProp<P>(
+P _gamificationMissionDetailRemoteDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -259,23 +259,24 @@ P _gamificationResponseRemoteDeserializeProp<P>(
   }
 }
 
-Id _gamificationResponseRemoteGetId(GamificationResponseRemote object) {
+Id _gamificationMissionDetailRemoteGetId(
+    GamificationMissionDetailRemote object) {
   return object.employeeMissionId ?? Isar.autoIncrement;
 }
 
-List<IsarLinkBase<dynamic>> _gamificationResponseRemoteGetLinks(
-    GamificationResponseRemote object) {
+List<IsarLinkBase<dynamic>> _gamificationMissionDetailRemoteGetLinks(
+    GamificationMissionDetailRemote object) {
   return [];
 }
 
-void _gamificationResponseRemoteAttach(
-    IsarCollection<dynamic> col, Id id, GamificationResponseRemote object) {
+void _gamificationMissionDetailRemoteAttach(IsarCollection<dynamic> col, Id id,
+    GamificationMissionDetailRemote object) {
   object.employeeMissionId = id;
 }
 
-extension GamificationResponseRemoteQueryWhereSort on QueryBuilder<
-    GamificationResponseRemote, GamificationResponseRemote, QWhere> {
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+extension GamificationMissionDetailRemoteQueryWhereSort on QueryBuilder<
+    GamificationMissionDetailRemote, GamificationMissionDetailRemote, QWhere> {
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterWhere> anyEmployeeMissionId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
@@ -283,9 +284,11 @@ extension GamificationResponseRemoteQueryWhereSort on QueryBuilder<
   }
 }
 
-extension GamificationResponseRemoteQueryWhere on QueryBuilder<
-    GamificationResponseRemote, GamificationResponseRemote, QWhereClause> {
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+extension GamificationMissionDetailRemoteQueryWhere on QueryBuilder<
+    GamificationMissionDetailRemote,
+    GamificationMissionDetailRemote,
+    QWhereClause> {
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterWhereClause> employeeMissionIdEqualTo(Id employeeMissionId) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
@@ -295,7 +298,7 @@ extension GamificationResponseRemoteQueryWhere on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterWhereClause> employeeMissionIdNotEqualTo(Id employeeMissionId) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
@@ -322,7 +325,7 @@ extension GamificationResponseRemoteQueryWhere on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
           QAfterWhereClause>
       employeeMissionIdGreaterThan(Id employeeMissionId,
           {bool include = false}) {
@@ -334,7 +337,7 @@ extension GamificationResponseRemoteQueryWhere on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
           QAfterWhereClause>
       employeeMissionIdLessThan(Id employeeMissionId, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
@@ -344,7 +347,7 @@ extension GamificationResponseRemoteQueryWhere on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterWhereClause> employeeMissionIdBetween(
     Id lowerEmployeeMissionId,
     Id upperEmployeeMissionId, {
@@ -362,9 +365,11 @@ extension GamificationResponseRemoteQueryWhere on QueryBuilder<
   }
 }
 
-extension GamificationResponseRemoteQueryFilter on QueryBuilder<
-    GamificationResponseRemote, GamificationResponseRemote, QFilterCondition> {
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+extension GamificationMissionDetailRemoteQueryFilter on QueryBuilder<
+    GamificationMissionDetailRemote,
+    GamificationMissionDetailRemote,
+    QFilterCondition> {
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> chapterDataIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -373,7 +378,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> chapterDataIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -382,7 +387,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> chapterDataLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
@@ -395,7 +400,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> chapterDataIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
@@ -408,7 +413,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> chapterDataIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
@@ -421,7 +426,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> chapterDataLengthLessThan(
     int length, {
     bool include = false,
@@ -437,7 +442,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> chapterDataLengthGreaterThan(
     int length, {
     bool include = false,
@@ -453,7 +458,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> chapterDataLengthBetween(
     int lower,
     int upper, {
@@ -471,7 +476,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> completedByIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -480,7 +485,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> completedByIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -489,7 +494,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> completedByEqualTo(
     String? value, {
     bool caseSensitive = true,
@@ -503,7 +508,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> completedByGreaterThan(
     String? value, {
     bool include = false,
@@ -519,7 +524,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> completedByLessThan(
     String? value, {
     bool include = false,
@@ -535,7 +540,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> completedByBetween(
     String? lower,
     String? upper, {
@@ -555,7 +560,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> completedByStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -569,7 +574,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> completedByEndsWith(
     String value, {
     bool caseSensitive = true,
@@ -583,7 +588,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
           QAfterFilterCondition>
       completedByContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -595,7 +600,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
           QAfterFilterCondition>
       completedByMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -607,7 +612,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> completedByIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -617,7 +622,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> completedByIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -627,7 +632,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> completedDateIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -636,7 +641,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> completedDateIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -645,7 +650,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> completedDateEqualTo(
     String? value, {
     bool caseSensitive = true,
@@ -659,7 +664,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> completedDateGreaterThan(
     String? value, {
     bool include = false,
@@ -675,7 +680,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> completedDateLessThan(
     String? value, {
     bool include = false,
@@ -691,7 +696,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> completedDateBetween(
     String? lower,
     String? upper, {
@@ -711,7 +716,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> completedDateStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -725,7 +730,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> completedDateEndsWith(
     String value, {
     bool caseSensitive = true,
@@ -739,7 +744,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
           QAfterFilterCondition>
       completedDateContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -751,7 +756,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
           QAfterFilterCondition>
       completedDateMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -763,7 +768,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> completedDateIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -773,7 +778,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> completedDateIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -783,7 +788,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> dueDateIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -792,7 +797,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> dueDateIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -801,7 +806,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> dueDateEqualTo(
     String? value, {
     bool caseSensitive = true,
@@ -815,7 +820,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> dueDateGreaterThan(
     String? value, {
     bool include = false,
@@ -831,7 +836,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> dueDateLessThan(
     String? value, {
     bool include = false,
@@ -847,7 +852,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> dueDateBetween(
     String? lower,
     String? upper, {
@@ -867,7 +872,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> dueDateStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -881,7 +886,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> dueDateEndsWith(
     String value, {
     bool caseSensitive = true,
@@ -895,7 +900,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
           QAfterFilterCondition>
       dueDateContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -907,7 +912,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
           QAfterFilterCondition>
       dueDateMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -919,7 +924,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> dueDateIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -929,7 +934,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> dueDateIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -939,7 +944,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> employeeIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -948,7 +953,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> employeeIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -957,7 +962,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> employeeIdEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -967,7 +972,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> employeeIdGreaterThan(
     int? value, {
     bool include = false,
@@ -981,7 +986,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> employeeIdLessThan(
     int? value, {
     bool include = false,
@@ -995,7 +1000,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> employeeIdBetween(
     int? lower,
     int? upper, {
@@ -1013,7 +1018,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> employeeMissionIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1022,7 +1027,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> employeeMissionIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -1031,7 +1036,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> employeeMissionIdEqualTo(Id? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1041,7 +1046,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> employeeMissionIdGreaterThan(
     Id? value, {
     bool include = false,
@@ -1055,7 +1060,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> employeeMissionIdLessThan(
     Id? value, {
     bool include = false,
@@ -1069,7 +1074,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> employeeMissionIdBetween(
     Id? lower,
     Id? upper, {
@@ -1087,7 +1092,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> missionIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1096,7 +1101,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> missionIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -1105,7 +1110,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> missionIdEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1115,7 +1120,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> missionIdGreaterThan(
     int? value, {
     bool include = false,
@@ -1129,7 +1134,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> missionIdLessThan(
     int? value, {
     bool include = false,
@@ -1143,7 +1148,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> missionIdBetween(
     int? lower,
     int? upper, {
@@ -1161,7 +1166,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> missionStatusIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1170,7 +1175,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> missionStatusIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -1179,7 +1184,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> missionStatusEqualTo(
     String? value, {
     bool caseSensitive = true,
@@ -1193,7 +1198,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> missionStatusGreaterThan(
     String? value, {
     bool include = false,
@@ -1209,7 +1214,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> missionStatusLessThan(
     String? value, {
     bool include = false,
@@ -1225,7 +1230,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> missionStatusBetween(
     String? lower,
     String? upper, {
@@ -1245,7 +1250,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> missionStatusStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -1259,7 +1264,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> missionStatusEndsWith(
     String value, {
     bool caseSensitive = true,
@@ -1273,7 +1278,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
           QAfterFilterCondition>
       missionStatusContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1285,7 +1290,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
           QAfterFilterCondition>
       missionStatusMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1297,7 +1302,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> missionStatusIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1307,7 +1312,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> missionStatusIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -1317,7 +1322,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> missionStatusCodeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1326,7 +1331,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> missionStatusCodeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -1335,7 +1340,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> missionStatusCodeEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1345,7 +1350,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> missionStatusCodeGreaterThan(
     int? value, {
     bool include = false,
@@ -1359,7 +1364,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> missionStatusCodeLessThan(
     int? value, {
     bool include = false,
@@ -1373,7 +1378,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> missionStatusCodeBetween(
     int? lower,
     int? upper, {
@@ -1391,7 +1396,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> startedDateIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1400,7 +1405,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> startedDateIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -1409,7 +1414,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> startedDateEqualTo(
     String? value, {
     bool caseSensitive = true,
@@ -1423,7 +1428,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> startedDateGreaterThan(
     String? value, {
     bool include = false,
@@ -1439,7 +1444,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> startedDateLessThan(
     String? value, {
     bool include = false,
@@ -1455,7 +1460,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> startedDateBetween(
     String? lower,
     String? upper, {
@@ -1475,7 +1480,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> startedDateStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -1489,7 +1494,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> startedDateEndsWith(
     String value, {
     bool caseSensitive = true,
@@ -1503,7 +1508,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
           QAfterFilterCondition>
       startedDateContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1515,7 +1520,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
           QAfterFilterCondition>
       startedDateMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1527,7 +1532,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> startedDateIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1537,7 +1542,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> startedDateIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -1547,7 +1552,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> submittedByIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1556,7 +1561,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> submittedByIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -1565,7 +1570,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> submittedByEqualTo(
     String? value, {
     bool caseSensitive = true,
@@ -1579,7 +1584,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> submittedByGreaterThan(
     String? value, {
     bool include = false,
@@ -1595,7 +1600,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> submittedByLessThan(
     String? value, {
     bool include = false,
@@ -1611,7 +1616,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> submittedByBetween(
     String? lower,
     String? upper, {
@@ -1631,7 +1636,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> submittedByStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -1645,7 +1650,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> submittedByEndsWith(
     String value, {
     bool caseSensitive = true,
@@ -1659,7 +1664,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
           QAfterFilterCondition>
       submittedByContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1671,7 +1676,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
           QAfterFilterCondition>
       submittedByMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1683,7 +1688,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> submittedByIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1693,7 +1698,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> submittedByIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -1703,7 +1708,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> submittedDateIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1712,7 +1717,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> submittedDateIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -1721,7 +1726,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> submittedDateEqualTo(
     String? value, {
     bool caseSensitive = true,
@@ -1735,7 +1740,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> submittedDateGreaterThan(
     String? value, {
     bool include = false,
@@ -1751,7 +1756,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> submittedDateLessThan(
     String? value, {
     bool include = false,
@@ -1767,7 +1772,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> submittedDateBetween(
     String? lower,
     String? upper, {
@@ -1787,7 +1792,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> submittedDateStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -1801,7 +1806,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> submittedDateEndsWith(
     String value, {
     bool caseSensitive = true,
@@ -1815,7 +1820,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
           QAfterFilterCondition>
       submittedDateContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1827,7 +1832,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
           QAfterFilterCondition>
       submittedDateMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1839,7 +1844,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> submittedDateIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1849,7 +1854,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> submittedDateIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -1859,7 +1864,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> validatorIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1868,7 +1873,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> validatorIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -1877,7 +1882,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> validatorIdEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1887,7 +1892,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> validatorIdGreaterThan(
     int? value, {
     bool include = false,
@@ -1901,7 +1906,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> validatorIdLessThan(
     int? value, {
     bool include = false,
@@ -1915,7 +1920,7 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> validatorIdBetween(
     int? lower,
     int? upper, {
@@ -1934,9 +1939,11 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
   }
 }
 
-extension GamificationResponseRemoteQueryObject on QueryBuilder<
-    GamificationResponseRemote, GamificationResponseRemote, QFilterCondition> {
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+extension GamificationMissionDetailRemoteQueryObject on QueryBuilder<
+    GamificationMissionDetailRemote,
+    GamificationMissionDetailRemote,
+    QFilterCondition> {
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterFilterCondition> chapterDataElement(FilterQuery<ChapterDatum> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'chapterData');
@@ -1944,159 +1951,161 @@ extension GamificationResponseRemoteQueryObject on QueryBuilder<
   }
 }
 
-extension GamificationResponseRemoteQueryLinks on QueryBuilder<
-    GamificationResponseRemote, GamificationResponseRemote, QFilterCondition> {}
+extension GamificationMissionDetailRemoteQueryLinks on QueryBuilder<
+    GamificationMissionDetailRemote,
+    GamificationMissionDetailRemote,
+    QFilterCondition> {}
 
-extension GamificationResponseRemoteQuerySortBy on QueryBuilder<
-    GamificationResponseRemote, GamificationResponseRemote, QSortBy> {
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+extension GamificationMissionDetailRemoteQuerySortBy on QueryBuilder<
+    GamificationMissionDetailRemote, GamificationMissionDetailRemote, QSortBy> {
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> sortByCompletedBy() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'completedBy', Sort.asc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> sortByCompletedByDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'completedBy', Sort.desc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> sortByCompletedDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'completedDate', Sort.asc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> sortByCompletedDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'completedDate', Sort.desc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> sortByDueDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'dueDate', Sort.asc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> sortByDueDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'dueDate', Sort.desc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> sortByEmployeeId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'employeeId', Sort.asc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> sortByEmployeeIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'employeeId', Sort.desc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> sortByMissionId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'missionId', Sort.asc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> sortByMissionIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'missionId', Sort.desc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> sortByMissionStatus() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'missionStatus', Sort.asc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> sortByMissionStatusDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'missionStatus', Sort.desc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> sortByMissionStatusCode() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'missionStatusCode', Sort.asc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> sortByMissionStatusCodeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'missionStatusCode', Sort.desc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> sortByStartedDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'startedDate', Sort.asc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> sortByStartedDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'startedDate', Sort.desc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> sortBySubmittedBy() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'submittedBy', Sort.asc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> sortBySubmittedByDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'submittedBy', Sort.desc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> sortBySubmittedDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'submittedDate', Sort.asc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> sortBySubmittedDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'submittedDate', Sort.desc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> sortByValidatorId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'validatorId', Sort.asc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> sortByValidatorIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'validatorId', Sort.desc);
@@ -2104,170 +2113,172 @@ extension GamificationResponseRemoteQuerySortBy on QueryBuilder<
   }
 }
 
-extension GamificationResponseRemoteQuerySortThenBy on QueryBuilder<
-    GamificationResponseRemote, GamificationResponseRemote, QSortThenBy> {
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+extension GamificationMissionDetailRemoteQuerySortThenBy on QueryBuilder<
+    GamificationMissionDetailRemote,
+    GamificationMissionDetailRemote,
+    QSortThenBy> {
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> thenByCompletedBy() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'completedBy', Sort.asc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> thenByCompletedByDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'completedBy', Sort.desc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> thenByCompletedDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'completedDate', Sort.asc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> thenByCompletedDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'completedDate', Sort.desc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> thenByDueDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'dueDate', Sort.asc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> thenByDueDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'dueDate', Sort.desc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> thenByEmployeeId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'employeeId', Sort.asc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> thenByEmployeeIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'employeeId', Sort.desc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> thenByEmployeeMissionId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'employeeMissionId', Sort.asc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> thenByEmployeeMissionIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'employeeMissionId', Sort.desc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> thenByMissionId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'missionId', Sort.asc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> thenByMissionIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'missionId', Sort.desc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> thenByMissionStatus() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'missionStatus', Sort.asc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> thenByMissionStatusDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'missionStatus', Sort.desc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> thenByMissionStatusCode() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'missionStatusCode', Sort.asc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> thenByMissionStatusCodeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'missionStatusCode', Sort.desc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> thenByStartedDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'startedDate', Sort.asc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> thenByStartedDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'startedDate', Sort.desc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> thenBySubmittedBy() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'submittedBy', Sort.asc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> thenBySubmittedByDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'submittedBy', Sort.desc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> thenBySubmittedDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'submittedDate', Sort.asc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> thenBySubmittedDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'submittedDate', Sort.desc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> thenByValidatorId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'validatorId', Sort.asc);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QAfterSortBy> thenByValidatorIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'validatorId', Sort.desc);
@@ -2275,16 +2286,18 @@ extension GamificationResponseRemoteQuerySortThenBy on QueryBuilder<
   }
 }
 
-extension GamificationResponseRemoteQueryWhereDistinct on QueryBuilder<
-    GamificationResponseRemote, GamificationResponseRemote, QDistinct> {
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+extension GamificationMissionDetailRemoteQueryWhereDistinct on QueryBuilder<
+    GamificationMissionDetailRemote,
+    GamificationMissionDetailRemote,
+    QDistinct> {
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QDistinct> distinctByCompletedBy({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'completedBy', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QDistinct> distinctByCompletedDate({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'completedDate',
@@ -2292,28 +2305,28 @@ extension GamificationResponseRemoteQueryWhereDistinct on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QDistinct> distinctByDueDate({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'dueDate', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QDistinct> distinctByEmployeeId() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'employeeId');
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QDistinct> distinctByMissionId() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'missionId');
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QDistinct> distinctByMissionStatus({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'missionStatus',
@@ -2321,28 +2334,28 @@ extension GamificationResponseRemoteQueryWhereDistinct on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QDistinct> distinctByMissionStatusCode() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'missionStatusCode');
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QDistinct> distinctByStartedDate({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'startedDate', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QDistinct> distinctBySubmittedBy({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'submittedBy', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QDistinct> distinctBySubmittedDate({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'submittedDate',
@@ -2350,7 +2363,7 @@ extension GamificationResponseRemoteQueryWhereDistinct on QueryBuilder<
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+  QueryBuilder<GamificationMissionDetailRemote, GamificationMissionDetailRemote,
       QDistinct> distinctByValidatorId() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'validatorId');
@@ -2358,93 +2371,95 @@ extension GamificationResponseRemoteQueryWhereDistinct on QueryBuilder<
   }
 }
 
-extension GamificationResponseRemoteQueryProperty on QueryBuilder<
-    GamificationResponseRemote, GamificationResponseRemote, QQueryProperty> {
-  QueryBuilder<GamificationResponseRemote, int, QQueryOperations>
+extension GamificationMissionDetailRemoteQueryProperty on QueryBuilder<
+    GamificationMissionDetailRemote,
+    GamificationMissionDetailRemote,
+    QQueryProperty> {
+  QueryBuilder<GamificationMissionDetailRemote, int, QQueryOperations>
       employeeMissionIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'employeeMissionId');
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, List<ChapterDatum>?,
+  QueryBuilder<GamificationMissionDetailRemote, List<ChapterDatum>?,
       QQueryOperations> chapterDataProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'chapterData');
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, String?, QQueryOperations>
+  QueryBuilder<GamificationMissionDetailRemote, String?, QQueryOperations>
       completedByProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'completedBy');
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, String?, QQueryOperations>
+  QueryBuilder<GamificationMissionDetailRemote, String?, QQueryOperations>
       completedDateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'completedDate');
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, String?, QQueryOperations>
+  QueryBuilder<GamificationMissionDetailRemote, String?, QQueryOperations>
       dueDateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'dueDate');
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, int?, QQueryOperations>
+  QueryBuilder<GamificationMissionDetailRemote, int?, QQueryOperations>
       employeeIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'employeeId');
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, int?, QQueryOperations>
+  QueryBuilder<GamificationMissionDetailRemote, int?, QQueryOperations>
       missionIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'missionId');
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, String?, QQueryOperations>
+  QueryBuilder<GamificationMissionDetailRemote, String?, QQueryOperations>
       missionStatusProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'missionStatus');
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, int?, QQueryOperations>
+  QueryBuilder<GamificationMissionDetailRemote, int?, QQueryOperations>
       missionStatusCodeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'missionStatusCode');
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, String?, QQueryOperations>
+  QueryBuilder<GamificationMissionDetailRemote, String?, QQueryOperations>
       startedDateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'startedDate');
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, String?, QQueryOperations>
+  QueryBuilder<GamificationMissionDetailRemote, String?, QQueryOperations>
       submittedByProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'submittedBy');
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, String?, QQueryOperations>
+  QueryBuilder<GamificationMissionDetailRemote, String?, QQueryOperations>
       submittedDateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'submittedDate');
     });
   }
 
-  QueryBuilder<GamificationResponseRemote, int?, QQueryOperations>
+  QueryBuilder<GamificationMissionDetailRemote, int?, QQueryOperations>
       validatorIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'validatorId');
@@ -3950,7 +3965,7 @@ const MissionDatumSchema = Schema(
     r'isMandatoryAttachment': PropertySchema(
       id: 1,
       name: r'isMandatoryAttachment',
-      type: IsarType.bool,
+      type: IsarType.long,
     ),
     r'missionActiveOnDay': PropertySchema(
       id: 2,
@@ -4070,7 +4085,7 @@ void _missionDatumSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeLong(offsets[0], object.chapterId);
-  writer.writeBool(offsets[1], object.isMandatoryAttachment);
+  writer.writeLong(offsets[1], object.isMandatoryAttachment);
   writer.writeLong(offsets[2], object.missionActiveOnDay);
   writer.writeString(offsets[3], object.missionCode);
   writer.writeLong(offsets[4], object.missionDuration);
@@ -4096,7 +4111,7 @@ MissionDatum _missionDatumDeserialize(
 ) {
   final object = MissionDatum(
     chapterId: reader.readLongOrNull(offsets[0]),
-    isMandatoryAttachment: reader.readBoolOrNull(offsets[1]),
+    isMandatoryAttachment: reader.readLongOrNull(offsets[1]),
     missionActiveOnDay: reader.readLongOrNull(offsets[2]),
     missionCode: reader.readStringOrNull(offsets[3]),
     missionDuration: reader.readLongOrNull(offsets[4]),
@@ -4126,7 +4141,7 @@ P _missionDatumDeserializeProp<P>(
     case 0:
       return (reader.readLongOrNull(offset)) as P;
     case 1:
-      return (reader.readBoolOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 2:
       return (reader.readLongOrNull(offset)) as P;
     case 3:
@@ -4252,11 +4267,57 @@ extension MissionDatumQueryFilter
   }
 
   QueryBuilder<MissionDatum, MissionDatum, QAfterFilterCondition>
-      isMandatoryAttachmentEqualTo(bool? value) {
+      isMandatoryAttachmentEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'isMandatoryAttachment',
         value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MissionDatum, MissionDatum, QAfterFilterCondition>
+      isMandatoryAttachmentGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'isMandatoryAttachment',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MissionDatum, MissionDatum, QAfterFilterCondition>
+      isMandatoryAttachmentLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'isMandatoryAttachment',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MissionDatum, MissionDatum, QAfterFilterCondition>
+      isMandatoryAttachmentBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'isMandatoryAttachment',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }
@@ -5462,99 +5523,84 @@ const TaskDatumSchema = Schema(
       name: r'answerAttachmentId',
       type: IsarType.long,
     ),
-    r'answerAttachmentName': PropertySchema(
-      id: 2,
-      name: r'answerAttachmentName',
-      type: IsarType.string,
-    ),
     r'answerAttachmentUrl': PropertySchema(
-      id: 3,
+      id: 2,
       name: r'answerAttachmentUrl',
       type: IsarType.string,
     ),
     r'answerData': PropertySchema(
-      id: 4,
+      id: 3,
       name: r'answerData',
       type: IsarType.objectList,
       target: r'AnswerDatum',
     ),
     r'answerReward': PropertySchema(
-      id: 5,
+      id: 4,
       name: r'answerReward',
       type: IsarType.long,
     ),
     r'attachmentId': PropertySchema(
-      id: 6,
+      id: 5,
       name: r'attachmentId',
       type: IsarType.long,
     ),
-    r'attachmentPath': PropertySchema(
-      id: 7,
-      name: r'attachmentPath',
-      type: IsarType.string,
-    ),
     r'attachmentUrl': PropertySchema(
-      id: 8,
+      id: 6,
       name: r'attachmentUrl',
       type: IsarType.string,
     ),
     r'feedbackComment': PropertySchema(
-      id: 9,
+      id: 7,
       name: r'feedbackComment',
       type: IsarType.string,
     ),
     r'missionId': PropertySchema(
-      id: 10,
+      id: 8,
       name: r'missionId',
       type: IsarType.long,
     ),
     r'qualitativeScoreId': PropertySchema(
-      id: 11,
+      id: 9,
       name: r'qualitativeScoreId',
       type: IsarType.long,
     ),
-    r'qualitativeScoreName': PropertySchema(
-      id: 12,
-      name: r'qualitativeScoreName',
-      type: IsarType.string,
-    ),
     r'taskAnswerId': PropertySchema(
-      id: 13,
+      id: 10,
       name: r'taskAnswerId',
       type: IsarType.long,
     ),
     r'taskCaption': PropertySchema(
-      id: 14,
+      id: 11,
       name: r'taskCaption',
       type: IsarType.string,
     ),
     r'taskCode': PropertySchema(
-      id: 15,
+      id: 12,
       name: r'taskCode',
       type: IsarType.string,
     ),
     r'taskGroup': PropertySchema(
-      id: 16,
+      id: 13,
       name: r'taskGroup',
       type: IsarType.string,
     ),
     r'taskId': PropertySchema(
-      id: 17,
+      id: 14,
       name: r'taskId',
       type: IsarType.long,
     ),
     r'taskReward': PropertySchema(
-      id: 18,
+      id: 15,
       name: r'taskReward',
       type: IsarType.long,
     ),
     r'taskTypeCode': PropertySchema(
-      id: 19,
+      id: 16,
       name: r'taskTypeCode',
       type: IsarType.string,
     ),
     r'taskTypeName': PropertySchema(
-      id: 20,
+      id: 17,
       name: r'taskTypeName',
       type: IsarType.string,
     )
@@ -5573,12 +5619,6 @@ int _taskDatumEstimateSize(
   var bytesCount = offsets.last;
   {
     final value = object.answer;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
-    final value = object.answerAttachmentName;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -5604,12 +5644,6 @@ int _taskDatumEstimateSize(
     }
   }
   {
-    final value = object.attachmentPath;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
     final value = object.attachmentUrl;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
@@ -5617,12 +5651,6 @@ int _taskDatumEstimateSize(
   }
   {
     final value = object.feedbackComment;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
-    final value = object.qualitativeScoreName;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -5668,30 +5696,27 @@ void _taskDatumSerialize(
 ) {
   writer.writeString(offsets[0], object.answer);
   writer.writeLong(offsets[1], object.answerAttachmentId);
-  writer.writeString(offsets[2], object.answerAttachmentName);
-  writer.writeString(offsets[3], object.answerAttachmentUrl);
+  writer.writeString(offsets[2], object.answerAttachmentUrl);
   writer.writeObjectList<AnswerDatum>(
-    offsets[4],
+    offsets[3],
     allOffsets,
     AnswerDatumSchema.serialize,
     object.answerData,
   );
-  writer.writeLong(offsets[5], object.answerReward);
-  writer.writeLong(offsets[6], object.attachmentId);
-  writer.writeString(offsets[7], object.attachmentPath);
-  writer.writeString(offsets[8], object.attachmentUrl);
-  writer.writeString(offsets[9], object.feedbackComment);
-  writer.writeLong(offsets[10], object.missionId);
-  writer.writeLong(offsets[11], object.qualitativeScoreId);
-  writer.writeString(offsets[12], object.qualitativeScoreName);
-  writer.writeLong(offsets[13], object.taskAnswerId);
-  writer.writeString(offsets[14], object.taskCaption);
-  writer.writeString(offsets[15], object.taskCode);
-  writer.writeString(offsets[16], object.taskGroup);
-  writer.writeLong(offsets[17], object.taskId);
-  writer.writeLong(offsets[18], object.taskReward);
-  writer.writeString(offsets[19], object.taskTypeCode);
-  writer.writeString(offsets[20], object.taskTypeName);
+  writer.writeLong(offsets[4], object.answerReward);
+  writer.writeLong(offsets[5], object.attachmentId);
+  writer.writeString(offsets[6], object.attachmentUrl);
+  writer.writeString(offsets[7], object.feedbackComment);
+  writer.writeLong(offsets[8], object.missionId);
+  writer.writeLong(offsets[9], object.qualitativeScoreId);
+  writer.writeLong(offsets[10], object.taskAnswerId);
+  writer.writeString(offsets[11], object.taskCaption);
+  writer.writeString(offsets[12], object.taskCode);
+  writer.writeString(offsets[13], object.taskGroup);
+  writer.writeLong(offsets[14], object.taskId);
+  writer.writeLong(offsets[15], object.taskReward);
+  writer.writeString(offsets[16], object.taskTypeCode);
+  writer.writeString(offsets[17], object.taskTypeName);
 }
 
 TaskDatum _taskDatumDeserialize(
@@ -5703,30 +5728,27 @@ TaskDatum _taskDatumDeserialize(
   final object = TaskDatum(
     answer: reader.readStringOrNull(offsets[0]),
     answerAttachmentId: reader.readLongOrNull(offsets[1]),
-    answerAttachmentName: reader.readStringOrNull(offsets[2]),
-    answerAttachmentUrl: reader.readStringOrNull(offsets[3]),
+    answerAttachmentUrl: reader.readStringOrNull(offsets[2]),
     answerData: reader.readObjectList<AnswerDatum>(
-      offsets[4],
+      offsets[3],
       AnswerDatumSchema.deserialize,
       allOffsets,
       AnswerDatum(),
     ),
-    answerReward: reader.readLongOrNull(offsets[5]),
-    attachmentId: reader.readLongOrNull(offsets[6]),
-    attachmentPath: reader.readStringOrNull(offsets[7]),
-    attachmentUrl: reader.readStringOrNull(offsets[8]),
-    feedbackComment: reader.readStringOrNull(offsets[9]),
-    missionId: reader.readLongOrNull(offsets[10]),
-    qualitativeScoreId: reader.readLongOrNull(offsets[11]),
-    qualitativeScoreName: reader.readStringOrNull(offsets[12]),
-    taskAnswerId: reader.readLongOrNull(offsets[13]),
-    taskCaption: reader.readStringOrNull(offsets[14]),
-    taskCode: reader.readStringOrNull(offsets[15]),
-    taskGroup: reader.readStringOrNull(offsets[16]),
-    taskId: reader.readLongOrNull(offsets[17]),
-    taskReward: reader.readLongOrNull(offsets[18]),
-    taskTypeCode: reader.readStringOrNull(offsets[19]),
-    taskTypeName: reader.readStringOrNull(offsets[20]),
+    answerReward: reader.readLongOrNull(offsets[4]),
+    attachmentId: reader.readLongOrNull(offsets[5]),
+    attachmentUrl: reader.readStringOrNull(offsets[6]),
+    feedbackComment: reader.readStringOrNull(offsets[7]),
+    missionId: reader.readLongOrNull(offsets[8]),
+    qualitativeScoreId: reader.readLongOrNull(offsets[9]),
+    taskAnswerId: reader.readLongOrNull(offsets[10]),
+    taskCaption: reader.readStringOrNull(offsets[11]),
+    taskCode: reader.readStringOrNull(offsets[12]),
+    taskGroup: reader.readStringOrNull(offsets[13]),
+    taskId: reader.readLongOrNull(offsets[14]),
+    taskReward: reader.readLongOrNull(offsets[15]),
+    taskTypeCode: reader.readStringOrNull(offsets[16]),
+    taskTypeName: reader.readStringOrNull(offsets[17]),
   );
   return object;
 }
@@ -5745,45 +5767,39 @@ P _taskDatumDeserializeProp<P>(
     case 2:
       return (reader.readStringOrNull(offset)) as P;
     case 3:
-      return (reader.readStringOrNull(offset)) as P;
-    case 4:
       return (reader.readObjectList<AnswerDatum>(
         offset,
         AnswerDatumSchema.deserialize,
         allOffsets,
         AnswerDatum(),
       )) as P;
+    case 4:
+      return (reader.readLongOrNull(offset)) as P;
     case 5:
       return (reader.readLongOrNull(offset)) as P;
     case 6:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 7:
       return (reader.readStringOrNull(offset)) as P;
     case 8:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 9:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 10:
       return (reader.readLongOrNull(offset)) as P;
     case 11:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 12:
       return (reader.readStringOrNull(offset)) as P;
     case 13:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 14:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 15:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 16:
       return (reader.readStringOrNull(offset)) as P;
     case 17:
-      return (reader.readLongOrNull(offset)) as P;
-    case 18:
-      return (reader.readLongOrNull(offset)) as P;
-    case 19:
-      return (reader.readStringOrNull(offset)) as P;
-    case 20:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -6008,160 +6024,6 @@ extension TaskDatumQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      answerAttachmentNameIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'answerAttachmentName',
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      answerAttachmentNameIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'answerAttachmentName',
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      answerAttachmentNameEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'answerAttachmentName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      answerAttachmentNameGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'answerAttachmentName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      answerAttachmentNameLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'answerAttachmentName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      answerAttachmentNameBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'answerAttachmentName',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      answerAttachmentNameStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'answerAttachmentName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      answerAttachmentNameEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'answerAttachmentName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      answerAttachmentNameContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'answerAttachmentName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      answerAttachmentNameMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'answerAttachmentName',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      answerAttachmentNameIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'answerAttachmentName',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      answerAttachmentNameIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'answerAttachmentName',
-        value: '',
       ));
     });
   }
@@ -6568,160 +6430,6 @@ extension TaskDatumQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      attachmentPathIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'attachmentPath',
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      attachmentPathIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'attachmentPath',
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      attachmentPathEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'attachmentPath',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      attachmentPathGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'attachmentPath',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      attachmentPathLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'attachmentPath',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      attachmentPathBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'attachmentPath',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      attachmentPathStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'attachmentPath',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      attachmentPathEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'attachmentPath',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      attachmentPathContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'attachmentPath',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      attachmentPathMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'attachmentPath',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      attachmentPathIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'attachmentPath',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      attachmentPathIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'attachmentPath',
-        value: '',
       ));
     });
   }
@@ -7175,160 +6883,6 @@ extension TaskDatumQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      qualitativeScoreNameIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'qualitativeScoreName',
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      qualitativeScoreNameIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'qualitativeScoreName',
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      qualitativeScoreNameEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'qualitativeScoreName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      qualitativeScoreNameGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'qualitativeScoreName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      qualitativeScoreNameLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'qualitativeScoreName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      qualitativeScoreNameBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'qualitativeScoreName',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      qualitativeScoreNameStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'qualitativeScoreName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      qualitativeScoreNameEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'qualitativeScoreName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      qualitativeScoreNameContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'qualitativeScoreName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      qualitativeScoreNameMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'qualitativeScoreName',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      qualitativeScoreNameIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'qualitativeScoreName',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<TaskDatum, TaskDatum, QAfterFilterCondition>
-      qualitativeScoreNameIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'qualitativeScoreName',
-        value: '',
       ));
     });
   }
@@ -8339,13 +7893,8 @@ const AnswerDatumSchema = Schema(
       name: r'answerId',
       type: IsarType.long,
     ),
-    r'isCorrectAnswer': PropertySchema(
-      id: 4,
-      name: r'isCorrectAnswer',
-      type: IsarType.bool,
-    ),
     r'taskId': PropertySchema(
-      id: 5,
+      id: 4,
       name: r'taskId',
       type: IsarType.long,
     )
@@ -8393,8 +7942,7 @@ void _answerDatumSerialize(
   writer.writeString(offsets[1], object.answerCode);
   writer.writeString(offsets[2], object.answerField);
   writer.writeLong(offsets[3], object.answerId);
-  writer.writeBool(offsets[4], object.isCorrectAnswer);
-  writer.writeLong(offsets[5], object.taskId);
+  writer.writeLong(offsets[4], object.taskId);
 }
 
 AnswerDatum _answerDatumDeserialize(
@@ -8408,8 +7956,7 @@ AnswerDatum _answerDatumDeserialize(
     answerCode: reader.readStringOrNull(offsets[1]),
     answerField: reader.readStringOrNull(offsets[2]),
     answerId: reader.readLongOrNull(offsets[3]),
-    isCorrectAnswer: reader.readBoolOrNull(offsets[4]),
-    taskId: reader.readLongOrNull(offsets[5]),
+    taskId: reader.readLongOrNull(offsets[4]),
   );
   return object;
 }
@@ -8430,8 +7977,6 @@ P _answerDatumDeserializeProp<P>(
     case 3:
       return (reader.readLongOrNull(offset)) as P;
     case 4:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 5:
       return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -8971,34 +8516,6 @@ extension AnswerDatumQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<AnswerDatum, AnswerDatum, QAfterFilterCondition>
-      isCorrectAnswerIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'isCorrectAnswer',
-      ));
-    });
-  }
-
-  QueryBuilder<AnswerDatum, AnswerDatum, QAfterFilterCondition>
-      isCorrectAnswerIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'isCorrectAnswer',
-      ));
-    });
-  }
-
-  QueryBuilder<AnswerDatum, AnswerDatum, QAfterFilterCondition>
-      isCorrectAnswerEqualTo(bool? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'isCorrectAnswer',
-        value: value,
       ));
     });
   }

@@ -575,7 +575,7 @@ class _PutAnswerFinalLocalProviderElement
 }
 
 String _$getAnswerFinalLocalHash() =>
-    r'dfc2553ae8d33ee8938edeef6c440099315bb1dc';
+    r'aa50d8b1ed41d69c9340235198adaaa70f436d7b';
 
 /// See also [getAnswerFinalLocal].
 @ProviderFor(getAnswerFinalLocal)
@@ -841,7 +841,7 @@ class _ChangeStatusTaskLocalProviderElement
       (origin as ChangeStatusTaskLocalProvider).task;
 }
 
-String _$submitMissionHash() => r'166002127e560bd89c949558a7d3ce19882548c5';
+String _$submitMissionHash() => r'bffda46003417a3882a0424a8d8ba3664c251667';
 
 /// See also [submitMission].
 @ProviderFor(submitMission)

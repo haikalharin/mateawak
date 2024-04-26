@@ -16,15 +16,16 @@ import '../../../shared_component/shared_component_etamkawa.dart';
 import '../../mission/domain/gamification_response.remote.dart';
 import '../../mission_past/presentation/controller/mission_past.controller.dart';
 
-class MissionDetailScreen extends ConsumerStatefulWidget {
-  const MissionDetailScreen({super.key});
+class MissionPastDetailScreen extends ConsumerStatefulWidget {
+  const MissionPastDetailScreen({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _MissionDetailScreenState();
+      _MissionPastDetailScreenState();
 }
 
-class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
+class _MissionPastDetailScreenState
+    extends ConsumerState<MissionPastDetailScreen> {
   final _scrollController = ScrollController();
   double progress = 0.0;
 
@@ -51,8 +52,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
-        final gamification = ref.watch(gamificationState.notifier).state;
-        final ctrlTask = ref.watch(taskControllerProvider.notifier);
+        final gamification = ref.watch(gamificationDetailState.notifier).state;
         final missionType = gamification
             .chapterData?.single.missionData?.single.missionTypeName;
         return AsyncValueWidget(
@@ -278,17 +278,6 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                           SizedBox(height: 10.h),
                                         ],
                                       ),
-                                      if (missionType != 'Assignment')
-                                        addVerticalDivider(),
-                                      if (missionType != 'Assignment')
-                                        addTaskIfQuizz(gamification
-                                                .chapterData
-                                                ?.single
-                                                .missionData
-                                                ?.single
-                                                .taskData
-                                                ?.length ??
-                                            0),
                                       addVerticalDivider(),
                                       Column(
                                         mainAxisAlignment:
@@ -296,16 +285,18 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           SizedBox(height: 10.h),
-                                          SvgPicture.asset(
-                                              ImageConstant.iconDuration,
+                                          Container(
                                               width: 16.sp,
                                               height: 20.sp,
-                                              package: Constant.moduleEtamkawa),
+                                              child: Icon(
+                                                Icons.calendar_month,
+                                                color: ColorTheme.danger500,
+                                              )),
                                           const SizedBox(
                                             height: 8,
                                           ),
                                           Text(
-                                            'Duration',
+                                            'Submitted at',
                                             style:
                                                 SharedComponent.textStyleCustom(
                                                     typographyType:
@@ -314,7 +305,11 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                                         ColorTheme.neutral600),
                                           ),
                                           Text(
-                                            '${CommonUtils.daysBetween(DateTime.now(), DateTime.parse(gamification.dueDate??'2021-01-30T00:00:00'))} days',
+                                            CommonUtils.formattedDate(
+                                                gamification.submittedDate ??
+                                                    '',
+                                                withDay: true,
+                                                withHourMinute: true),
                                             style:
                                                 SharedComponent.textStyleCustom(
                                                     typographyType:
@@ -395,7 +390,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                   width: double.infinity,
                                   child: ElevatedButton(
                                       onPressed: () {
-                                        context.goNamed(taskMissionEtamkawa,
+                                        context.goNamed(taskMissionPastEtamkawa,
                                             extra: {
                                               Constant.listTask: (gamification
                                                   .chapterData
@@ -405,7 +400,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                                   .taskData)
                                             });
                                       },
-                                      child: Text('Start',
+                                      child: Text('Answer Details',
                                           style:
                                               SharedComponent.textStyleCustom(
                                                   typographyType: TypographyType
