@@ -15,12 +15,14 @@ String answerRequestRemoteToJson(AnswerRequestRemote data) => json.encode(data.t
 @collection
 class AnswerRequestRemote {
   Id? employeeMissionId;
+  String? employeeName;
   String? submittedDate;
   int? status;
   List<TaskDatumAnswer>? taskData;
 
   AnswerRequestRemote({
     this.employeeMissionId,
+    this.employeeName,
     this.submittedDate,
     this.status,
     this.taskData,
@@ -28,12 +30,14 @@ class AnswerRequestRemote {
 
   AnswerRequestRemote copyWith({
     Id? employeeMissionId,
+    String? employeeName,
     String? submittedDate,
     int? status,
     List<TaskDatumAnswer>? taskData,
   }) =>
       AnswerRequestRemote(
         employeeMissionId: employeeMissionId ?? this.employeeMissionId,
+        employeeName: employeeName ?? this.employeeName,
         submittedDate: submittedDate ?? this.submittedDate,
         status: status ?? this.status,
         taskData: taskData ?? this.taskData,
@@ -41,6 +45,7 @@ class AnswerRequestRemote {
 
   factory AnswerRequestRemote.fromJson(Map<String, dynamic> json) => AnswerRequestRemote(
     employeeMissionId: json["employeeMissionId"],
+    employeeName: json["employeeName"],
     submittedDate: json["submittedDate"],
     status: json["status"],
     taskData: json["taskData"] == null ? [] : List<TaskDatumAnswer>.from(json["taskData"]!.map((x) => TaskDatumAnswer.fromJson(x))),
@@ -48,6 +53,7 @@ class AnswerRequestRemote {
 
   Map<String, dynamic> toJson() => {
     "employeeMissionId": employeeMissionId,
+    "employeeName": employeeName,
     "submittedDate": submittedDate,
     "status": status,
     "taskData": taskData == null ? [] : List<dynamic>.from(taskData!.map((x) => x.toJson())),
@@ -60,6 +66,7 @@ class TaskDatumAnswer {
   String? attachment;
   String? attachmentName;
   int? attachmentId;
+  String? taskGroup;
 
   TaskDatumAnswer({
     this.taskId,
@@ -67,6 +74,7 @@ class TaskDatumAnswer {
     this.attachment,
     this.attachmentName,
     this.attachmentId,
+    this.taskGroup,
   });
 
   TaskDatumAnswer copyWith({
@@ -75,6 +83,7 @@ class TaskDatumAnswer {
     String? attachment,
     String? attachmentName,
     int? attachmentId,
+    String? taskGroup
   }) =>
       TaskDatumAnswer(
         taskId: taskId ?? this.taskId,
@@ -82,17 +91,20 @@ class TaskDatumAnswer {
         attachmentName: attachmentName ?? this.attachmentName,
         attachment: attachment ?? this.attachment,
         attachmentId: attachmentId ?? this.attachmentId,
+        taskGroup: taskGroup ?? this.taskGroup,
       );
 
   factory TaskDatumAnswer.fromJson(Map<String, dynamic> json) => TaskDatumAnswer(
     taskId: json["taskId"],
     answer: json["answer"],
     attachmentId: json["attachmentId"],
+    taskGroup: json["taskGroup"],
   );
 
   Map<String, dynamic> toJson() => {
     "taskId": taskId,
     "answer": answer,
     "attachmentId": attachmentId,
+    "taskGroup": taskGroup,
   };
 }

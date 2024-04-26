@@ -194,7 +194,7 @@ class MissionDatum {
   String? missionTypeCode;
   String? missionTypeName;
   int? missionReward;
-  int? isMandatoryAttachment;
+  bool? isMandatoryAttachment;
   List<TaskDatum>? taskData;
 
   MissionDatum({
@@ -223,7 +223,7 @@ class MissionDatum {
     String? missionTypeCode,
     String? missionTypeName,
     int? missionReward,
-    int? isMandatoryAttachment,
+    bool? isMandatoryAttachment,
     List<TaskDatum>? taskData,
   }) =>
       MissionDatum(

@@ -18,18 +18,23 @@ const AnswerRequestRemoteSchema = CollectionSchema(
   name: r'AnswerRequestRemote',
   id: -3457472311048628609,
   properties: {
-    r'status': PropertySchema(
+    r'employeeName': PropertySchema(
       id: 0,
+      name: r'employeeName',
+      type: IsarType.string,
+    ),
+    r'status': PropertySchema(
+      id: 1,
       name: r'status',
       type: IsarType.long,
     ),
     r'submittedDate': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'submittedDate',
       type: IsarType.string,
     ),
     r'taskData': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'taskData',
       type: IsarType.objectList,
       target: r'TaskDatumAnswer',
@@ -55,6 +60,12 @@ int _answerRequestRemoteEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  {
+    final value = object.employeeName;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   {
     final value = object.submittedDate;
     if (value != null) {
@@ -84,10 +95,11 @@ void _answerRequestRemoteSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeLong(offsets[0], object.status);
-  writer.writeString(offsets[1], object.submittedDate);
+  writer.writeString(offsets[0], object.employeeName);
+  writer.writeLong(offsets[1], object.status);
+  writer.writeString(offsets[2], object.submittedDate);
   writer.writeObjectList<TaskDatumAnswer>(
-    offsets[2],
+    offsets[3],
     allOffsets,
     TaskDatumAnswerSchema.serialize,
     object.taskData,
@@ -102,10 +114,11 @@ AnswerRequestRemote _answerRequestRemoteDeserialize(
 ) {
   final object = AnswerRequestRemote(
     employeeMissionId: id,
-    status: reader.readLongOrNull(offsets[0]),
-    submittedDate: reader.readStringOrNull(offsets[1]),
+    employeeName: reader.readStringOrNull(offsets[0]),
+    status: reader.readLongOrNull(offsets[1]),
+    submittedDate: reader.readStringOrNull(offsets[2]),
     taskData: reader.readObjectList<TaskDatumAnswer>(
-      offsets[2],
+      offsets[3],
       TaskDatumAnswerSchema.deserialize,
       allOffsets,
       TaskDatumAnswer(),
@@ -122,10 +135,12 @@ P _answerRequestRemoteDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readLongOrNull(offset)) as P;
-    case 1:
       return (reader.readStringOrNull(offset)) as P;
+    case 1:
+      return (reader.readLongOrNull(offset)) as P;
     case 2:
+      return (reader.readStringOrNull(offset)) as P;
+    case 3:
       return (reader.readObjectList<TaskDatumAnswer>(
         offset,
         TaskDatumAnswerSchema.deserialize,
@@ -310,6 +325,160 @@ extension AnswerRequestRemoteQueryFilter on QueryBuilder<AnswerRequestRemote,
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterFilterCondition>
+      employeeNameIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'employeeName',
+      ));
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterFilterCondition>
+      employeeNameIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'employeeName',
+      ));
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterFilterCondition>
+      employeeNameEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'employeeName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterFilterCondition>
+      employeeNameGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'employeeName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterFilterCondition>
+      employeeNameLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'employeeName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterFilterCondition>
+      employeeNameBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'employeeName',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterFilterCondition>
+      employeeNameStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'employeeName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterFilterCondition>
+      employeeNameEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'employeeName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterFilterCondition>
+      employeeNameContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'employeeName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterFilterCondition>
+      employeeNameMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'employeeName',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterFilterCondition>
+      employeeNameIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'employeeName',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterFilterCondition>
+      employeeNameIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'employeeName',
+        value: '',
       ));
     });
   }
@@ -666,6 +835,20 @@ extension AnswerRequestRemoteQueryLinks on QueryBuilder<AnswerRequestRemote,
 extension AnswerRequestRemoteQuerySortBy
     on QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QSortBy> {
   QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterSortBy>
+      sortByEmployeeName() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'employeeName', Sort.asc);
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterSortBy>
+      sortByEmployeeNameDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'employeeName', Sort.desc);
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterSortBy>
       sortByStatus() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'status', Sort.asc);
@@ -711,6 +894,20 @@ extension AnswerRequestRemoteQuerySortThenBy
   }
 
   QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterSortBy>
+      thenByEmployeeName() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'employeeName', Sort.asc);
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterSortBy>
+      thenByEmployeeNameDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'employeeName', Sort.desc);
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QAfterSortBy>
       thenByStatus() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'status', Sort.asc);
@@ -742,6 +939,13 @@ extension AnswerRequestRemoteQuerySortThenBy
 extension AnswerRequestRemoteQueryWhereDistinct
     on QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QDistinct> {
   QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QDistinct>
+      distinctByEmployeeName({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'employeeName', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, AnswerRequestRemote, QDistinct>
       distinctByStatus() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'status');
@@ -763,6 +967,13 @@ extension AnswerRequestRemoteQueryProperty
       employeeMissionIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'employeeMissionId');
+    });
+  }
+
+  QueryBuilder<AnswerRequestRemote, String?, QQueryOperations>
+      employeeNameProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'employeeName');
     });
   }
 
@@ -818,8 +1029,13 @@ const TaskDatumAnswerSchema = Schema(
       name: r'attachmentName',
       type: IsarType.string,
     ),
-    r'taskId': PropertySchema(
+    r'taskGroup': PropertySchema(
       id: 4,
+      name: r'taskGroup',
+      type: IsarType.string,
+    ),
+    r'taskId': PropertySchema(
+      id: 5,
       name: r'taskId',
       type: IsarType.long,
     )
@@ -854,6 +1070,12 @@ int _taskDatumAnswerEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
+  {
+    final value = object.taskGroup;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -867,7 +1089,8 @@ void _taskDatumAnswerSerialize(
   writer.writeString(offsets[1], object.attachment);
   writer.writeLong(offsets[2], object.attachmentId);
   writer.writeString(offsets[3], object.attachmentName);
-  writer.writeLong(offsets[4], object.taskId);
+  writer.writeString(offsets[4], object.taskGroup);
+  writer.writeLong(offsets[5], object.taskId);
 }
 
 TaskDatumAnswer _taskDatumAnswerDeserialize(
@@ -881,7 +1104,8 @@ TaskDatumAnswer _taskDatumAnswerDeserialize(
     attachment: reader.readStringOrNull(offsets[1]),
     attachmentId: reader.readLongOrNull(offsets[2]),
     attachmentName: reader.readStringOrNull(offsets[3]),
-    taskId: reader.readLongOrNull(offsets[4]),
+    taskGroup: reader.readStringOrNull(offsets[4]),
+    taskId: reader.readLongOrNull(offsets[5]),
   );
   return object;
 }
@@ -902,6 +1126,8 @@ P _taskDatumAnswerDeserializeProp<P>(
     case 3:
       return (reader.readStringOrNull(offset)) as P;
     case 4:
+      return (reader.readStringOrNull(offset)) as P;
+    case 5:
       return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1441,6 +1667,160 @@ extension TaskDatumAnswerQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'attachmentName',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      taskGroupIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'taskGroup',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      taskGroupIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'taskGroup',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      taskGroupEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'taskGroup',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      taskGroupGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'taskGroup',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      taskGroupLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'taskGroup',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      taskGroupBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'taskGroup',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      taskGroupStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'taskGroup',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      taskGroupEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'taskGroup',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      taskGroupContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'taskGroup',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      taskGroupMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'taskGroup',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      taskGroupIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'taskGroup',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      taskGroupIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'taskGroup',
         value: '',
       ));
     });

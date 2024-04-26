@@ -18,6 +18,7 @@ String validationResponseRemoteToJson(ValidationResponseRemote data) =>
 class ValidationResponseRemote {
     Id? employeeMissionId;
     int? employeeId;
+    String? employeeName;
     int? missionId;
     int? missionStatusCode;
     String? missionStatus;
@@ -33,6 +34,7 @@ class ValidationResponseRemote {
     ValidationResponseRemote({
         this.employeeMissionId,
         this.employeeId,
+        this.employeeName,
         this.missionId,
         this.missionStatusCode,
         this.missionStatus,
@@ -49,6 +51,7 @@ class ValidationResponseRemote {
     ValidationResponseRemote copyWith({
         int? employeeMissionId,
         int? employeeId,
+        String? employeeName,
         int? missionId,
         int? missionStatusCode,
         String? missionStatus,
@@ -64,6 +67,7 @@ class ValidationResponseRemote {
         ValidationResponseRemote(
             employeeMissionId: employeeMissionId ?? this.employeeMissionId,
             employeeId: employeeId ?? this.employeeId,
+            employeeName: employeeName ?? this.employeeName,
             missionId: missionId ?? this.missionId,
             missionStatusCode: missionStatusCode ?? this.missionStatusCode,
             missionStatus: missionStatus ?? this.missionStatus,
@@ -82,6 +86,7 @@ class ValidationResponseRemote {
       ValidationResponseRemote(
         employeeMissionId: json["employeeMissionId"],
         employeeId: json["employeeId"],
+        employeeName: json["employeeName"],
         missionId: json["missionId"],
         missionStatusCode: json["missionStatusCode"],
         missionStatus: json["missionStatus"],
@@ -101,6 +106,7 @@ class ValidationResponseRemote {
   Map<String, dynamic> toJson() => {
         "employeeMissionId": employeeMissionId,
         "employeeId": employeeId,
+        "employeeName": employeeName,
         "missionId": missionId,
         "missionStatusCode": missionStatusCode,
         "missionStatus": missionStatus,
@@ -206,7 +212,7 @@ class MissionValidationDatum {
     String? missionTypeCode;
     String? missionTypeName;
     int? missionReward;
-    int? isMandatoryAttachment;
+    bool? isMandatoryAttachment;
     List<TaskValidationDatum>? taskData;
 
     MissionValidationDatum({
@@ -235,7 +241,7 @@ class MissionValidationDatum {
         String? missionTypeCode,
         String? missionTypeName,
         int? missionReward,
-        int? isMandatoryAttachment,
+        bool? isMandatoryAttachment,
         List<TaskValidationDatum>? taskData,
     }) => 
         MissionValidationDatum(

@@ -214,7 +214,7 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                                       BorderRadius.all(Radius.circular(100.r))),
                               child: Center(
                                   child: Text(
-                                (validation[index].submittedBy ?? '')[0]
+                                (validation[index].employeeName ?? 'Name')[0]
                                     .toUpperCase(),
                               )),
                             ),

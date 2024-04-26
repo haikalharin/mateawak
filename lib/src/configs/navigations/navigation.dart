@@ -5,7 +5,6 @@ import 'package:module_etamkawa/src/configs/navigations/routes.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
 import 'package:module_etamkawa/src/features/mission_detail/presentation/mission.detail.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/task.screen.dart';
-import 'package:module_etamkawa/src/features/task/presentation/task_assignment.screen.dart';
 import 'package:module_etamkawa/src/features/validation_detail/presentation/validation.detail.screen.dart';
 import 'package:module_shared/module_shared.dart';
 
@@ -46,15 +45,6 @@ GoRouter goRouter(GoRouterRef ref) {
                       return SharedComponent.banner(
                           dotenv.env[EnvConstant.environment]!,
                           const ConnectionListenerWidget(child: TaskScreen()));
-                    }),
-                GoRoute(
-                    path: taskAssignmentMissionEtamkawa,
-                    name: taskAssignmentMissionEtamkawa,
-                    builder: (BuildContext context, GoRouterState state) {
-                      return SharedComponent.banner(
-                          dotenv.env[EnvConstant.environment]!,
-                          const ConnectionListenerWidget(
-                              child: TaskAssignmentScreen()));
                     }),
               ]),
           GoRoute(

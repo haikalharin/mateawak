@@ -44,38 +44,43 @@ const ValidationResponseRemoteSchema = CollectionSchema(
       name: r'employeeId',
       type: IsarType.long,
     ),
-    r'missionId': PropertySchema(
+    r'employeeName': PropertySchema(
       id: 5,
+      name: r'employeeName',
+      type: IsarType.string,
+    ),
+    r'missionId': PropertySchema(
+      id: 6,
       name: r'missionId',
       type: IsarType.long,
     ),
     r'missionStatus': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'missionStatus',
       type: IsarType.string,
     ),
     r'missionStatusCode': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'missionStatusCode',
       type: IsarType.long,
     ),
     r'startedDate': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'startedDate',
       type: IsarType.string,
     ),
     r'submittedBy': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'submittedBy',
       type: IsarType.string,
     ),
     r'submittedDate': PropertySchema(
-      id: 10,
+      id: 11,
       name: r'submittedDate',
       type: IsarType.string,
     ),
     r'validatorId': PropertySchema(
-      id: 11,
+      id: 12,
       name: r'validatorId',
       type: IsarType.long,
     )
@@ -137,6 +142,12 @@ int _validationResponseRemoteEstimateSize(
     }
   }
   {
+    final value = object.employeeName;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
     final value = object.missionStatus;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
@@ -179,13 +190,14 @@ void _validationResponseRemoteSerialize(
   writer.writeString(offsets[2], object.completedDate);
   writer.writeString(offsets[3], object.dueDate);
   writer.writeLong(offsets[4], object.employeeId);
-  writer.writeLong(offsets[5], object.missionId);
-  writer.writeString(offsets[6], object.missionStatus);
-  writer.writeLong(offsets[7], object.missionStatusCode);
-  writer.writeString(offsets[8], object.startedDate);
-  writer.writeString(offsets[9], object.submittedBy);
-  writer.writeString(offsets[10], object.submittedDate);
-  writer.writeLong(offsets[11], object.validatorId);
+  writer.writeString(offsets[5], object.employeeName);
+  writer.writeLong(offsets[6], object.missionId);
+  writer.writeString(offsets[7], object.missionStatus);
+  writer.writeLong(offsets[8], object.missionStatusCode);
+  writer.writeString(offsets[9], object.startedDate);
+  writer.writeString(offsets[10], object.submittedBy);
+  writer.writeString(offsets[11], object.submittedDate);
+  writer.writeLong(offsets[12], object.validatorId);
 }
 
 ValidationResponseRemote _validationResponseRemoteDeserialize(
@@ -206,13 +218,14 @@ ValidationResponseRemote _validationResponseRemoteDeserialize(
     dueDate: reader.readStringOrNull(offsets[3]),
     employeeId: reader.readLongOrNull(offsets[4]),
     employeeMissionId: id,
-    missionId: reader.readLongOrNull(offsets[5]),
-    missionStatus: reader.readStringOrNull(offsets[6]),
-    missionStatusCode: reader.readLongOrNull(offsets[7]),
-    startedDate: reader.readStringOrNull(offsets[8]),
-    submittedBy: reader.readStringOrNull(offsets[9]),
-    submittedDate: reader.readStringOrNull(offsets[10]),
-    validatorId: reader.readLongOrNull(offsets[11]),
+    employeeName: reader.readStringOrNull(offsets[5]),
+    missionId: reader.readLongOrNull(offsets[6]),
+    missionStatus: reader.readStringOrNull(offsets[7]),
+    missionStatusCode: reader.readLongOrNull(offsets[8]),
+    startedDate: reader.readStringOrNull(offsets[9]),
+    submittedBy: reader.readStringOrNull(offsets[10]),
+    submittedDate: reader.readStringOrNull(offsets[11]),
+    validatorId: reader.readLongOrNull(offsets[12]),
   );
   return object;
 }
@@ -240,18 +253,20 @@ P _validationResponseRemoteDeserializeProp<P>(
     case 4:
       return (reader.readLongOrNull(offset)) as P;
     case 5:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 6:
-      return (reader.readStringOrNull(offset)) as P;
-    case 7:
       return (reader.readLongOrNull(offset)) as P;
-    case 8:
+    case 7:
       return (reader.readStringOrNull(offset)) as P;
+    case 8:
+      return (reader.readLongOrNull(offset)) as P;
     case 9:
       return (reader.readStringOrNull(offset)) as P;
     case 10:
       return (reader.readStringOrNull(offset)) as P;
     case 11:
+      return (reader.readStringOrNull(offset)) as P;
+    case 12:
       return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1082,6 +1097,162 @@ extension ValidationResponseRemoteQueryFilter on QueryBuilder<
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<ValidationResponseRemote, ValidationResponseRemote,
+      QAfterFilterCondition> employeeNameIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'employeeName',
+      ));
+    });
+  }
+
+  QueryBuilder<ValidationResponseRemote, ValidationResponseRemote,
+      QAfterFilterCondition> employeeNameIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'employeeName',
+      ));
+    });
+  }
+
+  QueryBuilder<ValidationResponseRemote, ValidationResponseRemote,
+      QAfterFilterCondition> employeeNameEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'employeeName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ValidationResponseRemote, ValidationResponseRemote,
+      QAfterFilterCondition> employeeNameGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'employeeName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ValidationResponseRemote, ValidationResponseRemote,
+      QAfterFilterCondition> employeeNameLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'employeeName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ValidationResponseRemote, ValidationResponseRemote,
+      QAfterFilterCondition> employeeNameBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'employeeName',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ValidationResponseRemote, ValidationResponseRemote,
+      QAfterFilterCondition> employeeNameStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'employeeName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ValidationResponseRemote, ValidationResponseRemote,
+      QAfterFilterCondition> employeeNameEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'employeeName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ValidationResponseRemote, ValidationResponseRemote,
+          QAfterFilterCondition>
+      employeeNameContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'employeeName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ValidationResponseRemote, ValidationResponseRemote,
+          QAfterFilterCondition>
+      employeeNameMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'employeeName',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ValidationResponseRemote, ValidationResponseRemote,
+      QAfterFilterCondition> employeeNameIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'employeeName',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ValidationResponseRemote, ValidationResponseRemote,
+      QAfterFilterCondition> employeeNameIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'employeeName',
+        value: '',
       ));
     });
   }
@@ -2006,6 +2177,20 @@ extension ValidationResponseRemoteQuerySortBy on QueryBuilder<
   }
 
   QueryBuilder<ValidationResponseRemote, ValidationResponseRemote, QAfterSortBy>
+      sortByEmployeeName() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'employeeName', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ValidationResponseRemote, ValidationResponseRemote, QAfterSortBy>
+      sortByEmployeeNameDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'employeeName', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ValidationResponseRemote, ValidationResponseRemote, QAfterSortBy>
       sortByMissionId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'missionId', Sort.asc);
@@ -2177,6 +2362,20 @@ extension ValidationResponseRemoteQuerySortThenBy on QueryBuilder<
   }
 
   QueryBuilder<ValidationResponseRemote, ValidationResponseRemote, QAfterSortBy>
+      thenByEmployeeName() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'employeeName', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ValidationResponseRemote, ValidationResponseRemote, QAfterSortBy>
+      thenByEmployeeNameDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'employeeName', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ValidationResponseRemote, ValidationResponseRemote, QAfterSortBy>
       thenByMissionId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'missionId', Sort.asc);
@@ -2307,6 +2506,13 @@ extension ValidationResponseRemoteQueryWhereDistinct on QueryBuilder<
   }
 
   QueryBuilder<ValidationResponseRemote, ValidationResponseRemote, QDistinct>
+      distinctByEmployeeName({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'employeeName', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<ValidationResponseRemote, ValidationResponseRemote, QDistinct>
       distinctByMissionId() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'missionId');
@@ -2399,6 +2605,13 @@ extension ValidationResponseRemoteQueryProperty on QueryBuilder<
       employeeIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'employeeId');
+    });
+  }
+
+  QueryBuilder<ValidationResponseRemote, String?, QQueryOperations>
+      employeeNameProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'employeeName');
     });
   }
 
@@ -3965,7 +4178,7 @@ const MissionValidationDatumSchema = Schema(
     r'isMandatoryAttachment': PropertySchema(
       id: 1,
       name: r'isMandatoryAttachment',
-      type: IsarType.long,
+      type: IsarType.bool,
     ),
     r'missionActiveOnDay': PropertySchema(
       id: 2,
@@ -4085,7 +4298,7 @@ void _missionValidationDatumSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeLong(offsets[0], object.chapterId);
-  writer.writeLong(offsets[1], object.isMandatoryAttachment);
+  writer.writeBool(offsets[1], object.isMandatoryAttachment);
   writer.writeLong(offsets[2], object.missionActiveOnDay);
   writer.writeString(offsets[3], object.missionCode);
   writer.writeLong(offsets[4], object.missionDuration);
@@ -4111,7 +4324,7 @@ MissionValidationDatum _missionValidationDatumDeserialize(
 ) {
   final object = MissionValidationDatum(
     chapterId: reader.readLongOrNull(offsets[0]),
-    isMandatoryAttachment: reader.readLongOrNull(offsets[1]),
+    isMandatoryAttachment: reader.readBoolOrNull(offsets[1]),
     missionActiveOnDay: reader.readLongOrNull(offsets[2]),
     missionCode: reader.readStringOrNull(offsets[3]),
     missionDuration: reader.readLongOrNull(offsets[4]),
@@ -4141,7 +4354,7 @@ P _missionValidationDatumDeserializeProp<P>(
     case 0:
       return (reader.readLongOrNull(offset)) as P;
     case 1:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 2:
       return (reader.readLongOrNull(offset)) as P;
     case 3:
@@ -4267,57 +4480,11 @@ extension MissionValidationDatumQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<MissionValidationDatum, MissionValidationDatum,
-      QAfterFilterCondition> isMandatoryAttachmentEqualTo(int? value) {
+      QAfterFilterCondition> isMandatoryAttachmentEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'isMandatoryAttachment',
         value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<MissionValidationDatum, MissionValidationDatum,
-      QAfterFilterCondition> isMandatoryAttachmentGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'isMandatoryAttachment',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<MissionValidationDatum, MissionValidationDatum,
-      QAfterFilterCondition> isMandatoryAttachmentLessThan(
-    int? value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'isMandatoryAttachment',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<MissionValidationDatum, MissionValidationDatum,
-      QAfterFilterCondition> isMandatoryAttachmentBetween(
-    int? lower,
-    int? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'isMandatoryAttachment',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
       ));
     });
   }

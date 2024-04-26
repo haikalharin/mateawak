@@ -143,15 +143,18 @@ class TaskController extends _$TaskController {
     final gamification = ref.watch(gamificationState.notifier).state;
     await AsyncValue.guard(() => repo).then((dataAnswer) async {
       for (var element in dataAnswer.value ?? []) {
+        debugPrint(element.toString());
         listData.add(TaskDatumAnswer(
             taskId: element.taskId,
             answer: element.answer,
             attachmentName: element.attachmentName,
-            attachment: element.attachment));
+            attachment: element.attachment,
+            taskGroup: element.taskGroup));
       }
 
       var taskAnswer = AnswerRequestRemote(
           employeeMissionId: gamification.employeeMissionId,
+          employeeName: userModel?.empName,
           submittedDate: today.substring(0, today.length - 6),
           status: gamification.missionStatusCode,
           taskData: listData);
@@ -160,8 +163,8 @@ class TaskController extends _$TaskController {
         if (isSubmitted) {
           var status = 99;
           if (gamification
-                  .chapterData?.single.missionData?.single.missionTypeName ==
-              'Assignment') {
+                  .chapterData?.single.missionData?.single.missionTypeCode?.toLowerCase() ==
+              'assignment') {
             status = 3;
           }
           var resultSubmission = await ref.watch(submitMissionProvider(
