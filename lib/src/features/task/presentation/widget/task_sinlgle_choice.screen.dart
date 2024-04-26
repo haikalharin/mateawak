@@ -194,7 +194,7 @@ class _TaskSingleChoiceScreenState
                                       if ((gamificationData.missionStatusCode ??
                                               0) <=
                                           1) {
-                                        setState(() {
+                                        setState(() async {
                                           if (value != null) {
                                             if (listSelectedOption
                                                 .state.isNotEmpty) {
@@ -210,6 +210,25 @@ class _TaskSingleChoiceScreenState
                                                 .state = [
                                               listAnswer?[index].answerId ?? 0
                                             ];
+                                            await ctrl
+                                                .saveAnswer(
+                                                listTask[currentQuestionIndex
+                                                    .state]
+                                                    .taskId ??
+                                                    0,
+                                                isLast: false,
+                                                listSelectedOption:
+                                                [
+                                                  listAnswer?[index].answerId ?? 0
+                                                ],
+                                                type: listTask[
+                                                currentQuestionIndex
+                                                    .state]
+                                                    .taskTypeCode ??
+                                                    '')
+                                                .whenComplete(() async {
+                                              await ctrl
+                                                  .putAnswerFinal();});
                                           }
                                         });
                                       }

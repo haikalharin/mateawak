@@ -13,6 +13,7 @@ import 'package:module_shared/module_shared.dart';
 
 import '../../../../constants/function_utils.dart';
 import '../../../main_nav/presentation/controller/main_nav.controller.dart';
+import '../../../mission/domain/gamification_response.remote.dart';
 import '../../../mission_past/presentation/controller/mission_past.controller.dart';
 import '../controller/task.controller.dart';
 
@@ -251,20 +252,38 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                   onTap: () async {
                                                     await File(attachment.state)
                                                         .delete()
-                                                        .whenComplete(() {
-                                                      setState(() {
-                                                        ref
-                                                            .read(
-                                                                attachmentNameState
-                                                                    .notifier)
-                                                            .state = '';
-                                                        ref
-                                                            .read(
-                                                                attachmentPathState
-                                                                    .notifier)
-                                                            .state = '';
+                                                        .whenComplete(() async {
+                                                        await ctrl
+                                                            .saveAnswer(
+                                                            listTask[currentQuestionIndex.state]
+                                                                .taskId ??
+                                                                0,
+                                                            isLast: false,
+                                                            attachment:  '',
+                                                            attachmentName:'',
+                                                            listSelectedOption:
+                                                            [_textController.text],
+                                                            type: listTask[
+                                                            currentQuestionIndex.state]
+                                                                .taskTypeCode ??
+                                                                '')
+                                                            .whenComplete(() async {
+                                                          await ctrl
+                                                              .putAnswerFinal();
+                                                        }).whenComplete(() {
+                                                          ref
+                                                              .read(
+                                                              attachmentNameState
+                                                                  .notifier)
+                                                              .state = '';
+                                                          ref
+                                                              .read(
+                                                              attachmentPathState
+                                                                  .notifier)
+                                                              .state = '';
+                                                        });
+
                                                       });
-                                                    });
                                                   },
                                                   child: Icon(
                                                     Icons.cancel,
@@ -282,7 +301,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                   ))
                                 : InkWell(
                                     onTap: () {
-                                      pickDocFile();
+                                      pickDocFile(ctrl: ctrl, listTask: listTask, currentQuestionIndex: currentQuestionIndex.state);
                                     },
                                     child: DottedBorder(
                                       color: ColorTheme.primary500,
@@ -393,6 +412,30 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                   border: const OutlineInputBorder(),
                                 ),
                                 maxLines: 10,
+                                onEditingComplete: () async {
+                                  await ctrl
+                                      .saveAnswer(
+                                      listTask[currentQuestionIndex
+                                          .state]
+                                          .taskId ??
+                                          0,
+                                      isLast: false,
+                                      listSelectedOption:
+                                      [_textController.text],
+                                      type: listTask[
+                                      currentQuestionIndex
+                                          .state]
+                                          .taskTypeCode ??
+                                          '')
+                                      .whenComplete(() async {
+                                    await ctrl
+                                        .putAnswerFinal();
+                                  }).whenComplete(() {
+                                    FocusScope.of(context).unfocus();
+                                   var focusNode = FocusNode();
+                                    focusNode.dispose();
+                                  });
+                                },
                                 onChanged: (value) {
                                   setState(() {
                                     if (value.isEmpty) {
@@ -724,7 +767,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
   }
 
 
-  Future<void> pickDocFile() async {
+  Future<void> pickDocFile({required TaskController ctrl,required List<TaskDatum> listTask,required int currentQuestionIndex}) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['doc', 'jpg', 'jpeg', 'png', 'gif', 'pdf'],
@@ -733,14 +776,29 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
     if (result != null) {
       var fileDuplicate =
       await asyncMethodUploadFile(file: result.files.single);
-      setState(() {
-        ref
-            .read(attachmentNameState.notifier)
-            .state = fileDuplicate.name;
-        ref
-            .read(attachmentPathState.notifier)
-            .state = fileDuplicate.path ?? '';
-      });
+        await ctrl
+            .saveAnswer(
+            listTask[currentQuestionIndex]
+                .taskId ??
+                0,
+            isLast: false,
+            attachment: fileDuplicate.path ?? '',
+            attachmentName:
+            fileDuplicate.name,
+            listSelectedOption:
+            [_textController.text],
+            type: listTask[
+            currentQuestionIndex]
+                .taskTypeCode ??
+                '')
+            .whenComplete(() async {
+          await ctrl
+              .putAnswerFinal();
+        }).whenComplete(() {
+          ref.read(attachmentNameState.notifier).state = fileDuplicate.name;
+          ref.read(attachmentPathState.notifier).state = fileDuplicate.path ?? '';
+
+        });
       debugPrint("${fileDuplicate.name} ${fileDuplicate.path}");
     } else {
       // User canceled the picker

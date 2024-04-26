@@ -147,6 +147,25 @@ class TaskController extends _$TaskController {
     var repo = ref.watch(getAnswerLocalProvider.future);
     final gamification = ref.watch(gamificationState.notifier).state;
     await AsyncValue.guard(() => repo).then((dataAnswer) async {
+     // if((dataAnswer.value??[]).isEmpty){
+     //   final listTask =  (gamification
+     //       .chapterData
+     //       ?.single
+     //       .missionData
+     //       ?.single
+     //       .taskData ??
+     //       []);
+     //   await saveAnswer(
+     //       listTask[0]
+     //           .taskId ??
+     //           0,
+     //       isLast: true,
+     //       listSelectedOption:
+     //       listSelectedOption.state,
+     //       type: listTask[0]
+     //           .taskTypeCode ??
+     //           '');
+     // }
       for (var element in dataAnswer.value ?? []) {
         debugPrint(element.toString());
         listData.add(TaskDatumAnswer(

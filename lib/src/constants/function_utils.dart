@@ -55,14 +55,16 @@ Future<PlatformFile> asyncMethodUploadFile( {required PlatformFile file}) async 
   var filePath = "${documentDirectory.path}/file-$dateTimeStringFile";
   var  fileName = "file-$dateTimeStringImage-${file.name}";
   var  filePathAndName =
-        '${documentDirectory.path}/file-$dateTimeStringFile/$fileName';
+        '$filePath/$fileName';
 
   await Directory(filePath).create(recursive: true); // <-- 1
-  PlatformFile file2 = PlatformFile(
+  PlatformFile file3 = PlatformFile(
     path: filePathAndName,
     name:fileName,
     size: file.size ?? 0,
     bytes: file.bytes
   ); // <-- 2
-  return file2;
+  File file2 = File(filePathAndName); // <-- 2
+  file2.writeAsBytesSync(file.bytes??[]); // <-
+  return file3;
 }

@@ -192,7 +192,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                         .state
                                         .contains(
                                             listAnswer?[index].answerId ?? 0),
-                                    onChanged: (bool? value) {
+                                    onChanged: (bool? value) async {
                                       if ((gamificationData.missionStatusCode ??
                                               0) <=
                                           1) {
@@ -211,6 +211,26 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                   .notifier)
                                               .state = listData;
                                         });
+
+                                        await ctrl
+                                            .saveAnswer(
+                                            listTask[currentQuestionIndex
+                                                .state]
+                                                .taskId ??
+                                                0,
+                                            isLast: false,
+                                            listSelectedOption:
+                                            [
+                                              listAnswer?[index].answerId ?? 0
+                                            ],
+                                            type: listTask[
+                                            currentQuestionIndex
+                                                .state]
+                                                .taskTypeCode ??
+                                                '')
+                                            .whenComplete(() async {
+                                          await ctrl
+                                              .putAnswerFinal();});
                                       }
                                     },
                                   ),
