@@ -168,16 +168,15 @@ class TaskController extends _$TaskController {
         if (isSubmitted) {
           var status = 99;
           if (gamification
-                  .chapterData?.single.missionData?.single.missionTypeCode?.toLowerCase() ==
+                  .chapterData?.single.missionData?.single.missionTypeCode
+                  ?.toLowerCase() ==
               'assignment') {
             status = 3;
           }
-          var resultSubmission = await ref.watch(submitMissionProvider(
-                  answerRequestRemote: taskAnswer, status: status)
-              .future);
-          if (resultSubmission != null) {
-            ref.watch(resultSubmissionState.notifier).state = resultSubmission;
-          }
+          ref.watch(resultSubmissionState.notifier).state = await ref.watch(
+              submitMissionProvider(
+                      answerRequestRemote: taskAnswer, status: status)
+                  .future);
         } else {
           await ref.watch(
               putAnswerFinalLocalProvider(answerRequestRemote: taskAnswer)
@@ -256,67 +255,67 @@ class TaskController extends _$TaskController {
     if (kDebugMode) {
       print('#######Haloo');
     }
-    if(listData != null){
+    if (listData != null) {
       listTaskAnswer = listData;
-    }else{
-    state = await AsyncValue.guard(() => currentAnswer).then((value) async {
-      if (value.value != null && value.value != []) {
-        listTaskAnswer = value.value ?? [];
-      }
-      return value;
-    });
+    } else {
+      state = await AsyncValue.guard(() => currentAnswer).then((value) async {
+        if (value.value != null && value.value != []) {
+          listTaskAnswer = value.value ?? [];
+        }
+        return value;
+      });
     }
 
-      if (listTaskAnswer.isNotEmpty) {
-        for (var element in listTaskAnswer) {
-          dataCek.add(TaskDatumAnswerRequestRemote(
-              taskId: element.taskId,
-              answer: element.answer,
-              attachmentName: element.attachmentName,
-              attachment: element.attachment));
-        }
+    if (listTaskAnswer.isNotEmpty) {
+      for (var element in listTaskAnswer) {
+        dataCek.add(TaskDatumAnswerRequestRemote(
+            taskId: element.taskId,
+            answer: element.answer,
+            attachmentName: element.attachmentName,
+            attachment: element.attachment));
       }
-      index = await ref.watch(currentIndexState);
-      currentTypeTask = !isLast
-          ? ref.watch(listTaskState)[index + page].taskTypeCode ?? ''
-          : '';
-      currentTaskId =
-          !isLast ? ref.watch(listTaskState)[index + page].taskId ?? 0 : 0;
-      for (var element in dataCek) {
-        await putTaskAnswer(element);
-        if (element.taskId == currentTaskId) {
-          // await deleteAnswer(dataCek);
-          answer = element.answer ?? '';
-          attachment = element.attachment ?? '';
-          attachmentName = element.attachmentName ?? '';
-        }
+    }
+    index = await ref.watch(currentIndexState);
+    currentTypeTask = !isLast
+        ? ref.watch(listTaskState)[index + page].taskTypeCode ?? ''
+        : '';
+    currentTaskId =
+        !isLast ? ref.watch(listTaskState)[index + page].taskId ?? 0 : 0;
+    for (var element in dataCek) {
+      await putTaskAnswer(element);
+      if (element.taskId == currentTaskId) {
+        // await deleteAnswer(dataCek);
+        answer = element.answer ?? '';
+        attachment = element.attachment ?? '';
+        attachmentName = element.attachmentName ?? '';
       }
+    }
 
-      if (answer != '') {
-        if (currentTypeTask == TaskType.STX.name ||
-            currentTypeTask == TaskType.ASM.name) {
-          listString.add(answer);
-          listSelectOptionCurrentString = listString;
-          ref.watch(currentTypeTaskState.notifier).state = currentTypeTask;
-          ref.watch(listSelectOptionCurrentStringState.notifier).state =
-              listString;
+    if (answer != '') {
+      if (currentTypeTask == TaskType.STX.name ||
+          currentTypeTask == TaskType.ASM.name) {
+        listString.add(answer);
+        listSelectOptionCurrentString = listString;
+        ref.watch(currentTypeTaskState.notifier).state = currentTypeTask;
+        ref.watch(listSelectOptionCurrentStringState.notifier).state =
+            listString;
 
-          ref.watch(attachmentPathCurrentState.notifier).state = attachment;
-          ref.watch(attachmentNameCurrentState.notifier).state = attachmentName;
+        ref.watch(attachmentPathCurrentState.notifier).state = attachment;
+        ref.watch(attachmentNameCurrentState.notifier).state = attachmentName;
+      } else {
+        if (currentTypeTask == TaskType.MCQ.name) {
+          numbersList = answer.split(';').map(int.parse).toList();
+          listInt.addAll(numbersList);
         } else {
-          if (currentTypeTask == TaskType.MCQ.name) {
-            numbersList = answer.split(';').map(int.parse).toList();
-            listInt.addAll(numbersList);
-          } else {
-            listInt.add(int.parse(answer != '' ? answer : '0'));
-          }
-
-          listSelectOptionCurrent = listInt;
-          ref.watch(currentTypeTaskState.notifier).state = currentTypeTask;
-          ref.watch(listSelectOptionCurrentState.notifier).state =
-              listSelectOptionCurrent;
+          listInt.add(int.parse(answer != '' ? answer : '0'));
         }
+
+        listSelectOptionCurrent = listInt;
+        ref.watch(currentTypeTaskState.notifier).state = currentTypeTask;
+        ref.watch(listSelectOptionCurrentState.notifier).state =
+            listSelectOptionCurrent;
       }
+    }
   }
 
   Future<void> saveAnswer(int questionId,

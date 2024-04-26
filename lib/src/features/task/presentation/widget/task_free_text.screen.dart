@@ -47,7 +47,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
         final gamificationData = ref.watch(gamificationState);
-        final resultSubmissionData = ref.watch(resultSubmissionState);
+        final resultSubmissionData = ref.watch(resultSubmissionState.notifier).state;
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
         // _textController =
         if (ref.watch(currentTypeTaskState.notifier).state ==

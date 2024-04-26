@@ -53,7 +53,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
             .length;
         final listTask = ref.watch(listTaskState);
         final gamificationData = ref.watch(gamificationState);
-        final resultSubmissionData = ref.watch(resultSubmissionState);
+        final resultSubmissionData = ref.watch(resultSubmissionState.notifier).state;
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
         if (ref
             .watch(currentTypeTaskState.notifier)
@@ -660,6 +660,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                 "Are you sure want to submit your Assignment?",
                                                 label: "Submit",
                                                 type: DialogType.mission,
+                                                isAssignment: true,
                                                 resultSubmissionData: resultSubmissionData,
                                                 isConnectionAvailable: isConnectionAvailable,
                                                 onClosed: () async =>
