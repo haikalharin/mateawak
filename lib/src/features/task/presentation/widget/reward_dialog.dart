@@ -83,7 +83,7 @@ class RewardDialog extends StatelessWidget {
                                 height: 6,
                               ),
                               Text(
-                                'Rewards',
+                                EtamKawaTranslate.rewards,
                                 style: SharedComponent.textStyleCustom(
                                     typographyType: TypographyType.bold,
                                     fontColor: ColorTheme.neutral600),

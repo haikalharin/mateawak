@@ -132,9 +132,9 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                   typographyType: TypographyType.medium),
                               unselectedLabelColor: ColorTheme.neutral500,
                               tabs: [
-                                Tab(text: 'In Progress'),
-                                Tab(text: 'Assigned'),
-                                Tab(text: 'Past'),
+                                Tab(text: EtamKawaTranslate.inProgress),
+                                Tab(text: EtamKawaTranslate.assigned),
+                                Tab(text: EtamKawaTranslate.past),
                               ],
                             ),
                             Expanded(
@@ -339,7 +339,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 8.w, vertical: 4.h),
                                   child: Text(
-                                      gamification[index].missionStatus!,
+                                      _getMissionStatus(gamification[index].missionStatus!),
                                     style: SharedComponent.textStyleCustom(
                                         typographyType: TypographyType.small,
                                         fontColor: gamification[index]
@@ -373,7 +373,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                   padding:
                                       const EdgeInsets.fromLTRB(3, 0, 0, 0),
                                   child: Text(
-                                      '${gamification[index].chapterData?.single.missionData?.single.missionReward.toString()} pts',
+                                      '${gamification[index].chapterData?.single.missionData?.single.missionReward.toString()} ${EtamKawaTranslate.pts}',
                                       style: SharedComponent.textStyleCustom(
                                           typographyType:
                                               TypographyType.paragraph,
@@ -505,5 +505,22 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
         );
       },
     );
+  }
+}
+
+String _getMissionStatus(String status){
+  switch (status) {
+    case 'Assigned':
+      return EtamKawaTranslate.assigned;
+    case 'In Progress':
+      return EtamKawaTranslate.inProgress;
+    case 'Under Review':
+      return EtamKawaTranslate.underReview;
+    case 'Incomplete':
+      return EtamKawaTranslate.incomplete;
+    case 'Completed':
+      return EtamKawaTranslate.completed;
+    default:
+      return 'Assigned';
   }
 }

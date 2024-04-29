@@ -257,7 +257,7 @@ class _MissionPastDetailScreenState
                                             height: 6,
                                           ),
                                           Text(
-                                            'Rewards',
+                                            EtamKawaTranslate.rewards,
                                             style:
                                                 SharedComponent.textStyleCustom(
                                                     typographyType:
@@ -296,7 +296,7 @@ class _MissionPastDetailScreenState
                                             height: 8,
                                           ),
                                           Text(
-                                            'Submitted at',
+                                            EtamKawaTranslate.submittedAt,
                                             style:
                                                 SharedComponent.textStyleCustom(
                                                     typographyType:
@@ -438,7 +438,7 @@ Widget addTaskIfQuizz(int totalTask) {
         height: 5,
       ),
       Text(
-        'Tasks',
+        EtamKawaTranslate.task,
         style: SharedComponent.textStyleCustom(
             typographyType: TypographyType.bold,
             fontColor: ColorTheme.neutral600),
