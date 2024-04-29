@@ -64,7 +64,10 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
       final listTask = ref.watch(listTaskState);
       final missionData = ref.watch(missionDataState);
       final gamificationData = ref.watch(gamificationState);
-      final isAssignment = gamificationData.chapterData?.single.missionData?.single.missionTypeCode?.toLowerCase() == "assignment";
+      final isAssignment = gamificationData
+              .chapterData?.single.missionData?.single.missionTypeCode
+              ?.toLowerCase() ==
+          "assignment";
       return AsyncValueWidget(
           value: ref.watch(taskControllerProvider),
           data: (data) {
@@ -113,16 +116,18 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                 label: "Stay",
                                 type: DialogType.question,
                                 onClosed: () async {
-
+                                  await ctrl
+                                      .putAnswerFinal()
+                                      .whenComplete(() async {
                                     await ctrl
                                         .changeStatusTask(isDone: false)
                                         .whenComplete(() async {
                                       await ctrlMission
                                           .getMissionList()
-                                          .whenComplete(() {
-                                      });
+                                          .whenComplete(() {});
                                     });
                                   });
+                                });
                           });
                     }),
                 body: Column(
@@ -159,12 +164,19 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                                 TypographyType.largeH5,
                                             fontColor:
                                                 ColorTheme.textLightDark)),
-                                    Text('Mission: ${missionData.missionName}',
-                                        style: SharedComponent.textStyleCustom(
-                                            typographyType:
-                                                TypographyType.smallH8,
-                                            fontColor:
-                                                ColorTheme.textLightDark)),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width /
+                                          1.5,
+                                      child: Text(
+                                          'Mission: ${missionData.missionName}',
+                                          maxLines: 5,
+                                          style:
+                                              SharedComponent.textStyleCustom(
+                                                  typographyType:
+                                                      TypographyType.smallH8,
+                                                  fontColor: ColorTheme
+                                                      .textLightDark)),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -179,66 +191,70 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                               ),
                             ],
                           ),
-                          if (gamificationData.chapterData?.single.missionData?.single.missionTypeName != "Assignment") 
-                          Container(
-                            margin: const EdgeInsets.only(top: 24),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Overall progress',
-                                    style: SharedComponent.textStyleCustom(
-                                        typographyType: TypographyType.body,
-                                        fontColor: ColorTheme.textDark)),
-                                Stack(
-                                  children: [
-                                    Container(
-                                        padding: const EdgeInsets.only(left: 8),
-                                        height: 24,
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                          color: ColorTheme.bgGreenLight,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(4.r)),
-                                        ),
-                                        child: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Text('0%',
-                                                style: SharedComponent
-                                                    .textStyleCustom(
-                                                        typographyType:
-                                                            TypographyType.body,
-                                                        fontColor: ColorTheme
-                                                            .primary500)))),
-                                    Container(
-                                        height: 24,
-                                        padding:
-                                            const EdgeInsets.only(right: 8),
-                                        width: MediaQuery.of(context)
-                                                .size
-                                                .width *
-                                            ((currentQuestionProgress) /
-                                                listTask.length),
-                                        decoration: BoxDecoration(
-                                          color: ColorTheme.primary500,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(4.r)),
-                                        ),
-                                        child: Align(
-                                            alignment: Alignment.centerRight,
-                                            child: Text(
-                                                '${((currentQuestionProgress) * 100) ~/ listTask.length}%',
-                                                style: SharedComponent
-                                                    .textStyleCustom(
-                                                        typographyType:
-                                                            TypographyType.body,
-                                                        fontColor: ColorTheme
-                                                            .backgroundLight))
-                                        ))
-                                  ],
-                                ),
-                              ],
+                          if (gamificationData.chapterData?.single.missionData
+                                  ?.single.missionTypeName !=
+                              "Assignment")
+                            Container(
+                              margin: const EdgeInsets.only(top: 24),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Overall progress',
+                                      style: SharedComponent.textStyleCustom(
+                                          typographyType: TypographyType.body,
+                                          fontColor: ColorTheme.textDark)),
+                                  Stack(
+                                    children: [
+                                      Container(
+                                          padding:
+                                              const EdgeInsets.only(left: 8),
+                                          height: 24,
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                            color: ColorTheme.bgGreenLight,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(4.r)),
+                                          ),
+                                          child: Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text('0%',
+                                                  style: SharedComponent
+                                                      .textStyleCustom(
+                                                          typographyType:
+                                                              TypographyType
+                                                                  .body,
+                                                          fontColor: ColorTheme
+                                                              .primary500)))),
+                                      Container(
+                                          height: 24,
+                                          padding:
+                                              const EdgeInsets.only(right: 8),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              ((currentQuestionProgress) /
+                                                  listTask.length),
+                                          decoration: BoxDecoration(
+                                            color: ColorTheme.primary500,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(4.r)),
+                                          ),
+                                          child: Align(
+                                              alignment: Alignment.centerRight,
+                                              child: Text(
+                                                  '${((currentQuestionProgress) * 100) ~/ listTask.length}%',
+                                                  style: SharedComponent
+                                                      .textStyleCustom(
+                                                          typographyType:
+                                                              TypographyType
+                                                                  .body,
+                                                          fontColor: ColorTheme
+                                                              .backgroundLight))))
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ) ,
                         ],
                       ),
                     ),
@@ -269,7 +285,8 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                           )
                         : Container(),
                     listTask[currentQuestionIndex.state].taskTypeCode ==
-                            TaskType.ASM.name && !isAssignment
+                                TaskType.ASM.name &&
+                            !isAssignment
                         ? const Expanded(
                             child: TaskScreen(),
                           )

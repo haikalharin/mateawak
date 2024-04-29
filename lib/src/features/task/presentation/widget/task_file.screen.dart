@@ -22,6 +22,7 @@ import '../../../../constants/constant.dart';
 import '../../../../constants/function_utils.dart';
 import '../../../../constants/image.constant.dart';
 import '../../../main_nav/presentation/controller/main_nav.controller.dart';
+import '../../../mission/domain/gamification_response.remote.dart';
 import '../../../mission/presentation/controller/mission.controller.dart';
 import '../../../mission_past/presentation/controller/mission_past.controller.dart';
 import '../controller/task.controller.dart';
@@ -61,7 +62,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
         final gamificationData = ref.watch(gamificationState);
-        final resultSubmissionData = ref.watch(resultSubmissionState.notifier).state;
+        final resultSubmissionData =
+            ref.watch(resultSubmissionState.notifier).state;
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
         if (ref.watch(currentTypeTaskState.notifier).state ==
             TaskType.ASM.name) {
@@ -251,14 +253,38 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                 ),
                                                 InkWell(
                                                   onTap: () async {
-                                                    if ((gamificationData
-                                                                .missionStatusCode ??
-                                                            0) <=
-                                                        1) {
-                                                      await File(
-                                                              attachment.state)
-                                                          .delete()
-                                                          .whenComplete(() {
+                                                    await File(attachment.state)
+                                                        .delete()
+                                                        .whenComplete(() async {
+                                                      ref.refresh(
+                                                          taskControllerProvider);
+                                                      await ctrl
+                                                          .saveAnswer(
+                                                              listTask[currentQuestionIndex
+                                                                          .state]
+                                                                      .taskId ??
+                                                                  0,
+                                                              isLast: false,
+                                                              attachment: '',
+                                                              attachmentName:
+                                                                  '',
+                                                              listSelectedOption: [
+                                                                _textController
+                                                                    .text
+                                                              ],
+                                                              type: listTask[currentQuestionIndex
+                                                                          .state]
+                                                                      .taskTypeCode ??
+                                                                  '')
+                                                          .whenComplete(
+                                                              () async {
+                                                        ref.refresh(
+                                                            taskControllerProvider);
+                                                        await ctrl
+                                                            .putAnswerFinal();
+                                                      }).whenComplete(() {
+                                                        ref.refresh(
+                                                            taskControllerProvider);
                                                         setState(() {
                                                           ref
                                                               .read(
@@ -272,7 +298,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                               .state = '';
                                                         });
                                                       });
-                                                    }
+                                                    });
                                                   },
                                                   child: Icon(
                                                     Icons.cancel,
@@ -293,7 +319,11 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                       if ((gamificationData.missionStatusCode ??
                                               0) <=
                                           1) {
-                                        pickDocFile();
+                                        pickDocFile(
+                                            ctrl: ctrl,
+                                            listTask: listTask,
+                                            currentQuestionIndex:
+                                                currentQuestionIndex.state);
                                       }
                                     },
                                     child: DottedBorder(
@@ -399,6 +429,27 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                   border: const OutlineInputBorder(),
                                 ),
                                 maxLines: 10,
+                                onEditingComplete: () async {
+                                  await ctrl
+                                      .saveAnswer(
+                                          listTask[currentQuestionIndex.state]
+                                                  .taskId ??
+                                              0,
+                                          isLast: false,
+                                          listSelectedOption: [
+                                            _textController.text
+                                          ],
+                                          type: listTask[currentQuestionIndex
+                                                      .state]
+                                                  .taskTypeCode ??
+                                              '')
+                                      .whenComplete(() async {
+                                    await ctrl.putAnswerFinal();
+                                  }).whenComplete(() {
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
+                                  });
+                                },
                                 onChanged: (value) {
                                   setState(() {
                                     if (value.isEmpty) {
@@ -418,57 +469,55 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                 }, // Allows multiple lines of input
                               ),
                             ),
-                            gamificationData.missionStatusCode == 99?
-                            (listTask[currentQuestionIndex.state]
-                                            .answerReward !=
+                            gamificationData.missionStatusCode == 99
+                                ? (listTask[currentQuestionIndex.state]
+                                                .answerReward !=
                                             null &&
-                                    listTask[currentQuestionIndex.state]
-                                            .answerReward !=
-                                        0 )
-                                ? Column(
-                                    children: [
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        listTask[currentQuestionIndex.state]
+                                                .answerReward !=
+                                            0)
+                                    ? Column(
                                         children: [
-                                          Text(
-                                              'Your answer is correct!',
-                                              style:
-                                                  SharedComponent.textStyleCustom(
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text('Your answer is correct!',
+                                                  style: SharedComponent
+                                                      .textStyleCustom(
+                                                          typographyType:
+                                                              TypographyType
+                                                                  .body,
+                                                          fontColor: ColorTheme
+                                                              .buttonPrimary)
+                                                  //TextStyle(fontSize: 12.sp)
+                                                  ),
+                                            ],
+                                          ),
+                                        ],
+                                      )
+                                    : Column(
+                                        children: [
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text('Your answer is incorrect!',
+                                              style: SharedComponent
+                                                  .textStyleCustom(
                                                       typographyType:
                                                           TypographyType.body,
                                                       fontColor:
-                                                          ColorTheme.buttonPrimary)
+                                                          ColorTheme.danger500)
                                               //TextStyle(fontSize: 12.sp)
                                               ),
-
                                         ],
-
-                                      ),
-
-                                    ],
-                                  )
-                                :  Column(
-                              children: [
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                    'Your answer is incorrect!',
-                                    style:
-                                    SharedComponent.textStyleCustom(
-                                        typographyType:
-                                        TypographyType.body,
-                                        fontColor:
-                                        ColorTheme.danger500)
-                                  //TextStyle(fontSize: 12.sp)
-                                ),
-
-                              ],
-                            ):Container(),
+                                      )
+                                : Container(),
                           ],
                         ),
                       )
@@ -740,11 +789,6 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                     });
                                           },
                                         );
-                                        ref
-                                            .watch(listSelectOptionStringState
-                                                .notifier)
-                                            .state
-                                            .clear();
                                       });
                                     });
                                   }
@@ -775,41 +819,36 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
     );
   }
 
-  void _showPicker(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return SafeArea(
-            child: Container(
-              child: Wrap(
-                children: [
-                  ListTile(
-                    leading: const Icon(Icons.file_present),
-                    title: const Text('File'),
-                    onTap: () async {
-                      Navigator.pop(context);
-                      pickDocFile();
-                    },
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
-
-  Future<void> pickDocFile() async {
+  Future<void> pickDocFile(
+      {required TaskController ctrl,
+      required List<TaskDatum> listTask,
+      required int currentQuestionIndex}) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['doc', 'jpg', 'jpeg', 'png', 'gif', 'pdf'],
     );
 
     if (result != null) {
-      var fileDuplicate =
-          await asyncMethodUploadFile(file: result.files.single);
-      setState(() {
-        ref.read(attachmentNameState.notifier).state = fileDuplicate.name;
-        ref.read(attachmentPathState.notifier).state = fileDuplicate.path ?? '';
+      var fileDuplicate = result.files.single;
+      ref.refresh(taskControllerProvider);
+
+      await ctrl
+          .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
+              isLast: false,
+              attachment: fileDuplicate.path ?? '',
+              attachmentName: fileDuplicate.name,
+              listSelectedOption: [_textController.text],
+              type: listTask[currentQuestionIndex].taskTypeCode ?? '')
+          .whenComplete(() async {
+        await ctrl.putAnswerFinal();
+      }).whenComplete(() {
+        ref.refresh(taskControllerProvider);
+
+        setState(() {
+          ref.read(attachmentNameState.notifier).state = fileDuplicate.name;
+          ref.read(attachmentPathState.notifier).state =
+              fileDuplicate.path ?? '';
+        });
       });
     } else {
       // User canceled the picker

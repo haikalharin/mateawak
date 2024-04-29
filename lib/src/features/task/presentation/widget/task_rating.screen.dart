@@ -45,7 +45,8 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
         final gamificationData = ref.watch(gamificationState);
-        final resultSubmissionData = ref.watch(resultSubmissionState.notifier).state;
+        final resultSubmissionData =
+            ref.watch(resultSubmissionState.notifier).state;
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
         return Scaffold(
             backgroundColor: ColorTheme.backgroundLight,
@@ -170,24 +171,43 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                 Icons.star,
                                 color: Colors.amber,
                               ),
-                              onRatingUpdate: (rating) {
+                              onRatingUpdate: (rating) async {
                                 if ((gamificationData.missionStatusCode ?? 0) <=
                                     1) {
-                                  if (rating != 0) {
-                                    if (listSelectedOption.state.isNotEmpty) {
-                                      ref
-                                          .watch(listSelectOptionState.notifier)
-                                          .state
-                                          .clear();
-                                    }
-                                    ref
-                                        .watch(listSelectOptionState.notifier)
-                                        .state = [rating.toInt()];
-                                  }
+                                  await ctrl
+                                      .saveAnswer(
+                                      listTask[currentQuestionIndex.state]
+                                          .taskId ??
+                                          0,
+                                      isLast: false,
+                                      listSelectedOption: [
+                                        rating.toInt()
+                                      ],
+                                      type: listTask[currentQuestionIndex
+                                          .state]
+                                          .taskTypeCode ??
+                                          '')
+                                      .whenComplete(() async {
+                                    await ctrl.putAnswerFinal().whenComplete(() {
+                                      if (rating != 0) {
+                                        if (listSelectedOption.state.isNotEmpty) {
+                                          ref
+                                              .watch(listSelectOptionState.notifier)
+                                              .state
+                                              .clear();
+                                        }
+                                        ref
+                                            .watch(listSelectOptionState.notifier)
+                                            .state = [rating.toInt()];
+
+                                      }
+                                    });
+                                  });
+
+
                                 }
                               },
                             ),
-
                           ],
                         ),
                       )
@@ -413,7 +433,6 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                             .state++;
                                       }
 
-
                                       await ctrl
                                           .putAnswerFinal()
                                           .whenComplete(() async {
@@ -432,7 +451,6 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                 isConnectionAvailable:
                                                     isConnectionAvailable,
                                                 onClosed: () async => {
-
                                                       await ctrl
                                                           .putAnswerFinal(
                                                               isSubmitted: true)

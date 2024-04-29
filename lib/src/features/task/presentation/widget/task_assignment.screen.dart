@@ -13,6 +13,7 @@ import 'package:module_shared/module_shared.dart';
 
 import '../../../../constants/function_utils.dart';
 import '../../../main_nav/presentation/controller/main_nav.controller.dart';
+import '../../../mission/domain/gamification_response.remote.dart';
 import '../../../mission_past/presentation/controller/mission_past.controller.dart';
 import '../controller/task.controller.dart';
 
@@ -143,63 +144,63 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                             ),
                           ],
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            listTask[0]
-                                                .attachmentPath != null ?
-                            Container(
-                              height: 200,
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: FileImage(File(
-                                        listTask[0]
-                                                .attachmentPath ??
-                                            '')),
-                                    fit: BoxFit.cover,
-                                  ),
-                                  color: ColorTheme.backgroundWhite,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10))),
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                            ) : Container(),
-                            const SizedBox(height: 10.0),
-                            Text(
+                        Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(
+                                height: 8,
+                              ),
                               listTask[0]
-                                      .taskCaption ??
-                                  '',
-                              style: SharedComponent.textStyleCustom(
-                                  typographyType: TypographyType.medium,
-                                  fontColor: ColorTheme.textDark),
-                            ),
-                            const Divider(),
-                            const SizedBox(height: 20.0),
-                            attachmentName.state != ''
-                                ? Container(
-                                    child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            child: Expanded(
+                                                  .attachmentPath != null ?
+                              Container(
+                                height: 200,
+                                width: MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: FileImage(File(
+                                          listTask[0]
+                                                  .attachmentPath ??
+                                              '')),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    color: ColorTheme.backgroundWhite,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10))),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                              ) : Container(),
+                              const SizedBox(height: 10.0),
+                              Text(
+                                listTask[0]
+                                        .taskCaption ??
+                                    '',
+                                style: SharedComponent.textStyleCustom(
+                                    typographyType: TypographyType.medium,
+                                    fontColor: ColorTheme.textDark),
+                              ),
+                              const Divider(),
+                              const SizedBox(height: 20.0),
+                              attachmentName.state != ''
+                                  ? Container(
+                                      child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
                                               child: RichText(
                                                 text: TextSpan(
                                                   text:
@@ -227,105 +228,129 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            height: 12,
-                                          ),
-                                          SizedBox(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    attachmentName.state ?? '',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .titleLarge,
-                                                  ),
-                                                ),
-                                                InkWell(
-                                                  onTap: () async {
-                                                    await File(attachment.state)
-                                                        .delete()
-                                                        .whenComplete(() {
-                                                      setState(() {
-                                                        ref
-                                                            .read(
-                                                                attachmentNameState
-                                                                    .notifier)
-                                                            .state = '';
-                                                        ref
-                                                            .read(
-                                                                attachmentPathState
-                                                                    .notifier)
-                                                            .state = '';
-                                                      });
-                                                    });
-                                                  },
-                                                  child: Icon(
-                                                    Icons.cancel,
-                                                    color: ColorTheme
-                                                        .backgroundDark,
-                                                    size: 25.h,
-                                                  ),
-                                                ),
-                                              ],
+                                            const SizedBox(
+                                              height: 12,
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ))
-                                : InkWell(
-                                    onTap: () {
-                                      pickDocFile();
-                                    },
-                                    child: DottedBorder(
-                                      color: ColorTheme.primary500,
-                                      radius: const Radius.circular(12),
-                                      strokeWidth: 3,
-                                      //thickness of dash/dots
-                                      dashPattern: [10, 6],
-                                      child: Container(
-                                          height: 150,
-                                          color: ColorTheme.bgGreenLight,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Row(
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              child: Row(
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
+                                                    CrossAxisAlignment.start,
                                                 children: [
-                                                  Icon(
-                                                    Icons.upload_file_rounded,
-                                                    color:
-                                                        ColorTheme.primary500,
-                                                    size: 40.h,
+                                                  Expanded(
+                                                    child: Text(
+                                                      attachmentName.state ?? '',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .titleLarge,
+                                                    ),
                                                   ),
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            1.5,
-                                                        child: Expanded(
+                                                  InkWell(
+                                                    onTap: () async {
+                                                      await File(attachment.state)
+                                                          .delete()
+                                                          .whenComplete(() async {
+                                                        ref.refresh(taskControllerProvider);
+                                                          await ctrl
+                                                              .saveAnswer(
+                                                              listTask[currentQuestionIndex.state]
+                                                                  .taskId ??
+                                                                  0,
+                                                              isLast: false,
+                                                              attachment:  '',
+                                                              attachmentName:'',
+                                                              listSelectedOption:
+                                                              [_textController.text],
+                                                              type: listTask[
+                                                              currentQuestionIndex.state]
+                                                                  .taskTypeCode ??
+                                                                  '')
+                                                              .whenComplete(() async {
+                                                            ref.refresh(taskControllerProvider);
+
+                                                            await ctrl
+                                                                .putAnswerFinal();
+                                                          }).whenComplete(() {
+                                                            ref.refresh(taskControllerProvider);
+
+                                                            setState(() {
+                                                              ref
+                                                                  .read(
+                                                                  attachmentNameState
+                                                                      .notifier)
+                                                                  .state = '';
+                                                              ref
+                                                                  .read(
+                                                                  attachmentPathState
+                                                                      .notifier)
+                                                                  .state = '';
+                                                            });
+
+                                                          });
+
+                                                        });
+                                                    },
+                                                    child: Icon(
+                                                      Icons.cancel,
+                                                      color: ColorTheme
+                                                          .backgroundDark,
+                                                      size: 25.h,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ))
+                                  : InkWell(
+                                      onTap: () {
+                                        pickDocFile(ctrl: ctrl, listTask: listTask, currentQuestionIndex: currentQuestionIndex.state);
+                                      },
+                                      child: DottedBorder(
+                                        color: ColorTheme.primary500,
+                                        radius: const Radius.circular(12),
+                                        strokeWidth: 3,
+                                        //thickness of dash/dots
+                                        dashPattern: [10, 6],
+                                        child: Container(
+                                            height: 150,
+                                            color: ColorTheme.bgGreenLight,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.upload_file_rounded,
+                                                      color:
+                                                          ColorTheme.primary500,
+                                                      size: 40.h,
+                                                    ),
+                                                    Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        SizedBox(
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              1.5,
                                                           child: Text(
                                                             'Drop your files here or click to upload',
                                                             style: Theme.of(
@@ -334,14 +359,12 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                                 .titleLarge,
                                                           ),
                                                         ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            1.5,
-                                                        child: Expanded(
+                                                        SizedBox(
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              1.5,
                                                           child: Text(
                                                             "Allowed files .jpg, .jpeg, .png, .gif, .pdf, .doc",
                                                             style: Theme.of(
@@ -350,22 +373,20 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                                 .bodyLarge,
                                                           ),
                                                         ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          )),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            )),
+                                      ),
                                     ),
-                                  ),
-                            const SizedBox(height: 8.0),
-                            SizedBox(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width,
-                              child: Expanded(
+                              const SizedBox(height: 8.0),
+                              SizedBox(
+                                width: MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width,
                                 child: Text(
                                   'Please ensure that your file is in the correct format.',
                                   style: TextStyle(
@@ -375,44 +396,68 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                   ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            const SizedBox(height: 8.0),
-                            SizedBox(
-                              height: 150.0,
-                              child: TextFormField(
-                                controller: _textController,
-                                maxLength: 100,
-                                textInputAction: TextInputAction.done,
-                                decoration: InputDecoration(
-                                  hintText: 'Write your comment here..',
-                                  hintStyle: TextStyle(
-                                      color: ColorTheme.textLightDark),
-                                  border: const OutlineInputBorder(),
-                                ),
-                                maxLines: 10,
-                                onChanged: (value) {
-                                  setState(() {
-                                    if (value.isEmpty) {
-                                      ref
-                                          .watch(listSelectOptionStringState
-                                          .notifier)
-                                          .state = [];
-
-                                      _textController.clear();
-                                    } else {
-                                      ref
-                                          .watch(listSelectOptionStringState
-                                          .notifier)
-                                          .state = [value];
-                                    }
-                                  });
-                                }, // Allows multiple lines of input
+                              const SizedBox(
+                                height: 12,
                               ),
-                            ),
-                          ],
+                              const SizedBox(height: 8.0),
+                              SizedBox(
+                                height: 150.0,
+                                child: TextFormField(
+                                  controller: _textController,
+                                  maxLength: 100,
+                                  textInputAction: TextInputAction.done,
+                                  decoration: InputDecoration(
+                                    hintText: 'Write your comment here..',
+                                    hintStyle: TextStyle(
+                                        color: ColorTheme.textLightDark),
+                                    border: const OutlineInputBorder(),
+                                  ),
+                                  maxLines: 10,
+                                  onEditingComplete: () async {
+                                    await ctrl
+                                        .saveAnswer(
+                                        listTask[currentQuestionIndex
+                                            .state]
+                                            .taskId ??
+                                            0,
+                                        isLast: false,
+                                        listSelectedOption:
+                                        [_textController.text],
+                                        attachment: attachment.state,
+                                        attachmentName: attachmentName.state,
+                                        type: listTask[
+                                        currentQuestionIndex
+                                            .state]
+                                            .taskTypeCode ??
+                                            '')
+                                        .whenComplete(() async {
+                                      await ctrl
+                                          .putAnswerFinal();
+                                    }).whenComplete(() {
+                                      FocusManager.instance.primaryFocus?.unfocus();
+                                    });
+                                  },
+                                  onChanged: (value) {
+                                    setState(() {
+                                      if (value.isEmpty) {
+                                        ref
+                                            .watch(listSelectOptionStringState
+                                            .notifier)
+                                            .state = [];
+
+                                        _textController.clear();
+                                      } else {
+                                        ref
+                                            .watch(listSelectOptionStringState
+                                            .notifier)
+                                            .state = [value];
+                                      }
+                                    });
+                                  }, // Allows multiple lines of input
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
 
                       ],
@@ -527,8 +572,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                               onPressed: () {
                                 if (listSelectedOptionString.isNotEmpty) {
                                   if ((currentQuestionIndex.state + 1) <
-                                      lengthAnswer &&
-                                      lengthAnswer != 1) {
+                                      listTask.length &&
+                                      listTask.length != 1) {
                                     ctrl
                                         .currentQuestion(
                                         employeeMissionId: gamificationData
@@ -688,11 +733,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                 });
                                           },
                                         );
-                                        ref
-                                            .watch(listSelectOptionStringState
-                                            .notifier)
-                                            .state
-                                            .clear();
+
                                       });
                                     });
                                   }
@@ -724,24 +765,46 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
   }
 
 
-  Future<void> pickDocFile() async {
+  Future<void> pickDocFile({required TaskController ctrl,required List<TaskDatum> listTask,required int currentQuestionIndex}) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['doc', 'jpg', 'jpeg', 'png', 'gif', 'pdf'],
     );
 
     if (result != null) {
-      var fileDuplicate =
-      await asyncMethodUploadFile(file: result.files.single);
-      setState(() {
-        ref
-            .read(attachmentNameState.notifier)
-            .state = fileDuplicate.name;
-        ref
-            .read(attachmentPathState.notifier)
-            .state = fileDuplicate.path ?? '';
-      });
-      debugPrint("${fileDuplicate.name} ${fileDuplicate.path}");
+      var fileDuplicate = result.files.single;
+      ref.refresh(taskControllerProvider);
+
+      await ctrl
+            .saveAnswer(
+            listTask[currentQuestionIndex]
+                .taskId ??
+                0,
+            isLast: false,
+            attachment: fileDuplicate.path ?? '',
+            attachmentName:
+            fileDuplicate.name,
+            listSelectedOption:
+            [_textController.text],
+            type: listTask[
+            currentQuestionIndex]
+                .taskTypeCode ??
+                '')
+            .whenComplete(() async {
+        ref.refresh(taskControllerProvider);
+
+        await ctrl
+              .putAnswerFinal();
+        }).whenComplete(() {
+        ref.refresh(taskControllerProvider);
+
+        setState(() {
+            ref.read(attachmentNameState.notifier).state = fileDuplicate.name;
+            ref.read(attachmentPathState.notifier).state = fileDuplicate.path ?? '';
+
+          });
+
+        });
     } else {
       // User canceled the picker
     }

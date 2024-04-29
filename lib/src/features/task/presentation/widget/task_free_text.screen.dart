@@ -47,7 +47,8 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
         final gamificationData = ref.watch(gamificationState);
-        final resultSubmissionData = ref.watch(resultSubmissionState.notifier).state;
+        final resultSubmissionData =
+            ref.watch(resultSubmissionState.notifier).state;
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
         // _textController =
         if (ref.watch(currentTypeTaskState.notifier).state ==
@@ -199,6 +200,23 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                     border: const OutlineInputBorder(),
                                   ),
                                   maxLines: 10,
+                                  onEditingComplete: () async {
+                                    await ctrl
+                                        .saveAnswer(
+                                            listTask[currentQuestionIndex.state]
+                                                    .taskId ??
+                                                0,
+                                            isLast: false,
+                                            listSelectedOption:
+                                                [_textController.text],
+                                            type: listTask[currentQuestionIndex
+                                                        .state]
+                                                    .taskTypeCode ??
+                                                '')
+                                        .whenComplete(() async {
+                                      await ctrl.putAnswerFinal();
+                                    });
+                                  },
                                   onChanged: (value) {
                                     setState(() {
                                       if (value.isEmpty) {
@@ -218,7 +236,6 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                   }, // Allows multiple lines of input
                                 ),
                               ),
-
                             ],
                           ),
                         )
@@ -496,12 +513,6 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                         });
                                               },
                                             );
-                                            ref
-                                                .watch(
-                                                    listSelectOptionStringState
-                                                        .notifier)
-                                                .state
-                                                .clear();
                                           });
                                         });
                                       }
