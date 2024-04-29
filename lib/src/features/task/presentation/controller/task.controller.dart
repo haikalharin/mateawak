@@ -95,6 +95,7 @@ class TaskController extends _$TaskController {
   var currentTaskId = 0;
   var attachment = '';
   var attachmentName = '';
+  var taskGroup = '';
   List<int> listSelectOptionCurrent = [];
   List<String> listSelectOptionCurrentString = [];
 
@@ -238,7 +239,8 @@ class TaskController extends _$TaskController {
           taskId: value.taskId,
           answer: value.answer,
           attachmentName: value.attachmentName,
-          attachment: value.attachment));
+          attachment: value.attachment,
+          taskGroup: value.taskGroup));
     });
   }
 
@@ -291,7 +293,8 @@ class TaskController extends _$TaskController {
             taskId: element.taskId,
             answer: element.answer,
             attachmentName: element.attachmentName,
-            attachment: element.attachment));
+            attachment: element.attachment,
+            taskGroup: element.taskGroup));
       }
     }
     index = await ref.watch(currentIndexState);
@@ -307,6 +310,7 @@ class TaskController extends _$TaskController {
         answer = element.answer ?? '';
         attachment = element.attachment ?? '';
         attachmentName = element.attachmentName ?? '';
+        taskGroup = element.taskGroup ?? '';
       }
     }
 
@@ -341,6 +345,7 @@ class TaskController extends _$TaskController {
       {required List<dynamic>? listSelectedOption,
       String? attachment,
       String? attachmentName,
+      String? taskGroup,
       required bool isLast,
       required String type}) async {
     TaskDatumAnswerRequestRemote dataAnswer = TaskDatumAnswerRequestRemote();
@@ -363,7 +368,8 @@ class TaskController extends _$TaskController {
           taskId: questionId,
           answer: data,
           attachment: attachment ?? '',
-          attachmentName: attachmentName ?? '');
+          attachmentName: attachmentName ?? '',
+          taskGroup: taskGroup ?? '');
 
       await putTaskAnswer(dataAnswer);
       if (isLast) {}
@@ -372,7 +378,8 @@ class TaskController extends _$TaskController {
           taskId: questionId,
           answer: data,
           attachment: attachment ?? '',
-          attachmentName: attachmentName ?? '');
+          attachmentName: attachmentName ?? '',
+          taskGroup: taskGroup ?? '');
 
       await putTaskAnswer(dataAnswer);
     }

@@ -275,6 +275,11 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                               type: listTask[currentQuestionIndex
                                                                           .state]
                                                                       .taskTypeCode ??
+                                                                  '',
+                                                              taskGroup: listTask[
+                                                                          currentQuestionIndex
+                                                                              .state]
+                                                                      .taskGroup ??
                                                                   '')
                                                           .whenComplete(
                                                               () async {
@@ -442,6 +447,11 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                           type: listTask[currentQuestionIndex
                                                       .state]
                                                   .taskTypeCode ??
+                                              '',
+                                          taskGroup: listTask[
+                                                      currentQuestionIndex
+                                                          .state]
+                                                  .taskGroup ??
                                               '')
                                       .whenComplete(() async {
                                     await ctrl.putAnswerFinal();
@@ -657,6 +667,11 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                           currentQuestionIndex
                                                               .state]
                                                       .taskTypeCode ??
+                                                  '',
+                                              taskGroup: listTask[
+                                                          currentQuestionIndex
+                                                              .state]
+                                                      .taskGroup ??
                                                   '')
                                           .whenComplete(() async {
                                         await ctrl
@@ -739,6 +754,11 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                             type: listTask[currentQuestionIndex
                                                         .state]
                                                     .taskTypeCode ??
+                                                '',
+                                            taskGroup: listTask[
+                                                        currentQuestionIndex
+                                                            .state]
+                                                    .taskGroup ??
                                                 '')
                                         .whenComplete(() async {
                                       if (((currentQuestionProgress) * 100) ~/
@@ -838,7 +858,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
               attachment: fileDuplicate.path ?? '',
               attachmentName: fileDuplicate.name,
               listSelectedOption: [_textController.text],
-              type: listTask[currentQuestionIndex].taskTypeCode ?? '')
+              type: listTask[currentQuestionIndex].taskTypeCode ?? '',
+              taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
           .whenComplete(() async {
         await ctrl.putAnswerFinal();
       }).whenComplete(() {
