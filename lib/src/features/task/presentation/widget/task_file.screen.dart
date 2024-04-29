@@ -256,6 +256,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                     await File(attachment.state)
                                                         .delete()
                                                         .whenComplete(() async {
+                                                      ref.refresh(
+                                                          taskControllerProvider);
                                                       await ctrl
                                                           .saveAnswer(
                                                               listTask[currentQuestionIndex
@@ -276,19 +278,25 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                                   '')
                                                           .whenComplete(
                                                               () async {
+                                                        ref.refresh(
+                                                            taskControllerProvider);
                                                         await ctrl
                                                             .putAnswerFinal();
                                                       }).whenComplete(() {
-                                                        ref
-                                                            .read(
-                                                                attachmentNameState
-                                                                    .notifier)
-                                                            .state = '';
-                                                        ref
-                                                            .read(
-                                                                attachmentPathState
-                                                                    .notifier)
-                                                            .state = '';
+                                                        ref.refresh(
+                                                            taskControllerProvider);
+                                                        setState(() {
+                                                          ref
+                                                              .read(
+                                                                  attachmentNameState
+                                                                      .notifier)
+                                                              .state = '';
+                                                          ref
+                                                              .read(
+                                                                  attachmentPathState
+                                                                      .notifier)
+                                                              .state = '';
+                                                        });
                                                       });
                                                     });
                                                   },
@@ -438,7 +446,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                       .whenComplete(() async {
                                     await ctrl.putAnswerFinal();
                                   }).whenComplete(() {
-                                    FocusScope.of(context).unfocus();
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
                                   });
                                 },
                                 onChanged: (value) {
@@ -780,11 +789,6 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                     });
                                           },
                                         );
-                                        ref
-                                            .watch(listSelectOptionStringState
-                                                .notifier)
-                                            .state
-                                            .clear();
                                       });
                                     });
                                   }
@@ -825,8 +829,9 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
     );
 
     if (result != null) {
-      var fileDuplicate =
-          await asyncMethodUploadFile(file: result.files.single);
+      var fileDuplicate = result.files.single;
+      ref.refresh(taskControllerProvider);
+
       await ctrl
           .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
               isLast: false,
@@ -837,8 +842,13 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
           .whenComplete(() async {
         await ctrl.putAnswerFinal();
       }).whenComplete(() {
-        ref.read(attachmentNameState.notifier).state = fileDuplicate.name;
-        ref.read(attachmentPathState.notifier).state = fileDuplicate.path ?? '';
+        ref.refresh(taskControllerProvider);
+
+        setState(() {
+          ref.read(attachmentNameState.notifier).state = fileDuplicate.name;
+          ref.read(attachmentPathState.notifier).state =
+              fileDuplicate.path ?? '';
+        });
       });
     } else {
       // User canceled the picker

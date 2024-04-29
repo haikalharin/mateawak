@@ -367,6 +367,14 @@ class TaskController extends _$TaskController {
 
       await putTaskAnswer(dataAnswer);
       if (isLast) {}
+    } else{
+      dataAnswer = TaskDatumAnswerRequestRemote(
+          taskId: questionId,
+          answer: data,
+          attachment: attachment ?? '',
+          attachmentName: attachmentName ?? '');
+
+      await putTaskAnswer(dataAnswer);
     }
   }
 
@@ -397,7 +405,7 @@ class TaskController extends _$TaskController {
       final userModel = await ref.read(helperUserProvider).getUserProfile();
       final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
 
-      backgroundServices.invoke(Constant.bgMissionInit, {
+      backgroundServices.invoke(Constant.bgSendAnswer, {
         'employeeId': userModel?.employeeID,
         'requestDate': latestSyncDate,
         'url': dotenv.env[EnvConstant.rootUrl],

@@ -45,7 +45,8 @@ class _TaskSingleChoiceScreenState
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
         final gamificationData = ref.watch(gamificationState);
-        final resultSubmissionData = ref.watch(resultSubmissionState.notifier).state;
+        final resultSubmissionData =
+            ref.watch(resultSubmissionState.notifier).state;
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
         return Scaffold(
             backgroundColor: ColorTheme.backgroundLight,
@@ -190,46 +191,50 @@ class _TaskSingleChoiceScreenState
                                         listSelectedOption.state.isNotEmpty
                                             ? listSelectedOption.state.first
                                             : 0,
-                                    onChanged: (int? value) {
+                                    onChanged: (int? value) async {
                                       if ((gamificationData.missionStatusCode ??
                                               0) <=
                                           1) {
-                                        setState(() async {
-                                          if (value != null) {
-                                            if (listSelectedOption
-                                                .state.isNotEmpty) {
-                                              ref
-                                                  .watch(listSelectOptionState
-                                                      .notifier)
-                                                  .state
-                                                  .clear();
-                                            }
-                                            ref
-                                                .watch(listSelectOptionState
-                                                    .notifier)
-                                                .state = [
-                                              listAnswer?[index].answerId ?? 0
-                                            ];
-                                            await ctrl
-                                                .saveAnswer(
+                                        await ctrl
+                                            .saveAnswer(
                                                 listTask[currentQuestionIndex
-                                                    .state]
-                                                    .taskId ??
+                                                            .state]
+                                                        .taskId ??
                                                     0,
                                                 isLast: false,
-                                                listSelectedOption:
-                                                [
-                                                  listAnswer?[index].answerId ?? 0
+                                                listSelectedOption: [
+                                                  listAnswer?[index].answerId ??
+                                                      0
                                                 ],
                                                 type: listTask[
-                                                currentQuestionIndex
-                                                    .state]
-                                                    .taskTypeCode ??
+                                                            currentQuestionIndex
+                                                                .state]
+                                                        .taskTypeCode ??
                                                     '')
-                                                .whenComplete(() async {
-                                              await ctrl
-                                                  .putAnswerFinal();});
-                                          }
+                                            .whenComplete(() async {
+                                          await ctrl
+                                              .putAnswerFinal()
+                                              .whenComplete(() {
+                                            setState(() {
+                                              if (value != null) {
+                                                if (listSelectedOption
+                                                    .state.isNotEmpty) {
+                                                  ref
+                                                      .watch(listSelectOptionState
+                                                      .notifier)
+                                                      .state
+                                                      .clear();
+                                                }
+                                                ref
+                                                    .watch(listSelectOptionState
+                                                    .notifier)
+                                                    .state = [
+                                                  listAnswer?[index].answerId ?? 0
+                                                ];
+
+                                              }
+                                            });
+                                          });
                                         });
                                       }
                                     },
@@ -237,7 +242,6 @@ class _TaskSingleChoiceScreenState
                                 );
                               },
                             ),
-
                           ],
                         ),
                       )

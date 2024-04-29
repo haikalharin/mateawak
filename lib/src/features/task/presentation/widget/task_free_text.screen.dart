@@ -513,12 +513,6 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                         });
                                               },
                                             );
-                                            ref
-                                                .watch(
-                                                    listSelectOptionStringState
-                                                        .notifier)
-                                                .state
-                                                .clear();
                                           });
                                         });
                                       }

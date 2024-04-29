@@ -174,33 +174,37 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                               onRatingUpdate: (rating) async {
                                 if ((gamificationData.missionStatusCode ?? 0) <=
                                     1) {
-                                  if (rating != 0) {
-                                    if (listSelectedOption.state.isNotEmpty) {
-                                      ref
-                                          .watch(listSelectOptionState.notifier)
-                                          .state
-                                          .clear();
-                                    }
-                                    ref
-                                        .watch(listSelectOptionState.notifier)
-                                        .state = [rating.toInt()];
-                                    await ctrl
-                                        .saveAnswer(
-                                            listTask[currentQuestionIndex.state]
-                                                    .taskId ??
-                                                0,
-                                            isLast: false,
-                                            listSelectedOption: [
-                                              rating.toInt()
-                                            ],
-                                            type: listTask[currentQuestionIndex
-                                                        .state]
-                                                    .taskTypeCode ??
-                                                '')
-                                        .whenComplete(() async {
-                                      await ctrl.putAnswerFinal();
+                                  await ctrl
+                                      .saveAnswer(
+                                      listTask[currentQuestionIndex.state]
+                                          .taskId ??
+                                          0,
+                                      isLast: false,
+                                      listSelectedOption: [
+                                        rating.toInt()
+                                      ],
+                                      type: listTask[currentQuestionIndex
+                                          .state]
+                                          .taskTypeCode ??
+                                          '')
+                                      .whenComplete(() async {
+                                    await ctrl.putAnswerFinal().whenComplete(() {
+                                      if (rating != 0) {
+                                        if (listSelectedOption.state.isNotEmpty) {
+                                          ref
+                                              .watch(listSelectOptionState.notifier)
+                                              .state
+                                              .clear();
+                                        }
+                                        ref
+                                            .watch(listSelectOptionState.notifier)
+                                            .state = [rating.toInt()];
+
+                                      }
                                     });
-                                  }
+                                  });
+
+
                                 }
                               },
                             ),

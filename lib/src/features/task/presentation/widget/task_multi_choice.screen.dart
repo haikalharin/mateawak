@@ -40,7 +40,8 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
         final listTask = ref.watch(listTaskState);
         final currentQuestionProgress = ref.watch(currentProgressState);
         final gamificationData = ref.watch(gamificationState);
-        final resultSubmissionData = ref.watch(resultSubmissionState.notifier).state;
+        final resultSubmissionData =
+            ref.watch(resultSubmissionState.notifier).state;
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
         final lengthAnswer = ref.watch(listTaskState).length;
         if (isInit) {
@@ -196,41 +197,41 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                       if ((gamificationData.missionStatusCode ??
                                               0) <=
                                           1) {
-                                        setState(() {
-                                          if (value != null && value) {
-                                            listData.add(
-                                                listAnswer?[index].answerId ??
-                                                    0);
-                                          } else {
-                                            listData.remove(
-                                                listAnswer?[index].answerId ??
-                                                    0);
-                                          }
-                                          ref
-                                              .watch(listSelectOptionState
-                                                  .notifier)
-                                              .state = listData;
-                                        });
-
                                         await ctrl
                                             .saveAnswer(
-                                            listTask[currentQuestionIndex
-                                                .state]
-                                                .taskId ??
-                                                0,
-                                            isLast: false,
-                                            listSelectedOption:
-                                            [
-                                              listAnswer?[index].answerId ?? 0
-                                            ],
-                                            type: listTask[
-                                            currentQuestionIndex
-                                                .state]
-                                                .taskTypeCode ??
-                                                '')
+                                                listTask[currentQuestionIndex
+                                                            .state]
+                                                        .taskId ??
+                                                    0,
+                                                isLast: false,
+                                                listSelectedOption: [
+                                                  listAnswer?[index].answerId ??
+                                                      0
+                                                ],
+                                                type: listTask[
+                                                            currentQuestionIndex
+                                                                .state]
+                                                        .taskTypeCode ??
+                                                    '')
                                             .whenComplete(() async {
-                                          await ctrl
-                                              .putAnswerFinal();});
+                                          await ctrl.putAnswerFinal();
+                                        }).whenComplete(() {
+                                          setState(() {
+                                            if (value != null && value) {
+                                              listData.add(
+                                                  listAnswer?[index].answerId ??
+                                                      0);
+                                            } else {
+                                              listData.remove(
+                                                  listAnswer?[index].answerId ??
+                                                      0);
+                                            }
+                                            ref
+                                                .watch(listSelectOptionState
+                                                    .notifier)
+                                                .state = listData;
+                                          });
+                                        });
                                       }
                                     },
                                   ),
