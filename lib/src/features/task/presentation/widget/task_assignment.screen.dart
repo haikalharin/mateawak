@@ -49,16 +49,13 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
         final attachmentName = ref.watch(attachmentNameState.notifier);
         final listSelectedOptionString = ref.watch(listSelectOptionStringState);
         final currentQuestionProgress = ref.watch(currentProgressState);
-        final lengthAnswer = ref
-            .watch(listTaskState)
-            .length;
+        final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
         final gamificationData = ref.watch(gamificationState);
-        final resultSubmissionData = ref.watch(resultSubmissionState.notifier).state;
+        final resultSubmissionData =
+            ref.watch(resultSubmissionState.notifier).state;
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
-        if (ref
-            .watch(currentTypeTaskState.notifier)
-            .state ==
+        if (ref.watch(currentTypeTaskState.notifier).state ==
             TaskType.ASM.name) {
           if (isInit) {
             if (ref
@@ -66,10 +63,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                 .state
                 .isNotEmpty) {
               _textController.text =
-                  ref
-                      .watch(listSelectOptionStringState.notifier)
-                      .state
-                      .single;
+                  ref.watch(listSelectOptionStringState.notifier).state.single;
             }
           }
           isInit = false;
@@ -102,7 +96,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                               child: Row(
                                 children: [
                                   Container(
-                                    padding: const EdgeInsets.fromLTRB(8,0,8,0),
+                                    padding:
+                                        const EdgeInsets.fromLTRB(8, 0, 8, 0),
                                     margin: EdgeInsets.only(right: 4.sp),
                                     decoration: BoxDecoration(
                                         color: ColorTheme.secondary100,
@@ -114,25 +109,24 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Icon(
-                                                Icons.star,
-                                                color: ColorTheme.secondary500,
-                                                size: 12.h,
-                                              ),
-                                              Text(
-                                                " +${listTask[currentQuestionIndex
-                                                    .state].taskReward}",
-                                                style:
+                                        children: [
+                                          Icon(
+                                            Icons.star,
+                                            color: ColorTheme.secondary500,
+                                            size: 12.h,
+                                          ),
+                                          Text(
+                                            " +${listTask[currentQuestionIndex.state].taskReward}",
+                                            style:
                                                 SharedComponent.textStyleCustom(
                                                     typographyType:
-                                                    TypographyType.body,
+                                                        TypographyType.body,
                                                     fontColor: ColorTheme
                                                         .secondary500),
-                                              ),
-                                            ],
                                           ),
-                                        )),
+                                        ],
+                                      ),
+                                    )),
                                   ),
                                   Icon(
                                     Icons.info,
@@ -151,33 +145,27 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                               const SizedBox(
                                 height: 8,
                               ),
-                              listTask[0]
-                                                  .attachmentPath != null ?
-                              Container(
-                                height: 200,
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: FileImage(File(
-                                          listTask[0]
-                                                  .attachmentPath ??
-                                              '')),
-                                      fit: BoxFit.cover,
-                                    ),
-                                    color: ColorTheme.backgroundWhite,
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(10))),
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
-                              ) : Container(),
+                              listTask[0].attachmentPath != null
+                                  ? Container(
+                                      height: 200,
+                                      width: MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            image: FileImage(File(
+                                                listTask[0].attachmentPath ??
+                                                    '')),
+                                            fit: BoxFit.cover,
+                                          ),
+                                          color: ColorTheme.backgroundWhite,
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(10))),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16),
+                                    )
+                                  : Container(),
                               const SizedBox(height: 10.0),
                               Text(
-                                listTask[0]
-                                        .taskCaption ??
-                                    '',
+                                listTask[0].taskCaption ?? '',
                                 style: SharedComponent.textStyleCustom(
                                     typographyType: TypographyType.medium,
                                     fontColor: ColorTheme.textDark),
@@ -189,7 +177,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                       child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Column(
                                           mainAxisAlignment:
@@ -241,7 +230,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                 children: [
                                                   Expanded(
                                                     child: Text(
-                                                      attachmentName.state ?? '',
+                                                      attachmentName.state ??
+                                                          '',
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .titleLarge,
@@ -249,48 +239,58 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                   ),
                                                   InkWell(
                                                     onTap: () async {
-                                                      await File(attachment.state)
+                                                      await File(
+                                                              attachment.state)
                                                           .delete()
-                                                          .whenComplete(() async {
-                                                        ref.refresh(taskControllerProvider);
+                                                          .whenComplete(
+                                                              () async {
+                                                        ref.refresh(
+                                                            taskControllerProvider);
+                                                        await ctrl
+                                                            .saveAnswer(
+                                                                listTask[currentQuestionIndex
+                                                                            .state]
+                                                                        .taskId ??
+                                                                    0,
+                                                                isLast: false,
+                                                                attachment: '',
+                                                                attachmentName:
+                                                                    '',
+                                                                listSelectedOption: [
+                                                                  _textController
+                                                                      .text
+                                                                ],
+                                                                type: listTask[currentQuestionIndex
+                                                                            .state]
+                                                                        .taskTypeCode ??
+                                                                    '',
+                                                                taskGroup: listTask[currentQuestionIndex
+                                                                            .state]
+                                                                        .taskGroup ??
+                                                                    '')
+                                                            .whenComplete(
+                                                                () async {
+                                                          ref.refresh(
+                                                              taskControllerProvider);
+
                                                           await ctrl
-                                                              .saveAnswer(
-                                                              listTask[currentQuestionIndex.state]
-                                                                  .taskId ??
-                                                                  0,
-                                                              isLast: false,
-                                                              attachment:  '',
-                                                              attachmentName:'',
-                                                              listSelectedOption:
-                                                              [_textController.text],
-                                                              type: listTask[
-                                                              currentQuestionIndex.state]
-                                                                  .taskTypeCode ??
-                                                                  '')
-                                                              .whenComplete(() async {
-                                                            ref.refresh(taskControllerProvider);
+                                                              .putAnswerFinal();
+                                                        }).whenComplete(() {
+                                                          ref.refresh(
+                                                              taskControllerProvider);
 
-                                                            await ctrl
-                                                                .putAnswerFinal();
-                                                          }).whenComplete(() {
-                                                            ref.refresh(taskControllerProvider);
-
-                                                            setState(() {
-                                                              ref
-                                                                  .read(
-                                                                  attachmentNameState
-                                                                      .notifier)
-                                                                  .state = '';
-                                                              ref
-                                                                  .read(
-                                                                  attachmentPathState
-                                                                      .notifier)
-                                                                  .state = '';
-                                                            });
-
+                                                          setState(() {
+                                                            ref
+                                                                .read(attachmentNameState
+                                                                    .notifier)
+                                                                .state = '';
+                                                            ref
+                                                                .read(attachmentPathState
+                                                                    .notifier)
+                                                                .state = '';
                                                           });
-
                                                         });
+                                                      });
                                                     },
                                                     child: Icon(
                                                       Icons.cancel,
@@ -308,7 +308,11 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                     ))
                                   : InkWell(
                                       onTap: () {
-                                        pickDocFile(ctrl: ctrl, listTask: listTask, currentQuestionIndex: currentQuestionIndex.state);
+                                        pickDocFile(
+                                            ctrl: ctrl,
+                                            listTask: listTask,
+                                            currentQuestionIndex:
+                                                currentQuestionIndex.state);
                                       },
                                       child: DottedBorder(
                                         color: ColorTheme.primary500,
@@ -340,7 +344,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                     ),
                                                     Column(
                                                       mainAxisAlignment:
-                                                          MainAxisAlignment.start,
+                                                          MainAxisAlignment
+                                                              .start,
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
                                                               .start,
@@ -383,10 +388,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                     ),
                               const SizedBox(height: 8.0),
                               SizedBox(
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width,
+                                width: MediaQuery.of(context).size.width,
                                 child: Text(
                                   'Please ensure that your file is in the correct format.',
                                   style: TextStyle(
@@ -416,25 +418,31 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                   onEditingComplete: () async {
                                     await ctrl
                                         .saveAnswer(
-                                        listTask[currentQuestionIndex
-                                            .state]
-                                            .taskId ??
-                                            0,
-                                        isLast: false,
-                                        listSelectedOption:
-                                        [_textController.text],
-                                        attachment: attachment.state,
-                                        attachmentName: attachmentName.state,
-                                        type: listTask[
-                                        currentQuestionIndex
-                                            .state]
-                                            .taskTypeCode ??
-                                            '')
+                                            listTask[currentQuestionIndex
+                                                        .state]
+                                                    .taskId ??
+                                                0,
+                                            isLast: false,
+                                            listSelectedOption: [
+                                              _textController.text
+                                            ],
+                                            attachment: attachment.state,
+                                            attachmentName:
+                                                attachmentName.state,
+                                            type: listTask[currentQuestionIndex
+                                                        .state]
+                                                    .taskTypeCode ??
+                                                '',
+                                            taskGroup: listTask[
+                                                        currentQuestionIndex
+                                                            .state]
+                                                    .taskGroup ??
+                                                '')
                                         .whenComplete(() async {
-                                      await ctrl
-                                          .putAnswerFinal();
+                                      await ctrl.putAnswerFinal();
                                     }).whenComplete(() {
-                                      FocusManager.instance.primaryFocus?.unfocus();
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
                                     });
                                   },
                                   onChanged: (value) {
@@ -442,14 +450,14 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                       if (value.isEmpty) {
                                         ref
                                             .watch(listSelectOptionStringState
-                                            .notifier)
+                                                .notifier)
                                             .state = [];
 
                                         _textController.clear();
                                       } else {
                                         ref
                                             .watch(listSelectOptionStringState
-                                            .notifier)
+                                                .notifier)
                                             .state = [value];
                                       }
                                     });
@@ -459,7 +467,6 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                             ],
                           ),
                         ),
-
                       ],
                     ),
                   ),
@@ -482,89 +489,89 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                         children: [
                           lengthAnswer != 1
                               ? Expanded(
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                foregroundColor:
-                                MaterialStateProperty.all<Color>(
-                                    Colors.black),
-                                backgroundColor:
-                                MaterialStateProperty.all<Color>(
-                                    Colors.white),
-                              ),
-                              onPressed: () async {
-                                setState(() async {
-                                  await ctrl
-                                      .currentQuestion(
-                                      employeeMissionId:
-                                      gamificationData
-                                          .employeeMissionId ??
-                                          0,
-                                      pagePosition: PagePosition.PREV)
-                                      .whenComplete(() {
-                                    currentQuestionIndex.state--;
-                                    ref
-                                        .watch(
-                                        currentProgressState.notifier)
-                                        .state--;
-                                    if (ref
-                                        .watch(
-                                        currentTypeTaskState
-                                            .notifier)
-                                        .state ==
-                                        TaskType.STX.name ||
-                                        ref
-                                            .watch(
-                                            currentTypeTaskState
-                                                .notifier)
-                                            .state ==
-                                            TaskType.ASM.name) {
-                                      ref
-                                          .watch(
-                                          listSelectOptionStringState
-                                              .notifier)
-                                          .state =
+                                  child: ElevatedButton(
+                                    style: ButtonStyle(
+                                      foregroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.black),
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.white),
+                                    ),
+                                    onPressed: () async {
+                                      setState(() async {
+                                        await ctrl
+                                            .currentQuestion(
+                                                employeeMissionId:
+                                                    gamificationData
+                                                            .employeeMissionId ??
+                                                        0,
+                                                pagePosition: PagePosition.PREV)
+                                            .whenComplete(() {
+                                          currentQuestionIndex.state--;
                                           ref
                                               .watch(
-                                              listSelectOptionCurrentStringState
-                                                  .notifier)
-                                              .state;
-                                      ref
-                                          .watch(attachmentNameState
-                                          .notifier)
-                                          .state =
-                                          ref
-                                              .watch(
-                                              attachmentNameCurrentState
-                                                  .notifier)
-                                              .state;
-                                      ref
-                                          .watch(attachmentPathState
-                                          .notifier)
-                                          .state =
-                                          ref
-                                              .watch(
-                                              attachmentPathCurrentState
-                                                  .notifier)
-                                              .state;
-                                    } else {
-                                      ref
-                                          .watch(listSelectOptionState
-                                          .notifier)
-                                          .state =
-                                          ref
-                                              .watch(
-                                              listSelectOptionCurrentState
-                                                  .notifier)
-                                              .state;
-                                    }
-                                  });
-                                });
-                              },
-                              child: const Text(
-                                'Previous',
-                              ),
-                            ),
-                          )
+                                                  currentProgressState.notifier)
+                                              .state--;
+                                          if (ref
+                                                      .watch(
+                                                          currentTypeTaskState
+                                                              .notifier)
+                                                      .state ==
+                                                  TaskType.STX.name ||
+                                              ref
+                                                      .watch(
+                                                          currentTypeTaskState
+                                                              .notifier)
+                                                      .state ==
+                                                  TaskType.ASM.name) {
+                                            ref
+                                                    .watch(
+                                                        listSelectOptionStringState
+                                                            .notifier)
+                                                    .state =
+                                                ref
+                                                    .watch(
+                                                        listSelectOptionCurrentStringState
+                                                            .notifier)
+                                                    .state;
+                                            ref
+                                                    .watch(attachmentNameState
+                                                        .notifier)
+                                                    .state =
+                                                ref
+                                                    .watch(
+                                                        attachmentNameCurrentState
+                                                            .notifier)
+                                                    .state;
+                                            ref
+                                                    .watch(attachmentPathState
+                                                        .notifier)
+                                                    .state =
+                                                ref
+                                                    .watch(
+                                                        attachmentPathCurrentState
+                                                            .notifier)
+                                                    .state;
+                                          } else {
+                                            ref
+                                                    .watch(listSelectOptionState
+                                                        .notifier)
+                                                    .state =
+                                                ref
+                                                    .watch(
+                                                        listSelectOptionCurrentState
+                                                            .notifier)
+                                                    .state;
+                                          }
+                                        });
+                                      });
+                                    },
+                                    child: const Text(
+                                      'Previous',
+                                    ),
+                                  ),
+                                )
                               : Container(),
                           const SizedBox(width: 8),
                           Expanded(
@@ -572,32 +579,37 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                               onPressed: () {
                                 if (listSelectedOptionString.isNotEmpty) {
                                   if ((currentQuestionIndex.state + 1) <
-                                      listTask.length &&
+                                          listTask.length &&
                                       listTask.length != 1) {
                                     ctrl
                                         .currentQuestion(
-                                        employeeMissionId: gamificationData
-                                            .employeeMissionId ??
-                                            0,
-                                        pagePosition: PagePosition.NEXT)
+                                            employeeMissionId: gamificationData
+                                                    .employeeMissionId ??
+                                                0,
+                                            pagePosition: PagePosition.NEXT)
                                         .whenComplete(() async {
                                       await ctrl
                                           .saveAnswer(
-                                          listTask[currentQuestionIndex
-                                              .state]
-                                              .taskId ??
-                                              0,
-                                          isLast: false,
-                                          attachment: attachment.state,
-                                          attachmentName:
-                                          attachmentName.state,
-                                          listSelectedOption:
-                                          listSelectedOptionString,
-                                          type: listTask[
-                                          currentQuestionIndex
-                                              .state]
-                                              .taskTypeCode ??
-                                              '')
+                                              listTask[currentQuestionIndex
+                                                          .state]
+                                                      .taskId ??
+                                                  0,
+                                              isLast: false,
+                                              attachment: attachment.state,
+                                              attachmentName:
+                                                  attachmentName.state,
+                                              listSelectedOption:
+                                                  listSelectedOptionString,
+                                              type: listTask[
+                                                          currentQuestionIndex
+                                                              .state]
+                                                      .taskTypeCode ??
+                                                  '',
+                                              taskGroup: listTask[
+                                                          currentQuestionIndex
+                                                              .state]
+                                                      .taskGroup ??
+                                                  '')
                                           .whenComplete(() async {
                                         await ctrl
                                             .putAnswerFinal()
@@ -605,58 +617,58 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                           currentQuestionIndex.state++;
                                           ref
                                               .watch(
-                                              currentProgressState.notifier)
+                                                  currentProgressState.notifier)
                                               .state++;
 
                                           if (ref
-                                              .watch(
-                                              currentTypeTaskState
-                                                  .notifier)
-                                              .state ==
-                                              TaskType.STX.name ||
+                                                      .watch(
+                                                          currentTypeTaskState
+                                                              .notifier)
+                                                      .state ==
+                                                  TaskType.STX.name ||
                                               ref
-                                                  .watch(
-                                                  currentTypeTaskState
-                                                      .notifier)
-                                                  .state ==
+                                                      .watch(
+                                                          currentTypeTaskState
+                                                              .notifier)
+                                                      .state ==
                                                   TaskType.ASM.name) {
                                             ref
-                                                .watch(
-                                                listSelectOptionStringState
-                                                    .notifier)
-                                                .state =
+                                                    .watch(
+                                                        listSelectOptionStringState
+                                                            .notifier)
+                                                    .state =
                                                 ref
                                                     .watch(
-                                                    listSelectOptionCurrentStringState
-                                                        .notifier)
+                                                        listSelectOptionCurrentStringState
+                                                            .notifier)
                                                     .state;
                                             ref
-                                                .watch(attachmentNameState
-                                                .notifier)
-                                                .state =
+                                                    .watch(attachmentNameState
+                                                        .notifier)
+                                                    .state =
                                                 ref
                                                     .watch(
-                                                    attachmentNameCurrentState
-                                                        .notifier)
+                                                        attachmentNameCurrentState
+                                                            .notifier)
                                                     .state;
                                             ref
-                                                .watch(attachmentPathState
-                                                .notifier)
-                                                .state =
+                                                    .watch(attachmentPathState
+                                                        .notifier)
+                                                    .state =
                                                 ref
                                                     .watch(
-                                                    attachmentPathCurrentState
-                                                        .notifier)
+                                                        attachmentPathCurrentState
+                                                            .notifier)
                                                     .state;
                                           } else {
                                             ref
-                                                .watch(listSelectOptionState
-                                                .notifier)
-                                                .state =
+                                                    .watch(listSelectOptionState
+                                                        .notifier)
+                                                    .state =
                                                 ref
                                                     .watch(
-                                                    listSelectOptionCurrentState
-                                                        .notifier)
+                                                        listSelectOptionCurrentState
+                                                            .notifier)
                                                     .state;
                                           }
                                           setState(() {
@@ -669,26 +681,31 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                   } else {
                                     ctrl
                                         .saveAnswer(
-                                        listTask[currentQuestionIndex.state]
-                                            .taskId ??
-                                            0,
-                                        isLast: true,
-                                        attachment: attachment.state,
-                                        attachmentName:
-                                        attachmentName.state,
-                                        listSelectedOption:
-                                        listSelectedOptionString,
-                                        type: listTask[currentQuestionIndex
-                                            .state]
-                                            .taskTypeCode ??
-                                            '')
+                                            listTask[currentQuestionIndex.state]
+                                                    .taskId ??
+                                                0,
+                                            isLast: true,
+                                            attachment: attachment.state,
+                                            attachmentName:
+                                                attachmentName.state,
+                                            listSelectedOption:
+                                                listSelectedOptionString,
+                                            type: listTask[currentQuestionIndex
+                                                        .state]
+                                                    .taskTypeCode ??
+                                                '',
+                                            taskGroup: listTask[
+                                                        currentQuestionIndex
+                                                            .state]
+                                                    .taskGroup ??
+                                                '')
                                         .whenComplete(() async {
                                       if (((currentQuestionProgress) * 100) ~/
-                                          listTask.length <
+                                              listTask.length <
                                           100) {
                                         ref
                                             .watch(
-                                            currentProgressState.notifier)
+                                                currentProgressState.notifier)
                                             .state++;
                                       }
                                       await ctrl
@@ -699,41 +716,40 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                           context: context,
                                           builder: (context) {
                                             return CustomDialog(
-                                                title:
-                                                "Confirmation",
+                                                title: "Confirmation",
                                                 content:
-                                                "Are you sure want to submit your Assignment?",
+                                                    "Are you sure want to submit your Assignment?",
                                                 label: "Submit",
                                                 type: DialogType.mission,
                                                 isAssignment: true,
-                                                resultSubmissionData: resultSubmissionData,
-                                                isConnectionAvailable: isConnectionAvailable,
-                                                onClosed: () async =>
-                                                {
-                                                  await ctrl
-                                                      .putAnswerFinal(
-                                                      isSubmitted: true)
-                                                      .whenComplete(
-                                                          () async {
+                                                resultSubmissionData:
+                                                    resultSubmissionData,
+                                                isConnectionAvailable:
+                                                    isConnectionAvailable,
+                                                onClosed: () async => {
+                                                      await ctrl
+                                                          .putAnswerFinal(
+                                                              isSubmitted: true)
+                                                          .whenComplete(
+                                                              () async {
                                                         await ctrl
                                                             .changeStatusTask()
                                                             .whenComplete(
                                                                 () async {
-                                                              await ctrlMission
-                                                                  .getMissionList()
-                                                                  .whenComplete(() {
-                                                                setState(() {
-                                                                  _textController
-                                                                      .clear();
-                                                                  isInit = true;
-                                                                });
-                                                              });
+                                                          await ctrlMission
+                                                              .getMissionList()
+                                                              .whenComplete(() {
+                                                            setState(() {
+                                                              _textController
+                                                                  .clear();
+                                                              isInit = true;
                                                             });
+                                                          });
+                                                        });
                                                       })
-                                                });
+                                                    });
                                           },
                                         );
-
                                       });
                                     });
                                   }
@@ -747,7 +763,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                               },
                               child: Text(
                                 (currentQuestionIndex.state + 1) <
-                                    listTask.length
+                                        listTask.length
                                     ? 'Next'
                                     : 'Finish',
                               ),
@@ -764,8 +780,10 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
     );
   }
 
-
-  Future<void> pickDocFile({required TaskController ctrl,required List<TaskDatum> listTask,required int currentQuestionIndex}) async {
+  Future<void> pickDocFile(
+      {required TaskController ctrl,
+      required List<TaskDatum> listTask,
+      required int currentQuestionIndex}) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['doc', 'jpg', 'jpeg', 'png', 'gif', 'pdf'],
@@ -776,35 +794,26 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
       ref.refresh(taskControllerProvider);
 
       await ctrl
-            .saveAnswer(
-            listTask[currentQuestionIndex]
-                .taskId ??
-                0,
-            isLast: false,
-            attachment: fileDuplicate.path ?? '',
-            attachmentName:
-            fileDuplicate.name,
-            listSelectedOption:
-            [_textController.text],
-            type: listTask[
-            currentQuestionIndex]
-                .taskTypeCode ??
-                '')
-            .whenComplete(() async {
+          .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
+              isLast: false,
+              attachment: fileDuplicate.path ?? '',
+              attachmentName: fileDuplicate.name,
+              listSelectedOption: [_textController.text],
+              type: listTask[currentQuestionIndex].taskTypeCode ?? '',
+              taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
+          .whenComplete(() async {
         ref.refresh(taskControllerProvider);
 
-        await ctrl
-              .putAnswerFinal();
-        }).whenComplete(() {
+        await ctrl.putAnswerFinal();
+      }).whenComplete(() {
         ref.refresh(taskControllerProvider);
 
         setState(() {
-            ref.read(attachmentNameState.notifier).state = fileDuplicate.name;
-            ref.read(attachmentPathState.notifier).state = fileDuplicate.path ?? '';
-
-          });
-
+          ref.read(attachmentNameState.notifier).state = fileDuplicate.name;
+          ref.read(attachmentPathState.notifier).state =
+              fileDuplicate.path ?? '';
         });
+      });
     } else {
       // User canceled the picker
     }

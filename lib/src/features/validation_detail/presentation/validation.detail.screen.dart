@@ -238,7 +238,7 @@ class _ValidationDetailScreenState
                                             height: 6,
                                           ),
                                           Text(
-                                            'Rewards',
+                                            EtamKawaTranslate.rewards,
                                             style:
                                                 SharedComponent.textStyleCustom(
                                                     typographyType:
@@ -278,7 +278,7 @@ class _ValidationDetailScreenState
                                             height: 8,
                                           ),
                                           Text(
-                                            'Submitted at',
+                                            EtamKawaTranslate.submittedAt,
                                             style:
                                                 SharedComponent.textStyleCustom(
                                                     typographyType:

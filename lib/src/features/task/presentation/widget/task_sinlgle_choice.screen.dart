@@ -74,7 +74,7 @@ class _TaskSingleChoiceScreenState
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                    "Task ${currentQuestionIndex.state + 1}/${listTask.length}",
+                                    "${EtamKawaTranslate.task} ${currentQuestionIndex.state + 1}/${listTask.length}",
                                     style: SharedComponent.textStyleCustom(
                                         typographyType: TypographyType.largeH5,
                                         fontColor: ColorTheme.textDark)),

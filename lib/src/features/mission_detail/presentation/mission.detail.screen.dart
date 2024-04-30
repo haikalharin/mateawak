@@ -257,7 +257,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                             height: 6,
                                           ),
                                           Text(
-                                            'Rewards',
+                                            EtamKawaTranslate.rewards,
                                             style:
                                                 SharedComponent.textStyleCustom(
                                                     typographyType:
@@ -305,7 +305,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                             height: 8,
                                           ),
                                           Text(
-                                            'Duration',
+                                            EtamKawaTranslate.duration,
                                             style:
                                                 SharedComponent.textStyleCustom(
                                                     typographyType:
@@ -314,7 +314,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                                         ColorTheme.neutral600),
                                           ),
                                           Text(
-                                            '${CommonUtils.daysBetween(DateTime.now(), DateTime.parse(gamification.dueDate??'2021-01-30T00:00:00'))} days',
+                                            '${CommonUtils.daysBetween(DateTime.now(), DateTime.parse(gamification.dueDate??'2021-01-30T00:00:00'))} ${EtamKawaTranslate.days}',
                                             style:
                                                 SharedComponent.textStyleCustom(
                                                     typographyType:
@@ -443,7 +443,7 @@ Widget addTaskIfQuizz(int totalTask) {
         height: 5,
       ),
       Text(
-        'Tasks',
+        EtamKawaTranslate.task,
         style: SharedComponent.textStyleCustom(
             typographyType: TypographyType.bold,
             fontColor: ColorTheme.neutral600),

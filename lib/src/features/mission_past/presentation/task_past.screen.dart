@@ -242,7 +242,7 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
                                         height: 6,
                                       ),
                                       Text(
-                                        'Rewards',
+                                        EtamKawaTranslate.rewards,
                                         style: SharedComponent.textStyleCustom(
                                             typographyType: TypographyType.bold,
                                             fontColor: ColorTheme.neutral600),
@@ -297,7 +297,7 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
                                         height: 6,
                                       ),
                                       Text(
-                                        'Submitted at',
+                                        EtamKawaTranslate.submittedAt,
                                         style: SharedComponent.textStyleCustom(
                                             typographyType: TypographyType.bold,
                                             fontColor: ColorTheme.neutral600),

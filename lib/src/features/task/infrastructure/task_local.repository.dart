@@ -1,21 +1,14 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:math';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
 import 'package:module_etamkawa/src/constants/constant.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
-import 'package:module_etamkawa/src/features/overview/presentation/controller/overview.controller.dart';
 import 'package:module_etamkawa/src/features/task/domain/answer_request.remote.dart';
 import 'package:module_etamkawa/src/features/task/domain/result_submission_request.remote.dart';
-import 'package:module_etamkawa/src/features/task/presentation/controller/task.controller.dart';
-import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
 import 'package:module_shared/module_shared.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../utils/common_utils.dart';
-import '../../mission/presentation/controller/mission.controller.dart';
 import '../../offline_mode/infrastructure/repositories/isar.repository.dart';
 import '../domain/task_datum_answer_request.remote.dart';
 
@@ -88,7 +81,6 @@ FutureOr<List<TaskDatumAnswerRequestRemote>> getTaskAnswerFinalLocal(
 FutureOr<bool> putAnswerFinalLocal(PutAnswerFinalLocalRef ref,
     {required AnswerRequestRemote answerRequestRemote}) async {
   final isarInstance = await ref.watch(isarInstanceProvider.future);
-  List<TaskDatumAnswer> listData = [];
   await isarInstance.writeTxn(() async {
     await isarInstance.answerRequestRemotes.put(answerRequestRemote);
   });
@@ -107,7 +99,7 @@ FutureOr<List<TaskDatumAnswer>> getAnswerFinalLocal(GetAnswerFinalLocalRef ref,
       .employeeMissionIdEqualTo(employeeMissionId)
       .findAll();
   if (kDebugMode) {
-    print('#######Haloo2 ${data}');
+    print('#######Haloo2 $data');
   }
   return data.first.taskData ?? [];
 }
@@ -135,36 +127,29 @@ Future<ResultSubmissionRequestRemote> submitMission(SubmitMissionRef ref,
     {required AnswerRequestRemote answerRequestRemote,
     required int status}) async {
   final userModel = await ref.read(helperUserProvider).getUserProfile();
-  //final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
-  final isarInstance = await ref.watch(isarInstanceProvider.future);
   final connect = ref.read(connectProvider.notifier);
-  //if (isConnectionAvailable) {
-  if (status == 3) {
-    answerRequestRemote.taskData?.first.attachmentId = 64;
-  }
-  answerRequestRemote.taskData?.forEach((element) async {
-    //if (element.attachment == null && element.attachmentId == null) {
+  final isarInstance = await ref.watch(isarInstanceProvider.future);
+  await Future.forEach(answerRequestRemote.taskData!, (element) async {
+    if (element.attachment != '') {
+      final map = FormData.fromMap({
+        "File": await MultipartFile.fromFile(element.attachment!),
+        "Group": element.taskGroup,
+      });
 
-    debugPrint(element.attachment.toString());
-    File imageFile = File(element.attachment ?? '');
-    List<int> imageBytes = imageFile.readAsBytesSync();
-    String base64Image = base64.encode(imageBytes);
-    final response = await connect.post(
-        modul: ModuleType.etamkawaGamification,
-        path:
-            "api/attachment/insert_attachment?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}",
-        body: {"Group": element.taskGroup, "File": base64Image});
+      final response = await connect.post(
+          modul: ModuleType.etamkawaGamification,
+          path:
+              "api/attachment/insert_attachment?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}",
+          body: map);
 
-    debugPrint(response.result?.content.toString());
-    if (response.statusCode == 200) {
-      int id = 64;
-      if (response.result?.content["resultData"] != null) {
-        id = int.parse(response.result?.content["resultData"]);
+      if (response.statusCode == 200) {
+        int id = 64;
+        if (response.result?.content["resultData"] != null) {
+          id = int.parse(response.result?.content["resultData"]);
+        }
+        element.attachmentId = id;
       }
-      debugPrint(id.toString());
-      element.attachmentId = id;
     }
-    //}
   });
   answerRequestRemote.status = 2;
   final response = await connect.post(

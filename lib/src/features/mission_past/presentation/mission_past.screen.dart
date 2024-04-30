@@ -159,7 +159,7 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 8.w, vertical: 4.h),
-                                  child: Text(missionPast[index].missionStatus!,
+                                  child: Text(_getMissionStatus(missionPast[index].missionStatus!),
                                       style: SharedComponent.textStyleCustom(
                                           typographyType:
                                               TypographyType.paragraph,
@@ -183,7 +183,7 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
                                   padding:
                                       const EdgeInsets.fromLTRB(3, 0, 0, 0),
                                   child: Text(
-                                      '${missionPast[index].missionReward.toString()} pts',
+                                      '${missionPast[index].missionReward.toString()} ${EtamKawaTranslate.pts}',
                                       style: SharedComponent.textStyleCustom(
                                           typographyType:
                                               TypographyType.paragraph,
@@ -202,54 +202,6 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
                           style: SharedComponent.textStyleCustom(
                               typographyType: TypographyType.paragraph,
                               fontColor: ColorTheme.neutral500)),
-                      // if (missionPast[index].missionStatusCode == '2') Padding(
-                      //   padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.center,
-                      //     mainAxisSize: MainAxisSize.min,
-                      //     children: [
-                      //       SvgPicture.asset(ImageConstant.iconCalendar,
-                      //           width: 16.sp,
-                      //           height: 16.sp,
-                      //           package: Constant.moduleEtamkawa),
-                      //       Padding(
-                      //         padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                      //         child: Text(
-                      //             'Submitted at: ${CommonUtils.formattedDateHours(missionPast[index].submittedDate ?? DateTime.now().toString())}',
-                      //             style: SharedComponent.textStyleCustom(
-                      //                 typographyType: TypographyType.small,
-                      //                 fontColor: ColorTheme.neutral500)
-                      //             //TextStyle(fontSize: 11.sp),
-                      //             ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                      // if (missionPast[index].missionStatusCode != 3)
-                      //   Padding(
-                      //     padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                      //     child: Row(
-                      //       mainAxisAlignment: MainAxisAlignment.center,
-                      //       mainAxisSize: MainAxisSize.min,
-                      //       children: [
-                      //         SvgPicture.asset(ImageConstant.iconValidated,
-                      //             width: 16.sp,
-                      //             height: 16.sp,
-                      //             package: Constant.moduleEtamkawa),
-
-                      //         Padding(
-                      //           padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                      //           child: Text(
-                      //               'Validated at: ${CommonUtils.formattedDateHours(missionPast[index].completedDate ?? DateTime.now().toString())}',
-                      //               style: SharedComponent.textStyleCustom(
-                      //                   typographyType: TypographyType.small,
-                      //                   fontColor: ColorTheme.neutral500)
-                      //               //TextStyle(fontSize: 11.sp),
-                      //               ),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 15, 0, 7),
                         child: SizedBox(
@@ -292,5 +244,22 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
         );
       },
     );
+  }
+}
+
+String _getMissionStatus(String status){
+  switch (status) {
+    case 'Assigned':
+      return EtamKawaTranslate.assigned;
+    case 'In Progress':
+      return EtamKawaTranslate.inProgress;
+    case 'Under Review':
+      return EtamKawaTranslate.underReview;
+    case 'Incomplete':
+      return EtamKawaTranslate.incomplete;
+    case 'Completed':
+      return EtamKawaTranslate.completed;
+    default:
+      return 'Assigned';
   }
 }
