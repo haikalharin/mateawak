@@ -220,7 +220,6 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
                                         employeeMissionId: missionPast[index].employeeMissionId ??
                                             0)
                                     .whenComplete(() async {
-
                                       await putCurrentAnswerFinal()
                                           .whenComplete(() {
                                         myAsyncMethodMoved(
@@ -257,7 +256,7 @@ String _getMissionStatus(String status){
       return EtamKawaTranslate.underReview;
     case 'Incomplete':
       return EtamKawaTranslate.incomplete;
-    case 'Completed':
+    case 'Complete':
       return EtamKawaTranslate.completed;
     default:
       return 'Assigned';

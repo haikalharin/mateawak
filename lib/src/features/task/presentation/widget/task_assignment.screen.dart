@@ -526,6 +526,11 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                       .state ==
                                                   TaskType.ASM.name) {
                                             ref
+                                                .watch(
+                                                listSelectOptionStringState
+                                                    .notifier)
+                                                .state.clear();
+                                            ref
                                                     .watch(
                                                         listSelectOptionStringState
                                                             .notifier)

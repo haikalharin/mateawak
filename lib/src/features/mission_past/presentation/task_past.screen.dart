@@ -45,6 +45,7 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
 
   @override
   void initState() {
+    ref.refresh(missionPastControllerProvider);
     _scrollController.addListener(
       () {},
     );
