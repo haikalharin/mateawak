@@ -197,6 +197,22 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                       if ((gamificationData.missionStatusCode ??
                                               0) <=
                                           1) {
+                                        setState(() {
+                                          if (value != null && value) {
+                                            ref.refresh(taskControllerProvider);
+
+                                            listData.add(
+                                                listAnswer?[index].answerId ??
+                                                    0);
+                                          } else {
+                                            ref.refresh(taskControllerProvider);
+
+                                            listData.remove(
+                                                listAnswer?[index].answerId ??
+                                                    0);
+                                          }
+                                        });
+
                                         await ctrl
                                             .saveAnswer(
                                                 listTask[currentQuestionIndex
@@ -204,10 +220,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                         .taskId ??
                                                     0,
                                                 isLast: false,
-                                                listSelectedOption: [
-                                                  listAnswer?[index].answerId ??
-                                                      0
-                                                ],
+                                                listSelectedOption: listData,
                                                 type: listTask[
                                                             currentQuestionIndex
                                                                 .state]
@@ -216,16 +229,8 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                             .whenComplete(() async {
                                           await ctrl.putAnswerFinal();
                                         }).whenComplete(() {
+                                          ref.refresh(taskControllerProvider);
                                           setState(() {
-                                            if (value != null && value) {
-                                              listData.add(
-                                                  listAnswer?[index].answerId ??
-                                                      0);
-                                            } else {
-                                              listData.remove(
-                                                  listAnswer?[index].answerId ??
-                                                      0);
-                                            }
                                             ref
                                                 .watch(listSelectOptionState
                                                     .notifier)
@@ -397,6 +402,12 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                                 .notifier)
                                                         .state ==
                                                     TaskType.ASM.name) {
+                                              ref
+                                                  .watch(
+                                                  listSelectOptionStringState
+                                                      .notifier)
+                                                  .state.clear();
+
                                               ref
                                                       .watch(
                                                           listSelectOptionStringState

@@ -158,55 +158,57 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                             ),
                             const Divider(),
                             const SizedBox(height: 20.0),
-                            RatingBar.builder(
-                              initialRating: listSelectedOption.state.isNotEmpty
-                                  ? listSelectedOption.state.first.toDouble()
-                                  : 0.0,
-                              minRating: 1,
-                              direction: Axis.horizontal,
-                              itemCount: 5,
-                              itemPadding:
-                                  const EdgeInsets.symmetric(horizontal: 4.0),
-                              itemBuilder: (context, _) => const Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                              ),
-                              onRatingUpdate: (rating) async {
-                                if ((gamificationData.missionStatusCode ?? 0) <=
-                                    1) {
-                                  await ctrl
-                                      .saveAnswer(
-                                      listTask[currentQuestionIndex.state]
-                                          .taskId ??
-                                          0,
-                                      isLast: false,
-                                      listSelectedOption: [
-                                        rating.toInt()
-                                      ],
-                                      type: listTask[currentQuestionIndex
-                                          .state]
-                                          .taskTypeCode ??
-                                          '')
-                                      .whenComplete(() async {
-                                    await ctrl.putAnswerFinal().whenComplete(() {
-                                      if (rating != 0) {
-                                        if (listSelectedOption.state.isNotEmpty) {
+                            Center(
+                              child: RatingBar.builder(
+                                initialRating: listSelectedOption.state.isNotEmpty
+                                    ? listSelectedOption.state.first.toDouble()
+                                    : 0.0,
+                                minRating: 1,
+                                direction: Axis.horizontal,
+                                itemCount: 5,
+                                itemPadding:
+                                    const EdgeInsets.symmetric(horizontal: 4.0),
+                                itemBuilder: (context, _) => const Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                ),
+                                onRatingUpdate: (rating) async {
+                                  if ((gamificationData.missionStatusCode ?? 0) <=
+                                      1) {
+                                    await ctrl
+                                        .saveAnswer(
+                                        listTask[currentQuestionIndex.state]
+                                            .taskId ??
+                                            0,
+                                        isLast: false,
+                                        listSelectedOption: [
+                                          rating.toInt()
+                                        ],
+                                        type: listTask[currentQuestionIndex
+                                            .state]
+                                            .taskTypeCode ??
+                                            '')
+                                        .whenComplete(() async {
+                                      await ctrl.putAnswerFinal().whenComplete(() {
+                                        if (rating != 0) {
+                                          if (listSelectedOption.state.isNotEmpty) {
+                                            ref
+                                                .watch(listSelectOptionState.notifier)
+                                                .state
+                                                .clear();
+                                          }
                                           ref
                                               .watch(listSelectOptionState.notifier)
-                                              .state
-                                              .clear();
+                                              .state = [rating.toInt()];
+
                                         }
-                                        ref
-                                            .watch(listSelectOptionState.notifier)
-                                            .state = [rating.toInt()];
-
-                                      }
+                                      });
                                     });
-                                  });
 
 
-                                }
-                              },
+                                  }
+                                },
+                              ),
                             ),
                           ],
                         ),
@@ -368,6 +370,12 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                               .notifier)
                                                       .state ==
                                                   TaskType.ASM.name) {
+                                            ref.refresh(taskControllerProvider);
+                                            ref
+                                                .watch(
+                                                listSelectOptionStringState
+                                                    .notifier)
+                                                .state.clear();
                                             ref
                                                     .watch(
                                                         listSelectOptionStringState
