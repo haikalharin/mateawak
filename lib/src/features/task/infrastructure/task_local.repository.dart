@@ -130,7 +130,7 @@ Future<ResultSubmissionRequestRemote> submitMission(SubmitMissionRef ref,
   final connect = ref.read(connectProvider.notifier);
   final isarInstance = await ref.watch(isarInstanceProvider.future);
   await Future.forEach(answerRequestRemote.taskData!, (element) async {
-    if (element.attachment != '') {
+    if (element.attachment != '' && element.attachment != null) {
       final map = FormData.fromMap({
         "File": await MultipartFile.fromFile(element.attachment!),
         "Group": element.taskGroup,

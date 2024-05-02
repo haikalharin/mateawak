@@ -40,8 +40,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
         final listTask = ref.watch(listTaskState);
         final currentQuestionProgress = ref.watch(currentProgressState);
         final gamificationData = ref.watch(gamificationState);
-        final resultSubmissionData =
-            ref.watch(resultSubmissionState.notifier).state;
+        final resultSubmit = ref.watch(resultSubmissionState);
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
         final lengthAnswer = ref.watch(listTaskState).length;
         if (isInit) {
@@ -346,7 +345,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                         });
                                       },
                                       child: Text(
-                                        'Previous',
+                                        EtamKawaTranslate.previous,
                                       ),
                                     ),
                                   )
@@ -490,8 +489,8 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                       "Are you sure want to submit your answers?",
                                                   label: "Submit",
                                                   type: DialogType.mission,
-                                                  resultSubmissionData:
-                                                      resultSubmissionData,
+                                                  resultSubmissionState:
+                                                      resultSubmit,
                                                   isConnectionAvailable:
                                                       isConnectionAvailable,
                                                   onClosed: () async => {
@@ -529,8 +528,8 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                 child: Text(
                                   (currentQuestionIndex.state + 1) <
                                           listTask.length
-                                      ? 'Next'
-                                      : 'Finish',
+                                      ? EtamKawaTranslate.next
+                                      : EtamKawaTranslate.finish,
                                 ),
                               ),
                             ),

@@ -47,8 +47,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
         final gamificationData = ref.watch(gamificationState);
-        final resultSubmissionData =
-            ref.watch(resultSubmissionState.notifier).state;
+        final resultSubmit = ref.watch(resultSubmissionState);
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
         // _textController =
         if (ref.watch(currentTypeTaskState.notifier).state ==
@@ -190,7 +189,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                               0) >
                                           1,
                                   controller: _textController,
-                                  maxLength: 100,
+                                  maxLength: 300,
                                   textInputAction: TextInputAction.done,
                                   decoration: InputDecoration(
                                     hintText: 'Write your comment here..',
@@ -344,7 +343,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                           });
                                         },
                                         child: Text(
-                                          'Previous',
+                                          EtamKawaTranslate.previous,
                                         ),
                                       ),
                                     )
@@ -493,8 +492,8 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                         "Are you sure want to submit your answers?",
                                                     label: "Submit",
                                                     type: DialogType.mission,
-                                                    resultSubmissionData:
-                                                        resultSubmissionData,
+                                                    resultSubmissionState:
+                                                        resultSubmit,
                                                     isConnectionAvailable:
                                                         isConnectionAvailable,
                                                     onClosed: () async => {
@@ -536,8 +535,8 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                   child: Text(
                                     (currentQuestionIndex.state + 1) <
                                             listTask.length
-                                        ? 'Next'
-                                        : 'Finish',
+                                        ? EtamKawaTranslate.next
+                                        : EtamKawaTranslate.finish,
                                   ),
                                 ),
                               ),

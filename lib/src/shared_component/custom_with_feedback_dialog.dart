@@ -39,7 +39,7 @@ class _CustomWithFeedbackDialogState extends State<CustomWithFeedbackDialog> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Give a Score',
+            Text(EtamKawaTranslate.giveAScore,
                 style: SharedComponent.textStyleCustom(
                     typographyType: TypographyType.largeH5)),
             const SizedBox(
@@ -92,7 +92,7 @@ class _CustomWithFeedbackDialogState extends State<CustomWithFeedbackDialog> {
             ),
             RichText(
               text: TextSpan(
-                text: 'Feedback',
+                text: EtamKawaTranslate.feedback,
                 style: SharedComponent.textStyleCustom(
                     typographyType: TypographyType.body,
                     fontColor: ColorTheme.textDark),
@@ -114,7 +114,7 @@ class _CustomWithFeedbackDialogState extends State<CustomWithFeedbackDialog> {
               child: TextFormField(
                 readOnly: false,
                 controller: controller,
-                maxLength: 200,
+                maxLength: 1000,
                 textInputAction: TextInputAction.done,
                 decoration: InputDecoration(
                   hintText: 'Write your comment here..',
@@ -158,7 +158,7 @@ Widget confirmationButton(int? selectedScore, String feedback,
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       SharedComponent.btnWidget(
-        label: 'Cancel',
+        label: EtamKawaTranslate.cancel,
         typographyType: TypographyType.body,
         color: ColorTheme.neutral200,
         fontColor: ColorTheme.neutral600,
@@ -184,9 +184,9 @@ Widget confirmationButton(int? selectedScore, String feedback,
                 context: context,
                 builder: (context) {
                   return CustomDialog(
-                      title: "Hooray!",
+                      title: EtamKawaTranslate.hooray,
                       content:
-                          "Feedback successfully submitted. The submitter will received feedback shortly.",
+                          "${EtamKawaTranslate.feedbackSuccessfullySubmitted}. ${EtamKawaTranslate.willReceiveFeedbackShortly}.",
                       type: DialogType.success,
                       label: "Okay",
                       onClosed: () async => {

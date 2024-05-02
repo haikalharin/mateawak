@@ -62,8 +62,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
         final gamificationData = ref.watch(gamificationState);
-        final resultSubmissionData =
-            ref.watch(resultSubmissionState.notifier).state;
+        final resultSubmit = ref.watch(resultSubmissionState);
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
         if (ref.watch(currentTypeTaskState.notifier).state ==
             TaskType.ASM.name) {
@@ -425,7 +424,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                     (gamificationData.missionStatusCode ?? 0) >
                                         1,
                                 controller: _textController,
-                                maxLength: 100,
+                                maxLength: 300,
                                 textInputAction: TextInputAction.done,
                                 decoration: InputDecoration(
                                   hintText: 'Write your comment here..',
@@ -630,8 +629,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                         });
                                       });
                                     },
-                                    child: const Text(
-                                      'Previous',
+                                    child: Text(
+                                      EtamKawaTranslate.previous,
                                     ),
                                   ),
                                 )
@@ -788,8 +787,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                     "Are you sure want to submit your answers?",
                                                 label: "Submit",
                                                 type: DialogType.mission,
-                                                resultSubmissionData:
-                                                    resultSubmissionData,
+                                                resultSubmissionState:
+                                                    resultSubmit,
                                                 isConnectionAvailable:
                                                     isConnectionAvailable,
                                                 onClosed: () async => {
@@ -828,8 +827,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                               child: Text(
                                 (currentQuestionIndex.state + 1) <
                                         listTask.length
-                                    ? 'Next'
-                                    : 'Finish',
+                                    ? EtamKawaTranslate.next
+                                    : EtamKawaTranslate.finish,
                               ),
                             ),
                           ),

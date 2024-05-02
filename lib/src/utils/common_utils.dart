@@ -208,8 +208,30 @@ class CommonUtils {
   }
 }
 
+class EtamKawaUtils{
+  String getMissionStatus(String status){
+  switch (status) {
+    case 'Assigned':
+      return EtamKawaTranslate.assigned;
+    case 'In Progress':
+      return EtamKawaTranslate.inProgress;
+    case 'Under Review':
+      return EtamKawaTranslate.underReview;
+    case 'Incomplete':
+      return EtamKawaTranslate.incomplete;
+    case 'Completed':
+      return EtamKawaTranslate.completed;
+    case 'Complete':
+      return EtamKawaTranslate.complete;
+    default:
+      return 'Assigned';
+  }
+}
+}
+
 extension StringExtension on String {
   String capitalize() {
     return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
   }
 }
+

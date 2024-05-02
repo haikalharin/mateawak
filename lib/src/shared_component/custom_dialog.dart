@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -19,7 +20,7 @@ class CustomDialog extends StatelessWidget {
       required this.content,
       required this.label,
       this.isAssignment,
-      this.resultSubmissionData,
+      this.resultSubmissionState,
       this.isConnectionAvailable,
       this.onClosed});
 
@@ -28,7 +29,7 @@ class CustomDialog extends StatelessWidget {
   final String content;
   final String label;
   final bool? isAssignment;
-  final ResultSubmissionRequestRemote? resultSubmissionData;
+  final ResultSubmissionRequestRemote? resultSubmissionState;
   final bool? isConnectionAvailable;
   final Function()? onClosed;
 
@@ -84,7 +85,7 @@ class CustomDialog extends StatelessWidget {
                       label,
                       onClosed,
                       type,
-                      resultSubmissionData,
+                      resultSubmissionState,
                       isConnectionAvailable,
                       isAssignment ?? false)
                   : SharedComponent.btnWidget(
@@ -111,14 +112,14 @@ Widget confirmationButton(
     String label,
     Function()? onClosed,
     DialogType type,
-    ResultSubmissionRequestRemote? resultSubmissionData,
+    ResultSubmissionRequestRemote? resultSubmissionState,
     bool? isConnectionAvailable,
     bool? isAssignment) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       SharedComponent.btnWidget(
-        label: type == DialogType.mission ? 'Cancel' : 'Leave',
+        label: type == DialogType.mission ? EtamKawaTranslate.cancel : EtamKawaTranslate.leave,
         typographyType: TypographyType.body,
         color: ColorTheme.neutral200,
         fontColor: ColorTheme.neutral600,
@@ -126,10 +127,11 @@ Widget confirmationButton(
           context.pop();
           if (type == DialogType.question) {
             showDialog(
+                barrierDismissible: false,
                 context: context,
                 builder: (context) {
                   return CustomDialog(
-                      title: "Hooray!",
+                      title: EtamKawaTranslate.hooray,
                       content:
                           "Progress successfully saved. We're saving your activity in this mission as a Draft. Come back soon.",
                       label: "Back to Mission List",
@@ -160,16 +162,17 @@ Widget confirmationButton(
                   context: context,
                   builder: (context) {
                     return RewardDialog(
-                      rewardResponse: resultSubmissionData!,
+                      resultSubmissionState: resultSubmissionState!,
                       isConnectionAvailable: isConnectionAvailable!,
                     );
                   });
             } else {
               showDialog(
+                  barrierDismissible: false,
                   context: context,
                   builder: (context) {
                     return CustomDialog(
-                        title: "Hooray!",
+                        title: EtamKawaTranslate.hooray,
                         content: "Yeay, your assignment has been completed!",
                         label: "Okay",
                         type: DialogType.success,

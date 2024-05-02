@@ -149,7 +149,9 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 8.w, vertical: 4.h),
-                                  child: Text(validation[index].missionStatus!,
+                                  child: Text(
+                                      EtamKawaUtils().getMissionStatus(
+                                          validation[index].missionStatus!),
                                       style: SharedComponent.textStyleCustom(
                                           typographyType:
                                               TypographyType.paragraph,
@@ -173,7 +175,7 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                                   padding:
                                       const EdgeInsets.fromLTRB(3, 0, 0, 0),
                                   child: Text(
-                                      '${validation[index].chapterData?.single.missionData?.single.taskData?.single.answerReward.toString()} ${EtamKawaTranslate.pts}',
+                                      '${validation[index].chapterData?.single.missionData?.single.taskData?.single.answerReward ?? 0.toString()} ${EtamKawaTranslate.pts}',
                                       style: SharedComponent.textStyleCustom(
                                           typographyType:
                                               TypographyType.paragraph,
@@ -220,11 +222,11 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                             ),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                              child: Text(validation[index].submittedBy ?? '',
+                              child: Text(
+                                  validation[index].employeeName ?? 'Name',
                                   style: SharedComponent.textStyleCustom(
                                       typographyType: TypographyType.small,
-                                      fontColor: ColorTheme.primary500)
-                                  ),
+                                      fontColor: ColorTheme.primary500)),
                             ),
                           ],
                         ),
@@ -339,10 +341,9 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                               //     });
                               //   });
                               // }
-                              myAsyncMethodMoved(
-                                        context, validation[index]);
+                              myAsyncMethodMoved(context, validation[index]);
                             },
-                            child: Text("View",
+                            child: Text(EtamKawaTranslate.view,
                                 style: SharedComponent.textStyleCustom(
                                     typographyType: TypographyType.paragraph)),
                           ),
