@@ -214,6 +214,9 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                 '')
                                         .whenComplete(() async {
                                       await ctrl.putAnswerFinal();
+                                    }).whenComplete(() {
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
                                     });
                                   },
                                   onChanged: (value) {
@@ -397,6 +400,11 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                                   .notifier)
                                                           .state ==
                                                       TaskType.ASM.name) {
+                                                ref
+                                                    .watch(
+                                                    listSelectOptionStringState
+                                                        .notifier)
+                                                    .state.clear();
                                                 ref
                                                         .watch(
                                                             listSelectOptionStringState

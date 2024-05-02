@@ -243,7 +243,6 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
                                         employeeMissionId: missionPast[index].employeeMissionId ??
                                             0)
                                     .whenComplete(() async {
-
                                       await putCurrentAnswerFinal()
                                           .whenComplete(() {
                                         myAsyncMethodMoved(

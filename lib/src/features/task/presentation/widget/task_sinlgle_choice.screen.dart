@@ -102,13 +102,13 @@ class _TaskSingleChoiceScreenState
                                               ),
                                               Text(
                                                   " +${listTask[currentQuestionIndex.state].taskReward}",
-                                                  style: SharedComponent
-                                                      .textStyleCustom(
-                                                          typographyType:
-                                                              TypographyType
-                                                                  .largeH5,
-                                                          fontColor: ColorTheme
-                                                              .secondary500)),
+                                                style: SharedComponent
+                                                    .textStyleCustom(
+                                                    typographyType:
+                                                    TypographyType.body,
+                                                    fontColor: ColorTheme
+                                                        .secondary500),
+                                              ),
                                             ],
                                           ),
                                         )),
@@ -398,6 +398,11 @@ class _TaskSingleChoiceScreenState
                                                               .notifier)
                                                       .state ==
                                                   TaskType.ASM.name) {
+                                            ref
+                                                .watch(
+                                                listSelectOptionStringState
+                                                    .notifier)
+                                                .state.clear();
                                             ref
                                                     .watch(
                                                         listSelectOptionStringState

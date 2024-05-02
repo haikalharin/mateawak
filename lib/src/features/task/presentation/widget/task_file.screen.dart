@@ -695,6 +695,11 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                       .state ==
                                                   TaskType.ASM.name) {
                                             ref
+                                                .watch(
+                                                listSelectOptionStringState
+                                                    .notifier)
+                                                .state.clear();
+                                            ref
                                                     .watch(
                                                         listSelectOptionStringState
                                                             .notifier)

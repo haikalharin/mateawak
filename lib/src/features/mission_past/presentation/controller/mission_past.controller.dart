@@ -79,9 +79,7 @@ class MissionPastController extends _$MissionPastController {
               .future);
 
       await AsyncValue.guard(() => repo).then((value) async {
-
         List<TaskAnswerPastRemote> listData = [];
-
 
         for (var element
             in value.value?.chapterData?.single.missionData?.single.taskData ??
@@ -94,22 +92,28 @@ class MissionPastController extends _$MissionPastController {
               data.taskTypeCode == TaskType.ASM.name) {
             listSelectedOptionString.add(data.answer ?? '');
           } else {
-            if (currentTypeTask == TaskType.MCQ.name) {
-              var numbersList = data.answer?.split(';').map(int.parse).toList();
+            if (data.taskTypeCode == TaskType.MCQ.name) {
+
+
+              var numbersList = data.answer
+                  ?.split(';')
+                  .map((numString) => int.parse(numString))
+                  .toList();
               listSelectedOption.addAll(numbersList ?? []);
             } else {
               listSelectedOption
                   .add(int.parse(data.answer != '' ? data.answer ?? '0' : '0'));
             }
           }
+
           data.answerData?.forEach((element) {
             listAnswer.add(AnswerDatumPast(
-              answerId:element.answerId,
-              taskId:element.taskId,
-              answerCode:element.answerCode,
-              answerField:element.answerField,
-              answerCaption:element.answerCaption,
-              isCorrectAnswer:element.isCorrectAnswer,
+              answerId: element.answerId,
+              taskId: element.taskId,
+              answerCode: element.answerCode,
+              answerField: element.answerField,
+              answerCaption: element.answerCaption,
+              isCorrectAnswer: element.isCorrectAnswer,
             ));
           });
           listData.add(TaskAnswerPastRemote(
@@ -127,7 +131,7 @@ class MissionPastController extends _$MissionPastController {
               listSelectedOption: listSelectedOption,
               listSelectedOptionString: listSelectedOptionString,
               attachmentId: data.attachmentId,
-          answerData: listAnswer));
+              answerData: listAnswer));
         }
         // await AsyncValue.guard(() => repoPutAnswer)
         //     .then((valueRepoPutAnswer) async {
@@ -158,123 +162,9 @@ class MissionPastController extends _$MissionPastController {
     } catch (e) {
       ref.watch(submitStatusDetailState.notifier).state = SubmitStatus.failure;
       if (kDebugMode) {
-        print(e);
       }
     }
   }
 
-  Future<void> currentQuestion(
-      {required int employeeMissionId,
-      required PagePosition pagePosition,
-      List<TaskDatumAnswer>? listData,
-      bool isLast = false}) async {
-    List<String> listString = [];
-    List<int> listInt = [];
-    List<int> numbersList = [];
-    List<TaskDatumAnswer> listTaskAnswer = [];
-    int page = 0;
-    if (pagePosition == PagePosition.NEXT) {
-      page = 1;
-    } else if (pagePosition == PagePosition.PREV) {
-      page = -1;
-    }
-    var currentAnswer = ref.read(
-        getAnswerFinalLocalProvider(employeeMissionId: employeeMissionId)
-            .future);
-    List<TaskDatumAnswerRequestRemote> dataCek = [];
-    if (kDebugMode) {
-      print('#######Haloo');
-    }
-    if (listData != null) {
-      listTaskAnswer = listData;
-    } else {
-      state = await AsyncValue.guard(() => currentAnswer).then((value) async {
-        if (value.value != null && value.value != []) {
-          listTaskAnswer = value.value ?? [];
-        }
-        return value;
-      });
-    }
 
-    if (listTaskAnswer.isNotEmpty) {
-      for (var element in listTaskAnswer) {
-        dataCek.add(TaskDatumAnswerRequestRemote(
-            taskId: element.taskId,
-            answer: element.answer,
-            attachmentName: element.attachmentName,
-            attachment: element.attachment));
-      }
-    }
-    index = await ref.watch(currentIndexState);
-    currentTypeTask = !isLast
-        ? ref.watch(listTaskState)[index + page].taskTypeCode ?? ''
-        : '';
-    currentTaskId =
-        !isLast ? ref.watch(listTaskState)[index + page].taskId ?? 0 : 0;
-    for (var element in dataCek) {
-      if (element.taskId == currentTaskId) {
-        // await deleteAnswer(dataCek);
-        answer = element.answer ?? '';
-        attachment = element.attachment ?? '';
-        attachmentName = element.attachmentName ?? '';
-      }
-    }
-
-    if (answer != '') {
-      if (currentTypeTask == TaskType.STX.name ||
-          currentTypeTask == TaskType.ASM.name) {
-        listString.add(answer);
-        listSelectOptionCurrentString = listString;
-        ref.watch(currentTypeTaskState.notifier).state = currentTypeTask;
-        ref.watch(listSelectOptionCurrentStringState.notifier).state =
-            listString;
-
-        ref.watch(attachmentPathCurrentState.notifier).state = attachment;
-        ref.watch(attachmentNameCurrentState.notifier).state = attachmentName;
-      } else {
-        if (currentTypeTask == TaskType.MCQ.name) {
-          numbersList = answer.split(';').map(int.parse).toList();
-          listInt.addAll(numbersList);
-        } else {
-          listInt.add(int.parse(answer != '' ? answer : '0'));
-        }
-
-        listSelectOptionCurrent = listInt;
-        ref.watch(currentTypeTaskState.notifier).state = currentTypeTask;
-        ref.watch(listSelectOptionCurrentState.notifier).state =
-            listSelectOptionCurrent;
-      }
-    }
-  }
-
-  Future<void> putAnswerPastFromResponse(
-      GamificationResponseRemote gamificationResponseRemote,
-      {String? answer,
-      String? attachmentName}) async {
-    final userModel = await ref.read(helperUserProvider).getUserProfile();
-    final today =
-        CommonUtils.formatDateRequestParam(DateTime.now().toUtc().toString());
-    List<TaskDatumAnswer> listData = [];
-    for (var element in gamificationResponseRemote
-            .chapterData?.single.missionData?.single.taskData ??
-        []) {
-      TaskDatum data = element;
-      listData.add(TaskDatumAnswer(
-          taskId: data.taskId,
-          answer: data.answer,
-          // attachmentName: data.attachmentName,
-          attachmentId: data.attachmentId));
-    }
-
-    var taskAnswer = AnswerRequestRemote(
-        employeeMissionId: gamificationResponseRemote.employeeMissionId,
-        submittedDate: gamificationResponseRemote.submittedDate
-            ?.substring(0, today.length - 6),
-        status: gamificationResponseRemote.missionStatusCode,
-        taskData: listData);
-    ref.watch(gamificationDetailState.notifier).state =
-        gamificationResponseRemote;
-    await ref.watch(
-        putAnswerFinalLocalProvider(answerRequestRemote: taskAnswer).future);
-  }
 }
