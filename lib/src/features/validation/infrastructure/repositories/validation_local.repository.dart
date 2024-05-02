@@ -31,6 +31,7 @@ FutureOr<List<ValidationResponseRemote>> getValidationRemote(GetValidationLocalR
         path: "api/mission/get_employee_mission_by_param?${Constant.apiVer}",
         body: {
           "validatorId": userModel?.employeeID,
+          "missionStatusCode": 3
         }
     );
     for (var element in response.result?.content) {
@@ -65,27 +66,27 @@ FutureOr<List<ValidationResponseRemote>> getValidationRemote(GetValidationLocalR
       List<TaskValidationDatum> taskData = [];
       for (var element in listTask) {
         File file = File('');
-        if (element.attachmentPath == null) {
-          if (element.attachmentUrl != null) {
-            final response = await connect.downloadImage(
-              url: element.attachmentUrl ?? '',
-            );
-            response.data;
-            file = await asyncMethodSaveFile(response.data);
-          }
-          taskData.add(TaskValidationDatum(taskId: element.taskId,
-              missionId: element.missionId,
-              attachmentId: element.attachmentId,
-              attachmentUrl: element.attachmentUrl,
-              attachmentPath: file.path,
-              taskCode: element.taskCode,
-              taskGroup: element.taskGroup,
-              taskCaption: element.taskCaption,
-              taskTypeCode: element.taskTypeCode,
-              taskTypeName: element.taskTypeName,
-              taskReward: element.taskReward));
-          indexTask++;
-        } else {
+        // if (element.attachmentPath == null) {
+        //   if (element.attachmentUrl != null) {
+        //     final response = await connect.downloadImage(
+        //       url: element.attachmentUrl ?? '',
+        //     );
+        //     response.data;
+        //     file = await asyncMethodSaveFile(response.data);
+        //   }
+        //   taskData.add(TaskValidationDatum(taskId: element.taskId,
+        //       missionId: element.missionId,
+        //       attachmentId: element.attachmentId,
+        //       attachmentUrl: element.attachmentUrl,
+        //       attachmentPath: file.path,
+        //       taskCode: element.taskCode,
+        //       taskGroup: element.taskGroup,
+        //       taskCaption: element.taskCaption,
+        //       taskTypeCode: element.taskTypeCode,
+        //       taskTypeName: element.taskTypeName,
+        //       taskReward: element.taskReward));
+        //   indexTask++;
+        // } else {
           taskData.add(TaskValidationDatum(taskId: element.taskId,
               missionId: element.missionId,
               attachmentId: element.attachmentId,
@@ -97,10 +98,11 @@ FutureOr<List<ValidationResponseRemote>> getValidationRemote(GetValidationLocalR
               taskTypeCode: element.taskTypeCode,
               taskTypeName: element.taskTypeName,
               taskReward: element.taskReward));
-        }
+        //}
       }
       listAfterInputImage.add(ValidationResponseRemote(
           employeeMissionId: element.employeeMissionId,
+          employeeName: element.employeeName,
           missionId: element.missionId,
           missionStatusCode: element.missionStatusCode,
           missionStatus: element.missionStatus,

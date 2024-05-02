@@ -45,8 +45,7 @@ class _TaskSingleChoiceScreenState
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
         final gamificationData = ref.watch(gamificationState);
-        final resultSubmissionData =
-            ref.watch(resultSubmissionState.notifier).state;
+        final resultSubmit = ref.watch(resultSubmissionState);
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
         return Scaffold(
             backgroundColor: ColorTheme.backgroundLight,
@@ -127,7 +126,7 @@ class _TaskSingleChoiceScreenState
                             const SizedBox(
                               height: 8,
                             ),
-                            listTask[0].attachmentPath != null
+                            listTask[0].attachmentPath != null && listTask[0].attachmentPath != ''
                                 ? Container(
                                     height: 200,
                                     width: MediaQuery.of(context).size.width,
@@ -220,18 +219,19 @@ class _TaskSingleChoiceScreenState
                                                 if (listSelectedOption
                                                     .state.isNotEmpty) {
                                                   ref
-                                                      .watch(listSelectOptionState
-                                                      .notifier)
+                                                      .watch(
+                                                          listSelectOptionState
+                                                              .notifier)
                                                       .state
                                                       .clear();
                                                 }
                                                 ref
                                                     .watch(listSelectOptionState
-                                                    .notifier)
+                                                        .notifier)
                                                     .state = [
-                                                  listAnswer?[index].answerId ?? 0
+                                                  listAnswer?[index].answerId ??
+                                                      0
                                                 ];
-
                                               }
                                             });
                                           });
@@ -341,7 +341,7 @@ class _TaskSingleChoiceScreenState
                                       });
                                     },
                                     child: Text(
-                                      'Previous',
+                                      EtamKawaTranslate.previous,
                                     ),
                                   ),
                                 )
@@ -470,14 +470,13 @@ class _TaskSingleChoiceScreenState
                                           barrierDismissible: false,
                                           context: context,
                                           builder: (context) {
-                                            return CustomDialog(
+                                            return CustomDialog( 
                                                 title: "Confirmation",
                                                 content:
                                                     "Are you sure want to submit your answers?",
                                                 label: "Submit",
                                                 type: DialogType.mission,
-                                                resultSubmissionData:
-                                                    resultSubmissionData,
+                                                resultSubmissionState: resultSubmit,
                                                 isConnectionAvailable:
                                                     isConnectionAvailable,
                                                 onClosed: () async {
@@ -511,8 +510,8 @@ class _TaskSingleChoiceScreenState
                               child: Text(
                                 (currentQuestionIndex.state + 1) <
                                         listTask.length
-                                    ? 'Next'
-                                    : 'Finish',
+                                    ? EtamKawaTranslate.next
+                                    : EtamKawaTranslate.finish,
                               ),
                             ),
                           ),

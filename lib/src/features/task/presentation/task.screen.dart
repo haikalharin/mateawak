@@ -78,7 +78,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                   builder: (context) {
                     return CustomDialog(
                         title: "Confirmation",
-                        content: "Are you sure want to leave",
+                        content: EtamKawaTranslate.areYouSureWantToLeave,
                         label: "Stay",
                         type: DialogType.question,
                         onClosed: () async => {
@@ -102,7 +102,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                 backgroundColor: ColorTheme.backgroundLight,
                 appBar: SharedComponentEtamkawa.appBar(
                     context: context,
-                    title: 'Mission',
+                    title: EtamKawaTranslate.mission,
                     backgroundColor: ColorTheme.backgroundWhite,
                     titleColor: ColorTheme.textDark,
                     brightnessIconStatusBar: Brightness.light,
@@ -112,7 +112,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                           builder: (context) {
                             return CustomDialog(
                                 title: "Confirmation",
-                                content: "Are you sure want to leave",
+                                content: EtamKawaTranslate.areYouSureWantToLeave,
                                 label: "Stay",
                                 type: DialogType.question,
                                 onClosed: () async {
@@ -168,7 +168,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                       width: MediaQuery.of(context).size.width /
                                           1.5,
                                       child: Text(
-                                          'Mission: ${missionData.missionName}',
+                                          '${EtamKawaTranslate.mission}: ${missionData.missionName}',
                                           maxLines: 5,
                                           style:
                                               SharedComponent.textStyleCustom(
@@ -199,7 +199,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Overall progress',
+                                  Text(EtamKawaTranslate.overallProgress,
                                       style: SharedComponent.textStyleCustom(
                                           typographyType: TypographyType.body,
                                           fontColor: ColorTheme.textDark)),
@@ -288,7 +288,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                 TaskType.ASM.name &&
                             !isAssignment
                         ? const Expanded(
-                            child: TaskScreen(),
+                            child: TaskFileScreen(),
                           )
                         : Container(),
                     isAssignment

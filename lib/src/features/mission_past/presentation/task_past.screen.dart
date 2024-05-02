@@ -114,7 +114,7 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
                 backgroundColor: ColorTheme.backgroundLight,
                 appBar: SharedComponentEtamkawa.appBar(
                     context: context,
-                    title: 'Mission',
+                    title: EtamKawaTranslate.mission,
                     backgroundColor: ColorTheme.backgroundWhite,
                     titleColor: ColorTheme.textDark,
                     brightnessIconStatusBar: Brightness.light,
@@ -157,7 +157,7 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
                                                 ColorTheme.textLightDark)),
                                     Container(
                                       width: MediaQuery.of(context).size.width/1.5,
-                                      child: Text('Mission: ${missionData.missionName}',
+                                      child: Text('${EtamKawaTranslate.mission}: ${missionData.missionName}',
                                           maxLines: 5,
                                           style: SharedComponent.textStyleCustom(
                                               typographyType:

@@ -148,25 +148,6 @@ class TaskController extends _$TaskController {
     var repo = ref.watch(getAnswerLocalProvider.future);
     final gamification = ref.watch(gamificationState.notifier).state;
     await AsyncValue.guard(() => repo).then((dataAnswer) async {
-     // if((dataAnswer.value??[]).isEmpty){
-     //   final listTask =  (gamification
-     //       .chapterData
-     //       ?.single
-     //       .missionData
-     //       ?.single
-     //       .taskData ??
-     //       []);
-     //   await saveAnswer(
-     //       listTask[0]
-     //           .taskId ??
-     //           0,
-     //       isLast: true,
-     //       listSelectedOption:
-     //       listSelectedOption.state,
-     //       type: listTask[0]
-     //           .taskTypeCode ??
-     //           '');
-     // }
       for (var element in dataAnswer.value ?? []) {
         debugPrint(element.toString());
         listData.add(TaskDatumAnswer(
@@ -193,17 +174,21 @@ class TaskController extends _$TaskController {
               'assignment') {
             status = 3;
           }
-          ref.watch(resultSubmissionState.notifier).state = await ref.watch(
-              submitMissionProvider(
-                      answerRequestRemote: taskAnswer, status: status)
-                  .future);
+          final result = await ref.read(submitMissionProvider(
+                  answerRequestRemote: taskAnswer, status: status)
+              .future);
+          ref.read(resultSubmissionState).copyWith(
+              employeeMissionId: result.employeeMissionId,
+              competencyName: result.competencyName,
+              rewardGained: result.rewardGained,
+              accuracy: result.accuracy);
         } else {
-          await ref.watch(
+          await ref.read(
               putAnswerFinalLocalProvider(answerRequestRemote: taskAnswer)
                   .future);
         }
       } else {
-        await ref.watch(
+        await ref.read(
             putAnswerFinalLocalProvider(answerRequestRemote: taskAnswer)
                 .future);
       }
@@ -373,7 +358,7 @@ class TaskController extends _$TaskController {
 
       await putTaskAnswer(dataAnswer);
       if (isLast) {}
-    } else{
+    } else {
       dataAnswer = TaskDatumAnswerRequestRemote(
           taskId: questionId,
           answer: data,

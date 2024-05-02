@@ -70,7 +70,7 @@ class _MissionPastDetailScreenState
                       backgroundColor: ColorTheme.backgroundWhite,
                       titleColor: ColorTheme.textDark,
                       context: context,
-                      title: 'Mission Detail',
+                      title: EtamKawaTranslate.missionDetail,
                       brightnessIconStatusBar: Brightness.light,
                     ),
                     body: Column(children: [
@@ -111,7 +111,7 @@ class _MissionPastDetailScreenState
                                                       ColorTheme.neutral600),
                                         ),
                                         Text(
-                                            'Mission: ${gamification.chapterData?.single.missionData?.single.missionName ?? ''}',
+                                            '${EtamKawaTranslate.mission}: ${gamification.chapterData?.single.missionData?.single.missionName ?? ''}',
                                             style:
                                                 SharedComponent.textStyleCustom(
                                                     typographyType:
@@ -171,7 +171,7 @@ class _MissionPastDetailScreenState
                                 height: 15.sp,
                               ),
                               Text(
-                                'Chapter goals:',
+                                '${EtamKawaTranslate.chapterGoals}:',
                                 style: SharedComponent.textStyleCustom(
                                     typographyType: TypographyType.bold,
                                     fontColor: ColorTheme.neutral600),
@@ -189,7 +189,7 @@ class _MissionPastDetailScreenState
                               Row(
                                 children: [
                                   Text(
-                                    'Focus behavior: ',
+                                    '${EtamKawaTranslate.focusBehaviour}: ',
                                     style: SharedComponent.textStyleCustom(
                                         typographyType: TypographyType.bold,
                                         fontColor: ColorTheme.neutral600),

@@ -52,8 +52,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
         final gamificationData = ref.watch(gamificationState);
-        final resultSubmissionData =
-            ref.watch(resultSubmissionState.notifier).state;
+        final resultSubmit = ref.watch(resultSubmissionState);
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
         if (ref.watch(currentTypeTaskState.notifier).state ==
             TaskType.ASM.name) {
@@ -406,7 +405,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                 height: 150.0,
                                 child: TextFormField(
                                   controller: _textController,
-                                  maxLength: 100,
+                                  maxLength: 300,
                                   textInputAction: TextInputAction.done,
                                   decoration: InputDecoration(
                                     hintText: 'Write your comment here..',
@@ -567,8 +566,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                         });
                                       });
                                     },
-                                    child: const Text(
-                                      'Previous',
+                                    child: Text(
+                                      EtamKawaTranslate.previous,
                                     ),
                                   ),
                                 )
@@ -722,8 +721,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                 label: "Submit",
                                                 type: DialogType.mission,
                                                 isAssignment: true,
-                                                resultSubmissionData:
-                                                    resultSubmissionData,
+                                                resultSubmissionState:
+                                                    resultSubmit,
                                                 isConnectionAvailable:
                                                     isConnectionAvailable,
                                                 onClosed: () async => {
@@ -764,8 +763,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                               child: Text(
                                 (currentQuestionIndex.state + 1) <
                                         listTask.length
-                                    ? 'Next'
-                                    : 'Finish',
+                                    ? EtamKawaTranslate.next
+                                    : EtamKawaTranslate.finish,
                               ),
                             ),
                           ),

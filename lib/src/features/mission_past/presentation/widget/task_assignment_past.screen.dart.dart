@@ -181,7 +181,7 @@ class _TaskAssignmentPastScreenState
                                       0) >
                                       1,
                                   controller: _textController,
-                                  maxLength: 100,
+                                  maxLength: 300,
                                   textInputAction: TextInputAction.done,
                                   decoration: InputDecoration(
                                     hintText: 'Write your comment here..',
@@ -266,7 +266,7 @@ class _TaskAssignmentPastScreenState
                                   const Divider(),
                                   const SizedBox(height: 10,),
                                   Text(
-                                      'Feedback',
+                                      EtamKawaTranslate.feedback,
                                       style: SharedComponent
                                           .textStyleCustom(
                                           typographyType: TypographyType

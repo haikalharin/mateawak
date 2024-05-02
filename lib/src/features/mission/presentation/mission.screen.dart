@@ -58,10 +58,10 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
       final gamificationAssigned = ref.watch(gamificationAssignedState);
       final gamificationPast = ref.watch(gamificationPastState);
       final submitStatus = ref.watch(submitStatusMissionState);
-      final submitStatusBgServices = ref.watch(submitStatusMissionBgServicesState);
+      final submitStatusBgServices =
+          ref.watch(submitStatusMissionBgServicesState);
       final isInit = ref.watch(isInitMissionState);
       final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
-
       return AsyncValueWidget(
           value: ref.watch(missionControllerProvider),
           data: (data) {
@@ -96,35 +96,41 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                               onTap: (index) {
                                 switch (index) {
                                   case 0:
-                                    submitStatus !=
-                                        SubmitStatus.inProgress &&
-                                        submitStatusBgServices !=
-                                            SubmitStatus.inProgress
-                                        ?
-                                    ctrl.fetchMissionListBackgroundService().whenComplete(() {
-                                      ref.refresh(missionControllerProvider);
-                                    }):null;
+                                    submitStatus != SubmitStatus.inProgress &&
+                                            submitStatusBgServices !=
+                                                SubmitStatus.inProgress
+                                        ? ctrl
+                                            .fetchMissionListBackgroundService()
+                                            .whenComplete(() {
+                                            ref.refresh(
+                                                missionControllerProvider);
+                                          })
+                                        : null;
 
                                     break;
                                   case 1:
-                                    submitStatus !=
-                                        SubmitStatus.inProgress &&
-                                        submitStatusBgServices !=
-                                            SubmitStatus.inProgress
-                                        ?
-                                    ctrl.fetchMissionListBackgroundService().whenComplete(() {
-                                      ref.refresh(missionControllerProvider);
-                                    }):null;
+                                    submitStatus != SubmitStatus.inProgress &&
+                                            submitStatusBgServices !=
+                                                SubmitStatus.inProgress
+                                        ? ctrl
+                                            .fetchMissionListBackgroundService()
+                                            .whenComplete(() {
+                                            ref.refresh(
+                                                missionControllerProvider);
+                                          })
+                                        : null;
                                     break;
                                   case 2:
-                                    submitStatus !=
-                                        SubmitStatus.inProgress &&
-                                        submitStatusBgServices !=
-                                            SubmitStatus.inProgress
-                                        ?
-                                    ctrl.fetchMissionListBackgroundService().whenComplete(() {
-                                      ref.refresh(missionControllerProvider);
-                                    }):null;
+                                    submitStatus != SubmitStatus.inProgress &&
+                                            submitStatusBgServices !=
+                                                SubmitStatus.inProgress
+                                        ? ctrl
+                                            .fetchMissionListBackgroundService()
+                                            .whenComplete(() {
+                                            ref.refresh(
+                                                missionControllerProvider);
+                                          })
+                                        : null;
                                     break;
                                 }
                               },
@@ -146,11 +152,11 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                     RefreshableStarterWidget(
                                       onRefresh: () async {
                                         submitStatus !=
-                                            SubmitStatus.inProgress &&
-                                            submitStatusBgServices !=
-                                                SubmitStatus.inProgress
-                                            ?
-                                        ctrl.getMissionList():null;
+                                                    SubmitStatus.inProgress &&
+                                                submitStatusBgServices !=
+                                                    SubmitStatus.inProgress
+                                            ? ctrl.getMissionList()
+                                            : null;
                                       },
                                       slivers: [
                                         SliverList(
@@ -242,11 +248,10 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                     ),
                   ],
                 ),
-                submitStatus == SubmitStatus.inProgress && isInit== true
-                    ?    Container(
-                    color: Colors.white.withAlpha(130),
-                    child: const Center(
-                        child:  CircularProgressIndicator()))
+                submitStatus == SubmitStatus.inProgress && isInit == true
+                    ? Container(
+                        color: Colors.white.withAlpha(130),
+                        child: const Center(child: CircularProgressIndicator()))
                     : Container()
               ],
             ));
@@ -321,43 +326,46 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                 decoration: BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(5.r)),
-                                    color:  gamification[index].missionStatusCode ==
-                                        0
+                                    color: gamification[index]
+                                                .missionStatusCode ==
+                                            0
                                         ? ColorTheme.neutral300
-                                        : gamification[index].missionStatusCode ==
-                                        1
-                                        ? ColorTheme.secondary100
                                         : gamification[index]
-                                        .missionStatusCode ==
-                                        3 ||
-                                        gamification[index]
-                                            .missionStatusCode ==
-                                            4
-                                        ? ColorTheme.danger100
-                                        : ColorTheme.primary100),
+                                                    .missionStatusCode ==
+                                                1
+                                            ? ColorTheme.secondary100
+                                            : gamification[index]
+                                                            .missionStatusCode ==
+                                                        3 ||
+                                                    gamification[index]
+                                                            .missionStatusCode ==
+                                                        4
+                                                ? ColorTheme.danger100
+                                                : ColorTheme.primary100),
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 8.w, vertical: 4.h),
                                   child: Text(
-                                      _getMissionStatus(gamification[index].missionStatus!),
-                                    style: SharedComponent.textStyleCustom(
-                                        typographyType: TypographyType.small,
-                                        fontColor: gamification[index]
-                                            .missionStatusCode ==
-                                            0
-                                            ? ColorTheme.neutral500
-                                            : gamification[index]
-                                            .missionStatusCode ==
-                                            1
-                                            ? ColorTheme.secondary500
-                                            : gamification[index]
-                                            .missionStatusCode ==
-                                            3 ||
-                                            gamification[index]
-                                                .missionStatusCode ==
-                                                4
-                                            ? ColorTheme.danger500
-                                            : ColorTheme.primary500)),
+                                      EtamKawaUtils().getMissionStatus(
+                                          gamification[index].missionStatus!),
+                                      style: SharedComponent.textStyleCustom(
+                                          typographyType: TypographyType.small,
+                                          fontColor: gamification[index]
+                                                      .missionStatusCode ==
+                                                  0
+                                              ? ColorTheme.neutral500
+                                              : gamification[index]
+                                                          .missionStatusCode ==
+                                                      1
+                                                  ? ColorTheme.secondary500
+                                                  : gamification[index]
+                                                                  .missionStatusCode ==
+                                                              3 ||
+                                                          gamification[index]
+                                                                  .missionStatusCode ==
+                                                              4
+                                                      ? ColorTheme.danger500
+                                                      : ColorTheme.primary500)),
                                 ),
                               ),
                             ),
@@ -420,7 +428,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                               child: Text(
-                                  'Due: ${CommonUtils.formattedDateHours(gamification[index].dueDate ?? DateTime.now().toString())}',
+                                  '${EtamKawaTranslate.due}: ${CommonUtils.formattedDateHours(gamification[index].dueDate ?? DateTime.now().toString())}',
                                   style: SharedComponent.textStyleCustom(
                                       typographyType: TypographyType.small,
                                       fontColor: ColorTheme.neutral500)
@@ -490,7 +498,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                 });
                               }
                             },
-                            child: Text("View",
+                            child: Text(EtamKawaTranslate.view,
                                 style: SharedComponent.textStyleCustom(
                                     typographyType: TypographyType.paragraph)),
                           ),
@@ -505,22 +513,5 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
         );
       },
     );
-  }
-}
-
-String _getMissionStatus(String status){
-  switch (status) {
-    case 'Assigned':
-      return EtamKawaTranslate.assigned;
-    case 'In Progress':
-      return EtamKawaTranslate.inProgress;
-    case 'Under Review':
-      return EtamKawaTranslate.underReview;
-    case 'Incomplete':
-      return EtamKawaTranslate.incomplete;
-    case 'Completed':
-      return EtamKawaTranslate.completed;
-    default:
-      return 'Assigned';
   }
 }

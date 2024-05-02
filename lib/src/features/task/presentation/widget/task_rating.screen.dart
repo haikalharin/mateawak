@@ -45,8 +45,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
         final gamificationData = ref.watch(gamificationState);
-        final resultSubmissionData =
-            ref.watch(resultSubmissionState.notifier).state;
+        final resultSubmit = ref.watch(resultSubmissionState);
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
         return Scaffold(
             backgroundColor: ColorTheme.backgroundLight,
@@ -312,7 +311,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                       });
                                     },
                                     child: Text(
-                                      'Previous',
+                                      EtamKawaTranslate.previous,
                                     ),
                                   ),
                                 )
@@ -446,8 +445,8 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                     "Are you sure want to submit your answers?",
                                                 label: "Submit",
                                                 type: DialogType.mission,
-                                                resultSubmissionData:
-                                                    resultSubmissionData,
+                                                resultSubmissionState:
+                                                    resultSubmit,
                                                 isConnectionAvailable:
                                                     isConnectionAvailable,
                                                 onClosed: () async => {
@@ -484,8 +483,8 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                               child: Text(
                                 (currentQuestionIndex.state + 1) <
                                         listTask.length
-                                    ? 'Next'
-                                    : 'Finish',
+                                    ? EtamKawaTranslate.next
+                                    : EtamKawaTranslate.finish,
                               ),
                             ),
                           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -11,16 +12,18 @@ import 'package:module_shared/module_shared.dart';
 class RewardDialog extends StatelessWidget {
   const RewardDialog(
       {super.key,
-      required this.rewardResponse,
+      required this.resultSubmissionState,
       required this.isConnectionAvailable,
       this.onClosed});
 
-  final ResultSubmissionRequestRemote rewardResponse;
+  final ResultSubmissionRequestRemote resultSubmissionState;
   final bool isConnectionAvailable;
   final Function()? onClosed;
 
   @override
   Widget build(BuildContext context) {
+    final rewardResponse = resultSubmissionState;
+    debugPrint('Reward Response = ${rewardResponse.competencyName} ${rewardResponse.accuracy} ${rewardResponse.rewardGained}');
     String imageConstant = ImageConstant.iconDialogSuccess;
     return Dialog(
       child: Container(
@@ -38,7 +41,7 @@ class RewardDialog extends StatelessWidget {
             ),
             SizedBox(height: 10.h),
             SharedComponent.label(
-              text: 'Hooray!',
+              text: EtamKawaTranslate.hooray,
               context: context,
               typographyType: TypographyType.largeH5,
               textAlign: TextAlign.center,

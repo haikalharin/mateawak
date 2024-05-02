@@ -186,7 +186,7 @@ class _TaskFilePastScreenState extends ConsumerState<TaskFilePastScreen> {
                                   (gamificationData.missionStatusCode ?? 0) >
                                       1,
                                   controller: _textController,
-                                  maxLength: 100,
+                                  maxLength: 300,
                                   textInputAction: TextInputAction.done,
                                   decoration: InputDecoration(
                                     hintText: 'Write your comment here..',
