@@ -405,7 +405,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                 height: 150.0,
                                 child: TextFormField(
                                   controller: _textController,
-                                  maxLength: 300,
+                                  maxLength: 1000,
                                   textInputAction: TextInputAction.done,
                                   decoration: InputDecoration(
                                     hintText: 'Write your comment here..',

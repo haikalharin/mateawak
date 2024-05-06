@@ -95,19 +95,19 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                             TabBar(
                               onTap: (index) {
                                 switch (index) {
-                                  case 0:
-                                    submitStatus != SubmitStatus.inProgress &&
-                                            submitStatusBgServices !=
-                                                SubmitStatus.inProgress
-                                        ? ctrl
-                                            .fetchMissionListBackgroundService()
-                                            .whenComplete(() {
-                                            ref.refresh(
-                                                missionControllerProvider);
-                                          })
-                                        : null;
+                                  // case 0:
+                                  //   submitStatus != SubmitStatus.inProgress &&
+                                  //           submitStatusBgServices !=
+                                  //               SubmitStatus.inProgress
+                                  //       ? ctrl
+                                  //           .fetchMissionListBackgroundService()
+                                  //           .whenComplete(() {
+                                  //           ref.refresh(
+                                  //               missionControllerProvider);
+                                  //         })
+                                  //       : null;
 
-                                    break;
+                                  //   break;
                                   case 1:
                                     submitStatus != SubmitStatus.inProgress &&
                                             submitStatusBgServices !=
@@ -120,18 +120,18 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                           })
                                         : null;
                                     break;
-                                  case 2:
-                                    submitStatus != SubmitStatus.inProgress &&
-                                            submitStatusBgServices !=
-                                                SubmitStatus.inProgress
-                                        ? ctrl
-                                            .fetchMissionListBackgroundService()
-                                            .whenComplete(() {
-                                            ref.refresh(
-                                                missionControllerProvider);
-                                          })
-                                        : null;
-                                    break;
+                                  // case 2:
+                                  //   submitStatus != SubmitStatus.inProgress &&
+                                  //           submitStatusBgServices !=
+                                  //               SubmitStatus.inProgress
+                                  //       ? ctrl
+                                  //           .fetchMissionListBackgroundService()
+                                  //           .whenComplete(() {
+                                  //           ref.refresh(
+                                  //               missionControllerProvider);
+                                  //         })
+                                  //       : null;
+                                  //   break;
                                 }
                               },
                               labelStyle: SharedComponent.textStyleCustom(

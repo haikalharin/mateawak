@@ -17,7 +17,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'navigation.g.dart';
 
 @Riverpod(keepAlive: true)
-GoRouter goRouter(GoRouterRef ref) {
+GoRouter etamkawaGoRouter(EtamkawaGoRouterRef ref) {
   return GoRouter(debugLogDiagnostics: true, routes: <RouteBase>[
     GoRoute(
         path: homeEtakawaInit,
@@ -107,7 +107,7 @@ List<RouteBase> routeEtamkawa = [
                   path: taskMissionEtamkawa,
                   name: taskMissionEtamkawa,
                   builder: (BuildContext context, GoRouterState state) {
-                    List<TaskDatum> list = [];
+                    // List<TaskDatum> list = [];
                     return SharedComponent.banner(
                         dotenv.env[EnvConstant.environment]!,
                         const ConnectionListenerWidget(child: TaskScreen()));

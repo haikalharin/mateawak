@@ -3,7 +3,7 @@ import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
-import 'package:module_etamkawa/src/features/mission_past/infrastructure/repositories/mission_past.repository.dart';
+import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/features/task/domain/answer_request.remote.dart';
 import 'package:module_etamkawa/src/features/task/domain/result_submission_request.remote.dart';
 import 'package:module_etamkawa/src/features/task/domain/task_datum_answer_request.remote.dart';
@@ -15,11 +15,6 @@ import '../../../../constants/constant.dart';
 import '../../../../shared_component/connection_listener_widget.dart';
 import '../../../../utils/common_utils.dart';
 import '../../../main_nav/presentation/controller/main_nav.controller.dart';
-import '../../../mission/domain/gamification_mission_detail_response.remote.dart'
-    as detail;
-import '../../../mission/infrastructure/repositories/mission_local.repository.dart';
-import '../../../mission/presentation/controller/mission.controller.dart';
-import '../../../mission_past/presentation/controller/mission_past.controller.dart';
 
 part 'task.controller.g.dart';
 
@@ -335,7 +330,7 @@ class TaskController extends _$TaskController {
       required String type}) async {
     TaskDatumAnswerRequestRemote dataAnswer = TaskDatumAnswerRequestRemote();
     String data = '';
-    var dataCek = ref.watch(answerState.notifier).state;
+    //var dataCek = ref.watch(answerState.notifier).state;
 
     if (listSelectedOption != null) {
       for (int i = 0; i < listSelectedOption.length; i++) {

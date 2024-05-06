@@ -7,7 +7,7 @@ part of 'mission_past.repository.dart';
 // **************************************************************************
 
 String _$getMissionPastListHash() =>
-    r'd4701f217616b4e4b5fe7a8b872ec30dbd125d2e';
+    r'0ded0fee827b7d45cbc08369ac475122de4287b5';
 
 /// See also [getMissionPastList].
 @ProviderFor(getMissionPastList)
@@ -24,7 +24,7 @@ final getMissionPastListProvider =
 
 typedef GetMissionPastListRef
     = AutoDisposeFutureProviderRef<List<MissionPastResponseRemote>>;
-String _$getMissionDetailHash() => r'80fce9c781a5966a470678d940d17c95787818f3';
+String _$getMissionDetailHash() => r'4b51604c5b50d9a3d132459d1c3e774e9a9670df';
 
 /// Copied from Dart SDK
 class _SystemHash {

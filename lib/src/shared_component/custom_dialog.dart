@@ -134,7 +134,7 @@ Widget confirmationButton(
                       title: EtamKawaTranslate.hooray,
                       content:
                           "Progress successfully saved. We're saving your activity in this mission as a Draft. Come back soon.",
-                      label: "Back to Mission List",
+                      label: EtamKawaTranslate.backToMissionList,
                       type: DialogType.success,
                       onClosed: () async {
                         Navigator.of(context).pop();
@@ -173,7 +173,7 @@ Widget confirmationButton(
                   builder: (context) {
                     return CustomDialog(
                         title: EtamKawaTranslate.hooray,
-                        content: "Yeay, your assignment has been completed!",
+                        content: EtamKawaTranslate.yourMissionHasBeenCompleted,
                         label: "Okay",
                         type: DialogType.success,
                         onClosed: () async => {

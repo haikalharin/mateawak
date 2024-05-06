@@ -50,7 +50,7 @@ class MainNavController extends _$MainNavController {
        Future.delayed(const Duration(seconds: 2), () {
          ref.watch(submitStatusState.notifier)
              .state = SubmitStatus.success;
-         ref.read(goRouterProvider).goNamed(homeEtakawaInit);});
+         ref.read(etamkawaGoRouterProvider).goNamed(homeEtakawaInit);});
      });
 
   } else{
@@ -73,7 +73,7 @@ class MainNavController extends _$MainNavController {
       Future.delayed(const Duration(seconds: 2), () {
         ref.watch(submitStatusState.notifier)
             .state = SubmitStatus.success;
-        ref.read(goRouterProvider).goNamed(homeEtakawaInit);});
+        ref.read(etamkawaGoRouterProvider).goNamed(homeEtakawaInit);});
 
     } else{
       ref.watch(submitStatusState.notifier)

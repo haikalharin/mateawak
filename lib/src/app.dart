@@ -23,7 +23,7 @@ class MainApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final goRouter = ref.watch(goRouterProvider);
+    final goRouter = ref.watch(etamkawaGoRouterProvider);
     ref.read(chuckerShowReleaseProvider); //baru
     return ScreenUtilInit(
         designSize: const Size(393, 852),
