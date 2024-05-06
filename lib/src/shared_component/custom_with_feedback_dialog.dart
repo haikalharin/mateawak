@@ -117,7 +117,7 @@ class _CustomWithFeedbackDialogState extends State<CustomWithFeedbackDialog> {
                 maxLength: 1000,
                 textInputAction: TextInputAction.done,
                 decoration: InputDecoration(
-                  hintText: 'Write your comment here..',
+                  hintText: EtamKawaTranslate.writeYourAnswer,
                   hintStyle: TextStyle(color: ColorTheme.textLightDark),
                   border: const OutlineInputBorder(),
                 ),

@@ -6,7 +6,7 @@ part of 'overview.repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getNewsRemoteHash() => r'59537c6e50132b50527806ab1ebe2829679a35ae';
+String _$getNewsRemoteHash() => r'1492d5af60459d6c1e4c799a5bd53872c84d7903';
 
 /// See also [getNewsRemote].
 @ProviderFor(getNewsRemote)
@@ -23,7 +23,7 @@ final getNewsRemoteProvider =
 
 typedef GetNewsRemoteRef = AutoDisposeFutureProviderRef<NewsResponseRemote>;
 String _$getNewsImageRemoteHash() =>
-    r'9b0dade06253be7e5f66ee1f2fd9b7b25a6b7141';
+    r'f5d97615bc25fc633b911e1ff8237c7c059f4e6c';
 
 /// Copied from Dart SDK
 class _SystemHash {

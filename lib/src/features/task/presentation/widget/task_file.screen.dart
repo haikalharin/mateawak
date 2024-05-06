@@ -157,7 +157,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                             const SizedBox(
                               height: 8,
                             ),
-                            listTask[0].attachmentPath != null
+                            listTask[currentQuestionIndex.state].attachmentPath != null
                                 ? Container(
                                     height: 200,
                                     width: MediaQuery.of(context).size.width,
@@ -208,7 +208,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                             child: RichText(
                                               text: TextSpan(
                                                 text:
-                                                    'Evidence (one file only)',
+                                                    EtamKawaTranslate.evidence,
                                                 style: SharedComponent
                                                     .textStyleCustom(
                                                         typographyType:
@@ -372,7 +372,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                                 .width /
                                                             1.5,
                                                         child: Text(
-                                                          'Drop your files here or click to upload',
+                                                          EtamKawaTranslate.dropYourFile,
                                                           style:
                                                               Theme.of(context)
                                                                   .textTheme
@@ -405,7 +405,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                             Container(
                               width: MediaQuery.of(context).size.width,
                               child: Text(
-                                'Please ensure that your file is in the correct format.',
+                                EtamKawaTranslate.pleaseEnsure,
                                 style: TextStyle(
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w500,
@@ -427,7 +427,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                 maxLength: 1000,
                                 textInputAction: TextInputAction.done,
                                 decoration: InputDecoration(
-                                  hintText: 'Write your comment here..',
+                                  hintText: EtamKawaTranslate.writeYourAnswer,
                                   hintStyle: TextStyle(
                                       color: ColorTheme.textLightDark),
                                   border: const OutlineInputBorder(),
@@ -496,7 +496,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text('Your answer is correct!',
+                                              Text(EtamKawaTranslate.yourAnswerIsCorrect,
                                                   style: SharedComponent
                                                       .textStyleCustom(
                                                           typographyType:
@@ -515,7 +515,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                           const SizedBox(
                                             height: 10,
                                           ),
-                                          Text('Your answer is incorrect!',
+                                          Text(EtamKawaTranslate.yourAnswerIsInCorrect,
                                               style: SharedComponent
                                                   .textStyleCustom(
                                                       typographyType:
@@ -782,10 +782,10 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                           builder: (context) {
                                             //return RewardDialog(rewardResponse: resultSubmissionData, isConnectionAvailable: isConnectionAvailable,);}
                                             return CustomDialog(
-                                                title: "Confirmation",
+                                                title: EtamKawaTranslate.confirmation,
                                                 content:
-                                                    "Are you sure want to submit your answers?",
-                                                label: "Submit",
+                                                    EtamKawaTranslate.areYouSureSubmitAnswer,
+                                                label: EtamKawaTranslate.submit,
                                                 type: DialogType.mission,
                                                 resultSubmissionState:
                                                     resultSubmit,

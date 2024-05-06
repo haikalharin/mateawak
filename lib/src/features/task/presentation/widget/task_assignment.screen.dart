@@ -144,7 +144,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                               const SizedBox(
                                 height: 8,
                               ),
-                              listTask[0].attachmentPath != null
+                              listTask[0].attachmentPath != null && listTask[0].attachmentPath != ''
                                   ? Container(
                                       height: 200,
                                       width: MediaQuery.of(context).size.width,
@@ -192,7 +192,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                               child: RichText(
                                                 text: TextSpan(
                                                   text:
-                                                      'Evidence (one file only)',
+                                                      EtamKawaTranslate.evidence,
                                                   style: SharedComponent
                                                       .textStyleCustom(
                                                           typographyType:
@@ -356,7 +356,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                                   .width /
                                                               1.5,
                                                           child: Text(
-                                                            'Drop your files here or click to upload',
+                                                            EtamKawaTranslate.dropYourFile,
                                                             style: Theme.of(
                                                                     context)
                                                                 .textTheme
@@ -389,7 +389,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                               SizedBox(
                                 width: MediaQuery.of(context).size.width,
                                 child: Text(
-                                  'Please ensure that your file is in the correct format.',
+                                  EtamKawaTranslate.pleaseEnsure,
                                   style: TextStyle(
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.w500,
@@ -408,7 +408,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                   maxLength: 1000,
                                   textInputAction: TextInputAction.done,
                                   decoration: InputDecoration(
-                                    hintText: 'Write your comment here..',
+                                    hintText: EtamKawaTranslate.writeYourAnswer,
                                     hintStyle: TextStyle(
                                         color: ColorTheme.textLightDark),
                                     border: const OutlineInputBorder(),
@@ -720,10 +720,10 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                           context: context,
                                           builder: (context) {
                                             return CustomDialog(
-                                                title: "Confirmation",
+                                                title: EtamKawaTranslate.confirmation,
                                                 content:
-                                                    "Are you sure want to submit your Assignment?",
-                                                label: "Submit",
+                                                    EtamKawaTranslate.areYouSureSubmitAssignment,
+                                                label: EtamKawaTranslate.submit,
                                                 type: DialogType.mission,
                                                 isAssignment: true,
                                                 resultSubmissionState:

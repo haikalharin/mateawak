@@ -106,7 +106,7 @@ class _TaskAssignmentPastScreenState
                                             child: RichText(
                                               text: TextSpan(
                                                 text:
-                                                'Evidence (one file only)',
+                                                EtamKawaTranslate.evidence,
                                                 style: SharedComponent
                                                     .textStyleCustom(
                                                     typographyType:
@@ -184,7 +184,7 @@ class _TaskAssignmentPastScreenState
                                   maxLength: 300,
                                   textInputAction: TextInputAction.done,
                                   decoration: InputDecoration(
-                                    hintText: 'Write your comment here..',
+                                    hintText: EtamKawaTranslate.writeYourAnswer,
                                     hintStyle: TextStyle(
                                         color: ColorTheme.textLightDark),
                                     border: const OutlineInputBorder(),

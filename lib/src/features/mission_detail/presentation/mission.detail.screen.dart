@@ -91,11 +91,12 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Flexible(
+                                    child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
@@ -105,68 +106,70 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                               '',
                                           style:
                                               SharedComponent.textStyleCustom(
-                                                  typographyType:
-                                                      TypographyType.largeH5,
-                                                  fontColor:
-                                                      ColorTheme.neutral600),
+                                            typographyType:
+                                                TypographyType.largeH5,
+                                            fontColor: ColorTheme.neutral600,
+                                          ),
                                         ),
                                         Text(
-                                            '${EtamKawaTranslate.mission}: ${gamification.chapterData?.single.missionData?.single.missionName ?? ''}',
-                                            style:
-                                                SharedComponent.textStyleCustom(
-                                                    typographyType:
-                                                        TypographyType
-                                                            .paragraph,
-                                                    fontColor:
-                                                        ColorTheme.neutral500)),
+                                          '${EtamKawaTranslate.mission}: ${gamification.chapterData?.single.missionData?.single.missionName ?? ''}',
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2, // Adjust as needed
+                                          style:
+                                              SharedComponent.textStyleCustom(
+                                            typographyType:
+                                                TypographyType.paragraph,
+                                            fontColor: ColorTheme.neutral500,
+                                          ),
+                                        ),
                                       ],
                                     ),
-                                    DecoratedBox(
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5.r)),
-                                          color:
-                                          gamification.missionStatusCode ==
-                                              0
-                                              ? ColorTheme.neutral300
-                                              : gamification.missionStatusCode ==
-                                              1
+                                  ),
+                                  DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.r)),
+                                      color: gamification.missionStatusCode == 0
+                                          ? ColorTheme.neutral300
+                                          : gamification.missionStatusCode == 1
                                               ? ColorTheme.secondary100
-                                              : gamification
-                                              .missionStatusCode ==
-                                              3 ||
-                                              gamification
-                                                  .missionStatusCode ==
-                                                  4
-                                              ? ColorTheme.danger100
-                                              : ColorTheme.primary100),
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 8.w, vertical: 4.h),
-                                        child: Text(
-                                          EtamKawaUtils().getMissionStatus(gamification.missionStatus ?? ''),
-                                          style: SharedComponent.textStyleCustom(
-                                              typographyType: TypographyType.small,
-                                              fontColor: gamification
-                                                  .missionStatusCode ==
-                                                  0
-                                                  ? ColorTheme.neutral500
-                                                  : gamification
-                                                  .missionStatusCode ==
-                                                  1
-                                                  ? ColorTheme.secondary500
-                                                  : gamification
-                                                  .missionStatusCode ==
-                                                  3 ||
-                                                  gamification
+                                              : gamification.missionStatusCode ==
+                                                          3 ||
+                                                      gamification
+                                                              .missionStatusCode ==
+                                                          4
+                                                  ? ColorTheme.danger100
+                                                  : ColorTheme.primary100,
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 8.w, vertical: 4.h),
+                                      child: Text(
+                                        EtamKawaUtils().getMissionStatus(
+                                            gamification.missionStatus ?? ''),
+                                        style: SharedComponent.textStyleCustom(
+                                          typographyType: TypographyType.small,
+                                          fontColor: gamification
                                                       .missionStatusCode ==
-                                                      4
-                                                  ? ColorTheme.danger500
-                                                  : ColorTheme.primary500),
+                                                  0
+                                              ? ColorTheme.neutral500
+                                              : gamification
+                                                          .missionStatusCode ==
+                                                      1
+                                                  ? ColorTheme.secondary500
+                                                  : gamification.missionStatusCode ==
+                                                              3 ||
+                                                          gamification
+                                                                  .missionStatusCode ==
+                                                              4
+                                                      ? ColorTheme.danger500
+                                                      : ColorTheme.primary500,
                                         ),
                                       ),
                                     ),
-                                  ]),
+                                  ),
+                                ],
+                              ),
                               SizedBox(
                                 height: 15.sp,
                               ),
@@ -314,7 +317,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                                         ColorTheme.neutral600),
                                           ),
                                           Text(
-                                            '${CommonUtils.daysBetween(DateTime.now(), DateTime.parse(gamification.dueDate??'2021-01-30T00:00:00'))} ${EtamKawaTranslate.days}',
+                                            '${CommonUtils.daysBetween(DateTime.now(), DateTime.parse(gamification.dueDate ?? '2021-01-30T00:00:00'))} ${EtamKawaTranslate.days}',
                                             style:
                                                 SharedComponent.textStyleCustom(
                                                     typographyType:
@@ -354,7 +357,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Before you start',
+                                      EtamKawaTranslate.beforeYouStart,
                                       style: SharedComponent.textStyleCustom(
                                           typographyType: TypographyType.bold,
                                           fontColor: ColorTheme.neutral600),
@@ -405,7 +408,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                                   .taskData)
                                             });
                                       },
-                                      child: Text('Start',
+                                      child: Text(EtamKawaTranslate.start,
                                           style:
                                               SharedComponent.textStyleCustom(
                                                   typographyType: TypographyType

@@ -126,7 +126,7 @@ class _TaskSingleChoiceScreenState
                             const SizedBox(
                               height: 8,
                             ),
-                            listTask[0].attachmentPath != null && listTask[0].attachmentPath != ''
+                            listTask[currentQuestionIndex.state].attachmentPath != null
                                 ? Container(
                                     height: 200,
                                     width: MediaQuery.of(context).size.width,
@@ -476,10 +476,10 @@ class _TaskSingleChoiceScreenState
                                           context: context,
                                           builder: (context) {
                                             return CustomDialog( 
-                                                title: "Confirmation",
+                                                title: EtamKawaTranslate.confirmation,
                                                 content:
-                                                    "Are you sure want to submit your answers?",
-                                                label: "Submit",
+                                                    EtamKawaTranslate.areYouSureSubmitAnswer,
+                                                label: EtamKawaTranslate.submit,
                                                 type: DialogType.mission,
                                                 resultSubmissionState: resultSubmit,
                                                 isConnectionAvailable:

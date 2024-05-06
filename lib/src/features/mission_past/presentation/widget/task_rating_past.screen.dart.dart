@@ -130,7 +130,7 @@ class _TaskRatingPastScreenState extends ConsumerState<TaskRatingPastScreen> {
                                     mainAxisAlignment: MainAxisAlignment
                                         .spaceBetween,
                                     children: [
-                                      Text('Your answer is correct!',
+                                      Text(EtamKawaTranslate.yourAnswerIsCorrect,
                                           style: SharedComponent
                                               .textStyleCustom(
                                               typographyType:
@@ -183,7 +183,7 @@ class _TaskRatingPastScreenState extends ConsumerState<TaskRatingPastScreen> {
                                         .spaceBetween,
                                     children: [
                                       Text(
-                                          'Your answer is incorrect!',
+                                          EtamKawaTranslate.yourAnswerIsInCorrect,
                                           style: SharedComponent
                                               .textStyleCustom(
                                               typographyType:

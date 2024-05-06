@@ -77,9 +77,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                   context: context,
                   builder: (context) {
                     return CustomDialog(
-                        title: "Confirmation",
+                        title: EtamKawaTranslate.confirmation,
                         content: EtamKawaTranslate.areYouSureWantToLeave,
-                        label: "Stay",
+                        label: EtamKawaTranslate.stay,
                         type: DialogType.question,
                         onClosed: () async => {
                               await ctrl
@@ -111,9 +111,10 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                           context: context,
                           builder: (context) {
                             return CustomDialog(
-                                title: "Confirmation",
-                                content: EtamKawaTranslate.areYouSureWantToLeave,
-                                label: "Stay",
+                                title: EtamKawaTranslate.confirmation,
+                                content:
+                                    EtamKawaTranslate.areYouSureWantToLeave,
+                                label: EtamKawaTranslate.stay,
                                 type: DialogType.question,
                                 onClosed: () async {
                                   await ctrl
@@ -163,7 +164,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                             typographyType:
                                                 TypographyType.largeH5,
                                             fontColor:
-                                                ColorTheme.textLightDark)),
+                                                ColorTheme.neutral600)),
                                     Container(
                                       width: MediaQuery.of(context).size.width /
                                           1.5,
@@ -187,7 +188,8 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                     color: ColorTheme.secondary100,
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(5.r))),
-                                child: const Center(child: Text('In Progress')),
+                                child: Center(
+                                    child: Text(EtamKawaTranslate.inProgress)),
                               ),
                             ],
                           ),
@@ -242,7 +244,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                           child: Align(
                                               alignment: Alignment.centerRight,
                                               child: Text(
-                                                  '${((currentQuestionProgress) * 100) ~/ listTask.length}%',
+                                                  '${(listTask.isNotEmpty) ? ((currentQuestionProgress) * 100) ~/ listTask.length : 0}%',
                                                   style: SharedComponent
                                                       .textStyleCustom(
                                                           typographyType:

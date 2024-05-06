@@ -14,7 +14,7 @@ FutureOr<List<MissionPastResponseRemote>> getMissionPastList(
     GetMissionPastListRef ref) async {
   final connect = ref.read(connectProvider.notifier);
   List<MissionPastResponseRemote> listMissionPast = [];
-  const rawMissionPastDummy = Constant.rawMissionPastDummy;
+  //const rawMissionPastDummy = Constant.rawMissionPastDummy;
   final userModel = await ref.read(helperUserProvider).getUserProfile();
   // final today = CommonUtils.formattedDate(
   //                                 CommonUtils.getCurrentWITATime()
@@ -32,7 +32,7 @@ FutureOr<List<MissionPastResponseRemote>> getMissionPastList(
       });
   var missionPast = response.result?.content.isNotEmpty
       ? response.result?.content
-      : rawMissionPastDummy;
+      : [];
   //for (var element in response.result?.content) {
   for (var element in missionPast) {
     final result = MissionPastResponseRemote.fromJson(element);

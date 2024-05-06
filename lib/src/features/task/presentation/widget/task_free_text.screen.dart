@@ -150,7 +150,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                               const SizedBox(
                                 height: 8,
                               ),
-                              listTask[0].attachmentPath != null
+                              listTask[currentQuestionIndex.state].attachmentPath != null
                                   ? Container(
                                       height: 200,
                                       width: MediaQuery.of(context).size.width,
@@ -192,7 +192,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                   maxLength: 300,
                                   textInputAction: TextInputAction.done,
                                   decoration: InputDecoration(
-                                    hintText: 'Write your comment here..',
+                                    hintText: EtamKawaTranslate.writeYourAnswer,
                                     hintStyle: SharedComponent.textStyleCustom(
                                         typographyType: TypographyType.body,
                                         fontColor: ColorTheme.textLightDark),
@@ -487,10 +487,10 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                               context: context,
                                               builder: (context) {
                                                 return CustomDialog(
-                                                    title: "Confirmation",
+                                                    title: EtamKawaTranslate.confirmation,
                                                     content:
-                                                        "Are you sure want to submit your answers?",
-                                                    label: "Submit",
+                                                        EtamKawaTranslate.areYouSureSubmitAnswer,
+                                                    label: EtamKawaTranslate.submit,
                                                     type: DialogType.mission,
                                                     resultSubmissionState:
                                                         resultSubmit,

@@ -116,7 +116,7 @@ class _TaskFilePastScreenState extends ConsumerState<TaskFilePastScreen> {
                                             child: RichText(
                                               text: TextSpan(
                                                 text:
-                                                'Evidence (one file only)',
+                                                EtamKawaTranslate.evidence,
                                                 style: SharedComponent
                                                     .textStyleCustom(
                                                     typographyType:
@@ -189,7 +189,7 @@ class _TaskFilePastScreenState extends ConsumerState<TaskFilePastScreen> {
                                   maxLength: 300,
                                   textInputAction: TextInputAction.done,
                                   decoration: InputDecoration(
-                                    hintText: 'Write your comment here..',
+                                    hintText: EtamKawaTranslate.writeYourAnswer,
                                     hintStyle: TextStyle(
                                         color: ColorTheme.textLightDark),
                                     border: const OutlineInputBorder(),
@@ -230,7 +230,7 @@ class _TaskFilePastScreenState extends ConsumerState<TaskFilePastScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text('Your answer is correct!',
+                                      Text(EtamKawaTranslate.yourAnswerIsCorrect,
                                           style: SharedComponent
                                               .textStyleCustom(
                                               typographyType:
@@ -279,7 +279,7 @@ class _TaskFilePastScreenState extends ConsumerState<TaskFilePastScreen> {
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                          'Your answer is incorrect!',
+                                          EtamKawaTranslate.yourAnswerIsInCorrect,
                                           style: SharedComponent
                                               .textStyleCustom(
                                               typographyType:

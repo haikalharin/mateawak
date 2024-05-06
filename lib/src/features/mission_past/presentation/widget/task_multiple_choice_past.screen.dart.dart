@@ -141,7 +141,7 @@ class _TaskMultipleChoicePastScreenState extends ConsumerState<TaskMultipleChoic
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text('Your answer is correct!',
+                                      Text(EtamKawaTranslate.yourAnswerIsCorrect,
                                           style: SharedComponent
                                               .textStyleCustom(
                                               typographyType:
@@ -190,7 +190,7 @@ class _TaskMultipleChoicePastScreenState extends ConsumerState<TaskMultipleChoic
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                          'Your answer is incorrect!',
+                                          EtamKawaTranslate.yourAnswerIsInCorrect,
                                           style: SharedComponent
                                               .textStyleCustom(
                                               typographyType:

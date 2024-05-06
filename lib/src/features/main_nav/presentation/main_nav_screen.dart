@@ -10,10 +10,10 @@ import 'package:module_etamkawa/src/features/overview/presentation/overview.scre
 import 'package:module_etamkawa/src/features/task/presentation/controller/task.controller.dart';
 import 'package:module_etamkawa/src/features/validation/presentation/controller/validation.controller.dart';
 import 'package:module_etamkawa/src/features/validation/presentation/validation.screen.dart';
+import 'package:module_etamkawa/src/shared_component/under_construction.screen.dart';
 import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
-import '../../../shared_component/progress_dialog.dart';
 import '../../../shared_component/shared_component_etamkawa.dart';
 import 'background_service/mission_background_services.dart';
 
@@ -22,10 +22,10 @@ IndexedStack pages({required int currentIndex}) {
     index: currentIndex,
     children: const <Widget>[
       OverviewScreen(),
-      UnderConstructionScreen(),
+      UnderConstructionEtamKawaScreen(),
       MissionScreen(),
       ValidationScreen(),
-      UnderConstructionScreen(),
+      UnderConstructionEtamKawaScreen(),
     ],
   );
 }
@@ -142,8 +142,8 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                                   (submitStatusMission ==
                                           SubmitStatus.inProgress &&
                                       isInit == false)
-                              ? Center(
-                                  child: Container(
+                              ? const Center(
+                                  child: SizedBox(
                                       width: 20,
                                       height: 20,
                                       child: CircularProgressIndicator(

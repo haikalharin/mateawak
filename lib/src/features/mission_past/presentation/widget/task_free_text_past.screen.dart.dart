@@ -105,7 +105,7 @@ class _TaskFreeTextPastScreenState
                                   maxLength: 300,
                                   textInputAction: TextInputAction.done,
                                   decoration: InputDecoration(
-                                    hintText: 'Write your comment here..',
+                                    hintText: EtamKawaTranslate.writeYourAnswer,
                                     hintStyle:
                                     SharedComponent.textStyleCustom(
                                         typographyType:
@@ -135,7 +135,7 @@ class _TaskFreeTextPastScreenState
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text('Your answer is correct!',
+                                      Text(EtamKawaTranslate.yourAnswerIsCorrect,
                                           style: SharedComponent
                                               .textStyleCustom(
                                               typographyType:
@@ -184,7 +184,7 @@ class _TaskFreeTextPastScreenState
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                          'Your answer is incorrect!',
+                                          EtamKawaTranslate.yourAnswerIsInCorrect,
                                           style: SharedComponent
                                               .textStyleCustom(
                                               typographyType:
