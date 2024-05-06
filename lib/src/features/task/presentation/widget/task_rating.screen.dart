@@ -243,7 +243,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                               Colors.white),
                                     ),
                                     onPressed: () {
-                                      setState(() async {
+                                      setState(()  {
                                         ref.refresh(taskControllerProvider);
                                         ctrl
                                             .currentQuestion(
@@ -326,13 +326,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                   if ((currentQuestionIndex.state + 1) <
                                           lengthAnswer &&
                                       lengthAnswer != 1) {
-                                    await ctrl
-                                        .currentQuestion(
-                                            employeeMissionId: gamificationData
-                                                    .employeeMissionId ??
-                                                0,
-                                            pagePosition: PagePosition.NEXT)
-                                        .whenComplete(() async {
+
                                       await ctrl
                                           .saveAnswer(
                                               listTask[currentQuestionIndex
@@ -351,6 +345,13 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                         await ctrl
                                             .putAnswerFinal()
                                             .whenComplete(() async {
+                                          await ctrl
+                                              .currentQuestion(
+                                              employeeMissionId: gamificationData
+                                                  .employeeMissionId ??
+                                                  0,
+                                              pagePosition: PagePosition.NEXT)
+                                              .whenComplete(() async {
                                           currentQuestionIndex.state++;
                                           ref
                                               .watch(
@@ -431,7 +432,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                     .taskTypeCode ??
                                                 '')
                                         .whenComplete(() async {
-                                      if (((currentQuestionProgress) * 100) ~/
+                                      if (((currentQuestionProgress+1) * 100) ~/
                                               listTask.length <
                                           100) {
                                         ref

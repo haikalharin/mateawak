@@ -39,8 +39,11 @@ FutureOr<List<ValidationResponseRemote>> getValidationRemote(GetValidationLocalR
       final result = ValidationResponseRemote.fromJson(element);
       listResponse.add(result);
     }
-    
-    var repo = ref.watch(getValidationLocalProvider.future);
+
+    final repo = isarInstance.validationResponseRemotes
+        .filter()
+        .employeeMissionIdIsNotNull()
+        .findAll();
     
     for (var element in listResponse) {
       await AsyncValue.guard(() => repo).then((value) async {

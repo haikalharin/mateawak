@@ -248,6 +248,7 @@ class TaskController extends _$TaskController {
     List<int> listInt = [];
     List<int> numbersList = [];
     List<TaskDatumAnswer> listTaskAnswer = [];
+    index = await ref.watch(currentIndexState);
     int page = 0;
     if (pagePosition == PagePosition.NEXT) {
       page = 1;
@@ -282,7 +283,7 @@ class TaskController extends _$TaskController {
             taskGroup: element.taskGroup));
       }
     }
-    index = await ref.watch(currentIndexState);
+
     currentTypeTask = !isLast
         ? ref.watch(listTaskState)[index + page].taskTypeCode ?? ''
         : '';
@@ -297,6 +298,8 @@ class TaskController extends _$TaskController {
         attachmentName = element.attachmentName ?? '';
         taskGroup = element.taskGroup ?? '';
       }
+
+
     }
 
     if (answer != '') {
@@ -323,6 +326,7 @@ class TaskController extends _$TaskController {
         ref.watch(listSelectOptionCurrentState.notifier).state =
             listSelectOptionCurrent;
       }
+      answer ='';
     }
   }
 
