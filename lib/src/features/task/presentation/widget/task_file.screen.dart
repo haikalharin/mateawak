@@ -638,18 +638,12 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                           SizedBox(width: 8),
                           Expanded(
                             child: ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 if (listSelectedOptionString.isNotEmpty) {
                                   if ((currentQuestionIndex.state + 1) <
                                           lengthAnswer &&
                                       lengthAnswer != 1) {
-                                    ctrl
-                                        .currentQuestion(
-                                            employeeMissionId: gamificationData
-                                                    .employeeMissionId ??
-                                                0,
-                                            pagePosition: PagePosition.NEXT)
-                                        .whenComplete(() async {
+
                                       await ctrl
                                           .saveAnswer(
                                               listTask[currentQuestionIndex
@@ -676,6 +670,13 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                         await ctrl
                                             .putAnswerFinal()
                                             .whenComplete(() async {
+                                          ctrl
+                                              .currentQuestion(
+                                              employeeMissionId: gamificationData
+                                                  .employeeMissionId ??
+                                                  0,
+                                              pagePosition: PagePosition.NEXT)
+                                              .whenComplete(() async {
                                           currentQuestionIndex.state++;
                                           ref
                                               .watch(
@@ -765,7 +766,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                     .taskGroup ??
                                                 '')
                                         .whenComplete(() async {
-                                      if (((currentQuestionProgress) * 100) ~/
+                                      if (((currentQuestionProgress+1) * 100) ~/
                                               listTask.length <
                                           100) {
                                         ref

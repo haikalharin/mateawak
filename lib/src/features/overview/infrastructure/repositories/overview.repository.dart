@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:isar/isar.dart';
+import 'package:isar/isar.dart';
 import 'package:module_etamkawa/src/features/overview/domain/download_attachment_request.remote.dart';
 import 'package:module_etamkawa/src/features/overview/domain/news_response.remote.dart';
 import 'package:module_shared/module_shared.dart';
@@ -40,7 +41,6 @@ FutureOr<NewsResponseRemote> getNewsRemote(GetNewsRemoteRef ref) async {
     File file = File('');
 
     await AsyncValue.guard(() => imageBefore).then((value) async {
-      print("^^^^^^^^^${value}");
       if (result.attachmentUrl != null) {
         if ((value.value??[]).isEmpty || value.value?.first.attachmentPath == null ||
             value.value?.first.updatedDate != result.updatedDate) {
@@ -50,10 +50,10 @@ FutureOr<NewsResponseRemote> getNewsRemote(GetNewsRemoteRef ref) async {
           if (responseImage.statusCode == 200) {
             file = await asyncMethodSaveFile(responseImage.data);
             imagePath = file.path;
-            if((value.value??[]).isNotEmpty || value.value?.first.attachmentPath != null ) {
-              var fileDelete = File(value.value?.first.attachmentPath ?? '');
-              await fileDelete.delete();
-            }
+            // if((value.value??[]).isNotEmpty || value.value?.first.attachmentPath != null ) {
+            //   var fileDelete = File(value.value?.first.attachmentPath ?? '');
+            //   await fileDelete.delete();
+            // }
           }
         } else {
           imagePath = value.value?.first.attachmentPath ?? '';
@@ -73,6 +73,8 @@ FutureOr<NewsResponseRemote> getNewsRemote(GetNewsRemoteRef ref) async {
 
     ref.keepAlive();
   }
+    ref.keepAlive();
+  }
   return news;
 }
 
@@ -86,6 +88,12 @@ Future<DownloadAttachmentNewsRequestRemote> getNewsImageRemote(
       body: {"attachmentId": id});
   final result = DownloadAttachmentNewsRequestRemote.fromJson(
       {"attachmentId": id, "formattedName": response.result?.content});
+  if (response.statusCode == 200) {
+    final isarInstance = await ref.watch(isarInstanceProvider.future);
+    await isarInstance.writeTxn(() async {
+      await isarInstance.downloadAttachmentNewsRequestRemotes.put(result);
+    });
+  }
   if (response.statusCode == 200) {
     final isarInstance = await ref.watch(isarInstanceProvider.future);
     await isarInstance.writeTxn(() async {

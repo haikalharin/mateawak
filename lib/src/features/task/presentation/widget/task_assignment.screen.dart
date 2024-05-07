@@ -497,7 +497,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                           MaterialStateProperty.all<Color>(
                                               Colors.white),
                                     ),
-                                    onPressed: () async {
+                                    onPressed: ()  {
                                       setState(() async {
                                         await ctrl
                                             .currentQuestion(
@@ -580,18 +580,12 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                           const SizedBox(width: 8),
                           Expanded(
                             child: ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 if (listSelectedOptionString.isNotEmpty) {
                                   if ((currentQuestionIndex.state + 1) <
                                           listTask.length &&
                                       listTask.length != 1) {
-                                    ctrl
-                                        .currentQuestion(
-                                            employeeMissionId: gamificationData
-                                                    .employeeMissionId ??
-                                                0,
-                                            pagePosition: PagePosition.NEXT)
-                                        .whenComplete(() async {
+
                                       await ctrl
                                           .saveAnswer(
                                               listTask[currentQuestionIndex
@@ -618,6 +612,13 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                         await ctrl
                                             .putAnswerFinal()
                                             .whenComplete(() async {
+                                          ctrl
+                                              .currentQuestion(
+                                              employeeMissionId: gamificationData
+                                                  .employeeMissionId ??
+                                                  0,
+                                              pagePosition: PagePosition.NEXT)
+                                              .whenComplete(() async {
                                           currentQuestionIndex.state++;
                                           ref
                                               .watch(
@@ -704,7 +705,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                     .taskGroup ??
                                                 '')
                                         .whenComplete(() async {
-                                      if (((currentQuestionProgress) * 100) ~/
+                                      if (((currentQuestionProgress+1) * 100) ~/
                                               listTask.length <
                                           100) {
                                         ref

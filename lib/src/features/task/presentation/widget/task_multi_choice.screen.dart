@@ -29,6 +29,16 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
   bool isInit = true;
 
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      listData.addAll(ref
+          .watch(listSelectOptionState.notifier)
+          .state);
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
@@ -43,10 +53,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
         final resultSubmit = ref.watch(resultSubmissionState);
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
         final lengthAnswer = ref.watch(listTaskState).length;
-        if (isInit) {
-          isInit = false;
-          listData.addAll(ref.watch(listSelectOptionState.notifier).state);
-        }
+        if (isInit) {}
         return Scaffold(
             backgroundColor: ColorTheme.backgroundLight,
             body: ListView(
@@ -358,14 +365,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                     if ((currentQuestionIndex.state + 1) <
                                             lengthAnswer &&
                                         lengthAnswer != 1) {
-                                      await ctrl
-                                          .currentQuestion(
-                                              employeeMissionId:
-                                                  gamificationData
-                                                          .employeeMissionId ??
-                                                      0,
-                                              pagePosition: PagePosition.NEXT)
-                                          .whenComplete(() async {
+
                                         await ctrl
                                             .saveAnswer(
                                                 listTask[currentQuestionIndex
@@ -383,6 +383,14 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                           await ctrl
                                               .putAnswerFinal()
                                               .whenComplete(() async {
+                                            await ctrl
+                                                .currentQuestion(
+                                                employeeMissionId:
+                                                gamificationData
+                                                    .employeeMissionId ??
+                                                    0,
+                                                pagePosition: PagePosition.NEXT)
+                                                .whenComplete(() async {
                                             currentQuestionIndex.state++;
                                             ref
                                                 .watch(currentProgressState
@@ -403,9 +411,10 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                     TaskType.ASM.name) {
                                               ref
                                                   .watch(
-                                                  listSelectOptionStringState
-                                                      .notifier)
-                                                  .state.clear();
+                                                      listSelectOptionStringState
+                                                          .notifier)
+                                                  .state
+                                                  .clear();
 
                                               ref
                                                       .watch(
@@ -467,7 +476,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                       .taskTypeCode ??
                                                   '')
                                           .whenComplete(() async {
-                                        if (((currentQuestionProgress) * 100) ~/
+                                        if (((currentQuestionProgress+1) * 100) ~/
                                                 listTask.length <
                                             100) {
                                           ref
