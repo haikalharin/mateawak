@@ -112,7 +112,8 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                           builder: (context) {
                             return CustomDialog(
                                 title: "Confirmation",
-                                content: EtamKawaTranslate.areYouSureWantToLeave,
+                                content:
+                                    EtamKawaTranslate.areYouSureWantToLeave,
                                 label: "Stay",
                                 type: DialogType.question,
                                 onClosed: () async {
@@ -181,13 +182,19 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                 ),
                               ),
                               Container(
-                                width: 83,
-                                height: 26,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 8.w, vertical: 4.h),
                                 decoration: BoxDecoration(
                                     color: ColorTheme.secondary100,
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(5.r))),
-                                child: const Center(child: Text('In Progress')),
+                                child: Center(
+                                    child: Text('In Progress',
+                                        style: SharedComponent.textStyleCustom(
+                                            typographyType:
+                                                TypographyType.small,
+                                            fontColor:
+                                                ColorTheme.secondary500))),
                               ),
                             ],
                           ),
@@ -232,7 +239,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              ((currentQuestionProgress+1) /
+                                              ((currentQuestionProgress + 1) /
                                                   listTask.length),
                                           decoration: BoxDecoration(
                                             color: ColorTheme.primary500,
@@ -242,7 +249,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                           child: Align(
                                               alignment: Alignment.centerRight,
                                               child: Text(
-                                                  '${((currentQuestionProgress+1) * 100) ~/ listTask.length}%',
+                                                  '${((currentQuestionProgress + 1) * 100) ~/ listTask.length}%',
                                                   style: SharedComponent
                                                       .textStyleCustom(
                                                           typographyType:
