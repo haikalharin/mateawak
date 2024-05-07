@@ -75,10 +75,8 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                         content: EtamKawaTranslate.areYouSureWantToLeave,
                         label: EtamKawaTranslate.stay,
                         type: DialogType.question,
-                        onClosed: () async => {
-                              await ctrl
-                                  .putAnswerFinal()
-                                  .whenComplete(() async {
+                        onClosed: () async{
+
                                 await ctrl
                                     .changeStatusTask(isDone: false)
                                     .whenComplete(() async {
@@ -86,7 +84,6 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                       .getMissionList()
                                       .whenComplete(() async {});
                                 });
-                              })
                             });
                   },
                 );
@@ -111,16 +108,12 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                 label: EtamKawaTranslate.stay,
                                 type: DialogType.question,
                                 onClosed: () async {
-                                  await ctrl
-                                      .putAnswerFinal()
-                                      .whenComplete(() async {
                                     await ctrl
                                         .changeStatusTask(isDone: false)
                                         .whenComplete(() async {
                                       await ctrlMission
                                           .getMissionList()
                                           .whenComplete(() {});
-                                    });
                                   });
                                 });
                           });

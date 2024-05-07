@@ -26,7 +26,7 @@ FutureOr<List<MissionPastResponseRemote>> getMissionPastList(
       body: {
         "employeeId": userModel?.employeeID,
         "startDate": "2024-01-23T06:50:18.014Z",
-        "endDate": "2024-05-06T06:50:18.014Z",
+        "endDate": "2024-12-06T06:50:18.014Z",
         "pageNo": 1,
         "pageSize": 99,
       });

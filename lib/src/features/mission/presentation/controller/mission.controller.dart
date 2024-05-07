@@ -115,8 +115,8 @@ class MissionController extends _$MissionController {
       final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
 
       backgroundServices.invoke(Constant.bgMissionInit, {
-        'isFetchMission': true,
-        'isSubmitAnswer':true,
+        'isFetchMission': isFetchMission,
+        'isSubmitAnswer':isSubmitAnswer,
         'employeeId': userModel?.employeeID,
         'requestDate': latestSyncDate,
         'url': dotenv.env[EnvConstant.rootUrl],

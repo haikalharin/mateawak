@@ -16,6 +16,7 @@ import '../../../../constants/constant.dart';
 import '../../../../constants/function_utils.dart';
 import '../../../mission/domain/gamification_response.remote.dart';
 import '../../../task/domain/answer_request.remote.dart';
+import '../../../task/domain/task_datum_answer_request.remote.dart';
 
 FutureOr<void> intializedMissionBackgroundService() async {
   log('intializedBackgroundService');
@@ -55,7 +56,7 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
   serviceInstance.on(Constant.bgMissionInit).listen((payload) async {
     try {
       final existingIsarInstance =
-      Isar.getInstance(Constant.etamkawaIsarInstance);
+          Isar.getInstance(Constant.etamkawaIsarInstance);
 
       final isarInstance = existingIsarInstance ??
           Isar.openSync([
@@ -63,36 +64,38 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
             GamificationResponseRemoteSchema,
             AnswerRequestRemoteSchema
           ], directory: dir.path, name: Constant.etamkawaIsarInstance);
-var isSubmitAnswer =  payload?['isSubmitAnswer'] as bool;
-var isFetchMission =  payload?['isFetchMission'] as bool;
-      if(isSubmitAnswer == true) {
-          submitAnswerBg(url: payload?['url'] as String,
+      var isSubmitAnswer = payload?['isSubmitAnswer'] as bool;
+      var isFetchMission = payload?['isFetchMission'] as bool;
+      if (isSubmitAnswer == true) {
+        submitAnswerBg(
+            url: payload?['url'] as String,
             path: payload?['pathSubmitMission'] as String,
             pathImage: payload?['pathImage'] as String,
             isarInstance: isarInstance,
             accessToken: payload?['accessToken'] as String);
       }
-     if(isFetchMission == true) {
-      await fetchMission(url: payload?['url'] as String,
-           path: payload?['pathFetchMission'] as String,
-           requestDate: payload?['requestDate'] as String,
-           employeeId: payload?['employeeId'] as int,
-           isarInstance: isarInstance,
-           accessToken: payload?['accessToken'] as String);
-     }
+      if (isFetchMission == true) {
+        await fetchMission(
+            url: payload?['url'] as String,
+            path: payload?['pathFetchMission'] as String,
+            requestDate: payload?['requestDate'] as String,
+            employeeId: payload?['employeeId'] as int,
+            isarInstance: isarInstance,
+            accessToken: payload?['accessToken'] as String);
+      }
     } catch (e) {
-    log('background service error: $e');
-    throw Exception(e);
+      log('background service error: $e');
+      throw Exception(e);
     }
   });
 }
 
-Future<bool> submitAnswerBg({required String url,
-  required String path,
-  required String pathImage,
-  required accessToken,
-  required isarInstance
-}) async {
+Future<bool> submitAnswerBg(
+    {required String url,
+    required String path,
+    required String pathImage,
+    required accessToken,
+    required Isar isarInstance}) async {
   try {
     final repo = isarInstance.answerRequestRemotes
         .filter()
@@ -106,22 +109,28 @@ Future<bool> submitAnswerBg({required String url,
     await AsyncValue.guard(() => repo).then((value) async {
       for (var element in value.value ?? []) {
         AnswerRequestRemote answerRequestRemote = element;
+        List<TaskDatumAnswerRequestRemote> listTaskAnswer = [];
         for (var elementAnswer in answerRequestRemote.taskData ?? []) {
+          listTaskAnswer.add(TaskDatumAnswerRequestRemote(
+              taskId: elementAnswer.taskId,
+              answer: elementAnswer.answer,
+              attachmentId: elementAnswer.attachmentId,
+              attachment: elementAnswer.attachment,
+              attachmentName: elementAnswer.attachmentName));
           TaskDatumAnswer taskDatumAnswer = elementAnswer;
           if (taskDatumAnswer.attachment != '') {
             final map = FormData.fromMap({
-              "File":
-              await MultipartFile.fromFile(taskDatumAnswer.attachment!),
+              "File": await MultipartFile.fromFile(taskDatumAnswer.attachment!),
               "Group": taskDatumAnswer.taskGroup,
             });
 
             final response = await ConnectBackgroundService().post(
-                accessToken: accessToken,
-                url: url,
-                path: pathImage,
-                body: map);
+                accessToken: accessToken, url: url, path: pathImage, body: map);
 
             if (response.statusCode == 200) {
+              await deleteAnswer(isarInstance, listTaskAnswer).whenComplete(() {
+                listTaskAnswer.clear();
+              });
               int id = 64;
               if (response.result?.content["resultData"] != null) {
                 id = int.parse(response.result?.content["resultData"]);
@@ -181,18 +190,18 @@ Future<bool> submitAnswerBg({required String url,
   }
 }
 
-Future<bool> fetchMission({required String url,
-  required String path,
-  required String requestDate,
-  required int employeeId,
-  required isarInstance,
-  required accessToken}) async {
+Future<bool> fetchMission(
+    {required String url,
+    required String path,
+    required String requestDate,
+    required int employeeId,
+    required isarInstance,
+    required accessToken}) async {
   try {
     List<GamificationResponseRemote> listResponse = [];
     List<GamificationResponseRemote> listResponseFinal = [];
     List<GamificationResponseRemote> listResponseAfterMerge = [];
     List<GamificationResponseRemote> listAfterCheckIsIncomplete = [];
-
 
     final response = await ConnectBackgroundService().post(
       accessToken: accessToken as String,
@@ -224,7 +233,7 @@ Future<bool> fetchMission({required String url,
           for (var element in listResponse) {
             if ((value.value ?? []).isNotEmpty) {
               bool exists = (value.value ?? []).any((item) =>
-              item.employeeMissionId == element.employeeMissionId);
+                  item.employeeMissionId == element.employeeMissionId);
 
               if (!exists) {
                 listResponseFinal.add(element);
@@ -267,10 +276,11 @@ Future<bool> fetchMission({required String url,
       listResponseAfterMerge.addAll(listResponse);
       listResponseAfterMerge.addAll(listResponseFinal);
       for (var element in listResponseAfterMerge) {
-        DateTime dueDate =  DateTime.parse(element.dueDate??'2024-00-00T00:00:00');
-        int different =calculateDifferenceDays(dueDate,DateTime.now());
-        if(element.missionStatusCode != null) {
-          if (different >0 && element.missionStatusCode! < 2) {
+        DateTime dueDate =
+            DateTime.parse(element.dueDate ?? '2024-00-00T00:00:00');
+        int different = calculateDifferenceDays(dueDate, DateTime.now());
+        if (element.missionStatusCode != null) {
+          if (different > 0 && element.missionStatusCode! < 2) {
             listAfterCheckIsIncomplete.add(GamificationResponseRemote(
                 employeeMissionId: element.employeeMissionId,
                 missionId: element.missionId,
@@ -314,3 +324,13 @@ Future<bool> fetchMission({required String url,
   }
 }
 
+Future<void> deleteAnswer(Isar isarInstance,
+    List<TaskDatumAnswerRequestRemote> listTaskAnswer) async {
+  List<int> listId = [];
+  for (var element in listTaskAnswer) {
+    listId.add(element.taskId ?? 0);
+  }
+  await isarInstance.writeTxn(() async {
+    await isarInstance.taskDatumAnswerRequestRemotes.deleteAll(listId);
+  });
+}

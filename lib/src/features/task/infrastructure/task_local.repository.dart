@@ -53,7 +53,7 @@ FutureOr<void> deleteAnswerLocal(DeleteAnswerLocalRef ref,
     listId.add(element.taskId ?? 0);
   }
   await isarInstance.writeTxn(() async {
-    await isarInstance.taskDatumAnswerRequestRemotes.clear();
+    await isarInstance.taskDatumAnswerRequestRemotes.deleteAll(listId);
   });
 }
 

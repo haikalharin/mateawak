@@ -72,54 +72,58 @@ class _TaskSingleChoiceScreenState
                                     style: SharedComponent.textStyleCustom(
                                         typographyType: TypographyType.largeH5,
                                         fontColor: ColorTheme.textDark)),
-                                Row(
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          8, 0, 8, 0),
-                                      margin: EdgeInsets.only(right: 4.sp),
-                                      decoration: BoxDecoration(
-                                          color: ColorTheme.secondary100,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5.r))),
-                                      child: Center(
-                                          child: SizedBox(
-                                        height: 24.h,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Icon(
-                                              Icons.star,
-                                              color: ColorTheme.secondary500,
-                                              size: 12.h,
-                                            ),
-                                            Text(
-                                                " +${listTask[currentQuestionIndex.state].taskReward}",
-                                              style: SharedComponent
-                                                  .textStyleCustom(
-                                                  typographyType:
-                                                  TypographyType.body,
-                                                  fontColor: ColorTheme
-                                                      .secondary500),
-                                            ),
-                                          ],
-                                        ),
-                                      )),
-                                    ),
-                                    Icon(
-                                      Icons.info,
-                                      color: ColorTheme.primary500,
-                                      size: 24.h,
-                                    ),
-                                  ],
+                                Container(
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            8, 0, 8, 0),
+                                        margin: EdgeInsets.only(right: 4.sp),
+                                        decoration: BoxDecoration(
+                                            color: ColorTheme.secondary100,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(5.r))),
+                                        child: Center(
+                                            child: Container(
+                                          height: 24.h,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Icon(
+                                                Icons.star,
+                                                color: ColorTheme.secondary500,
+                                                size: 12.h,
+                                              ),
+                                              Text(
+                                                  " +${listTask[currentQuestionIndex.state].taskReward}",
+                                                style: SharedComponent
+                                                    .textStyleCustom(
+                                                    typographyType:
+                                                    TypographyType.body,
+                                                    fontColor: ColorTheme
+                                                        .secondary500),
+                                              ),
+                                            ],
+                                          ),
+                                        )),
+                                      ),
+                                      Icon(
+                                        Icons.info,
+                                        color: ColorTheme.primary500,
+                                        size: 24.h,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
                             const SizedBox(
                               height: 8,
                             ),
-                            listTask[currentQuestionIndex.state].attachmentPath != null
+                            listTask[ currentQuestionIndex
+                                .state].attachmentPath != null && listTask[ currentQuestionIndex
+                                .state].attachmentPath != ''
                                 ? Container(
                                     height: 200,
                                     width: MediaQuery.of(context).size.width,

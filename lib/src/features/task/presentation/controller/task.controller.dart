@@ -140,18 +140,24 @@ class TaskController extends _$TaskController {
     final today =
         CommonUtils.formatDateRequestParam(DateTime.now().toUtc().toString());
     List<TaskDatumAnswer> listData = [];
-    var repo = ref.watch(getAnswerLocalProvider.future);
+    final isarInstance = await ref.watch(isarInstanceProvider.future);
     final gamification = ref.watch(gamificationState.notifier).state;
-    await AsyncValue.guard(() => repo).then((dataAnswer) async {
-      for (var element in dataAnswer.value ?? []) {
-        debugPrint(element.toString());
-        listData.add(TaskDatumAnswer(
-            taskId: element.taskId,
-            answer: element.answer,
-            attachmentName: element.attachmentName,
-            attachment: element.attachment,
-            taskGroup: element.taskGroup));
-      }
+    final listTask = ref.watch(listTaskState.notifier).state;
+    for (var element in listTask) {
+      final repo = isarInstance.taskDatumAnswerRequestRemotes
+          .filter()
+          .taskIdEqualTo(element.taskId)
+          .findFirst();
+      await AsyncValue.guard(() => repo).then((dataAnswer) async {
+          debugPrint(element.toString());
+          listData.add(TaskDatumAnswer(
+              taskId: dataAnswer.value?.taskId,
+              answer: dataAnswer.value?.answer,
+              attachmentName:  dataAnswer.value?.attachmentName,
+              attachment:  dataAnswer.value?.attachment,
+              taskGroup:  dataAnswer.value?.taskGroup));
+      });
+    }
 
       var taskAnswer = AnswerRequestRemote(
           employeeMissionId: gamification.employeeMissionId,
@@ -171,7 +177,9 @@ class TaskController extends _$TaskController {
           }
           final result = await ref.read(submitMissionProvider(
                   answerRequestRemote: taskAnswer, status: status)
-              .future);
+              .future).whenComplete(() async {
+            await deleteAnswer(listTaskAnswer);
+          });
           ref.read(resultSubmissionState).copyWith(
               employeeMissionId: result.employeeMissionId,
               competencyName: result.competencyName,
@@ -187,7 +195,6 @@ class TaskController extends _$TaskController {
             putAnswerFinalLocalProvider(answerRequestRemote: taskAnswer)
                 .future);
       }
-    });
   }
 
   Future<void> changeStatusTask({isDone = true}) async {
@@ -199,10 +206,12 @@ class TaskController extends _$TaskController {
       data = gamification.copyWith(
           missionStatusCode: 2, missionStatus: 'Submitted');
     } else {
-      if ((gamification.missionStatusCode ?? 0) < 1) {
+      // if ((gamification.missionStatusCode ?? 0) < 1) {
         data = gamification.copyWith(
             missionStatusCode: 1, missionStatus: 'In Progress');
-      }
+      // } else{
+      //   data = gamification;
+      // }
     }
     await ref
         .watch(changeStatusTaskLocalProvider(task: data).future)
@@ -213,31 +222,18 @@ class TaskController extends _$TaskController {
 
   Future<void> putTaskAnswer(TaskDatumAnswerRequestRemote value) async {
     await ref
-        .watch(putTaskAnswerLocalProvider(taskAnswer: value).future)
-        .whenComplete(() {
-      ref.watch(answerState.notifier).state.add(TaskDatumAnswer(
-          taskId: value.taskId,
-          answer: value.answer,
-          attachmentName: value.attachmentName,
-          attachment: value.attachment,
-          taskGroup: value.taskGroup));
-    });
+        .watch(putTaskAnswerLocalProvider(taskAnswer: value).future);
   }
 
   Future<void> deleteAnswer(
       List<TaskDatumAnswerRequestRemote> listTaskAnswer) async {
     await ref
-        .watch(deleteAnswerLocalProvider(listTaskAnswer: listTaskAnswer).future)
-        .whenComplete(() {
-      listTaskAnswer.clear();
-      ref.watch(answerState.notifier).state.clear();
-    });
+        .watch(deleteAnswerLocalProvider(listTaskAnswer: listTaskAnswer).future);
   }
 
   Future<void> currentQuestion(
       {required int employeeMissionId,
       required PagePosition pagePosition,
-      List<TaskDatumAnswer>? listData,
       bool isLast = false}) async {
     List<String> listString = [];
     List<int> listInt = [];
@@ -250,23 +246,24 @@ class TaskController extends _$TaskController {
     } else if (pagePosition == PagePosition.PREV) {
       page = -1;
     }
-    var currentAnswer = ref.read(
-        getAnswerFinalLocalProvider(employeeMissionId: employeeMissionId)
-            .future);
+   final isarInstance = await ref.watch(isarInstanceProvider.future);
+
+    var currentAnswer =  isarInstance.answerRequestRemotes
+        .filter()
+        .employeeMissionIdEqualTo(employeeMissionId)
+        .findAll();
+
     List<TaskDatumAnswerRequestRemote> dataCek = [];
-    if (kDebugMode) {
-      print('#######Haloo');
-    }
-    if (listData != null) {
-      listTaskAnswer = listData;
-    } else {
+
+
       state = await AsyncValue.guard(() => currentAnswer).then((value) async {
-        if (value.value != null && value.value != []) {
-          listTaskAnswer = value.value ?? [];
+        List<AnswerRequestRemote> list = value.value??[];
+        if ( list != []) {
+          listTaskAnswer = list.first.taskData??[];
         }
         return value;
       });
-    }
+
 
     if (listTaskAnswer.isNotEmpty) {
       for (var element in listTaskAnswer) {
@@ -287,7 +284,6 @@ class TaskController extends _$TaskController {
     for (var element in dataCek) {
       await putTaskAnswer(element);
       if (element.taskId == currentTaskId) {
-        // await deleteAnswer(dataCek);
         answer = element.answer ?? '';
         attachment = element.attachment ?? '';
         attachmentName = element.attachmentName ?? '';
@@ -325,7 +321,7 @@ class TaskController extends _$TaskController {
     }
   }
 
-  Future<void> saveAnswer(int questionId,
+  Future<void> saveAnswer(int taskId,
       {required List<dynamic>? listSelectedOption,
       String? attachment,
       String? attachmentName,
@@ -349,7 +345,7 @@ class TaskController extends _$TaskController {
         }
       }
       dataAnswer = TaskDatumAnswerRequestRemote(
-          taskId: questionId,
+          taskId: taskId,
           answer: data,
           attachment: attachment ?? '',
           attachmentName: attachmentName ?? '',
@@ -359,7 +355,7 @@ class TaskController extends _$TaskController {
       if (isLast) {}
     } else {
       dataAnswer = TaskDatumAnswerRequestRemote(
-          taskId: questionId,
+          taskId: taskId,
           answer: data,
           attachment: attachment ?? '',
           attachmentName: attachmentName ?? '',
@@ -369,19 +365,6 @@ class TaskController extends _$TaskController {
     }
   }
 
-  Future<void> upsertItem(TaskDatumAnswer newItem) async {
-    var dataCek = ref.watch(answerState.notifier).state;
-    int existingIndex =
-        dataCek.indexWhere((item) => item.taskId == newItem.taskId);
-
-    if (existingIndex != -1) {
-      // If the item exists, update its properties
-      dataCek[existingIndex] = newItem;
-    } else {
-      // If the item does not exist, add it to the list
-      dataCek.add(newItem);
-    }
-  }
 
   Future<void> sendAnswerBackgroundService() async {
     ref.watch(submitStatusMissionBgServicesState.notifier).state =
@@ -407,9 +390,7 @@ class TaskController extends _$TaskController {
       await AsyncValue.guard(() => repo).then((data) async {
 
         for (var element in data.value ?? []) {
-          if (kDebugMode) {
-            print("!!!!!!!!!!");
-          }
+
           GamificationResponseRemote dataGamification = element;
 
           if (dataGamification.missionStatusCode == 4) {

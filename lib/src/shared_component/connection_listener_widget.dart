@@ -43,7 +43,7 @@ class _ConnectionListenerWidgetState
       // }
       if (value % 7200 == 0) {
        await ctrlTask.sendAnswerBackgroundService().whenComplete(() async {
-         await  ctrl.backgroundServiceEvent();
+         await  ctrl.backgroundServiceEvent(isFetchMission: true,isSubmitAnswer: true);
         });
 
       }
@@ -54,7 +54,7 @@ class _ConnectionListenerWidgetState
         case InternetConnectionStatus.connected:
           if (isInit) {
             await ctrlTask.sendAnswerBackgroundService().whenComplete(() async {
-              await  ctrl.backgroundServiceEvent();
+              await  ctrl.backgroundServiceEvent(isFetchMission: true,isSubmitAnswer: true);
             });
             isInit = false;
           }

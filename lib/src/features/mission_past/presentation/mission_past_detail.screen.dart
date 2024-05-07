@@ -112,7 +112,7 @@ class _MissionPastDetailScreenState
                                         Text(
                                           '${EtamKawaTranslate.mission}: ${gamification.chapterData?.single.missionData?.single.missionName ?? ''}',
                                           overflow: TextOverflow.ellipsis,
-                                          maxLines: 2, // Adjust as needed
+                                          maxLines: 5, // Adjust as needed
                                           style:
                                               SharedComponent.textStyleCustom(
                                             typographyType:

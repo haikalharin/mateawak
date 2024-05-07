@@ -107,7 +107,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                             submitStatusBgServices !=
                                                 SubmitStatus.inProgress
                                         ? ctrl
-                                            .backgroundServiceEvent()
+                                            .backgroundServiceEvent(isFetchMission: true,isSubmitAnswer: true)
                                             .whenComplete(() {
                                             ref.refresh(
                                                 missionControllerProvider);

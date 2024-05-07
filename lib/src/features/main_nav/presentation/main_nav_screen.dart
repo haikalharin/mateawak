@@ -133,7 +133,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                                     .sendAnswerBackgroundService()
                                     .whenComplete(() async {
                                     await ctrlMission
-                                        .backgroundServiceEvent();
+                                        .backgroundServiceEvent(isFetchMission: true,isSubmitAnswer: true);
                                   })
                                 : null;
                           },
@@ -230,9 +230,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                                         SubmitStatus.inProgress &&
                                     submitStatusMissionBgServices !=
                                         SubmitStatus.inProgress) {
-                                  if (kDebugMode) {
-                                    print('###################Kena');
-                                  }
+
                                   await ctrlMission
                                       .getMissionList(isInit: isInit)
                                       .whenComplete(() {

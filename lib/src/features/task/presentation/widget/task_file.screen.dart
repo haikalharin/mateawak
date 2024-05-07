@@ -141,7 +141,9 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                             const SizedBox(
                               height: 8,
                             ),
-                            listTask[currentQuestionIndex.state].attachmentPath != null
+                            listTask[ currentQuestionIndex
+                                .state].attachmentPath != null && listTask[ currentQuestionIndex
+                                .state].attachmentPath != ''
                                 ? Container(
                                     height: 200,
                                     width: MediaQuery.of(context).size.width,
@@ -416,49 +418,88 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                   border: const OutlineInputBorder(),
                                 ),
                                 maxLines: 10,
-                                onEditingComplete: () async {
+                                onTapOutside: (value) async {
                                   await ctrl
                                       .saveAnswer(
-                                          listTask[currentQuestionIndex.state]
-                                                  .taskId ??
-                                              0,
-                                          isLast: false,
-                                          listSelectedOption: [
-                                            _textController.text
-                                          ],
-                                          type: listTask[currentQuestionIndex
-                                                      .state]
-                                                  .taskTypeCode ??
-                                              '',
-                                          taskGroup: listTask[
-                                                      currentQuestionIndex
-                                                          .state]
-                                                  .taskGroup ??
-                                              '')
+                                      listTask[currentQuestionIndex.state]
+                                          .taskId ??
+                                          0,
+                                      isLast: false,
+                                      listSelectedOption: [
+                                        _textController.text
+                                      ],
+                                      type: listTask[currentQuestionIndex
+                                          .state]
+                                          .taskTypeCode ??
+                                          '',
+                                      taskGroup: listTask[
+                                      currentQuestionIndex
+                                          .state]
+                                          .taskGroup ??
+                                          '')
                                       .whenComplete(() async {
                                     await ctrl.putAnswerFinal();
                                   }).whenComplete(() {
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                  });
-                                },
-                                onChanged: (value) {
-                                  setState(() {
-                                    if (value.isEmpty) {
+
+                                    if (_textController.text.isEmpty) {
                                       ref
                                           .watch(listSelectOptionStringState
-                                              .notifier)
+                                          .notifier)
                                           .state = [];
 
                                       _textController.clear();
                                     } else {
                                       ref
                                           .watch(listSelectOptionStringState
-                                              .notifier)
-                                          .state = [value];
+                                          .notifier)
+                                          .state = [_textController.text];
                                     }
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
                                   });
-                                }, // Allows multiple lines of input
+                                },
+                                onEditingComplete: () async {
+                                  await ctrl
+                                      .saveAnswer(
+                                      listTask[currentQuestionIndex.state]
+                                          .taskId ??
+                                          0,
+                                      isLast: false,
+                                      listSelectedOption: [
+                                        _textController.text
+                                      ],
+                                      type: listTask[currentQuestionIndex
+                                          .state]
+                                          .taskTypeCode ??
+                                          '',
+                                      taskGroup: listTask[
+                                      currentQuestionIndex
+                                          .state]
+                                          .taskGroup ??
+                                          '')
+                                      .whenComplete(() async {
+                                    await ctrl.putAnswerFinal();
+                                  }).whenComplete(() {
+
+                                    setState(() {
+                                      if (_textController.text.isEmpty) {
+                                        ref
+                                            .watch(listSelectOptionStringState
+                                            .notifier)
+                                            .state = [];
+
+                                        _textController.clear();
+                                      } else {
+                                        ref
+                                            .watch(listSelectOptionStringState
+                                            .notifier)
+                                            .state = [_textController.text];
+                                      }
+                                    });
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
+                                  });
+                                },
                               ),
                             ),
                             gamificationData.missionStatusCode == 99
