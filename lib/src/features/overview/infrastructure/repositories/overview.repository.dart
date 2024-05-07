@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:isar/isar.dart';
 import 'package:module_etamkawa/src/features/overview/domain/download_attachment_request.remote.dart';
 import 'package:module_etamkawa/src/features/overview/domain/news_response.remote.dart';
 import 'package:module_shared/module_shared.dart';
@@ -21,32 +22,56 @@ FutureOr<NewsResponseRemote> getNewsRemote(GetNewsRemoteRef ref) async {
   //   "content": Constant.htmlNews,
   // };
   // final result = NewsResponseRemote.fromJson(response);
+  final isarInstance = await ref.watch(isarInstanceProvider.future);
+  var imageBefore = isarInstance.newsResponseRemotes
+      .filter()
+      .attachmentPathIsNotEmpty()
+      .findAll();
+  NewsResponseRemote news = NewsResponseRemote();
 
   final response = await connect.get(
     modul: ModuleType.etamkawaNews,
     path: "/api/news/get_last_news?${Constant.apiVer}",
   );
   final result = NewsResponseRemote.fromJson(response.result?.content);
-  File file = File('');
-  if(result.attachmentUrl != null) {
-    final responseImage = await connect.downloadImage(
-      url: result.attachmentUrl ?? '',
-    );
-    responseImage.data;
-    file = await asyncMethodSaveFile(responseImage.data);
-  }
-  final isarInstance = await ref.watch(isarInstanceProvider.future);
-  NewsResponseRemote news = NewsResponseRemote(
-      attachmentUrl: result.attachmentUrl,
-      attachmentPath:file.path,
-      title: result.title,
-      content: result.content,
-      updatedDate: result.updatedDate);
-  await isarInstance.writeTxn(() async {
-    await isarInstance.newsResponseRemotes.put(news);
-  });
 
-  ref.keepAlive();
+  if (response.statusCode == 200) {
+    String imagePath = '';
+    File file = File('');
+
+    await AsyncValue.guard(() => imageBefore).then((value) async {
+      if (result.attachmentUrl != null) {
+        if ((value.value??[]).isEmpty || value.value?.first.attachmentPath == null ||
+            value.value?.first.updatedDate != result.updatedDate) {
+          final responseImage = await connect.downloadImage(
+            url: result.attachmentUrl ?? '',
+          );
+          if (responseImage.statusCode == 200) {
+            file = await asyncMethodSaveFile(responseImage.data);
+            imagePath = file.path;
+            // if((value.value??[]).isNotEmpty || value.value?.first.attachmentPath != null ) {
+            //   var fileDelete = File(value.value?.first.attachmentPath ?? '');
+            //   await fileDelete.delete();
+            // }
+          }
+        } else {
+          imagePath = value.value?.first.attachmentPath ?? '';
+        }
+      }
+    });
+    news = NewsResponseRemote(
+        attachmentUrl: result.attachmentUrl,
+        attachmentPath: imagePath,
+        title: result.title,
+        content: result.content,
+        updatedDate: result.updatedDate);
+
+    await isarInstance.writeTxn(() async {
+      await isarInstance.newsResponseRemotes.put(news);
+    });
+
+    ref.keepAlive();
+  }
   return news;
 }
 
@@ -60,12 +85,12 @@ Future<DownloadAttachmentNewsRequestRemote> getNewsImageRemote(
       body: {"attachmentId": id});
   final result = DownloadAttachmentNewsRequestRemote.fromJson(
       {"attachmentId": id, "formattedName": response.result?.content});
-
-  final isarInstance = await ref.watch(isarInstanceProvider.future);
-  await isarInstance.writeTxn(() async {
-    await isarInstance.downloadAttachmentNewsRequestRemotes.put(result);
-  });
-
+  if (response.statusCode == 200) {
+    final isarInstance = await ref.watch(isarInstanceProvider.future);
+    await isarInstance.writeTxn(() async {
+      await isarInstance.downloadAttachmentNewsRequestRemotes.put(result);
+    });
+  }
   ref.keepAlive();
   return result;
 }

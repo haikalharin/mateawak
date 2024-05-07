@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:isar/isar.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
 import 'package:module_etamkawa/src/features/mission_past/infrastructure/repositories/mission_past.repository.dart';
 import 'package:module_etamkawa/src/features/task/domain/answer_request.remote.dart';
@@ -20,6 +21,7 @@ import '../../../mission/domain/gamification_mission_detail_response.remote.dart
 import '../../../mission/infrastructure/repositories/mission_local.repository.dart';
 import '../../../mission/presentation/controller/mission.controller.dart';
 import '../../../mission_past/presentation/controller/mission_past.controller.dart';
+import '../../../offline_mode/infrastructure/repositories/isar.repository.dart';
 
 part 'task.controller.g.dart';
 
@@ -248,6 +250,7 @@ class TaskController extends _$TaskController {
     List<int> listInt = [];
     List<int> numbersList = [];
     List<TaskDatumAnswer> listTaskAnswer = [];
+    index = await ref.watch(currentIndexState);
     int page = 0;
     if (pagePosition == PagePosition.NEXT) {
       page = 1;
@@ -282,7 +285,7 @@ class TaskController extends _$TaskController {
             taskGroup: element.taskGroup));
       }
     }
-    index = await ref.watch(currentIndexState);
+
     currentTypeTask = !isLast
         ? ref.watch(listTaskState)[index + page].taskTypeCode ?? ''
         : '';
@@ -297,6 +300,8 @@ class TaskController extends _$TaskController {
         attachmentName = element.attachmentName ?? '';
         taskGroup = element.taskGroup ?? '';
       }
+
+
     }
 
     if (answer != '') {
@@ -323,6 +328,7 @@ class TaskController extends _$TaskController {
         ref.watch(listSelectOptionCurrentState.notifier).state =
             listSelectOptionCurrent;
       }
+      answer ='';
     }
   }
 
@@ -396,26 +402,60 @@ class TaskController extends _$TaskController {
       }
       final userModel = await ref.read(helperUserProvider).getUserProfile();
       final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
+      final today =
+      CommonUtils.formatDateRequestParam(DateTime.now().toUtc().toString());
+      List<TaskDatumAnswer> listData = [];
+      final isarInstance = await ref.watch(isarInstanceProvider.future);
+      final repo = isarInstance.gamificationResponseRemotes
+          .filter()
+          .employeeMissionIdIsNotNull()
+          .findAll();
+      var repoAnswer = ref.watch(getAnswerLocalProvider.future);
+      await AsyncValue.guard(() => repo).then((data) async {
 
-      backgroundServices.invoke(Constant.bgSendAnswer, {
-        'employeeId': userModel?.employeeID,
-        'requestDate': latestSyncDate,
-        'url': dotenv.env[EnvConstant.rootUrl],
-        'path':
-            '/${BspaceModule.getRootUrl(moduleType: ModuleType.etamkawaGamification)}/api/mission/submit_employee_mission?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}',
-        'accessToken': await ref.read(storageProvider.notifier).read(
-              storage: TableConstant.tbMProfile,
-              key: ProfileKeyConstant.keyTokenGeneral,
-            )
+        for (var element in data.value ?? []) {
+          print("!!!!!!!!!!");
+          GamificationResponseRemote dataGamification = element;
+
+          if (dataGamification.missionStatusCode == 4) {
+            await AsyncValue.guard(() => repoAnswer).then((dataAnswer) async {
+              for (var element in dataAnswer.value ?? []) {
+                TaskDatumAnswerRequestRemote taskDatum = element;
+
+                bool exists = (dataGamification
+                    .chapterData?.first.missionData?.first.taskData ??
+                    [])
+                    .any((item) => item.taskId == taskDatum.taskId);
+                listData.add(TaskDatumAnswer(
+                    taskId: taskDatum.taskId,
+                    answer: exists ? taskDatum.answer : '',
+                    attachmentName: exists ? taskDatum.attachmentName : '',
+                    attachment: exists ? taskDatum.attachment : '',
+                    taskGroup: exists ? taskDatum.answer : ''));
+              }
+            });
+            var taskAnswer = AnswerRequestRemote(
+                employeeMissionId: dataGamification.employeeMissionId,
+                employeeName: userModel?.empName,
+                submittedDate: today.substring(0, today.length - 6),
+                status: dataGamification.missionStatusCode,
+                taskData: listData);
+
+            await ref.watch(
+                putAnswerFinalLocalProvider(answerRequestRemote: taskAnswer)
+                    .future);
+          }
+        }
+
+
+        if (isConnectionAvailable) {
+          ref.read(submitStatusMissionState.notifier).state =
+              SubmitStatus.success;
+        } else {
+          ref.watch(submitStatusMissionBgServicesState.notifier).state =
+              SubmitStatus.failure;
+        }
       });
-
-      if (isConnectionAvailable) {
-        ref.read(submitStatusMissionState.notifier).state =
-            SubmitStatus.success;
-      } else {
-        ref.watch(submitStatusMissionBgServicesState.notifier).state =
-            SubmitStatus.failure;
-      }
     } catch (e) {
       ref.watch(submitStatusMissionBgServicesState.notifier).state =
           SubmitStatus.failure;

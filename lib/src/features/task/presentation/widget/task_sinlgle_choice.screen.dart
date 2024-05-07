@@ -355,13 +355,7 @@ class _TaskSingleChoiceScreenState
                                           lengthAnswer &&
                                       lengthAnswer != 1) {
                                     ref.refresh(taskControllerProvider);
-                                    await ctrl
-                                        .currentQuestion(
-                                            employeeMissionId: gamificationData
-                                                    .employeeMissionId ??
-                                                0,
-                                            pagePosition: PagePosition.NEXT)
-                                        .whenComplete(() async {
+
                                       await ctrl
                                           .saveAnswer(
                                               listTask[currentQuestionIndex
@@ -380,6 +374,13 @@ class _TaskSingleChoiceScreenState
                                         await ctrl
                                             .putAnswerFinal()
                                             .whenComplete(() async {
+                                          await ctrl
+                                              .currentQuestion(
+                                              employeeMissionId: gamificationData
+                                                  .employeeMissionId ??
+                                                  0,
+                                              pagePosition: PagePosition.NEXT)
+                                              .whenComplete(() async {
                                           currentQuestionIndex.state++;
                                           ref
                                               .watch(
@@ -459,7 +460,7 @@ class _TaskSingleChoiceScreenState
                                                     .taskTypeCode ??
                                                 '')
                                         .whenComplete(() async {
-                                      if (((currentQuestionProgress) * 100) ~/
+                                      if (((currentQuestionProgress+1) * 100) ~/
                                               listTask.length <
                                           100) {
                                         ref

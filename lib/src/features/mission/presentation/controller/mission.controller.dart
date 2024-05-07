@@ -110,7 +110,7 @@ class MissionController extends _$MissionController {
     });
   }
 
-  Future<void> fetchMissionListBackgroundService() async {
+  Future<void> backgroundServiceEvent({bool isFetchMission = false,bool isSubmitAnswer = false,}) async {
     try {
       final backgroundServices = FlutterBackgroundService();
       final isBgServiceRunning = await backgroundServices.isRunning();
@@ -120,14 +120,18 @@ class MissionController extends _$MissionController {
       final userModel = await ref.read(helperUserProvider).getUserProfile();
       final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
 
-
       backgroundServices.invoke(Constant.bgMissionInit, {
+        'isFetchMission': true,
+        'isSubmitAnswer':true,
         'employeeId': userModel?.employeeID,
         'requestDate': latestSyncDate,
         'url': dotenv.env[EnvConstant.rootUrl],
-        'path':
+        'pathFetchMission':
             '/${BspaceModule.getRootUrl(moduleType: ModuleType.etamkawaGamification)}/api/mission/get_employee_mission?${Constant.apiVer}',
-        'accessToken': await ref.read(storageProvider.notifier).read(
+        'pathSubmitMission':
+        '/${BspaceModule.getRootUrl(moduleType: ModuleType.etamkawaGamification)}/api/mission/submit_employee_mission?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}',
+        'pathImage':
+        '/${BspaceModule.getRootUrl(moduleType: ModuleType.etamkawaGamification)}/api/attachment/insert_attachment?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}',        'accessToken': await ref.read(storageProvider.notifier).read(
               storage: TableConstant.tbMProfile,
               key: ProfileKeyConstant.keyTokenGeneral,
             )

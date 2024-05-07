@@ -100,7 +100,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                             submitStatusBgServices !=
                                                 SubmitStatus.inProgress
                                         ? ctrl
-                                            .fetchMissionListBackgroundService()
+                                            .backgroundServiceEvent()
                                             .whenComplete(() {
                                             ref.refresh(
                                                 missionControllerProvider);
@@ -113,7 +113,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                             submitStatusBgServices !=
                                                 SubmitStatus.inProgress
                                         ? ctrl
-                                            .fetchMissionListBackgroundService()
+                                            .backgroundServiceEvent()
                                             .whenComplete(() {
                                             ref.refresh(
                                                 missionControllerProvider);
@@ -125,7 +125,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                             submitStatusBgServices !=
                                                 SubmitStatus.inProgress
                                         ? ctrl
-                                            .fetchMissionListBackgroundService()
+                                            .backgroundServiceEvent()
                                             .whenComplete(() {
                                             ref.refresh(
                                                 missionControllerProvider);

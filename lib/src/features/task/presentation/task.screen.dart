@@ -232,7 +232,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              ((currentQuestionProgress) /
+                                              ((currentQuestionProgress+1) /
                                                   listTask.length),
                                           decoration: BoxDecoration(
                                             color: ColorTheme.primary500,
@@ -242,7 +242,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                           child: Align(
                                               alignment: Alignment.centerRight,
                                               child: Text(
-                                                  '${((currentQuestionProgress) * 100) ~/ listTask.length}%',
+                                                  '${((currentQuestionProgress+1) * 100) ~/ listTask.length}%',
                                                   style: SharedComponent
                                                       .textStyleCustom(
                                                           typographyType:
