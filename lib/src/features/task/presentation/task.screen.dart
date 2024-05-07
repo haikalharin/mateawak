@@ -172,8 +172,8 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                 ],
                               ),
                               Container(
-                                  width: 83,
-                                  height: 26,
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 8.w, vertical: 4.h),
                                   decoration: BoxDecoration(
                                       color: EtamKawaUtils()
                                           .getMissionStatusBGColorByCode('1'),
