@@ -476,6 +476,23 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                           ?.unfocus();
                                     });
                                   },
+                                  onChanged: (value) {
+                                    setState(() {
+                                      if (value.isEmpty) {
+                                        ref
+                                            .watch(listSelectOptionStringState
+                                                .notifier)
+                                            .state = [value];
+
+                                        _textController.clear();
+                                      } else {
+                                        ref
+                                            .watch(listSelectOptionStringState
+                                                .notifier)
+                                            .state = [value];
+                                      }
+                                    });
+                                  }, // Allows multiple lines of input
                                 ),
                               ),
                             ],

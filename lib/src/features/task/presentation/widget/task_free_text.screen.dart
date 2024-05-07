@@ -31,6 +31,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
         if (ref.watch(listSelectOptionStringState.notifier).state.isNotEmpty) {
           _textController.text =
               ref.watch(listSelectOptionStringState.notifier).state.single;
+
         }
       }
     });
@@ -229,6 +230,23 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                       FocusManager.instance.primaryFocus
                                           ?.unfocus();
                                     });
+                                  },
+                                  onChanged: (value) {
+                                    setState(() {
+                                      if (value.isEmpty) {
+                                        ref
+                                            .watch(listSelectOptionStringState
+                                                .notifier)
+                                            .state = [];
+
+                                        _textController.clear();
+                                      } else {
+                                        ref
+                                            .watch(listSelectOptionStringState
+                                                .notifier)
+                                            .state = [value];
+                                      }
+                                    });
                                   }, // Allows multiple lines of input
                                 ),
                               ),
@@ -350,14 +368,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                       if ((currentQuestionIndex.state + 1) <
                                               lengthAnswer &&
                                           lengthAnswer != 1) {
-                                        await ctrl
-                                            .currentQuestion(
-                                                employeeMissionId:
-                                                    gamificationData
-                                                            .employeeMissionId ??
-                                                        0,
-                                                pagePosition: PagePosition.NEXT)
-                                            .whenComplete(() async {
+
                                           await ctrl
                                               .saveAnswer(
                                                   listTask[currentQuestionIndex
@@ -376,6 +387,14 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                             await ctrl
                                                 .putAnswerFinal()
                                                 .whenComplete(() async {
+                                              await ctrl
+                                                  .currentQuestion(
+                                                  employeeMissionId:
+                                                  gamificationData
+                                                      .employeeMissionId ??
+                                                      0,
+                                                  pagePosition: PagePosition.NEXT)
+                                                  .whenComplete(() async {
                                               currentQuestionIndex.state++;
                                               ref
                                                   .watch(currentProgressState

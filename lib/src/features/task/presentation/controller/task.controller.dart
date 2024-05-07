@@ -141,23 +141,23 @@ class TaskController extends _$TaskController {
         CommonUtils.formatDateRequestParam(DateTime.now().toUtc().toString());
     List<TaskDatumAnswer> listData = [];
     final isarInstance = await ref.watch(isarInstanceProvider.future);
-
-    final repo = isarInstance.taskDatumAnswerRequestRemotes
-        .filter()
-        .taskIdIsNotNull()
-        .findAll();
-    // var repo = ref.watch(getAnswerLocalProvider.future);
     final gamification = ref.watch(gamificationState.notifier).state;
-    await AsyncValue.guard(() => repo).then((dataAnswer) async {
-      for (var element in dataAnswer.value ?? []) {
-        debugPrint(element.toString());
-        listData.add(TaskDatumAnswer(
-            taskId: element.taskId,
-            answer: element.answer,
-            attachmentName: element.attachmentName,
-            attachment: element.attachment,
-            taskGroup: element.taskGroup));
-      }
+    final listTask = ref.watch(listTaskState.notifier).state;
+    for (var element in listTask) {
+      final repo = isarInstance.taskDatumAnswerRequestRemotes
+          .filter()
+          .taskIdEqualTo(element.taskId)
+          .findFirst();
+      await AsyncValue.guard(() => repo).then((dataAnswer) async {
+          debugPrint(element.toString());
+          listData.add(TaskDatumAnswer(
+              taskId: dataAnswer.value?.taskId,
+              answer:  dataAnswer.value?.answer,
+              attachmentName:  dataAnswer.value?.attachmentName,
+              attachment:  dataAnswer.value?.attachment,
+              taskGroup:  dataAnswer.value?.taskGroup));
+      });
+    }
 
       var taskAnswer = AnswerRequestRemote(
           employeeMissionId: gamification.employeeMissionId,
@@ -193,7 +193,6 @@ class TaskController extends _$TaskController {
             putAnswerFinalLocalProvider(answerRequestRemote: taskAnswer)
                 .future);
       }
-    });
   }
 
   Future<void> changeStatusTask({isDone = true}) async {
@@ -208,6 +207,8 @@ class TaskController extends _$TaskController {
       if ((gamification.missionStatusCode ?? 0) < 1) {
         data = gamification.copyWith(
             missionStatusCode: 1, missionStatus: 'In Progress');
+      } else{
+        data = gamification;
       }
     }
     await ref
@@ -243,7 +244,6 @@ class TaskController extends _$TaskController {
   Future<void> currentQuestion(
       {required int employeeMissionId,
       required PagePosition pagePosition,
-      List<TaskDatumAnswer>? listData,
       bool isLast = false}) async {
     List<String> listString = [];
     List<int> listInt = [];
@@ -256,23 +256,26 @@ class TaskController extends _$TaskController {
     } else if (pagePosition == PagePosition.PREV) {
       page = -1;
     }
-    var currentAnswer = ref.read(
-        getAnswerFinalLocalProvider(employeeMissionId: employeeMissionId)
-            .future);
+   final isarInstance = await ref.watch(isarInstanceProvider.future);
+
+    var currentAnswer =  isarInstance.answerRequestRemotes
+        .filter()
+        .employeeMissionIdEqualTo(employeeMissionId)
+        .findAll();
+
     List<TaskDatumAnswerRequestRemote> dataCek = [];
     if (kDebugMode) {
       print('#######Haloo');
     }
-    if (listData != null) {
-      listTaskAnswer = listData;
-    } else {
+
       state = await AsyncValue.guard(() => currentAnswer).then((value) async {
-        if (value.value != null && value.value != []) {
-          listTaskAnswer = value.value ?? [];
+        List<AnswerRequestRemote> list = value.value??[];
+        if ( list != []) {
+          listTaskAnswer = list.first.taskData??[];
         }
         return value;
       });
-    }
+
 
     if (listTaskAnswer.isNotEmpty) {
       for (var element in listTaskAnswer) {
@@ -294,6 +297,9 @@ class TaskController extends _$TaskController {
       await putTaskAnswer(element);
       if (element.taskId == currentTaskId) {
         // await deleteAnswer(dataCek);
+        print('^^^^^${currentTaskId}');
+        print('^^^^^${element.taskId}');
+        print('^^^^^${element.answer}');
         answer = element.answer ?? '';
         attachment = element.attachment ?? '';
         attachmentName = element.attachmentName ?? '';
