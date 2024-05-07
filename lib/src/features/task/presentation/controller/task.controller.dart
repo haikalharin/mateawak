@@ -147,7 +147,13 @@ class TaskController extends _$TaskController {
     final today =
         CommonUtils.formatDateRequestParam(DateTime.now().toUtc().toString());
     List<TaskDatumAnswer> listData = [];
-    var repo = ref.watch(getAnswerLocalProvider.future);
+    final isarInstance = await ref.watch(isarInstanceProvider.future);
+
+    final repo = isarInstance.taskDatumAnswerRequestRemotes
+        .filter()
+        .taskIdIsNotNull()
+        .findAll();
+    // var repo = ref.watch(getAnswerLocalProvider.future);
     final gamification = ref.watch(gamificationState.notifier).state;
     await AsyncValue.guard(() => repo).then((dataAnswer) async {
       for (var element in dataAnswer.value ?? []) {

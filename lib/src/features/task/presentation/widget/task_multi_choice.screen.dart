@@ -133,7 +133,9 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                             const SizedBox(
                               height: 8,
                             ),
-                            listTask[0].attachmentPath != null
+                            listTask[ currentQuestionIndex
+                                .state].attachmentPath != null && listTask[ currentQuestionIndex
+                                .state].attachmentPath != ''
                                 ? Container(
                                     height: 200,
                                     width: MediaQuery.of(context).size.width,

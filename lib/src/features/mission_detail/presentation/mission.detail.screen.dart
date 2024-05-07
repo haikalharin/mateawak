@@ -110,15 +110,20 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                                   fontColor:
                                                       ColorTheme.neutral600),
                                         ),
-                                        Text(
-                                            '${EtamKawaTranslate.mission}: ${gamification.chapterData?.single.missionData?.single.missionName ?? ''}',
-                                            style:
-                                                SharedComponent.textStyleCustom(
-                                                    typographyType:
-                                                        TypographyType
-                                                            .paragraph,
-                                                    fontColor:
-                                                        ColorTheme.neutral500)),
+                                        SizedBox(
+                                            width: MediaQuery.of(context).size.width /
+                                            1.5,
+                                          child: Text(
+                                              '${EtamKawaTranslate.mission}: ${gamification.chapterData?.single.missionData?.single.missionName ?? ''}',
+                                              maxLines: 5,
+                                              style:
+                                                  SharedComponent.textStyleCustom(
+                                                      typographyType:
+                                                          TypographyType
+                                                              .paragraph,
+                                                      fontColor:
+                                                          ColorTheme.neutral500)),
+                                        ),
                                       ],
                                     ),
                                     DecoratedBox(

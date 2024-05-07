@@ -157,7 +157,9 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                             const SizedBox(
                               height: 8,
                             ),
-                            listTask[0].attachmentPath != null
+                            listTask[ currentQuestionIndex
+                                .state].attachmentPath != null && listTask[ currentQuestionIndex
+                                .state].attachmentPath != ''
                                 ? Container(
                                     height: 200,
                                     width: MediaQuery.of(context).size.width,
@@ -433,25 +435,51 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                   border: const OutlineInputBorder(),
                                 ),
                                 maxLines: 10,
+                                onTapOutside: (value) async {
+                                  await ctrl
+                                      .saveAnswer(
+                                      listTask[currentQuestionIndex.state]
+                                          .taskId ??
+                                          0,
+                                      isLast: false,
+                                      listSelectedOption: [
+                                        _textController.text
+                                      ],
+                                      type: listTask[currentQuestionIndex
+                                          .state]
+                                          .taskTypeCode ??
+                                          '',
+                                      taskGroup: listTask[
+                                      currentQuestionIndex
+                                          .state]
+                                          .taskGroup ??
+                                          '')
+                                      .whenComplete(() async {
+                                    await ctrl.putAnswerFinal();
+                                  }).whenComplete(() {
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
+                                  });
+                                },
                                 onEditingComplete: () async {
                                   await ctrl
                                       .saveAnswer(
-                                          listTask[currentQuestionIndex.state]
-                                                  .taskId ??
-                                              0,
-                                          isLast: false,
-                                          listSelectedOption: [
-                                            _textController.text
-                                          ],
-                                          type: listTask[currentQuestionIndex
-                                                      .state]
-                                                  .taskTypeCode ??
-                                              '',
-                                          taskGroup: listTask[
-                                                      currentQuestionIndex
-                                                          .state]
-                                                  .taskGroup ??
-                                              '')
+                                      listTask[currentQuestionIndex.state]
+                                          .taskId ??
+                                          0,
+                                      isLast: false,
+                                      listSelectedOption: [
+                                        _textController.text
+                                      ],
+                                      type: listTask[currentQuestionIndex
+                                          .state]
+                                          .taskTypeCode ??
+                                          '',
+                                      taskGroup: listTask[
+                                      currentQuestionIndex
+                                          .state]
+                                          .taskGroup ??
+                                          '')
                                       .whenComplete(() async {
                                     await ctrl.putAnswerFinal();
                                   }).whenComplete(() {
