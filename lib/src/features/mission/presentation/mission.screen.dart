@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:module_etamkawa/module_etamkawa.dart';
-import 'package:module_etamkawa/src/constants/function_utils.dart';
 import 'package:module_etamkawa/src/constants/image.constant.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
@@ -15,11 +14,8 @@ import 'package:module_shared/module_shared.dart';
 
 import '../../../constants/constant.dart';
 import '../../../shared_component/async_value_widget.dart';
-import '../../../shared_component/progress_dialog.dart';
 import '../../../shared_component/refreshable_starter_widget.dart';
 import '../../main_nav/presentation/controller/main_nav.controller.dart';
-import '../../mission_past/presentation/controller/mission_past.controller.dart';
-import '../../task/domain/answer_request.remote.dart';
 import '../../task/presentation/controller/task.controller.dart';
 
 enum TypeListMission { inProgress, assigned, past }
@@ -41,8 +37,6 @@ Future<void> myAsyncMethodMoved(
 }
 
 class _MissionScreenState extends ConsumerState<MissionScreen> {
-  late TabController _tabController;
-
   @override
   void initState() {
     super.initState();
@@ -178,6 +172,34 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                                 gamificationInProgress.length,
                                           ),
                                         ),
+                                        SliverToBoxAdapter(
+                                          child: Container(
+                                            margin: const EdgeInsets.symmetric(
+                                              vertical: 10.0,
+                                            ), // Sesuaikan margin sesuai kebutuhan
+                                            child: SingleChildScrollView(
+                                              scrollDirection: Axis.horizontal,
+                                              child: SizedBox(
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                child: Center(
+                                                  child: Text(
+                                                    EtamKawaTranslate
+                                                        .allEntriesLoaded,
+                                                    style: SharedComponent
+                                                        .textStyleCustom(
+                                                      typographyType:
+                                                          TypographyType.body,
+                                                      fontColor:
+                                                          ColorTheme.neutral600,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                     // Tab 2 content
@@ -203,6 +225,34 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                             },
                                             childCount:
                                                 gamificationAssigned.length,
+                                          ),
+                                        ),
+                                        SliverToBoxAdapter(
+                                          child: Container(
+                                            margin: const EdgeInsets.symmetric(
+                                              vertical: 10.0,
+                                            ), // Sesuaikan margin sesuai kebutuhan
+                                            child: SingleChildScrollView(
+                                              scrollDirection: Axis.horizontal,
+                                              child: SizedBox(
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                child: Center(
+                                                  child: Text(
+                                                    EtamKawaTranslate
+                                                        .allEntriesLoaded,
+                                                    style: SharedComponent
+                                                        .textStyleCustom(
+                                                      typographyType:
+                                                          TypographyType.body,
+                                                      fontColor:
+                                                          ColorTheme.neutral600,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -235,9 +285,41 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                                       gamificationPast.length,
                                                 ),
                                               ),
+                                              SliverToBoxAdapter(
+                                                child: Container(
+                                                  margin: const EdgeInsets
+                                                      .symmetric(
+                                                    vertical: 10.0,
+                                                  ), // Sesuaikan margin sesuai kebutuhan
+                                                  child: SingleChildScrollView(
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    child: SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
+                                                      child: Center(
+                                                        child: Text(
+                                                          EtamKawaTranslate
+                                                              .allEntriesLoaded,
+                                                          style: SharedComponent
+                                                              .textStyleCustom(
+                                                            typographyType:
+                                                                TypographyType
+                                                                    .body,
+                                                            fontColor:
+                                                                ColorTheme
+                                                                    .neutral600,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
                                             ],
                                           ),
-                                    // Add more tabs as needed
                                   ],
                                 ),
                               ),
@@ -261,26 +343,26 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
 
   Widget _buildListItem(int index, MissionController ctrl,
       TaskController ctrlTask, List<GamificationResponseRemote> gamification) {
-    Future<void> putData() async {
-      List<MissionDatum> listMission = [];
-      ref.watch(missionDataState.notifier).state =
-          gamification[index].chapterData?.single.missionData?.single ??
-              MissionDatum();
-      ref.watch(gamificationState.notifier).state = gamification[index];
-      for (var element in gamification) {
-        listMission.add(
-            element.chapterData?.single.missionData?.single ?? MissionDatum());
-      }
-      ref.watch(listMissionState.notifier).state = listMission;
-      List<TaskDatum> listTask = (gamification[index]
-              .chapterData
-              ?.single
-              .missionData
-              ?.single
-              .taskData ??
-          []);
-      ref.watch(listTaskState.notifier).state = listTask;
-    }
+    // Future<void> putData() async {
+    //   List<MissionDatum> listMission = [];
+    //   ref.watch(missionDataState.notifier).state =
+    //       gamification[index].chapterData?.single.missionData?.single ??
+    //           MissionDatum();
+    //   ref.watch(gamificationState.notifier).state = gamification[index];
+    //   for (var element in gamification) {
+    //     listMission.add(
+    //         element.chapterData?.single.missionData?.single ?? MissionDatum());
+    //   }
+    //   ref.watch(listMissionState.notifier).state = listMission;
+    //   List<TaskDatum> listTask = (gamification[index]
+    //           .chapterData
+    //           ?.single
+    //           .missionData
+    //           ?.single
+    //           .taskData ??
+    //       []);
+    //   ref.watch(listTaskState.notifier).state = listTask;
+    // }
 
     Future<void> putCurrentAnswerFinal() async {
       ref.watch(currentTypeTaskState.notifier).state = ctrlTask.currentTypeTask;
@@ -326,22 +408,11 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                 decoration: BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(5.r)),
-                                    color: gamification[index]
-                                                .missionStatusCode ==
-                                            0
-                                        ? ColorTheme.neutral300
-                                        : gamification[index]
-                                                    .missionStatusCode ==
-                                                1
-                                            ? ColorTheme.secondary100
-                                            : gamification[index]
-                                                            .missionStatusCode ==
-                                                        3 ||
-                                                    gamification[index]
-                                                            .missionStatusCode ==
-                                                        4
-                                                ? ColorTheme.danger100
-                                                : ColorTheme.primary100),
+                                    color: EtamKawaUtils()
+                                        .getMissionStatusBGColorByCode(
+                                            gamification[index]
+                                                .missionStatusCode
+                                                .toString())),
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 8.w, vertical: 4.h),
@@ -350,22 +421,11 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                           gamification[index].missionStatus!),
                                       style: SharedComponent.textStyleCustom(
                                           typographyType: TypographyType.small,
-                                          fontColor: gamification[index]
-                                                      .missionStatusCode ==
-                                                  0
-                                              ? ColorTheme.neutral500
-                                              : gamification[index]
-                                                          .missionStatusCode ==
-                                                      1
-                                                  ? ColorTheme.secondary500
-                                                  : gamification[index]
-                                                                  .missionStatusCode ==
-                                                              3 ||
-                                                          gamification[index]
-                                                                  .missionStatusCode ==
-                                                              4
-                                                      ? ColorTheme.danger500
-                                                      : ColorTheme.primary500)),
+                                          fontColor: EtamKawaUtils()
+                                              .getMissionStatusFontColorByCode(
+                                                  gamification[index]
+                                                      .missionStatusCode
+                                                      .toString()))),
                                 ),
                               ),
                             ),

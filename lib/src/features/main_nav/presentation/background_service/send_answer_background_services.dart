@@ -1,13 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 import 'dart:ui';
 
-import 'package:chucker_flutter/chucker_flutter.dart';
-import 'package:dio/dio.dart';
 import 'package:module_etamkawa/src/features/task/domain/answer_request.remote.dart';
-import 'package:module_shared/src/configs/services/connect_background_sevices.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:isar/isar.dart';
@@ -17,8 +12,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../constants/constant.dart';
-import '../../../../constants/function_utils.dart';
-import '../../../../utils/common_utils.dart';
 import '../../../mission/domain/gamification_response.remote.dart';
 
 FutureOr<void> intializeSendAnswerBackgroundService() async {

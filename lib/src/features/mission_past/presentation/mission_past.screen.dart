@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,8 +26,7 @@ class MissionPastScreen extends ConsumerStatefulWidget {
       _MissionPastScreenState();
 }
 
-Future<void> myAsyncMethodMoved(
-    BuildContext context) async {
+Future<void> myAsyncMethodMoved(BuildContext context) async {
   context.goNamed(detailMissionPastEtamkawa);
 }
 
@@ -44,7 +42,8 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
       body: Consumer(
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
           final ctrl = ref.watch(missionPastControllerProvider.notifier);
-          final ctrlPastMission = ref.watch(missionPastControllerProvider.notifier);
+          final ctrlPastMission =
+              ref.watch(missionPastControllerProvider.notifier);
           final ctrlMission = ref.watch(missionControllerProvider.notifier);
           final listMissionPast = ref.watch(listMissionPastResponseRemoteState);
           debugPrint(listMissionPast.toString());
@@ -70,13 +69,44 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
                                   delegate: SliverChildBuilderDelegate(
                                     (context, index) {
                                       if (listMissionPast.isNotEmpty) {
-                                        return _buildListItem(index, ctrl, ctrlTask,ctrlPastMission,
-                                            ctrlMission,gamificationDetail, listMissionPast);
+                                        return _buildListItem(
+                                            index,
+                                            ctrl,
+                                            ctrlTask,
+                                            ctrlPastMission,
+                                            ctrlMission,
+                                            gamificationDetail,
+                                            listMissionPast);
                                       } else {
                                         return Container();
                                       }
                                     },
                                     childCount: listMissionPast.length,
+                                  ),
+                                ),
+                                SliverToBoxAdapter(
+                                  child: Container(
+                                    margin: const EdgeInsets.symmetric(
+                                      vertical: 10.0,
+                                    ), // Sesuaikan margin sesuai kebutuhan
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        child: Center(
+                                          child: Text(
+                                            EtamKawaTranslate.allEntriesLoaded,
+                                            style:
+                                                SharedComponent.textStyleCustom(
+                                              typographyType:
+                                                  TypographyType.body,
+                                              fontColor: ColorTheme.neutral600,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -86,10 +116,10 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
                       ],
                     ),
                     submitStatusDetail == SubmitStatus.inProgress
-                        ?    Container(
-                        color: Colors.white.withAlpha(130),
-                        child: const Center(
-                            child:  CircularProgressIndicator()))
+                        ? Container(
+                            color: Colors.white.withAlpha(130),
+                            child: const Center(
+                                child: CircularProgressIndicator()))
                         : Container()
                   ],
                 );
@@ -151,23 +181,25 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
                                 decoration: BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(5.r)),
-                                    color:
-                                        (missionPast[index].missionStatusCode ==
-                                                '99')
-                                            ? ColorTheme.primary100
-                                            : ColorTheme.danger100),
+                                    color: EtamKawaUtils()
+                                        .getMissionStatusBGColorByCode(
+                                            missionPast[index]
+                                                    .missionStatusCode ??
+                                                '')),
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 8.w, vertical: 4.h),
-                                  child: Text(EtamKawaUtils().getMissionStatus(missionPast[index].missionStatus!),
+                                  child: Text(
+                                      EtamKawaUtils().getMissionStatus(
+                                          missionPast[index].missionStatus!),
                                       style: SharedComponent.textStyleCustom(
                                           typographyType:
                                               TypographyType.paragraph,
-                                          fontColor: (missionPast[index]
-                                                      .missionStatusCode ==
-                                                  '99')
-                                              ? ColorTheme.primary500
-                                              : ColorTheme.danger500)),
+                                          fontColor: EtamKawaUtils()
+                                              .getMissionStatusFontColorByCode(
+                                                  missionPast[index]
+                                                          .missionStatusCode ??
+                                                      ''))),
                                 ),
                               ),
                             ),
@@ -238,18 +270,16 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
                               ),
                             ),
                             onPressed: () async {
-                                await ctrlPastMission
-                                    .getDetailMission(
-                                        employeeMissionId: missionPast[index].employeeMissionId ??
-                                            0)
-                                    .whenComplete(() async {
-                                      await putCurrentAnswerFinal()
-                                          .whenComplete(() {
-                                        myAsyncMethodMoved(
-                                            context);
-                                      });
-                                    });
-
+                              await ctrlPastMission
+                                  .getDetailMission(
+                                      employeeMissionId: missionPast[index]
+                                              .employeeMissionId ??
+                                          0)
+                                  .whenComplete(() async {
+                                await putCurrentAnswerFinal().whenComplete(() {
+                                  myAsyncMethodMoved(context);
+                                });
+                              });
                             },
                             child: Text(EtamKawaTranslate.view,
                                 style: SharedComponent.textStyleCustom(

@@ -33,7 +33,6 @@ FutureOr<List<MissionPastResponseRemote>> getMissionPastList(
   var missionPast = response.result?.content.isNotEmpty
       ? response.result?.content
       : [];
-      : [];
   //for (var element in response.result?.content) {
   for (var element in missionPast) {
     final result = MissionPastResponseRemote.fromJson(element);

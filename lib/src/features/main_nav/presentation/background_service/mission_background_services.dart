@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:dio/dio.dart';
 import 'package:module_shared/module_shared.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
@@ -153,9 +154,9 @@ Future<bool> submitAnswerBg({required String url,
                 .whenComplete(() async {
               await AsyncValue.guard(() => repoGamification)
                   .then((value) async {
-                for (var element in value.value ?? []) {
-                  GamificationResponseRemote gamificationResponseRemote =
-                      element;
+                for (var _ in value.value ?? []) {
+                  // GamificationResponseRemote gamificationResponseRemote =
+                  //     element;
                   await isarInstance.gamificationResponseRemotes
                       .filter()
                       .employeeMissionIdEqualTo(data.employeeMissionId)

@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
@@ -12,15 +11,9 @@ import 'package:module_etamkawa/src/features/task/infrastructure/task_local.repo
 import 'package:module_shared/module_shared.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../constants/constant.dart';
 import '../../../../shared_component/connection_listener_widget.dart';
 import '../../../../utils/common_utils.dart';
 import '../../../main_nav/presentation/controller/main_nav.controller.dart';
-import '../../../mission/domain/gamification_mission_detail_response.remote.dart'
-    as detail;
-import '../../../mission/infrastructure/repositories/mission_local.repository.dart';
-import '../../../mission/presentation/controller/mission.controller.dart';
-import '../../../mission_past/presentation/controller/mission_past.controller.dart';
 import '../../../offline_mode/infrastructure/repositories/isar.repository.dart';
 
 part 'task.controller.g.dart';
@@ -401,7 +394,7 @@ class TaskController extends _$TaskController {
         await backgroundServices.startService();
       }
       final userModel = await ref.read(helperUserProvider).getUserProfile();
-      final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
+      //final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
       final today =
       CommonUtils.formatDateRequestParam(DateTime.now().toUtc().toString());
       List<TaskDatumAnswer> listData = [];
@@ -414,7 +407,9 @@ class TaskController extends _$TaskController {
       await AsyncValue.guard(() => repo).then((data) async {
 
         for (var element in data.value ?? []) {
-          print("!!!!!!!!!!");
+          if (kDebugMode) {
+            print("!!!!!!!!!!");
+          }
           GamificationResponseRemote dataGamification = element;
 
           if (dataGamification.missionStatusCode == 4) {

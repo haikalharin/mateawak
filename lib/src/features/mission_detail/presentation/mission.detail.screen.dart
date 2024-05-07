@@ -10,11 +10,8 @@ import 'package:module_etamkawa/src/features/task/presentation/controller/task.c
 import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
-import '../../../configs/theme/color.theme.dart';
 import '../../../shared_component/async_value_widget.dart';
 import '../../../shared_component/shared_component_etamkawa.dart';
-import '../../mission/domain/gamification_response.remote.dart';
-import '../../mission_past/presentation/controller/mission_past.controller.dart';
 
 class MissionDetailScreen extends ConsumerStatefulWidget {
   const MissionDetailScreen({super.key});
@@ -52,7 +49,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final gamification = ref.watch(gamificationState.notifier).state;
-        final ctrlTask = ref.watch(taskControllerProvider.notifier);
+        //final ctrlTask = ref.watch(taskControllerProvider.notifier);
         final missionType = gamification
             .chapterData?.single.missionData?.single.missionTypeName;
         return AsyncValueWidget(
@@ -127,20 +124,12 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                   ),
                                   DecoratedBox(
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5.r)),
-                                      color: gamification.missionStatusCode == 0
-                                          ? ColorTheme.neutral300
-                                          : gamification.missionStatusCode == 1
-                                              ? ColorTheme.secondary100
-                                              : gamification.missionStatusCode ==
-                                                          3 ||
-                                                      gamification
-                                                              .missionStatusCode ==
-                                                          4
-                                                  ? ColorTheme.danger100
-                                                  : ColorTheme.primary100,
-                                    ),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.r)),
+                                        color: EtamKawaUtils()
+                                            .getMissionStatusBGColorByCode(
+                                                gamification.missionStatusCode
+                                                    .toString())),
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 8.w, vertical: 4.h),
@@ -148,23 +137,13 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                         EtamKawaUtils().getMissionStatus(
                                             gamification.missionStatus ?? ''),
                                         style: SharedComponent.textStyleCustom(
-                                          typographyType: TypographyType.small,
-                                          fontColor: gamification
-                                                      .missionStatusCode ==
-                                                  0
-                                              ? ColorTheme.neutral500
-                                              : gamification
-                                                          .missionStatusCode ==
-                                                      1
-                                                  ? ColorTheme.secondary500
-                                                  : gamification.missionStatusCode ==
-                                                              3 ||
-                                                          gamification
-                                                                  .missionStatusCode ==
-                                                              4
-                                                      ? ColorTheme.danger500
-                                                      : ColorTheme.primary500,
-                                        ),
+                                            typographyType:
+                                                TypographyType.small,
+                                            fontColor: EtamKawaUtils()
+                                                .getMissionStatusFontColorByCode(
+                                                    gamification
+                                                        .missionStatusCode
+                                                        .toString())),
                                       ),
                                     ),
                                   ),

@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:isar/isar.dart';
-import 'package:isar/isar.dart';
 import 'package:module_etamkawa/src/features/overview/domain/download_attachment_request.remote.dart';
 import 'package:module_etamkawa/src/features/overview/domain/news_response.remote.dart';
 import 'package:module_shared/module_shared.dart';
@@ -70,9 +69,6 @@ FutureOr<NewsResponseRemote> getNewsRemote(GetNewsRemoteRef ref) async {
     await isarInstance.writeTxn(() async {
       await isarInstance.newsResponseRemotes.put(news);
     });
-
-    ref.keepAlive();
-  }
     ref.keepAlive();
   }
   return news;

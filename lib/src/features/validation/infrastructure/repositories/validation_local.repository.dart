@@ -64,11 +64,11 @@ FutureOr<List<ValidationResponseRemote>> getValidationRemote(
 
     List<ValidationResponseRemote> listResponseFinalFix =
         listResponseFinal.toSet().toList();
-    int index = 0;
+    // int index = 0;
     for (var element in listResponseFinalFix) {
       List<TaskValidationDatum> listTask =
           element.chapterData?.single.missionData?.single.taskData ?? [];
-      int indexTask = 0;
+      // int indexTask = 0;
       List<TaskValidationDatum> taskData = [];
       for (var element in listTask) {
         File file = File('');
@@ -92,7 +92,7 @@ FutureOr<List<ValidationResponseRemote>> getValidationRemote(
               taskTypeCode: element.taskTypeCode,
               taskTypeName: element.taskTypeName,
               taskReward: element.taskReward));
-          indexTask++;
+          // indexTask++;
         } else {
           taskData.add(TaskValidationDatum(
               taskId: element.taskId,
@@ -159,7 +159,7 @@ FutureOr<List<ValidationResponseRemote>> getValidationRemote(
               ],
             )
           ]));
-      index++;
+      // index++;
     }
 
     await isarInstance.writeTxn(() async {

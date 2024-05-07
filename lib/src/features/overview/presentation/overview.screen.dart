@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +8,6 @@ import 'package:module_etamkawa/src/constants/etamkawa_empty_state_widget.dart';
 import 'package:module_etamkawa/src/features/overview/presentation/controller/overview.controller.dart';
 import 'package:module_shared/module_shared.dart';
 
-import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import '../../../shared_component/async_value_widget.dart';
 import '../../../shared_component/refreshable_starter_widget.dart';
 import '../../../utils/custom_html_widget.dart';
@@ -59,11 +56,11 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
         body: Consumer(builder: (context, ref, child) {
           final ctrl = ref.watch(overviewControllerProvider.notifier);
           final news = ref.watch(newsState);
-          final imageNews = ref.watch(imageNewsState);
+          //final imageNews = ref.watch(imageNewsState);
           final userProfile = ref.watch(userProfileState);
-          Uint8List imageBytes = imageNews.attachmentId != 0
-              ? base64Decode(imageNews.formattedName ?? '')
-              : Uint8List(1);
+          // Uint8List imageBytes = imageNews.attachmentId != 0
+          //     ? base64Decode(imageNews.formattedName ?? '')
+          //     : Uint8List(1);
           return AsyncValueWidget(
             value: ref.watch(overviewControllerProvider),
             data: (data) {

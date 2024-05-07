@@ -57,7 +57,7 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
 
         final attachmentURL = payload?['attachmentUrl'] as String;
         final title = payload?['title'] as String;
-        final fileName = payload?['fileName'] as String;
+        //final fileName = payload?['fileName'] as String;
         final content = payload?['content'] as String;
 
         final data = isarInstance.newsResponseRemotes.getSync(1);

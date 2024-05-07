@@ -98,18 +98,18 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
 
   Widget _buildListItem(int index, ValidationController ctrl,
       List<ValidationResponseRemote> validation) {
-    Future<void> putData() async {
-      List<MissionValidationDatum> listValidation = [];
-      for (var element in validation) {
-        listValidation.add(element.chapterData?.single.missionData?.single ??
-            MissionValidationDatum());
-      }
-      //ref.watch(listValidationState.notifier).state = listValidation;
-      List<TaskValidationDatum> listTask =
-          (validation[index].chapterData?.single.missionData?.single.taskData ??
-              []);
-      //ref.watch(listTaskState.notifier).state = listTask;
-    }
+    // Future<void> putData() async {
+    //   List<MissionValidationDatum> listValidation = [];
+    //   for (var element in validation) {
+    //     listValidation.add(element.chapterData?.single.missionData?.single ??
+    //         MissionValidationDatum());
+    //   }
+    //   //ref.watch(listValidationState.notifier).state = listValidation;
+    //   // List<TaskValidationDatum> listTask =
+    //   //     (validation[index].chapterData?.single.missionData?.single.taskData ??
+    //   //         []);
+    //   //ref.watch(listTaskState.notifier).state = listTask;
+    // }
 
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {

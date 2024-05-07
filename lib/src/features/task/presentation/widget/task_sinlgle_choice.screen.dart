@@ -1,18 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
-import 'package:module_etamkawa/src/features/task/presentation/widget/reward_dialog.dart';
 import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 
-import '../../../../configs/theme/color.theme.dart';
-import '../../../main_nav/presentation/controller/main_nav.controller.dart';
-import '../../../mission_past/presentation/controller/mission_past.controller.dart';
 import '../controller/task.controller.dart';
 
 class TaskSingleChoiceScreen extends ConsumerStatefulWidget {
@@ -37,7 +32,7 @@ class _TaskSingleChoiceScreenState
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final ctrl = ref.watch(taskControllerProvider.notifier);
-        final ctrlMainNav = ref.read(mainNavControllerProvider.notifier);
+        // final ctrlMainNav = ref.read(mainNavControllerProvider.notifier);
         final ctrlMission = ref.read(missionControllerProvider.notifier);
         final currentQuestionIndex = ref.watch(currentIndexState.notifier);
         final listSelectedOption = ref.watch(listSelectOptionState.notifier);
@@ -77,49 +72,47 @@ class _TaskSingleChoiceScreenState
                                     style: SharedComponent.textStyleCustom(
                                         typographyType: TypographyType.largeH5,
                                         fontColor: ColorTheme.textDark)),
-                                Container(
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            8, 0, 8, 0),
-                                        margin: EdgeInsets.only(right: 4.sp),
-                                        decoration: BoxDecoration(
-                                            color: ColorTheme.secondary100,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(5.r))),
-                                        child: Center(
-                                            child: Container(
-                                          height: 24.h,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Icon(
-                                                Icons.star,
-                                                color: ColorTheme.secondary500,
-                                                size: 12.h,
-                                              ),
-                                              Text(
-                                                  " +${listTask[currentQuestionIndex.state].taskReward}",
-                                                style: SharedComponent
-                                                    .textStyleCustom(
-                                                    typographyType:
-                                                    TypographyType.body,
-                                                    fontColor: ColorTheme
-                                                        .secondary500),
-                                              ),
-                                            ],
-                                          ),
-                                        )),
-                                      ),
-                                      Icon(
-                                        Icons.info,
-                                        color: ColorTheme.primary500,
-                                        size: 24.h,
-                                      ),
-                                    ],
-                                  ),
+                                Row(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          8, 0, 8, 0),
+                                      margin: EdgeInsets.only(right: 4.sp),
+                                      decoration: BoxDecoration(
+                                          color: ColorTheme.secondary100,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.r))),
+                                      child: Center(
+                                          child: SizedBox(
+                                        height: 24.h,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Icon(
+                                              Icons.star,
+                                              color: ColorTheme.secondary500,
+                                              size: 12.h,
+                                            ),
+                                            Text(
+                                                " +${listTask[currentQuestionIndex.state].taskReward}",
+                                              style: SharedComponent
+                                                  .textStyleCustom(
+                                                  typographyType:
+                                                  TypographyType.body,
+                                                  fontColor: ColorTheme
+                                                      .secondary500),
+                                            ),
+                                          ],
+                                        ),
+                                      )),
+                                    ),
+                                    Icon(
+                                      Icons.info,
+                                      color: ColorTheme.primary500,
+                                      size: 24.h,
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -346,7 +339,7 @@ class _TaskSingleChoiceScreenState
                                   ),
                                 )
                               : Container(),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           Expanded(
                             child: ElevatedButton(
                               onPressed: () async {
