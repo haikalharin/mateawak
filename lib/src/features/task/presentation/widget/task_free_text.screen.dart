@@ -24,6 +24,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
   final TextEditingController _textController = TextEditingController();
 
   var groupValue = 0;
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -31,7 +32,6 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
         if (ref.watch(listSelectOptionStringState.notifier).state.isNotEmpty) {
           _textController.text =
               ref.watch(listSelectOptionStringState.notifier).state.single;
-
         }
       }
     });
@@ -139,9 +139,12 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                               const SizedBox(
                                 height: 8,
                               ),
-                              listTask[ currentQuestionIndex
-                                  .state].attachmentPath != null && listTask[ currentQuestionIndex
-                                  .state].attachmentPath != ''
+                              listTask[currentQuestionIndex.state]
+                                              .attachmentPath !=
+                                          null &&
+                                      listTask[currentQuestionIndex.state]
+                                              .attachmentPath !=
+                                          ''
                                   ? Container(
                                       height: 200,
                                       width: MediaQuery.of(context).size.width,
@@ -193,22 +196,36 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                   onTapOutside: (value) async {
                                     await ctrl
                                         .saveAnswer(
-                                        listTask[currentQuestionIndex.state]
-                                            .taskId ??
-                                            0,
-                                        isLast: false,
-                                        listSelectedOption:
-                                        [_textController.text],
-                                        type: listTask[currentQuestionIndex
-                                            .state]
-                                            .taskTypeCode ??
-                                            '')
+                                            listTask[currentQuestionIndex.state]
+                                                    .taskId ??
+                                                0,
+                                            isLast: false,
+                                            listSelectedOption: [
+                                              _textController.text
+                                            ],
+                                            type: listTask[currentQuestionIndex
+                                                        .state]
+                                                    .taskTypeCode ??
+                                                '')
                                         .whenComplete(() async {
                                       await ctrl.putAnswerFinal();
                                     }).whenComplete(() {
-                                      FocusManager.instance.primaryFocus
-                                          ?.unfocus();
+                                      if (_textController.text.isEmpty) {
+                                        ref
+                                            .watch(listSelectOptionStringState
+                                                .notifier)
+                                            .state = [];
+
+                                        _textController.clear();
+                                      } else {
+                                        ref
+                                            .watch(listSelectOptionStringState
+                                                .notifier)
+                                            .state = [_textController.text];
+                                      }
                                     });
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
                                   },
                                   onEditingComplete: () async {
                                     await ctrl
@@ -227,27 +244,26 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                         .whenComplete(() async {
                                       await ctrl.putAnswerFinal();
                                     }).whenComplete(() {
+                                      setState(() {
+                                        if (_textController.text.isEmpty) {
+                                          ref
+                                              .watch(listSelectOptionStringState
+                                                  .notifier)
+                                              .state = [];
+
+                                          _textController.clear();
+                                        } else {
+                                          ref
+                                              .watch(listSelectOptionStringState
+                                                  .notifier)
+                                              .state = [_textController.text];
+                                        }
+                                      });
+
                                       FocusManager.instance.primaryFocus
                                           ?.unfocus();
                                     });
                                   },
-                                  onChanged: (value) {
-                                    setState(() {
-                                      if (value.isEmpty) {
-                                        ref
-                                            .watch(listSelectOptionStringState
-                                                .notifier)
-                                            .state = [];
-
-                                        _textController.clear();
-                                      } else {
-                                        ref
-                                            .watch(listSelectOptionStringState
-                                                .notifier)
-                                            .state = [value];
-                                      }
-                                    });
-                                  }, // Allows multiple lines of input
                                 ),
                               ),
                             ],
@@ -368,33 +384,33 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                       if ((currentQuestionIndex.state + 1) <
                                               lengthAnswer &&
                                           lengthAnswer != 1) {
-
+                                        await ctrl
+                                            .saveAnswer(
+                                                listTask[currentQuestionIndex
+                                                            .state]
+                                                        .taskId ??
+                                                    0,
+                                                isLast: false,
+                                                listSelectedOption:
+                                                    listSelectedOptionString,
+                                                type: listTask[
+                                                            currentQuestionIndex
+                                                                .state]
+                                                        .taskTypeCode ??
+                                                    '')
+                                            .whenComplete(() async {
                                           await ctrl
-                                              .saveAnswer(
-                                                  listTask[currentQuestionIndex
-                                                              .state]
-                                                          .taskId ??
-                                                      0,
-                                                  isLast: false,
-                                                  listSelectedOption:
-                                                      listSelectedOptionString,
-                                                  type: listTask[
-                                                              currentQuestionIndex
-                                                                  .state]
-                                                          .taskTypeCode ??
-                                                      '')
+                                              .putAnswerFinal()
                                               .whenComplete(() async {
                                             await ctrl
-                                                .putAnswerFinal()
+                                                .currentQuestion(
+                                                    employeeMissionId:
+                                                        gamificationData
+                                                                .employeeMissionId ??
+                                                            0,
+                                                    pagePosition:
+                                                        PagePosition.NEXT)
                                                 .whenComplete(() async {
-                                              await ctrl
-                                                  .currentQuestion(
-                                                  employeeMissionId:
-                                                  gamificationData
-                                                      .employeeMissionId ??
-                                                      0,
-                                                  pagePosition: PagePosition.NEXT)
-                                                  .whenComplete(() async {
                                               currentQuestionIndex.state++;
                                               ref
                                                   .watch(currentProgressState

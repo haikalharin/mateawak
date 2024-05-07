@@ -115,9 +115,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
 
     await isarInstance.writeTxn(() async {
       //await isarInstance.gamificationResponseRemotes.clear();
-      if (kDebugMode) {
-        print("##########sebelum${listResponseFinal.length}");
-      }
+
       await isarInstance.gamificationResponseRemotes.putAll(listResponseFinal);
     });
 
@@ -128,9 +126,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
       .filter()
       .employeeMissionIdIsNotNull()
       .findAll();
-  if (kDebugMode) {
-    print("##########sesudah${data.length}");
-  }
+
   return data;
 }
 

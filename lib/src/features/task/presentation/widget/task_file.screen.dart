@@ -440,6 +440,20 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                       .whenComplete(() async {
                                     await ctrl.putAnswerFinal();
                                   }).whenComplete(() {
+
+                                    if (_textController.text.isEmpty) {
+                                      ref
+                                          .watch(listSelectOptionStringState
+                                          .notifier)
+                                          .state = [];
+
+                                      _textController.clear();
+                                    } else {
+                                      ref
+                                          .watch(listSelectOptionStringState
+                                          .notifier)
+                                          .state = [_textController.text];
+                                    }
                                     FocusManager.instance.primaryFocus
                                         ?.unfocus();
                                   });
@@ -466,27 +480,26 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                       .whenComplete(() async {
                                     await ctrl.putAnswerFinal();
                                   }).whenComplete(() {
+
+                                    setState(() {
+                                      if (_textController.text.isEmpty) {
+                                        ref
+                                            .watch(listSelectOptionStringState
+                                            .notifier)
+                                            .state = [];
+
+                                        _textController.clear();
+                                      } else {
+                                        ref
+                                            .watch(listSelectOptionStringState
+                                            .notifier)
+                                            .state = [_textController.text];
+                                      }
+                                    });
                                     FocusManager.instance.primaryFocus
                                         ?.unfocus();
                                   });
                                 },
-                                onChanged: (value) {
-                                  setState(() {
-                                    if (value.isEmpty) {
-                                      ref
-                                          .watch(listSelectOptionStringState
-                                              .notifier)
-                                          .state = [];
-
-                                      _textController.clear();
-                                    } else {
-                                      ref
-                                          .watch(listSelectOptionStringState
-                                              .notifier)
-                                          .state = [value];
-                                    }
-                                  });
-                                }, // Allows multiple lines of input
                               ),
                             ),
                             gamificationData.missionStatusCode == 99
