@@ -47,10 +47,10 @@ FutureOr<bool> fetchMission(FetchMissionRef ref) async {
 FutureOr<bool> fetchMissionLocal(FetchMissionRef ref) async {
   final isarInstance = await ref.watch(isarInstanceProvider.future);
 
-  final connect = ref.read(connectProvider.notifier);
+  //final connect = ref.read(connectProvider.notifier);
   List<GamificationResponseRemote> listResponse = [];
-  final userModel = await ref.read(helperUserProvider).getUserProfile();
-  final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
+  //final userModel = await ref.read(helperUserProvider).getUserProfile();
+  //final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
 
   final data = await isarInstance.gamificationResponseRemotes
       .filter()

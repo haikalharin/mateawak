@@ -29,7 +29,7 @@ class MyApp extends ConsumerWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context,  WidgetRef ref) {
-    final goRouter = ref.watch(goRouterProvider);
+    final goRouter = ref.watch(etamkawaGoRouterProvider);
     initToken(ref);
 
     return ScreenUtilInit(

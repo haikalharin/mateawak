@@ -52,16 +52,16 @@ class CommonUtils {
 
   static String formatDateRequestParam(String value) {
     int idx = value.indexOf(":");
-    final first = value.substring(0,idx).trim().replaceAll(' ', 'T');
-    final last = value.substring(idx+1).trim();
+    final first = value.substring(0, idx).trim().replaceAll(' ', 'T');
+    final last = value.substring(idx + 1).trim();
     final lastTrimmed = last.substring(0, last.length - 3);
     return '$first:${lastTrimmed}Z';
   }
 
   static daysBetween(DateTime from, DateTime to) {
-     from = DateTime(from.year, from.month, from.day);
-     to = DateTime(to.year, to.month, to.day);
-   return (to.difference(from).inHours / 24).round();
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(to.year, to.month, to.day);
+    return (to.difference(from).inHours / 24).round();
   }
 
   static String formatDateTimeRequestParam(String value) {
@@ -82,7 +82,7 @@ class CommonUtils {
     return formatted;
   }
 
-    static String formattedDateHours(String value,
+  static String formattedDateHours(String value,
       {bool withDay = false, bool withHourMinute = true}) {
     initializeDateFormatting();
     DateTime date = DateTime.parse(value);
@@ -208,25 +208,57 @@ class CommonUtils {
   }
 }
 
-class EtamKawaUtils{
-  String getMissionStatus(String status){
-  switch (status) {
-    case 'Assigned':
-      return EtamKawaTranslate.assigned;
-    case 'In Progress':
-      return EtamKawaTranslate.inProgress;
-    case 'Under Review':
-      return EtamKawaTranslate.underReview;
-    case 'Incomplete':
-      return EtamKawaTranslate.incomplete;
-    case 'Completed':
-      return EtamKawaTranslate.completed;
-    case 'Complete':
-      return EtamKawaTranslate.complete;
-    default:
-      return 'Assigned';
+class EtamKawaUtils {
+  String getMissionStatus(String status) {
+    switch (status) {
+      case 'Assigned':
+        return EtamKawaTranslate.assigned;
+      case 'In Progress':
+        return EtamKawaTranslate.inProgress;
+      case 'Under Review':
+        return EtamKawaTranslate.underReview;
+      case 'Incomplete':
+        return EtamKawaTranslate.incomplete;
+      case 'Completed':
+        return EtamKawaTranslate.completed;
+      case 'Complete':
+        return EtamKawaTranslate.complete;
+      default:
+        return 'Assigned';
+    }
   }
-}
+  Color getMissionStatusBGColorByCode(String code) {
+    switch (code) {
+      case '99':
+        return ColorTheme.primary100;
+      case '0':
+        return ColorTheme.neutral300;
+      case '1':
+        return ColorTheme.secondary100;
+      case '2':
+        return ColorTheme.danger100;
+      case '3':
+        return ColorTheme.warning100;
+      default:
+        return ColorTheme.danger100;
+    }
+  }
+  Color getMissionStatusFontColorByCode(String code) {
+    switch (code) {
+      case '99':
+        return ColorTheme.primary500;
+      case '0':
+        return ColorTheme.neutral600;
+      case '1':
+        return ColorTheme.secondary500;
+      case '2':
+        return ColorTheme.danger500;
+      case '3':
+        return ColorTheme.warning600;
+      default:
+        return ColorTheme.danger500;
+    }
+  }
 }
 
 extension StringExtension on String {
@@ -234,4 +266,3 @@ extension StringExtension on String {
     return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
   }
 }
-

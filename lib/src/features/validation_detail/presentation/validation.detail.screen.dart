@@ -92,11 +92,12 @@ class _ValidationDetailScreenState
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Flexible(
+                                    child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
@@ -106,48 +107,53 @@ class _ValidationDetailScreenState
                                               '',
                                           style:
                                               SharedComponent.textStyleCustom(
-                                                  typographyType:
-                                                      TypographyType.largeH5,
-                                                  fontColor:
-                                                      ColorTheme.neutral600),
+                                            typographyType:
+                                                TypographyType.largeH5,
+                                            fontColor: ColorTheme.neutral600,
+                                          ),
                                         ),
                                         Text(
-                                            '${EtamKawaTranslate.mission}: ${validation.chapterData?.single.missionData?.single.missionName ?? ''}',
-                                            style:
-                                                SharedComponent.textStyleCustom(
-                                                    typographyType:
-                                                        TypographyType
-                                                            .paragraph,
-                                                    fontColor:
-                                                        ColorTheme.neutral500)),
-                                      ],
-                                    ),
-                                    DecoratedBox(
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5.r)),
-                                          color: (validation.missionStatus ==
-                                                  'Under Review')
-                                              ? ColorTheme.danger100
-                                              : ColorTheme.primary100),
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 8.w, vertical: 4.h),
-                                        child: Text(
-                                          validation.missionStatus ?? '',
+                                          '${EtamKawaTranslate.mission}: ${validation.chapterData?.single.missionData?.single.missionName ?? ''}',
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2, // Adjust as needed
                                           style:
                                               SharedComponent.textStyleCustom(
-                                                  typographyType:
-                                                      TypographyType.paragraph,
-                                                  fontColor: (validation
-                                                              .missionStatus ==
-                                                          'Under Review')
-                                                      ? ColorTheme.danger500
-                                                      : ColorTheme.primary500),
+                                            typographyType:
+                                                TypographyType.paragraph,
+                                            fontColor: ColorTheme.neutral500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.r)),
+                                      color: (validation.missionStatus ==
+                                              'Under Review')
+                                          ? ColorTheme.danger100
+                                          : ColorTheme.primary100,
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 8.w, vertical: 4.h),
+                                      child: Text(
+                                        validation.missionStatus ?? '',
+                                        style: SharedComponent.textStyleCustom(
+                                          typographyType:
+                                              TypographyType.paragraph,
+                                          fontColor:
+                                              (validation.missionStatus ==
+                                                      'Under Review')
+                                                  ? ColorTheme.danger500
+                                                  : ColorTheme.primary500,
                                         ),
                                       ),
                                     ),
-                                  ]),
+                                  ),
+                                ],
+                              ),
                               SizedBox(
                                 height: 15.sp,
                               ),
@@ -468,7 +474,7 @@ class _ValidationDetailScreenState
                                               RichText(
                                                 text: TextSpan(
                                                   text:
-                                                      'Evidence (one file only)',
+                                                      EtamKawaTranslate.evidence,
                                                   style: SharedComponent
                                                       .textStyleCustom(
                                                           typographyType:
@@ -522,7 +528,7 @@ class _ValidationDetailScreenState
                                               ),
                                               const SizedBox(height: 10.0),
                                               Text(
-                                                'Answer',
+                                                EtamKawaTranslate.answerAssignment,
                                                 style: SharedComponent
                                                     .textStyleCustom(
                                                         typographyType:
@@ -582,14 +588,35 @@ class _ValidationDetailScreenState
                                           context: context,
                                           builder: (context) {
                                             return CustomWithFeedbackDialog(
-                                                rating: (validation.chapterData?.single.missionData?.single.taskData?.single.qualitativeScoreId.toString() ?? ''),
-                                                feedback:
-                                                    (validation.chapterData?.single.missionData?.single.taskData?.single.feedbackComment ?? ''),
-                                                label: "Stay",
+                                                rating: (validation
+                                                        .chapterData
+                                                        ?.single
+                                                        .missionData
+                                                        ?.single
+                                                        .taskData
+                                                        ?.single
+                                                        .qualitativeScoreId
+                                                        .toString() ??
+                                                    ''),
+                                                feedback: (validation
+                                                        .chapterData
+                                                        ?.single
+                                                        .missionData
+                                                        ?.single
+                                                        .taskData
+                                                        ?.single
+                                                        .feedbackComment ??
+                                                    ''),
+                                                label: EtamKawaTranslate.stay,
                                                 //type: DialogType.question,
-                                                onClosed: (String feedback, int selectedScore) async => {
-                                                  ctrl.changeStatusValidation(feedback, selectedScore)
-                                                });
+                                                onClosed: (String feedback,
+                                                        int
+                                                            selectedScore) async =>
+                                                    {
+                                                      ctrl.changeStatusValidation(
+                                                          feedback,
+                                                          selectedScore)
+                                                    });
                                           },
                                         );
                                       },

@@ -1,16 +1,10 @@
-import 'package:flutter_background_service/flutter_background_service.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:module_etamkawa/src/features/main_nav/infrastructure/repositories/main_nav.repository.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
 import 'package:module_etamkawa/src/features/mission/infrastructure/repositories/mission_local.repository.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
-import 'package:module_shared/module_shared.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../../module_etamkawa.dart';
-import '../../../../constants/constant.dart';
-import '../../../../shared_component/connection_listener_widget.dart';
 
 part 'main_nav.controller.g.dart';
 
@@ -50,7 +44,7 @@ class MainNavController extends _$MainNavController {
        Future.delayed(const Duration(seconds: 2), () {
          ref.watch(submitStatusState.notifier)
              .state = SubmitStatus.success;
-         ref.read(goRouterProvider).goNamed(homeEtakawaInit);});
+         ref.read(etamkawaGoRouterProvider).goNamed(homeEtakawaInit);});
      });
 
   } else{
@@ -73,7 +67,7 @@ class MainNavController extends _$MainNavController {
       Future.delayed(const Duration(seconds: 2), () {
         ref.watch(submitStatusState.notifier)
             .state = SubmitStatus.success;
-        ref.read(goRouterProvider).goNamed(homeEtakawaInit);});
+        ref.read(etamkawaGoRouterProvider).goNamed(homeEtakawaInit);});
 
     } else{
       ref.watch(submitStatusState.notifier)

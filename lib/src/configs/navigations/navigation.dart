@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:module_etamkawa/src/configs/navigations/routes.dart';
-import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
 import 'package:module_etamkawa/src/features/mission_detail/presentation/mission.detail.screen.dart';
 import 'package:module_etamkawa/src/features/mission_past/presentation/mission_past_detail.screen.dart';
 import 'package:module_etamkawa/src/features/mission_past/presentation/task_past.screen.dart';
@@ -17,7 +16,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'navigation.g.dart';
 
 @Riverpod(keepAlive: true)
-GoRouter goRouter(GoRouterRef ref) {
+GoRouter etamkawaGoRouter(EtamkawaGoRouterRef ref) {
   return GoRouter(debugLogDiagnostics: true, routes: <RouteBase>[
     GoRoute(
         path: homeEtakawaInit,
@@ -107,7 +106,7 @@ List<RouteBase> routeEtamkawa = [
                   path: taskMissionEtamkawa,
                   name: taskMissionEtamkawa,
                   builder: (BuildContext context, GoRouterState state) {
-                    List<TaskDatum> list = [];
+                    // List<TaskDatum> list = [];
                     return SharedComponent.banner(
                         dotenv.env[EnvConstant.environment]!,
                         const ConnectionListenerWidget(child: TaskScreen()));

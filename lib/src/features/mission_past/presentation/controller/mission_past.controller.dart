@@ -1,19 +1,12 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:module_etamkawa/src/features/mission_past/domain/mission_past_response.remote.dart';
 import 'package:module_etamkawa/src/features/mission_past/infrastructure/repositories/mission_past.repository.dart';
-import 'package:module_etamkawa/src/features/validation/domain/validation_response.remote.dart';
-import 'package:module_etamkawa/src/features/validation/infrastructure/repositories/validation_local.repository.dart';
-import 'package:module_shared/module_shared.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../utils/common_utils.dart';
 import '../../../main_nav/presentation/controller/main_nav.controller.dart';
 import '../../../mission/domain/gamification_response.remote.dart';
-import '../../../task/domain/answer_request.remote.dart';
 import '../../../task/domain/task_datum_answer_request.remote.dart';
-import '../../../task/infrastructure/task_local.repository.dart';
 import '../../../task/presentation/controller/task.controller.dart';
 import '../../domain/task_answer_past.remote.dart';
 

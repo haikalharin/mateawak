@@ -50,7 +50,7 @@ class _DashedBorderPainter extends CustomPainter {
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.square;
 
-    final double dashWidth = 5.0;
+    const double dashWidth = 5.0;
     final double dashSpace = gap;
 
     double startY = 0;

@@ -1,8 +1,6 @@
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_assignment.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_file.screen.dart';
@@ -11,15 +9,11 @@ import 'package:module_etamkawa/src/features/task/presentation/widget/task_multi
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_rating.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_sinlgle_choice.screen.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
-import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
+import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
-import '../../../configs/theme/color.theme.dart';
 import '../../../shared_component/async_value_widget.dart';
 import '../../../shared_component/shared_component_etamkawa.dart';
-import '../../main_nav/presentation/controller/main_nav.controller.dart';
-import '../../mission/domain/gamification_response.remote.dart';
-import '../../mission_past/presentation/controller/mission_past.controller.dart';
 import 'controller/task.controller.dart';
 
 class TaskScreen extends ConsumerStatefulWidget {
@@ -57,7 +51,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     // final indexMenuOverview = ref.watch(indexMenuOverviewProvider);
     return Consumer(builder: (context, ref, child) {
       final ctrl = ref.watch(taskControllerProvider.notifier);
-      final ctrlMainNav = ref.read(mainNavControllerProvider.notifier);
+      //final ctrlMainNav = ref.read(mainNavControllerProvider.notifier);
       final ctrlMission = ref.read(missionControllerProvider.notifier);
       final currentQuestionIndex = ref.read(currentIndexState.notifier);
       final currentQuestionProgress = ref.watch(currentProgressState);
@@ -77,9 +71,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                   context: context,
                   builder: (context) {
                     return CustomDialog(
-                        title: "Confirmation",
+                        title: EtamKawaTranslate.confirmation,
                         content: EtamKawaTranslate.areYouSureWantToLeave,
-                        label: "Stay",
+                        label: EtamKawaTranslate.stay,
                         type: DialogType.question,
                         onClosed: () async => {
                               await ctrl
@@ -111,10 +105,10 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                           context: context,
                           builder: (context) {
                             return CustomDialog(
-                                title: "Confirmation",
+                                title: EtamKawaTranslate.confirmation,
                                 content:
                                     EtamKawaTranslate.areYouSureWantToLeave,
-                                label: "Stay",
+                                label: EtamKawaTranslate.stay,
                                 type: DialogType.question,
                                 onClosed: () async {
                                   await ctrl
@@ -151,51 +145,49 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Container(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                        gamificationData.chapterData?.single
-                                                .chapterName ??
-                                            '',
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      gamificationData.chapterData?.single
+                                              .chapterName ??
+                                          '',
+                                      style: SharedComponent.textStyleCustom(
+                                          typographyType:
+                                              TypographyType.largeH5,
+                                          fontColor: ColorTheme.neutral600)),
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width / 1.5,
+                                    child: Text(
+                                        '${EtamKawaTranslate.mission}: ${missionData.missionName}',
+                                        maxLines: 5,
                                         style: SharedComponent.textStyleCustom(
                                             typographyType:
-                                                TypographyType.largeH5,
+                                                TypographyType.smallH8,
                                             fontColor:
                                                 ColorTheme.textLightDark)),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width /
-                                          1.5,
-                                      child: Text(
-                                          '${EtamKawaTranslate.mission}: ${missionData.missionName}',
-                                          maxLines: 5,
-                                          style:
-                                              SharedComponent.textStyleCustom(
-                                                  typographyType:
-                                                      TypographyType.smallH8,
-                                                  fontColor: ColorTheme
-                                                      .textLightDark)),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                               Container(
-                                padding: EdgeInsets.symmetric(
+                                  padding: EdgeInsets.symmetric(
                                     horizontal: 8.w, vertical: 4.h),
-                                decoration: BoxDecoration(
-                                    color: ColorTheme.secondary100,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(5.r))),
-                                child: Center(
-                                    child: Text('In Progress',
-                                        style: SharedComponent.textStyleCustom(
-                                            typographyType:
-                                                TypographyType.small,
-                                            fontColor:
-                                                ColorTheme.secondary500))),
-                              ),
+                                  decoration: BoxDecoration(
+                                      color: EtamKawaUtils()
+                                          .getMissionStatusBGColorByCode('1'),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.r))),
+                                  child: Center(
+                                      child: Text(
+                                    EtamKawaTranslate.inProgress,
+                                    style: SharedComponent.textStyleCustom(
+                                        typographyType: TypographyType.small,
+                                        fontColor: EtamKawaUtils()
+                                            .getMissionStatusFontColorByCode(
+                                                '1')),
+                                  ))),
                             ],
                           ),
                           if (gamificationData.chapterData?.single.missionData

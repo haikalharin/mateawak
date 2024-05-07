@@ -18,7 +18,7 @@ Widget _buildListItem(dom.Element element, bool isOrderedList, String? listStyle
   } else if (element is dom.Node) {
     return customListStyle(element, isOrderedList, listStyle: listStyle);
   } else {
-    return Text('Unsupported node type');
+    return const Text('Unsupported node type');
   }
 }
 

@@ -197,7 +197,7 @@ class _TimePickerDialogWidgetState extends State<TimePickerDialogWidget> {
                           current.day,
                           int.parse(activeHour),
                           int.parse(activeMinutes));
-                      print("picked : $picked");
+                      debugPrint("picked : $picked");
 
                       widget.onPicked(picked);
                       context.pop();

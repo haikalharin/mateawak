@@ -6,19 +6,20 @@ part of 'navigation.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$goRouterHash() => r'0cb88fcc4cebcacc0b00a3921cda635baa49f0a6';
+String _$etamkawaGoRouterHash() => r'341bd9d674ca024bf9c7395efc15845b50f06b83';
 
-/// See also [goRouter].
-@ProviderFor(goRouter)
-final goRouterProvider = Provider<GoRouter>.internal(
-  goRouter,
-  name: r'goRouterProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$goRouterHash,
+/// See also [etamkawaGoRouter].
+@ProviderFor(etamkawaGoRouter)
+final etamkawaGoRouterProvider = Provider<GoRouter>.internal(
+  etamkawaGoRouter,
+  name: r'etamkawaGoRouterProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$etamkawaGoRouterHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef GoRouterRef = ProviderRef<GoRouter>;
+typedef EtamkawaGoRouterRef = ProviderRef<GoRouter>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

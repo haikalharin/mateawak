@@ -1,23 +1,19 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:dio/dio.dart';
-import 'package:module_shared/src/configs/services/connect_background_sevices.dart';
+import 'package:module_shared/module_shared.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:isar/isar.dart';
 import 'package:module_etamkawa/src/features/overview/domain/news_response.remote.dart';
-import 'package:module_shared/module_shared.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../constants/constant.dart';
 import '../../../../constants/function_utils.dart';
-import '../../../../utils/common_utils.dart';
 import '../../../mission/domain/gamification_response.remote.dart';
 import '../../../task/domain/answer_request.remote.dart';
 
@@ -158,9 +154,9 @@ Future<bool> submitAnswerBg({required String url,
                 .whenComplete(() async {
               await AsyncValue.guard(() => repoGamification)
                   .then((value) async {
-                for (var element in value.value ?? []) {
-                  GamificationResponseRemote gamificationResponseRemote =
-                      element;
+                for (var _ in value.value ?? []) {
+                  // GamificationResponseRemote gamificationResponseRemote =
+                  //     element;
                   await isarInstance.gamificationResponseRemotes
                       .filter()
                       .employeeMissionIdEqualTo(data.employeeMissionId)

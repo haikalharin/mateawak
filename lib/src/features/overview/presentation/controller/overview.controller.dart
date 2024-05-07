@@ -28,7 +28,7 @@ final userProfileState = StateProvider.autoDispose<UserModel>(
 @riverpod
 Future<DownloadAttachmentNewsRequestRemote?> getImage(GetImageRef ref) async {
   final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
-  final ctrl = ref.watch(overviewControllerProvider.notifier);
+  //final ctrl = ref.watch(overviewControllerProvider.notifier);
   return isConnectionAvailable
       ? await ref
           .watch(getNewsImageRemoteProvider(id: 0).future)
