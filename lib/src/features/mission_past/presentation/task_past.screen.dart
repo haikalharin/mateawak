@@ -169,8 +169,8 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
                                 ),
                               ),
                               Container(
-                                width: 83,
-                                height: 26,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 8.w, vertical: 4.h),
                                 decoration: BoxDecoration(
                                     color: gamificationData.missionStatusCode ==
                                             0
