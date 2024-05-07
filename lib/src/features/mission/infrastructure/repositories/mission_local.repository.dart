@@ -1,10 +1,6 @@
 import 'dart:io';
-import 'dart:math';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
-import 'package:module_etamkawa/src/features/mission/domain/gamification_additional_detail.remote.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart' ;
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/utils/common_utils.dart';
@@ -15,7 +11,6 @@ import '../../../../constants/constant.dart';
 import '../../../../constants/function_utils.dart';
 import '../../../../shared_component/connection_listener_widget.dart';
 import '../../../offline_mode/infrastructure/repositories/isar.repository.dart';
-import '../../domain/gamification_mission_detail_response.remote.dart'as gamificationDetail;
 
 part 'mission_local.repository.g.dart';
 
@@ -32,7 +27,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
 
     // const rawMissionDummy = Constant.rawMissionDummy;
     final userModel = await ref.read(helperUserProvider).getUserProfile();
-    final latestSyncDate = ref.watch(latestSyncDateState.notifier).state;
+    final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
     final response = await connect.post(
         modul: ModuleType.etamkawaGamification,
         path: "api/mission/get_employee_mission?${Constant.apiVer}",
@@ -47,7 +42,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
       listResponse.add(result);
     }
     final today = CommonUtils.formatDateRequestParam(DateTime.now().toString());
-    ref.watch(latestSyncDateState.notifier).state = today;
+    ref.read(latestSyncDateState.notifier).state = today;
     final repo = isarInstance.gamificationResponseRemotes
         .filter()
         .employeeMissionIdIsNotNull()
@@ -72,7 +67,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
       List<TaskDatum> listTask =
           element.chapterData?.single.missionData?.single.taskData ?? [];
       int indexTask = 0;
-      List<TaskDatum> taskData = [];
+      //List<TaskDatum> taskData = [];
       for (var element in listTask) {
         File file = File('');
         if (element.attachmentPath == null) {
@@ -121,7 +116,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
     await isarInstance.writeTxn(() async {
       //await isarInstance.gamificationResponseRemotes.clear();
       if (kDebugMode) {
-        print("##########sebelum" + listResponseFinal.length.toString());
+        print("##########sebelum${listResponseFinal.length}");
       }
       await isarInstance.gamificationResponseRemotes.putAll(listResponseFinal);
     });
@@ -134,7 +129,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
       .employeeMissionIdIsNotNull()
       .findAll();
   if (kDebugMode) {
-    print("##########sesudah" + data.length.toString());
+    print("##########sesudah${data.length}");
   }
   return data;
 }

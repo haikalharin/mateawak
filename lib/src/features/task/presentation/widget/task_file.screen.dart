@@ -1,30 +1,16 @@
-import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:module_etamkawa/src/configs/theme/color.theme.dart';
-import 'package:module_etamkawa/src/features/task/presentation/widget/reward_dialog.dart';
 import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 
-import '../../../../component/widget/dashed_border_widget.dart';
-import '../../../../constants/constant.dart';
-import '../../../../constants/function_utils.dart';
-import '../../../../constants/image.constant.dart';
-import '../../../main_nav/presentation/controller/main_nav.controller.dart';
 import '../../../mission/domain/gamification_response.remote.dart';
 import '../../../mission/presentation/controller/mission.controller.dart';
-import '../../../mission_past/presentation/controller/mission_past.controller.dart';
 import '../controller/task.controller.dart';
 
 class TaskFileScreen extends ConsumerStatefulWidget {
@@ -38,10 +24,10 @@ class TaskFileScreen extends ConsumerStatefulWidget {
 
 class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
   final TextEditingController _textController = TextEditingController();
-  String? _docFileBase64;
-  String? _docFilePath;
+  // String? _docFileBase64;
+  // String? _docFilePath;
   var groupValue = 0;
-  String? _docFilePathName;
+  //String? _docFilePathName;
   bool isInit = true;
 
   // int currentQuestionIndex = 0;
@@ -52,7 +38,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final ctrl = ref.watch(taskControllerProvider.notifier);
-        final ctrlMainNav = ref.read(mainNavControllerProvider.notifier);
+        //final ctrlMainNav = ref.read(mainNavControllerProvider.notifier);
         final ctrlMission = ref.read(missionControllerProvider.notifier);
         final currentQuestionIndex = ref.watch(currentIndexState.notifier);
         final attachment = ref.watch(attachmentPathState.notifier);
@@ -102,49 +88,47 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                               style: SharedComponent.textStyleCustom(
                                   typographyType: TypographyType.largeH5,
                                   fontColor: ColorTheme.textDark)),
-                          Container(
-                            child: Row(
-                              children: [
-                                Container(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                                  margin: EdgeInsets.only(right: 4.sp),
-                                  decoration: BoxDecoration(
-                                      color: ColorTheme.secondary100,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5.r))),
-                                  child: Center(
-                                      child: Container(
-                                    height: 24.h,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Icon(
-                                          Icons.star,
-                                          color: ColorTheme.secondary500,
-                                          size: 12.h,
-                                        ),
-                                        Text(
-                                          " +${listTask[currentQuestionIndex.state].taskReward}",
-                                          style:
-                                              SharedComponent.textStyleCustom(
-                                                  typographyType:
-                                                      TypographyType.body,
-                                                  fontColor:
-                                                      ColorTheme.secondary500),
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                                ),
-                                Icon(
-                                  Icons.info,
-                                  color: ColorTheme.primary500,
-                                  size: 24.h,
-                                ),
-                              ],
-                            ),
+                          Row(
+                            children: [
+                              Container(
+                                padding:
+                                    const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                margin: EdgeInsets.only(right: 4.sp),
+                                decoration: BoxDecoration(
+                                    color: ColorTheme.secondary100,
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(5.r))),
+                                child: Center(
+                                    child: SizedBox(
+                                  height: 24.h,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Icon(
+                                        Icons.star,
+                                        color: ColorTheme.secondary500,
+                                        size: 12.h,
+                                      ),
+                                      Text(
+                                        " +${listTask[currentQuestionIndex.state].taskReward}",
+                                        style:
+                                            SharedComponent.textStyleCustom(
+                                                typographyType:
+                                                    TypographyType.body,
+                                                fontColor:
+                                                    ColorTheme.secondary500),
+                                      ),
+                                    ],
+                                  ),
+                                )),
+                              ),
+                              Icon(
+                                Icons.info,
+                                color: ColorTheme.primary500,
+                                size: 24.h,
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -191,135 +175,134 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                             const Divider(),
                             const SizedBox(height: 20.0),
                             attachmentName.state != ''
-                                ? Container(
-                                    child: Column(
+                                ? Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.start,
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            child: RichText(
-                                              text: TextSpan(
-                                                text:
-                                                    'Evidence (one file only)',
+                                      SizedBox(
+                                        width: MediaQuery.of(context)
+                                            .size
+                                            .width,
+                                        child: RichText(
+                                          text: TextSpan(
+                                            text:
+                                                EtamKawaTranslate.evidence,
+                                            style: SharedComponent
+                                                .textStyleCustom(
+                                                    typographyType:
+                                                        TypographyType.body,
+                                                    fontColor: ColorTheme
+                                                        .textDark),
+                                            children: [
+                                              TextSpan(
+                                                text: '*',
                                                 style: SharedComponent
                                                     .textStyleCustom(
                                                         typographyType:
-                                                            TypographyType.body,
-                                                        fontColor: ColorTheme
-                                                            .textDark),
-                                                children: [
-                                                  TextSpan(
-                                                    text: '*',
-                                                    style: SharedComponent
-                                                        .textStyleCustom(
-                                                            typographyType:
-                                                                TypographyType
-                                                                    .body,
-                                                            fontColor:
-                                                                ColorTheme
-                                                                    .danger500),
-                                                  ),
-                                                ],
+                                                            TypographyType
+                                                                .body,
+                                                        fontColor:
+                                                            ColorTheme
+                                                                .danger500),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 12,
+                                      ),
+                                      SizedBox(
+                                        width: MediaQuery.of(context)
+                                            .size
+                                            .width,
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                attachmentName.state,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleLarge,
                                               ),
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: 12,
-                                          ),
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    attachmentName.state ?? '',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .titleLarge,
-                                                  ),
-                                                ),
-                                                InkWell(
-                                                  onTap: () async {
-                                                    await File(attachment.state)
-                                                        .delete()
-                                                        .whenComplete(() async {
-                                                      ref.refresh(
-                                                          taskControllerProvider);
-                                                      await ctrl
-                                                          .saveAnswer(
-                                                              listTask[currentQuestionIndex
+                                            InkWell(
+                                              onTap: () async {
+                                                await File(attachment.state)
+                                                    .delete()
+                                                    .whenComplete(() async {
+                                                  ref.refresh(
+                                                      taskControllerProvider);
+                                                  await ctrl
+                                                      .saveAnswer(
+                                                          listTask[currentQuestionIndex
+                                                                      .state]
+                                                                  .taskId ??
+                                                              0,
+                                                          isLast: false,
+                                                          attachment: '',
+                                                          attachmentName:
+                                                              '',
+                                                          listSelectedOption: [
+                                                            _textController
+                                                                .text
+                                                          ],
+                                                          type: listTask[currentQuestionIndex
+                                                                      .state]
+                                                                  .taskTypeCode ??
+                                                              '',
+                                                          taskGroup: listTask[
+                                                                      currentQuestionIndex
                                                                           .state]
-                                                                      .taskId ??
-                                                                  0,
-                                                              isLast: false,
-                                                              attachment: '',
-                                                              attachmentName:
-                                                                  '',
-                                                              listSelectedOption: [
-                                                                _textController
-                                                                    .text
-                                                              ],
-                                                              type: listTask[currentQuestionIndex
-                                                                          .state]
-                                                                      .taskTypeCode ??
-                                                                  '',
-                                                              taskGroup: listTask[
-                                                                          currentQuestionIndex
-                                                                              .state]
-                                                                      .taskGroup ??
-                                                                  '')
-                                                          .whenComplete(
-                                                              () async {
-                                                        ref.refresh(
-                                                            taskControllerProvider);
-                                                        await ctrl
-                                                            .putAnswerFinal();
-                                                      }).whenComplete(() {
-                                                        ref.refresh(
-                                                            taskControllerProvider);
-                                                        setState(() {
-                                                          ref
-                                                              .read(
-                                                                  attachmentNameState
-                                                                      .notifier)
-                                                              .state = '';
-                                                          ref
-                                                              .read(
-                                                                  attachmentPathState
-                                                                      .notifier)
-                                                              .state = '';
-                                                        });
-                                                      });
+                                                                  .taskGroup ??
+                                                              '')
+                                                      .whenComplete(
+                                                          () async {
+                                                    ref.refresh(
+                                                        taskControllerProvider);
+                                                    await ctrl
+                                                        .putAnswerFinal();
+                                                  }).whenComplete(() {
+                                                    ref.refresh(
+                                                        taskControllerProvider);
+                                                    setState(() {
+                                                      ref
+                                                          .read(
+                                                              attachmentNameState
+                                                                  .notifier)
+                                                          .state = '';
+                                                      ref
+                                                          .read(
+                                                              attachmentPathState
+                                                                  .notifier)
+                                                          .state = '';
                                                     });
-                                                  },
-                                                  child: Icon(
-                                                    Icons.cancel,
-                                                    color: ColorTheme
-                                                        .backgroundDark,
-                                                    size: 25.h,
-                                                  ),
-                                                ),
-                                              ],
+                                                  });
+                                                });
+                                              },
+                                              child: Icon(
+                                                Icons.cancel,
+                                                color: ColorTheme
+                                                    .backgroundDark,
+                                                size: 25.h,
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ],
-                                  ))
+                                  ),
+                                ],
+                                  )
                                 : InkWell(
                                     onTap: () {
                                       if ((gamificationData.missionStatusCode ??
@@ -334,10 +317,10 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                     },
                                     child: DottedBorder(
                                       color: ColorTheme.primary500,
-                                      radius: Radius.circular(12),
+                                      radius: const Radius.circular(12),
                                       strokeWidth: 3,
                                       //thickness of dash/dots
-                                      dashPattern: [10, 6],
+                                      dashPattern: const [10, 6],
                                       child: Container(
                                           height: 150,
                                           color: ColorTheme.bgGreenLight,
@@ -367,21 +350,21 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      Container(
+                                                      SizedBox(
                                                         width: MediaQuery.of(
                                                                     context)
                                                                 .size
                                                                 .width /
                                                             1.5,
                                                         child: Text(
-                                                          'Drop your files here or click to upload',
+                                                          EtamKawaTranslate.dropYourFile,
                                                           style:
                                                               Theme.of(context)
                                                                   .textTheme
                                                                   .titleLarge,
                                                         ),
                                                       ),
-                                                      Container(
+                                                      SizedBox(
                                                         width: MediaQuery.of(
                                                                     context)
                                                                 .size
@@ -404,10 +387,10 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                     ),
                                   ),
                             const SizedBox(height: 8.0),
-                            Container(
+                            SizedBox(
                               width: MediaQuery.of(context).size.width,
                               child: Text(
-                                'Please ensure that your file is in the correct format.',
+                                EtamKawaTranslate.pleaseEnsure,
                                 style: TextStyle(
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w500,
@@ -415,7 +398,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 12,
                             ),
                             const SizedBox(height: 8.0),
@@ -426,10 +409,10 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                     (gamificationData.missionStatusCode ?? 0) >
                                         1,
                                 controller: _textController,
-                                maxLength: 300,
+                                maxLength: 1000,
                                 textInputAction: TextInputAction.done,
                                 decoration: InputDecoration(
-                                  hintText: 'Write your comment here..',
+                                  hintText: EtamKawaTranslate.writeYourAnswer,
                                   hintStyle: TextStyle(
                                       color: ColorTheme.textLightDark),
                                   border: const OutlineInputBorder(),
@@ -524,7 +507,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text('Your answer is correct!',
+                                              Text(EtamKawaTranslate.yourAnswerIsCorrect,
                                                   style: SharedComponent
                                                       .textStyleCustom(
                                                           typographyType:
@@ -543,7 +526,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                           const SizedBox(
                                             height: 10,
                                           ),
-                                          Text('Your answer is incorrect!',
+                                          Text(EtamKawaTranslate.yourAnswerIsInCorrect,
                                               style: SharedComponent
                                                   .textStyleCustom(
                                                       typographyType:
@@ -663,7 +646,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                   ),
                                 )
                               : Container(),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           Expanded(
                             child: ElevatedButton(
                               onPressed: () async {
@@ -811,10 +794,10 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                           builder: (context) {
                                             //return RewardDialog(rewardResponse: resultSubmissionData, isConnectionAvailable: isConnectionAvailable,);}
                                             return CustomDialog(
-                                                title: "Confirmation",
+                                                title: EtamKawaTranslate.confirmation,
                                                 content:
-                                                    "Are you sure want to submit your answers?",
-                                                label: "Submit",
+                                                    EtamKawaTranslate.areYouSureSubmitAnswer,
+                                                label: EtamKawaTranslate.submit,
                                                 type: DialogType.mission,
                                                 resultSubmissionState:
                                                     resultSubmit,

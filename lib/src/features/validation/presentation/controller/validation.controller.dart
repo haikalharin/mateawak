@@ -17,6 +17,8 @@ final listMissionInReviewState =
     StateProvider.autoDispose<List<MissionValidationDatum>>((ref) => []);
 final validationInReviewState =
     StateProvider.autoDispose<List<ValidationResponseRemote>>((ref) => []);
+var latestSyncDateValidationState =
+    StateProvider.autoDispose<String>((ref) => '2024-03-01T03:55:58.918Z');
 
 @riverpod
 class ValidationController extends _$ValidationController {
@@ -29,7 +31,7 @@ class ValidationController extends _$ValidationController {
 
   Future<void> getValidationListLocal() async {
     var repo = ref.read(getValidationLocalProvider.future);
-
+    
     state = await AsyncValue.guard(() => repo).then((value) async {
       List<ValidationResponseRemote> listValidationInReview = [];
       if (value.hasValue) {
@@ -39,7 +41,6 @@ class ValidationController extends _$ValidationController {
         ref.watch(validationInReviewState.notifier).state =
             listValidationInReview;
         ref.watch(listValidationState.notifier).state = value.value ?? [];
-        //listValidation = value.value ?? [];
       }
       return value;
     });

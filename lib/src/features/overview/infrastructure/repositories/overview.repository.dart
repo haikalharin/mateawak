@@ -69,7 +69,6 @@ FutureOr<NewsResponseRemote> getNewsRemote(GetNewsRemoteRef ref) async {
     await isarInstance.writeTxn(() async {
       await isarInstance.newsResponseRemotes.put(news);
     });
-
     ref.keepAlive();
   }
   return news;
@@ -85,6 +84,12 @@ Future<DownloadAttachmentNewsRequestRemote> getNewsImageRemote(
       body: {"attachmentId": id});
   final result = DownloadAttachmentNewsRequestRemote.fromJson(
       {"attachmentId": id, "formattedName": response.result?.content});
+  if (response.statusCode == 200) {
+    final isarInstance = await ref.watch(isarInstanceProvider.future);
+    await isarInstance.writeTxn(() async {
+      await isarInstance.downloadAttachmentNewsRequestRemotes.put(result);
+    });
+  }
   if (response.statusCode == 200) {
     final isarInstance = await ref.watch(isarInstanceProvider.future);
     await isarInstance.writeTxn(() async {

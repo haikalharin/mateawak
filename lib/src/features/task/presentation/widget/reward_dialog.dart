@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -50,8 +49,8 @@ class RewardDialog extends StatelessWidget {
             SizedBox(height: 16.h),
             SharedComponent.label(
               text: !isConnectionAvailable
-                  ? 'Your mission has been submitted and will be synced the next time you are online'
-                  : 'Yeay, your mission has been completed!',
+                  ? EtamKawaTranslate.yourMissionHasBeenSubmitted
+                  : EtamKawaTranslate.yourMissionHasBeenCompleted,
               context: context,
               typographyType: TypographyType.body,
               textAlign: TextAlign.center,
@@ -173,7 +172,7 @@ class RewardDialog extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: SharedComponent.btnWidget(
-                label: 'Back to Mission List',
+                label: EtamKawaTranslate.backToMissionList,
                 typographyType: TypographyType.body,
                 onPressed: () async {
                   context.pop();

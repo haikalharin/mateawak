@@ -1,16 +1,10 @@
-import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:module_etamkawa/src/features/mission_past/domain/mission_past_response.remote.dart';
-import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../constants/constant.dart';
-import '../../../../constants/function_utils.dart';
 import '../../../mission/domain/gamification_response.remote.dart';
-import '../../../mission/presentation/controller/mission.controller.dart';
-import '../../../offline_mode/infrastructure/repositories/isar.repository.dart';
 import '../../../task/domain/answer_request.remote.dart';
 
 part 'mission_past.repository.g.dart';
@@ -20,7 +14,7 @@ FutureOr<List<MissionPastResponseRemote>> getMissionPastList(
     GetMissionPastListRef ref) async {
   final connect = ref.read(connectProvider.notifier);
   List<MissionPastResponseRemote> listMissionPast = [];
-  // const rawMissionPastDummy = Constant.rawMissionPastDummy;
+  //const rawMissionPastDummy = Constant.rawMissionPastDummy;
   final userModel = await ref.read(helperUserProvider).getUserProfile();
   // final today = CommonUtils.formattedDate(
   //                                 CommonUtils.getCurrentWITATime()
@@ -67,12 +61,12 @@ FutureOr<List<MissionPastResponseRemote>> getMissionPastList(
 @riverpod
 FutureOr<GamificationResponseRemote> getMissionDetail(GetMissionDetailRef ref,
     {required int employeeMissionId}) async {
-  final isarInstance = await ref.watch(isarInstanceProvider.future);
+  // final isarInstance = await ref.watch(isarInstanceProvider.future);
   final connect = ref.read(connectProvider.notifier);
-  final userModel = await ref.read(helperUserProvider).getUserProfile();
-  final latestSyncDate = ref
-      .watch(latestSyncDateState.notifier)
-      .state;
+  // final userModel = await ref.read(helperUserProvider).getUserProfile();
+  // final latestSyncDate = ref
+  //     .read(latestSyncDateState.notifier)
+  //     .state;
   var result = GamificationResponseRemote();
 
   final response = connect.post(
@@ -124,12 +118,12 @@ FutureOr<GamificationResponseRemote> getMissionDetail(GetMissionDetailRef ref,
 @riverpod
 FutureOr<List<TaskDatumAnswer>> putAnswerDetail(PutAnswerDetailRef ref,
     {required int employeeMissionId, required GamificationResponseRemote gamificationResponseRemote}) async {
-  final isarInstance = await ref.watch(isarInstanceProvider.future);
-  final connect = ref.read(connectProvider.notifier);
-  final userModel = await ref.read(helperUserProvider).getUserProfile();
-  final latestSyncDate = ref
-      .watch(latestSyncDateState.notifier)
-      .state;
+  // final isarInstance = await ref.watch(isarInstanceProvider.future);
+  // final connect = ref.read(connectProvider.notifier);
+  // final userModel = await ref.read(helperUserProvider).getUserProfile();
+  // final latestSyncDate = ref
+  //     .read(latestSyncDateState.notifier)
+  //     .state;
 
   List<TaskDatumAnswer> listData = [];
   for (var element
@@ -142,12 +136,12 @@ FutureOr<List<TaskDatumAnswer>> putAnswerDetail(PutAnswerDetailRef ref,
         attachmentId: data.attachmentId));
   }
 
-  var taskAnswer = AnswerRequestRemote(
-      employeeMissionId: gamificationResponseRemote.employeeMissionId,
-      submittedDate: gamificationResponseRemote.submittedDate
-          ?.substring(0, (gamificationResponseRemote.submittedDate?.length ?? 0) - 6),
-      status: gamificationResponseRemote.missionStatusCode,
-      taskData: listData);
+  // var taskAnswer = AnswerRequestRemote(
+  //     employeeMissionId: gamificationResponseRemote.employeeMissionId,
+  //     submittedDate: gamificationResponseRemote.submittedDate
+  //         ?.substring(0, (gamificationResponseRemote.submittedDate?.length ?? 0) - 6),
+  //     status: gamificationResponseRemote.missionStatusCode,
+  //     taskData: listData);
 
   // await isarInstance.writeTxn(() async {
   //   isarInstance.answerRequestRemotes.put(taskAnswer);

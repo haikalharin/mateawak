@@ -1,18 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
-import 'package:module_etamkawa/src/features/task/presentation/widget/reward_dialog.dart';
 import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 
-import '../../../../configs/theme/color.theme.dart';
-import '../../../main_nav/presentation/controller/main_nav.controller.dart';
-import '../../../mission_past/presentation/controller/mission_past.controller.dart';
 import '../controller/task.controller.dart';
 
 class TaskSingleChoiceScreen extends ConsumerStatefulWidget {
@@ -37,7 +32,7 @@ class _TaskSingleChoiceScreenState
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final ctrl = ref.watch(taskControllerProvider.notifier);
-        final ctrlMainNav = ref.read(mainNavControllerProvider.notifier);
+        // final ctrlMainNav = ref.read(mainNavControllerProvider.notifier);
         final ctrlMission = ref.read(missionControllerProvider.notifier);
         final currentQuestionIndex = ref.watch(currentIndexState.notifier);
         final listSelectedOption = ref.watch(listSelectOptionState.notifier);
@@ -348,7 +343,7 @@ class _TaskSingleChoiceScreenState
                                   ),
                                 )
                               : Container(),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           Expanded(
                             child: ElevatedButton(
                               onPressed: () async {
@@ -479,10 +474,10 @@ class _TaskSingleChoiceScreenState
                                           context: context,
                                           builder: (context) {
                                             return CustomDialog( 
-                                                title: "Confirmation",
+                                                title: EtamKawaTranslate.confirmation,
                                                 content:
-                                                    "Are you sure want to submit your answers?",
-                                                label: "Submit",
+                                                    EtamKawaTranslate.areYouSureSubmitAnswer,
+                                                label: EtamKawaTranslate.submit,
                                                 type: DialogType.mission,
                                                 resultSubmissionState: resultSubmit,
                                                 isConnectionAvailable:

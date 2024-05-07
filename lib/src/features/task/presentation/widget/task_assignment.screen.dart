@@ -6,15 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
-import 'package:module_etamkawa/src/features/task/presentation/widget/reward_dialog.dart';
 import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 
-import '../../../../constants/function_utils.dart';
-import '../../../main_nav/presentation/controller/main_nav.controller.dart';
 import '../../../mission/domain/gamification_response.remote.dart';
-import '../../../mission_past/presentation/controller/mission_past.controller.dart';
 import '../controller/task.controller.dart';
 
 class TaskAssignmentScreen extends ConsumerStatefulWidget {
@@ -29,10 +25,10 @@ class TaskAssignmentScreen extends ConsumerStatefulWidget {
 
 class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
   final TextEditingController _textController = TextEditingController();
-  String? _docFileBase64;
-  String? _docFilePath;
+  // String? _docFileBase64;
+  // String? _docFilePath;
   var groupValue = 0;
-  String? _docFilePathName;
+  // String? _docFilePathName;
   bool isInit = true;
 
   // int currentQuestionIndex = 0;
@@ -174,8 +170,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                               const Divider(),
                               const SizedBox(height: 20.0),
                               attachmentName.state != ''
-                                  ? Container(
-                                      child: Column(
+                                  ? Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       mainAxisAlignment:
@@ -194,7 +189,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                               child: RichText(
                                                 text: TextSpan(
                                                   text:
-                                                      'Evidence (one file only)',
+                                                  EtamKawaTranslate.evidence,
                                                   style: SharedComponent
                                                       .textStyleCustom(
                                                           typographyType:
@@ -231,8 +226,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                 children: [
                                                   Expanded(
                                                     child: Text(
-                                                      attachmentName.state ??
-                                                          '',
+                                                      attachmentName.state,
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .titleLarge,
@@ -274,229 +268,228 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                           ref.refresh(
                                                               taskControllerProvider);
 
-                                                          await ctrl
-                                                              .putAnswerFinal();
-                                                        }).whenComplete(() {
-                                                          ref.refresh(
-                                                              taskControllerProvider);
+                                                    await ctrl
+                                                        .putAnswerFinal();
+                                                  }).whenComplete(() {
+                                                    ref.refresh(
+                                                        taskControllerProvider);
 
-                                                          setState(() {
-                                                            ref
-                                                                .read(attachmentNameState
-                                                                    .notifier)
-                                                                .state = '';
-                                                            ref
-                                                                .read(attachmentPathState
-                                                                    .notifier)
-                                                                .state = '';
-                                                          });
-                                                        });
-                                                      });
-                                                    },
-                                                    child: Icon(
-                                                      Icons.cancel,
-                                                      color: ColorTheme
-                                                          .backgroundDark,
-                                                      size: 25.h,
-                                                    ),
-                                                  ),
-                                                ],
+                                                    setState(() {
+                                                      ref
+                                                          .read(attachmentNameState
+                                                              .notifier)
+                                                          .state = '';
+                                                      ref
+                                                          .read(attachmentPathState
+                                                              .notifier)
+                                                          .state = '';
+                                                    });
+                                                  });
+                                                });
+                                              },
+                                              child: Icon(
+                                                Icons.cancel,
+                                                color: ColorTheme
+                                                    .backgroundDark,
+                                                size: 25.h,
                                               ),
                                             ),
                                           ],
                                         ),
-                                      ],
-                                    ))
-                                  : InkWell(
-                                      onTap: () {
-                                        pickDocFile(
-                                            ctrl: ctrl,
-                                            listTask: listTask,
-                                            currentQuestionIndex:
-                                                currentQuestionIndex.state);
-                                      },
-                                      child: DottedBorder(
-                                        color: ColorTheme.primary500,
-                                        radius: const Radius.circular(12),
-                                        strokeWidth: 3,
-                                        //thickness of dash/dots
-                                        dashPattern: [10, 6],
-                                        child: Container(
-                                            height: 150,
-                                            color: ColorTheme.bgGreenLight,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.upload_file_rounded,
-                                                      color:
-                                                          ColorTheme.primary500,
-                                                      size: 40.h,
-                                                    ),
-                                                    Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        SizedBox(
-                                                          width: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width /
-                                                              1.5,
-                                                          child: Text(
-                                                            'Drop your files here or click to upload',
-                                                            style: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .titleLarge,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width /
-                                                              1.5,
-                                                          child: Text(
-                                                            "Allowed files .jpg, .jpeg, .png, .gif, .pdf, .doc",
-                                                            style: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .bodyLarge,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            )),
                                       ),
-                                    ),
-                              const SizedBox(height: 8.0),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width,
-                                child: Text(
-                                  'Please ensure that your file is in the correct format.',
-                                  style: TextStyle(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: ColorTheme.textLightDark,
+                                    ],
                                   ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 12,
-                              ),
-                              const SizedBox(height: 8.0),
-                              SizedBox(
-                                height: 150.0,
-                                child: TextFormField(
-                                  controller: _textController,
-                                  maxLength: 300,
-                                  textInputAction: TextInputAction.done,
-                                  decoration: InputDecoration(
-                                    hintText: 'Write your comment here..',
-                                    hintStyle: TextStyle(
-                                        color: ColorTheme.textLightDark),
-                                    border: const OutlineInputBorder(),
-                                  ),
-                                  maxLines: 10,
-                                  onTapOutside: (value) async{
-                                    await ctrl
-                                        .saveAnswer(
-                                        listTask[currentQuestionIndex
-                                            .state]
-                                            .taskId ??
-                                            0,
-                                        isLast: false,
-                                        listSelectedOption: [
-                                          _textController.text
-                                        ],
-                                        attachment: attachment.state,
-                                        attachmentName:
-                                        attachmentName.state,
-                                        type: listTask[currentQuestionIndex
-                                            .state]
-                                            .taskTypeCode ??
-                                            '',
-                                        taskGroup: listTask[
-                                        currentQuestionIndex
-                                            .state]
-                                            .taskGroup ??
-                                            '')
-                                        .whenComplete(() async {
-                                      await ctrl.putAnswerFinal();
-                                    }).whenComplete(() {
-                                      FocusManager.instance.primaryFocus
-                                          ?.unfocus();
-                                    });
-                                  },
-                                  onEditingComplete: () async {
-                                    await ctrl
-                                        .saveAnswer(
-                                            listTask[currentQuestionIndex
-                                                        .state]
-                                                    .taskId ??
-                                                0,
-                                            isLast: false,
-                                            listSelectedOption: [
-                                              _textController.text
+                                ],
+                                  )
+                                : InkWell(
+                                    onTap: () {
+                                      pickDocFile(
+                                          ctrl: ctrl,
+                                          listTask: listTask,
+                                          currentQuestionIndex:
+                                              currentQuestionIndex.state);
+                                    },
+                                    child: DottedBorder(
+                                      color: ColorTheme.primary500,
+                                      radius: const Radius.circular(12),
+                                      strokeWidth: 3,
+                                      //thickness of dash/dots
+                                      dashPattern: const [10, 6],
+                                      child: Container(
+                                          height: 150,
+                                          color: ColorTheme.bgGreenLight,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  Icon(
+                                                    Icons.upload_file_rounded,
+                                                    color:
+                                                        ColorTheme.primary500,
+                                                    size: 40.h,
+                                                  ),
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            1.5,
+                                                        child: Text(
+                                                          EtamKawaTranslate.dropYourFile,
+                                                          style: Theme.of(
+                                                                  context)
+                                                              .textTheme
+                                                              .titleLarge,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            1.5,
+                                                        child: Text(
+                                                          "Allowed files .jpg, .jpeg, .png, .gif, .pdf, .doc",
+                                                          style: Theme.of(
+                                                                  context)
+                                                              .textTheme
+                                                              .bodyLarge,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
                                             ],
-                                            attachment: attachment.state,
-                                            attachmentName:
-                                                attachmentName.state,
-                                            type: listTask[currentQuestionIndex
-                                                        .state]
-                                                    .taskTypeCode ??
-                                                '',
-                                            taskGroup: listTask[
-                                                        currentQuestionIndex
-                                                            .state]
-                                                    .taskGroup ??
-                                                '')
-                                        .whenComplete(() async {
-                                      await ctrl.putAnswerFinal();
-                                    }).whenComplete(() {
-                                      FocusManager.instance.primaryFocus
-                                          ?.unfocus();
-                                    });
-                                  },
-                                  onChanged: (value) {
-                                    setState(() {
-                                      if (value.isEmpty) {
-                                        ref
-                                            .watch(listSelectOptionStringState
-                                                .notifier)
-                                            .state = [];
-
-                                        _textController.clear();
-                                      } else {
-                                        ref
-                                            .watch(listSelectOptionStringState
-                                                .notifier)
-                                            .state = [value];
-                                      }
-                                    });
-                                  }, // Allows multiple lines of input
+                                          )),
+                                    ),
+                                  ),
+                            const SizedBox(height: 8.0),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: Text(
+                                EtamKawaTranslate.pleaseEnsure,
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: ColorTheme.textLightDark,
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            const SizedBox(height: 8.0),
+                            SizedBox(
+                              height: 150.0,
+                              child: TextFormField(
+                                controller: _textController,
+                                maxLength: 1000,
+                                textInputAction: TextInputAction.done,
+                                decoration: InputDecoration(
+                                  hintText: EtamKawaTranslate.writeYourAnswer,
+                                  hintStyle: TextStyle(
+                                      color: ColorTheme.textLightDark),
+                                  border: const OutlineInputBorder(),
+                                ),
+                                maxLines: 10,
+                                onTapOutside: (value) async{
+                                  await ctrl
+                                      .saveAnswer(
+                                      listTask[currentQuestionIndex
+                                          .state]
+                                          .taskId ??
+                                          0,
+                                      isLast: false,
+                                      listSelectedOption: [
+                                        _textController.text
+                                      ],
+                                      attachment: attachment.state,
+                                      attachmentName:
+                                      attachmentName.state,
+                                      type: listTask[currentQuestionIndex
+                                          .state]
+                                          .taskTypeCode ??
+                                          '',
+                                      taskGroup: listTask[
+                                      currentQuestionIndex
+                                          .state]
+                                          .taskGroup ??
+                                          '')
+                                      .whenComplete(() async {
+                                    await ctrl.putAnswerFinal();
+                                  }).whenComplete(() {
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
+                                  });
+                                },
+                                onEditingComplete: () async {
+                                  await ctrl
+                                      .saveAnswer(
+                                          listTask[currentQuestionIndex
+                                                      .state]
+                                                  .taskId ??
+                                              0,
+                                          isLast: false,
+                                          listSelectedOption: [
+                                            _textController.text
+                                          ],
+                                          attachment: attachment.state,
+                                          attachmentName:
+                                              attachmentName.state,
+                                          type: listTask[currentQuestionIndex
+                                                      .state]
+                                                  .taskTypeCode ??
+                                              '',
+                                          taskGroup: listTask[
+                                                      currentQuestionIndex
+                                                          .state]
+                                                  .taskGroup ??
+                                              '')
+                                      .whenComplete(() async {
+                                    await ctrl.putAnswerFinal();
+                                  }).whenComplete(() {
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
+                                  });
+                                },
+                                onChanged: (value) {
+                                  setState(() {
+                                    if (value.isEmpty) {
+                                      ref
+                                          .watch(listSelectOptionStringState
+                                              .notifier)
+                                          .state = [];
+
+                                      _textController.clear();
+                                    } else {
+                                      ref
+                                          .watch(listSelectOptionStringState
+                                              .notifier)
+                                          .state = [value];
+                                    }
+                                  });
+                                }, // Allows multiple lines of input
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -753,10 +746,10 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                           context: context,
                                           builder: (context) {
                                             return CustomDialog(
-                                                title: "Confirmation",
+                                                title: EtamKawaTranslate.confirmation,
                                                 content:
-                                                    "Are you sure want to submit your Assignment?",
-                                                label: "Submit",
+                                                    EtamKawaTranslate.areYouSureSubmitAssignment,
+                                                label: EtamKawaTranslate.submit,
                                                 type: DialogType.mission,
                                                 isAssignment: true,
                                                 resultSubmissionState:
