@@ -133,7 +133,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                                     .sendAnswerBackgroundService()
                                     .whenComplete(() async {
                                     await ctrlMission
-                                        .backgroundServiceEvent();
+                                        .backgroundServiceEvent(isFetchMission: true,isSubmitAnswer: true);
                                   })
                                 : null;
                           },
