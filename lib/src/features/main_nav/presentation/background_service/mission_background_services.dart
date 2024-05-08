@@ -251,14 +251,13 @@ Future<bool> fetchMission(
         int indexTask = 0;
         for (var element in listTask) {
           File file = File('');
-          if (element.attachmentPath == null) {
             if (element.attachmentUrl != null) {
               final response = ConnectBackgroundService().downloadImage(
                 url: element.attachmentUrl ?? '',
               );
               await AsyncValue.guard(() => response).then((value) async {
                 file = await asyncMethodSaveFile(value.value?.data);
-                listResponseFinal[index]
+                listResponseFinal[indexTask]
                     .chapterData
                     ?.single
                     .missionData
@@ -267,8 +266,16 @@ Future<bool> fetchMission(
                     .attachmentPath = file.path;
                 indexTask++;
               });
+            } else{
+              listResponseFinal[indexTask]
+                  .chapterData
+                  ?.single
+                  .missionData
+                  ?.single
+                  .taskData?[indexTask]
+                  .attachmentPath = '';
+              indexTask++;
             }
-          }
         }
 
         index++;
