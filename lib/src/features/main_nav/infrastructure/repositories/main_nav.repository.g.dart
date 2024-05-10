@@ -20,7 +20,7 @@ final fetchMissionProvider = AutoDisposeFutureProvider<bool>.internal(
 );
 
 typedef FetchMissionRef = AutoDisposeFutureProviderRef<bool>;
-String _$fetchMissionLocalHash() => r'263169d1065d1e7912e705b997e387308e0709ef';
+String _$fetchMissionLocalHash() => r'a84730b4e0473e4fbdd4f2c2c5bbaba6946181a2';
 
 /// See also [fetchMissionLocal].
 @ProviderFor(fetchMissionLocal)

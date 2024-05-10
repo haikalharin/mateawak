@@ -5,8 +5,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:module_etamkawa/src/features/task/presentation/widget/reward_dialog.dart';
 import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
+import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../main_nav/presentation/controller/main_nav.controller.dart';
@@ -51,7 +53,6 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
         final gamificationData = ref.watch(gamificationState);
-        final resultSubmit = ref.watch(resultSubmissionState);
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
         final submitStatusTask = ref.watch(submitStatusTaskState.notifier);
         if (ref.watch(currentTypeTaskState.notifier).state ==
@@ -680,199 +681,222 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                           Expanded(
                             child: ElevatedButton(
                               onPressed: () async {
-        if (submitStatusTask.state !=
-        SubmitStatus.inProgress) {
-        submitStatusTask.state =
-        SubmitStatus.inProgress;
-                                if (listSelectedOptionString.isNotEmpty) {
-                                  if ((currentQuestionIndex.state + 1) <
-                                          lengthAnswer &&
-                                      lengthAnswer != 1) {
-                                    await ctrl
-                                        .saveAnswer(
-                                            listTask[currentQuestionIndex.state]
-                                                    .taskId ??
-                                                0,
-                                            isLast: false,
-                                            attachment: attachment.state,
-                                            attachmentName:
-                                                attachmentName.state,
-                                            listSelectedOption:
-                                                listSelectedOptionString,
-                                            type: listTask[currentQuestionIndex
-                                                        .state]
-                                                    .taskTypeCode ??
-                                                '',
-                                            taskGroup: listTask[
-                                                        currentQuestionIndex
-                                                            .state]
-                                                    .taskGroup ??
-                                                '')
-                                        .whenComplete(() async {
+                                if (submitStatusTask.state !=
+                                    SubmitStatus.inProgress) {
+                                  submitStatusTask.state =
+                                      SubmitStatus.inProgress;
+                                  if (listSelectedOptionString.isNotEmpty) {
+                                    if ((currentQuestionIndex.state + 1) <
+                                            lengthAnswer &&
+                                        lengthAnswer != 1) {
                                       await ctrl
-                                          .putAnswerFinal()
+                                          .saveAnswer(
+                                              listTask[currentQuestionIndex
+                                                          .state]
+                                                      .taskId ??
+                                                  0,
+                                              isLast: false,
+                                              attachment: attachment.state,
+                                              attachmentName:
+                                                  attachmentName.state,
+                                              listSelectedOption:
+                                                  listSelectedOptionString,
+                                              type: listTask[
+                                                          currentQuestionIndex
+                                                              .state]
+                                                      .taskTypeCode ??
+                                                  '',
+                                              taskGroup: listTask[
+                                                          currentQuestionIndex
+                                                              .state]
+                                                      .taskGroup ??
+                                                  '')
                                           .whenComplete(() async {
-                                        ctrl
-                                            .currentQuestion(
-                                                employeeMissionId:
-                                                    gamificationData
-                                                            .employeeMissionId ??
-                                                        0,
-                                                pagePosition: PagePosition.NEXT)
+                                        await ctrl
+                                            .putAnswerFinal()
                                             .whenComplete(() async {
-                                          currentQuestionIndex.state++;
+                                          ctrl
+                                              .currentQuestion(
+                                                  employeeMissionId:
+                                                      gamificationData
+                                                              .employeeMissionId ??
+                                                          0,
+                                                  pagePosition:
+                                                      PagePosition.NEXT)
+                                              .whenComplete(() async {
+                                            currentQuestionIndex.state++;
+                                            ref
+                                                .watch(currentProgressState
+                                                    .notifier)
+                                                .state++;
+
+                                            if (ref
+                                                        .watch(
+                                                            currentTypeTaskState
+                                                                .notifier)
+                                                        .state ==
+                                                    TaskType.STX.name ||
+                                                ref
+                                                        .watch(
+                                                            currentTypeTaskState
+                                                                .notifier)
+                                                        .state ==
+                                                    TaskType.ASM.name) {
+                                              ref
+                                                  .watch(
+                                                      listSelectOptionStringState
+                                                          .notifier)
+                                                  .state
+                                                  .clear();
+                                              ref
+                                                      .watch(
+                                                          listSelectOptionStringState
+                                                              .notifier)
+                                                      .state =
+                                                  ref
+                                                      .watch(
+                                                          listSelectOptionCurrentStringState
+                                                              .notifier)
+                                                      .state;
+                                              ref
+                                                      .watch(attachmentNameState
+                                                          .notifier)
+                                                      .state =
+                                                  ref
+                                                      .watch(
+                                                          attachmentNameCurrentState
+                                                              .notifier)
+                                                      .state;
+                                              ref
+                                                      .watch(attachmentPathState
+                                                          .notifier)
+                                                      .state =
+                                                  ref
+                                                      .watch(
+                                                          attachmentPathCurrentState
+                                                              .notifier)
+                                                      .state;
+                                              submitStatusTask.state =
+                                                  SubmitStatus.success;
+                                            } else {
+                                              ref
+                                                      .watch(
+                                                          listSelectOptionState
+                                                              .notifier)
+                                                      .state =
+                                                  ref
+                                                      .watch(
+                                                          listSelectOptionCurrentState
+                                                              .notifier)
+                                                      .state;
+                                              submitStatusTask.state =
+                                                  SubmitStatus.success;
+                                            }
+                                            _textController.clear();
+                                            isInit = true;
+                                          });
+                                        });
+                                      });
+                                    } else {
+                                      ctrl
+                                          .saveAnswer(
+                                              listTask[currentQuestionIndex
+                                                          .state]
+                                                      .taskId ??
+                                                  0,
+                                              isLast: true,
+                                              attachment: attachment.state,
+                                              attachmentName:
+                                                  attachmentName.state,
+                                              listSelectedOption:
+                                                  listSelectedOptionString,
+                                              type: listTask[
+                                                          currentQuestionIndex
+                                                              .state]
+                                                      .taskTypeCode ??
+                                                  '',
+                                              taskGroup: listTask[
+                                                          currentQuestionIndex
+                                                              .state]
+                                                      .taskGroup ??
+                                                  '')
+                                          .whenComplete(() async {
+                                        if (((currentQuestionProgress + 1) *
+                                                    100) ~/
+                                                listTask.length <
+                                            100) {
                                           ref
                                               .watch(
                                                   currentProgressState.notifier)
                                               .state++;
-
-                                          if (ref
-                                                      .watch(
-                                                          currentTypeTaskState
-                                                              .notifier)
-                                                      .state ==
-                                                  TaskType.STX.name ||
-                                              ref
-                                                      .watch(
-                                                          currentTypeTaskState
-                                                              .notifier)
-                                                      .state ==
-                                                  TaskType.ASM.name) {
-                                            ref
-                                                .watch(
-                                                    listSelectOptionStringState
-                                                        .notifier)
-                                                .state
-                                                .clear();
-                                            ref
-                                                    .watch(
-                                                        listSelectOptionStringState
-                                                            .notifier)
-                                                    .state =
-                                                ref
-                                                    .watch(
-                                                        listSelectOptionCurrentStringState
-                                                            .notifier)
-                                                    .state;
-                                            ref
-                                                    .watch(attachmentNameState
-                                                        .notifier)
-                                                    .state =
-                                                ref
-                                                    .watch(
-                                                        attachmentNameCurrentState
-                                                            .notifier)
-                                                    .state;
-                                            ref
-                                                    .watch(attachmentPathState
-                                                        .notifier)
-                                                    .state =
-                                                ref
-                                                    .watch(
-                                                        attachmentPathCurrentState
-                                                            .notifier)
-                                                    .state;
-                                            submitStatusTask.state =
-                                                SubmitStatus.success;
-                                          } else {
-                                            ref
-                                                    .watch(listSelectOptionState
-                                                        .notifier)
-                                                    .state =
-                                                ref
-                                                    .watch(
-                                                        listSelectOptionCurrentState
-                                                            .notifier)
-                                                    .state;
-                                            submitStatusTask.state =
-                                                SubmitStatus.success;
-                                          }
-                                          _textController.clear();
-                                          isInit = true;
-                                        });
-                                      });
-                                    });
-                                  } else {
-                                    ctrl
-                                        .saveAnswer(
-                                            listTask[currentQuestionIndex.state]
-                                                    .taskId ??
-                                                0,
-                                            isLast: true,
-                                            attachment: attachment.state,
-                                            attachmentName:
-                                                attachmentName.state,
-                                            listSelectedOption:
-                                                listSelectedOptionString,
-                                            type: listTask[currentQuestionIndex
-                                                        .state]
-                                                    .taskTypeCode ??
-                                                '',
-                                            taskGroup: listTask[
-                                                        currentQuestionIndex
-                                                            .state]
-                                                    .taskGroup ??
-                                                '')
-                                        .whenComplete(() async {
-                                      if (((currentQuestionProgress + 1) *
-                                                  100) ~/
-                                              listTask.length <
-                                          100) {
-                                        ref
-                                            .watch(
-                                                currentProgressState.notifier)
-                                            .state++;
-                                      }
-                                      await ctrl
-                                          .putAnswerFinal()
-                                          .whenComplete(() async {
-                                        submitStatusTask.state =
-                                            SubmitStatus.success;
-                                        showDialog(
-                                          barrierDismissible: false,
-                                          context: context,
-                                          builder: (context) {
-                                            //return RewardDialog(rewardResponse: resultSubmissionData, isConnectionAvailable: isConnectionAvailable,);}
-                                            return CustomDialog(
-                                                title: EtamKawaTranslate
-                                                    .confirmation,
-                                                content: EtamKawaTranslate
-                                                    .areYouSureSubmitAnswer,
-                                                label: EtamKawaTranslate.submit,
-                                                type: DialogType.mission,
-                                                resultSubmissionState:
-                                                    resultSubmit,
-                                                isConnectionAvailable:
-                                                    isConnectionAvailable,
-                                                onClosed: () async => {
+                                        }
+                                        await ctrl
+                                            .putAnswerFinal()
+                                            .whenComplete(() async {
+                                          submitStatusTask.state =
+                                              SubmitStatus.success;
+                                          showDialog(
+                                            barrierDismissible: false,
+                                            context: context,
+                                            builder: (context) {
+                                              //return RewardDialog(rewardResponse: resultSubmissionData, isConnectionAvailable: isConnectionAvailable,);}
+                                              return CustomDialog(
+                                                  title: EtamKawaTranslate
+                                                      .confirmation,
+                                                  content: EtamKawaTranslate
+                                                      .areYouSureSubmitAnswer,
+                                                  label:
+                                                      EtamKawaTranslate.submit,
+                                                  type: DialogType.mission,
+                                                  isConnectionAvailable:
+                                                      isConnectionAvailable,
+                                                  onClosed: () async {
+                                                    showLoadingDialog(context);
+                                                    await ctrl
+                                                        .putAnswerFinal(
+                                                            isSubmitted: true)
+                                                        .whenComplete(() async {
                                                       await ctrl
-                                                          .putAnswerFinal(
-                                                              isSubmitted: true)
+                                                          .changeStatusTask()
                                                           .whenComplete(
                                                               () async {
-                                                        await ctrl
-                                                            .changeStatusTask()
-                                                            .whenComplete(
-                                                                () async {
-                                                          await ctrlMission
-                                                              .getMissionList()
-                                                              .whenComplete(() {
-                                                            _textController
-                                                                .clear();
-                                                            isInit = true;
-                                                          });
+                                                        await ctrlMission
+                                                            .getMissionList()
+                                                            .whenComplete(() {
+                                                          hideLoadingDialog(
+                                                              context);
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                          showDialog(
+                                                              barrierDismissible:
+                                                                  false,
+                                                              context: context,
+                                                              builder:
+                                                                  (context) {
+                                                                return RewardDialog(
+                                                                  resultSubmissionState: ref
+                                                                      .watch(resultSubmissionState
+                                                                          .notifier)
+                                                                      .state,
+                                                                  isConnectionAvailable:
+                                                                      isConnectionAvailable,
+                                                                );
+                                                              });
+                                                          _textController
+                                                              .clear();
+                                                          isInit = true;
                                                         });
-                                                      })
+                                                      });
                                                     });
-                                          },
-                                        );
+                                                  });
+                                            },
+                                          );
+                                        });
                                       });
-                                    });
-                                  }
+                                    }
                                   }
                                 } else {
-          submitStatusTask.state =
-              SubmitStatus.success;
+                                  submitStatusTask.state = SubmitStatus.success;
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                         content: Text(
