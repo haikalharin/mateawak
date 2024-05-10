@@ -30,14 +30,20 @@ class InstructionDialog extends StatelessWidget {
             ),
             InkWell(
                 onTap: () {
-                  Navigator.pop(context);
+                  context.pop();
                 },
-                child: SharedComponent.label(
-                  text: '✕',
-                  context: context,
-                  typographyType: TypographyType.largeH5,
-                  textAlign: TextAlign.center,
-                  color: ColorTheme.textLightDark,
+                child: Container(
+                  height: 20,
+                  width: 20,
+                  child: Center(
+                    child: SharedComponent.label(
+                      text: '✕',
+                      context: context,
+                      typographyType: TypographyType.largeH5,
+                      textAlign: TextAlign.center,
+                      color: ColorTheme.textLightDark,
+                    ),
+                  ),
                 ),
 
             ),
