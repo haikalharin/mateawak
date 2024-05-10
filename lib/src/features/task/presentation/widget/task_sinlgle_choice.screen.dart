@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
+import 'package:module_etamkawa/src/features/task/presentation/widget/reward_dialog.dart';
 import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
+import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../controller/task.controller.dart';
@@ -40,7 +42,6 @@ class _TaskSingleChoiceScreenState
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
         final gamificationData = ref.watch(gamificationState);
-        final resultSubmit = ref.watch(resultSubmissionState);
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
         return Scaffold(
             backgroundColor: ColorTheme.backgroundLight,
@@ -96,13 +97,13 @@ class _TaskSingleChoiceScreenState
                                                 size: 12.h,
                                               ),
                                               Text(
-                                                  " +${listTask[currentQuestionIndex.state].taskReward}",
+                                                " +${listTask[currentQuestionIndex.state].taskReward}",
                                                 style: SharedComponent
                                                     .textStyleCustom(
-                                                    typographyType:
-                                                    TypographyType.body,
-                                                    fontColor: ColorTheme
-                                                        .secondary500),
+                                                        typographyType:
+                                                            TypographyType.body,
+                                                        fontColor: ColorTheme
+                                                            .secondary500),
                                               ),
                                             ],
                                           ),
@@ -121,9 +122,12 @@ class _TaskSingleChoiceScreenState
                             const SizedBox(
                               height: 8,
                             ),
-                            listTask[ currentQuestionIndex
-                                .state].attachmentPath != null && listTask[ currentQuestionIndex
-                                .state].attachmentPath != ''
+                            listTask[currentQuestionIndex.state]
+                                            .attachmentPath !=
+                                        null &&
+                                    listTask[currentQuestionIndex.state]
+                                            .attachmentPath !=
+                                        ''
                                 ? Container(
                                     height: 200,
                                     width: MediaQuery.of(context).size.width,
@@ -353,31 +357,30 @@ class _TaskSingleChoiceScreenState
                                       lengthAnswer != 1) {
                                     ref.refresh(taskControllerProvider);
 
+                                    await ctrl
+                                        .saveAnswer(
+                                            listTask[currentQuestionIndex.state]
+                                                    .taskId ??
+                                                0,
+                                            isLast: false,
+                                            listSelectedOption:
+                                                listSelectedOption.state,
+                                            type: listTask[currentQuestionIndex
+                                                        .state]
+                                                    .taskTypeCode ??
+                                                '')
+                                        .whenComplete(() async {
                                       await ctrl
-                                          .saveAnswer(
-                                              listTask[currentQuestionIndex
-                                                          .state]
-                                                      .taskId ??
-                                                  0,
-                                              isLast: false,
-                                              listSelectedOption:
-                                                  listSelectedOption.state,
-                                              type: listTask[
-                                                          currentQuestionIndex
-                                                              .state]
-                                                      .taskTypeCode ??
-                                                  '')
+                                          .putAnswerFinal()
                                           .whenComplete(() async {
                                         await ctrl
-                                            .putAnswerFinal()
+                                            .currentQuestion(
+                                                employeeMissionId:
+                                                    gamificationData
+                                                            .employeeMissionId ??
+                                                        0,
+                                                pagePosition: PagePosition.NEXT)
                                             .whenComplete(() async {
-                                          await ctrl
-                                              .currentQuestion(
-                                              employeeMissionId: gamificationData
-                                                  .employeeMissionId ??
-                                                  0,
-                                              pagePosition: PagePosition.NEXT)
-                                              .whenComplete(() async {
                                           currentQuestionIndex.state++;
                                           ref
                                               .watch(
@@ -398,9 +401,10 @@ class _TaskSingleChoiceScreenState
                                                   TaskType.ASM.name) {
                                             ref
                                                 .watch(
-                                                listSelectOptionStringState
-                                                    .notifier)
-                                                .state.clear();
+                                                    listSelectOptionStringState
+                                                        .notifier)
+                                                .state
+                                                .clear();
                                             ref
                                                     .watch(
                                                         listSelectOptionStringState
@@ -457,7 +461,8 @@ class _TaskSingleChoiceScreenState
                                                     .taskTypeCode ??
                                                 '')
                                         .whenComplete(() async {
-                                      if (((currentQuestionProgress+1) * 100) ~/
+                                      if (((currentQuestionProgress + 1) *
+                                                  100) ~/
                                               listTask.length <
                                           100) {
                                         ref
@@ -473,16 +478,17 @@ class _TaskSingleChoiceScreenState
                                           barrierDismissible: false,
                                           context: context,
                                           builder: (context) {
-                                            return CustomDialog( 
-                                                title: EtamKawaTranslate.confirmation,
-                                                content:
-                                                    EtamKawaTranslate.areYouSureSubmitAnswer,
+                                            return CustomDialog(
+                                                title: EtamKawaTranslate
+                                                    .confirmation,
+                                                content: EtamKawaTranslate
+                                                    .areYouSureSubmitAnswer,
                                                 label: EtamKawaTranslate.submit,
                                                 type: DialogType.mission,
-                                                resultSubmissionState: resultSubmit,
                                                 isConnectionAvailable:
                                                     isConnectionAvailable,
                                                 onClosed: () async {
+                                                  showLoadingDialog(context);
                                                   await ctrl
                                                       .putAnswerFinal(
                                                           isSubmitted: true)
@@ -492,7 +498,26 @@ class _TaskSingleChoiceScreenState
                                                         .whenComplete(() async {
                                                       await ctrlMission
                                                           .getMissionList()
-                                                          .whenComplete(() {});
+                                                          .whenComplete(() {
+                                                        hideLoadingDialog(
+                                                            context);
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                        showDialog(
+                                                            barrierDismissible:
+                                                                false,
+                                                            context: context,
+                                                            builder: (context) {
+                                                              return RewardDialog(
+                                                                resultSubmissionState: ref
+                                                                    .watch(resultSubmissionState
+                                                                        .notifier)
+                                                                    .state,
+                                                                isConnectionAvailable:
+                                                                    isConnectionAvailable,
+                                                              );
+                                                            });
+                                                      });
                                                     });
                                                   });
                                                 });

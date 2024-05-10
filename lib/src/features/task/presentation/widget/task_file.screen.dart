@@ -5,8 +5,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:module_etamkawa/src/features/task/presentation/widget/reward_dialog.dart';
 import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
+import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../mission/domain/gamification_response.remote.dart';
@@ -48,7 +50,6 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
         final gamificationData = ref.watch(gamificationState);
-        final resultSubmit = ref.watch(resultSubmissionState);
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
         if (ref.watch(currentTypeTaskState.notifier).state ==
             TaskType.ASM.name) {
@@ -91,13 +92,12 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                           Row(
                             children: [
                               Container(
-                                padding:
-                                    const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                                 margin: EdgeInsets.only(right: 4.sp),
                                 decoration: BoxDecoration(
                                     color: ColorTheme.secondary100,
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.r))),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.r))),
                                 child: Center(
                                     child: SizedBox(
                                   height: 24.h,
@@ -112,12 +112,9 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                       ),
                                       Text(
                                         " +${listTask[currentQuestionIndex.state].taskReward}",
-                                        style:
-                                            SharedComponent.textStyleCustom(
-                                                typographyType:
-                                                    TypographyType.body,
-                                                fontColor:
-                                                    ColorTheme.secondary500),
+                                        style: SharedComponent.textStyleCustom(
+                                            typographyType: TypographyType.body,
+                                            fontColor: ColorTheme.secondary500),
                                       ),
                                     ],
                                   ),
@@ -141,9 +138,12 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                             const SizedBox(
                               height: 8,
                             ),
-                            listTask[ currentQuestionIndex
-                                .state].attachmentPath != null && listTask[ currentQuestionIndex
-                                .state].attachmentPath != ''
+                            listTask[currentQuestionIndex.state]
+                                            .attachmentPath !=
+                                        null &&
+                                    listTask[currentQuestionIndex.state]
+                                            .attachmentPath !=
+                                        ''
                                 ? Container(
                                     height: 200,
                                     width: MediaQuery.of(context).size.width,
@@ -176,132 +176,132 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                             const SizedBox(height: 20.0),
                             attachmentName.state != ''
                                 ? Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.start,
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      SizedBox(
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width,
-                                        child: RichText(
-                                          text: TextSpan(
-                                            text:
-                                                EtamKawaTranslate.evidence,
-                                            style: SharedComponent
-                                                .textStyleCustom(
-                                                    typographyType:
-                                                        TypographyType.body,
-                                                    fontColor: ColorTheme
-                                                        .textDark),
-                                            children: [
-                                              TextSpan(
-                                                text: '*',
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            child: RichText(
+                                              text: TextSpan(
+                                                text:
+                                                    EtamKawaTranslate.evidence,
                                                 style: SharedComponent
                                                     .textStyleCustom(
                                                         typographyType:
-                                                            TypographyType
-                                                                .body,
-                                                        fontColor:
-                                                            ColorTheme
-                                                                .danger500),
+                                                            TypographyType.body,
+                                                        fontColor: ColorTheme
+                                                            .textDark),
+                                                children: [
+                                                  TextSpan(
+                                                    text: '*',
+                                                    style: SharedComponent
+                                                        .textStyleCustom(
+                                                            typographyType:
+                                                                TypographyType
+                                                                    .body,
+                                                            fontColor:
+                                                                ColorTheme
+                                                                    .danger500),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 12,
-                                      ),
-                                      SizedBox(
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width,
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                attachmentName.state,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleLarge,
-                                              ),
-                                            ),
-                                            InkWell(
-                                              onTap: () async {
-                                                await File(attachment.state)
-                                                    .delete()
-                                                    .whenComplete(() async {
-                                                  ref.refresh(
-                                                      taskControllerProvider);
-                                                  await ctrl
-                                                      .saveAnswer(
-                                                          listTask[currentQuestionIndex
-                                                                      .state]
-                                                                  .taskId ??
-                                                              0,
-                                                          isLast: false,
-                                                          attachment: '',
-                                                          attachmentName:
-                                                              '',
-                                                          listSelectedOption: [
-                                                            _textController
-                                                                .text
-                                                          ],
-                                                          type: listTask[currentQuestionIndex
-                                                                      .state]
-                                                                  .taskTypeCode ??
-                                                              '',
-                                                          taskGroup: listTask[
-                                                                      currentQuestionIndex
+                                          const SizedBox(
+                                            height: 12,
+                                          ),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    attachmentName.state,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .titleLarge,
+                                                  ),
+                                                ),
+                                                InkWell(
+                                                  onTap: () async {
+                                                    await File(attachment.state)
+                                                        .delete()
+                                                        .whenComplete(() async {
+                                                      ref.refresh(
+                                                          taskControllerProvider);
+                                                      await ctrl
+                                                          .saveAnswer(
+                                                              listTask[currentQuestionIndex
                                                                           .state]
-                                                                  .taskGroup ??
-                                                              '')
-                                                      .whenComplete(
-                                                          () async {
-                                                    ref.refresh(
-                                                        taskControllerProvider);
-                                                    await ctrl
-                                                        .putAnswerFinal();
-                                                  }).whenComplete(() {
-                                                    ref.refresh(
-                                                        taskControllerProvider);
-                                                    setState(() {
-                                                      ref
-                                                          .read(
-                                                              attachmentNameState
-                                                                  .notifier)
-                                                          .state = '';
-                                                      ref
-                                                          .read(
-                                                              attachmentPathState
-                                                                  .notifier)
-                                                          .state = '';
+                                                                      .taskId ??
+                                                                  0,
+                                                              isLast: false,
+                                                              attachment: '',
+                                                              attachmentName:
+                                                                  '',
+                                                              listSelectedOption: [
+                                                                _textController
+                                                                    .text
+                                                              ],
+                                                              type: listTask[currentQuestionIndex
+                                                                          .state]
+                                                                      .taskTypeCode ??
+                                                                  '',
+                                                              taskGroup: listTask[
+                                                                          currentQuestionIndex
+                                                                              .state]
+                                                                      .taskGroup ??
+                                                                  '')
+                                                          .whenComplete(
+                                                              () async {
+                                                        ref.refresh(
+                                                            taskControllerProvider);
+                                                        await ctrl
+                                                            .putAnswerFinal();
+                                                      }).whenComplete(() {
+                                                        ref.refresh(
+                                                            taskControllerProvider);
+                                                        setState(() {
+                                                          ref
+                                                              .read(
+                                                                  attachmentNameState
+                                                                      .notifier)
+                                                              .state = '';
+                                                          ref
+                                                              .read(
+                                                                  attachmentPathState
+                                                                      .notifier)
+                                                              .state = '';
+                                                        });
+                                                      });
                                                     });
-                                                  });
-                                                });
-                                              },
-                                              child: Icon(
-                                                Icons.cancel,
-                                                color: ColorTheme
-                                                    .backgroundDark,
-                                                size: 25.h,
-                                              ),
+                                                  },
+                                                  child: Icon(
+                                                    Icons.cancel,
+                                                    color: ColorTheme
+                                                        .backgroundDark,
+                                                    size: 25.h,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ],
-                                  ),
-                                ],
                                   )
                                 : InkWell(
                                     onTap: () {
@@ -357,7 +357,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                                 .width /
                                                             1.5,
                                                         child: Text(
-                                                          EtamKawaTranslate.dropYourFile,
+                                                          EtamKawaTranslate
+                                                              .dropYourFile,
                                                           style:
                                                               Theme.of(context)
                                                                   .textTheme
@@ -421,37 +422,36 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                 onTapOutside: (value) async {
                                   await ctrl
                                       .saveAnswer(
-                                      listTask[currentQuestionIndex.state]
-                                          .taskId ??
-                                          0,
-                                      isLast: false,
-                                      listSelectedOption: [
-                                        _textController.text
-                                      ],
-                                      type: listTask[currentQuestionIndex
-                                          .state]
-                                          .taskTypeCode ??
-                                          '',
-                                      taskGroup: listTask[
-                                      currentQuestionIndex
-                                          .state]
-                                          .taskGroup ??
-                                          '')
+                                          listTask[currentQuestionIndex.state]
+                                                  .taskId ??
+                                              0,
+                                          isLast: false,
+                                          listSelectedOption: [
+                                            _textController.text
+                                          ],
+                                          type: listTask[currentQuestionIndex
+                                                      .state]
+                                                  .taskTypeCode ??
+                                              '',
+                                          taskGroup: listTask[
+                                                      currentQuestionIndex
+                                                          .state]
+                                                  .taskGroup ??
+                                              '')
                                       .whenComplete(() async {
                                     await ctrl.putAnswerFinal();
                                   }).whenComplete(() {
-
                                     if (_textController.text.isEmpty) {
                                       ref
                                           .watch(listSelectOptionStringState
-                                          .notifier)
+                                              .notifier)
                                           .state = [];
 
                                       _textController.clear();
                                     } else {
                                       ref
                                           .watch(listSelectOptionStringState
-                                          .notifier)
+                                              .notifier)
                                           .state = [_textController.text];
                                     }
                                     FocusManager.instance.primaryFocus
@@ -461,38 +461,37 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                 onEditingComplete: () async {
                                   await ctrl
                                       .saveAnswer(
-                                      listTask[currentQuestionIndex.state]
-                                          .taskId ??
-                                          0,
-                                      isLast: false,
-                                      listSelectedOption: [
-                                        _textController.text
-                                      ],
-                                      type: listTask[currentQuestionIndex
-                                          .state]
-                                          .taskTypeCode ??
-                                          '',
-                                      taskGroup: listTask[
-                                      currentQuestionIndex
-                                          .state]
-                                          .taskGroup ??
-                                          '')
+                                          listTask[currentQuestionIndex.state]
+                                                  .taskId ??
+                                              0,
+                                          isLast: false,
+                                          listSelectedOption: [
+                                            _textController.text
+                                          ],
+                                          type: listTask[currentQuestionIndex
+                                                      .state]
+                                                  .taskTypeCode ??
+                                              '',
+                                          taskGroup: listTask[
+                                                      currentQuestionIndex
+                                                          .state]
+                                                  .taskGroup ??
+                                              '')
                                       .whenComplete(() async {
                                     await ctrl.putAnswerFinal();
                                   }).whenComplete(() {
-
                                     setState(() {
                                       if (_textController.text.isEmpty) {
                                         ref
                                             .watch(listSelectOptionStringState
-                                            .notifier)
+                                                .notifier)
                                             .state = [];
 
                                         _textController.clear();
                                       } else {
                                         ref
                                             .watch(listSelectOptionStringState
-                                            .notifier)
+                                                .notifier)
                                             .state = [_textController.text];
                                       }
                                     });
@@ -520,7 +519,9 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(EtamKawaTranslate.yourAnswerIsCorrect,
+                                              Text(
+                                                  EtamKawaTranslate
+                                                      .yourAnswerIsCorrect,
                                                   style: SharedComponent
                                                       .textStyleCustom(
                                                           typographyType:
@@ -539,7 +540,9 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                           const SizedBox(
                                             height: 10,
                                           ),
-                                          Text(EtamKawaTranslate.yourAnswerIsInCorrect,
+                                          Text(
+                                              EtamKawaTranslate
+                                                  .yourAnswerIsInCorrect,
                                               style: SharedComponent
                                                   .textStyleCustom(
                                                       typographyType:
@@ -667,40 +670,38 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                   if ((currentQuestionIndex.state + 1) <
                                           lengthAnswer &&
                                       lengthAnswer != 1) {
-
+                                    await ctrl
+                                        .saveAnswer(
+                                            listTask[currentQuestionIndex.state]
+                                                    .taskId ??
+                                                0,
+                                            isLast: false,
+                                            attachment: attachment.state,
+                                            attachmentName:
+                                                attachmentName.state,
+                                            listSelectedOption:
+                                                listSelectedOptionString,
+                                            type: listTask[currentQuestionIndex
+                                                        .state]
+                                                    .taskTypeCode ??
+                                                '',
+                                            taskGroup: listTask[
+                                                        currentQuestionIndex
+                                                            .state]
+                                                    .taskGroup ??
+                                                '')
+                                        .whenComplete(() async {
                                       await ctrl
-                                          .saveAnswer(
-                                              listTask[currentQuestionIndex
-                                                          .state]
-                                                      .taskId ??
-                                                  0,
-                                              isLast: false,
-                                              attachment: attachment.state,
-                                              attachmentName:
-                                                  attachmentName.state,
-                                              listSelectedOption:
-                                                  listSelectedOptionString,
-                                              type: listTask[
-                                                          currentQuestionIndex
-                                                              .state]
-                                                      .taskTypeCode ??
-                                                  '',
-                                              taskGroup: listTask[
-                                                          currentQuestionIndex
-                                                              .state]
-                                                      .taskGroup ??
-                                                  '')
+                                          .putAnswerFinal()
                                           .whenComplete(() async {
-                                        await ctrl
-                                            .putAnswerFinal()
+                                        ctrl
+                                            .currentQuestion(
+                                                employeeMissionId:
+                                                    gamificationData
+                                                            .employeeMissionId ??
+                                                        0,
+                                                pagePosition: PagePosition.NEXT)
                                             .whenComplete(() async {
-                                          ctrl
-                                              .currentQuestion(
-                                              employeeMissionId: gamificationData
-                                                  .employeeMissionId ??
-                                                  0,
-                                              pagePosition: PagePosition.NEXT)
-                                              .whenComplete(() async {
                                           currentQuestionIndex.state++;
                                           ref
                                               .watch(
@@ -721,9 +722,10 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                   TaskType.ASM.name) {
                                             ref
                                                 .watch(
-                                                listSelectOptionStringState
-                                                    .notifier)
-                                                .state.clear();
+                                                    listSelectOptionStringState
+                                                        .notifier)
+                                                .state
+                                                .clear();
                                             ref
                                                     .watch(
                                                         listSelectOptionStringState
@@ -790,7 +792,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                     .taskGroup ??
                                                 '')
                                         .whenComplete(() async {
-                                      if (((currentQuestionProgress+1) * 100) ~/
+                                      if (((currentQuestionProgress + 1) *
+                                                  100) ~/
                                               listTask.length <
                                           100) {
                                         ref
@@ -807,35 +810,50 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                           builder: (context) {
                                             //return RewardDialog(rewardResponse: resultSubmissionData, isConnectionAvailable: isConnectionAvailable,);}
                                             return CustomDialog(
-                                                title: EtamKawaTranslate.confirmation,
-                                                content:
-                                                    EtamKawaTranslate.areYouSureSubmitAnswer,
+                                                title: EtamKawaTranslate
+                                                    .confirmation,
+                                                content: EtamKawaTranslate
+                                                    .areYouSureSubmitAnswer,
                                                 label: EtamKawaTranslate.submit,
                                                 type: DialogType.mission,
-                                                resultSubmissionState:
-                                                    resultSubmit,
                                                 isConnectionAvailable:
                                                     isConnectionAvailable,
-                                                onClosed: () async => {
-                                                      await ctrl
-                                                          .putAnswerFinal(
-                                                              isSubmitted: true)
-                                                          .whenComplete(
-                                                              () async {
-                                                        await ctrl
-                                                            .changeStatusTask()
-                                                            .whenComplete(
-                                                                () async {
-                                                          await ctrlMission
-                                                              .getMissionList()
-                                                              .whenComplete(() {
-                                                            _textController
-                                                                .clear();
-                                                            isInit = true;
-                                                          });
-                                                        });
-                                                      })
+                                                onClosed: () async {
+                                                  showLoadingDialog(context);
+                                                  await ctrl
+                                                      .putAnswerFinal(
+                                                          isSubmitted: true)
+                                                      .whenComplete(() async {
+                                                    await ctrl
+                                                        .changeStatusTask()
+                                                        .whenComplete(() async {
+                                                      await ctrlMission
+                                                          .getMissionList()
+                                                          .whenComplete(() {
+                                                        hideLoadingDialog(
+                                                            context);
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                        showDialog(
+                                                            barrierDismissible:
+                                                                false,
+                                                            context: context,
+                                                            builder: (context) {
+                                                              return RewardDialog(
+                                                                resultSubmissionState: ref
+                                                                    .watch(resultSubmissionState
+                                                                        .notifier)
+                                                                    .state,
+                                                                isConnectionAvailable:
+                                                                    isConnectionAvailable,
+                                                              );
+                                                            });
+                                                        _textController.clear();
+                                                        isInit = true;
+                                                      });
                                                     });
+                                                  });
+                                                });
                                           },
                                         );
                                       });

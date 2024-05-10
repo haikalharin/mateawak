@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:module_etamkawa/src/features/task/presentation/widget/reward_dialog.dart';
 import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
+import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -40,7 +42,6 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
         final gamificationData = ref.watch(gamificationState);
-        final resultSubmit = ref.watch(resultSubmissionState);
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
         return Scaffold(
             backgroundColor: ColorTheme.backgroundLight,
@@ -75,8 +76,8 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                 Row(
                                   children: [
                                     Container(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          8, 0, 8, 0),
+                                      padding:
+                                          const EdgeInsets.fromLTRB(8, 0, 8, 0),
                                       margin: EdgeInsets.only(right: 4.sp),
                                       decoration: BoxDecoration(
                                           color: ColorTheme.secondary100,
@@ -99,8 +100,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                 style: SharedComponent
                                                     .textStyleCustom(
                                                         typographyType:
-                                                            TypographyType
-                                                                .body,
+                                                            TypographyType.body,
                                                         fontColor: ColorTheme
                                                             .secondary500)),
                                           ],
@@ -119,9 +119,12 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                             const SizedBox(
                               height: 8,
                             ),
-                            listTask[ currentQuestionIndex
-                                .state].attachmentPath != null && listTask[ currentQuestionIndex
-                                .state].attachmentPath != ''
+                            listTask[currentQuestionIndex.state]
+                                            .attachmentPath !=
+                                        null &&
+                                    listTask[currentQuestionIndex.state]
+                                            .attachmentPath !=
+                                        ''
                                 ? Container(
                                     height: 200,
                                     width: MediaQuery.of(context).size.width,
@@ -154,7 +157,8 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                             const SizedBox(height: 20.0),
                             Center(
                               child: RatingBar.builder(
-                                initialRating: listSelectedOption.state.isNotEmpty
+                                initialRating: listSelectedOption
+                                        .state.isNotEmpty
                                     ? listSelectedOption.state.first.toDouble()
                                     : 0.0,
                                 minRating: 1,
@@ -167,39 +171,42 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                   color: Colors.amber,
                                 ),
                                 onRatingUpdate: (rating) async {
-                                  if ((gamificationData.missionStatusCode ?? 0) <=
+                                  if ((gamificationData.missionStatusCode ??
+                                          0) <=
                                       1) {
                                     await ctrl
                                         .saveAnswer(
-                                        listTask[currentQuestionIndex.state]
-                                            .taskId ??
-                                            0,
-                                        isLast: false,
-                                        listSelectedOption: [
-                                          rating.toInt()
-                                        ],
-                                        type: listTask[currentQuestionIndex
-                                            .state]
-                                            .taskTypeCode ??
-                                            '')
+                                            listTask[currentQuestionIndex.state]
+                                                    .taskId ??
+                                                0,
+                                            isLast: false,
+                                            listSelectedOption: [
+                                              rating.toInt()
+                                            ],
+                                            type: listTask[currentQuestionIndex
+                                                        .state]
+                                                    .taskTypeCode ??
+                                                '')
                                         .whenComplete(() async {
-                                      await ctrl.putAnswerFinal().whenComplete(() {
+                                      await ctrl
+                                          .putAnswerFinal()
+                                          .whenComplete(() {
                                         if (rating != 0) {
-                                          if (listSelectedOption.state.isNotEmpty) {
+                                          if (listSelectedOption
+                                              .state.isNotEmpty) {
                                             ref
-                                                .watch(listSelectOptionState.notifier)
+                                                .watch(listSelectOptionState
+                                                    .notifier)
                                                 .state
                                                 .clear();
                                           }
                                           ref
-                                              .watch(listSelectOptionState.notifier)
+                                              .watch(listSelectOptionState
+                                                  .notifier)
                                               .state = [rating.toInt()];
-
                                         }
                                       });
                                     });
-
-
                                   }
                                 },
                               ),
@@ -238,7 +245,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                               Colors.white),
                                     ),
                                     onPressed: () {
-                                      setState(()  {
+                                      setState(() {
                                         ref.refresh(taskControllerProvider);
                                         ctrl
                                             .currentQuestion(
@@ -321,32 +328,30 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                   if ((currentQuestionIndex.state + 1) <
                                           lengthAnswer &&
                                       lengthAnswer != 1) {
-
+                                    await ctrl
+                                        .saveAnswer(
+                                            listTask[currentQuestionIndex.state]
+                                                    .taskId ??
+                                                0,
+                                            isLast: false,
+                                            listSelectedOption:
+                                                listSelectedOption.state,
+                                            type: listTask[currentQuestionIndex
+                                                        .state]
+                                                    .taskTypeCode ??
+                                                '')
+                                        .whenComplete(() async {
                                       await ctrl
-                                          .saveAnswer(
-                                              listTask[currentQuestionIndex
-                                                          .state]
-                                                      .taskId ??
-                                                  0,
-                                              isLast: false,
-                                              listSelectedOption:
-                                                  listSelectedOption.state,
-                                              type: listTask[
-                                                          currentQuestionIndex
-                                                              .state]
-                                                      .taskTypeCode ??
-                                                  '')
+                                          .putAnswerFinal()
                                           .whenComplete(() async {
                                         await ctrl
-                                            .putAnswerFinal()
+                                            .currentQuestion(
+                                                employeeMissionId:
+                                                    gamificationData
+                                                            .employeeMissionId ??
+                                                        0,
+                                                pagePosition: PagePosition.NEXT)
                                             .whenComplete(() async {
-                                          await ctrl
-                                              .currentQuestion(
-                                              employeeMissionId: gamificationData
-                                                  .employeeMissionId ??
-                                                  0,
-                                              pagePosition: PagePosition.NEXT)
-                                              .whenComplete(() async {
                                           currentQuestionIndex.state++;
                                           ref
                                               .watch(
@@ -368,9 +373,10 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                             ref.refresh(taskControllerProvider);
                                             ref
                                                 .watch(
-                                                listSelectOptionStringState
-                                                    .notifier)
-                                                .state.clear();
+                                                    listSelectOptionStringState
+                                                        .notifier)
+                                                .state
+                                                .clear();
                                             ref
                                                     .watch(
                                                         listSelectOptionStringState
@@ -427,7 +433,8 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                     .taskTypeCode ??
                                                 '')
                                         .whenComplete(() async {
-                                      if (((currentQuestionProgress+1) * 100) ~/
+                                      if (((currentQuestionProgress + 1) *
+                                                  100) ~/
                                               listTask.length <
                                           100) {
                                         ref
@@ -439,37 +446,57 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                       await ctrl
                                           .putAnswerFinal()
                                           .whenComplete(() async {
+                                        var resultSubmit =
+                                            ref.read(resultSubmissionState);
+                                        debugPrint(
+                                            'Reward Response dari task rating = ${resultSubmit.competencyName} ${resultSubmit.accuracy} ${resultSubmit.rewardGained}');
                                         showDialog(
                                           barrierDismissible: false,
                                           context: context,
                                           builder: (context) {
                                             return CustomDialog(
-                                                title: EtamKawaTranslate.confirmation,
-                                                content:
-                                                    EtamKawaTranslate.areYouSureSubmitAnswer,
+                                                title: EtamKawaTranslate
+                                                    .confirmation,
+                                                content: EtamKawaTranslate
+                                                    .areYouSureSubmitAnswer,
                                                 label: EtamKawaTranslate.submit,
                                                 type: DialogType.mission,
-                                                resultSubmissionState:
-                                                    resultSubmit,
                                                 isConnectionAvailable:
                                                     isConnectionAvailable,
-                                                onClosed: () async => {
-                                                      await ctrl
-                                                          .putAnswerFinal(
-                                                              isSubmitted: true)
-                                                          .whenComplete(
-                                                              () async {
-                                                        await ctrl
-                                                            .changeStatusTask()
-                                                            .whenComplete(
-                                                                () async {
-                                                          await ctrlMission
-                                                              .getMissionList()
-                                                              .whenComplete(
-                                                                  () {});
-                                                        });
-                                                      })
+                                                onClosed: () async {
+                                                  showLoadingDialog(context);
+                                                  await ctrl
+                                                      .putAnswerFinal(
+                                                          isSubmitted: true)
+                                                      .whenComplete(() async {
+                                                    await ctrl
+                                                        .changeStatusTask()
+                                                        .whenComplete(() async {
+                                                      await ctrlMission
+                                                          .getMissionList()
+                                                          .whenComplete(() {
+                                                        hideLoadingDialog(
+                                                            context);
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                        showDialog(
+                                                            barrierDismissible:
+                                                                false,
+                                                            context: context,
+                                                            builder: (context) {
+                                                              return RewardDialog(
+                                                                resultSubmissionState: ref
+                                                                    .watch(resultSubmissionState
+                                                                        .notifier)
+                                                                    .state,
+                                                                isConnectionAvailable:
+                                                                    isConnectionAvailable,
+                                                              );
+                                                            });
+                                                      });
                                                     });
+                                                  });
+                                                });
                                           },
                                         );
                                         ref.refresh(taskControllerProvider);

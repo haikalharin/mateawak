@@ -51,7 +51,6 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
         final gamificationData = ref.watch(gamificationState);
-        final resultSubmit = ref.watch(resultSubmissionState);
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
 
         if (ref.watch(currentTypeTaskState.notifier).state ==
@@ -765,9 +764,6 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                   .areYouSureSubmitAssignment,
                                               label: EtamKawaTranslate.submit,
                                               type: DialogType.mission,
-                                              isAssignment: true,
-                                              resultSubmissionState:
-                                                  resultSubmit,
                                               isConnectionAvailable:
                                                   isConnectionAvailable,
                                               onClosed: () async {
@@ -787,7 +783,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                       Navigator.of(context)
                                                           .pop();
                                                       showDialog(
-                                                        //barrierDismissible: false,
+                                                        barrierDismissible:
+                                                            false,
                                                         context: context,
                                                         builder: (context) {
                                                           return CustomDialog(

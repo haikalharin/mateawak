@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:module_etamkawa/src/features/task/domain/result_submission_request.remote.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../constants/constant.dart';
@@ -17,8 +16,6 @@ class CustomDialog extends StatelessWidget {
       required this.title,
       required this.content,
       required this.label,
-      this.isAssignment,
-      this.resultSubmissionState,
       this.isConnectionAvailable,
       this.onClosed});
 
@@ -26,8 +23,6 @@ class CustomDialog extends StatelessWidget {
   final String title;
   final String content;
   final String label;
-  final bool? isAssignment;
-  final ResultSubmissionRequestRemote? resultSubmissionState;
   final bool? isConnectionAvailable;
   final Function()? onClosed;
 
@@ -83,9 +78,7 @@ class CustomDialog extends StatelessWidget {
                       label,
                       onClosed,
                       type,
-                      resultSubmissionState,
-                      isConnectionAvailable,
-                      isAssignment ?? false)
+                      isConnectionAvailable)
                   : SharedComponent.btnWidget(
                       label: label,
                       typographyType: TypographyType.body,
@@ -110,9 +103,7 @@ Widget confirmationButton(
     String label,
     Function()? onClosed,
     DialogType type,
-    ResultSubmissionRequestRemote? resultSubmissionState,
-    bool? isConnectionAvailable,
-    bool? isAssignment) {
+    bool? isConnectionAvailable) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [

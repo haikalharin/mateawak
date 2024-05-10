@@ -142,6 +142,7 @@ class TaskController extends _$TaskController {
     List<TaskDatumAnswer> listData = [];
     final isarInstance = await ref.watch(isarInstanceProvider.future);
     final gamification = ref.watch(gamificationState.notifier).state;
+    final resultSubmissionNotifier = ref.watch(resultSubmissionState.notifier);
     final listTask = ref.watch(listTaskState.notifier).state;
     for (var element in listTask) {
       final repo = isarInstance.taskDatumAnswerRequestRemotes
@@ -149,52 +150,53 @@ class TaskController extends _$TaskController {
           .taskIdEqualTo(element.taskId)
           .findFirst();
       await AsyncValue.guard(() => repo).then((dataAnswer) async {
-          debugPrint(element.toString());
-          listData.add(TaskDatumAnswer(
-              taskId: dataAnswer.value?.taskId,
-              answer: dataAnswer.value?.answer,
-              attachmentName:  dataAnswer.value?.attachmentName,
-              attachment:  dataAnswer.value?.attachment,
-              taskGroup:  dataAnswer.value?.taskGroup));
+        debugPrint(element.toString());
+        listData.add(TaskDatumAnswer(
+            taskId: dataAnswer.value?.taskId,
+            answer: dataAnswer.value?.answer,
+            attachmentName: dataAnswer.value?.attachmentName,
+            attachment: dataAnswer.value?.attachment,
+            taskGroup: dataAnswer.value?.taskGroup));
       });
     }
-
-      var taskAnswer = AnswerRequestRemote(
-          employeeMissionId: gamification.employeeMissionId,
-          employeeName: userModel?.empName,
-          submittedDate: today.substring(0, today.length - 6),
-          status: gamification.missionStatusCode,
-          taskData: listData);
-      final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
-      if (isConnectionAvailable) {
-        if (isSubmitted) {
-          var status = 99;
-          if (gamification
-                  .chapterData?.single.missionData?.single.missionTypeCode
-                  ?.toLowerCase() ==
-              'assignment') {
-            status = 3;
-          }
-          final result = await ref.read(submitMissionProvider(
-                  answerRequestRemote: taskAnswer, status: status)
-              .future).whenComplete(() async {
-            await deleteAnswer(listTaskAnswer);
-          });
-          ref.read(resultSubmissionState).copyWith(
-              employeeMissionId: result.employeeMissionId,
-              competencyName: result.competencyName,
-              rewardGained: result.rewardGained,
-              accuracy: result.accuracy);
-        } else {
-          await ref.read(
-              putAnswerFinalLocalProvider(answerRequestRemote: taskAnswer)
-                  .future);
+    var taskAnswer = AnswerRequestRemote(
+        employeeMissionId: gamification.employeeMissionId,
+        employeeName: userModel?.empName,
+        submittedDate: today.substring(0, today.length - 6),
+        status: gamification.missionStatusCode,
+        taskData: listData);
+    final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
+    if (isConnectionAvailable) {
+      if (isSubmitted) {
+        var status = 99;
+        if (gamification.chapterData?.single.missionData?.single.missionTypeCode
+                ?.toLowerCase() ==
+            'assignment') {
+          status = 3;
         }
+        final result = await ref
+            .read(submitMissionProvider(
+                    answerRequestRemote: taskAnswer, status: status)
+                .future)
+            .whenComplete(() async {
+          await deleteAnswer(listTaskAnswer);
+        });
+        resultSubmissionNotifier.state =
+            resultSubmissionNotifier.state.copyWith(
+          employeeMissionId: result.employeeMissionId,
+          competencyName: result.competencyName,
+          rewardGained: result.rewardGained,
+          accuracy: result.accuracy,
+        );
       } else {
         await ref.read(
             putAnswerFinalLocalProvider(answerRequestRemote: taskAnswer)
                 .future);
       }
+    } else {
+      await ref.read(
+          putAnswerFinalLocalProvider(answerRequestRemote: taskAnswer).future);
+    }
   }
 
   Future<void> changeStatusTask({isDone = true}) async {
@@ -207,8 +209,8 @@ class TaskController extends _$TaskController {
           missionStatusCode: 2, missionStatus: 'Submitted');
     } else {
       // if ((gamification.missionStatusCode ?? 0) < 1) {
-        data = gamification.copyWith(
-            missionStatusCode: 1, missionStatus: 'In Progress');
+      data = gamification.copyWith(
+          missionStatusCode: 1, missionStatus: 'In Progress');
       // } else{
       //   data = gamification;
       // }
@@ -221,14 +223,13 @@ class TaskController extends _$TaskController {
   }
 
   Future<void> putTaskAnswer(TaskDatumAnswerRequestRemote value) async {
-    await ref
-        .watch(putTaskAnswerLocalProvider(taskAnswer: value).future);
+    await ref.watch(putTaskAnswerLocalProvider(taskAnswer: value).future);
   }
 
   Future<void> deleteAnswer(
       List<TaskDatumAnswerRequestRemote> listTaskAnswer) async {
-    await ref
-        .watch(deleteAnswerLocalProvider(listTaskAnswer: listTaskAnswer).future);
+    await ref.watch(
+        deleteAnswerLocalProvider(listTaskAnswer: listTaskAnswer).future);
   }
 
   Future<void> currentQuestion(
@@ -246,24 +247,22 @@ class TaskController extends _$TaskController {
     } else if (pagePosition == PagePosition.PREV) {
       page = -1;
     }
-   final isarInstance = await ref.watch(isarInstanceProvider.future);
+    final isarInstance = await ref.watch(isarInstanceProvider.future);
 
-    var currentAnswer =  isarInstance.answerRequestRemotes
+    var currentAnswer = isarInstance.answerRequestRemotes
         .filter()
         .employeeMissionIdEqualTo(employeeMissionId)
         .findAll();
 
     List<TaskDatumAnswerRequestRemote> dataCek = [];
 
-
-      state = await AsyncValue.guard(() => currentAnswer).then((value) async {
-        List<AnswerRequestRemote> list = value.value??[];
-        if ( list != []) {
-          listTaskAnswer = list.first.taskData??[];
-        }
-        return value;
-      });
-
+    state = await AsyncValue.guard(() => currentAnswer).then((value) async {
+      List<AnswerRequestRemote> list = value.value ?? [];
+      if (list != []) {
+        listTaskAnswer = list.first.taskData ?? [];
+      }
+      return value;
+    });
 
     if (listTaskAnswer.isNotEmpty) {
       for (var element in listTaskAnswer) {
@@ -289,8 +288,6 @@ class TaskController extends _$TaskController {
         attachmentName = element.attachmentName ?? '';
         taskGroup = element.taskGroup ?? '';
       }
-
-
     }
 
     if (answer != '') {
@@ -317,7 +314,7 @@ class TaskController extends _$TaskController {
         ref.watch(listSelectOptionCurrentState.notifier).state =
             listSelectOptionCurrent;
       }
-      answer ='';
+      answer = '';
     }
   }
 
@@ -365,7 +362,6 @@ class TaskController extends _$TaskController {
     }
   }
 
-
   Future<void> sendAnswerBackgroundService() async {
     ref.watch(submitStatusMissionBgServicesState.notifier).state =
         SubmitStatus.inProgress;
@@ -379,7 +375,7 @@ class TaskController extends _$TaskController {
       final userModel = await ref.read(helperUserProvider).getUserProfile();
       //final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
       final today =
-      CommonUtils.formatDateRequestParam(DateTime.now().toUtc().toString());
+          CommonUtils.formatDateRequestParam(DateTime.now().toUtc().toString());
       List<TaskDatumAnswer> listData = [];
       final isarInstance = await ref.watch(isarInstanceProvider.future);
       final repo = isarInstance.gamificationResponseRemotes
@@ -388,9 +384,7 @@ class TaskController extends _$TaskController {
           .findAll();
       var repoAnswer = ref.watch(getAnswerLocalProvider.future);
       await AsyncValue.guard(() => repo).then((data) async {
-
         for (var element in data.value ?? []) {
-
           GamificationResponseRemote dataGamification = element;
 
           if (dataGamification.missionStatusCode == 4) {
@@ -399,8 +393,8 @@ class TaskController extends _$TaskController {
                 TaskDatumAnswerRequestRemote taskDatum = element;
 
                 bool exists = (dataGamification
-                    .chapterData?.first.missionData?.first.taskData ??
-                    [])
+                            .chapterData?.first.missionData?.first.taskData ??
+                        [])
                     .any((item) => item.taskId == taskDatum.taskId);
                 listData.add(TaskDatumAnswer(
                     taskId: taskDatum.taskId,
@@ -422,7 +416,6 @@ class TaskController extends _$TaskController {
                     .future);
           }
         }
-
 
         if (isConnectionAvailable) {
           ref.read(submitStatusMissionState.notifier).state =
