@@ -70,7 +70,6 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
       //List<TaskDatum> taskData = [];
       for (var element in listTask) {
         File file = File('');
-        if (element.attachmentPath == null) {
           if (element.attachmentUrl != null) {
             final response = connect.downloadImage(
               url: element.attachmentUrl ?? '',
@@ -86,16 +85,17 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
                   .attachmentPath = file.path;
               indexTask++;
             });
+          }else{
+            listResponseFinal[index]
+                .chapterData
+                ?.single
+                .missionData
+                ?.single
+                .taskData?[indexTask]
+                .attachmentPath = '';
+            indexTask++;
           }
-        } else {
-          listResponseFinal[indexTask]
-              .chapterData
-              ?.single
-              .missionData
-              ?.single
-              .taskData?[indexTask]
-              .attachmentPath = element.attachmentPath;
-        }
+
       }
 
       index++;

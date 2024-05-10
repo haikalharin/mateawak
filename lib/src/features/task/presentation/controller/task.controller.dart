@@ -26,6 +26,9 @@ final isScrollProvider = StateProvider.autoDispose<bool>((ref) {
   return false;
 });
 
+final submitStatusTaskState = StateProvider.autoDispose<SubmitStatus>((ref) {
+  return SubmitStatus.initial;
+});
 final currentIndexState = StateProvider.autoDispose<int>((ref) => 0);
 final currentProgressState = StateProvider.autoDispose<int>((ref) => 0);
 

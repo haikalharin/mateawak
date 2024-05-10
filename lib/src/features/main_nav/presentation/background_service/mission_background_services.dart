@@ -251,7 +251,6 @@ Future<bool> fetchMission(
         int indexTask = 0;
         for (var element in listTask) {
           File file = File('');
-          if (element.attachmentPath == null) {
             if (element.attachmentUrl != null) {
               final response = ConnectBackgroundService().downloadImage(
                 url: element.attachmentUrl ?? '',
@@ -267,8 +266,16 @@ Future<bool> fetchMission(
                     .attachmentPath = file.path;
                 indexTask++;
               });
+            } else{
+              listResponseFinal[index]
+                  .chapterData
+                  ?.single
+                  .missionData
+                  ?.single
+                  .taskData?[indexTask]
+                  .attachmentPath = '';
+              indexTask++;
             }
-          }
         }
 
         index++;
