@@ -30,7 +30,6 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       listData.addAll(ref.watch(listSelectOptionState.notifier).state);
-      listData.addAll(ref.watch(listSelectOptionState.notifier).state);
     });
     super.initState();
   }
@@ -508,81 +507,79 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                           listData.clear();
                                           await ctrl
                                               .putAnswerFinal()
-                                              .whenComplete(
-                                            () async {
-                                              submitStatusTask.state =
-                                                  SubmitStatus.success;
-                                              showDialog(
-                                                  barrierDismissible: false,
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return CustomDialog(
-                                                        title: EtamKawaTranslate
-                                                            .confirmation,
-                                                        content: EtamKawaTranslate
-                                                            .areYouSureSubmitAnswer,
-                                                        label: EtamKawaTranslate
-                                                            .submit,
-                                                        type:
-                                                            DialogType.mission,
-                                                        isConnectionAvailable:
-                                                            isConnectionAvailable,
-                                                        onClosed: () async {
-                                                          showLoadingDialog(
-                                                              context);
-                                                          await ctrl
-                                                              .putAnswerFinal(
-                                                                  isSubmitted:
-                                                                      true)
-                                                              .whenComplete(
-                                                                  () async {
-                                                            await ctrl
-                                                                .changeStatusTask()
-                                                                .whenComplete(
-                                                                    () async {
-                                                              await ctrlMission
-                                                                  .getMissionList()
-                                                                  .whenComplete(
-                                                                      () {
-                                                                hideLoadingDialog(
-                                                                    context);
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
-                                                                showDialog(
-                                                                    barrierDismissible:
-                                                                        false,
-                                                                    context:
-                                                                        context,
-                                                                    builder:
-                                                                        (context) {
-                                                                      return RewardDialog(
-                                                                        resultSubmissionState: ref
-                                                                            .watch(resultSubmissionState.notifier)
-                                                                            .state,
-                                                                        isConnectionAvailable:
-                                                                            isConnectionAvailable,
-                                                                      );
-                                                                    });
-                                                              });
-                                                            });
+                                              .whenComplete(() async {
+                                            submitStatusTask.state =
+                                                SubmitStatus.success;
+                                            showDialog(
+                                              barrierDismissible: false,
+                                              context: context,
+                                              builder: (context) {
+                                                return CustomDialog(
+                                                    title: EtamKawaTranslate
+                                                        .confirmation,
+                                                    content: EtamKawaTranslate
+                                                        .areYouSureSubmitAnswer,
+                                                    label: EtamKawaTranslate
+                                                        .submit,
+                                                    type: DialogType.mission,
+                                                    isConnectionAvailable:
+                                                        isConnectionAvailable,
+                                                    onClosed: () async {
+                                                      showLoadingDialog(
+                                                          context);
+                                                      await ctrl
+                                                          .putAnswerFinal(
+                                                              isSubmitted: true)
+                                                          .whenComplete(
+                                                              () async {
+                                                        await ctrl
+                                                            .changeStatusTask()
+                                                            .whenComplete(
+                                                                () async {
+                                                          await ctrlMission
+                                                              .getMissionList()
+                                                              .whenComplete(() {
+                                                            hideLoadingDialog(
+                                                                context);
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                            showDialog(
+                                                                barrierDismissible:
+                                                                    false,
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) {
+                                                                  return RewardDialog(
+                                                                    resultSubmissionState: ref
+                                                                        .watch(resultSubmissionState
+                                                                            .notifier)
+                                                                        .state,
+                                                                    isConnectionAvailable:
+                                                                        isConnectionAvailable,
+                                                                  );
+                                                                });
                                                           });
                                                         });
-                                                  });
-                                            },
-                                          );
-                                          ref.refresh(taskControllerProvider);
+                                                      });
+                                                    });
+                                              },
+                                            );
+                                            ref.refresh(taskControllerProvider);
+                                          });
                                         });
                                       }
+                                    } else {
+                                      submitStatusTask.state =
+                                          SubmitStatus.success;
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                            content: Text(
+                                                'Please select an option!')),
+                                      );
                                     }
-                                  } else {
-                                    submitStatusTask.state =
-                                        SubmitStatus.success;
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content:
-                                              Text('Please select an option!')),
-                                    );
                                   }
                                 },
                                 child: Text(
