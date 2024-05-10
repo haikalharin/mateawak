@@ -5,11 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_etamkawa/src/features/main_nav/presentation/controller/main_nav.controller.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
+import 'package:module_etamkawa/src/features/task/presentation/widget/reward_dialog.dart';
 import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
+import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
-import '../../../../shared_component/instruction_dialog.dart';
 import '../controller/task.controller.dart';
 
 class TaskSingleChoiceScreen extends ConsumerStatefulWidget {
@@ -42,7 +43,6 @@ class _TaskSingleChoiceScreenState
         final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
         final gamificationData = ref.watch(gamificationState);
-        final resultSubmit = ref.watch(resultSubmissionState);
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
         final submitStatusTask = ref.watch(submitStatusTaskState.notifier);
         return Scaffold(
@@ -75,65 +75,47 @@ class _TaskSingleChoiceScreenState
                                     style: SharedComponent.textStyleCustom(
                                         typographyType: TypographyType.largeH5,
                                         fontColor: ColorTheme.textDark)),
-                                Container(
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            8, 0, 8, 0),
-                                        margin: EdgeInsets.only(right: 4.sp),
-                                        decoration: BoxDecoration(
-                                            color: ColorTheme.secondary100,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(5.r))),
-                                        child: Center(
-                                            child: Container(
-                                          height: 24.h,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Icon(
-                                                Icons.star,
-                                                color: ColorTheme.secondary500,
-                                                size: 12.h,
-                                              ),
-                                              Text(
-                                                " +${listTask[currentQuestionIndex.state].taskReward}",
-                                                style: SharedComponent
-                                                    .textStyleCustom(
-                                                        typographyType:
-                                                            TypographyType.body,
-                                                        fontColor: ColorTheme
-                                                            .secondary500),
-                                              ),
-                                            ],
-                                          ),
-                                        )),
-                                      ),
-                                      InkWell(
-                                        onTap: (){
-                                          showDialog(
-                                            barrierDismissible: false,
-                                            context: context,
-                                            builder: (context) {
-                                              return InstructionDialog(
-                                                  title: EtamKawaTranslate
-                                                      .instructions,
-                                                  content:  gamificationData.chapterData?.first.missionData?.first.missionInstruction??'',
-                                                  labelButton:'Ok');
-
-                                            },
-                                          );
-                                        },
-                                        child: Icon(
-                                          Icons.info,
-                                          color: ColorTheme.primary500,
-                                          size: 24.h,
+                                Row(
+                                  children: [
+                                    Container(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                      margin: EdgeInsets.only(right: 4.sp),
+                                      decoration: BoxDecoration(
+                                          color: ColorTheme.secondary100,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.r))),
+                                      child: Center(
+                                          child: Container(
+                                        height: 24.h,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Icon(
+                                              Icons.star,
+                                              color: ColorTheme.secondary500,
+                                              size: 12.h,
+                                            ),
+                                            Text(
+                                              " +${listTask[currentQuestionIndex.state].taskReward}",
+                                              style: SharedComponent
+                                                  .textStyleCustom(
+                                                      typographyType:
+                                                          TypographyType.body,
+                                                      fontColor: ColorTheme
+                                                          .secondary500),
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                    ],
-                                  ),
+                                      )),
+                                    ),
+                                    Icon(
+                                      Icons.info,
+                                      color: ColorTheme.primary500,
+                                      size: 24.h,
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -531,11 +513,10 @@ class _TaskSingleChoiceScreenState
                                                   label:
                                                       EtamKawaTranslate.submit,
                                                   type: DialogType.mission,
-                                                  resultSubmissionState:
-                                                      resultSubmit,
                                                   isConnectionAvailable:
                                                       isConnectionAvailable,
                                                   onClosed: () async {
+                                                    showLoadingDialog(context);
                                                     await ctrl
                                                         .putAnswerFinal(
                                                             isSubmitted: true)
@@ -546,8 +527,27 @@ class _TaskSingleChoiceScreenState
                                                               () async {
                                                         await ctrlMission
                                                             .getMissionList()
-                                                            .whenComplete(
-                                                                () {});
+                                                            .whenComplete(() {
+                                                          hideLoadingDialog(
+                                                              context);
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                          showDialog(
+                                                              barrierDismissible:
+                                                                  false,
+                                                              context: context,
+                                                              builder:
+                                                                  (context) {
+                                                                return RewardDialog(
+                                                                  resultSubmissionState: ref
+                                                                      .watch(resultSubmissionState
+                                                                          .notifier)
+                                                                      .state,
+                                                                  isConnectionAvailable:
+                                                                      isConnectionAvailable,
+                                                                );
+                                                              });
+                                                        });
                                                       });
                                                     });
                                                   });

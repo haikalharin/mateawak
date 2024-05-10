@@ -266,3 +266,20 @@ extension StringExtension on String {
     return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
   }
 }
+
+// Function to show the loading dialog
+void showLoadingDialog(BuildContext context) {
+  showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (context) => const Center(
+      child: CircularProgressIndicator(),
+    ),
+  );
+}
+
+
+// Function to hide the loading dialog
+void hideLoadingDialog(BuildContext context) {
+  Navigator.of(context).pop();
+}
