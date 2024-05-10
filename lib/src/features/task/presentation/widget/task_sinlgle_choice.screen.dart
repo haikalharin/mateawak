@@ -9,6 +9,7 @@ import 'package:module_etamkawa/src/shared_component/connection_listener_widget.
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 
+import '../../../../shared_component/instruction_dialog.dart';
 import '../controller/task.controller.dart';
 
 class TaskSingleChoiceScreen extends ConsumerStatefulWidget {
@@ -110,10 +111,26 @@ class _TaskSingleChoiceScreenState
                                           ),
                                         )),
                                       ),
-                                      Icon(
-                                        Icons.info,
-                                        color: ColorTheme.primary500,
-                                        size: 24.h,
+                                      InkWell(
+                                        onTap: (){
+                                          showDialog(
+                                            barrierDismissible: false,
+                                            context: context,
+                                            builder: (context) {
+                                              return InstructionDialog(
+                                                  title: EtamKawaTranslate
+                                                      .instructions,
+                                                  content:  gamificationData.chapterData?.first.missionData?.first.missionInstruction??'',
+                                                  labelButton:'Ok');
+
+                                            },
+                                          );
+                                        },
+                                        child: Icon(
+                                          Icons.info,
+                                          color: ColorTheme.primary500,
+                                          size: 24.h,
+                                        ),
                                       ),
                                     ],
                                   ),
