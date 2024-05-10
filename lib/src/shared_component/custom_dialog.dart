@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:module_etamkawa/src/features/task/domain/result_submission_request.remote.dart';
-import 'package:module_etamkawa/src/features/task/presentation/widget/reward_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../constants/constant.dart';
@@ -118,7 +117,9 @@ Widget confirmationButton(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       SharedComponent.btnWidget(
-        label: type == DialogType.mission ? EtamKawaTranslate.cancel : EtamKawaTranslate.leave,
+        label: type == DialogType.mission
+            ? EtamKawaTranslate.cancel
+            : EtamKawaTranslate.leave,
         typographyType: TypographyType.body,
         color: ColorTheme.neutral200,
         fontColor: ColorTheme.neutral600,
@@ -131,8 +132,7 @@ Widget confirmationButton(
                 builder: (context) {
                   return CustomDialog(
                       title: EtamKawaTranslate.hooray,
-                      content:
-                          EtamKawaTranslate.progressSuccessfullySaved,
+                      content: EtamKawaTranslate.progressSuccessfullySaved,
                       label: EtamKawaTranslate.backToMissionList,
                       type: DialogType.success,
                       onClosed: () async {
@@ -152,35 +152,10 @@ Widget confirmationButton(
         label: label,
         typographyType: TypographyType.body,
         onPressed: () {
-          context.pop();
           if (type == DialogType.mission) {
             onClosed!();
-            if (!isAssignment!) {
-              showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (context) {
-                    return RewardDialog(
-                      resultSubmissionState: resultSubmissionState!,
-                      isConnectionAvailable: isConnectionAvailable!,
-                    );
-                  });
-            } else {
-              showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (context) {
-                    return CustomDialog(
-                        title: EtamKawaTranslate.hooray,
-                        content: EtamKawaTranslate.yourMissionHasBeenCompleted,
-                        label: "Okay",
-                        type: DialogType.success,
-                        onClosed: () async => {
-                              Navigator.of(context).pop(),
-                              Navigator.of(context).pop()
-                            });
-                  });
-            }
+          } else {
+            context.pop();
           }
         },
         radius: 5.r,
