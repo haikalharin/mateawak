@@ -76,7 +76,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
             );
             await AsyncValue.guard(() => response).then((value) async {
               file = await asyncMethodSaveFile(value.value?.data);
-              listResponseFinal[indexTask]
+              listResponseFinal[index]
                   .chapterData
                   ?.single
                   .missionData
@@ -86,7 +86,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
               indexTask++;
             });
           }else{
-            listResponseFinal[indexTask]
+            listResponseFinal[index]
                 .chapterData
                 ?.single
                 .missionData

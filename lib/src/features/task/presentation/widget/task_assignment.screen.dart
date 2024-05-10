@@ -10,6 +10,7 @@ import 'package:module_etamkawa/src/shared_component/connection_listener_widget.
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_shared/module_shared.dart';
 
+import '../../../main_nav/presentation/controller/main_nav.controller.dart';
 import '../../../mission/domain/gamification_response.remote.dart';
 import '../controller/task.controller.dart';
 
@@ -52,6 +53,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
         final gamificationData = ref.watch(gamificationState);
         final resultSubmit = ref.watch(resultSubmissionState);
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
+        final submitStatusTask = ref.watch(submitStatusTaskState.notifier);
+
         if (ref.watch(currentTypeTaskState.notifier).state ==
             TaskType.ASM.name) {
           if (isInit) {
@@ -543,6 +546,10 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                               Colors.white),
                                     ),
                                     onPressed: () {
+        if (submitStatusTask.state !=
+        SubmitStatus.inProgress) {
+        submitStatusTask.state =
+        SubmitStatus.inProgress;
                                       setState(() async {
                                         await ctrl
                                             .currentQuestion(
@@ -603,6 +610,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                         attachmentPathCurrentState
                                                             .notifier)
                                                     .state;
+                                            submitStatusTask.state =
+                                                SubmitStatus.success;
                                           } else {
                                             ref
                                                     .watch(listSelectOptionState
@@ -613,9 +622,12 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                         listSelectOptionCurrentState
                                                             .notifier)
                                                     .state;
+                                            submitStatusTask.state =
+                                                SubmitStatus.success;
                                           }
                                         });
                                       });
+                                    }
                                     },
                                     child: Text(
                                       EtamKawaTranslate.previous,
@@ -627,6 +639,10 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                           Expanded(
                             child: ElevatedButton(
                               onPressed: () async {
+        if (submitStatusTask.state !=
+        SubmitStatus.inProgress) {
+        submitStatusTask.state =
+        SubmitStatus.inProgress;
                                 if (listSelectedOptionString.isNotEmpty) {
                                   if ((currentQuestionIndex.state + 1) <
                                           listTask.length &&
@@ -709,6 +725,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                         attachmentPathCurrentState
                                                             .notifier)
                                                     .state;
+                                            submitStatusTask.state =
+                                                SubmitStatus.success;
                                           } else {
                                             ref
                                                     .watch(listSelectOptionState
@@ -719,6 +737,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                         listSelectOptionCurrentState
                                                             .notifier)
                                                     .state;
+                                            submitStatusTask.state =
+                                                SubmitStatus.success;
                                           }
                                           setState(() {
                                             _textController.clear();
@@ -761,6 +781,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                       await ctrl
                                           .putAnswerFinal()
                                           .whenComplete(() async {
+                                        submitStatusTask.state =
+                                            SubmitStatus.success;
                                         showDialog(
                                           barrierDismissible: false,
                                           context: context,
@@ -805,11 +827,14 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                     });
                                   }
                                 } else {
+                                  submitStatusTask.state =
+                                      SubmitStatus.success;
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                         content: Text(
                                             'Please write and fill your answer')),
                                   );
+                                }
                                 }
                               },
                               child: Text(

@@ -257,7 +257,7 @@ Future<bool> fetchMission(
               );
               await AsyncValue.guard(() => response).then((value) async {
                 file = await asyncMethodSaveFile(value.value?.data);
-                listResponseFinal[indexTask]
+                listResponseFinal[index]
                     .chapterData
                     ?.single
                     .missionData
@@ -267,7 +267,7 @@ Future<bool> fetchMission(
                 indexTask++;
               });
             } else{
-              listResponseFinal[indexTask]
+              listResponseFinal[index]
                   .chapterData
                   ?.single
                   .missionData
