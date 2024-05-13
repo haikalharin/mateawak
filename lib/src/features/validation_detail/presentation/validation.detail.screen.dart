@@ -130,24 +130,27 @@ class _ValidationDetailScreenState
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(5.r)),
-                                      color: (validation.missionStatus ==
-                                              'Under Review')
-                                          ? ColorTheme.danger100
-                                          : ColorTheme.primary100,
+                                      color: EtamKawaUtils()
+                                          .getMissionStatusBGColorByCode(
+                                              (validation.missionStatusCode ??
+                                                      3)
+                                                  .toString()),
                                     ),
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 8.w, vertical: 4.h),
                                       child: Text(
-                                        validation.missionStatus ?? '',
+                                        EtamKawaUtils().getMissionStatus(
+                                            validation.missionStatus ?? ''),
                                         style: SharedComponent.textStyleCustom(
                                           typographyType:
                                               TypographyType.paragraph,
                                           fontColor:
-                                              (validation.missionStatus ==
-                                                      'Under Review')
-                                                  ? ColorTheme.danger500
-                                                  : ColorTheme.primary500,
+                                              EtamKawaUtils()
+                                          .getMissionStatusFontColorByCode(
+                                              (validation.missionStatusCode ??
+                                                      3)
+                                                  .toString()),
                                         ),
                                       ),
                                     ),
@@ -473,8 +476,8 @@ class _ValidationDetailScreenState
                                               const SizedBox(height: 10.0),
                                               RichText(
                                                 text: TextSpan(
-                                                  text:
-                                                      EtamKawaTranslate.evidence,
+                                                  text: EtamKawaTranslate
+                                                      .evidence,
                                                   style: SharedComponent
                                                       .textStyleCustom(
                                                           typographyType:
@@ -528,7 +531,8 @@ class _ValidationDetailScreenState
                                               ),
                                               const SizedBox(height: 10.0),
                                               Text(
-                                                EtamKawaTranslate.answerAssignment,
+                                                EtamKawaTranslate
+                                                    .answerAssignment,
                                                 style: SharedComponent
                                                     .textStyleCustom(
                                                         typographyType:
