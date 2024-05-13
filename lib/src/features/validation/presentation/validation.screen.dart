@@ -244,7 +244,7 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                               child: Text(
-                                  '${EtamKawaTranslate.submittedAt}: ${CommonUtils.formattedDateHours(validation[index].submittedDate ?? DateTime.now().toString())}',
+                                  '${EtamKawaTranslate.submittedAt}: ${CommonUtils.formattedDateHoursUtcToLocal(validation[index].submittedDate ?? DateTime.now().toString())}',
                                   style: SharedComponent.textStyleCustom(
                                       typographyType: TypographyType.small,
                                       fontColor: ColorTheme.neutral500)
@@ -268,7 +268,7 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                                 child: Text(
-                                    '${EtamKawaTranslate.validatedAt}: ${CommonUtils.formattedDateHours(validation[index].completedDate ?? DateTime.now().toString())}',
+                                    '${EtamKawaTranslate.validatedAt}: ${CommonUtils.formattedDateHoursUtcToLocal(validation[index].completedDate ?? DateTime.now().toString())}',
                                     style: SharedComponent.textStyleCustom(
                                         typographyType: TypographyType.small,
                                         fontColor: ColorTheme.neutral500)

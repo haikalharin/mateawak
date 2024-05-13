@@ -66,22 +66,32 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
           ], directory: dir.path, name: Constant.etamkawaIsarInstance);
       var isSubmitAnswer = payload?['isSubmitAnswer'] as bool;
       var isFetchMission = payload?['isFetchMission'] as bool;
-      if (isSubmitAnswer == true) {
-        submitAnswerBg(
-            url: payload?['url'] as String,
-            path: payload?['pathSubmitMission'] as String,
-            pathImage: payload?['pathImage'] as String,
-            isarInstance: isarInstance,
-            accessToken: payload?['accessToken'] as String);
-      }
-      if (isFetchMission == true) {
-        await fetchMission(
-            url: payload?['url'] as String,
-            path: payload?['pathFetchMission'] as String,
-            requestDate: payload?['requestDate'] as String,
-            employeeId: payload?['employeeId'] as int,
-            isarInstance: isarInstance,
-            accessToken: payload?['accessToken'] as String);
+      if (isSubmitAnswer == true && isFetchMission == true) {
+        await submitAnswerBg(
+                url: payload?['url'] as String,
+                path: payload?['pathSubmitMission'] as String,
+                pathImage: payload?['pathImage'] as String,
+                isarInstance: isarInstance,
+                accessToken: payload?['accessToken'] as String)
+            .whenComplete(() async {
+          await fetchMission(
+              url: payload?['url'] as String,
+              path: payload?['pathFetchMission'] as String,
+              requestDate: payload?['requestDate'] as String,
+              employeeId: payload?['employeeId'] as int,
+              isarInstance: isarInstance,
+              accessToken: payload?['accessToken'] as String);
+        });
+      } else {
+        if (isFetchMission == true) {
+          await fetchMission(
+              url: payload?['url'] as String,
+              path: payload?['pathFetchMission'] as String,
+              requestDate: payload?['requestDate'] as String,
+              employeeId: payload?['employeeId'] as int,
+              isarInstance: isarInstance,
+              accessToken: payload?['accessToken'] as String);
+        }
       }
     } catch (e) {
       log('background service error: $e');
@@ -105,7 +115,7 @@ Future<bool> submitAnswerBg(
         .filter()
         .employeeMissionIdIsNotNull()
         .findAll();
-
+    List<bool> listSucces = [];
     await AsyncValue.guard(() => repo).then((value) async {
       for (var element in value.value ?? []) {
         AnswerRequestRemote answerRequestRemote = element;
@@ -155,34 +165,36 @@ Future<bool> submitAnswerBg(
                     .delete(data.employeeMissionId ?? 0);
               });
             });
-
-            await isarInstance.answerRequestRemotes
-                .filter()
-                .employeeMissionIdEqualTo(data.employeeMissionId)
-                .deleteAll()
-                .whenComplete(() async {
-              await AsyncValue.guard(() => repoGamification)
-                  .then((value) async {
-                for (var _ in value.value ?? []) {
-                  // GamificationResponseRemote gamificationResponseRemote =
-                  //     element;
-                  await isarInstance.gamificationResponseRemotes
-                      .filter()
-                      .employeeMissionIdEqualTo(data.employeeMissionId)
-                      .deleteAll();
-                }
+            await isarInstance.writeTxn(() async {
+              await isarInstance.answerRequestRemotes
+                  .filter()
+                  .employeeMissionIdEqualTo(data.employeeMissionId)
+                  .deleteAll()
+                  .whenComplete(() async {
+                await isarInstance.gamificationResponseRemotes
+                    .filter()
+                    .employeeMissionIdEqualTo(data.employeeMissionId)
+                    .deleteAll();
               });
             });
           }
-          return response.statusCode == 200 ||
-              (response.result?.isError == false);
+          var statusSuccess =
+              response.statusCode == 200 || (response.result?.isError == false);
+          listSucces.add(statusSuccess);
         }
       }
     });
+
     if (isarInstance.isOpen) {
       await isarInstance.close();
     }
-    return false;
+    if (listSucces.contains(!false)) {
+      listSucces.clear();
+      return true;
+    } else {
+      listSucces.clear();
+      return false;
+    }
   } on DioException {
     return false;
   } catch (e) {
@@ -251,31 +263,31 @@ Future<bool> fetchMission(
         int indexTask = 0;
         for (var element in listTask) {
           File file = File('');
-            if (element.attachmentUrl != null) {
-              final response = ConnectBackgroundService().downloadImage(
-                url: element.attachmentUrl ?? '',
-              );
-              await AsyncValue.guard(() => response).then((value) async {
-                file = await asyncMethodSaveFile(value.value?.data);
-                listResponseFinal[index]
-                    .chapterData
-                    ?.single
-                    .missionData
-                    ?.single
-                    .taskData?[indexTask]
-                    .attachmentPath = file.path;
-                indexTask++;
-              });
-            } else{
+          if (element.attachmentUrl != null) {
+            final response = ConnectBackgroundService().downloadImage(
+              url: element.attachmentUrl ?? '',
+            );
+            await AsyncValue.guard(() => response).then((value) async {
+              file = await asyncMethodSaveFile(value.value?.data);
               listResponseFinal[index]
                   .chapterData
                   ?.single
                   .missionData
                   ?.single
                   .taskData?[indexTask]
-                  .attachmentPath = '';
+                  .attachmentPath = file.path;
               indexTask++;
-            }
+            });
+          } else {
+            listResponseFinal[index]
+                .chapterData
+                ?.single
+                .missionData
+                ?.single
+                .taskData?[indexTask]
+                .attachmentPath = '';
+            indexTask++;
+          }
         }
 
         index++;
@@ -309,7 +321,7 @@ Future<bool> fetchMission(
       await isarInstance.writeTxn(() async {
         //await isarInstance.gamificationResponseRemotes.clear();
         await isarInstance.gamificationResponseRemotes
-            .putAll(listResponseFinal);
+            .putAll(listAfterCheckIsIncomplete);
       });
 
       // final data = await isarInstance.gamificationResponseRemotes

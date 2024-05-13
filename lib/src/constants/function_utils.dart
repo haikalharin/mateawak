@@ -15,7 +15,9 @@ String formatDateTime(DateTime dateTime) {
 
 int calculateDifferenceDays(DateTime date1, DateTime date2) {
   // Menghitung selisih hari
-  Duration different = date2.difference(date1);
+  DateTime fixDate1 = DateTime(date1.year, date1.month, date1.day);
+  DateTime fixDate2 = DateTime(date2.year, date2.month, date2.day);
+  Duration different = fixDate2.difference(fixDate1);
   return different.inDays; // Menggunakan abs() untuk menghindari hasil negatif
 }
 
