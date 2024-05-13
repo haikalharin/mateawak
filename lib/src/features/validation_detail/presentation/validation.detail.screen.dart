@@ -145,12 +145,11 @@ class _ValidationDetailScreenState
                                         style: SharedComponent.textStyleCustom(
                                           typographyType:
                                               TypographyType.paragraph,
-                                          fontColor:
-                                              EtamKawaUtils()
-                                          .getMissionStatusFontColorByCode(
-                                              (validation.missionStatusCode ??
-                                                      3)
-                                                  .toString()),
+                                          fontColor: EtamKawaUtils()
+                                              .getMissionStatusFontColorByCode(
+                                                  (validation.missionStatusCode ??
+                                                          3)
+                                                      .toString()),
                                         ),
                                       ),
                                     ),
@@ -296,9 +295,11 @@ class _ValidationDetailScreenState
                                                         ColorTheme.neutral600),
                                           ),
                                           Text(
-                                            CommonUtils.formattedDateHoursUtcToLocal(
-                                                validation.submittedDate ??
-                                                    DateTime.now().toString()),
+                                            CommonUtils
+                                                .formattedDateHoursUtcToLocal(
+                                                    validation.submittedDate ??
+                                                        DateTime.now()
+                                                            .toString()),
                                             style:
                                                 SharedComponent.textStyleCustom(
                                                     typographyType:
@@ -423,35 +424,56 @@ class _ValidationDetailScreenState
                                               const SizedBox(
                                                 height: 8,
                                               ),
-                                              Container(
-                                                height: 200,
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                decoration: BoxDecoration(
-                                                    image: DecorationImage(
-                                                      image: FileImage(File(
-                                                          validation
-                                                                  .chapterData
-                                                                  ?.single
-                                                                  .missionData
-                                                                  ?.single
-                                                                  .taskData
-                                                                  ?.single
-                                                                  .attachmentPath ??
-                                                              '')),
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                    color: ColorTheme
-                                                        .backgroundWhite,
-                                                    borderRadius:
-                                                        const BorderRadius.all(
-                                                            Radius.circular(
-                                                                10))),
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 16),
-                                              ),
+                                              validation
+                                                              .chapterData
+                                                              ?.single
+                                                              .missionData
+                                                              ?.single
+                                                              .taskData
+                                                              ?.single
+                                                              .attachmentPath !=
+                                                          null &&
+                                                      validation
+                                                              .chapterData
+                                                              ?.single
+                                                              .missionData
+                                                              ?.single
+                                                              .taskData
+                                                              ?.single
+                                                              .attachmentPath !=
+                                                          ''
+                                                  ? Container(
+                                                      height: 200,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
+                                                      decoration: BoxDecoration(
+                                                          image:
+                                                              DecorationImage(
+                                                            image: FileImage(File(validation
+                                                                    .chapterData
+                                                                    ?.single
+                                                                    .missionData
+                                                                    ?.single
+                                                                    .taskData
+                                                                    ?.single
+                                                                    .attachmentPath ??
+                                                                '')),
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                          color: ColorTheme
+                                                              .backgroundWhite,
+                                                          borderRadius:
+                                                              const BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
+                                                                          10))),
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 16),
+                                                    )
+                                                  : Container(),
                                               const SizedBox(height: 10.0),
                                               Text(
                                                 validation

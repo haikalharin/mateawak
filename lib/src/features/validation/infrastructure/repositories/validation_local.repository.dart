@@ -47,7 +47,7 @@ FutureOr<List<ValidationResponseRemote>> getValidationRemote(
         .filter()
         .employeeMissionIdIsNotNull()
         .findAll();
-    
+
     for (var element in listResponse) {
       await AsyncValue.guard(() => repo).then((value) async {
         if ((value.value ?? []).isNotEmpty) {
@@ -71,6 +71,21 @@ FutureOr<List<ValidationResponseRemote>> getValidationRemote(
       // int indexTask = 0;
       List<TaskValidationDatum> taskData = [];
       for (var element in listTask) {
+        var taskDataUpdate = TaskValidationDatum(
+            taskId: element.taskId,
+            missionId: element.missionId,
+            attachmentId: element.attachmentId,
+            attachmentUrl: element.attachmentUrl,
+            //attachmentPath: file.path,
+            answerAttachmentId: element.answerAttachmentId,
+            answerAttachmentUrl: element.answerAttachmentUrl,
+            //answerAttachmentPath: file.path,
+            taskCode: element.taskCode,
+            taskGroup: element.taskGroup,
+            taskCaption: element.taskCaption,
+            taskTypeCode: element.taskTypeCode,
+            taskTypeName: element.taskTypeName,
+            taskReward: element.taskReward);
         File file = File('');
         if (element.attachmentPath == null) {
           if (element.attachmentUrl != null) {
@@ -80,33 +95,25 @@ FutureOr<List<ValidationResponseRemote>> getValidationRemote(
             response.data;
             file = await asyncMethodSaveFile(response.data);
           }
-          taskData.add(TaskValidationDatum(
-              taskId: element.taskId,
-              missionId: element.missionId,
-              attachmentId: element.attachmentId,
-              attachmentUrl: element.attachmentUrl,
-              attachmentPath: file.path,
-              taskCode: element.taskCode,
-              taskGroup: element.taskGroup,
-              taskCaption: element.taskCaption,
-              taskTypeCode: element.taskTypeCode,
-              taskTypeName: element.taskTypeName,
-              taskReward: element.taskReward));
+          taskDataUpdate.attachmentPath = file.path;
           // indexTask++;
         } else {
-          taskData.add(TaskValidationDatum(
-              taskId: element.taskId,
-              missionId: element.missionId,
-              attachmentId: element.attachmentId,
-              attachmentUrl: element.attachmentUrl,
-              attachmentPath: element.attachmentPath,
-              taskCode: element.taskCode,
-              taskGroup: element.taskGroup,
-              taskCaption: element.taskCaption,
-              taskTypeCode: element.taskTypeCode,
-              taskTypeName: element.taskTypeName,
-              taskReward: element.taskReward));
+          taskDataUpdate.attachmentPath = element.attachmentPath;
         }
+        if (element.answerAttachmentPath == null) {
+          if (element.answerAttachmentUrl != null) {
+            final response = await connect.downloadImage(
+              url: element.answerAttachmentUrl ?? '',
+            );
+            response.data;
+            file = await asyncMethodSaveFile(response.data);
+          }
+          taskDataUpdate.answerAttachmentPath = file.path;
+          // indexTask++;
+        } else {
+          taskDataUpdate.answerAttachmentPath = element.answerAttachmentPath;
+        }
+        taskData.add(taskDataUpdate);
       }
       listAfterInputImage.add(ValidationResponseRemote(
           employeeMissionId: element.employeeMissionId,
