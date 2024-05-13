@@ -284,6 +284,23 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                           ?.unfocus();
                                     });
                                   },
+                                  onChanged: (value){
+                                    setState(() {
+                                      if (_textController.text.isEmpty) {
+                                        ref
+                                            .watch(listSelectOptionStringState
+                                            .notifier)
+                                            .state = [];
+
+                                        _textController.clear();
+                                      } else {
+                                        ref
+                                            .watch(listSelectOptionStringState
+                                            .notifier)
+                                            .state = [_textController.text];
+                                      }
+                                    });
+                                  },
                                 ),
                               ),
                             ],
