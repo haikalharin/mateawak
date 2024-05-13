@@ -296,7 +296,7 @@ class _ValidationDetailScreenState
                                                         ColorTheme.neutral600),
                                           ),
                                           Text(
-                                            CommonUtils.formattedDateHours(
+                                            CommonUtils.formattedDateHoursUtcToLocal(
                                                 validation.submittedDate ??
                                                     DateTime.now().toString()),
                                             style:

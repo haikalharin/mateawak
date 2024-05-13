@@ -247,7 +247,7 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                               child: Text(
-                                  '${EtamKawaTranslate.submittedAt}: ${CommonUtils.formattedDateHours(missionPast[index].submittedDate ?? DateTime.now().toString())}',
+                                  '${EtamKawaTranslate.submittedAt}: ${CommonUtils.formattedDateHoursUtcToLocal(missionPast[index].submittedDate ?? DateTime.now().toString())}',
                                   style: SharedComponent.textStyleCustom(
                                       typographyType: TypographyType.small,
                                       fontColor: ColorTheme.neutral500)

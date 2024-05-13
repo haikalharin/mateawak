@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:module_etamkawa/src/app.dart';
+import 'package:module_etamkawa/src/constants/function_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
 void main() {
@@ -27,5 +28,12 @@ void main() {
     // Verify that our counter has incremented.
     expect(find.text('0'), findsNothing);
     expect(find.text('1'), findsOneWidget);
+  });
+  testWidgets('difference day test', (WidgetTester tester) async {
+
+    DateTime dueDate =
+    DateTime.parse('2024-05-12T23:59:59');
+    int different = calculateDifferenceDays(dueDate, DateTime.now());
+    print(different);
   });
 }
