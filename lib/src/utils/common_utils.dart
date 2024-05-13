@@ -95,6 +95,22 @@ class CommonUtils {
     return formatted;
   }
 
+  static String formattedDateHoursUtcToLocal(String value,
+      {bool withDay = false, bool withHourMinute = true}) {
+    initializeDateFormatting();
+    DateTime date = DateTime.parse(value).toUtc().toLocal();
+    DateTime utcTime =
+    DateTime.utc(date.year, date.month, date.day, date.hour, date.second, 0);
+    DateTime localTime = utcTime.toLocal();
+    final DateFormat formatter = withHourMinute
+        ? DateFormat('dd MMM yyyy HH:mm')
+        : withDay
+        ? DateFormat('EEEEE, dd MMM yyyy')
+        : DateFormat('dd MMM yyyy');
+    String formatted = formatter.format(localTime);
+    return formatted;
+  }
+
   static String formattedDateShort(String value,
       {bool withDay = true, bool withHourMinute = false}) {
     initializeDateFormatting();

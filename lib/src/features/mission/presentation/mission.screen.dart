@@ -488,7 +488,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                               child: Text(
-                                  '${EtamKawaTranslate.due}: ${CommonUtils.formattedDateHours(gamification[index].dueDate ?? DateTime.now().toString())}',
+                                  '${EtamKawaTranslate.due}: ${CommonUtils.formattedDateHoursUtcToLocal(gamification[index].dueDate ?? DateTime.now().toString())}',
                                   style: SharedComponent.textStyleCustom(
                                       typographyType: TypographyType.small,
                                       fontColor: ColorTheme.neutral500)

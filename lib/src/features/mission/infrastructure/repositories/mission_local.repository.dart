@@ -24,6 +24,8 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
     final connect = ref.read(connectProvider.notifier);
     List<GamificationResponseRemote> listResponse = [];
     List<GamificationResponseRemote> listResponseFinal = [];
+    List<GamificationResponseRemote> listResponseAfterMerge = [];
+    List<GamificationResponseRemote> listAfterCheckIsIncomplete = [];
 
     // const rawMissionDummy = Constant.rawMissionDummy;
     final userModel = await ref.read(helperUserProvider).getUserProfile();
@@ -100,15 +102,28 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
 
       index++;
     }
-    var indexIncompleted = 0;
+    listResponseAfterMerge.addAll(listResponse);
+    listResponseAfterMerge.addAll(listResponseFinal);
     for (var element in listResponseFinal) {
       DateTime dueDate =
           DateTime.parse(element.dueDate ?? '2024-00-00T00:00:00');
       int different = calculateDifferenceDays(dueDate, DateTime.now());
       if (element.missionStatusCode != null) {
         if (different > 0 && element.missionStatusCode! < 2) {
-          listResponseFinal[indexIncompleted].missionStatusCode = 4;
-          listResponseFinal[indexIncompleted].missionStatus = 'Incomplete';
+          listAfterCheckIsIncomplete.add(GamificationResponseRemote(
+              employeeMissionId: element.employeeMissionId,
+              missionId: element.missionId,
+              missionStatusCode: 4,
+              missionStatus: 'Incomplete',
+              startedDate: element.startedDate,
+              dueDate: element.dueDate,
+              submittedBy: element.submittedBy,
+              submittedDate: element.submittedDate,
+              completedBy: element.completedBy,
+              completedDate: element.completedDate,
+              chapterData: element.chapterData));
+        } else {
+          listAfterCheckIsIncomplete.add(element);
         }
       }
     }
@@ -116,7 +131,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
     await isarInstance.writeTxn(() async {
       //await isarInstance.gamificationResponseRemotes.clear();
 
-      await isarInstance.gamificationResponseRemotes.putAll(listResponseFinal);
+      await isarInstance.gamificationResponseRemotes.putAll(listAfterCheckIsIncomplete);
     });
 
     ref.keepAlive();
