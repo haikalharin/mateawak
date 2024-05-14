@@ -95,7 +95,7 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                                     width: MediaQuery.of(context).size.width,
                                     child: Center(
                                       child: Text(
-                                        EtamKawaTranslate.allEntriesLoaded,
+                                        EtamKawaTranslate.noData,
                                         style: SharedComponent.textStyleCustom(
                                           typographyType: TypographyType.body,
                                           fontColor: ColorTheme.neutral600,
@@ -199,7 +199,7 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                                   padding:
                                       const EdgeInsets.fromLTRB(3, 0, 0, 0),
                                   child: Text(
-                                      '${validation[index].chapterData?.single.missionData?.single.taskData?.single.answerReward ?? 0.toString()} ${EtamKawaTranslate.pts}',
+                                      '${validation[index].chapterData?.single.missionData?.single.taskData?.first.answerReward ?? 0.toString()} ${EtamKawaTranslate.pts}',
                                       style: SharedComponent.textStyleCustom(
                                           typographyType:
                                               TypographyType.paragraph,

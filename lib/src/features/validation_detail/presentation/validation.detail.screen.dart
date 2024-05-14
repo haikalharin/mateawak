@@ -430,7 +430,7 @@ class _ValidationDetailScreenState
                                                               .missionData
                                                               ?.single
                                                               .taskData
-                                                              ?.single
+                                                              ?.first
                                                               .attachmentPath !=
                                                           null &&
                                                       validation
@@ -439,7 +439,7 @@ class _ValidationDetailScreenState
                                                               .missionData
                                                               ?.single
                                                               .taskData
-                                                              ?.single
+                                                              ?.first
                                                               .attachmentPath !=
                                                           ''
                                                   ? Container(
@@ -457,7 +457,7 @@ class _ValidationDetailScreenState
                                                                     .missionData
                                                                     ?.single
                                                                     .taskData
-                                                                    ?.single
+                                                                    ?.first
                                                                     .attachmentPath ??
                                                                 '')),
                                                             fit: BoxFit.cover,
@@ -482,7 +482,7 @@ class _ValidationDetailScreenState
                                                         .missionData
                                                         ?.single
                                                         .taskData
-                                                        ?.single
+                                                        ?.first
                                                         .taskCaption ??
                                                     '',
                                                 style: SharedComponent
@@ -536,7 +536,7 @@ class _ValidationDetailScreenState
                                                                   .missionData
                                                                   ?.single
                                                                   .taskData
-                                                                  ?.single
+                                                                  ?.first
                                                                   .answerAttachmentPath ??
                                                               '')),
                                                       fit: BoxFit.cover,
@@ -570,7 +570,7 @@ class _ValidationDetailScreenState
                                                         .missionData
                                                         ?.single
                                                         .taskData
-                                                        ?.single
+                                                        ?.first
                                                         .answer ??
                                                     '',
                                                 style: SharedComponent
@@ -620,7 +620,7 @@ class _ValidationDetailScreenState
                                                         .missionData
                                                         ?.single
                                                         .taskData
-                                                        ?.single
+                                                        ?.first
                                                         .qualitativeScoreId
                                                         .toString() ??
                                                     ''),
@@ -630,7 +630,7 @@ class _ValidationDetailScreenState
                                                         .missionData
                                                         ?.single
                                                         .taskData
-                                                        ?.single
+                                                        ?.first
                                                         .feedbackComment ??
                                                     ''),
                                                 label: EtamKawaTranslate.stay,

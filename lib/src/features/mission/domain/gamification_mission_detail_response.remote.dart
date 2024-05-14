@@ -208,6 +208,10 @@ class MissionDatum {
   String? missionTypeName;
   int? missionReward;
   int? isMandatoryAttachment;
+  String? competencyCode;
+  String? competencyName;
+  String? peopleCategoryCode;
+  String? peopleCategoryName;
   List<TaskDatum>? taskData;
 
   MissionDatum({
@@ -222,6 +226,10 @@ class MissionDatum {
     this.missionTypeName,
     this.missionReward,
     this.isMandatoryAttachment,
+    this.competencyCode,
+    this.competencyName,
+    this.peopleCategoryCode,
+    this.peopleCategoryName,
     this.taskData,
   });
 
@@ -237,6 +245,10 @@ class MissionDatum {
     String? missionTypeName,
     int? missionReward,
     dynamic isMandatoryAttachment,
+    String? competencyCode,
+    String? competencyName,
+    String? peopleCategoryCode,
+    String? peopleCategoryName,
     List<TaskDatum>? taskData,
   }) =>
       MissionDatum(
@@ -250,6 +262,10 @@ class MissionDatum {
         missionTypeCode: missionTypeCode ?? this.missionTypeCode,
         missionTypeName: missionTypeName ?? this.missionTypeName,
         missionReward: missionReward ?? this.missionReward,
+        competencyCode: competencyCode ?? this.competencyCode,
+        competencyName: competencyName ?? this.competencyName,
+        peopleCategoryCode: peopleCategoryCode ?? this.peopleCategoryCode,
+        peopleCategoryName: peopleCategoryName ?? this.peopleCategoryName,
         isMandatoryAttachment:
             isMandatoryAttachment ?? this.isMandatoryAttachment,
         taskData: taskData ?? this.taskData,
@@ -267,6 +283,10 @@ class MissionDatum {
         missionTypeName: json["missionTypeName"],
         missionReward: json["missionReward"],
         isMandatoryAttachment: json["isMandatoryAttachment"],
+        competencyCode: json["competencyCode"],
+        competencyName: json["competencyName"],
+        peopleCategoryCode: json["peopleCategoryCode"],
+        peopleCategoryName: json["peopleCategoryName"],
         taskData: json["taskData"] == null
             ? []
             : List<TaskDatum>.from(
@@ -285,6 +305,10 @@ class MissionDatum {
         "missionTypeName": missionTypeName,
         "missionReward": missionReward,
         "isMandatoryAttachment": isMandatoryAttachment,
+        "competencyCode": competencyCode,
+        "competencyName": competencyName,
+        "peopleCategoryCode": peopleCategoryCode,
+        "peopleCategoryName": peopleCategoryName,
         "taskData": taskData == null
             ? []
             : List<dynamic>.from(taskData!.map((x) => x.toJson())),

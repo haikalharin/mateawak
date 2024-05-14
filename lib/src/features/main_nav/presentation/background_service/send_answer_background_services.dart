@@ -55,11 +55,11 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
           Isar.getInstance(Constant.etamkawaIsarInstance);
 
       final isarInstance = existingIsarInstance ??
-          Isar.openSync(
-              [NewsResponseRemoteSchema, GamificationResponseRemoteSchema,AnswerRequestRemoteSchema],
-              directory: dir.path, name: Constant.etamkawaIsarInstance);
-
-
+          Isar.openSync([
+            NewsResponseRemoteSchema,
+            GamificationResponseRemoteSchema,
+            AnswerRequestRemoteSchema
+          ], directory: dir.path, name: Constant.etamkawaIsarInstance);
 
       final repo = isarInstance.answerRequestRemotes
           .filter()
@@ -70,27 +70,26 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
         for (var element in value.value ?? []) {
           AnswerRequestRemote data = element;
           if (data.status != 99) {
-
-          if (data.status == 3) {
-            data.taskData?.first.attachmentId = 64;
-          }
-          final response = await ConnectBackgroundService().post(
-              accessToken: payload?['accessToken'] as String,
-              path: payload?['path'] as String,
-              url: payload?['url'] as String,
-              body: data.toJson());
-          if (response.statusCode == 200) {
-            await isarInstance.writeTxn(() async {
-              await isarInstance.answerRequestRemotes
-                  .delete(data.employeeMissionId ?? 0)
-                  .whenComplete(() async {
-                await isarInstance.gamificationResponseRemotes
-                    .delete(data.employeeMissionId ?? 0);
+            if (data.status == 3) {
+              data.taskData?.first.attachmentId = 64;
+            }
+            final response = await ConnectBackgroundService().post(
+                accessToken: payload?['accessToken'] as String,
+                path: payload?['path'] as String,
+                url: payload?['url'] as String,
+                body: data.toJson());
+            if (response.statusCode == 200) {
+              await isarInstance.writeTxn(() async {
+                await isarInstance.answerRequestRemotes
+                    .delete(data.employeeMissionId ?? 0)
+                    .whenComplete(() async {
+                  await isarInstance.gamificationResponseRemotes
+                      .delete(data.employeeMissionId ?? 0);
+                });
               });
-            });
+            }
           }
         }
-      }
       });
     } catch (e) {
       log('background service error: $e');

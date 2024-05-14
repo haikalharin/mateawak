@@ -429,7 +429,6 @@ class TaskController extends _$TaskController {
         for (var element in data.value ?? []) {
           GamificationResponseRemote dataGamification = element;
           List<TaskDatumAnswer> listData = [];
-
           if (dataGamification.missionStatusCode == 4) {
             var taskData = (dataGamification
                 .chapterData?.first.missionData?.first.taskData);
