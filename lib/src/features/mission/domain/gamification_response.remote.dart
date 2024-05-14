@@ -77,37 +77,43 @@ class GamificationResponseRemote {
         chapterData: chapterData ?? this.chapterData,
       );
 
-  factory GamificationResponseRemote.fromJson(Map<String, dynamic> json) => GamificationResponseRemote(
-    employeeMissionId: json["employeeMissionId"],
-    employeeId: json["employeeId"],
-    missionId: json["missionId"],
-    missionStatusCode: json["missionStatusCode"],
-    missionStatus: json["missionStatus"],
-    startedDate: json["startedDate"],
-    dueDate: json["dueDate"],
-    submittedBy: json["submittedBy"],
-    submittedDate: json["submittedDate"],
-    completedBy: json["completedBy"],
-    completedDate: json["completedDate"],
-    validatorId: json["validatorId"],
-    chapterData: json["chapterData"] == null ? [] : List<ChapterDatum>.from(json["chapterData"]!.map((x) => ChapterDatum.fromJson(x))),
-  );
+  factory GamificationResponseRemote.fromJson(Map<String, dynamic> json) =>
+      GamificationResponseRemote(
+        employeeMissionId: json["employeeMissionId"],
+        employeeId: json["employeeId"],
+        missionId: json["missionId"],
+        missionStatusCode: json["missionStatusCode"],
+        missionStatus: json["missionStatus"],
+        startedDate: json["startedDate"],
+        dueDate: json["dueDate"],
+        submittedBy: json["submittedBy"],
+        submittedDate: json["submittedDate"],
+        completedBy: json["completedBy"],
+        completedDate: json["completedDate"],
+        validatorId: json["validatorId"],
+        chapterData: json["chapterData"] == null
+            ? []
+            : List<ChapterDatum>.from(
+                json["chapterData"]!.map((x) => ChapterDatum.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "employeeMissionId": employeeMissionId,
-    "employeeId": employeeId,
-    "missionId": missionId,
-    "missionStatusCode": missionStatusCode,
-    "missionStatus": missionStatus,
-    "startedDate": startedDate,
-    "dueDate": dueDate,
-    "submittedBy": submittedBy,
-    "submittedDate": submittedDate,
-    "completedBy": completedBy,
-    "completedDate": completedDate,
-    "validatorId": validatorId,
-    "chapterData": chapterData == null ? [] : List<dynamic>.from(chapterData!.map((x) => x.toJson())),
-  };
+        "employeeMissionId": employeeMissionId,
+        "employeeId": employeeId,
+        "missionId": missionId,
+        "missionStatusCode": missionStatusCode,
+        "missionStatus": missionStatus,
+        "startedDate": startedDate,
+        "dueDate": dueDate,
+        "submittedBy": submittedBy,
+        "submittedDate": submittedDate,
+        "completedBy": completedBy,
+        "completedDate": completedDate,
+        "validatorId": validatorId,
+        "chapterData": chapterData == null
+            ? []
+            : List<dynamic>.from(chapterData!.map((x) => x.toJson())),
+      };
 }
 
 @embedded
@@ -158,29 +164,35 @@ class ChapterDatum {
       );
 
   factory ChapterDatum.fromJson(Map<String, dynamic> json) => ChapterDatum(
-    chapterId: json["chapterId"],
-    chapterCode: json["chapterCode"],
-    chapterName: json["chapterName"],
-    chapterGoal: json["chapterGoal"],
-    competencyCode: json["competencyCode"],
-    competencyName: json["competencyName"],
-    peopleCategoryCode: json["peopleCategoryCode"],
-    peopleCategoryName: json["peopleCategoryName"],
-    missionData: json["missionData"] == null ? [] : List<MissionDatum>.from(json["missionData"]!.map((x) => MissionDatum.fromJson(x))),
-  );
+        chapterId: json["chapterId"],
+        chapterCode: json["chapterCode"],
+        chapterName: json["chapterName"],
+        chapterGoal: json["chapterGoal"],
+        competencyCode: json["competencyCode"],
+        competencyName: json["competencyName"],
+        peopleCategoryCode: json["peopleCategoryCode"],
+        peopleCategoryName: json["peopleCategoryName"],
+        missionData: json["missionData"] == null
+            ? []
+            : List<MissionDatum>.from(
+                json["missionData"]!.map((x) => MissionDatum.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "chapterId": chapterId,
-    "chapterCode": chapterCode,
-    "chapterName": chapterName,
-    "chapterGoal": chapterGoal,
-    "competencyCode": competencyCode,
-    "competencyName": competencyName,
-    "peopleCategoryCode": peopleCategoryCode,
-    "peopleCategoryName": peopleCategoryName,
-    "missionData": missionData == null ? [] : List<dynamic>.from(missionData!.map((x) => x.toJson())),
-  };
+        "chapterId": chapterId,
+        "chapterCode": chapterCode,
+        "chapterName": chapterName,
+        "chapterGoal": chapterGoal,
+        "competencyCode": competencyCode,
+        "competencyName": competencyName,
+        "peopleCategoryCode": peopleCategoryCode,
+        "peopleCategoryName": peopleCategoryName,
+        "missionData": missionData == null
+            ? []
+            : List<dynamic>.from(missionData!.map((x) => x.toJson())),
+      };
 }
+
 @embedded
 class MissionDatum {
   int? missionId;
@@ -194,6 +206,10 @@ class MissionDatum {
   String? missionTypeName;
   int? missionReward;
   bool? isMandatoryAttachment;
+  String? competencyCode;
+  String? competencyName;
+  String? peopleCategoryCode;
+  String? peopleCategoryName;
   List<TaskDatum>? taskData;
 
   MissionDatum({
@@ -208,6 +224,10 @@ class MissionDatum {
     this.missionTypeName,
     this.missionReward,
     this.isMandatoryAttachment,
+    this.competencyCode,
+    this.competencyName,
+    this.peopleCategoryCode,
+    this.peopleCategoryName,
     this.taskData,
   });
 
@@ -223,6 +243,10 @@ class MissionDatum {
     String? missionTypeName,
     int? missionReward,
     bool? isMandatoryAttachment,
+    String? competencyCode,
+    String? competencyName,
+    String? peopleCategoryCode,
+    String? peopleCategoryName,
     List<TaskDatum>? taskData,
   }) =>
       MissionDatum(
@@ -236,39 +260,57 @@ class MissionDatum {
         missionTypeCode: missionTypeCode ?? this.missionTypeCode,
         missionTypeName: missionTypeName ?? this.missionTypeName,
         missionReward: missionReward ?? this.missionReward,
-        isMandatoryAttachment: isMandatoryAttachment ?? this.isMandatoryAttachment,
+        isMandatoryAttachment:
+            isMandatoryAttachment ?? this.isMandatoryAttachment,
+        competencyCode: competencyCode ?? this.competencyCode,
+        competencyName: competencyName ?? this.competencyName,
+        peopleCategoryCode: peopleCategoryCode ?? this.peopleCategoryCode,
+        peopleCategoryName: peopleCategoryName ?? this.peopleCategoryName,
         taskData: taskData ?? this.taskData,
       );
 
   factory MissionDatum.fromJson(Map<String, dynamic> json) => MissionDatum(
-    missionId: json["missionId"],
-    chapterId: json["chapterId"],
-    missionCode: json["missionCode"],
-    missionName: json["missionName"],
-    missionInstruction: json["missionInstruction"],
-    missionDuration: json["missionDuration"],
-    missionActiveOnDay: json["missionActiveOnDay"],
-    missionTypeCode: json["missionTypeCode"],
-    missionTypeName: json["missionTypeName"],
-    missionReward: json["missionReward"],
-    isMandatoryAttachment: json["isMandatoryAttachment"],
-    taskData: json["taskData"] == null ? [] : List<TaskDatum>.from(json["taskData"]!.map((x) => TaskDatum.fromJson(x))),
-  );
+        missionId: json["missionId"],
+        chapterId: json["chapterId"],
+        missionCode: json["missionCode"],
+        missionName: json["missionName"],
+        missionInstruction: json["missionInstruction"],
+        missionDuration: json["missionDuration"],
+        missionActiveOnDay: json["missionActiveOnDay"],
+        missionTypeCode: json["missionTypeCode"],
+        missionTypeName: json["missionTypeName"],
+        missionReward: json["missionReward"],
+        isMandatoryAttachment: json["isMandatoryAttachment"],
+        competencyCode: json["competencyCode"],
+        competencyName: json["competencyName"],
+        peopleCategoryCode: json["peopleCategoryCode"],
+        peopleCategoryName: json["peopleCategoryName"],
+        taskData: json["taskData"] == null
+            ? []
+            : List<TaskDatum>.from(
+                json["taskData"]!.map((x) => TaskDatum.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "missionId": missionId,
-    "chapterId": chapterId,
-    "missionCode": missionCode,
-    "missionName": missionName,
-    "missionInstruction": missionInstruction,
-    "missionDuration": missionDuration,
-    "missionActiveOnDay": missionActiveOnDay,
-    "missionTypeCode": missionTypeCode,
-    "missionTypeName": missionTypeName,
-    "missionReward": missionReward,
-    "isMandatoryAttachment": isMandatoryAttachment,
-    "taskData": taskData == null ? [] : List<dynamic>.from(taskData!.map((x) => x.toJson())),
-  };
+        "missionId": missionId,
+        "chapterId": chapterId,
+        "missionCode": missionCode,
+        "missionName": missionName,
+        "missionInstruction": missionInstruction,
+        "missionDuration": missionDuration,
+        "missionActiveOnDay": missionActiveOnDay,
+        "missionTypeCode": missionTypeCode,
+        "missionTypeName": missionTypeName,
+        "missionReward": missionReward,
+        "isMandatoryAttachment": isMandatoryAttachment,
+        "competencyCode": competencyCode,
+        "competencyName": competencyName,
+        "peopleCategoryCode": peopleCategoryCode,
+        "peopleCategoryName": peopleCategoryName,
+        "taskData": taskData == null
+            ? []
+            : List<dynamic>.from(taskData!.map((x) => x.toJson())),
+      };
 }
 
 @embedded
@@ -367,50 +409,55 @@ class TaskDatum {
       );
 
   factory TaskDatum.fromJson(Map<String, dynamic> json) => TaskDatum(
-    taskId: json["taskId"],
-    missionId: json["missionId"],
-    attachmentId: json["attachmentId"],
-    attachmentUrl: json["attachmentUrl"],
-    taskCode: json["taskCode"],
-    taskGroup: json["taskGroup"],
-    taskCaption: json["taskCaption"],
-    taskTypeCode: json["taskTypeCode"],
-    taskTypeName: json["taskTypeName"],
-    taskReward: json["taskReward"],
-    taskAnswerId: json["taskAnswerId"],
-    answer: json["answer"],
-    answerAttachmentId: json["answerAttachmentId"],
-    answerAttachmentUrl: json["answerAttachmentUrl"],
-    answerAttachmentName: json["answerAttachmentName"],
-    answerReward: json["answerReward"],
-    feedbackComment: json["feedbackComment"],
-    qualitativeScoreId: json["qualitativeScoreId"],
-    qualitativeScoreName: json["qualitativeScoreName"],
-    answerData: json["answerData"] == null ? [] : List<AnswerDatum>.from(json["answerData"]!.map((x) => AnswerDatum.fromJson(x))),
-  );
+        taskId: json["taskId"],
+        missionId: json["missionId"],
+        attachmentId: json["attachmentId"],
+        attachmentUrl: json["attachmentUrl"],
+        taskCode: json["taskCode"],
+        taskGroup: json["taskGroup"],
+        taskCaption: json["taskCaption"],
+        taskTypeCode: json["taskTypeCode"],
+        taskTypeName: json["taskTypeName"],
+        taskReward: json["taskReward"],
+        taskAnswerId: json["taskAnswerId"],
+        answer: json["answer"],
+        answerAttachmentId: json["answerAttachmentId"],
+        answerAttachmentUrl: json["answerAttachmentUrl"],
+        answerAttachmentName: json["answerAttachmentName"],
+        answerReward: json["answerReward"],
+        feedbackComment: json["feedbackComment"],
+        qualitativeScoreId: json["qualitativeScoreId"],
+        qualitativeScoreName: json["qualitativeScoreName"],
+        answerData: json["answerData"] == null
+            ? []
+            : List<AnswerDatum>.from(
+                json["answerData"]!.map((x) => AnswerDatum.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "taskId": taskId,
-    "missionId": missionId,
-    "attachmentId": attachmentId,
-    "attachmentUrl": attachmentUrl,
-    "taskCode": taskCode,
-    "taskGroup": taskGroup,
-    "taskCaption": taskCaption,
-    "taskTypeCode": taskTypeCode,
-    "taskTypeName": taskTypeName,
-    "taskReward": taskReward,
-    "taskAnswerId": taskAnswerId,
-    "answer": answer,
-    "answerAttachmentId": answerAttachmentId,
-    "answerAttachmentUrl": answerAttachmentUrl,
-    "answerAttachmentName": answerAttachmentName,
-    "answerReward": answerReward,
-    "feedbackComment": feedbackComment,
-    "qualitativeScoreId": qualitativeScoreId,
-    "qualitativeScoreName": qualitativeScoreName,
-    "answerData": answerData == null ? [] : List<dynamic>.from(answerData!.map((x) => x.toJson())),
-  };
+        "taskId": taskId,
+        "missionId": missionId,
+        "attachmentId": attachmentId,
+        "attachmentUrl": attachmentUrl,
+        "taskCode": taskCode,
+        "taskGroup": taskGroup,
+        "taskCaption": taskCaption,
+        "taskTypeCode": taskTypeCode,
+        "taskTypeName": taskTypeName,
+        "taskReward": taskReward,
+        "taskAnswerId": taskAnswerId,
+        "answer": answer,
+        "answerAttachmentId": answerAttachmentId,
+        "answerAttachmentUrl": answerAttachmentUrl,
+        "answerAttachmentName": answerAttachmentName,
+        "answerReward": answerReward,
+        "feedbackComment": feedbackComment,
+        "qualitativeScoreId": qualitativeScoreId,
+        "qualitativeScoreName": qualitativeScoreName,
+        "answerData": answerData == null
+            ? []
+            : List<dynamic>.from(answerData!.map((x) => x.toJson())),
+      };
 }
 
 @embedded
@@ -449,20 +496,20 @@ class AnswerDatum {
       );
 
   factory AnswerDatum.fromJson(Map<String, dynamic> json) => AnswerDatum(
-    answerId: json["answerId"],
-    taskId: json["taskId"],
-    answerCode: json["answerCode"],
-    answerField: json["answerField"],
-    answerCaption: json["answerCaption"],
-    isCorrectAnswer: json["isCorrectAnswer"],
-  );
+        answerId: json["answerId"],
+        taskId: json["taskId"],
+        answerCode: json["answerCode"],
+        answerField: json["answerField"],
+        answerCaption: json["answerCaption"],
+        isCorrectAnswer: json["isCorrectAnswer"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "answerId": answerId,
-    "taskId": taskId,
-    "answerCode": answerCode,
-    "answerField": answerField,
-    "answerCaption": answerCaption,
-    "isCorrectAnswer": isCorrectAnswer,
-  };
+        "answerId": answerId,
+        "taskId": taskId,
+        "answerCode": answerCode,
+        "answerField": answerField,
+        "answerCaption": answerCaption,
+        "isCorrectAnswer": isCorrectAnswer,
+      };
 }

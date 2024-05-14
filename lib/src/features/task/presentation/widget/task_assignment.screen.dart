@@ -901,18 +901,18 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                           SubmitStatus.success;
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
-                                        const SnackBar(
+                                        SnackBar(
                                             content: Text(
-                                                'Please upload your evidence')),
+                                                EtamKawaTranslate.pleaseUploadYourEvidence)),
                                       );
                                     }
                                   } else {
                                     submitStatusTask.state =
                                         SubmitStatus.success;
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
+                                      SnackBar(
                                           content: Text(
-                                              'Please write and fill your answer')),
+                                              EtamKawaTranslate.pleaseWriteAndFillYourAnswer)),
                                     );
                                   }
                                 }

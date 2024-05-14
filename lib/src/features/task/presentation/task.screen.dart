@@ -75,16 +75,15 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                         content: EtamKawaTranslate.areYouSureWantToLeave,
                         label: EtamKawaTranslate.stay,
                         type: DialogType.question,
-                        onClosed: () async{
-
-                                await ctrl
-                                    .changeStatusTask(isDone: false)
-                                    .whenComplete(() async {
-                                  await ctrlMission
-                                      .getMissionList()
-                                      .whenComplete(() async {});
-                                });
-                            });
+                        onClosed: () async {
+                          await ctrl
+                              .changeStatusTask(isDone: false)
+                              .whenComplete(() async {
+                            await ctrlMission
+                                .getMissionList()
+                                .whenComplete(() async {});
+                          });
+                        });
                   },
                 );
                 return Future.value(false);
@@ -108,12 +107,12 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                 label: EtamKawaTranslate.stay,
                                 type: DialogType.question,
                                 onClosed: () async {
-                                    await ctrl
-                                        .changeStatusTask(isDone: false)
-                                        .whenComplete(() async {
-                                      await ctrlMission
-                                          .getMissionList()
-                                          .whenComplete(() {});
+                                  await ctrl
+                                      .changeStatusTask(isDone: false)
+                                      .whenComplete(() async {
+                                    await ctrlMission
+                                        .getMissionList()
+                                        .whenComplete(() {});
                                   });
                                 });
                           });
@@ -146,6 +145,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                       gamificationData.chapterData?.single
                                               .chapterName ??
                                           '',
+                                      maxLines: 2,
                                       style: SharedComponent.textStyleCustom(
                                           typographyType:
                                               TypographyType.largeH5,
@@ -166,7 +166,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                               ),
                               Container(
                                   padding: EdgeInsets.symmetric(
-                                    horizontal: 8.w, vertical: 4.h),
+                                      horizontal: 8.w, vertical: 4.h),
                                   decoration: BoxDecoration(
                                       color: EtamKawaUtils()
                                           .getMissionStatusBGColorByCode('1'),

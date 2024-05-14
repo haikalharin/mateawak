@@ -213,6 +213,10 @@ class MissionValidationDatum {
     String? missionTypeName;
     int? missionReward;
     bool? isMandatoryAttachment;
+    String? competencyCode;
+    String? competencyName;
+    String? peopleCategoryCode;
+    String? peopleCategoryName;
     List<TaskValidationDatum>? taskData;
 
     MissionValidationDatum({
@@ -227,6 +231,10 @@ class MissionValidationDatum {
         this.missionTypeName,
         this.missionReward,
         this.isMandatoryAttachment,
+        this.competencyCode,
+        this.competencyName,
+        this.peopleCategoryCode,
+        this.peopleCategoryName,
         this.taskData,
     });
 
@@ -242,6 +250,10 @@ class MissionValidationDatum {
         String? missionTypeName,
         int? missionReward,
         bool? isMandatoryAttachment,
+        String? competencyCode,
+        String? competencyName,
+        String? peopleCategoryCode,
+        String? peopleCategoryName,
         List<TaskValidationDatum>? taskData,
     }) => 
         MissionValidationDatum(
@@ -256,6 +268,10 @@ class MissionValidationDatum {
             missionTypeName: missionTypeName ?? this.missionTypeName,
             missionReward: missionReward ?? this.missionReward,
             isMandatoryAttachment: isMandatoryAttachment ?? this.isMandatoryAttachment,
+            competencyCode: competencyCode ?? this.competencyCode,
+            competencyName: competencyName ?? this.competencyName,
+            peopleCategoryCode: peopleCategoryCode ?? this.peopleCategoryCode,
+            peopleCategoryName: peopleCategoryName ?? this.peopleCategoryName,
             taskData: taskData ?? this.taskData,
         );
 
@@ -272,6 +288,10 @@ class MissionValidationDatum {
         missionTypeName: json["missionTypeName"],
         missionReward: json["missionReward"],
         isMandatoryAttachment: json["isMandatoryAttachment"],
+        competencyCode: json["competencyCode"],
+        competencyName: json["competencyName"],
+        peopleCategoryCode: json["peopleCategoryCode"],
+        peopleCategoryName: json["peopleCategoryName"],
         taskData: json["taskData"] == null
             ? []
             : List<TaskValidationDatum>.from(
@@ -290,6 +310,10 @@ class MissionValidationDatum {
         "missionTypeName": missionTypeName,
         "missionReward": missionReward,
         "isMandatoryAttachment": isMandatoryAttachment,
+        "competencyCode": competencyCode,
+        "competencyName": competencyName,
+        "peopleCategoryCode": peopleCategoryCode,
+        "peopleCategoryName": peopleCategoryName,
         "taskData": taskData == null
             ? []
             : List<dynamic>.from(taskData!.map((x) => x.toJson())),
