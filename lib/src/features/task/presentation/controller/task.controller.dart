@@ -238,6 +238,10 @@ class TaskController extends _$TaskController {
         data = gamification;
       }
     }
+    ref
+        .read(listSelectOptionStringState).clear();
+    ref
+        .read(listSelectOptionState).clear();
     await ref
         .watch(changeStatusTaskLocalProvider(task: data).future)
         .whenComplete(() async {
