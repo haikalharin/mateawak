@@ -67,26 +67,26 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
           data: (data) {
             return WillPopScope(
               onWillPop: () async {
-                // await showDialog(
-                //   context: context,
-                //   builder: (context) {
-                //     return CustomDialog(
-                //         title: EtamKawaTranslate.confirmation,
-                //         content: EtamKawaTranslate.areYouSureWantToLeave,
-                //         label: EtamKawaTranslate.stay,
-                //         type: DialogType.question,
-                //         onClosed: () async{
-                //
-                //                 await ctrl
-                //                     .changeStatusTask(isDone: false)
-                //                     .whenComplete(() async {
-                //                   await ctrlMission
-                //                       .getMissionList()
-                //                       .whenComplete(() async {});
-                //                 });
-                //             });
-                //   },
-                // );
+                await showDialog(
+                  context: context,
+                  builder: (context) {
+                    return CustomDialog(
+                        title: EtamKawaTranslate.confirmation,
+                        content: EtamKawaTranslate.areYouSureWantToLeave,
+                        label: EtamKawaTranslate.stay,
+                        type: DialogType.question,
+                        onClosed: () async{
+
+                                await ctrl
+                                    .changeStatusTask(isDone: false)
+                                    .whenComplete(() async {
+                                  await ctrlMission
+                                      .getMissionList()
+                                      .whenComplete(() async {});
+                                });
+                            });
+                  },
+                );
                 return Future.value(true);
               },
               child: Scaffold(
