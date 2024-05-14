@@ -286,7 +286,7 @@ class _MissionPastDetailScreenState
                                                         ColorTheme.neutral600),
                                           ),
                                           Text(
-                                            CommonUtils.formattedDate(
+                                            CommonUtils.formattedDateHoursUtcToLocal(
                                                 gamification.submittedDate ??
                                                     '2022-04-30T12:00:00',
                                                 withDay: true,
