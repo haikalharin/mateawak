@@ -165,6 +165,16 @@ FutureOr<List<ValidationResponseRemote>> getValidationRemote(
                   missionReward: element
                       .chapterData?.single.missionData?.single.missionReward,
                   taskData: taskData,
+                  competencyCode: element
+                      .chapterData?.single.missionData?.single.competencyCode,
+                  competencyName: element
+                      .chapterData?.single.missionData?.single.competencyName,
+                  peopleCategoryCode:
+                      element
+                      .chapterData?.single.missionData?.single.peopleCategoryCode,
+                  peopleCategoryName:
+                      element
+                      .chapterData?.single.missionData?.single.peopleCategoryName,
                 )
               ],
             )
@@ -222,7 +232,10 @@ Future<ResultSubmissionRequestRemote> submitValidation(SubmitValidationRef ref,
 
   if (response.statusCode == 200) {
     await isarInstance.writeTxn(() async {
-      await isarInstance.validateRequestRemotes.filter().employeeMissionIdEqualTo(validationRequestRemote.employeeMissionId).deleteAll();
+      await isarInstance.validateRequestRemotes
+          .filter()
+          .employeeMissionIdEqualTo(validationRequestRemote.employeeMissionId)
+          .deleteAll();
     });
   }
   ResultSubmissionRequestRemote result =

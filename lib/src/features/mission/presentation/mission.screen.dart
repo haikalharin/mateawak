@@ -75,7 +75,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                         ),
-                        onFieldSubmitted: (keyword) {
+                        onChanged: (keyword) {
                           ctrl.filterMissionList(keyword);
                         },
                       ),
