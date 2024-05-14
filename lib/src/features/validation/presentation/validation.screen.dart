@@ -84,6 +84,28 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                                 childCount: listValidation.length,
                               ),
                             ),
+                            SliverToBoxAdapter(
+                              child: Container(
+                                margin: const EdgeInsets.symmetric(
+                                  vertical: 10.0,
+                                ), // Sesuaikan margin sesuai kebutuhan
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Center(
+                                      child: Text(
+                                        EtamKawaTranslate.allEntriesLoaded,
+                                        style: SharedComponent.textStyleCustom(
+                                          typographyType: TypographyType.body,
+                                          fontColor: ColorTheme.neutral600,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -142,10 +164,12 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(5.r)),
                                     color:
-                                        (validation[index].missionStatusCode ==
-                                                3)
-                                            ? ColorTheme.danger100
-                                            : ColorTheme.primary100),
+                                        EtamKawaUtils()
+                                              .getMissionStatusBGColorByCode(
+                                                  (validation[index]
+                                                              .missionStatusCode ??
+                                                          3)
+                                                      .toString())),
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 8.w, vertical: 4.h),
@@ -155,11 +179,12 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                                       style: SharedComponent.textStyleCustom(
                                           typographyType:
                                               TypographyType.paragraph,
-                                          fontColor: (validation[index]
-                                                      .missionStatusCode ==
-                                                  3)
-                                              ? ColorTheme.danger500
-                                              : ColorTheme.primary500)),
+                                          fontColor: EtamKawaUtils()
+                                              .getMissionStatusFontColorByCode(
+                                                  (validation[index]
+                                                              .missionStatusCode ??
+                                                          3)
+                                                      .toString()))),
                                 ),
                               ),
                             ),
