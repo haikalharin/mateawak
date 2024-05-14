@@ -38,6 +38,12 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
 
   // int currentQuestionIndex = 0;
   // String? selectedOption;
+  @override
+  void initState() {
+    _textController.clear();
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

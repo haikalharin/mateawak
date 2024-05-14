@@ -31,6 +31,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
 
   @override
   void initState() {
+    _textController.clear();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (ref.watch(currentTypeTaskState.notifier).state == TaskType.STX.name) {
         if (ref.watch(listSelectOptionStringState.notifier).state.isNotEmpty) {
