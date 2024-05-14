@@ -118,62 +118,67 @@ Future<bool> submitAnswerBg(
     List<bool> listSucces = [];
     await AsyncValue.guard(() => repo).then((value) async {
       for (var element in value.value ?? []) {
-        AnswerRequestRemote answerRequestRemote = element;
         List<TaskDatumAnswerRequestRemote> listTaskAnswer = [];
-        for (var elementAnswer in answerRequestRemote.taskData ?? []) {
-          listTaskAnswer.add(TaskDatumAnswerRequestRemote(
-              taskId: elementAnswer.taskId,
-              answer: elementAnswer.answer,
-              attachmentId: elementAnswer.attachmentId,
-              attachment: elementAnswer.attachment,
-              attachmentName: elementAnswer.attachmentName));
-          TaskDatumAnswer taskDatumAnswer = elementAnswer;
-          if (taskDatumAnswer.attachment != '') {
-            final map = FormData.fromMap({
-              "File": await MultipartFile.fromFile(taskDatumAnswer.attachment!),
-              "Group": taskDatumAnswer.taskGroup,
-            });
-
-            final response = await ConnectBackgroundService().post(
-                accessToken: accessToken, url: url, path: pathImage, body: map);
-
-            if (response.statusCode == 200) {
-              await deleteAnswer(isarInstance, listTaskAnswer).whenComplete(() {
-                listTaskAnswer.clear();
+        AnswerRequestRemote answerRequestRemote = element;
+        if (answerRequestRemote.status == 2 || answerRequestRemote.status == 4) {
+          for (var elementAnswer in answerRequestRemote.taskData ?? []) {
+            listTaskAnswer.add(TaskDatumAnswerRequestRemote(
+                taskId: elementAnswer.taskId,
+                answer: elementAnswer.answer,
+                attachmentId: elementAnswer.attachmentId,
+                attachment: elementAnswer.attachment,
+                attachmentName: elementAnswer.attachmentName));
+            TaskDatumAnswer taskDatumAnswer = elementAnswer;
+            if (taskDatumAnswer.attachment != '' && element.attachment != null) {
+              final map = FormData.fromMap({
+                "File": await MultipartFile.fromFile(
+                    taskDatumAnswer.attachment!),
+                "Group": taskDatumAnswer.taskGroup,
               });
-              int id = 64;
-              if (response.result?.content["resultData"] != null) {
-                id = int.parse(response.result?.content["resultData"]);
+
+              final response = await ConnectBackgroundService().post(
+                  accessToken: accessToken,
+                  url: url,
+                  path: pathImage,
+                  body: map);
+
+              if (response.statusCode == 200) {
+                int id = 64;
+                if (response.result?.content["resultData"] != null) {
+                  id = int.parse(response.result?.content["resultData"]);
+                }
+                taskDatumAnswer.attachmentId = id;
               }
-              taskDatumAnswer.attachmentId = id;
             }
           }
-        }
-        AnswerRequestRemote data = element;
-        if (data.status == 2 || data.status == 4) {
+
           final response = await ConnectBackgroundService().post(
               accessToken: accessToken,
               path: path,
               url: url,
-              body: data.toJson());
+              body: answerRequestRemote.toJson());
           if (response.statusCode == 200) {
+            await deleteAnswer(isarInstance, listTaskAnswer)
+                .whenComplete(() {
+              listTaskAnswer.clear();
+            });
             await isarInstance.writeTxn(() async {
               await isarInstance.answerRequestRemotes
-                  .delete(data.employeeMissionId ?? 0)
+                  .delete(answerRequestRemote.employeeMissionId ?? 0)
                   .whenComplete(() async {
                 await isarInstance.gamificationResponseRemotes
-                    .delete(data.employeeMissionId ?? 0);
+                    .delete(answerRequestRemote.employeeMissionId ?? 0);
               });
             });
             await isarInstance.writeTxn(() async {
               await isarInstance.answerRequestRemotes
                   .filter()
-                  .employeeMissionIdEqualTo(data.employeeMissionId)
+                  .employeeMissionIdEqualTo(answerRequestRemote.employeeMissionId)
                   .deleteAll()
                   .whenComplete(() async {
                 await isarInstance.gamificationResponseRemotes
                     .filter()
-                    .employeeMissionIdEqualTo(data.employeeMissionId)
+                    .employeeMissionIdEqualTo(answerRequestRemote.employeeMissionId)
                     .deleteAll();
               });
             });

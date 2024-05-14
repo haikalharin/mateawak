@@ -100,7 +100,7 @@ class CommonUtils {
     initializeDateFormatting();
     DateTime date = DateTime.parse(value).toUtc().toLocal();
     DateTime utcTime =
-    DateTime.utc(date.year, date.month, date.day, date.hour, date.second, 0);
+    DateTime.utc(date.year, date.month, date.day, date.hour, date.minute, date.second);
     DateTime localTime = utcTime.toLocal();
     final DateFormat formatter = withHourMinute
         ? DateFormat('dd MMM yyyy HH:mm')

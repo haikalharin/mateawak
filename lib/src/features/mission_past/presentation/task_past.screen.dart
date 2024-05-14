@@ -139,7 +139,7 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
                                       style: SharedComponent.textStyleCustom(
                                           typographyType:
                                               TypographyType.largeH5,
-                                          fontColor: ColorTheme.textLightDark)),
+                                          fontColor: ColorTheme.textDark)),
                                   SizedBox(
                                     width:
                                         MediaQuery.of(context).size.width / 1.5,
@@ -268,7 +268,7 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
                                             fontColor: ColorTheme.neutral600),
                                       ),
                                       Text(
-                                        CommonUtils.formattedDate(
+                                        CommonUtils.formattedDateHoursUtcToLocal(
                                             gamificationData.submittedDate ??
                                                 '',
                                             withDay: true,
