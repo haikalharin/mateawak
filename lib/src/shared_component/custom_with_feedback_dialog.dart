@@ -47,7 +47,7 @@ class _CustomWithFeedbackDialogState extends State<CustomWithFeedbackDialog> {
             ),
             RichText(
               text: TextSpan(
-                text: 'Score',
+                text: EtamKawaTranslate.score,
                 style: SharedComponent.textStyleCustom(
                     typographyType: TypographyType.body,
                     fontColor: ColorTheme.textDark),
@@ -66,21 +66,21 @@ class _CustomWithFeedbackDialogState extends State<CustomWithFeedbackDialog> {
             ),
             CustomDropDown(
               items: const ['Tidak Baik', 'Kurang Baik', 'Baik', 'Sangat Baik'],
-              hint: 'Choose a score',
+              hint: EtamKawaTranslate.chooseAScore,
               onPicked: (val) {
                 setState(() {
                   if (val.isNotEmpty) {
                     switch (val) {
                       case 'Tidak Baik':
-                        selectedScore = 0;
+                        selectedScore = 1;
                         break;
                       case 'Kurang Baik':
-                        selectedScore = 50;
+                        selectedScore = 2;
                         break;
                       case 'Baik':
-                        selectedScore = 75;
+                        selectedScore = 3;
                       default:
-                        selectedScore = 100;
+                        selectedScore = 4;
                         break;
                     }
                   }
@@ -139,7 +139,7 @@ class _CustomWithFeedbackDialogState extends State<CustomWithFeedbackDialog> {
                 width: double.infinity,
                 child: confirmationButton(
                     selectedScore, controller.text, context, widget.label, (String feedback, int selectedScore) {
-                  widget.onClosed;
+                  widget.onClosed!(feedback, selectedScore);
                 })),
             SizedBox(height: 8.h),
           ],
@@ -171,15 +171,18 @@ Widget confirmationButton(int? selectedScore, String feedback,
         width: 15.w,
       ),
       SharedComponent.btnWidget(
-        label: 'Submit',
+        label: EtamKawaTranslate.submit,
         typographyType: TypographyType.body,
         color: feedback != '' && selectedScore != null
             ? ColorTheme.primary500
             : ColorTheme.primary100,
         onPressed: () {
           if (feedback != '' && selectedScore != null) {
-            context.pop();
-            onClosed!(feedback, selectedScore);
+            // Call the onClosed callback with the feedback and selectedScore parameters
+            onClosed!(feedback, selectedScore); // <-- Invoke the callback
+            debugPrint('validate debug print: $feedback');
+            debugPrint('validate debug print onclosed: $onClosed');
+            context.pop(); // Close the dialog
             showDialog(
                 context: context,
                 builder: (context) {
@@ -201,3 +204,4 @@ Widget confirmationButton(int? selectedScore, String feedback,
     ],
   );
 }
+

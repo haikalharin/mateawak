@@ -52,7 +52,7 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                       child: TextFormField(
                         textInputAction: TextInputAction.search,
                         decoration: InputDecoration(
-                          hintText: "Search...",
+                          hintText: "${EtamKawaTranslate.search}...",
                           suffixIcon: const Icon(Icons.search),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
@@ -163,13 +163,12 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                                 decoration: BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(5.r)),
-                                    color:
-                                        EtamKawaUtils()
-                                              .getMissionStatusBGColorByCode(
-                                                  (validation[index]
-                                                              .missionStatusCode ??
-                                                          3)
-                                                      .toString())),
+                                    color: EtamKawaUtils()
+                                        .getMissionStatusBGColorByCode(
+                                            (validation[index]
+                                                        .missionStatusCode ??
+                                                    3)
+                                                .toString())),
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 8.w, vertical: 4.h),
@@ -316,56 +315,7 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                               ),
                             ),
                             onPressed: () async {
-                              // if ((validation[index].missionStatusCode ?? 0) >
-                              //     0) {
-                              //   await ctrlTask
-                              //       .putDetailMissionData(
-                              //           missionDatum: validation[index]
-                              //                   .chapterData
-                              //                   ?.single
-                              //                   .missionData
-                              //                   ?.single ??
-                              //               MissionValidationDatum(),
-                              //           listGamification: validation,
-                              //           gamificationResponseRemote:
-                              //               validation[index])
-                              //       .whenComplete(() async {
-                              //     await putData().whenComplete(() async {
-                              //       ref.refresh(taskControllerProvider);
-                              //       await ctrlTask
-                              //           .currentQuestion(
-                              //               employeeMissionId:
-                              //                   validation[index]
-                              //                           .employeeMissionId ??
-                              //                       0)
-                              //           .whenComplete(() async {
-                              //         await putCurrentAnswerFinal()
-                              //             .whenComplete(() {
-                              //           myAsyncMethodMoved(
-                              //               context, validation[index]);
-                              //         });
-                              //       });
-                              //     });
-                              //   });
-                              // } else {
-                              //   await ctrlTask
-                              //       .putDetailMissionData(
-                              //           missionDatum: validation[index]
-                              //                   .chapterData
-                              //                   ?.single
-                              //                   .missionData
-                              //                   ?.single ??
-                              //               MissionValidationDatum(),
-                              //           listGamification: validation,
-                              //           gamificationResponseRemote:
-                              //               validation[index])
-                              //       .whenComplete(() async {
-                              //     await putData().whenComplete(() async {
-                              //       myAsyncMethodMoved(
-                              //           context, validation[index]);
-                              //     });
-                              //   });
-                              // }
+                              ref.watch(validationInReviewDetailState.notifier).state = validation[index];
                               myAsyncMethodMoved(context, validation[index]);
                             },
                             child: Text(EtamKawaTranslate.view,
