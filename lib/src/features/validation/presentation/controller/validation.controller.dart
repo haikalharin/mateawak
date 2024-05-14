@@ -17,6 +17,8 @@ final listMissionInReviewState =
     StateProvider.autoDispose<List<MissionValidationDatum>>((ref) => []);
 final validationInReviewState =
     StateProvider.autoDispose<List<ValidationResponseRemote>>((ref) => []);
+final validationInReviewDetailState =
+    StateProvider.autoDispose<ValidationResponseRemote>((ref) => ValidationResponseRemote());
 var latestSyncDateValidationState =
     StateProvider.autoDispose<String>((ref) => '2024-03-01T03:55:58.918Z');
 

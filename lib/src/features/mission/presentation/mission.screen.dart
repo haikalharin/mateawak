@@ -69,7 +69,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                       child: TextFormField(
                         textInputAction: TextInputAction.search,
                         decoration: InputDecoration(
-                          hintText: "Search...",
+                          hintText: "${EtamKawaTranslate.search}...",
                           suffixIcon: const Icon(Icons.search),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),

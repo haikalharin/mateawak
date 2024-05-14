@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:module_etamkawa/src/constants/function_utils.dart';
+import 'package:module_etamkawa/src/features/task/domain/result_submission_request.remote.dart';
+import 'package:module_etamkawa/src/features/validation/domain/validate_request.remote.dart';
 import 'package:module_etamkawa/src/features/validation/domain/validation_response.remote.dart';
 import 'package:module_etamkawa/src/features/validation/presentation/controller/validation.controller.dart';
 import 'package:module_etamkawa/src/utils/common_utils.dart';
@@ -76,6 +78,7 @@ FutureOr<List<ValidationResponseRemote>> getValidationRemote(
             missionId: element.missionId,
             attachmentId: element.attachmentId,
             attachmentUrl: element.attachmentUrl,
+            answer: element.answer,
             //attachmentPath: file.path,
             answerAttachmentId: element.answerAttachmentId,
             answerAttachmentUrl: element.answerAttachmentUrl,
@@ -203,4 +206,26 @@ FutureOr<List<ValidationResponseRemote>> getValidationLocal(
   });
   ref.keepAlive();
   return data;
+}
+
+@riverpod
+Future<ResultSubmissionRequestRemote> submitValidation(SubmitValidationRef ref,
+    {required ValidateRequestRemote validationRequestRemote}) async {
+  final userModel = await ref.read(helperUserProvider).getUserProfile();
+  final connect = ref.read(connectProvider.notifier);
+  final isarInstance = await ref.watch(isarInstanceProvider.future);
+  final response = await connect.post(
+      modul: ModuleType.etamkawaGamification,
+      path:
+          "api/mission/validate_employee_mission?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}",
+      body: validationRequestRemote.toJson());
+
+  if (response.statusCode == 200) {
+    await isarInstance.writeTxn(() async {
+      await isarInstance.validateRequestRemotes.filter().employeeMissionIdEqualTo(validationRequestRemote.employeeMissionId).deleteAll();
+    });
+  }
+  ResultSubmissionRequestRemote result =
+      ResultSubmissionRequestRemote.fromJson(response.result?.content);
+  return result;
 }
