@@ -150,7 +150,7 @@ Future<bool> submitAnswerBg(
           }
         }
         AnswerRequestRemote data = element;
-        if (data.status != 99) {
+        if (data.status == 2 || data.status == 4) {
           final response = await ConnectBackgroundService().post(
               accessToken: accessToken,
               path: path,
