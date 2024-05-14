@@ -240,7 +240,7 @@ class EtamKawaUtils {
       case 'Complete':
         return EtamKawaTranslate.complete;
       default:
-        return 'Assigned';
+        return EtamKawaTranslate.validated;
     }
   }
   Color getMissionStatusBGColorByCode(String code) {

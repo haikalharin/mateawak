@@ -53,7 +53,7 @@ class _ValidationDetailScreenState
   Widget build(BuildContext context) {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
-        final validation = ref.watch(validationInReviewState.notifier).state[0];
+        final validation = ref.watch(validationInReviewDetailState);
         final ctrl = ref.watch(validateControllerProvider.notifier);
         debugPrint(validation.missionStatusCode.toString());
         return AsyncValueWidget(
@@ -634,14 +634,14 @@ class _ValidationDetailScreenState
                                                         .feedbackComment ??
                                                     ''),
                                                 label: EtamKawaTranslate.stay,
-                                                //type: DialogType.question,
                                                 onClosed: (String feedback,
                                                         int
                                                             selectedScore) async =>
                                                     {
-                                                      ctrl.changeStatusValidation(
-                                                          feedback,
-                                                          selectedScore)
+                                                      await ctrl
+                                                          .changeStatusValidation(
+                                                              feedback,
+                                                              selectedScore)
                                                     });
                                           },
                                         );
@@ -660,7 +660,8 @@ class _ValidationDetailScreenState
                                               padding:
                                                   const EdgeInsets.fromLTRB(
                                                       5, 0, 0, 0),
-                                              child: Text('Validate',
+                                              child: Text(
+                                                  EtamKawaTranslate.validate,
                                                   style: SharedComponent
                                                       .textStyleCustom(
                                                           typographyType:
