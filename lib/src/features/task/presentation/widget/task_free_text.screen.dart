@@ -28,17 +28,12 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
   final TextEditingController _textController = TextEditingController();
 
   var groupValue = 0;
+  bool isInit = true;
 
   @override
   void initState() {
     _textController.clear();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (ref.watch(currentTypeTaskState.notifier).state == TaskType.STX.name) {
-        if (ref.watch(listSelectOptionStringState.notifier).state.isNotEmpty) {
-          _textController.text =
-              ref.watch(listSelectOptionStringState.notifier).state.single;
-        }
-      }
     });
 
     super.initState();
@@ -59,7 +54,19 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
         final gamificationData = ref.watch(gamificationState);
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
         final submitStatusTask = ref.watch(submitStatusTaskState.notifier);
-        // _textController =
+        if (ref.watch(currentTypeTaskState.notifier).state ==
+            TaskType.STX.name) {
+          if (isInit) {
+            if (ref
+                .watch(listSelectOptionStringState.notifier)
+                .state
+                .isNotEmpty) {
+              _textController.text =
+                  ref.watch(listSelectOptionStringState.notifier).state.single;
+            }
+          }
+          isInit = false;
+        }
 
         return Scaffold(
             backgroundColor: ColorTheme.backgroundLight,
