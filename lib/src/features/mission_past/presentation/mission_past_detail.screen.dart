@@ -58,19 +58,22 @@ class _MissionPastDetailScreenState
           data: (data) {
             return WillPopScope(
                 onWillPop: () {
-                  context.pop();
+                  ref.refresh(missionPastControllerProvider);
                   context.pop();
                   return Future.value(false);
                 },
                 child: Scaffold(
                     backgroundColor: ColorTheme.neutral100,
                     appBar: SharedComponentEtamkawa.appBar(
-                      backgroundColor: ColorTheme.backgroundWhite,
-                      titleColor: ColorTheme.textDark,
-                      context: context,
-                      title: EtamKawaTranslate.missionDetail,
-                      brightnessIconStatusBar: Brightness.light,
-                    ),
+                        backgroundColor: ColorTheme.backgroundWhite,
+                        titleColor: ColorTheme.textDark,
+                        context: context,
+                        title: EtamKawaTranslate.missionDetail,
+                        brightnessIconStatusBar: Brightness.light,
+                        onBack: () {
+                          ref.refresh(missionPastControllerProvider);
+                          context.pop();
+                        }),
                     body: Column(children: [
                       Card(
                         shape: RoundedRectangleBorder(
@@ -102,6 +105,8 @@ class _MissionPastDetailScreenState
                                           gamification.chapterData?.single
                                                   .chapterName ??
                                               '',
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
                                           style:
                                               SharedComponent.textStyleCustom(
                                             typographyType:
@@ -135,15 +140,16 @@ class _MissionPastDetailScreenState
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 8.w, vertical: 4.h),
                                       child: Text(
-                                        EtamKawaUtils().getMissionStatus(
-                                            gamification.missionStatus ?? ''),
-                                        style: SharedComponent.textStyleCustom(
-                                          typographyType: TypographyType.small,
-                                          fontColor: EtamKawaUtils()
-                                            .getMissionStatusFontColorByCode(
-                                                gamification.missionStatusCode
-                                                    .toString()))
-                                      ),
+                                          EtamKawaUtils().getMissionStatus(
+                                              gamification.missionStatus ?? ''),
+                                          style: SharedComponent.textStyleCustom(
+                                              typographyType:
+                                                  TypographyType.small,
+                                              fontColor: EtamKawaUtils()
+                                                  .getMissionStatusFontColorByCode(
+                                                      gamification
+                                                          .missionStatusCode
+                                                          .toString()))),
                                     ),
                                   ),
                                 ],
@@ -286,11 +292,13 @@ class _MissionPastDetailScreenState
                                                         ColorTheme.neutral600),
                                           ),
                                           Text(
-                                            CommonUtils.formattedDateHoursUtcToLocal(
-                                                gamification.submittedDate ??
-                                                    '2022-04-30T12:00:00',
-                                                withDay: true,
-                                                withHourMinute: true),
+                                            CommonUtils
+                                                .formattedDateHoursUtcToLocal(
+                                                    gamification
+                                                            .submittedDate ??
+                                                        '2022-04-30T12:00:00',
+                                                    withDay: true,
+                                                    withHourMinute: true),
                                             style:
                                                 SharedComponent.textStyleCustom(
                                                     typographyType:

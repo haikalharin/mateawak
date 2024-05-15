@@ -52,17 +52,18 @@ class _ConnectionListenerWidgetState
         InternetConnectionChecker().onStatusChange.listen((status) async {
       switch (status) {
         case InternetConnectionStatus.connected:
+          ref.read(isConnectionAvailableProvider.notifier).state = true;
           if (isInit) {
             await ctrlTask.sendAnswerBackgroundService().whenComplete(() async {
               await  ctrl.backgroundServiceEvent(isFetchMission: true,isSubmitAnswer: true);
             });
             isInit = false;
           }
-          ref.read(isConnectionAvailableProvider.notifier).state = true;
+
           break;
         case InternetConnectionStatus.disconnected:
-          isInit = true;
           ref.read(isConnectionAvailableProvider.notifier).state = false;
+          isInit = true;
           break;
       }
     });

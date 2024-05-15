@@ -15,6 +15,7 @@ import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../shared_component/async_value_widget.dart';
+import '../../../shared_component/instruction_dialog.dart';
 import '../../../shared_component/shared_component_etamkawa.dart';
 
 class ValidationDetailScreen extends ConsumerStatefulWidget {
@@ -406,11 +407,34 @@ class _ValidationDetailScreenState
                                                     SizedBox(
                                                       width: 5.w,
                                                     ),
-                                                    Icon(
-                                                      Icons.info,
-                                                      color:
-                                                          ColorTheme.primary500,
-                                                      size: 24.h,
+                                                    InkWell(
+                                                      onTap: () {
+                                                        showDialog(
+                                                          barrierDismissible:
+                                                              false,
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return InstructionDialog(
+                                                                title: EtamKawaTranslate
+                                                                    .instructions,
+                                                                content: validation
+                                                                        .chapterData
+                                                                        ?.first
+                                                                        .missionData
+                                                                        ?.first
+                                                                        .missionInstruction ??
+                                                                    '',
+                                                                labelButton:
+                                                                    'Ok');
+                                                          },
+                                                        );
+                                                      },
+                                                      child: Icon(
+                                                        Icons.info,
+                                                        color: ColorTheme
+                                                            .primary500,
+                                                        size: 24.h,
+                                                      ),
                                                     ),
                                                   ],
                                                 ),

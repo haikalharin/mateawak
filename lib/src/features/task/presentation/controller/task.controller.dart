@@ -239,26 +239,65 @@ class TaskController extends _$TaskController {
 
   Future<void> changeStatusTask({isDone = true}) async {
     final gamification = ref.read(gamificationState.notifier).state;
+    final isarInstance = await ref.watch(isarInstanceProvider.future);
 
-    GamificationResponseRemote data = GamificationResponseRemote();
+    GamificationResponseRemote dataTask = GamificationResponseRemote();
+    AnswerRequestRemote dataAnswer = AnswerRequestRemote();
+    final repo = isarInstance.answerRequestRemotes
+        .filter()
+        .employeeMissionIdIsNotNull()
+        .findAll();
 
     if (isDone) {
-      data = gamification.copyWith(
+      dataTask = gamification.copyWith(
           missionStatusCode: 2, missionStatus: 'Submitted');
+      await AsyncValue.guard(() => repo).then((value) async {
+        if((value.value??[]).isNotEmpty){
+          for (var element in (value.value??[])) {
+            AnswerRequestRemote answerRequestRemote = element;
+         if(answerRequestRemote.employeeMissionId == gamification.employeeMissionId){
+          dataAnswer = answerRequestRemote.copyWith(status: 2);
+         }
+
+          }}
+      });
     } else {
       if ((gamification.missionStatusCode ?? 0) < 1) {
-        data = gamification.copyWith(
+        dataTask = gamification.copyWith(
             missionStatusCode: 1, missionStatus: 'In Progress');
+        await AsyncValue.guard(() => repo).then((value) async {
+          if((value.value??[]).isNotEmpty){
+            for (var element in (value.value??[])) {
+              AnswerRequestRemote answerRequestRemote = element;
+              if(answerRequestRemote.employeeMissionId == gamification.employeeMissionId){
+                dataAnswer = answerRequestRemote.copyWith(status: 1);
+              }
+
+            }}
+        });
       } else {
-        data = gamification;
+        await AsyncValue.guard(() => repo).then((value) async {
+          if((value.value??[]).isNotEmpty){
+            for (var element in (value.value??[])) {
+              AnswerRequestRemote answerRequestRemote = element;
+              if(answerRequestRemote.employeeMissionId == gamification.employeeMissionId){
+                dataAnswer = answerRequestRemote.copyWith(status: gamification.missionStatusCode);
+              }
+
+            }}
+        });
+        dataTask = gamification;
       }
     }
 
+
+
     await ref
-        .watch(changeStatusTaskLocalProvider(task: data).future)
+        .watch(changeStatusTaskLocalProvider(task: dataTask,answer:dataAnswer).future)
         .whenComplete(() async {
       await deleteAnswer(listTaskAnswer);
     });
+
   }
 
   Future<void> putTaskAnswer(TaskDatumAnswerRequestRemote value) async {

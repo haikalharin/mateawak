@@ -106,14 +106,15 @@ FutureOr<List<TaskDatumAnswer>> getAnswerFinalLocal(GetAnswerFinalLocalRef ref,
 
 @riverpod
 FutureOr<bool> changeStatusTaskLocal(ChangeStatusTaskLocalRef ref,
-    {required GamificationResponseRemote task}) async {
+    {required GamificationResponseRemote task, required AnswerRequestRemote answer}) async {
   final isarInstance = await ref.watch(isarInstanceProvider.future);
 
   // final today = CommonUtils.formatDateRequestParam(DateTime.now().toString());
   // ref.watch(latestSyncDateState.notifier).state = today;
   //await isarInstance.gamificationResponseRemotes.clear();
-
+print('^^^^^${answer.status}');
   await isarInstance.writeTxn(() async {
+    await isarInstance.answerRequestRemotes.put(answer);
     await isarInstance.gamificationResponseRemotes.put(task);
   });
 

@@ -711,7 +711,7 @@ class _GetAnswerFinalLocalProviderElement
 }
 
 String _$changeStatusTaskLocalHash() =>
-    r'7edd7d496a6d3acb1fe698dc0c690ed3301dce29';
+    r'3f0ad9dcbc03a690fc18fbe2d0e21d5dd19f35b8';
 
 /// See also [changeStatusTaskLocal].
 @ProviderFor(changeStatusTaskLocal)
@@ -725,9 +725,11 @@ class ChangeStatusTaskLocalFamily extends Family<AsyncValue<bool>> {
   /// See also [changeStatusTaskLocal].
   ChangeStatusTaskLocalProvider call({
     required GamificationResponseRemote task,
+    required AnswerRequestRemote answer,
   }) {
     return ChangeStatusTaskLocalProvider(
       task: task,
+      answer: answer,
     );
   }
 
@@ -737,6 +739,7 @@ class ChangeStatusTaskLocalFamily extends Family<AsyncValue<bool>> {
   ) {
     return call(
       task: provider.task,
+      answer: provider.answer,
     );
   }
 
@@ -760,10 +763,12 @@ class ChangeStatusTaskLocalProvider extends AutoDisposeFutureProvider<bool> {
   /// See also [changeStatusTaskLocal].
   ChangeStatusTaskLocalProvider({
     required GamificationResponseRemote task,
+    required AnswerRequestRemote answer,
   }) : this._internal(
           (ref) => changeStatusTaskLocal(
             ref as ChangeStatusTaskLocalRef,
             task: task,
+            answer: answer,
           ),
           from: changeStatusTaskLocalProvider,
           name: r'changeStatusTaskLocalProvider',
@@ -775,6 +780,7 @@ class ChangeStatusTaskLocalProvider extends AutoDisposeFutureProvider<bool> {
           allTransitiveDependencies:
               ChangeStatusTaskLocalFamily._allTransitiveDependencies,
           task: task,
+          answer: answer,
         );
 
   ChangeStatusTaskLocalProvider._internal(
@@ -785,9 +791,11 @@ class ChangeStatusTaskLocalProvider extends AutoDisposeFutureProvider<bool> {
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.task,
+    required this.answer,
   }) : super.internal();
 
   final GamificationResponseRemote task;
+  final AnswerRequestRemote answer;
 
   @override
   Override overrideWith(
@@ -803,6 +811,7 @@ class ChangeStatusTaskLocalProvider extends AutoDisposeFutureProvider<bool> {
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         task: task,
+        answer: answer,
       ),
     );
   }
@@ -814,13 +823,16 @@ class ChangeStatusTaskLocalProvider extends AutoDisposeFutureProvider<bool> {
 
   @override
   bool operator ==(Object other) {
-    return other is ChangeStatusTaskLocalProvider && other.task == task;
+    return other is ChangeStatusTaskLocalProvider &&
+        other.task == task &&
+        other.answer == answer;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, task.hashCode);
+    hash = _SystemHash.combine(hash, answer.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -829,6 +841,9 @@ class ChangeStatusTaskLocalProvider extends AutoDisposeFutureProvider<bool> {
 mixin ChangeStatusTaskLocalRef on AutoDisposeFutureProviderRef<bool> {
   /// The parameter `task` of this provider.
   GamificationResponseRemote get task;
+
+  /// The parameter `answer` of this provider.
+  AnswerRequestRemote get answer;
 }
 
 class _ChangeStatusTaskLocalProviderElement
@@ -839,6 +854,9 @@ class _ChangeStatusTaskLocalProviderElement
   @override
   GamificationResponseRemote get task =>
       (origin as ChangeStatusTaskLocalProvider).task;
+  @override
+  AnswerRequestRemote get answer =>
+      (origin as ChangeStatusTaskLocalProvider).answer;
 }
 
 String _$submitMissionHash() => r'a8596550e7f5b56a7893cef57d68611b891995fb';
