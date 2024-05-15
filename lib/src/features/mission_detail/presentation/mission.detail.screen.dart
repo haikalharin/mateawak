@@ -101,6 +101,8 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                           gamification.chapterData?.single
                                                   .chapterName ??
                                               '',
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
                                           style:
                                               SharedComponent.textStyleCustom(
                                             typographyType:

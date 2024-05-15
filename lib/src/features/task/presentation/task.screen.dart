@@ -141,15 +141,20 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                      gamificationData.chapterData?.single
-                                              .chapterName ??
-                                          '',
-                                      maxLines: 2,
-                                      style: SharedComponent.textStyleCustom(
-                                          typographyType:
-                                              TypographyType.largeH5,
-                                          fontColor: ColorTheme.neutral600)),
+                                  SizedBox(
+                                    width:
+                                    MediaQuery.of(context).size.width / 1.5,
+                                    child: Text(
+                                        gamificationData.chapterData?.single
+                                                .chapterName ??
+                                            '',
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                        style: SharedComponent.textStyleCustom(
+                                            typographyType:
+                                                TypographyType.largeH5,
+                                            fontColor: ColorTheme.neutral600)),
+                                  ),
                                   SizedBox(
                                     width:
                                         MediaQuery.of(context).size.width / 1.5,
@@ -250,7 +255,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                         ],
                       ),
                     ),
-                    listTask[currentQuestionIndex.state].taskTypeCode ==
+                    listTask.isNotEmpty && listTask[currentQuestionIndex.state].taskTypeCode ==
                                 TaskType.SCQ.name ||
                             listTask[currentQuestionIndex.state].taskTypeCode ==
                                 TaskType.YNQ.name

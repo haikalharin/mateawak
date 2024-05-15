@@ -118,74 +118,75 @@ Future<bool> submitAnswerBg(
     List<bool> listSucces = [];
     await AsyncValue.guard(() => repo).then((value) async {
       for (var element in value.value ?? []) {
-        List<TaskDatumAnswerRequestRemote> listTaskAnswer = [];
         AnswerRequestRemote answerRequestRemote = element;
-        if (answerRequestRemote.status == 2 || answerRequestRemote.status == 4) {
+        if (answerRequestRemote.status == 2 ||
+            answerRequestRemote.status == 4) {
           for (var elementAnswer in answerRequestRemote.taskData ?? []) {
-            listTaskAnswer.add(TaskDatumAnswerRequestRemote(
-                taskId: elementAnswer.taskId,
-                answer: elementAnswer.answer,
-                attachmentId: elementAnswer.attachmentId,
-                attachment: elementAnswer.attachment,
-                attachmentName: elementAnswer.attachmentName));
             TaskDatumAnswer taskDatumAnswer = elementAnswer;
-            if (taskDatumAnswer.attachment != '' && element.attachment != null) {
+            if (taskDatumAnswer.attachment != '' &&
+                taskDatumAnswer.attachment != null) {
               final map = FormData.fromMap({
-                "File": await MultipartFile.fromFile(
-                    taskDatumAnswer.attachment!),
+                "File":
+                    await MultipartFile.fromFile(taskDatumAnswer.attachment!),
                 "Group": taskDatumAnswer.taskGroup,
               });
 
-              final response = await ConnectBackgroundService().post(
+              final response =  ConnectBackgroundService().post(
                   accessToken: accessToken,
                   url: url,
                   path: pathImage,
                   body: map);
-
-              if (response.statusCode == 200) {
-                int id = 64;
-                if (response.result?.content["resultData"] != null) {
-                  id = int.parse(response.result?.content["resultData"]);
+              await AsyncValue.guard(() => response).then((value) async {
+                if (value.value?.statusCode == 200) {
+                  int id = 64;
+                  if (value.value?.result?.content["resultData"] != null) {
+                    id = int.parse(value.value?.result?.content["resultData"]);
+                  }
+                  taskDatumAnswer.attachmentId = id;
                 }
-                taskDatumAnswer.attachmentId = id;
-              }
+              });
             }
           }
 
-          final response = await ConnectBackgroundService().post(
+          final response = ConnectBackgroundService().post(
               accessToken: accessToken,
               path: path,
               url: url,
               body: answerRequestRemote.toJson());
-          if (response.statusCode == 200) {
-            await deleteAnswer(isarInstance, listTaskAnswer)
-                .whenComplete(() {
-              listTaskAnswer.clear();
-            });
-            await isarInstance.writeTxn(() async {
-              await isarInstance.answerRequestRemotes
-                  .delete(answerRequestRemote.employeeMissionId ?? 0)
-                  .whenComplete(() async {
-                await isarInstance.gamificationResponseRemotes
-                    .delete(answerRequestRemote.employeeMissionId ?? 0);
-              });
-            });
-            await isarInstance.writeTxn(() async {
-              await isarInstance.answerRequestRemotes
-                  .filter()
-                  .employeeMissionIdEqualTo(answerRequestRemote.employeeMissionId)
-                  .deleteAll()
-                  .whenComplete(() async {
-                await isarInstance.gamificationResponseRemotes
+
+          await AsyncValue.guard(() => response).then((value) async {
+
+            if (value.value?.statusCode == 200) {
+
+
+              // await isarInstance.writeTxn(() async {
+              //   await isarInstance.answerRequestRemotes
+              //       .delete(answerRequestRemote.employeeMissionId ?? 0)
+              //       .whenComplete(() async {
+              //     await isarInstance.gamificationResponseRemotes
+              //         .delete(answerRequestRemote.employeeMissionId ?? 0);
+              //   });
+              // });
+
+              await isarInstance.writeTxn(() async {
+                await isarInstance.answerRequestRemotes
                     .filter()
-                    .employeeMissionIdEqualTo(answerRequestRemote.employeeMissionId)
-                    .deleteAll();
+                    .employeeMissionIdEqualTo(
+                        answerRequestRemote.employeeMissionId)
+                    .deleteAll()
+                    .whenComplete(() async {
+                  await isarInstance.gamificationResponseRemotes
+                      .filter()
+                      .employeeMissionIdEqualTo(
+                          answerRequestRemote.employeeMissionId)
+                      .deleteAll();
+                });
               });
-            });
-          }
-          var statusSuccess =
-              response.statusCode == 200 || (response.result?.isError == false);
-          listSucces.add(statusSuccess);
+            }
+            var statusSuccess = value.value?.statusCode == 200 ||
+                (value.value?.result?.isError == false);
+            listSucces.add(statusSuccess);
+          });
         }
       }
     });
@@ -227,18 +228,18 @@ Future<bool> fetchMission(
       body: {
         "employeeId": employeeId,
         "requestDate": requestDate
-        //"requestDate": '2024-03-01T03:55:58.918Z'
+//"requestDate": '2024-03-01T03:55:58.918Z'
       },
     );
     if (response.statusCode == 200) {
       log('submit data result: ${response.result}');
       for (var element in response.result?.content) {
-        // for (var element in rawMissionDummy) {
+// for (var element in rawMissionDummy) {
         final result = GamificationResponseRemote.fromJson(element);
         listResponse.add(result);
       }
-      // final today = CommonUtils.formatDateRequestParam(DateTime.now().toString());
-      // ref.watch(latestSyncDateState.notifier).state = today;
+// final today = CommonUtils.formatDateRequestParam(DateTime.now().toString());
+// ref.watch(latestSyncDateState.notifier).state = today;
 
       final repo = isarInstance.gamificationResponseRemotes
           .filter()
@@ -324,20 +325,20 @@ Future<bool> fetchMission(
       }
 
       await isarInstance.writeTxn(() async {
-        //await isarInstance.gamificationResponseRemotes.clear();
+//await isarInstance.gamificationResponseRemotes.clear();
         await isarInstance.gamificationResponseRemotes
             .putAll(listAfterCheckIsIncomplete);
       });
 
-      // final data = await isarInstance.gamificationResponseRemotes
-      //     .filter()
-      //     .employeeMissionIdIsNotNull()
-      //     .findAll();
+// final data = await isarInstance.gamificationResponseRemotes
+//     .filter()
+//     .employeeMissionIdIsNotNull()
+//     .findAll();
 
-      // if (isarInstance.isOpen) {
-      //   await isarInstance.close();
-      // }
-      //await serviceInstance.stopSelf();
+// if (isarInstance.isOpen) {
+//   await isarInstance.close();
+// }
+//await serviceInstance.stopSelf();
       return true;
     }
     return false;
