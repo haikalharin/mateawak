@@ -543,6 +543,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                   });
                                 });
                               } else {
+
                                 await ctrl
                                     .putDetailMissionData(
                                         missionDatum: gamification[index]
@@ -555,8 +556,13 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                         gamificationResponseRemote:
                                             gamification[index])
                                     .whenComplete(() async {
-                                  myAsyncMethodMoved(
-                                      context, gamification[index]);
+                                  ref.refresh(taskControllerProvider);
+                                  await ctrlTask
+                                      .clearData()
+                                      .whenComplete(() async {
+                                    myAsyncMethodMoved(
+                                        context, gamification[index]);
+                                  });
                                 });
                               }
                             },

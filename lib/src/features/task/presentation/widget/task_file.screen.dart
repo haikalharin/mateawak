@@ -908,10 +908,6 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                               isSubmitted: true)
                                                           .whenComplete(
                                                               () async {
-                                                        await ctrl
-                                                            .changeStatusTask()
-                                                            .whenComplete(
-                                                                () async {
                                                           await ctrlMission
                                                               .getMissionList()
                                                               .whenComplete(() {
@@ -940,7 +936,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                                 .clear();
                                                             isInit = true;
                                                           });
-                                                        });
+
                                                       });
                                                     });
                                               },

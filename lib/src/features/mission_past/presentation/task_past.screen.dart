@@ -136,6 +136,8 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
                                       gamificationData.chapterData?.single
                                               .chapterName ??
                                           '',
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
                                       style: SharedComponent.textStyleCustom(
                                           typographyType:
                                               TypographyType.largeH5,

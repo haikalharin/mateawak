@@ -600,10 +600,6 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                                     true)
                                                             .whenComplete(
                                                                 () async {
-                                                          await ctrl
-                                                              .changeStatusTask()
-                                                              .whenComplete(
-                                                                  () async {
                                                             await ctrlMission
                                                                 .getMissionList()
                                                                 .whenComplete(
@@ -632,7 +628,6 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                               _textController
                                                                   .clear();
                                                             });
-                                                          });
                                                         });
                                                       });
                                                 },

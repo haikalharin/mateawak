@@ -538,10 +538,6 @@ class _TaskSingleChoiceScreenState
                                                         .putAnswerFinal(
                                                             isSubmitted: true)
                                                         .whenComplete(() async {
-                                                      await ctrl
-                                                          .changeStatusTask()
-                                                          .whenComplete(
-                                                              () async {
                                                         await ctrlMission
                                                             .getMissionList()
                                                             .whenComplete(() {
@@ -565,7 +561,6 @@ class _TaskSingleChoiceScreenState
                                                                 );
                                                               });
                                                         });
-                                                      });
                                                     });
                                                   });
                                             },
