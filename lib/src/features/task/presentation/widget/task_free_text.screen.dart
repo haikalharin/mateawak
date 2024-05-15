@@ -33,7 +33,6 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
   @override
   void initState() {
     _textController.clear();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {});
 
     super.initState();
   }
@@ -413,6 +412,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                         .state;
                                                 submitStatusTask.state =
                                                     SubmitStatus.success;
+                                                isInit = true;
                                               } else {
                                                 ref
                                                         .watch(
@@ -531,6 +531,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                           .state;
                                                   submitStatusTask.state =
                                                       SubmitStatus.success;
+                                                  isInit = true;
                                                 } else {
                                                   ref
                                                           .watch(
@@ -604,10 +605,6 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                                     true)
                                                             .whenComplete(
                                                                 () async {
-                                                          await ctrl
-                                                              .changeStatusTask()
-                                                              .whenComplete(
-                                                                  () async {
                                                             await ctrlMission
                                                                 .getMissionList()
                                                                 .whenComplete(
@@ -636,7 +633,6 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                               _textController
                                                                   .clear();
                                                             });
-                                                          });
                                                         });
                                                       });
                                                 },

@@ -769,6 +769,22 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                             attachmentPathCurrentState
                                                                 .notifier)
                                                         .state;
+                                                ref
+                                                    .watch(
+                                                    listSelectOptionCurrentStringState
+                                                        .notifier)
+                                                    .state
+                                                    .clear();
+                                                ref
+                                                    .watch(
+                                                    attachmentPathCurrentState
+                                                        .notifier)
+                                                    .state ='';
+                                                ref
+                                                    .watch(
+                                                    attachmentNameCurrentState
+                                                        .notifier)
+                                                    .state ='';
                                                 submitStatusTask.state =
                                                     SubmitStatus.success;
                                               } else {
@@ -850,10 +866,6 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                         .putAnswerFinal(
                                                             isSubmitted: true)
                                                         .whenComplete(() async {
-                                                      await ctrl
-                                                          .changeStatusTask()
-                                                          .whenComplete(
-                                                              () async {
                                                         await ctrlMission
                                                             .getMissionList()
                                                             .whenComplete(() {
@@ -893,7 +905,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                             isInit = true;
                                                           });
                                                         });
-                                                      });
+
                                                     });
                                                   },
                                                 );

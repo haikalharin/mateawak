@@ -132,16 +132,20 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                      gamificationData.chapterData?.single
-                                              .chapterName ??
-                                          '',
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                      style: SharedComponent.textStyleCustom(
-                                          typographyType:
-                                              TypographyType.largeH5,
-                                          fontColor: ColorTheme.textDark)),
+                                  SizedBox(
+                                    width:
+                                    MediaQuery.of(context).size.width / 1.5,
+                                    child: Text(
+                                        gamificationData.chapterData?.single
+                                                .chapterName ??
+                                            '',
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                        style: SharedComponent.textStyleCustom(
+                                            typographyType:
+                                                TypographyType.largeH5,
+                                            fontColor: ColorTheme.textDark)),
+                                  ),
                                   SizedBox(
                                     width:
                                         MediaQuery.of(context).size.width / 1.5,

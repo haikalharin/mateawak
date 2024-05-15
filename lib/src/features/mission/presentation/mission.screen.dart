@@ -36,10 +36,28 @@ Future<void> myAsyncMethodMoved(
   }
 }
 
-class _MissionScreenState extends ConsumerState<MissionScreen> {
+class _MissionScreenState extends ConsumerState<MissionScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController _controller;
+  int _selectedIndex = 0;
+  List<Widget> listTab = [
+    Tab(text: EtamKawaTranslate.inProgress),
+    Tab(text: EtamKawaTranslate.assigned),
+    Tab(text: EtamKawaTranslate.past),
+  ];
+
   @override
   void initState() {
     super.initState();
+
+    _controller = TabController(length: listTab.length, vsync: this);
+
+    _controller.addListener(() {
+      setState(() {
+        _selectedIndex = _controller.index;
+      });
+      print("Selected Index: " + _controller.index.toString());
+    });
   }
 
   @override
@@ -67,6 +85,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
+                        readOnly: _selectedIndex == 2 && isConnectionAvailable,
                         textInputAction: TextInputAction.search,
                         decoration: InputDecoration(
                           hintText: "${EtamKawaTranslate.search}...",
@@ -75,6 +94,14 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                         ),
+                        onTap: () {
+                          if (_selectedIndex == 2 && isConnectionAvailable) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                 SnackBar(
+                                    content: Text(
+                                        EtamKawaTranslate.availableSoon)));
+                          }
+                        },
                         onChanged: (keyword) {
                           ctrl.filterMissionList(keyword);
                         },
@@ -89,20 +116,26 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                             TabBar(
                               onTap: (index) {
                                 switch (index) {
-                                  // case 0:
-                                  //   submitStatus != SubmitStatus.inProgress &&
-                                  //           submitStatusBgServices !=
-                                  //               SubmitStatus.inProgress
-                                  //       ? ctrl
-                                  //           .backgroundServiceEvent()
-                                  //           .whenComplete(() {
-                                  //           ref.refresh(
-                                  //               missionControllerProvider);
-                                  //         })
-                                  //       : null;
+                                  case 0:
+                                    setState(() {
+                                      _selectedIndex = index;
+                                    });
+                                    //   submitStatus != SubmitStatus.inProgress &&
+                                    //           submitStatusBgServices !=
+                                    //               SubmitStatus.inProgress
+                                    //       ? ctrl
+                                    //           .backgroundServiceEvent()
+                                    //           .whenComplete(() {
+                                    //           ref.refresh(
+                                    //               missionControllerProvider);
+                                    //         })
+                                    //       : null;
 
-                                  //   break;
+                                    break;
                                   case 1:
+                                    setState(() {
+                                      _selectedIndex = index;
+                                    });
                                     submitStatus != SubmitStatus.inProgress &&
                                             submitStatusBgServices !=
                                                 SubmitStatus.inProgress
@@ -116,28 +149,29 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                           })
                                         : null;
                                     break;
-                                  // case 2:
-                                  //   submitStatus != SubmitStatus.inProgress &&
-                                  //           submitStatusBgServices !=
-                                  //               SubmitStatus.inProgress
-                                  //       ? ctrl
-                                  //           .backgroundServiceEvent()
-                                  //           .whenComplete(() {
-                                  //           ref.refresh(
-                                  //               missionControllerProvider);
-                                  //         })
-                                  //       : null;
-                                  //   break;
+
+                                  case 2:
+                                    setState(() {
+                                      _selectedIndex = index;
+                                    });
+
+                                    //   submitStatus != SubmitStatus.inProgress &&
+                                    //           submitStatusBgServices !=
+                                    //               SubmitStatus.inProgress
+                                    //       ? ctrl
+                                    //           .backgroundServiceEvent()
+                                    //           .whenComplete(() {
+                                    //           ref.refresh(
+                                    //               missionControllerProvider);
+                                    //         })
+                                    //       : null;
+                                    break;
                                 }
                               },
                               labelStyle: SharedComponent.textStyleCustom(
                                   typographyType: TypographyType.medium),
                               unselectedLabelColor: ColorTheme.neutral500,
-                              tabs: [
-                                Tab(text: EtamKawaTranslate.inProgress),
-                                Tab(text: EtamKawaTranslate.assigned),
-                                Tab(text: EtamKawaTranslate.past),
-                              ],
+                              tabs: listTab,
                             ),
                             Expanded(
                               child: Container(
@@ -178,7 +212,8 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                           child: Container(
                                             margin: const EdgeInsets.symmetric(
                                               vertical: 10.0,
-                                            ), // Sesuaikan margin sesuai kebutuhan
+                                            ),
+                                            // Sesuaikan margin sesuai kebutuhan
                                             child: SingleChildScrollView(
                                               scrollDirection: Axis.horizontal,
                                               child: SizedBox(
@@ -232,7 +267,8 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                           child: Container(
                                             margin: const EdgeInsets.symmetric(
                                               vertical: 10.0,
-                                            ), // Sesuaikan margin sesuai kebutuhan
+                                            ),
+                                            // Sesuaikan margin sesuai kebutuhan
                                             child: SingleChildScrollView(
                                               scrollDirection: Axis.horizontal,
                                               child: SizedBox(
@@ -290,7 +326,8 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                                   margin: const EdgeInsets
                                                       .symmetric(
                                                     vertical: 10.0,
-                                                  ), // Sesuaikan margin sesuai kebutuhan
+                                                  ),
+                                                  // Sesuaikan margin sesuai kebutuhan
                                                   child: SingleChildScrollView(
                                                     scrollDirection:
                                                         Axis.horizontal,
@@ -439,14 +476,29 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                                 Padding(
                                   padding:
                                       const EdgeInsets.fromLTRB(3, 0, 0, 0),
-                                  child: Text(
-                                      '${gamification[index].chapterData?.single.missionData?.single.missionReward.toString()} ${EtamKawaTranslate.pts}',
-                                      style: SharedComponent.textStyleCustom(
-                                          typographyType:
-                                              TypographyType.paragraph,
-                                          fontColor: ColorTheme.neutral500)
-                                      //TextStyle(fontSize: 12.sp),
-                                      ),
+                                  child: (gamification
+                                                  .first.missionStatusCode ??
+                                              0) <
+                                          2
+                                      ? Text(
+                                          '${gamification[index].chapterData?.single.missionData?.single.missionReward.toString()} ${EtamKawaTranslate.pts}',
+                                          style: SharedComponent
+                                              .textStyleCustom(
+                                                  typographyType: TypographyType
+                                                      .paragraph,
+                                                  fontColor:
+                                                      ColorTheme.neutral500)
+                                          //TextStyle(fontSize: 12.sp),
+                                          )
+                                      : Text('0 ${EtamKawaTranslate.pts}',
+                                          style:
+                                              SharedComponent.textStyleCustom(
+                                                  typographyType:
+                                                      TypographyType.paragraph,
+                                                  fontColor:
+                                                      ColorTheme.neutral500)
+                                          //TextStyle(fontSize: 12.sp),
+                                          ),
                                 ),
                               ],
                             ),
@@ -497,72 +549,84 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 15, 0, 7),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: ColorTheme.neutral0,
-                              foregroundColor: ColorTheme.primary500,
-                              side: BorderSide(
-                                color: ColorTheme.primary500,
+                      (gamification.first.missionStatusCode ?? 0) < 2
+                          ? Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 15, 0, 7),
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: ColorTheme.neutral0,
+                                    foregroundColor: ColorTheme.primary500,
+                                    side: BorderSide(
+                                      color: ColorTheme.primary500,
+                                    ),
+                                  ),
+                                  onPressed: () async {
+                                    if ((gamification[index]
+                                                .missionStatusCode ??
+                                            0) >
+                                        0) {
+                                      await ctrl
+                                          .putDetailMissionData(
+                                              missionDatum: gamification[index]
+                                                      .chapterData
+                                                      ?.single
+                                                      .missionData
+                                                      ?.single ??
+                                                  MissionDatum(),
+                                              listGamification: gamification,
+                                              gamificationResponseRemote:
+                                                  gamification[index])
+                                          .whenComplete(() async {
+                                        ref.refresh(taskControllerProvider);
+                                        await ctrlTask
+                                            .currentQuestion(
+                                                employeeMissionId: gamification[
+                                                            index]
+                                                        .employeeMissionId ??
+                                                    0,
+                                                pagePosition:
+                                                    PagePosition.CURRENT)
+                                            .whenComplete(() async {
+                                          await putCurrentAnswerFinal()
+                                              .whenComplete(() {
+                                            myAsyncMethodMoved(
+                                                context, gamification[index]);
+                                          });
+                                        });
+                                      });
+                                    } else {
+                                      await ctrl
+                                          .putDetailMissionData(
+                                              missionDatum: gamification[index]
+                                                      .chapterData
+                                                      ?.single
+                                                      .missionData
+                                                      ?.single ??
+                                                  MissionDatum(),
+                                              listGamification: gamification,
+                                              gamificationResponseRemote:
+                                                  gamification[index])
+                                          .whenComplete(() async {
+                                        ref.refresh(taskControllerProvider);
+                                        await ctrlTask
+                                            .clearData()
+                                            .whenComplete(() async {
+                                          myAsyncMethodMoved(
+                                              context, gamification[index]);
+                                        });
+                                      });
+                                    }
+                                  },
+                                  child: Text(EtamKawaTranslate.view,
+                                      style: SharedComponent.textStyleCustom(
+                                          typographyType:
+                                              TypographyType.paragraph)),
+                                ),
                               ),
-                            ),
-                            onPressed: () async {
-                              if ((gamification[index].missionStatusCode ?? 0) >
-                                  0) {
-                                await ctrl
-                                    .putDetailMissionData(
-                                        missionDatum: gamification[index]
-                                                .chapterData
-                                                ?.single
-                                                .missionData
-                                                ?.single ??
-                                            MissionDatum(),
-                                        listGamification: gamification,
-                                        gamificationResponseRemote:
-                                            gamification[index])
-                                    .whenComplete(() async {
-                                  ref.refresh(taskControllerProvider);
-                                  await ctrlTask
-                                      .currentQuestion(
-                                          employeeMissionId: gamification[index]
-                                                  .employeeMissionId ??
-                                              0,
-                                          pagePosition: PagePosition.CURRENT)
-                                      .whenComplete(() async {
-                                    await putCurrentAnswerFinal()
-                                        .whenComplete(() {
-                                      myAsyncMethodMoved(
-                                          context, gamification[index]);
-                                    });
-                                  });
-                                });
-                              } else {
-                                await ctrl
-                                    .putDetailMissionData(
-                                        missionDatum: gamification[index]
-                                                .chapterData
-                                                ?.single
-                                                .missionData
-                                                ?.single ??
-                                            MissionDatum(),
-                                        listGamification: gamification,
-                                        gamificationResponseRemote:
-                                            gamification[index])
-                                    .whenComplete(() async {
-                                  myAsyncMethodMoved(
-                                      context, gamification[index]);
-                                });
-                              }
-                            },
-                            child: Text(EtamKawaTranslate.view,
-                                style: SharedComponent.textStyleCustom(
-                                    typographyType: TypographyType.paragraph)),
-                          ),
-                        ),
-                      ),
+                            )
+                          : Container(),
                     ],
                   ),
                 ),

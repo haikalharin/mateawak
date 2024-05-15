@@ -554,10 +554,6 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                               isSubmitted: true)
                                                           .whenComplete(
                                                               () async {
-                                                        await ctrl
-                                                            .changeStatusTask()
-                                                            .whenComplete(
-                                                                () async {
                                                           await ctrlMission
                                                               .getMissionList()
                                                               .whenComplete(() {
@@ -583,7 +579,6 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                                   );
                                                                 });
                                                           });
-                                                        });
                                                       });
                                                     });
                                               },

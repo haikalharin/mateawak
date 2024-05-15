@@ -58,19 +58,22 @@ class _MissionPastDetailScreenState
           data: (data) {
             return WillPopScope(
                 onWillPop: () {
-                  context.pop();
+                  ref.refresh(missionPastControllerProvider);
                   context.pop();
                   return Future.value(false);
                 },
                 child: Scaffold(
                     backgroundColor: ColorTheme.neutral100,
                     appBar: SharedComponentEtamkawa.appBar(
-                      backgroundColor: ColorTheme.backgroundWhite,
-                      titleColor: ColorTheme.textDark,
-                      context: context,
-                      title: EtamKawaTranslate.missionDetail,
-                      brightnessIconStatusBar: Brightness.light,
-                    ),
+                        backgroundColor: ColorTheme.backgroundWhite,
+                        titleColor: ColorTheme.textDark,
+                        context: context,
+                        title: EtamKawaTranslate.missionDetail,
+                        brightnessIconStatusBar: Brightness.light,
+                        onBack: () {
+                          ref.refresh(missionPastControllerProvider);
+                          context.pop();
+                        }),
                     body: Column(children: [
                       Card(
                         shape: RoundedRectangleBorder(
