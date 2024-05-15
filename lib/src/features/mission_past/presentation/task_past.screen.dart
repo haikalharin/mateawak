@@ -136,6 +136,8 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
                                       gamificationData.chapterData?.single
                                               .chapterName ??
                                           '',
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
                                       style: SharedComponent.textStyleCustom(
                                           typographyType:
                                               TypographyType.largeH5,
@@ -268,11 +270,13 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
                                             fontColor: ColorTheme.neutral600),
                                       ),
                                       Text(
-                                        CommonUtils.formattedDateHoursUtcToLocal(
-                                            gamificationData.submittedDate ??
-                                                '',
-                                            withDay: true,
-                                            withHourMinute: true),
+                                        CommonUtils
+                                            .formattedDateHoursUtcToLocal(
+                                                gamificationData
+                                                        .submittedDate ??
+                                                    '',
+                                                withDay: true,
+                                                withHourMinute: true),
                                         style: SharedComponent.textStyleCustom(
                                             typographyType:
                                                 TypographyType.paragraph,

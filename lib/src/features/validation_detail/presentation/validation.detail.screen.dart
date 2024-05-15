@@ -105,6 +105,8 @@ class _ValidationDetailScreenState
                                           validation.chapterData?.single
                                                   .chapterName ??
                                               '',
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
                                           style:
                                               SharedComponent.textStyleCustom(
                                             typographyType:

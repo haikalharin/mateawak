@@ -33,8 +33,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
   @override
   void initState() {
     _textController.clear();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) async {});
 
     super.initState();
   }
@@ -140,7 +139,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                         )),
                                       ),
                                       InkWell(
-                                        onTap: (){
+                                        onTap: () {
                                           showDialog(
                                             barrierDismissible: false,
                                             context: context,
@@ -148,9 +147,14 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                               return InstructionDialog(
                                                   title: EtamKawaTranslate
                                                       .instructions,
-                                                  content:  gamificationData.chapterData?.first.missionData?.first.missionInstruction??'',
-                                                  labelButton:'Ok');
-
+                                                  content: gamificationData
+                                                          .chapterData
+                                                          ?.first
+                                                          .missionData
+                                                          ?.first
+                                                          .missionInstruction ??
+                                                      '',
+                                                  labelButton: 'Ok');
                                             },
                                           );
                                         },
@@ -292,19 +296,19 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                           ?.unfocus();
                                     });
                                   },
-                                  onChanged: (value){
+                                  onChanged: (value) {
                                     setState(() {
                                       if (_textController.text.isEmpty) {
                                         ref
                                             .watch(listSelectOptionStringState
-                                            .notifier)
+                                                .notifier)
                                             .state = [];
 
                                         _textController.clear();
                                       } else {
                                         ref
                                             .watch(listSelectOptionStringState
-                                            .notifier)
+                                                .notifier)
                                             .state = [_textController.text];
                                       }
                                     });
@@ -645,9 +649,9 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                             SubmitStatus.success;
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
-                                          const SnackBar(
-                                              content: Text(
-                                                  'Please write your answer')),
+                                          SnackBar(
+                                              content: Text(EtamKawaTranslate
+                                                  .pleaseWriteAndFillYourAnswer)),
                                         );
                                       }
                                     }

@@ -239,6 +239,8 @@ class EtamKawaUtils {
         return EtamKawaTranslate.completed;
       case 'Complete':
         return EtamKawaTranslate.complete;
+      case 'Submitted':
+        return EtamKawaTranslate.submitted;
       default:
         return EtamKawaTranslate.validated;
     }
@@ -252,7 +254,7 @@ class EtamKawaUtils {
       case '1':
         return ColorTheme.secondary100;
       case '2':
-        return ColorTheme.danger100;
+        return ColorTheme.info100;
       case '3':
         return ColorTheme.warning100;
       default:
@@ -268,7 +270,7 @@ class EtamKawaUtils {
       case '1':
         return ColorTheme.secondary500;
       case '2':
-        return ColorTheme.danger500;
+        return ColorTheme.info500;
       case '3':
         return ColorTheme.warning600;
       default:

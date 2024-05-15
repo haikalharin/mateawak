@@ -112,7 +112,7 @@ class _TaskSingleChoiceScreenState
                                       )),
                                     ),
                                     InkWell(
-                                      onTap: (){
+                                      onTap: () {
                                         showDialog(
                                           barrierDismissible: false,
                                           context: context,
@@ -120,9 +120,14 @@ class _TaskSingleChoiceScreenState
                                             return InstructionDialog(
                                                 title: EtamKawaTranslate
                                                     .instructions,
-                                                content:  gamificationData.chapterData?.first.missionData?.first.missionInstruction??'',
-                                                labelButton:'Ok');
-
+                                                content: gamificationData
+                                                        .chapterData
+                                                        ?.first
+                                                        .missionData
+                                                        ?.first
+                                                        .missionInstruction ??
+                                                    '',
+                                                labelButton: 'Ok');
                                           },
                                         );
                                       },
@@ -578,9 +583,9 @@ class _TaskSingleChoiceScreenState
                                     submitStatusTask.state =
                                         SubmitStatus.success;
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content:
-                                              Text('Please select an option!')),
+                                      SnackBar(
+                                          content: Text(
+                                              '${EtamKawaTranslate.pleaseSelectAnOption}!')),
                                     );
                                   }
                                 }

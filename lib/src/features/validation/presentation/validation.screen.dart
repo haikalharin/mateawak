@@ -95,7 +95,9 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                                     width: MediaQuery.of(context).size.width,
                                     child: Center(
                                       child: Text(
-                                        listValidation.isNotEmpty ? EtamKawaTranslate.allEntriesLoaded : EtamKawaTranslate.noData,
+                                        listValidation.isNotEmpty
+                                            ? EtamKawaTranslate.allEntriesLoaded
+                                            : EtamKawaTranslate.noData,
                                         style: SharedComponent.textStyleCustom(
                                           typographyType: TypographyType.body,
                                           fontColor: ColorTheme.neutral600,
@@ -222,6 +224,8 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                               typographyType: TypographyType.largeH5,
                               fontColor: ColorTheme.neutral600)),
                       Text(validation[index].chapterData?[0].chapterName ?? '',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
                           style: SharedComponent.textStyleCustom(
                               typographyType: TypographyType.paragraph,
                               fontColor: ColorTheme.neutral500)),
@@ -315,7 +319,9 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                               ),
                             ),
                             onPressed: () async {
-                              ref.watch(validationInReviewDetailState.notifier).state = validation[index];
+                              ref
+                                  .watch(validationInReviewDetailState.notifier)
+                                  .state = validation[index];
                               myAsyncMethodMoved(context, validation[index]);
                             },
                             child: Text(EtamKawaTranslate.view,
