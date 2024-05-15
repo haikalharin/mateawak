@@ -96,7 +96,7 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
                                             MediaQuery.of(context).size.width,
                                         child: Center(
                                           child: Text(
-                                            EtamKawaTranslate.allEntriesLoaded,
+                                            listMissionPast.isNotEmpty ? EtamKawaTranslate.allEntriesLoaded : EtamKawaTranslate.noData,
                                             style:
                                                 SharedComponent.textStyleCustom(
                                               typographyType:

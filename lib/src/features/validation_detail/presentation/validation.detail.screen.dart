@@ -184,8 +184,8 @@ class _ValidationDetailScreenState
                                         fontColor: ColorTheme.neutral600),
                                   ),
                                   Text(
-                                    validation.chapterData?.single
-                                            .competencyName ??
+                                    validation.chapterData?.single.missionData
+                                            ?.single.competencyName ??
                                         '',
                                     style: SharedComponent.textStyleCustom(
                                         typographyType:
@@ -202,7 +202,11 @@ class _ValidationDetailScreenState
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 8.w, vertical: 4.h),
                                       child: Text(
-                                        validation.chapterData?.single
+                                        validation
+                                                .chapterData
+                                                ?.single
+                                                .missionData
+                                                ?.single
                                                 .peopleCategoryName ??
                                             '',
                                         style: SharedComponent.textStyleCustom(
@@ -522,35 +526,56 @@ class _ValidationDetailScreenState
                                                   ],
                                                 ),
                                               ),
-                                              Container(
-                                                height: 200,
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                decoration: BoxDecoration(
-                                                    image: DecorationImage(
-                                                      image: FileImage(File(
-                                                          validation
-                                                                  .chapterData
-                                                                  ?.single
-                                                                  .missionData
-                                                                  ?.single
-                                                                  .taskData
-                                                                  ?.first
-                                                                  .answerAttachmentPath ??
-                                                              '')),
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                    color: ColorTheme
-                                                        .backgroundWhite,
-                                                    borderRadius:
-                                                        const BorderRadius.all(
-                                                            Radius.circular(
-                                                                10))),
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 16),
-                                              ),
+                                              validation
+                                                              .chapterData
+                                                              ?.single
+                                                              .missionData
+                                                              ?.single
+                                                              .taskData
+                                                              ?.first
+                                                              .answerAttachmentPath !=
+                                                          null &&
+                                                      validation
+                                                              .chapterData
+                                                              ?.single
+                                                              .missionData
+                                                              ?.single
+                                                              .taskData
+                                                              ?.first
+                                                              .answerAttachmentPath !=
+                                                          ''
+                                                  ? Container(
+                                                      height: 200,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
+                                                      decoration: BoxDecoration(
+                                                          image:
+                                                              DecorationImage(
+                                                            image: FileImage(File(validation
+                                                                    .chapterData
+                                                                    ?.single
+                                                                    .missionData
+                                                                    ?.single
+                                                                    .taskData
+                                                                    ?.first
+                                                                    .answerAttachmentPath ??
+                                                                '')),
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                          color: ColorTheme
+                                                              .backgroundWhite,
+                                                          borderRadius:
+                                                              const BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
+                                                                          10))),
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 16),
+                                                    )
+                                                  : Container(),
                                               const SizedBox(height: 10.0),
                                               Text(
                                                 EtamKawaTranslate

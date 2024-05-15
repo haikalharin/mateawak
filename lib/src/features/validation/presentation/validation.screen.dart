@@ -95,7 +95,7 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
                                     width: MediaQuery.of(context).size.width,
                                     child: Center(
                                       child: Text(
-                                        EtamKawaTranslate.noData,
+                                        listValidation.isNotEmpty ? EtamKawaTranslate.allEntriesLoaded : EtamKawaTranslate.noData,
                                         style: SharedComponent.textStyleCustom(
                                           typographyType: TypographyType.body,
                                           fontColor: ColorTheme.neutral600,

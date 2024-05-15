@@ -129,10 +129,6 @@ class ChapterValidationDatum {
     String? chapterCode;
     String? chapterName;
     String? chapterGoal;
-    String? competencyCode;
-    String? competencyName;
-    String? peopleCategoryCode;
-    String? peopleCategoryName;
     List<MissionValidationDatum>? missionData;
 
     ChapterValidationDatum({
@@ -140,10 +136,6 @@ class ChapterValidationDatum {
         this.chapterCode,
         this.chapterName,
         this.chapterGoal,
-        this.competencyCode,
-        this.competencyName,
-        this.peopleCategoryCode,
-        this.peopleCategoryName,
         this.missionData,
     });
 
@@ -152,10 +144,6 @@ class ChapterValidationDatum {
         String? chapterCode,
         String? chapterName,
         String? chapterGoal,
-        String? competencyCode,
-        String? competencyName,
-        String? peopleCategoryCode,
-        String? peopleCategoryName,
         List<MissionValidationDatum>? missionData,
     }) => 
         ChapterValidationDatum(
@@ -163,10 +151,6 @@ class ChapterValidationDatum {
             chapterCode: chapterCode ?? this.chapterCode,
             chapterName: chapterName ?? this.chapterName,
             chapterGoal: chapterGoal ?? this.chapterGoal,
-            competencyCode: competencyCode ?? this.competencyCode,
-            competencyName: competencyName ?? this.competencyName,
-            peopleCategoryCode: peopleCategoryCode ?? this.peopleCategoryCode,
-            peopleCategoryName: peopleCategoryName ?? this.peopleCategoryName,
             missionData: missionData ?? this.missionData,
         );
 
@@ -175,10 +159,6 @@ class ChapterValidationDatum {
         chapterCode: json["chapterCode"],
         chapterName: json["chapterName"],
         chapterGoal: json["chapterGoal"],
-        competencyCode: json["competencyCode"],
-        competencyName: json["competencyName"],
-        peopleCategoryCode: json["peopleCategoryCode"],
-        peopleCategoryName: json["peopleCategoryName"],
         missionData: json["missionData"] == null
             ? []
             : List<MissionValidationDatum>.from(
@@ -190,10 +170,6 @@ class ChapterValidationDatum {
         "chapterCode": chapterCode,
         "chapterName": chapterName,
         "chapterGoal": chapterGoal,
-        "competencyCode": competencyCode,
-        "competencyName": competencyName,
-        "peopleCategoryCode": peopleCategoryCode,
-        "peopleCategoryName": peopleCategoryName,
         "missionData": missionData == null
             ? []
             : List<dynamic>.from(missionData!.map((x) => x.toJson())),

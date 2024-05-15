@@ -177,7 +177,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                         fontColor: ColorTheme.neutral600),
                                   ),
                                   Text(
-                                    gamification.chapterData?.single
+                                    gamification.chapterData?.single.missionData?.single
                                             .competencyName ??
                                         '',
                                     style: SharedComponent.textStyleCustom(
@@ -195,7 +195,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 8.w, vertical: 4.h),
                                       child: Text(
-                                        gamification.chapterData?.single
+                                        gamification.chapterData?.single.missionData?.single
                                                 .peopleCategoryName ??
                                             '',
                                         style: SharedComponent.textStyleCustom(

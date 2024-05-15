@@ -136,12 +136,6 @@ FutureOr<List<ValidationResponseRemote>> getValidationRemote(
               chapterCode: element.chapterData?.single.chapterCode,
               chapterName: element.chapterData?.single.chapterName,
               chapterGoal: element.chapterData?.single.chapterGoal,
-              competencyCode: element.chapterData?.single.competencyCode,
-              competencyName: element.chapterData?.single.competencyName,
-              peopleCategoryCode:
-                  element.chapterData?.single.peopleCategoryCode,
-              peopleCategoryName:
-                  element.chapterData?.single.peopleCategoryName,
               missionData: [
                 MissionValidationDatum(
                   missionId:
