@@ -172,7 +172,7 @@ class _TaskFilePastScreenState extends ConsumerState<TaskFilePastScreen> {
                                 (gamificationData.missionStatusCode ?? 0) >
                                     1,
                                 controller: _textController,
-                                maxLength: 300,
+                                maxLength: 1000,
                                 textInputAction: TextInputAction.done,
                                 decoration: InputDecoration(
                                   hintText: EtamKawaTranslate.writeYourAnswer,
