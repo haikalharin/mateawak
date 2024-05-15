@@ -253,12 +253,7 @@ class TaskController extends _$TaskController {
         data = gamification;
       }
     }
-    ref.read(attachmentNameCurrentState.notifier).state = '';
-    ref.read(attachmentPathCurrentState.notifier).state = '';
-    ref.read(listSelectOptionCurrentStringState).clear();
-    ref.read(listSelectOptionStringState).clear();
-    ref.read(listSelectOptionCurrentState).clear();
-    ref.read(listSelectOptionState).clear();
+
     await ref
         .watch(changeStatusTaskLocalProvider(task: data).future)
         .whenComplete(() async {
