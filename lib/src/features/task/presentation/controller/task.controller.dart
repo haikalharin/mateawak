@@ -11,6 +11,7 @@ import 'package:module_etamkawa/src/features/task/infrastructure/task_local.repo
 import 'package:module_shared/module_shared.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../constants/function_utils.dart';
 import '../../../../shared_component/connection_listener_widget.dart';
 import '../../../../utils/common_utils.dart';
 import '../../../main_nav/presentation/controller/main_nav.controller.dart';
@@ -208,33 +209,21 @@ class TaskController extends _$TaskController {
   }
 
   Future<void> clearData({isJustCurrent = false}) async {
-   if(isJustCurrent){
-     ref
-         .read(attachmentNameCurrentState.notifier)
-         .state = '';
-     ref
-         .read(attachmentPathCurrentState.notifier)
-         .state = '';
-     ref.read(listSelectOptionCurrentStringState).clear();
-     ref.read(listSelectOptionCurrentState).clear();
-   }else {
-     ref
-         .read(attachmentNameCurrentState.notifier)
-         .state = '';
-     ref
-         .read(attachmentNameState.notifier)
-         .state = '';
-     ref
-         .read(attachmentPathCurrentState.notifier)
-         .state = '';
-     ref
-         .read(attachmentPathState.notifier)
-         .state = '';
-     ref.read(listSelectOptionCurrentStringState).clear();
-     ref.read(listSelectOptionStringState).clear();
-     ref.read(listSelectOptionCurrentState).clear();
-     ref.read(listSelectOptionState).clear();
-   }
+    if (isJustCurrent) {
+      ref.read(attachmentNameCurrentState.notifier).state = '';
+      ref.read(attachmentPathCurrentState.notifier).state = '';
+      ref.read(listSelectOptionCurrentStringState).clear();
+      ref.read(listSelectOptionCurrentState).clear();
+    } else {
+      ref.read(attachmentNameCurrentState.notifier).state = '';
+      ref.read(attachmentNameState.notifier).state = '';
+      ref.read(attachmentPathCurrentState.notifier).state = '';
+      ref.read(attachmentPathState.notifier).state = '';
+      ref.read(listSelectOptionCurrentStringState).clear();
+      ref.read(listSelectOptionStringState).clear();
+      ref.read(listSelectOptionCurrentState).clear();
+      ref.read(listSelectOptionState).clear();
+    }
   }
 
   Future<void> changeStatusTask({isDone = true}) async {
@@ -247,57 +236,61 @@ class TaskController extends _$TaskController {
         .filter()
         .employeeMissionIdIsNotNull()
         .findAll();
-
-    if (isDone) {
-      dataTask = gamification.copyWith(
-          missionStatusCode: 2, missionStatus: 'Submitted');
-      await AsyncValue.guard(() => repo).then((value) async {
-        if((value.value??[]).isNotEmpty){
-          for (var element in (value.value??[])) {
-            AnswerRequestRemote answerRequestRemote = element;
-         if(answerRequestRemote.employeeMissionId == gamification.employeeMissionId){
-          dataAnswer = answerRequestRemote.copyWith(status: 2);
-         }
-
-          }}
-      });
-    } else {
-      if ((gamification.missionStatusCode ?? 0) < 1) {
+    await checkExpiredBeforeSubmitAnswer().whenComplete(() async {
+      if (isDone) {
         dataTask = gamification.copyWith(
-            missionStatusCode: 1, missionStatus: 'In Progress');
+            missionStatusCode: 2, missionStatus: 'Submitted');
         await AsyncValue.guard(() => repo).then((value) async {
-          if((value.value??[]).isNotEmpty){
-            for (var element in (value.value??[])) {
+          if ((value.value ?? []).isNotEmpty) {
+            for (var element in (value.value ?? [])) {
               AnswerRequestRemote answerRequestRemote = element;
-              if(answerRequestRemote.employeeMissionId == gamification.employeeMissionId){
-                dataAnswer = answerRequestRemote.copyWith(status: 1);
+              if (answerRequestRemote.employeeMissionId ==
+                  gamification.employeeMissionId) {
+                dataAnswer = answerRequestRemote.copyWith(status: 2);
               }
-
-            }}
+            }
+          }
         });
       } else {
-        await AsyncValue.guard(() => repo).then((value) async {
-          if((value.value??[]).isNotEmpty){
-            for (var element in (value.value??[])) {
-              AnswerRequestRemote answerRequestRemote = element;
-              if(answerRequestRemote.employeeMissionId == gamification.employeeMissionId){
-                dataAnswer = answerRequestRemote.copyWith(status: gamification.missionStatusCode);
+        if ((gamification.missionStatusCode ?? 0) < 1) {
+          dataTask = gamification.copyWith(
+              missionStatusCode: 1, missionStatus: 'In Progress');
+          await AsyncValue.guard(() => repo).then((value) async {
+            if ((value.value ?? []).isNotEmpty) {
+              for (var element in (value.value ?? [])) {
+                AnswerRequestRemote answerRequestRemote = element;
+                if (answerRequestRemote.employeeMissionId ==
+                    gamification.employeeMissionId) {
+                  dataAnswer = answerRequestRemote.copyWith(status: 1);
+                }
               }
-
-            }}
-        });
-        dataTask = gamification;
+            }
+          });
+        } else {
+          await AsyncValue.guard(() => repo).then((value) async {
+            if ((value.value ?? []).isNotEmpty) {
+              for (var element in (value.value ?? [])) {
+                AnswerRequestRemote answerRequestRemote = element;
+                if (answerRequestRemote.employeeMissionId ==
+                    gamification.employeeMissionId) {
+                  dataAnswer = answerRequestRemote.copyWith(
+                      status: gamification.missionStatusCode);
+                }
+              }
+            }
+          });
+          dataTask = gamification;
+        }
       }
-    }
-
-
-
+    });
+    ref.watch(submitStatusMissionBgServicesState.notifier).state =
+        SubmitStatus.success;
     await ref
-        .watch(changeStatusTaskLocalProvider(task: dataTask,answer:dataAnswer).future)
+        .watch(changeStatusTaskLocalProvider(task: dataTask, answer: dataAnswer)
+            .future)
         .whenComplete(() async {
       await deleteAnswer(listTaskAnswer);
     });
-
   }
 
   Future<void> putTaskAnswer(TaskDatumAnswerRequestRemote value) async {
@@ -440,7 +433,121 @@ class TaskController extends _$TaskController {
     }
   }
 
-  Future<void> sendAnswerBackgroundService() async {
+  // Future<void> sendAnswerBackgroundService() async {
+  //   ref.watch(submitStatusMissionBgServicesState.notifier).state =
+  //       SubmitStatus.inProgress;
+  //   try {
+  //     final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
+  //     final backgroundServices = FlutterBackgroundService();
+  //     final isBgServiceRunning = await backgroundServices.isRunning();
+  //     if (!isBgServiceRunning) {
+  //       await backgroundServices.startService();
+  //     }
+  //     final userModel = await ref.read(helperUserProvider).getUserProfile();
+  //     //final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
+  //     final today =
+  //         CommonUtils.formatDateRequestParam(DateTime.now().toUtc().toString());
+  //     final isarInstance = await ref.watch(isarInstanceProvider.future);
+  //     final repo = isarInstance.gamificationResponseRemotes
+  //         .filter()
+  //         .employeeMissionIdIsNotNull()
+  //         .findAll();
+  //     var repoAnswer = isarInstance.taskDatumAnswerRequestRemotes
+  //         .filter()
+  //         .taskIdIsNotNull()
+  //         .findAll();
+  //     await AsyncValue.guard(() => repo).then((data) async {
+  //       for (var element in data.value ?? []) {
+  //         GamificationResponseRemote dataGamification = element;
+  //         List<TaskDatumAnswer> listData = [];
+  //
+  //         DateTime dueDate =
+  //         DateTime.parse(dataGamification.dueDate ?? '2024-00-00T00:00:00');
+  //         int different = calculateDifferenceDays(dueDate, DateTime.now());
+  //         if (different > 0 && dataGamification.missionStatusCode! < 2) {
+  //           bool exists = (value.value ?? []).any(
+  //                   (item) => item.employeeMissionId == element.employeeMissionId);
+  //
+  //         }
+  //
+  //
+  //         for (var element in data.value ?? []) {
+  //         if (dataGamification.missionStatusCode == 4) {
+  //           var taskData = (dataGamification
+  //               .chapterData?.first.missionData?.first.taskData);
+  //           for (var elementTaskData in taskData ?? []) {
+  //             TaskDatum taskDatum = elementTaskData;
+  //             await AsyncValue.guard(() => repoAnswer).then((dataAnswer) async {
+  //               if ((dataAnswer.value ?? []).isNotEmpty) {
+  //                 for (var element in dataAnswer.value ?? []) {
+  //                   TaskDatumAnswerRequestRemote taskDatumAnswerRequestRemote =
+  //                       element;
+  //                   if (taskDatum.taskId ==
+  //                       taskDatumAnswerRequestRemote.taskId) {
+  //                     listData.add(TaskDatumAnswer(
+  //                         taskId: taskDatumAnswerRequestRemote.taskId,
+  //                         answer: taskDatumAnswerRequestRemote.answer,
+  //                         attachmentName:
+  //                             taskDatumAnswerRequestRemote.attachmentName,
+  //                         attachment: taskDatumAnswerRequestRemote.attachment,
+  //                         taskGroup: taskDatumAnswerRequestRemote.answer));
+  //                   } else {
+  //                     listData.add(TaskDatumAnswer(
+  //                         taskId: taskDatum.taskId,
+  //                         answer: '',
+  //                         attachmentName: '',
+  //                         attachment: '',
+  //                         taskGroup: ''));
+  //                   }
+  //                 }
+  //               } else {
+  //                 listData.add(TaskDatumAnswer(
+  //                     taskId: taskDatum.taskId,
+  //                     answer: '',
+  //                     attachmentName: '',
+  //                     attachment: '',
+  //                     taskGroup: ''));
+  //               }
+  //             });
+  //             var data = await sortDataListTask(listData);
+  //             var taskAnswer = AnswerRequestRemote(
+  //                 employeeMissionId: dataGamification.employeeMissionId,
+  //                 employeeName: userModel?.empName,
+  //                 submittedDate: today.substring(0, today.length - 6),
+  //                 status: dataGamification.missionStatusCode,
+  //                 taskData: data);
+  //
+  //             await ref.watch(
+  //                 putAnswerFinalLocalProvider(answerRequestRemote: taskAnswer)
+  //                     .future);
+  //           }
+  //         }
+  //         }
+  //
+  //
+  //
+  //
+  //
+  //       }
+  //
+  //       if (isConnectionAvailable) {
+  //         ref.read(submitStatusMissionState.notifier).state =
+  //             SubmitStatus.success;
+  //       } else {
+  //         ref.watch(submitStatusMissionBgServicesState.notifier).state =
+  //             SubmitStatus.failure;
+  //       }
+  //     });
+  //   } catch (e) {
+  //     ref.watch(submitStatusMissionBgServicesState.notifier).state =
+  //         SubmitStatus.failure;
+  //     if (kDebugMode) {
+  //       print(e);
+  //     }
+  //   }
+  // }
+
+  Future<List<AnswerRequestRemote>> checkExpiredBeforeSubmitAnswer() async {
     ref.watch(submitStatusMissionBgServicesState.notifier).state =
         SubmitStatus.inProgress;
     try {
@@ -452,6 +559,7 @@ class TaskController extends _$TaskController {
       }
       final userModel = await ref.read(helperUserProvider).getUserProfile();
       //final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
+      var taskAnswer = AnswerRequestRemote();
       final today =
           CommonUtils.formatDateRequestParam(DateTime.now().toUtc().toString());
       final isarInstance = await ref.watch(isarInstanceProvider.future);
@@ -467,7 +575,11 @@ class TaskController extends _$TaskController {
         for (var element in data.value ?? []) {
           GamificationResponseRemote dataGamification = element;
           List<TaskDatumAnswer> listData = [];
-          if (dataGamification.missionStatusCode == 4) {
+          DateTime dueDate =
+              DateTime.parse(dataGamification.dueDate ?? '2024-00-00T00:00:00');
+          int different = calculateDifferenceDays(dueDate, DateTime.now());
+
+          if (different > 0 && dataGamification.missionStatusCode! < 2) {
             var taskData = (dataGamification
                 .chapterData?.first.missionData?.first.taskData);
             for (var elementTaskData in taskData ?? []) {
@@ -505,13 +617,17 @@ class TaskController extends _$TaskController {
                 }
               });
               var data = await sortDataListTask(listData);
-              var taskAnswer = AnswerRequestRemote(
+              taskAnswer = AnswerRequestRemote(
                   employeeMissionId: dataGamification.employeeMissionId,
                   employeeName: userModel?.empName,
                   submittedDate: today.substring(0, today.length - 6),
-                  status: dataGamification.missionStatusCode,
+                  status: 4,
                   taskData: data);
-
+              dataGamification.copyWith(missionStatusCode: 4);
+              await isarInstance.writeTxn(() async {
+                await isarInstance.gamificationResponseRemotes
+                    .put(dataGamification);
+              });
               await ref.watch(
                   putAnswerFinalLocalProvider(answerRequestRemote: taskAnswer)
                       .future);
@@ -519,20 +635,23 @@ class TaskController extends _$TaskController {
           }
         }
 
-        if (isConnectionAvailable) {
-          ref.read(submitStatusMissionState.notifier).state =
-              SubmitStatus.success;
-        } else {
-          ref.watch(submitStatusMissionBgServicesState.notifier).state =
-              SubmitStatus.failure;
-        }
+        ref.read(submitStatusMissionState.notifier).state =
+            SubmitStatus.success;
       });
+
+      final data = await isarInstance.answerRequestRemotes
+          .filter()
+          .employeeMissionIdIsNotNull()
+          .findAll();
+
+      return data;
     } catch (e) {
       ref.watch(submitStatusMissionBgServicesState.notifier).state =
           SubmitStatus.failure;
       if (kDebugMode) {
         print(e);
       }
+      return [];
     }
   }
 

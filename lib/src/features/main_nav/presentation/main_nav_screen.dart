@@ -132,7 +132,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                                     submitStatusMissionBgServices !=
                                         SubmitStatus.inProgress
                                 ? await ctrlTask
-                                    .sendAnswerBackgroundService()
+                                    .checkExpiredBeforeSubmitAnswer()
                                     .whenComplete(() async {
                                     await ctrlMission
                                         .backgroundServiceEvent(isFetchMission: true,isSubmitAnswer: true);
