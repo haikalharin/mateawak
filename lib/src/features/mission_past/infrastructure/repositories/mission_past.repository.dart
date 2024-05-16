@@ -153,9 +153,7 @@ FutureOr<List<TaskDatumAnswer>> putAnswerDetail(PutAnswerDetailRef ref,
   //     .filter()
   //     .employeeMissionIdEqualTo(employeeMissionId)
   //     .findAll();
-  // if (kDebugMode) {
-  //   print('#######Haloo2 ${data}');
-  // }
+  //
 
 return listData;
 }
