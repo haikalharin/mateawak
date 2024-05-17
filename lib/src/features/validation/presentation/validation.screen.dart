@@ -137,7 +137,7 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
 
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
-        return Card(
+        return validation[index].missionStatusCode == 3 ? Card(
           shape: RoundedRectangleBorder(
             side: BorderSide(
               color: ColorTheme.strokeTertiary,
@@ -336,7 +336,7 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen> {
               ],
             ),
           ),
-        );
+        ): Container();
       },
     );
   }

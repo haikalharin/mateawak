@@ -150,23 +150,19 @@ class _TaskSingleChoiceScreenState
                                     listTask[currentQuestionIndex.state]
                                             .attachmentPath !=
                                         ''
-                                ? Container(
-                                    height: 200,
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: FileImage(File(listTask[
-                                                      currentQuestionIndex
-                                                          .state]
-                                                  .attachmentPath ??
-                                              '')),
-                                          fit: BoxFit.cover,
-                                        ),
-                                        color: ColorTheme.backgroundWhite,
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10))),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
+                                ? Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 8, 0, 16),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.r),
+                                      child: Image(
+                                        image: FileImage(File(
+                                            listTask[currentQuestionIndex.state]
+                                                    .attachmentPath ??
+                                                '')),
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
                                   )
                                 : Container(),
                             const SizedBox(height: 10.0),
@@ -543,29 +539,28 @@ class _TaskSingleChoiceScreenState
                                                         .putAnswerFinal(
                                                             isSubmitted: true)
                                                         .whenComplete(() async {
-                                                        await ctrlMission
-                                                            .getMissionList()
-                                                            .whenComplete(() {
-                                                          hideLoadingDialog(
-                                                              context);
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                          showDialog(
-                                                              barrierDismissible:
-                                                                  false,
-                                                              context: context,
-                                                              builder:
-                                                                  (context) {
-                                                                return RewardDialog(
-                                                                  resultSubmissionState: ref
-                                                                      .watch(resultSubmissionState
-                                                                          .notifier)
-                                                                      .state,
-                                                                  isConnectionAvailable:
-                                                                      isConnectionAvailable,
-                                                                );
-                                                              });
-                                                        });
+                                                      await ctrlMission
+                                                          .getMissionList()
+                                                          .whenComplete(() {
+                                                        hideLoadingDialog(
+                                                            context);
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                        showDialog(
+                                                            barrierDismissible:
+                                                                false,
+                                                            context: context,
+                                                            builder: (context) {
+                                                              return RewardDialog(
+                                                                resultSubmissionState: ref
+                                                                    .watch(resultSubmissionState
+                                                                        .notifier)
+                                                                    .state,
+                                                                isConnectionAvailable:
+                                                                    isConnectionAvailable,
+                                                              );
+                                                            });
+                                                      });
                                                     });
                                                   });
                                             },

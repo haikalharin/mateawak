@@ -245,6 +245,22 @@ class EtamKawaUtils {
         return EtamKawaTranslate.validated;
     }
   }
+
+String getMissionScore(int scoreId) {
+    switch (scoreId) {
+      case 1:
+        return EtamKawaTranslate.needImprovement;
+      case 2:
+        return EtamKawaTranslate.fair;
+      case 3:
+        return EtamKawaTranslate.good;
+      case 4:
+        return EtamKawaTranslate.excelent;
+      default:
+        return EtamKawaTranslate.needImprovement;
+    }
+  }
+
   Color getMissionStatusBGColorByCode(String code) {
     switch (code) {
       case '99':

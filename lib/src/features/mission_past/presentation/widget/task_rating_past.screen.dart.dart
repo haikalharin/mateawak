@@ -69,7 +69,7 @@ class _TaskRatingPastScreenState extends ConsumerState<TaskRatingPastScreen> {
                           ),
                           const SizedBox(height: 8,),
                           Text(
-                              "Question ${widget.index + 1} of ${listTask?.length}",
+                              "${EtamKawaTranslate.question} ${widget.index + 1} ${EtamKawaTranslate.of} ${listTask?.length}",
                               style: SharedComponent.textStyleCustom(
                                   typographyType: TypographyType.body,
                                   fontColor: ColorTheme.neutral500)),

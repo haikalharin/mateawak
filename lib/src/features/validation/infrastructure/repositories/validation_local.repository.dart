@@ -90,6 +90,7 @@ FutureOr<List<ValidationResponseRemote>> getValidationRemote(
             taskTypeName: element.taskTypeName,
             taskReward: element.taskReward);
         File file = File('');
+        File fileAnswer = File('');
         if (element.attachmentPath == null) {
           if (element.attachmentUrl != null) {
             final response = await connect.downloadImage(
@@ -109,9 +110,9 @@ FutureOr<List<ValidationResponseRemote>> getValidationRemote(
               url: element.answerAttachmentUrl ?? '',
             );
             response.data;
-            file = await asyncMethodSaveFile(response.data);
+            fileAnswer = await asyncMethodSaveFile(response.data);
           }
-          taskDataUpdate.answerAttachmentPath = file.path;
+          taskDataUpdate.answerAttachmentPath = fileAnswer.path;
           // indexTask++;
         } else {
           taskDataUpdate.answerAttachmentPath = element.answerAttachmentPath;

@@ -472,36 +472,28 @@ class _ValidationDetailScreenState
                                                               ?.first
                                                               .attachmentPath !=
                                                           ''
-                                                  ? Container(
-                                                      height: 200,
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                      decoration: BoxDecoration(
-                                                          image:
-                                                              DecorationImage(
-                                                            image: FileImage(File(validation
-                                                                    .chapterData
-                                                                    ?.single
-                                                                    .missionData
-                                                                    ?.single
-                                                                    .taskData
-                                                                    ?.first
-                                                                    .attachmentPath ??
-                                                                '')),
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                          color: ColorTheme
-                                                              .backgroundWhite,
-                                                          borderRadius:
-                                                              const BorderRadius
-                                                                  .all(Radius
-                                                                      .circular(
-                                                                          10))),
+                                                  ? Padding(
                                                       padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 16),
+                                                          .fromLTRB(
+                                                          0, 8, 0, 16),
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10.r),
+                                                        child: Image(
+                                                          image: FileImage(File(
+                                                              validation
+                                                                      .chapterData
+                                                                      ?.single
+                                                                      .missionData
+                                                                      ?.single
+                                                                      .taskData
+                                                                      ?.first
+                                                                      .attachmentPath ??
+                                                                  '')),
+                                                          fit: BoxFit.contain,
+                                                        ),
+                                                      ),
                                                     )
                                                   : Container(),
                                               const SizedBox(height: 10.0),
@@ -570,36 +562,28 @@ class _ValidationDetailScreenState
                                                               ?.first
                                                               .answerAttachmentPath !=
                                                           ''
-                                                  ? Container(
-                                                      height: 200,
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                      decoration: BoxDecoration(
-                                                          image:
-                                                              DecorationImage(
-                                                            image: FileImage(File(validation
-                                                                    .chapterData
-                                                                    ?.single
-                                                                    .missionData
-                                                                    ?.single
-                                                                    .taskData
-                                                                    ?.first
-                                                                    .answerAttachmentPath ??
-                                                                '')),
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                          color: ColorTheme
-                                                              .backgroundWhite,
-                                                          borderRadius:
-                                                              const BorderRadius
-                                                                  .all(Radius
-                                                                      .circular(
-                                                                          10))),
+                                                  ? Padding(
                                                       padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 16),
+                                                          .fromLTRB(
+                                                          0, 8, 0, 16),
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10.r),
+                                                        child: Image(
+                                                          image: FileImage(File(
+                                                              validation
+                                                                      .chapterData
+                                                                      ?.single
+                                                                      .missionData
+                                                                      ?.single
+                                                                      .taskData
+                                                                      ?.first
+                                                                      .answerAttachmentPath ??
+                                                                  '')),
+                                                          fit: BoxFit.contain,
+                                                        ),
+                                                      ),
                                                     )
                                                   : Container(),
                                               const SizedBox(height: 10.0),

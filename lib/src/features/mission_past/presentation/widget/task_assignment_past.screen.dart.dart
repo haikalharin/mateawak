@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../task/presentation/controller/task.controller.dart';
@@ -26,7 +26,6 @@ class _TaskAssignmentPastScreenState
   var groupValue = 0;
   final TextEditingController _textController = TextEditingController();
 
-
   // int currentQuestionIndex = 0;
   // String? selectedOption;
 
@@ -35,12 +34,10 @@ class _TaskAssignmentPastScreenState
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final gamificationData = ref.watch(gamificationDetailState);
-        if (widget.taskDatum.taskTypeCode ==
-            TaskType.ASM.name) {
-          if ((widget.taskDatum.listSelectedOptionString ?? [])
-              .isNotEmpty) {
+        if (widget.taskDatum.taskTypeCode == TaskType.ASM.name) {
+          if ((widget.taskDatum.listSelectedOptionString ?? []).isNotEmpty) {
             _textController.text =
-            (widget.taskDatum.listSelectedOptionString??[]).single;
+                (widget.taskDatum.listSelectedOptionString ?? []).single;
           }
         }
         return Column(
@@ -72,101 +69,91 @@ class _TaskAssignmentPastScreenState
                           children: [
                             const SizedBox(height: 20.0),
                             widget.taskDatum.attachmentName != null &&
-                                widget.taskDatum.attachmentName != ''
+                                    widget.taskDatum.attachmentName != ''
                                 ? Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .center,
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          width: MediaQuery
-                                              .of(context)
-                                              .size
-                                              .width,
-                                          child: RichText(
-                                            text: TextSpan(
-                                              text:
-                                              EtamKawaTranslate.evidence,
-                                              style: SharedComponent
-                                                  .textStyleCustom(
-                                                  typographyType:
-                                                  TypographyType.body,
-                                                  fontColor: ColorTheme
-                                                      .textDark),
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            child: RichText(
+                                              text: TextSpan(
+                                                text:
+                                                    EtamKawaTranslate.evidence,
+                                                style: SharedComponent
+                                                    .textStyleCustom(
+                                                        typographyType:
+                                                            TypographyType.body,
+                                                        fontColor: ColorTheme
+                                                            .textDark),
+                                                children: [
+                                                  TextSpan(
+                                                    text: '*',
+                                                    style: SharedComponent
+                                                        .textStyleCustom(
+                                                            typographyType:
+                                                                TypographyType
+                                                                    .body,
+                                                            fontColor:
+                                                                ColorTheme
+                                                                    .danger500),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 12,
+                                          ),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                TextSpan(
-                                                  text: '*',
-                                                  style: SharedComponent
-                                                      .textStyleCustom(
-                                                      typographyType:
-                                                      TypographyType
-                                                          .body,
-                                                      fontColor:
-                                                      ColorTheme
-                                                          .danger500),
+                                                Expanded(
+                                                  child: Text(
+                                                    widget.taskDatum
+                                                            .attachmentName ??
+                                                        '',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .titleLarge,
+                                                  ),
                                                 ),
                                               ],
                                             ),
                                           ),
-                                        ),
-                                        const SizedBox(
-                                          height: 12,
-                                        ),
-                                        SizedBox(
-                                          width: MediaQuery
-                                              .of(context)
-                                              .size
-                                              .width,
-                                          child: Row(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              Expanded(
-                                                child: Text(
-                                                  widget.taskDatum
-                                                      .attachmentName ??
-                                                      '',
-                                                  style: Theme
-                                                      .of(context)
-                                                      .textTheme
-                                                      .titleLarge,
-                                                ),
-                                              ),
-                                              InkWell(
-                                                onTap: () async {
-
-                                                },
-                                                child: Icon(
-                                                  Icons.cancel,
-                                                  color: ColorTheme
-                                                      .backgroundDark,
-                                                  size: 25.h,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                )
+                                        ],
+                                      ),
+                                    ],
+                                  )
                                 : Container(),
-
-                            const SizedBox(height: 8.0),
+                            const SizedBox(height: 10.0),
+                            Text(
+                              EtamKawaTranslate.answerAssignment,
+                              style: SharedComponent.textStyleCustom(
+                                  typographyType: TypographyType.mediumH6,
+                                  fontColor: ColorTheme.neutral600),
+                            ),
+                            const SizedBox(height: 10.0),
                             SizedBox(
                               height: 150.0,
                               child: TextFormField(
                                 readOnly:
-                                (gamificationData.missionStatusCode ??
-                                    0) >
-                                    1,
+                                    (gamificationData.missionStatusCode ?? 0) >
+                                        1,
                                 controller: _textController,
                                 maxLength: 1000,
                                 textInputAction: TextInputAction.done,
@@ -181,16 +168,14 @@ class _TaskAssignmentPastScreenState
                                   setState(() {
                                     if (value.isEmpty) {
                                       ref
-                                          .watch(
-                                          listSelectOptionStringState
+                                          .watch(listSelectOptionStringState
                                               .notifier)
                                           .state = [];
 
                                       _textController.clear();
                                     } else {
                                       ref
-                                          .watch(
-                                          listSelectOptionStringState
+                                          .watch(listSelectOptionStringState
                                               .notifier)
                                           .state = [value];
                                     }
@@ -199,101 +184,111 @@ class _TaskAssignmentPastScreenState
                               ),
                             ),
                             gamificationData.missionStatusCode == 99
-                                ? widget.taskDatum.feedbackComment !=
-                                null &&
-                                widget.taskDatum
-                                    .feedbackComment != '' ? Column(
-                              children: [
-                                const SizedBox(height: 10,),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment
-                                      .center,
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .spaceBetween,
-                                  children: [
-                                    Text(
-                                        widget.taskDatum
-                                            .qualitativeScoreName ?? '',
-                                        style: SharedComponent
-                                            .textStyleCustom(
-                                            typographyType: TypographyType
-                                                .body,
-                                            fontColor: ColorTheme
-                                                .buttonPrimary)
-                                      //TextStyle(fontSize: 12.sp)
-                                    ),
-                                    Center(
-                                        child: SizedBox(
-                                          height: 24.h,
-                                          child: Row(
+                                ? widget.taskDatum.feedbackComment != null &&
+                                        widget.taskDatum.feedbackComment != ''
+                                    ? Column(
+                                        children: [
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
                                             mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Icon(
-                                                Icons.star,
-                                                color: ColorTheme
-                                                    .secondary500,
-                                                size: 12.h,
-                                              ),
                                               Text(
-                                                " +${widget.taskDatum.answerReward}",
-                                                style: SharedComponent
-                                                    .textStyleCustom(
-                                                    typographyType:
-                                                    TypographyType.body,
-                                                    fontColor: ColorTheme
-                                                        .neutral600),
-                                              ),
+                                                  '${EtamKawaTranslate.yourAnswerIsRatedAs} ${EtamKawaUtils().getMissionScore(widget.taskDatum.qualitativeScoreId ?? 0)}',
+                                                  style: SharedComponent
+                                                      .textStyleCustom(
+                                                          typographyType:
+                                                              TypographyType
+                                                                  .body,
+                                                          fontColor: ColorTheme
+                                                              .buttonPrimary)
+                                                  //TextStyle(fontSize: 12.sp)
+                                                  ),
+                                              Center(
+                                                  child: SizedBox(
+                                                height: 24.h,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.star,
+                                                      color: ColorTheme
+                                                          .secondary500,
+                                                      size: 12.h,
+                                                    ),
+                                                    Text(
+                                                      " +${widget.taskDatum.answerReward}",
+                                                      style: SharedComponent
+                                                          .textStyleCustom(
+                                                              typographyType:
+                                                                  TypographyType
+                                                                      .body,
+                                                              fontColor: ColorTheme
+                                                                  .neutral600),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )),
                                             ],
                                           ),
-                                        )),
-                                  ],
-                                ),
-                                const SizedBox(height: 10,),
-                                const Divider(),
-                                const SizedBox(height: 10,),
-                                Text(
-                                    EtamKawaTranslate.feedback,
-                                    style: SharedComponent
-                                        .textStyleCustom(
-                                        typographyType: TypographyType
-                                            .bold,
-                                        fontColor: ColorTheme.neutral600)
-                                  //TextStyle(fontSize: 12.sp)
-                                ),
-                                const SizedBox(height: 8,),
-
-                                Text(
-                                    widget.taskDatum
-                                        .feedbackComment ?? '',
-                                    style: SharedComponent
-                                        .textStyleCustom(
-                                        typographyType: TypographyType
-                                            .body,
-                                        fontColor: ColorTheme.neutral600)
-                                  //TextStyle(fontSize: 12.sp)
-                                )
-                              ],
-                            ) : Container() : gamificationData
-                                .missionStatusCode == 3 ?
-                            Column(
-                              children: [
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                    'Not yet rated',
-                                    style:
-                                    SharedComponent.textStyleCustom(
-                                        typographyType:
-                                        TypographyType.body,
-                                        fontColor:
-                                        ColorTheme.neutral500)
-                                  //TextStyle(fontSize: 12.sp)
-                                ),
-
-                              ],
-                            ) : Container(),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          const Divider(),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(EtamKawaTranslate.feedback,
+                                              style: SharedComponent
+                                                  .textStyleCustom(
+                                                      typographyType:
+                                                          TypographyType.bold,
+                                                      fontColor:
+                                                          ColorTheme.neutral600)
+                                              //TextStyle(fontSize: 12.sp)
+                                              ),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          Text(
+                                              widget.taskDatum
+                                                      .feedbackComment ??
+                                                  '',
+                                              style: SharedComponent
+                                                  .textStyleCustom(
+                                                      typographyType:
+                                                          TypographyType.body,
+                                                      fontColor:
+                                                          ColorTheme.neutral600)
+                                              //TextStyle(fontSize: 12.sp)
+                                              )
+                                        ],
+                                      )
+                                    : Container()
+                                : gamificationData.missionStatusCode == 3
+                                    ? Column(
+                                        children: [
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(EtamKawaTranslate.notYetRated,
+                                              style: SharedComponent
+                                                  .textStyleCustom(
+                                                      typographyType:
+                                                          TypographyType.body,
+                                                      fontColor:
+                                                          ColorTheme.neutral500)
+                                              //TextStyle(fontSize: 12.sp)
+                                              ),
+                                        ],
+                                      )
+                                    : Container(),
                           ],
                         )
                       ],
