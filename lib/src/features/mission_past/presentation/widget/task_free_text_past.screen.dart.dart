@@ -197,7 +197,7 @@ class _TaskFreeTextPastScreenState
                                                 size: 12.h,
                                               ),
                                               Text(
-                                                " +${widget.taskDatum.taskReward}",
+                                                " +${widget.taskDatum.answerReward}",
                                                 style: SharedComponent
                                                     .textStyleCustom(
                                                     typographyType:

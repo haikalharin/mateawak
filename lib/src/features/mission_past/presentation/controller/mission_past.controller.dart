@@ -114,6 +114,10 @@ class MissionPastController extends _$MissionPastController {
           listData.add(TaskAnswerPastRemote(
               taskId: data.taskId,
               answer: data.answer,
+              attachment: attachment,
+              answerAttachmentId: data.answerAttachmentId,
+              answerAttachmentName: data.answerAttachmentName,
+              answerAttachmentUrl: data.attachmentUrl,
               answerReward: data.answerReward,
               attachmentName: data.answerAttachmentName,
               taskReward: data.taskReward,

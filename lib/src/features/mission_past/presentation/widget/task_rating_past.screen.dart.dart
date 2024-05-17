@@ -194,7 +194,7 @@ class _TaskRatingPastScreenState extends ConsumerState<TaskRatingPastScreen> {
                                               ),
                                               Text(
                                                 " +${widget.taskDatum
-                                                    .taskReward}",
+                                                    .answerReward}",
                                                 style: SharedComponent
                                                     .textStyleCustom(
                                                     typographyType:

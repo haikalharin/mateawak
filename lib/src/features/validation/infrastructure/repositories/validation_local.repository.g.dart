@@ -7,7 +7,7 @@ part of 'validation_local.repository.dart';
 // **************************************************************************
 
 String _$getValidationRemoteHash() =>
-    r'4e6c2ed03499f944c6cb1b2b7c284d1dd0e6a3ec';
+    r'e77b822820519982968307c477d3ecee6e058726';
 
 /// See also [getValidationRemote].
 @ProviderFor(getValidationRemote)

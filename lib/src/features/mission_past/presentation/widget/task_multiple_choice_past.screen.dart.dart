@@ -103,7 +103,15 @@ class _TaskMultipleChoicePastScreenState extends ConsumerState<TaskMultipleChoic
                                     controlAffinity:
                                     ListTileControlAffinity.leading,
                                     title: Text(
-                                        listAnswer?[index].answerCaption ?? ''),
+                                      listAnswer?[index].answerCaption ?? '',
+                                      style: SharedComponent.textStyleCustom(
+                                          typographyType: TypographyType.medium,
+                                          fontColor: listAnswer?[index]
+                                              .isCorrectAnswer ==
+                                              true
+                                              ? ColorTheme.buttonPrimary
+                                              : ColorTheme.textDark),
+                                    ),
                                     value: (widget.taskDatum.listSelectedOption??[])
                                         .contains(
                                         listAnswer?[index].answerId ?? 0),

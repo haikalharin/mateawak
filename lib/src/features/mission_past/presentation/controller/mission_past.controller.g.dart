@@ -7,7 +7,7 @@ part of 'mission_past.controller.dart';
 // **************************************************************************
 
 String _$missionPastControllerHash() =>
-    r'b205dd3ebf1819ae245dcd6a9cc87237ddb884dc';
+    r'12bb4364f20e18a8aca16ef8e04eb5dc9b498423';
 
 /// See also [MissionPastController].
 @ProviderFor(MissionPastController)

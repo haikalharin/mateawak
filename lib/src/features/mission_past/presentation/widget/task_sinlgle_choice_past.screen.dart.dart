@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,10 +15,12 @@ class TaskSingleChoicePastScreen extends ConsumerStatefulWidget {
       {super.key, required this.index, required this.taskDatum});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _TaskSingleChoicePastScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _TaskSingleChoicePastScreenState();
 }
 
-class _TaskSingleChoicePastScreenState extends ConsumerState<TaskSingleChoicePastScreen> {
+class _TaskSingleChoicePastScreenState
+    extends ConsumerState<TaskSingleChoicePastScreen> {
   var groupValue = 0;
 
   // int currentQuestionIndex = 0;
@@ -30,8 +31,9 @@ class _TaskSingleChoicePastScreenState extends ConsumerState<TaskSingleChoicePas
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final gamificationData = ref.watch(gamificationDetailState);
-        final listTask = gamificationData.chapterData?.single.missionData?.single.taskData;
-        return  Column(
+        final listTask =
+            gamificationData.chapterData?.single.missionData?.single.taskData;
+        return Column(
           children: [
             Card(
               shape: RoundedRectangleBorder(
@@ -58,7 +60,9 @@ class _TaskSingleChoicePastScreenState extends ConsumerState<TaskSingleChoicePas
                                 typographyType: TypographyType.mediumH6,
                                 fontColor: ColorTheme.textDark),
                           ),
-                          const SizedBox(height: 8,),
+                          const SizedBox(
+                            height: 8,
+                          ),
                           Text(
                               "${EtamKawaTranslate.question} ${widget.index + 1} ${EtamKawaTranslate.of} ${listTask?.length}",
                               style: SharedComponent.textStyleCustom(
@@ -72,26 +76,22 @@ class _TaskSingleChoicePastScreenState extends ConsumerState<TaskSingleChoicePas
                           children: [
                             const SizedBox(height: 20.0),
                             ListView.builder(
-                              physics:
-                                  const NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
-                              itemCount:
-                                  widget.taskDatum.answerData?.length,
-                              itemBuilder:
-                                  (BuildContext context, int index) {
-                                var listAnswer =
-                                    widget.taskDatum.answerData;
+                              itemCount: widget.taskDatum.answerData?.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                var listAnswer = widget.taskDatum.answerData;
 
                                 return Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      vertical: 8.0),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 8.0),
                                   decoration: BoxDecoration(
                                     border: Border.all(
                                       color: (widget.taskDatum
                                                       .listSelectedOption ??
                                                   [])
-                                              .contains(listAnswer?[index]
-                                                  .answerId)
+                                              .contains(
+                                                  listAnswer?[index].answerId)
                                           ? ColorTheme.primary500
                                           : ColorTheme
                                               .backgroundLight, // Border color based on selection
@@ -100,78 +100,86 @@ class _TaskSingleChoicePastScreenState extends ConsumerState<TaskSingleChoicePas
                                         8.0), // Border radius
                                   ),
                                   child: RadioListTile<int>(
-                                    title: Text(listAnswer?[index]
-                                            .answerCaption ??
-                                        '',style: SharedComponent.textStyleCustom(
-                                        typographyType: TypographyType.medium,
-                                        fontColor: ColorTheme.textDark),),
-                                    value:
-                                        listAnswer?[index].answerId ?? 0,
-                                    groupValue: (widget.taskDatum
-                                        .listSelectedOption ??
-                                        []).isNotEmpty
-                                        ?  (widget.taskDatum
-                                        .listSelectedOption ??
-                                        []).first
-                                        : 0,
+                                    title: Text(
+                                      listAnswer?[index].answerCaption ?? '',
+                                      style: SharedComponent.textStyleCustom(
+                                          typographyType: TypographyType.medium,
+                                          fontColor: listAnswer?[index]
+                                                      .isCorrectAnswer ==
+                                                  true
+                                              ? ColorTheme.buttonPrimary
+                                              : ColorTheme.textDark),
+                                    ),
+                                    value: listAnswer?[index].answerId ?? 0,
+                                    groupValue:
+                                        (widget.taskDatum.listSelectedOption ??
+                                                    [])
+                                                .isNotEmpty
+                                            ? (widget.taskDatum
+                                                        .listSelectedOption ??
+                                                    [])
+                                                .first
+                                            : 0,
                                     onChanged: (int? value) {},
                                   ),
                                 );
                               },
                             ),
                             gamificationData.missionStatusCode == 99
-                                ? (widget.taskDatum
-                                                .answerReward !=
-                                            null &&
-                                widget.taskDatum
-                                                .answerReward !=
-                                            0)
+                                ? (widget.taskDatum.answerReward != null &&
+                                        widget.taskDatum.answerReward != 0)
                                     ? Column(
                                         children: [
                                           const SizedBox(
                                             height: 10,
                                           ),
                                           Row(
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(EtamKawaTranslate.yourAnswerIsCorrect,
+                                              Text(
+                                                  EtamKawaTranslate
+                                                      .yourAnswerIsCorrect,
                                                   style: SharedComponent
                                                       .textStyleCustom(
-                                                      typographyType:
-                                                      TypographyType
-                                                          .body,
-                                                      fontColor: ColorTheme
-                                                          .buttonPrimary)
-                                                //TextStyle(fontSize: 12.sp)
-                                              ),
+                                                          typographyType:
+                                                              TypographyType
+                                                                  .body,
+                                                          fontColor: ColorTheme
+                                                              .buttonPrimary)
+                                                  //TextStyle(fontSize: 12.sp)
+                                                  ),
                                               Center(
                                                   child: SizedBox(
-                                                    height: 24.h,
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                      MainAxisAlignment.spaceEvenly,
-                                                      children: [
-                                                        Icon(
-                                                          Icons.star,
-                                                          color: ColorTheme.secondary500,
-                                                          size: 12.h,
-                                                        ),
-                                                        Text(
-                                                          " +${widget.taskDatum.taskReward}",
-                                                          style: SharedComponent
-                                                              .textStyleCustom(
+                                                height: 24.h,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.star,
+                                                      color: ColorTheme
+                                                          .secondary500,
+                                                      size: 12.h,
+                                                    ),
+                                                    Text(
+                                                      " +${widget.taskDatum.answerReward}",
+                                                      style: SharedComponent
+                                                          .textStyleCustom(
                                                               typographyType:
-                                                              TypographyType.body,
+                                                                  TypographyType
+                                                                      .body,
                                                               fontColor: ColorTheme
                                                                   .neutral600),
-                                                        ),
-                                                      ],
                                                     ),
-                                                  )),
+                                                  ],
+                                                ),
+                                              )),
                                             ],
                                           ),
-
                                         ],
                                       )
                                     : Column(
@@ -180,48 +188,52 @@ class _TaskSingleChoicePastScreenState extends ConsumerState<TaskSingleChoicePas
                                             height: 10,
                                           ),
                                           Row(
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                  EtamKawaTranslate.yourAnswerIsInCorrect,
+                                                  EtamKawaTranslate
+                                                      .yourAnswerIsInCorrect,
                                                   style: SharedComponent
                                                       .textStyleCustom(
-                                                      typographyType:
-                                                      TypographyType
-                                                          .body,
-                                                      fontColor:
-                                                      ColorTheme
-                                                          .danger500)
-                                                //TextStyle(fontSize: 12.sp)
-                                              ),
+                                                          typographyType:
+                                                              TypographyType
+                                                                  .body,
+                                                          fontColor: ColorTheme
+                                                              .danger500)
+                                                  //TextStyle(fontSize: 12.sp)
+                                                  ),
                                               Center(
                                                   child: SizedBox(
-                                                    height: 24.h,
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                      MainAxisAlignment.spaceEvenly,
-                                                      children: [
-                                                        Icon(
-                                                          Icons.star,
-                                                          color: ColorTheme.secondary500,
-                                                          size: 12.h,
-                                                        ),
-                                                        Text(
-                                                          " +${widget.taskDatum.answerReward}",
-                                                          style: SharedComponent
-                                                              .textStyleCustom(
+                                                height: 24.h,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.star,
+                                                      color: ColorTheme
+                                                          .secondary500,
+                                                      size: 12.h,
+                                                    ),
+                                                    Text(
+                                                      " +${widget.taskDatum.answerReward}",
+                                                      style: SharedComponent
+                                                          .textStyleCustom(
                                                               typographyType:
-                                                              TypographyType.body,
+                                                                  TypographyType
+                                                                      .body,
                                                               fontColor: ColorTheme
                                                                   .neutral600),
-                                                        ),
-                                                      ],
                                                     ),
-                                                  )),
+                                                  ],
+                                                ),
+                                              )),
                                             ],
                                           ),
-
                                         ],
                                       )
                                 : Container(),
