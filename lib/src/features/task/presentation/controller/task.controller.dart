@@ -126,16 +126,51 @@ class TaskController extends _$TaskController {
             .future);
   }
 
-  Future<void> putCurrentAnswerFinal() async {
-    if (ref.read(currentTypeTaskState.notifier).state == TaskType.STX.name) {
+  Future<void> putNextAnswerFinal() async {
+    final submitStatusTask = ref.watch(submitStatusTaskState.notifier);
+    final currentQuestionIndex = ref.watch(currentIndexState.notifier);
+
+    if (ref.watch(currentTypeTaskState.notifier).state == TaskType.STX.name ||
+        ref.watch(currentTypeTaskState.notifier).state == TaskType.ASM.name) {
+      ref.refresh(taskControllerProvider);
+      ref.watch(listSelectOptionStringState.notifier).state.clear();
       ref.watch(listSelectOptionStringState.notifier).state =
-          ref.read(listSelectOptionCurrentStringState.notifier).state;
-      state = const AsyncValue.data(null);
+          ref.watch(listSelectOptionCurrentStringState.notifier).state;
+      ref.watch(attachmentNameState.notifier).state =
+          ref.watch(attachmentNameCurrentState.notifier).state;
+      ref.watch(attachmentPathState.notifier).state =
+          ref.watch(attachmentPathCurrentState.notifier).state;
+      submitStatusTask.state = SubmitStatus.success;
+    } else {
+      ref.watch(listSelectOptionState.notifier).state.clear();
+      ref.watch(listSelectOptionState.notifier).state =
+          ref.watch(listSelectOptionCurrentState.notifier).state;
+      submitStatusTask.state = SubmitStatus.success;
+    }
+    currentQuestionIndex.state++;
+    ref.watch(currentProgressState.notifier).state++;
+  }
+
+  Future<void> putPreviousAnswerFinal() async {
+    final submitStatusTask = ref.watch(submitStatusTaskState.notifier);
+    final currentQuestionIndex = ref.watch(currentIndexState.notifier);
+
+    if (ref.watch(currentTypeTaskState.notifier).state == TaskType.STX.name ||
+        ref.watch(currentTypeTaskState.notifier).state == TaskType.ASM.name) {
+      ref.watch(listSelectOptionStringState.notifier).state =
+          ref.watch(listSelectOptionCurrentStringState.notifier).state;
+      ref.watch(attachmentNameState.notifier).state =
+          ref.watch(attachmentNameCurrentState.notifier).state;
+      ref.watch(attachmentPathState.notifier).state =
+          ref.watch(attachmentPathCurrentState.notifier).state;
     } else {
       ref.watch(listSelectOptionState.notifier).state =
-          ref.read(listSelectOptionCurrentState.notifier).state;
-      state = const AsyncValue.data(null);
+          ref.watch(listSelectOptionCurrentState.notifier).state;
     }
+    submitStatusTask.state = SubmitStatus.success;
+
+    currentQuestionIndex.state--;
+    ref.watch(currentProgressState.notifier).state--;
   }
 
   Future<void> putAnswerFinal({bool isSubmitted = false}) async {
@@ -201,7 +236,7 @@ class TaskController extends _$TaskController {
           .read(putAnswerFinalLocalProvider(answerRequestRemote: taskAnswer)
               .future)
           .whenComplete(() async {
-        await changeStatusTask();
+        await changeStatusTask(isDone: isSubmitted);
       });
       ;
     }
@@ -225,7 +260,7 @@ class TaskController extends _$TaskController {
     }
   }
 
-  Future<void> changeStatusTask({isDone = true}) async {
+  Future<void> changeStatusTask({required isDone}) async {
     final gamification = ref.read(gamificationState.notifier).state;
     final isarInstance = await ref.watch(isarInstanceProvider.future);
 
@@ -386,7 +421,7 @@ class TaskController extends _$TaskController {
             listSelectOptionCurrent;
       }
       answer = '';
-    } else{
+    } else {
       if (currentTypeTask == TaskType.STX.name ||
           currentTypeTask == TaskType.ASM.name) {
         listString.clear();

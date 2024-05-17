@@ -280,67 +280,8 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                   pagePosition:
                                                       PagePosition.PREV)
                                               .whenComplete(() {
-                                            currentQuestionIndex.state--;
-                                            ref
-                                                .watch(currentProgressState
-                                                    .notifier)
-                                                .state--;
-                                            if (ref
-                                                        .watch(
-                                                            currentTypeTaskState
-                                                                .notifier)
-                                                        .state ==
-                                                    TaskType.STX.name ||
-                                                ref
-                                                        .watch(
-                                                            currentTypeTaskState
-                                                                .notifier)
-                                                        .state ==
-                                                    TaskType.ASM.name) {
-                                              ref
-                                                      .watch(
-                                                          listSelectOptionStringState
-                                                              .notifier)
-                                                      .state =
-                                                  ref
-                                                      .watch(
-                                                          listSelectOptionCurrentStringState
-                                                              .notifier)
-                                                      .state;
-                                              ref
-                                                      .watch(attachmentNameState
-                                                          .notifier)
-                                                      .state =
-                                                  ref
-                                                      .watch(
-                                                          attachmentNameCurrentState
-                                                              .notifier)
-                                                      .state;
-                                              ref
-                                                      .watch(attachmentPathState
-                                                          .notifier)
-                                                      .state =
-                                                  ref
-                                                      .watch(
-                                                          attachmentPathCurrentState
-                                                              .notifier)
-                                                      .state;
-                                              submitStatusTask.state =
-                                                  SubmitStatus.success;
-                                            } else {
-                                              ref
-                                                      .watch(
-                                                          listSelectOptionState
-                                                              .notifier)
-                                                      .state =
-                                                  ref
-                                                      .watch(
-                                                          listSelectOptionCurrentState
-                                                              .notifier)
-                                                      .state;
-                                              submitStatusTask.state =
-                                                  SubmitStatus.success;
-                                            }
+                                            ctrl.putPreviousAnswerFinal();
+
                                           });
                                         });
                                       }
@@ -392,83 +333,7 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                     pagePosition:
                                                         PagePosition.NEXT)
                                                 .whenComplete(() async {
-                                              if (ref
-                                                          .watch(
-                                                              currentTypeTaskState
-                                                                  .notifier)
-                                                          .state ==
-                                                      TaskType.STX.name ||
-                                                  ref
-                                                          .watch(
-                                                              currentTypeTaskState
-                                                                  .notifier)
-                                                          .state ==
-                                                      TaskType.ASM.name) {
-                                                ref.refresh(
-                                                    taskControllerProvider);
-                                                ref
-                                                    .watch(
-                                                        listSelectOptionStringState
-                                                            .notifier)
-                                                    .state
-                                                    .clear();
-                                                ref
-                                                        .watch(
-                                                            listSelectOptionStringState
-                                                                .notifier)
-                                                        .state =
-                                                    ref
-                                                        .watch(
-                                                            listSelectOptionCurrentStringState
-                                                                .notifier)
-                                                        .state;
-                                                ref
-                                                        .watch(
-                                                            attachmentNameState
-                                                                .notifier)
-                                                        .state =
-                                                    ref
-                                                        .watch(
-                                                            attachmentNameCurrentState
-                                                                .notifier)
-                                                        .state;
-                                                ref
-                                                        .watch(
-                                                            attachmentPathState
-                                                                .notifier)
-                                                        .state =
-                                                    ref
-                                                        .watch(
-                                                            attachmentPathCurrentState
-                                                                .notifier)
-                                                        .state;
-                                                submitStatusTask.state =
-                                                    SubmitStatus.success;
-                                              } else {
-                                                ref
-                                                    .watch(listSelectOptionState
-                                                        .notifier)
-                                                    .state
-                                                    .clear();
-                                                ref
-                                                        .watch(
-                                                            listSelectOptionState
-                                                                .notifier)
-                                                        .state =
-                                                    ref
-                                                        .watch(
-                                                            listSelectOptionCurrentState
-                                                                .notifier)
-                                                        .state;
-                                                submitStatusTask.state =
-                                                    SubmitStatus.success;
-                                              }
-                                              currentQuestionIndex.state++;
-                                              ref
-                                                  .watch(currentProgressState
-                                                      .notifier)
-                                                  .state++;
-                                              setState(() {});
+                                              ctrl.putNextAnswerFinal();
                                             });
                                           });
                                         });
@@ -497,10 +362,6 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                     .notifier)
                                                 .state++;
                                           }
-
-                                          await ctrl
-                                              .putAnswerFinal()
-                                              .whenComplete(() async {
                                             submitStatusTask.state =
                                                 SubmitStatus.success;
                                             showDialog(
@@ -553,7 +414,6 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                               },
                                             );
                                             ref.refresh(taskControllerProvider);
-                                          });
                                         });
                                       }
                                     } else {
