@@ -331,12 +331,20 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                   )
                                 : InkWell(
                                     onTap: () {
+                                      if(Platform.isIOS){
                                       _showPicker(context,
                                           ctrl: ctrl,
                                           listTask: listTask,
                                           currentQuestionIndex:
                                               currentQuestionIndex.state);
+                                    }else{
+                                        pickImageGallery(
+                                            ctrl: ctrl,
+                                            listTask: listTask,
+                                            currentQuestionIndex: currentQuestionIndex.state);
+                                      }
                                     },
+
                                     child: DottedBorder(
                                       color: ColorTheme.primary500,
                                       radius: const Radius.circular(12),
@@ -394,7 +402,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                                 .width /
                                                             1.5,
                                                         child: Text(
-                                                          "Allowed files .jpg, .jpeg, .heic, .png, .gif, .pdf, .doc",
+                                                          "Allowed files ${EtamKawaUploadConstant.fileTypeTextImage}",
                                                           style:
                                                               Theme.of(context)
                                                                   .textTheme
@@ -1041,7 +1049,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
         required int currentQuestionIndex}) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+      allowedExtensions:  EtamKawaUploadConstant.fileTypeImage,
     );
 
     if (result != null) {
@@ -1086,7 +1094,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
       required int currentQuestionIndex}) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: EtamKawaUploadConstant.fileTypeDefault,
+      allowedExtensions: EtamKawaUploadConstant.fileTypeImage,
       allowCompression: true,
     );
 

@@ -75,8 +75,8 @@ class _TaskAssignmentPastScreenState
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const SizedBox(height: 20.0),
-                                widget.taskDatum.attachmentName != null &&
-                                        widget.taskDatum.attachmentName != ''
+                                widget.taskDatum.answerAttachmentUrl != null &&
+                                        widget.taskDatum.answerAttachmentUrl != ''
                                     ? Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -124,27 +124,8 @@ class _TaskAssignmentPastScreenState
                                               const SizedBox(
                                                 height: 12,
                                               ),
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                child: Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Expanded(
-                                                      child: Text(
-                                                        widget.taskDatum
-                                                                .attachmentName ??
-                                                            '',
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .titleLarge,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
+                                              Image.network(widget.taskDatum
+                                                  .answerAttachmentUrl??'')
 
                                             ],
                                           ),

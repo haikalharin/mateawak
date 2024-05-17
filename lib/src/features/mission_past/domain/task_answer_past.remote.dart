@@ -21,6 +21,9 @@ class TaskAnswerPastRemote {
   String? attachment;
   String? attachmentName;
   int? taskReward;
+  int? answerAttachmentId;
+  String? answerAttachmentUrl;
+  String? answerAttachmentName;
   int? answerReward;
   String? feedbackComment;
   int? qualitativeScoreId;
@@ -39,6 +42,9 @@ class TaskAnswerPastRemote {
     this.attachment,
     this.attachmentName,
     this.taskReward,
+    this.answerAttachmentId,
+    this.answerAttachmentUrl,
+    this.answerAttachmentName,
     this.answerReward,
     this.feedbackComment,
     this.qualitativeScoreId,
@@ -58,6 +64,9 @@ class TaskAnswerPastRemote {
     String? attachment,
     String? attachmentName,
     int? taskReward,
+    int? answerAttachmentId,
+    String? answerAttachmentUrl,
+    String? answerAttachmentName,
     int? answerReward,
     String? feedbackComment,
     int? qualitativeScoreId,
@@ -77,6 +86,9 @@ class TaskAnswerPastRemote {
         attachment: attachment ?? this.attachment,
         taskReward: taskReward ?? this.taskReward,
         answerReward: answerReward ?? this.answerReward,
+        answerAttachmentId: answerAttachmentId ?? this.answerAttachmentId,
+        answerAttachmentUrl: answerAttachmentUrl ?? this.answerAttachmentUrl,
+        answerAttachmentName: answerAttachmentName ?? this.answerAttachmentName,
         feedbackComment: feedbackComment ?? this.feedbackComment,
         qualitativeScoreId: qualitativeScoreId ?? this.qualitativeScoreId,
         qualitativeScoreName: qualitativeScoreName ?? this.qualitativeScoreName,
