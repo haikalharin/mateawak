@@ -182,8 +182,8 @@ class _MissionPastDetailScreenState
                                         fontColor: ColorTheme.neutral600),
                                   ),
                                   Text(
-                                    gamification.chapterData?.single
-                                            .competencyName ??
+                                    gamification.chapterData?.single.missionData
+                                            ?.single.competencyName ??
                                         '',
                                     style: SharedComponent.textStyleCustom(
                                         typographyType:
@@ -200,7 +200,11 @@ class _MissionPastDetailScreenState
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 8.w, vertical: 4.h),
                                       child: Text(
-                                        gamification.chapterData?.single
+                                        gamification
+                                                .chapterData
+                                                ?.single
+                                                .missionData
+                                                ?.single
                                                 .peopleCategoryName ??
                                             '',
                                         style: SharedComponent.textStyleCustom(

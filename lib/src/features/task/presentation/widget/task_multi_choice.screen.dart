@@ -117,7 +117,7 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                       )),
                                     ),
                                     InkWell(
-                                      onTap: (){
+                                      onTap: () {
                                         showDialog(
                                           barrierDismissible: false,
                                           context: context,
@@ -125,9 +125,14 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                             return InstructionDialog(
                                                 title: EtamKawaTranslate
                                                     .instructions,
-                                                content:  gamificationData.chapterData?.first.missionData?.first.missionInstruction??'',
-                                                labelButton:'Ok');
-
+                                                content: gamificationData
+                                                        .chapterData
+                                                        ?.first
+                                                        .missionData
+                                                        ?.first
+                                                        .missionInstruction ??
+                                                    '',
+                                                labelButton: 'Ok');
                                           },
                                         );
                                       },
@@ -150,23 +155,17 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                     listTask[currentQuestionIndex.state]
                                             .attachmentPath !=
                                         ''
-                                ? Container(
-                                    height: 200,
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: FileImage(File(listTask[
-                                                      currentQuestionIndex
-                                                          .state]
-                                                  .attachmentPath ??
-                                              '')),
-                                          fit: BoxFit.cover,
-                                        ),
-                                        color: ColorTheme.backgroundWhite,
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10))),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
+                                ? Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 8, 0, 16),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.r),
+                                      child: Image(
+                                        image: FileImage(File(
+                                            listTask[currentQuestionIndex.state].attachmentPath ?? '')),
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
                                   )
                                 : Container(),
                             const SizedBox(height: 10.0),
@@ -587,9 +586,9 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                           SubmitStatus.success;
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
-                                        const SnackBar(
+                                        SnackBar(
                                             content: Text(
-                                                'Please select an option!')),
+                                                '${EtamKawaTranslate.pleaseSelectAnOption}!')),
                                       );
                                     }
                                   }

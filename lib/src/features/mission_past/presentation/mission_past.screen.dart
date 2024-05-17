@@ -96,7 +96,10 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
                                             MediaQuery.of(context).size.width,
                                         child: Center(
                                           child: Text(
-                                            EtamKawaTranslate.allEntriesLoaded,
+                                            listMissionPast.isNotEmpty
+                                                ? EtamKawaTranslate
+                                                    .allEntriesLoaded
+                                                : EtamKawaTranslate.noData,
                                             style:
                                                 SharedComponent.textStyleCustom(
                                               typographyType:
@@ -231,6 +234,8 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
                               typographyType: TypographyType.largeH5,
                               fontColor: ColorTheme.neutral600)),
                       Text(missionPast[index].chapterName ?? '',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
                           style: SharedComponent.textStyleCustom(
                               typographyType: TypographyType.paragraph,
                               fontColor: ColorTheme.neutral500)),

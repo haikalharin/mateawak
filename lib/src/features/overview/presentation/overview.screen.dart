@@ -101,18 +101,15 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    userProfile.empName ?? '',
-                                    style: SharedComponent.textStyleCustom(
-                                        typographyType: TypographyType.largeH5,
-                                        fontColor: ColorTheme.textWhite)
-                                  ),
-                                  Text(
-                                    userProfile.positionName ?? '',
-                                    style: SharedComponent.textStyleCustom(
-                                        typographyType: TypographyType.body,
-                                        fontColor: ColorTheme.textWhite)
-                                  ),
+                                  Text(userProfile.empName ?? '',
+                                      style: SharedComponent.textStyleCustom(
+                                          typographyType:
+                                              TypographyType.largeH5,
+                                          fontColor: ColorTheme.textWhite)),
+                                  Text(userProfile.positionName ?? '',
+                                      style: SharedComponent.textStyleCustom(
+                                          typographyType: TypographyType.body,
+                                          fontColor: ColorTheme.textWhite)),
                                 ],
                               ),
                             )
@@ -140,40 +137,39 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              news.title ?? '',
-                                              style: SharedComponent.textStyleCustom(
-                                                  typographyType: TypographyType.largeH5,
-                                                  fontColor: ColorTheme.textDark)
-                                            ),
+                                            Text(news.title ?? '',
+                                                style: SharedComponent
+                                                    .textStyleCustom(
+                                                        typographyType:
+                                                            TypographyType
+                                                                .largeH5,
+                                                        fontColor: ColorTheme
+                                                            .textDark)),
                                             const SizedBox(
                                               height: 8,
                                             ),
-                                            Container(
-                                              height: 200,
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                    image: FileImage(File(
-                                                        news.attachmentPath ??
-                                                            '')),
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                  color: ColorTheme
-                                                      .backgroundWhite,
-                                                  borderRadius:
-                                                      const BorderRadius.all(
-                                                          Radius.circular(10))),
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 16),
-                                            ),
+                                            news.attachmentPath != null
+                                                ? Padding(
+                                                    padding: const EdgeInsets
+                                                        .fromLTRB(0, 8, 0, 16),
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.r),
+                                                      child: Image(
+                                                        image: FileImage(File(
+                                                            news.attachmentPath ??
+                                                                '')),
+                                                        fit: BoxFit.contain,
+                                                      ),
+                                                    ),
+                                                  )
+                                                : Container(),
                                             const SizedBox(
                                               height: 8,
                                             ),
-                                            customHtmlWidget(news.content ?? '',
+                                            customHtmlWidget(
+                                              news.content ?? '',
                                             ),
                                           ],
                                         ),

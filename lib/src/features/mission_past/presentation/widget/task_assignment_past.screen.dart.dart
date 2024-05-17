@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../task/presentation/controller/task.controller.dart';
@@ -63,7 +64,7 @@ class _TaskAssignmentPastScreenState
                         title: Text(
                           widget.taskDatum.taskCaption ?? '',
                           style: SharedComponent.textStyleCustom(
-                              typographyType: TypographyType.largeH5,
+                              typographyType: TypographyType.mediumH6,
                               fontColor: ColorTheme.textDark),
                         ),
                         children: <Widget>[
@@ -100,7 +101,7 @@ class _TaskAssignmentPastScreenState
                                                         .textStyleCustom(
                                                             typographyType:
                                                                 TypographyType
-                                                                    .mediumH6,
+                                                                    .largeH5,
                                                             fontColor:
                                                                 ColorTheme
                                                                     .textDark),
@@ -111,7 +112,7 @@ class _TaskAssignmentPastScreenState
                                                             .textStyleCustom(
                                                                 typographyType:
                                                                     TypographyType
-                                                                        .mediumH6,
+                                                                        .body,
                                                                 fontColor:
                                                                     ColorTheme
                                                                         .danger500),
@@ -144,43 +145,34 @@ class _TaskAssignmentPastScreenState
                                                   ],
                                                 ),
                                               ),
-                                              Container(
-                                                margin: EdgeInsets.symmetric(
-                                                    vertical: 8),
-                                                child: Text(
-                                                  EtamKawaTranslate
-                                                      .answerHistory,
-                                                  style: SharedComponent
-                                                      .textStyleCustom(
-                                                          typographyType:
-                                                              TypographyType
-                                                                  .largeH5,
-                                                          fontColor: ColorTheme
-                                                              .textDark),
-                                                ),
-                                              ),
+
                                             ],
                                           ),
                                         ],
                                       )
                                     : Container(),
-                                const SizedBox(height: 8.0),
+                                const SizedBox(height: 10.0),
+                                Text(
+                                  EtamKawaTranslate.answerAssignment,
+                                  style: SharedComponent.textStyleCustom(
+                                      typographyType: TypographyType.largeH5,
+                                      fontColor: ColorTheme.textDark),
+                                ),
+                                const SizedBox(height: 10.0),
                                 Text(stringAnswer,
                                     style: SharedComponent.textStyleCustom(
                                         typographyType: TypographyType.smallH8,
-                                        fontColor: ColorTheme.neutral600)
-                                    //TextStyle(fontSize: 12.sp)
-                                    ),
+                                        fontColor: ColorTheme.neutral600)),
                                 gamificationData.missionStatusCode == 99
                                     ? widget.taskDatum.feedbackComment !=
                                                 null &&
                                             widget.taskDatum.feedbackComment !=
                                                 ''
                                         ? Column(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.start,
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               const SizedBox(
                                                 height: 10,
@@ -192,34 +184,17 @@ class _TaskAssignmentPastScreenState
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  RichText(
-                                                    text: TextSpan(
-                                                      text:
-                                                          'Your answer is rated as ',
+                                                  Text(
+                                                      '${EtamKawaTranslate.yourAnswerIsRatedAs} ${EtamKawaUtils().getMissionScore(widget.taskDatum.qualitativeScoreId ?? 0)}',
                                                       style: SharedComponent
                                                           .textStyleCustom(
                                                               typographyType:
                                                                   TypographyType
                                                                       .body,
                                                               fontColor: ColorTheme
-                                                                  .buttonPrimary),
-                                                      children: [
-                                                        TextSpan(
-                                                          text: widget.taskDatum
-                                                                  .qualitativeScoreName ??
-                                                              '',
-                                                          style: SharedComponent
-                                                              .textStyleCustom(
-                                                                  typographyType:
-                                                                      TypographyType
-                                                                          .capitalH7,
-                                                                  fontColor:
-                                                                      ColorTheme
-                                                                          .buttonPrimary),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
+                                                                  .buttonPrimary)
+                                                      //TextStyle(fontSize: 12.sp)
+                                                      ),
                                                   Center(
                                                       child: SizedBox(
                                                     height: 24.h,
@@ -292,7 +267,8 @@ class _TaskAssignmentPastScreenState
                                               const SizedBox(
                                                 height: 10,
                                               ),
-                                              Text('Not yet rated',
+                                              Text(
+                                                  EtamKawaTranslate.notYetRated,
                                                   style: SharedComponent
                                                       .textStyleCustom(
                                                           typographyType:
