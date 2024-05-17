@@ -22,7 +22,8 @@ class RewardDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final rewardResponse = resultSubmissionState;
-    debugPrint('Reward Response = ${rewardResponse.competencyName} ${rewardResponse.accuracy} ${rewardResponse.rewardGained}');
+    debugPrint(
+        'Reward Response = ${rewardResponse.competencyName} ${rewardResponse.accuracy} ${rewardResponse.rewardGained}');
     String imageConstant = ImageConstant.iconDialogSuccess;
     return Dialog(
       child: Container(
@@ -113,7 +114,7 @@ class RewardDialog extends StatelessWidget {
                                 height: 8,
                               ),
                               Text(
-                                'Accuracy',
+                                EtamKawaTranslate.accuracy,
                                 style: SharedComponent.textStyleCustom(
                                     typographyType: TypographyType.bold,
                                     fontColor: ColorTheme.neutral600),
@@ -135,7 +136,7 @@ class RewardDialog extends StatelessWidget {
             isConnectionAvailable ? SizedBox(height: 10.h) : Container(),
             isConnectionAvailable
                 ? SharedComponent.label(
-                    text: 'You just earned one competency:',
+                    text: '${EtamKawaTranslate.youJustEarnOneCompetency}:',
                     context: context,
                     typographyType: TypographyType.body,
                     textAlign: TextAlign.center,
@@ -153,12 +154,17 @@ class RewardDialog extends StatelessWidget {
                           height: 20.sp,
                           package: Constant.moduleEtamkawa),
                       SizedBox(width: 8.w),
-                      SharedComponent.label(
-                        text: rewardResponse.competencyName ?? '',
-                        context: context,
-                        typographyType: TypographyType.largeH5,
-                        textAlign: TextAlign.center,
-                        color: ColorTheme.neutral600,
+                      Flexible(
+                        // Wrap the Text widget with Flexible
+                        child: Text(
+                          rewardResponse.competencyName ?? '',
+                          maxLines: null,
+                          style: SharedComponent.textStyleCustom(
+                            typographyType: TypographyType.largeH5,
+                            fontColor: ColorTheme.neutral600,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                       SizedBox(width: 8.w),
                       SvgPicture.asset(ImageConstant.iconAchievment,

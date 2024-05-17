@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:module_etamkawa/src/constants/constant.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/reward_dialog.dart';
 import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
@@ -136,17 +137,21 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                 )),
                               ),
                               InkWell(
-                                onTap: (){
+                                onTap: () {
                                   showDialog(
                                     barrierDismissible: false,
                                     context: context,
                                     builder: (context) {
                                       return InstructionDialog(
-                                          title: EtamKawaTranslate
-                                              .instructions,
-                                          content:  gamificationData.chapterData?.first.missionData?.first.missionInstruction??'',
-                                          labelButton:'Ok');
-
+                                          title: EtamKawaTranslate.instructions,
+                                          content: gamificationData
+                                                  .chapterData
+                                                  ?.first
+                                                  .missionData
+                                                  ?.first
+                                                  .missionInstruction ??
+                                              '',
+                                          labelButton: 'Ok');
                                     },
                                   );
                                 },
@@ -175,23 +180,19 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                     listTask[currentQuestionIndex.state]
                                             .attachmentPath !=
                                         ''
-                                ? Container(
-                                    height: 200,
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: FileImage(File(listTask[
-                                                      currentQuestionIndex
-                                                          .state]
-                                                  .attachmentPath ??
-                                              '')),
-                                          fit: BoxFit.cover,
-                                        ),
-                                        color: ColorTheme.backgroundWhite,
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10))),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
+                                ? Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 8, 0, 16),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.r),
+                                      child: Image(
+                                        image: FileImage(File(
+                                            listTask[currentQuestionIndex.state]
+                                                    .attachmentPath ??
+                                                '')),
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
                                   )
                                 : Container(),
                             const SizedBox(height: 10.0),
@@ -531,19 +532,19 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                         ?.unfocus();
                                   });
                                 },
-                                onChanged: (value){
+                                onChanged: (value) {
                                   setState(() {
                                     if (_textController.text.isEmpty) {
                                       ref
                                           .watch(listSelectOptionStringState
-                                          .notifier)
+                                              .notifier)
                                           .state = [];
 
                                       _textController.clear();
                                     } else {
                                       ref
                                           .watch(listSelectOptionStringState
-                                          .notifier)
+                                              .notifier)
                                           .state = [_textController.text];
                                     }
                                   });
@@ -908,35 +909,32 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                               isSubmitted: true)
                                                           .whenComplete(
                                                               () async {
-                                                          await ctrlMission
-                                                              .getMissionList()
-                                                              .whenComplete(() {
-                                                            hideLoadingDialog(
-                                                                context);
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                            showDialog(
-                                                                barrierDismissible:
-                                                                    false,
-                                                                context:
-                                                                    context,
-                                                                builder:
-                                                                    (context) {
-                                                                  return RewardDialog(
-                                                                    resultSubmissionState: ref
-                                                                        .watch(resultSubmissionState
-                                                                            .notifier)
-                                                                        .state,
-                                                                    isConnectionAvailable:
-                                                                        isConnectionAvailable,
-                                                                  );
-                                                                });
-                                                            _textController
-                                                                .clear();
-                                                            isInit = true;
-                                                          });
-
+                                                        await ctrlMission
+                                                            .getMissionList()
+                                                            .whenComplete(() {
+                                                          hideLoadingDialog(
+                                                              context);
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                          showDialog(
+                                                              barrierDismissible:
+                                                                  false,
+                                                              context: context,
+                                                              builder:
+                                                                  (context) {
+                                                                return RewardDialog(
+                                                                  resultSubmissionState: ref
+                                                                      .watch(resultSubmissionState
+                                                                          .notifier)
+                                                                      .state,
+                                                                  isConnectionAvailable:
+                                                                      isConnectionAvailable,
+                                                                );
+                                                              });
+                                                          _textController
+                                                              .clear();
+                                                          isInit = true;
+                                                        });
                                                       });
                                                     });
                                               },
@@ -950,8 +948,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
-                                            content: Text(
-                                                EtamKawaTranslate.pleaseUploadYourEvidence)),
+                                            content: Text(EtamKawaTranslate
+                                                .pleaseUploadYourEvidence)),
                                       );
                                     }
                                   }
@@ -959,8 +957,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                   submitStatusTask.state = SubmitStatus.success;
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                        content: Text(
-                                            EtamKawaTranslate.pleaseWriteAndFillYourAnswer)),
+                                        content: Text(EtamKawaTranslate
+                                            .pleaseWriteAndFillYourAnswer)),
                                   );
                                 }
                               },
@@ -988,33 +986,39 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
       required List<TaskDatum> listTask,
       required int currentQuestionIndex}) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['doc', 'jpg', 'jpeg', 'png', 'gif', 'pdf'],
-    );
+        type: FileType.custom,
+        allowedExtensions: EtamKawaUploadConstant.fileTypeDefault,
+        allowCompression: true);
 
     if (result != null) {
-      var fileDuplicate = result.files.single;
-      ref.refresh(taskControllerProvider);
+      PlatformFile platformFile = result.files.first;
+      final fileName = platformFile.name;
+      final filePath = platformFile.path;
+      final fileSize = platformFile.size;
+      final fileExtension = platformFile.extension;
 
-      await ctrl
-          .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
-              isLast: false,
-              attachment: fileDuplicate.path ?? '',
-              attachmentName: fileDuplicate.name,
-              listSelectedOption: [_textController.text],
-              type: listTask[currentQuestionIndex].taskTypeCode ?? '',
-              taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
-          .whenComplete(() async {
-        await ctrl.putAnswerFinal();
-      }).whenComplete(() {
+      if (EtamKawaUploadConstant.fileTypeDefault.contains(fileExtension)) {
         ref.refresh(taskControllerProvider);
 
-        setState(() {
-          ref.read(attachmentNameState.notifier).state = fileDuplicate.name;
-          ref.read(attachmentPathState.notifier).state =
-              fileDuplicate.path ?? '';
+        await ctrl
+            .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
+                isLast: false,
+                attachment: filePath,
+                attachmentName: fileName,
+                listSelectedOption: [_textController.text],
+                type: listTask[currentQuestionIndex].taskTypeCode ?? '',
+                taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
+            .whenComplete(() async {
+          await ctrl.putAnswerFinal();
+        }).whenComplete(() {
+          ref.refresh(taskControllerProvider);
+
+          setState(() {
+            ref.read(attachmentNameState.notifier).state = fileName;
+            ref.read(attachmentPathState.notifier).state = filePath ?? '';
+          });
         });
-      });
+      }
     } else {
       // User canceled the picker
     }

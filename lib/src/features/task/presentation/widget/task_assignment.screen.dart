@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:module_etamkawa/src/constants/constant.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
@@ -139,7 +140,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                     )),
                                   ),
                                   InkWell(
-                                    onTap: (){
+                                    onTap: () {
                                       showDialog(
                                         barrierDismissible: false,
                                         context: context,
@@ -147,9 +148,14 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                           return InstructionDialog(
                                               title: EtamKawaTranslate
                                                   .instructions,
-                                              content:  gamificationData.chapterData?.first.missionData?.first.missionInstruction??'',
-                                              labelButton:'Ok');
-
+                                              content: gamificationData
+                                                      .chapterData
+                                                      ?.first
+                                                      .missionData
+                                                      ?.first
+                                                      .missionInstruction ??
+                                                  '',
+                                              labelButton: 'Ok');
                                         },
                                       );
                                     },
@@ -176,32 +182,53 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                     listTask[currentQuestionIndex.state]
                                             .attachmentPath !=
                                         ''
-                                ? Container(
-                                    height: 200,
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: FileImage(File(
-                                              listTask[0].attachmentPath ??
-                                                  '')),
-                                          fit: BoxFit.cover,
-                                        ),
-                                        color: ColorTheme.backgroundWhite,
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10))),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
+                                ? Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 8, 0, 16),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.r),
+                                      child: Image(
+                                        image: FileImage(File(
+                                            listTask[currentQuestionIndex.state]
+                                                    .attachmentPath ??
+                                                '')),
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
                                   )
                                 : Container(),
                             const SizedBox(height: 10.0),
                             Text(
-                              listTask[0].taskCaption ?? '',
+                              listTask[currentQuestionIndex.state]
+                                      .taskCaption ??
+                                  '',
                               style: SharedComponent.textStyleCustom(
                                   typographyType: TypographyType.medium,
                                   fontColor: ColorTheme.textDark),
                             ),
                             const Divider(),
-                            const SizedBox(height: 20.0),
+                            const SizedBox(height: 10.0),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: RichText(
+                                text: TextSpan(
+                                  text: EtamKawaTranslate.evidence,
+                                  style: SharedComponent.textStyleCustom(
+                                      typographyType: TypographyType.body,
+                                      fontColor: ColorTheme.textDark),
+                                  children: [
+                                    if (isMandatory)
+                                      TextSpan(
+                                        text: '*',
+                                        style: SharedComponent.textStyleCustom(
+                                            typographyType: TypographyType.body,
+                                            fontColor: ColorTheme.danger500),
+                                      ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10.0),
                             attachmentName.state != ''
                                 ? Column(
                                     crossAxisAlignment:
@@ -214,40 +241,6 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          SizedBox(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            child: RichText(
-                                              text: TextSpan(
-                                                text:
-                                                    EtamKawaTranslate.evidence,
-                                                style: SharedComponent
-                                                    .textStyleCustom(
-                                                        typographyType:
-                                                            TypographyType.body,
-                                                        fontColor: ColorTheme
-                                                            .textDark),
-                                                children: [
-                                                  if (isMandatory)
-                                                    TextSpan(
-                                                      text: '*',
-                                                      style: SharedComponent
-                                                          .textStyleCustom(
-                                                              typographyType:
-                                                                  TypographyType
-                                                                      .body,
-                                                              fontColor:
-                                                                  ColorTheme
-                                                                      .danger500),
-                                                    ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 12,
-                                          ),
                                           SizedBox(
                                             width: MediaQuery.of(context)
                                                 .size
@@ -399,7 +392,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                                 .width /
                                                             1.5,
                                                         child: Text(
-                                                          "Allowed files .jpg, .jpeg, .png, .gif, .pdf, .doc",
+                                                          "Allowed files .jpg, .jpeg, .heic, .png, .gif, .pdf, .doc",
                                                           style:
                                                               Theme.of(context)
                                                                   .textTheme
@@ -527,19 +520,19 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                         ?.unfocus();
                                   });
                                 },
-                                onChanged: (value){
+                                onChanged: (value) {
                                   setState(() {
                                     if (_textController.text.isEmpty) {
                                       ref
                                           .watch(listSelectOptionStringState
-                                          .notifier)
+                                              .notifier)
                                           .state = [];
 
                                       _textController.clear();
                                     } else {
                                       ref
                                           .watch(listSelectOptionStringState
-                                          .notifier)
+                                              .notifier)
                                           .state = [_textController.text];
                                     }
                                   });
@@ -771,20 +764,20 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                         .state;
                                                 ref
                                                     .watch(
-                                                    listSelectOptionCurrentStringState
-                                                        .notifier)
+                                                        listSelectOptionCurrentStringState
+                                                            .notifier)
                                                     .state
                                                     .clear();
                                                 ref
                                                     .watch(
-                                                    attachmentPathCurrentState
-                                                        .notifier)
-                                                    .state ='';
+                                                        attachmentPathCurrentState
+                                                            .notifier)
+                                                    .state = '';
                                                 ref
                                                     .watch(
-                                                    attachmentNameCurrentState
-                                                        .notifier)
-                                                    .state ='';
+                                                        attachmentNameCurrentState
+                                                            .notifier)
+                                                    .state = '';
                                                 submitStatusTask.state =
                                                     SubmitStatus.success;
                                               } else {
@@ -866,46 +859,45 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                         .putAnswerFinal(
                                                             isSubmitted: true)
                                                         .whenComplete(() async {
-                                                        await ctrlMission
-                                                            .getMissionList()
-                                                            .whenComplete(() {
-                                                          hideLoadingDialog(
-                                                              context);
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                          showDialog(
-                                                            barrierDismissible:
-                                                                false,
-                                                            context: context,
-                                                            builder: (context) {
-                                                              return CustomDialog(
-                                                                title:
-                                                                    EtamKawaTranslate
-                                                                        .hooray,
-                                                                content:
-                                                                    EtamKawaTranslate
-                                                                        .yourMissionHasBeenCompleted,
-                                                                label: "Okay",
-                                                                type: DialogType
-                                                                    .success,
-                                                                onClosed: () {
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .pop(); // Close the second dialog
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .pop(); // Close the first dialog's parent
-                                                                },
-                                                              );
-                                                            },
-                                                          );
-                                                          setState(() {
-                                                            _textController
-                                                                .clear();
-                                                            isInit = true;
-                                                          });
+                                                      await ctrlMission
+                                                          .getMissionList()
+                                                          .whenComplete(() {
+                                                        hideLoadingDialog(
+                                                            context);
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                        showDialog(
+                                                          barrierDismissible:
+                                                              false,
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return CustomDialog(
+                                                              title:
+                                                                  EtamKawaTranslate
+                                                                      .hooray,
+                                                              content:
+                                                                  EtamKawaTranslate
+                                                                      .yourMissionHasBeenCompleted,
+                                                              label: "Okay",
+                                                              type: DialogType
+                                                                  .success,
+                                                              onClosed: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop(); // Close the second dialog
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop(); // Close the first dialog's parent
+                                                              },
+                                                            );
+                                                          },
+                                                        );
+                                                        setState(() {
+                                                          _textController
+                                                              .clear();
+                                                          isInit = true;
                                                         });
-
+                                                      });
                                                     });
                                                   },
                                                 );
@@ -920,8 +912,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
-                                            content: Text(
-                                                EtamKawaTranslate.pleaseUploadYourEvidence)),
+                                            content: Text(EtamKawaTranslate
+                                                .pleaseUploadYourEvidence)),
                                       );
                                     }
                                   } else {
@@ -929,8 +921,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                         SubmitStatus.success;
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
-                                          content: Text(
-                                              EtamKawaTranslate.pleaseWriteAndFillYourAnswer)),
+                                          content: Text(EtamKawaTranslate
+                                              .pleaseWriteAndFillYourAnswer)),
                                     );
                                   }
                                 }
@@ -960,34 +952,41 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
       required int currentQuestionIndex}) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['doc', 'jpg', 'jpeg', 'png', 'gif', 'pdf'],
+      allowedExtensions: EtamKawaUploadConstant.fileTypeDefault,
+      allowCompression: true,
     );
 
     if (result != null) {
-      var fileDuplicate = result.files.single;
-      ref.refresh(taskControllerProvider);
+      PlatformFile platformFile = result.files.first;
+      final fileName = platformFile.name;
+      final filePath = platformFile.path;
+      final fileSize = platformFile.size;
+      final fileExtension = platformFile.extension;
 
-      await ctrl
-          .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
-              isLast: false,
-              attachment: fileDuplicate.path ?? '',
-              attachmentName: fileDuplicate.name,
-              listSelectedOption: [_textController.text],
-              type: listTask[currentQuestionIndex].taskTypeCode ?? '',
-              taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
-          .whenComplete(() async {
+      if (EtamKawaUploadConstant.fileTypeDefault.contains(fileExtension)) {
+        debugPrint('accepted format');
         ref.refresh(taskControllerProvider);
+        await ctrl
+            .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
+                isLast: false,
+                attachment: filePath,
+                attachmentName: fileName,
+                listSelectedOption: [_textController.text],
+                type: listTask[currentQuestionIndex].taskTypeCode ?? '',
+                taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
+            .whenComplete(() async {
+          ref.refresh(taskControllerProvider);
 
-        await ctrl.putAnswerFinal();
-      }).whenComplete(() {
-        ref.refresh(taskControllerProvider);
+          await ctrl.putAnswerFinal();
+        }).whenComplete(() {
+          ref.refresh(taskControllerProvider);
 
-        setState(() {
-          ref.read(attachmentNameState.notifier).state = fileDuplicate.name;
-          ref.read(attachmentPathState.notifier).state =
-              fileDuplicate.path ?? '';
+          setState(() {
+            ref.read(attachmentNameState.notifier).state = fileName;
+            ref.read(attachmentPathState.notifier).state = filePath ?? '';
+          });
         });
-      });
+      }
     } else {
       // User canceled the picker
     }

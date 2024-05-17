@@ -222,8 +222,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                                     .width,
                                                 child: Center(
                                                   child: Text(
-                                                    EtamKawaTranslate
-                                                        .allEntriesLoaded,
+                                                    gamificationInProgress.isNotEmpty ? EtamKawaTranslate.allEntriesLoaded : EtamKawaTranslate.noData,
                                                     style: SharedComponent
                                                         .textStyleCustom(
                                                       typographyType:
@@ -278,8 +277,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                                     .width,
                                                 child: Center(
                                                   child: Text(
-                                                    EtamKawaTranslate
-                                                        .allEntriesLoaded,
+                                                    gamificationAssigned.isNotEmpty ? EtamKawaTranslate.allEntriesLoaded : EtamKawaTranslate.noData,
                                                     style: SharedComponent
                                                         .textStyleCustom(
                                                       typographyType:
@@ -340,8 +338,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                                               .width,
                                                       child: Center(
                                                         child: Text(
-                                                          EtamKawaTranslate
-                                                              .allEntriesLoaded,
+                                                          gamificationPast.isNotEmpty ? EtamKawaTranslate.allEntriesLoaded : EtamKawaTranslate.noData,
                                                           style: SharedComponent
                                                               .textStyleCustom(
                                                             typographyType:

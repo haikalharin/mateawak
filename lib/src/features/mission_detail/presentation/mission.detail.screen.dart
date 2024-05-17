@@ -179,8 +179,8 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                         fontColor: ColorTheme.neutral600),
                                   ),
                                   Text(
-                                    gamification.chapterData?.single
-                                            .competencyName ??
+                                    gamification.chapterData?.single.missionData
+                                            ?.single.competencyName ??
                                         '',
                                     style: SharedComponent.textStyleCustom(
                                         typographyType:
@@ -197,7 +197,11 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 8.w, vertical: 4.h),
                                       child: Text(
-                                        gamification.chapterData?.single
+                                        gamification
+                                                .chapterData
+                                                ?.single
+                                                .missionData
+                                                ?.single
                                                 .peopleCategoryName ??
                                             '',
                                         style: SharedComponent.textStyleCustom(
@@ -273,43 +277,43 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                                 .taskData
                                                 ?.length ??
                                             0),
-                                      addVerticalDivider(),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          SizedBox(height: 10.h),
-                                          SvgPicture.asset(
-                                              ImageConstant.iconDuration,
-                                              width: 16.sp,
-                                              height: 20.sp,
-                                              package: Constant.moduleEtamkawa),
-                                          const SizedBox(
-                                            height: 8,
-                                          ),
-                                          Text(
-                                            EtamKawaTranslate.duration,
-                                            style:
-                                                SharedComponent.textStyleCustom(
-                                                    typographyType:
-                                                        TypographyType.bold,
-                                                    fontColor:
-                                                        ColorTheme.neutral600),
-                                          ),
-                                          Text(
-                                            '${CommonUtils.daysBetween(DateTime.now(), DateTime.parse(gamification.dueDate ?? '2021-01-30T00:00:00'))} ${EtamKawaTranslate.days}',
-                                            style:
-                                                SharedComponent.textStyleCustom(
-                                                    typographyType:
-                                                        TypographyType
-                                                            .paragraph,
-                                                    fontColor:
-                                                        ColorTheme.neutral500),
-                                          ),
-                                          SizedBox(height: 10.h),
-                                        ],
-                                      ),
+                                      // addVerticalDivider(),
+                                      // Column(
+                                      //   mainAxisAlignment:
+                                      //       MainAxisAlignment.center,
+                                      //   mainAxisSize: MainAxisSize.min,
+                                      //   children: [
+                                      //     SizedBox(height: 10.h),
+                                      //     SvgPicture.asset(
+                                      //         ImageConstant.iconDuration,
+                                      //         width: 16.sp,
+                                      //         height: 20.sp,
+                                      //         package: Constant.moduleEtamkawa),
+                                      //     const SizedBox(
+                                      //       height: 8,
+                                      //     ),
+                                      //     Text(
+                                      //       EtamKawaTranslate.duration,
+                                      //       style:
+                                      //           SharedComponent.textStyleCustom(
+                                      //               typographyType:
+                                      //                   TypographyType.bold,
+                                      //               fontColor:
+                                      //                   ColorTheme.neutral600),
+                                      //     ),
+                                      //     Text(
+                                      //       '${CommonUtils.daysBetween(DateTime.now(), DateTime.parse(gamification.dueDate ?? '2021-01-30T00:00:00'))} ${EtamKawaTranslate.days}',
+                                      //       style:
+                                      //           SharedComponent.textStyleCustom(
+                                      //               typographyType:
+                                      //                   TypographyType
+                                      //                       .paragraph,
+                                      //               fontColor:
+                                      //                   ColorTheme.neutral500),
+                                      //     ),
+                                      //     SizedBox(height: 10.h),
+                                      //   ],
+                                      // ),
                                     ],
                                   ),
                                 ),
