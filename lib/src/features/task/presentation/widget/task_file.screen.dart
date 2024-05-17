@@ -1082,30 +1082,36 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
     );
 
     if (result != null) {
-      var fileDuplicate = result.files.single;
-      ref.refresh(taskControllerProvider);
+      PlatformFile platformFile = result.files.first;
+      final fileName = platformFile.name;
+      final filePath = platformFile.path;
+      final fileSize = platformFile.size;
+      final fileExtension = platformFile.extension;
 
-      await ctrl
-          .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
-          isLast: false,
-          attachment: fileDuplicate.path ?? '',
-          attachmentName: fileDuplicate.name,
-          listSelectedOption: [_textController.text],
-          type: listTask[currentQuestionIndex].taskTypeCode ?? '',
-          taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
-          .whenComplete(() async {
+      if (EtamKawaUploadConstant.fileTypeDefault.contains(fileExtension)) {
+        debugPrint('accepted format');
         ref.refresh(taskControllerProvider);
+        await ctrl
+            .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
+            isLast: false,
+            attachment: filePath,
+            attachmentName: fileName,
+            listSelectedOption: [_textController.text],
+            type: listTask[currentQuestionIndex].taskTypeCode ?? '',
+            taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
+            .whenComplete(() async {
+          ref.refresh(taskControllerProvider);
 
-        await ctrl.putAnswerFinal();
-      }).whenComplete(() {
-        ref.refresh(taskControllerProvider);
+          await ctrl.putAnswerFinal();
+        }).whenComplete(() {
+          ref.refresh(taskControllerProvider);
 
-        setState(() {
-          ref.read(attachmentNameState.notifier).state = fileDuplicate.name;
-          ref.read(attachmentPathState.notifier).state =
-              fileDuplicate.path ?? '';
+          setState(() {
+            ref.read(attachmentNameState.notifier).state = fileName;
+            ref.read(attachmentPathState.notifier).state = filePath ?? '';
+          });
         });
-      });
+      }
     } else {
       // User canceled the picker
     }

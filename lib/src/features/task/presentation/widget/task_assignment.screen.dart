@@ -5,6 +5,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:module_etamkawa/src/constants/constant.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
@@ -1043,30 +1045,36 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
     );
 
     if (result != null) {
-      var fileDuplicate = result.files.single;
-      ref.refresh(taskControllerProvider);
+      PlatformFile platformFile = result.files.first;
+      final fileName = platformFile.name;
+      final filePath = platformFile.path;
+      final fileSize = platformFile.size;
+      final fileExtension = platformFile.extension;
 
-      await ctrl
-          .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
-          isLast: false,
-          attachment: fileDuplicate.path ?? '',
-          attachmentName: fileDuplicate.name,
-          listSelectedOption: [_textController.text],
-          type: listTask[currentQuestionIndex].taskTypeCode ?? '',
-          taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
-          .whenComplete(() async {
+      if (EtamKawaUploadConstant.fileTypeDefault.contains(fileExtension)) {
+        debugPrint('accepted format');
         ref.refresh(taskControllerProvider);
+        await ctrl
+            .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
+            isLast: false,
+            attachment: filePath,
+            attachmentName: fileName,
+            listSelectedOption: [_textController.text],
+            type: listTask[currentQuestionIndex].taskTypeCode ?? '',
+            taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
+            .whenComplete(() async {
+          ref.refresh(taskControllerProvider);
 
-        await ctrl.putAnswerFinal();
-      }).whenComplete(() {
-        ref.refresh(taskControllerProvider);
+          await ctrl.putAnswerFinal();
+        }).whenComplete(() {
+          ref.refresh(taskControllerProvider);
 
-        setState(() {
-          ref.read(attachmentNameState.notifier).state = fileDuplicate.name;
-          ref.read(attachmentPathState.notifier).state =
-              fileDuplicate.path ?? '';
+          setState(() {
+            ref.read(attachmentNameState.notifier).state = fileName;
+            ref.read(attachmentPathState.notifier).state = filePath ?? '';
+          });
         });
-      });
+      }
     } else {
       // User canceled the picker
     }
