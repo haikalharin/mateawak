@@ -141,7 +141,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                     )),
                                   ),
                                   InkWell(
-                                    onTap: (){
+                                    onTap: () {
                                       showDialog(
                                         barrierDismissible: false,
                                         context: context,
@@ -149,9 +149,14 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                           return InstructionDialog(
                                               title: EtamKawaTranslate
                                                   .instructions,
-                                              content:  gamificationData.chapterData?.first.missionData?.first.missionInstruction??'',
-                                              labelButton:'Ok');
-
+                                              content: gamificationData
+                                                      .chapterData
+                                                      ?.first
+                                                      .missionData
+                                                      ?.first
+                                                      .missionInstruction ??
+                                                  '',
+                                              labelButton: 'Ok');
                                         },
                                       );
                                     },
@@ -529,19 +534,19 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                         ?.unfocus();
                                   });
                                 },
-                                onChanged: (value){
+                                onChanged: (value) {
                                   setState(() {
                                     if (_textController.text.isEmpty) {
                                       ref
                                           .watch(listSelectOptionStringState
-                                          .notifier)
+                                              .notifier)
                                           .state = [];
 
                                       _textController.clear();
                                     } else {
                                       ref
                                           .watch(listSelectOptionStringState
-                                          .notifier)
+                                              .notifier)
                                           .state = [_textController.text];
                                     }
                                   });
@@ -773,20 +778,20 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                         .state;
                                                 ref
                                                     .watch(
-                                                    listSelectOptionCurrentStringState
-                                                        .notifier)
+                                                        listSelectOptionCurrentStringState
+                                                            .notifier)
                                                     .state
                                                     .clear();
                                                 ref
                                                     .watch(
-                                                    attachmentPathCurrentState
-                                                        .notifier)
-                                                    .state ='';
+                                                        attachmentPathCurrentState
+                                                            .notifier)
+                                                    .state = '';
                                                 ref
                                                     .watch(
-                                                    attachmentNameCurrentState
-                                                        .notifier)
-                                                    .state ='';
+                                                        attachmentNameCurrentState
+                                                            .notifier)
+                                                    .state = '';
                                                 submitStatusTask.state =
                                                     SubmitStatus.success;
                                               } else {
@@ -868,46 +873,45 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                         .putAnswerFinal(
                                                             isSubmitted: true)
                                                         .whenComplete(() async {
-                                                        await ctrlMission
-                                                            .getMissionList()
-                                                            .whenComplete(() {
-                                                          hideLoadingDialog(
-                                                              context);
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                          showDialog(
-                                                            barrierDismissible:
-                                                                false,
-                                                            context: context,
-                                                            builder: (context) {
-                                                              return CustomDialog(
-                                                                title:
-                                                                    EtamKawaTranslate
-                                                                        .hooray,
-                                                                content:
-                                                                    EtamKawaTranslate
-                                                                        .yourMissionHasBeenCompleted,
-                                                                label: "Okay",
-                                                                type: DialogType
-                                                                    .success,
-                                                                onClosed: () {
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .pop(); // Close the second dialog
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .pop(); // Close the first dialog's parent
-                                                                },
-                                                              );
-                                                            },
-                                                          );
-                                                          setState(() {
-                                                            _textController
-                                                                .clear();
-                                                            isInit = true;
-                                                          });
+                                                      await ctrlMission
+                                                          .getMissionList()
+                                                          .whenComplete(() {
+                                                        hideLoadingDialog(
+                                                            context);
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                        showDialog(
+                                                          barrierDismissible:
+                                                              false,
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return CustomDialog(
+                                                              title:
+                                                                  EtamKawaTranslate
+                                                                      .hooray,
+                                                              content:
+                                                                  EtamKawaTranslate
+                                                                      .yourMissionHasBeenCompleted,
+                                                              label: "Okay",
+                                                              type: DialogType
+                                                                  .success,
+                                                              onClosed: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop(); // Close the second dialog
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop(); // Close the first dialog's parent
+                                                              },
+                                                            );
+                                                          },
+                                                        );
+                                                        setState(() {
+                                                          _textController
+                                                              .clear();
+                                                          isInit = true;
                                                         });
-
+                                                      });
                                                     });
                                                   },
                                                 );
@@ -922,8 +926,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
-                                            content: Text(
-                                                EtamKawaTranslate.pleaseUploadYourEvidence)),
+                                            content: Text(EtamKawaTranslate
+                                                .pleaseUploadYourEvidence)),
                                       );
                                     }
                                   } else {
@@ -931,8 +935,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                         SubmitStatus.success;
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
-                                          content: Text(
-                                              EtamKawaTranslate.pleaseWriteAndFillYourAnswer)),
+                                          content: Text(EtamKawaTranslate
+                                              .pleaseWriteAndFillYourAnswer)),
                                     );
                                   }
                                 }
@@ -956,9 +960,10 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
     );
   }
 
-  void _showPicker(BuildContext context, {required TaskController ctrl,
-    required List<TaskDatum> listTask,
-    required int currentQuestionIndex}) {
+  void _showPicker(BuildContext context,
+      {required TaskController ctrl,
+      required List<TaskDatum> listTask,
+      required int currentQuestionIndex}) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc) {
@@ -974,8 +979,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                       pickDocFile(
                           ctrl: ctrl,
                           listTask: listTask,
-                          currentQuestionIndex:
-                          currentQuestionIndex);
+                          currentQuestionIndex: currentQuestionIndex);
                     },
                   ),
                   ListTile(
@@ -983,11 +987,10 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                     title: const Text('Gallery'),
                     onTap: () async {
                       Navigator.pop(context);
-                      pickAndCropImageGallery(
+                      pickImageGallery(
                           ctrl: ctrl,
                           listTask: listTask,
-                          currentQuestionIndex:
-                          currentQuestionIndex);
+                          currentQuestionIndex: currentQuestionIndex);
                     },
                   ),
                 ],
@@ -996,9 +999,11 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
           );
         });
   }
-  void pickAndCropImageGallery({required TaskController ctrl,
-    required List<TaskDatum> listTask,
-    required int currentQuestionIndex}) async {
+
+  void pickAndCropImageGallery(
+      {required TaskController ctrl,
+      required List<TaskDatum> listTask,
+      required int currentQuestionIndex}) async {
     final pickedFile = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       imageQuality: 25,
@@ -1016,18 +1021,17 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
       if (croppedFile != null) {
         XFile imageFile = XFile(croppedFile.path);
 
-
         var fileDuplicate = imageFile;
         ref.refresh(taskControllerProvider);
 
         await ctrl
             .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
-            isLast: false,
-            attachment: fileDuplicate.path ?? '',
-            attachmentName: fileDuplicate.name,
-            listSelectedOption: [_textController.text],
-            type: listTask[currentQuestionIndex].taskTypeCode ?? '',
-            taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
+                isLast: false,
+                attachment: fileDuplicate.path ?? '',
+                attachmentName: fileDuplicate.name,
+                listSelectedOption: [_textController.text],
+                type: listTask[currentQuestionIndex].taskTypeCode ?? '',
+                taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
             .whenComplete(() async {
           await ctrl.putAnswerFinal();
         }).whenComplete(() {
@@ -1039,8 +1043,46 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                 fileDuplicate.path ?? '';
           });
         });
-
       }
+    }
+  }
+
+  Future<void> pickImageGallery(
+      {required TaskController ctrl,
+        required List<TaskDatum> listTask,
+        required int currentQuestionIndex}) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+    );
+
+    if (result != null) {
+      var fileDuplicate = result.files.single;
+      ref.refresh(taskControllerProvider);
+
+      await ctrl
+          .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
+          isLast: false,
+          attachment: fileDuplicate.path ?? '',
+          attachmentName: fileDuplicate.name,
+          listSelectedOption: [_textController.text],
+          type: listTask[currentQuestionIndex].taskTypeCode ?? '',
+          taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
+          .whenComplete(() async {
+        ref.refresh(taskControllerProvider);
+
+        await ctrl.putAnswerFinal();
+      }).whenComplete(() {
+        ref.refresh(taskControllerProvider);
+
+        setState(() {
+          ref.read(attachmentNameState.notifier).state = fileDuplicate.name;
+          ref.read(attachmentPathState.notifier).state =
+              fileDuplicate.path ?? '';
+        });
+      });
+    } else {
+      // User canceled the picker
     }
   }
 

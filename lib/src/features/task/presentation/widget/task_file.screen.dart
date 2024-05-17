@@ -1013,7 +1013,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                     title: const Text('Gallery'),
                     onTap: () async {
                       Navigator.pop(context);
-                      pickAndCropImageGallery(
+                      pickImageGallery(
                           ctrl: ctrl,
                           listTask: listTask,
                           currentQuestionIndex:
@@ -1073,6 +1073,46 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
       }
     }
   }
+
+  Future<void> pickImageGallery(
+      {required TaskController ctrl,
+        required List<TaskDatum> listTask,
+        required int currentQuestionIndex}) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+    );
+
+    if (result != null) {
+      var fileDuplicate = result.files.single;
+      ref.refresh(taskControllerProvider);
+
+      await ctrl
+          .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
+          isLast: false,
+          attachment: fileDuplicate.path ?? '',
+          attachmentName: fileDuplicate.name,
+          listSelectedOption: [_textController.text],
+          type: listTask[currentQuestionIndex].taskTypeCode ?? '',
+          taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
+          .whenComplete(() async {
+        ref.refresh(taskControllerProvider);
+
+        await ctrl.putAnswerFinal();
+      }).whenComplete(() {
+        ref.refresh(taskControllerProvider);
+
+        setState(() {
+          ref.read(attachmentNameState.notifier).state = fileDuplicate.name;
+          ref.read(attachmentPathState.notifier).state =
+              fileDuplicate.path ?? '';
+        });
+      });
+    } else {
+      // User canceled the picker
+    }
+  }
+
 
   Future<void> pickDocFile(
       {required TaskController ctrl,
