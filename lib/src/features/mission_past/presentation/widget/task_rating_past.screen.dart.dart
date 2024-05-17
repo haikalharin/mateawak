@@ -35,11 +35,7 @@ class _TaskRatingPastScreenState extends ConsumerState<TaskRatingPastScreen> {
         final gamificationData = ref.watch(gamificationDetailState);
         final listTask = gamificationData.chapterData?.single.missionData?.single.taskData;
 
-        if (kDebugMode) {
-          print('#####Rating${(widget.taskDatum
-            .listSelectedOption ??
-            []).first}');
-        }
+
         return Column(
           children: [
             Card(

@@ -42,7 +42,7 @@ class _ConnectionListenerWidgetState
       //   print(value);
       // }
       if (value % 7200 == 0) {
-       await ctrlTask.sendAnswerBackgroundService().whenComplete(() async {
+       await ctrlTask.checkExpiredBeforeSubmitAnswer().whenComplete(() async {
          await  ctrl.backgroundServiceEvent(isFetchMission: true,isSubmitAnswer: true);
         });
 
@@ -54,7 +54,7 @@ class _ConnectionListenerWidgetState
         case InternetConnectionStatus.connected:
           ref.read(isConnectionAvailableProvider.notifier).state = true;
           if (isInit) {
-            await ctrlTask.sendAnswerBackgroundService().whenComplete(() async {
+            await ctrlTask.checkExpiredBeforeSubmitAnswer().whenComplete(() async {
               await  ctrl.backgroundServiceEvent(isFetchMission: true,isSubmitAnswer: true);
             });
             isInit = false;

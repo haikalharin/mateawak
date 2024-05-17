@@ -79,9 +79,11 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                           await ctrl
                               .changeStatusTask(isDone: false)
                               .whenComplete(() async {
-                            await ctrlMission
-                                .getMissionList()
-                                .whenComplete(() async {});
+                            await ctrl.clearData(isJustCurrent: true).whenComplete(() async {
+                              await ctrlMission
+                                  .getMissionList()
+                                  .whenComplete(() {});
+                            });
                           });
                         });
                   },
@@ -110,9 +112,11 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                   await ctrl
                                       .changeStatusTask(isDone: false)
                                       .whenComplete(() async {
-                                    await ctrlMission
-                                        .getMissionList()
-                                        .whenComplete(() {});
+                                    await ctrl.clearData(isJustCurrent: true).whenComplete(() async {
+                                      await ctrlMission
+                                          .getMissionList()
+                                          .whenComplete(() {});
+                                    });
                                   });
                                 });
                           });
@@ -143,7 +147,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                 children: [
                                   SizedBox(
                                     width:
-                                    MediaQuery.of(context).size.width / 1.5,
+                                        MediaQuery.of(context).size.width / 1.5,
                                     child: Text(
                                         gamificationData.chapterData?.single
                                                 .chapterName ??
@@ -255,8 +259,10 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                         ],
                       ),
                     ),
-                    listTask.isNotEmpty && listTask[currentQuestionIndex.state].taskTypeCode ==
-                                TaskType.SCQ.name ||
+                    listTask.isNotEmpty &&
+                                listTask[currentQuestionIndex.state]
+                                        .taskTypeCode ==
+                                    TaskType.SCQ.name ||
                             listTask[currentQuestionIndex.state].taskTypeCode ==
                                 TaskType.YNQ.name
                         ? const Expanded(

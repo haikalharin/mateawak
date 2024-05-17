@@ -86,12 +86,14 @@ class MissionPastController extends _$MissionPastController {
             listSelectedOptionString.add(data.answer ?? '');
           } else {
             if (data.taskTypeCode == TaskType.MCQ.name) {
+              List<int>? numbersList;
+              if(data.answer != null && data.answer != ''){
+                numbersList  = data.answer
+                    ?.split(';')
+                    .map((numString) => int.parse(numString))
+                    .toList();
+              }
 
-
-              var numbersList = data.answer
-                  ?.split(';')
-                  .map((numString) => int.parse(numString))
-                  .toList();
               listSelectedOption.addAll(numbersList ?? []);
             } else {
               listSelectedOption
