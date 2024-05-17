@@ -5,6 +5,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:module_etamkawa/src/constants/constant.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
@@ -329,7 +331,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                   )
                                 : InkWell(
                                     onTap: () {
-                                      pickDocFile(
+                                      _showPicker(context,
                                           ctrl: ctrl,
                                           listTask: listTask,
                                           currentQuestionIndex:
@@ -944,6 +946,138 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
             ));
       },
     );
+  }
+
+  void _showPicker(BuildContext context,
+      {required TaskController ctrl,
+      required List<TaskDatum> listTask,
+      required int currentQuestionIndex}) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: Wrap(
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.file_present),
+                    title: const Text('File'),
+                    onTap: () async {
+                      Navigator.pop(context);
+                      pickDocFile(
+                          ctrl: ctrl,
+                          listTask: listTask,
+                          currentQuestionIndex: currentQuestionIndex);
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.image),
+                    title: const Text('Gallery'),
+                    onTap: () async {
+                      Navigator.pop(context);
+                      pickImageGallery(
+                          ctrl: ctrl,
+                          listTask: listTask,
+                          currentQuestionIndex: currentQuestionIndex);
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  void pickAndCropImageGallery(
+      {required TaskController ctrl,
+      required List<TaskDatum> listTask,
+      required int currentQuestionIndex}) async {
+    final pickedFile = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 25,
+    );
+
+    if (pickedFile != null) {
+      CroppedFile? croppedFile = await ImageCropper.platform
+          .cropImage(sourcePath: pickedFile.path, aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9,
+      ]);
+      if (croppedFile != null) {
+        XFile imageFile = XFile(croppedFile.path);
+
+        var fileDuplicate = imageFile;
+        ref.refresh(taskControllerProvider);
+
+        await ctrl
+            .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
+                isLast: false,
+                attachment: fileDuplicate.path ?? '',
+                attachmentName: fileDuplicate.name,
+                listSelectedOption: [_textController.text],
+                type: listTask[currentQuestionIndex].taskTypeCode ?? '',
+                taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
+            .whenComplete(() async {
+          await ctrl.putAnswerFinal();
+        }).whenComplete(() {
+          ref.refresh(taskControllerProvider);
+
+          setState(() {
+            ref.read(attachmentNameState.notifier).state = fileDuplicate.name;
+            ref.read(attachmentPathState.notifier).state =
+                fileDuplicate.path ?? '';
+          });
+        });
+      }
+    }
+  }
+
+  Future<void> pickImageGallery(
+      {required TaskController ctrl,
+        required List<TaskDatum> listTask,
+        required int currentQuestionIndex}) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+    );
+
+    if (result != null) {
+      PlatformFile platformFile = result.files.first;
+      final fileName = platformFile.name;
+      final filePath = platformFile.path;
+      final fileSize = platformFile.size;
+      final fileExtension = platformFile.extension;
+
+      if (EtamKawaUploadConstant.fileTypeDefault.contains(fileExtension)) {
+        debugPrint('accepted format');
+        ref.refresh(taskControllerProvider);
+        await ctrl
+            .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
+            isLast: false,
+            attachment: filePath,
+            attachmentName: fileName,
+            listSelectedOption: [_textController.text],
+            type: listTask[currentQuestionIndex].taskTypeCode ?? '',
+            taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
+            .whenComplete(() async {
+          ref.refresh(taskControllerProvider);
+
+          await ctrl.putAnswerFinal();
+        }).whenComplete(() {
+          ref.refresh(taskControllerProvider);
+
+          setState(() {
+            ref.read(attachmentNameState.notifier).state = fileName;
+            ref.read(attachmentPathState.notifier).state = filePath ?? '';
+          });
+        });
+      }
+    } else {
+      // User canceled the picker
+    }
   }
 
   Future<void> pickDocFile(
