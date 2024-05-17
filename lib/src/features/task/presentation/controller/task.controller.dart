@@ -89,7 +89,6 @@ class TaskController extends _$TaskController {
   List<int> listSelectOptionPrev = [];
   List<TaskDatumAnswerRequestRemote> listTaskAnswer = [];
   var index = 0;
-  var answer = '';
   var currentTypeTask = '';
   var currentTaskId = 0;
   var attachment = '';
@@ -311,6 +310,7 @@ class TaskController extends _$TaskController {
     List<int> listInt = [];
     List<int> numbersList = [];
     List<TaskDatumAnswer> listTaskAnswer = [];
+    var answer = '';
     index = await ref.watch(currentIndexState);
     int page = 0;
     if (pagePosition == PagePosition.NEXT) {
@@ -368,7 +368,7 @@ class TaskController extends _$TaskController {
         listSelectOptionCurrentString = listString;
         ref.watch(currentTypeTaskState.notifier).state = currentTypeTask;
         ref.watch(listSelectOptionCurrentStringState.notifier).state =
-            listString;
+            listSelectOptionCurrentString;
 
         ref.watch(attachmentPathCurrentState.notifier).state = attachment;
         ref.watch(attachmentNameCurrentState.notifier).state = attachmentName;
@@ -379,6 +379,26 @@ class TaskController extends _$TaskController {
         } else {
           listInt.add(int.parse(answer != '' ? answer : '0'));
         }
+
+        listSelectOptionCurrent = listInt;
+        ref.watch(currentTypeTaskState.notifier).state = currentTypeTask;
+        ref.watch(listSelectOptionCurrentState.notifier).state =
+            listSelectOptionCurrent;
+      }
+      answer = '';
+    } else{
+      if (currentTypeTask == TaskType.STX.name ||
+          currentTypeTask == TaskType.ASM.name) {
+        listString.clear();
+        listSelectOptionCurrentString = listString;
+        ref.watch(currentTypeTaskState.notifier).state = currentTypeTask;
+        ref.watch(listSelectOptionCurrentStringState.notifier).state =
+            listSelectOptionCurrentString;
+
+        ref.watch(attachmentPathCurrentState.notifier).state = attachment;
+        ref.watch(attachmentNameCurrentState.notifier).state = attachmentName;
+      } else {
+        listInt.clear();
 
         listSelectOptionCurrent = listInt;
         ref.watch(currentTypeTaskState.notifier).state = currentTypeTask;

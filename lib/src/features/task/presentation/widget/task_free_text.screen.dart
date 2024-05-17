@@ -439,8 +439,6 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                         SubmitStatus.inProgress) {
                                       submitStatusTask.state =
                                           SubmitStatus.inProgress;
-                                      ref.refresh(
-                                          taskControllerProvider);
                                       if (listSelectedOptionString.isNotEmpty) {
                                         if ((currentQuestionIndex.state + 1) <
                                                 lengthAnswer &&
@@ -472,7 +470,11 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                       pagePosition:
                                                           PagePosition.NEXT)
                                                   .whenComplete(() async {
-
+                                                currentQuestionIndex.state++;
+                                                ref
+                                                    .watch(currentProgressState
+                                                        .notifier)
+                                                    .state++;
 
                                                 if (ref
                                                             .watch(
@@ -486,8 +488,6 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                                     .notifier)
                                                             .state ==
                                                         TaskType.ASM.name) {
-                                                  ref.refresh(
-                                                      taskControllerProvider);
                                                   ref
                                                       .watch(
                                                           listSelectOptionStringState
@@ -541,12 +541,6 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                   submitStatusTask.state =
                                                       SubmitStatus.success;
                                                 }
-
-                                                currentQuestionIndex.state++;
-                                                ref
-                                                    .watch(currentProgressState
-                                                    .notifier)
-                                                    .state++;
                                                 setState(() {
                                                   _textController.clear();
                                                 });
@@ -638,8 +632,6 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                       });
                                                 },
                                               );
-                                              ref.refresh(
-                                                  taskControllerProvider);
                                             });
                                           });
                                         }
