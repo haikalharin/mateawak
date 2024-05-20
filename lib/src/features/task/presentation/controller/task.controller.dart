@@ -184,14 +184,18 @@ class TaskController extends _$TaskController {
             .future);
 
         await AsyncValue.guard(() => result).then((value) async {
+
           Map<String, dynamic> data = value.value ?? {};
           ApiResponse apiResponse = data['response'];
           bool sendImageSuccess = data['sendImageSuccess'];
-
-          ResultSubmissionRequestRemote result =
-              ResultSubmissionRequestRemote.fromJson(
-                  (apiResponse).result?.content);
+          ResultSubmissionRequestRemote result = ResultSubmissionRequestRemote();
+          if( apiResponse.result?.content != null) {
+            ResultSubmissionRequestRemote result =
+            ResultSubmissionRequestRemote.fromJson(
+                apiResponse.result?.content);
+          }
           if (sendImageSuccess == true) {
+
             if (apiResponse.statusCode == 200 && apiResponse.result?.isError == false) {
               resultSubmissionNotifier.state =
                   resultSubmissionNotifier.state.copyWith(

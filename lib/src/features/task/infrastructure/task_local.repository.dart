@@ -121,10 +121,10 @@ FutureOr<bool> changeStatusTaskLocal(ChangeStatusTaskLocalRef ref,
 }
 
 @riverpod
-Future<Map<String,dynamic>> submitMission(SubmitMissionRef ref,
+Future<Map<String, dynamic>> submitMission(SubmitMissionRef ref,
     {required AnswerRequestRemote answerRequestRemote,
     required int status}) async {
-  bool sendImageSuccess = false;
+  bool? sendImageSuccess = true;
   final userModel = await ref.read(helperUserProvider).getUserProfile();
   final connect = ref.read(connectProvider.notifier);
   final isarInstance = await ref.watch(isarInstanceProvider.future);
@@ -135,43 +135,63 @@ Future<Map<String,dynamic>> submitMission(SubmitMissionRef ref,
         "Group": element.taskGroup,
       });
 
-      final response = await connect.post(
+      final response = connect.post(
           modul: ModuleType.etamkawaGamification,
           path:
               "api/attachment/insert_attachment?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}",
           body: map);
-
-      if (response.statusCode == 200 && response.result?.isError == false) {
-        sendImageSuccess = true;
-        int id = 64;
-        if (response.result?.content["resultData"] != null) {
-          id = int.parse(response.result?.content["resultData"]);
+      await AsyncValue.guard(() => response).then((value) async {
+        if (value.hasValue) {
+          ApiResponse response = value.value ?? ApiResponse();
+          if (response.statusCode == 200 && response.result?.isError == false) {
+            sendImageSuccess = true;
+            int id = 64;
+            if (response.result?.content["resultData"] != null) {
+              id = int.parse(response.result?.content["resultData"]);
+            }
+            element.attachmentId = id;
+          } else {
+            sendImageSuccess = false;
+          }
+        } else if (value.hasError) {
+          sendImageSuccess = false;
+        } else {
+          sendImageSuccess = false;
         }
-        element.attachmentId = id;
-      }
+      });
     }
   });
-  answerRequestRemote.status = 2;
-  final response = await connect.post(
-      modul: ModuleType.etamkawaGamification,
-      path:
-          "api/mission/submit_employee_mission?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}",
-      body: answerRequestRemote.toJson());
-
-  if (response.statusCode == 200 && response.result?.isError == false) {
-    await isarInstance.writeTxn(() async {
-      await isarInstance.answerRequestRemotes
-          .delete(answerRequestRemote.employeeMissionId ?? 0)
-          .whenComplete(() async {
-        await isarInstance.gamificationResponseRemotes
-            .delete(answerRequestRemote.employeeMissionId ?? 0);
-      });
+  ApiResponse? responseData = ApiResponse();
+  if( sendImageSuccess != false) {
+    answerRequestRemote.status = 2;
+    final response = connect.post(
+        modul: ModuleType.etamkawaGamification,
+        path:
+        "api/mission/submit_employee_mission?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}",
+        body: answerRequestRemote.toJson());
+    await AsyncValue.guard(() => response).then((value) async {
+      ApiResponse response = value.value ?? ApiResponse();
+      responseData = response;
+      if (value.hasValue) {
+        if (response.statusCode == 200 && response.result?.isError == false) {
+          await isarInstance.writeTxn(() async {
+            await isarInstance.answerRequestRemotes
+                .delete(answerRequestRemote.employeeMissionId ?? 0)
+                .whenComplete(() async {
+              await isarInstance.gamificationResponseRemotes
+                  .delete(answerRequestRemote.employeeMissionId ?? 0);
+            });
+          });
+        }
+      }
     });
   }
-  Map<String,dynamic> data = {
-    'sendImageSuccess': sendImageSuccess,
-    'response': response,
 
+
+  Map<String, dynamic> data = {
+    'sendImageSuccess': sendImageSuccess,
+    'response': responseData,
   };
+
   return data;
 }
