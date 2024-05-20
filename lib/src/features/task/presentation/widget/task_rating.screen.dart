@@ -280,8 +280,67 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                   pagePosition:
                                                       PagePosition.PREV)
                                               .whenComplete(() {
-                                            ctrl.putPreviousAnswerFinal();
-
+                                            currentQuestionIndex.state--;
+                                            ref
+                                                .watch(currentProgressState
+                                                    .notifier)
+                                                .state--;
+                                            if (ref
+                                                        .watch(
+                                                            currentTypeTaskState
+                                                                .notifier)
+                                                        .state ==
+                                                    TaskType.STX.name ||
+                                                ref
+                                                        .watch(
+                                                            currentTypeTaskState
+                                                                .notifier)
+                                                        .state ==
+                                                    TaskType.ASM.name) {
+                                              ref
+                                                      .watch(
+                                                          listSelectOptionStringState
+                                                              .notifier)
+                                                      .state =
+                                                  ref
+                                                      .watch(
+                                                          listSelectOptionCurrentStringState
+                                                              .notifier)
+                                                      .state;
+                                              ref
+                                                      .watch(attachmentNameState
+                                                          .notifier)
+                                                      .state =
+                                                  ref
+                                                      .watch(
+                                                          attachmentNameCurrentState
+                                                              .notifier)
+                                                      .state;
+                                              ref
+                                                      .watch(attachmentPathState
+                                                          .notifier)
+                                                      .state =
+                                                  ref
+                                                      .watch(
+                                                          attachmentPathCurrentState
+                                                              .notifier)
+                                                      .state;
+                                              submitStatusTask.state =
+                                                  SubmitStatus.success;
+                                            } else {
+                                              ref
+                                                      .watch(
+                                                          listSelectOptionState
+                                                              .notifier)
+                                                      .state =
+                                                  ref
+                                                      .watch(
+                                                          listSelectOptionCurrentState
+                                                              .notifier)
+                                                      .state;
+                                              submitStatusTask.state =
+                                                  SubmitStatus.success;
+                                            }
                                           });
                                         });
                                       }
@@ -333,7 +392,83 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                     pagePosition:
                                                         PagePosition.NEXT)
                                                 .whenComplete(() async {
-                                              ctrl.putNextAnswerFinal();
+                                              if (ref
+                                                          .watch(
+                                                              currentTypeTaskState
+                                                                  .notifier)
+                                                          .state ==
+                                                      TaskType.STX.name ||
+                                                  ref
+                                                          .watch(
+                                                              currentTypeTaskState
+                                                                  .notifier)
+                                                          .state ==
+                                                      TaskType.ASM.name) {
+                                                ref.refresh(
+                                                    taskControllerProvider);
+                                                ref
+                                                    .watch(
+                                                        listSelectOptionStringState
+                                                            .notifier)
+                                                    .state
+                                                    .clear();
+                                                ref
+                                                        .watch(
+                                                            listSelectOptionStringState
+                                                                .notifier)
+                                                        .state =
+                                                    ref
+                                                        .watch(
+                                                            listSelectOptionCurrentStringState
+                                                                .notifier)
+                                                        .state;
+                                                ref
+                                                        .watch(
+                                                            attachmentNameState
+                                                                .notifier)
+                                                        .state =
+                                                    ref
+                                                        .watch(
+                                                            attachmentNameCurrentState
+                                                                .notifier)
+                                                        .state;
+                                                ref
+                                                        .watch(
+                                                            attachmentPathState
+                                                                .notifier)
+                                                        .state =
+                                                    ref
+                                                        .watch(
+                                                            attachmentPathCurrentState
+                                                                .notifier)
+                                                        .state;
+                                                submitStatusTask.state =
+                                                    SubmitStatus.success;
+                                              } else {
+                                                ref
+                                                    .watch(listSelectOptionState
+                                                        .notifier)
+                                                    .state
+                                                    .clear();
+                                                ref
+                                                        .watch(
+                                                            listSelectOptionState
+                                                                .notifier)
+                                                        .state =
+                                                    ref
+                                                        .watch(
+                                                            listSelectOptionCurrentState
+                                                                .notifier)
+                                                        .state;
+                                                submitStatusTask.state =
+                                                    SubmitStatus.success;
+                                              }
+                                              currentQuestionIndex.state++;
+                                              ref
+                                                  .watch(currentProgressState
+                                                      .notifier)
+                                                  .state++;
+                                              setState(() {});
                                             });
                                           });
                                         });
@@ -362,6 +497,10 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                     .notifier)
                                                 .state++;
                                           }
+
+                                          await ctrl
+                                              .putAnswerFinal()
+                                              .whenComplete(() async {
                                             submitStatusTask.state =
                                                 SubmitStatus.success;
                                             showDialog(
@@ -379,41 +518,48 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                     isConnectionAvailable:
                                                         isConnectionAvailable,
                                                     onClosed: () async {
-                                                      showLoadingDialog(
-                                                          context);
-                                                      await ctrl
+                                                      showLoadingDialog(context);
+                                                      var status =  ctrl
                                                           .putAnswerFinal(
-                                                              isSubmitted: true)
-                                                          .whenComplete(
-                                                              () async {
+                                                          isSubmitted: true);
+
+                                                      await AsyncValue.guard(
+                                                              () => status)
+                                                          .then((value) async {
                                                         await ctrlMission
                                                             .getMissionList()
                                                             .whenComplete(() {
-                                                          hideLoadingDialog(
-                                                              context);
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                          showDialog(
-                                                              barrierDismissible:
-                                                                  false,
-                                                              context: context,
-                                                              builder:
-                                                                  (context) {
-                                                                return RewardDialog(
-                                                                  resultSubmissionState: ref
-                                                                      .watch(resultSubmissionState
-                                                                          .notifier)
-                                                                      .state,
-                                                                  isConnectionAvailable:
-                                                                      isConnectionAvailable,
-                                                                );
-                                                              });
+
+                                                          if(value.value == true){
+                                                            hideLoadingDialog(
+                                                                context);
+                                                            Navigator.of(context)
+                                                                .pop();
+                                                            showDialog(
+                                                                barrierDismissible:
+                                                                false,
+                                                                context:
+                                                                context,
+                                                                builder:
+                                                                    (context) {
+                                                                  return RewardDialog(
+                                                                    resultSubmissionState: ref
+                                                                        .watch(resultSubmissionState
+                                                                        .notifier)
+                                                                        .state,
+                                                                    isConnectionAvailable:
+                                                                    isConnectionAvailable,
+                                                                  );
+                                                                });
+                                                          }
+
                                                         });
                                                       });
                                                     });
                                               },
                                             );
                                             ref.refresh(taskControllerProvider);
+                                          });
                                         });
                                       }
                                     } else {

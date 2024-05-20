@@ -859,15 +859,14 @@ class _ChangeStatusTaskLocalProviderElement
       (origin as ChangeStatusTaskLocalProvider).answer;
 }
 
-String _$submitMissionHash() => r'a8596550e7f5b56a7893cef57d68611b891995fb';
+String _$submitMissionHash() => r'060d05f2b080c265b1a0712257d8785267f51e4f';
 
 /// See also [submitMission].
 @ProviderFor(submitMission)
 const submitMissionProvider = SubmitMissionFamily();
 
 /// See also [submitMission].
-class SubmitMissionFamily
-    extends Family<AsyncValue<ResultSubmissionRequestRemote>> {
+class SubmitMissionFamily extends Family<AsyncValue<Map<String, dynamic>>> {
   /// See also [submitMission].
   const SubmitMissionFamily();
 
@@ -909,7 +908,7 @@ class SubmitMissionFamily
 
 /// See also [submitMission].
 class SubmitMissionProvider
-    extends AutoDisposeFutureProvider<ResultSubmissionRequestRemote> {
+    extends AutoDisposeFutureProvider<Map<String, dynamic>> {
   /// See also [submitMission].
   SubmitMissionProvider({
     required AnswerRequestRemote answerRequestRemote,
@@ -949,8 +948,7 @@ class SubmitMissionProvider
 
   @override
   Override overrideWith(
-    FutureOr<ResultSubmissionRequestRemote> Function(SubmitMissionRef provider)
-        create,
+    FutureOr<Map<String, dynamic>> Function(SubmitMissionRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -968,8 +966,7 @@ class SubmitMissionProvider
   }
 
   @override
-  AutoDisposeFutureProviderElement<ResultSubmissionRequestRemote>
-      createElement() {
+  AutoDisposeFutureProviderElement<Map<String, dynamic>> createElement() {
     return _SubmitMissionProviderElement(this);
   }
 
@@ -990,8 +987,7 @@ class SubmitMissionProvider
   }
 }
 
-mixin SubmitMissionRef
-    on AutoDisposeFutureProviderRef<ResultSubmissionRequestRemote> {
+mixin SubmitMissionRef on AutoDisposeFutureProviderRef<Map<String, dynamic>> {
   /// The parameter `answerRequestRemote` of this provider.
   AnswerRequestRemote get answerRequestRemote;
 
@@ -1000,7 +996,7 @@ mixin SubmitMissionRef
 }
 
 class _SubmitMissionProviderElement
-    extends AutoDisposeFutureProviderElement<ResultSubmissionRequestRemote>
+    extends AutoDisposeFutureProviderElement<Map<String, dynamic>>
     with SubmitMissionRef {
   _SubmitMissionProviderElement(super.provider);
 
