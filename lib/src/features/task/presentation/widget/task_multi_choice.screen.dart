@@ -162,7 +162,9 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                       borderRadius: BorderRadius.circular(10.r),
                                       child: Image(
                                         image: FileImage(File(
-                                            listTask[currentQuestionIndex.state].attachmentPath ?? '')),
+                                            listTask[currentQuestionIndex.state]
+                                                    .attachmentPath ??
+                                                '')),
                                         fit: BoxFit.contain,
                                       ),
                                     ),
@@ -543,14 +545,19 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                     onClosed: () async {
                                                       showLoadingDialog(
                                                           context);
-                                                      await ctrl
-                                                          .putAnswerFinal(
-                                                              isSubmitted: true)
-                                                          .whenComplete(
-                                                              () async {
-                                                          await ctrlMission
-                                                              .getMissionList()
-                                                              .whenComplete(() {
+                                                      var status =
+                                                          ctrl.putAnswerFinal(
+                                                              isSubmitted:
+                                                                  true);
+
+                                                      await AsyncValue.guard(
+                                                              () => status)
+                                                          .then((value) async {
+                                                        await ctrlMission
+                                                            .getMissionList()
+                                                            .whenComplete(() {
+                                                          if (value.value ==
+                                                              true) {
                                                             hideLoadingDialog(
                                                                 context);
                                                             Navigator.of(
@@ -572,7 +579,8 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                                                         isConnectionAvailable,
                                                                   );
                                                                 });
-                                                          });
+                                                          }
+                                                        });
                                                       });
                                                     });
                                               },

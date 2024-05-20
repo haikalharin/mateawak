@@ -331,20 +331,20 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                   )
                                 : InkWell(
                                     onTap: () {
-                                      if(Platform.isIOS){
-                                      _showPicker(context,
-                                          ctrl: ctrl,
-                                          listTask: listTask,
-                                          currentQuestionIndex:
-                                              currentQuestionIndex.state);
-                                    }else{
+                                      if (Platform.isIOS) {
+                                        _showPicker(context,
+                                            ctrl: ctrl,
+                                            listTask: listTask,
+                                            currentQuestionIndex:
+                                                currentQuestionIndex.state);
+                                      } else {
                                         pickImageGallery(
                                             ctrl: ctrl,
                                             listTask: listTask,
-                                            currentQuestionIndex: currentQuestionIndex.state);
+                                            currentQuestionIndex:
+                                                currentQuestionIndex.state);
                                       }
                                     },
-
                                     child: DottedBorder(
                                       color: ColorTheme.primary500,
                                       radius: const Radius.circular(12),
@@ -865,43 +865,50 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                       isConnectionAvailable,
                                                   onClosed: () async {
                                                     showLoadingDialog(context);
-                                                    await ctrl
+                                                    var status =  ctrl
                                                         .putAnswerFinal(
-                                                            isSubmitted: true)
-                                                        .whenComplete(() async {
+                                                            isSubmitted: true);
+
+                                                    await AsyncValue.guard(
+                                                            () => status)
+                                                        .then((value) async {
                                                       await ctrlMission
                                                           .getMissionList()
                                                           .whenComplete(() {
-                                                        hideLoadingDialog(
-                                                            context);
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                        showDialog(
-                                                          barrierDismissible:
-                                                              false,
-                                                          context: context,
-                                                          builder: (context) {
-                                                            return CustomDialog(
-                                                              title:
-                                                                  EtamKawaTranslate
-                                                                      .hooray,
-                                                              content:
-                                                                  EtamKawaTranslate
-                                                                      .yourMissionHasBeenCompleted,
-                                                              label: "Okay",
-                                                              type: DialogType
-                                                                  .success,
-                                                              onClosed: () {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop(); // Close the second dialog
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop(); // Close the first dialog's parent
-                                                              },
-                                                            );
-                                                          },
-                                                        );
+
+                                                        if(value.value == true){
+                                                          hideLoadingDialog(
+                                                              context);
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                          showDialog(
+                                                            barrierDismissible:
+                                                            false,
+                                                            context: context,
+                                                            builder: (context) {
+                                                              return CustomDialog(
+                                                                title:
+                                                                EtamKawaTranslate
+                                                                    .hooray,
+                                                                content:
+                                                                EtamKawaTranslate
+                                                                    .yourMissionHasBeenCompleted,
+                                                                label: "Okay",
+                                                                type: DialogType
+                                                                    .success,
+                                                                onClosed: () {
+                                                                  Navigator.of(
+                                                                      context)
+                                                                      .pop(); // Close the second dialog
+                                                                  Navigator.of(
+                                                                      context)
+                                                                      .pop(); // Close the first dialog's parent
+                                                                },
+                                                              );
+                                                            },
+                                                          );
+                                                        }
+
                                                         setState(() {
                                                           _textController
                                                               .clear();
@@ -1045,11 +1052,11 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
 
   Future<void> pickImageGallery(
       {required TaskController ctrl,
-        required List<TaskDatum> listTask,
-        required int currentQuestionIndex}) async {
+      required List<TaskDatum> listTask,
+      required int currentQuestionIndex}) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions:  EtamKawaUploadConstant.fileTypeImage,
+      allowedExtensions: EtamKawaUploadConstant.fileTypeImage,
     );
 
     if (result != null) {
@@ -1064,12 +1071,12 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
         ref.refresh(taskControllerProvider);
         await ctrl
             .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
-            isLast: false,
-            attachment: filePath,
-            attachmentName: fileName,
-            listSelectedOption: [_textController.text],
-            type: listTask[currentQuestionIndex].taskTypeCode ?? '',
-            taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
+                isLast: false,
+                attachment: filePath,
+                attachmentName: fileName,
+                listSelectedOption: [_textController.text],
+                type: listTask[currentQuestionIndex].taskTypeCode ?? '',
+                taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
             .whenComplete(() async {
           ref.refresh(taskControllerProvider);
 

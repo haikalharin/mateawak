@@ -518,35 +518,41 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                     isConnectionAvailable:
                                                         isConnectionAvailable,
                                                     onClosed: () async {
-                                                      showLoadingDialog(
-                                                          context);
-                                                      await ctrl
+                                                      showLoadingDialog(context);
+                                                      var status =  ctrl
                                                           .putAnswerFinal(
-                                                              isSubmitted: true)
-                                                          .whenComplete(
-                                                              () async {
+                                                          isSubmitted: true);
+
+                                                      await AsyncValue.guard(
+                                                              () => status)
+                                                          .then((value) async {
                                                         await ctrlMission
                                                             .getMissionList()
                                                             .whenComplete(() {
-                                                          hideLoadingDialog(
-                                                              context);
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                          showDialog(
-                                                              barrierDismissible:
-                                                                  false,
-                                                              context: context,
-                                                              builder:
-                                                                  (context) {
-                                                                return RewardDialog(
-                                                                  resultSubmissionState: ref
-                                                                      .watch(resultSubmissionState
-                                                                          .notifier)
-                                                                      .state,
-                                                                  isConnectionAvailable:
-                                                                      isConnectionAvailable,
-                                                                );
-                                                              });
+
+                                                          if(value.value == true){
+                                                            hideLoadingDialog(
+                                                                context);
+                                                            Navigator.of(context)
+                                                                .pop();
+                                                            showDialog(
+                                                                barrierDismissible:
+                                                                false,
+                                                                context:
+                                                                context,
+                                                                builder:
+                                                                    (context) {
+                                                                  return RewardDialog(
+                                                                    resultSubmissionState: ref
+                                                                        .watch(resultSubmissionState
+                                                                        .notifier)
+                                                                        .state,
+                                                                    isConnectionAvailable:
+                                                                    isConnectionAvailable,
+                                                                  );
+                                                                });
+                                                          }
+
                                                         });
                                                       });
                                                     });

@@ -593,43 +593,46 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                           .submit,
                                                       type: DialogType.mission,
                                                       isConnectionAvailable:
-                                                          isConnectionAvailable,
+                                                      isConnectionAvailable,
                                                       onClosed: () async {
-                                                        showLoadingDialog(
-                                                            context);
-                                                        await ctrl
+                                                        showLoadingDialog(context);
+                                                        var status =  ctrl
                                                             .putAnswerFinal(
-                                                                isSubmitted:
-                                                                    true)
-                                                            .whenComplete(
-                                                                () async {
+                                                            isSubmitted: true);
+
+                                                        await AsyncValue.guard(
+                                                                () => status)
+                                                            .then((value) async {
                                                           await ctrlMission
                                                               .getMissionList()
-                                                              .whenComplete(
-                                                                  () async {
-                                                            hideLoadingDialog(
-                                                                context);
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                            showDialog(
-                                                                barrierDismissible:
-                                                                    false,
-                                                                context:
-                                                                    context,
-                                                                builder:
-                                                                    (context) {
-                                                                  return RewardDialog(
-                                                                    resultSubmissionState: ref
-                                                                        .watch(resultSubmissionState
-                                                                            .notifier)
-                                                                        .state,
-                                                                    isConnectionAvailable:
-                                                                        isConnectionAvailable,
-                                                                  );
-                                                                });
-                                                            _textController
-                                                                .clear();
+                                                              .whenComplete(() {
+
+                                                            if(value.value == true){
+                                                              hideLoadingDialog(
+                                                                  context);
+                                                              Navigator.of(context)
+                                                                  .pop();
+                                                              showDialog(
+                                                                  barrierDismissible:
+                                                                  false,
+                                                                  context:
+                                                                  context,
+                                                                  builder:
+                                                                      (context) {
+                                                                    return RewardDialog(
+                                                                      resultSubmissionState: ref
+                                                                          .watch(resultSubmissionState
+                                                                          .notifier)
+                                                                          .state,
+                                                                      isConnectionAvailable:
+                                                                      isConnectionAvailable,
+                                                                    );
+                                                                  });
+                                                            }
+
+
+                                                              _textController
+                                                                  .clear();
                                                           });
                                                         });
                                                       });

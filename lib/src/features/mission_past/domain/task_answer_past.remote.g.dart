@@ -23,74 +23,89 @@ const TaskAnswerPastRemoteSchema = CollectionSchema(
       name: r'answer',
       type: IsarType.string,
     ),
-    r'answerData': PropertySchema(
+    r'answerAttachmentId': PropertySchema(
       id: 1,
+      name: r'answerAttachmentId',
+      type: IsarType.long,
+    ),
+    r'answerAttachmentName': PropertySchema(
+      id: 2,
+      name: r'answerAttachmentName',
+      type: IsarType.string,
+    ),
+    r'answerAttachmentUrl': PropertySchema(
+      id: 3,
+      name: r'answerAttachmentUrl',
+      type: IsarType.string,
+    ),
+    r'answerData': PropertySchema(
+      id: 4,
       name: r'answerData',
       type: IsarType.objectList,
       target: r'AnswerDatumPast',
     ),
     r'answerReward': PropertySchema(
-      id: 2,
+      id: 5,
       name: r'answerReward',
       type: IsarType.long,
     ),
     r'attachment': PropertySchema(
-      id: 3,
+      id: 6,
       name: r'attachment',
       type: IsarType.string,
     ),
     r'attachmentId': PropertySchema(
-      id: 4,
+      id: 7,
       name: r'attachmentId',
       type: IsarType.long,
     ),
     r'attachmentName': PropertySchema(
-      id: 5,
+      id: 8,
       name: r'attachmentName',
       type: IsarType.string,
     ),
     r'feedbackComment': PropertySchema(
-      id: 6,
+      id: 9,
       name: r'feedbackComment',
       type: IsarType.string,
     ),
     r'listSelectedOption': PropertySchema(
-      id: 7,
+      id: 10,
       name: r'listSelectedOption',
       type: IsarType.longList,
     ),
     r'listSelectedOptionString': PropertySchema(
-      id: 8,
+      id: 11,
       name: r'listSelectedOptionString',
       type: IsarType.stringList,
     ),
     r'qualitativeScoreId': PropertySchema(
-      id: 9,
+      id: 12,
       name: r'qualitativeScoreId',
       type: IsarType.long,
     ),
     r'qualitativeScoreName': PropertySchema(
-      id: 10,
+      id: 13,
       name: r'qualitativeScoreName',
       type: IsarType.string,
     ),
     r'taskCaption': PropertySchema(
-      id: 11,
+      id: 14,
       name: r'taskCaption',
       type: IsarType.string,
     ),
     r'taskReward': PropertySchema(
-      id: 12,
+      id: 15,
       name: r'taskReward',
       type: IsarType.long,
     ),
     r'taskTypeCode': PropertySchema(
-      id: 13,
+      id: 16,
       name: r'taskTypeCode',
       type: IsarType.string,
     ),
     r'taskTypeName': PropertySchema(
-      id: 14,
+      id: 17,
       name: r'taskTypeName',
       type: IsarType.string,
     )
@@ -117,6 +132,18 @@ int _taskAnswerPastRemoteEstimateSize(
   var bytesCount = offsets.last;
   {
     final value = object.answer;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.answerAttachmentName;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.answerAttachmentUrl;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -205,25 +232,28 @@ void _taskAnswerPastRemoteSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.answer);
+  writer.writeLong(offsets[1], object.answerAttachmentId);
+  writer.writeString(offsets[2], object.answerAttachmentName);
+  writer.writeString(offsets[3], object.answerAttachmentUrl);
   writer.writeObjectList<AnswerDatumPast>(
-    offsets[1],
+    offsets[4],
     allOffsets,
     AnswerDatumPastSchema.serialize,
     object.answerData,
   );
-  writer.writeLong(offsets[2], object.answerReward);
-  writer.writeString(offsets[3], object.attachment);
-  writer.writeLong(offsets[4], object.attachmentId);
-  writer.writeString(offsets[5], object.attachmentName);
-  writer.writeString(offsets[6], object.feedbackComment);
-  writer.writeLongList(offsets[7], object.listSelectedOption);
-  writer.writeStringList(offsets[8], object.listSelectedOptionString);
-  writer.writeLong(offsets[9], object.qualitativeScoreId);
-  writer.writeString(offsets[10], object.qualitativeScoreName);
-  writer.writeString(offsets[11], object.taskCaption);
-  writer.writeLong(offsets[12], object.taskReward);
-  writer.writeString(offsets[13], object.taskTypeCode);
-  writer.writeString(offsets[14], object.taskTypeName);
+  writer.writeLong(offsets[5], object.answerReward);
+  writer.writeString(offsets[6], object.attachment);
+  writer.writeLong(offsets[7], object.attachmentId);
+  writer.writeString(offsets[8], object.attachmentName);
+  writer.writeString(offsets[9], object.feedbackComment);
+  writer.writeLongList(offsets[10], object.listSelectedOption);
+  writer.writeStringList(offsets[11], object.listSelectedOptionString);
+  writer.writeLong(offsets[12], object.qualitativeScoreId);
+  writer.writeString(offsets[13], object.qualitativeScoreName);
+  writer.writeString(offsets[14], object.taskCaption);
+  writer.writeLong(offsets[15], object.taskReward);
+  writer.writeString(offsets[16], object.taskTypeCode);
+  writer.writeString(offsets[17], object.taskTypeName);
 }
 
 TaskAnswerPastRemote _taskAnswerPastRemoteDeserialize(
@@ -234,26 +264,29 @@ TaskAnswerPastRemote _taskAnswerPastRemoteDeserialize(
 ) {
   final object = TaskAnswerPastRemote(
     answer: reader.readStringOrNull(offsets[0]),
+    answerAttachmentId: reader.readLongOrNull(offsets[1]),
+    answerAttachmentName: reader.readStringOrNull(offsets[2]),
+    answerAttachmentUrl: reader.readStringOrNull(offsets[3]),
     answerData: reader.readObjectList<AnswerDatumPast>(
-      offsets[1],
+      offsets[4],
       AnswerDatumPastSchema.deserialize,
       allOffsets,
       AnswerDatumPast(),
     ),
-    answerReward: reader.readLongOrNull(offsets[2]),
-    attachment: reader.readStringOrNull(offsets[3]),
-    attachmentId: reader.readLongOrNull(offsets[4]),
-    attachmentName: reader.readStringOrNull(offsets[5]),
-    feedbackComment: reader.readStringOrNull(offsets[6]),
-    listSelectedOption: reader.readLongList(offsets[7]),
-    listSelectedOptionString: reader.readStringList(offsets[8]),
-    qualitativeScoreId: reader.readLongOrNull(offsets[9]),
-    qualitativeScoreName: reader.readStringOrNull(offsets[10]),
-    taskCaption: reader.readStringOrNull(offsets[11]),
+    answerReward: reader.readLongOrNull(offsets[5]),
+    attachment: reader.readStringOrNull(offsets[6]),
+    attachmentId: reader.readLongOrNull(offsets[7]),
+    attachmentName: reader.readStringOrNull(offsets[8]),
+    feedbackComment: reader.readStringOrNull(offsets[9]),
+    listSelectedOption: reader.readLongList(offsets[10]),
+    listSelectedOptionString: reader.readStringList(offsets[11]),
+    qualitativeScoreId: reader.readLongOrNull(offsets[12]),
+    qualitativeScoreName: reader.readStringOrNull(offsets[13]),
+    taskCaption: reader.readStringOrNull(offsets[14]),
     taskId: id,
-    taskReward: reader.readLongOrNull(offsets[12]),
-    taskTypeCode: reader.readStringOrNull(offsets[13]),
-    taskTypeName: reader.readStringOrNull(offsets[14]),
+    taskReward: reader.readLongOrNull(offsets[15]),
+    taskTypeCode: reader.readStringOrNull(offsets[16]),
+    taskTypeName: reader.readStringOrNull(offsets[17]),
   );
   return object;
 }
@@ -268,37 +301,43 @@ P _taskAnswerPastRemoteDeserializeProp<P>(
     case 0:
       return (reader.readStringOrNull(offset)) as P;
     case 1:
+      return (reader.readLongOrNull(offset)) as P;
+    case 2:
+      return (reader.readStringOrNull(offset)) as P;
+    case 3:
+      return (reader.readStringOrNull(offset)) as P;
+    case 4:
       return (reader.readObjectList<AnswerDatumPast>(
         offset,
         AnswerDatumPastSchema.deserialize,
         allOffsets,
         AnswerDatumPast(),
       )) as P;
-    case 2:
-      return (reader.readLongOrNull(offset)) as P;
-    case 3:
-      return (reader.readStringOrNull(offset)) as P;
-    case 4:
-      return (reader.readLongOrNull(offset)) as P;
     case 5:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 6:
       return (reader.readStringOrNull(offset)) as P;
     case 7:
-      return (reader.readLongList(offset)) as P;
-    case 8:
-      return (reader.readStringList(offset)) as P;
-    case 9:
       return (reader.readLongOrNull(offset)) as P;
+    case 8:
+      return (reader.readStringOrNull(offset)) as P;
+    case 9:
+      return (reader.readStringOrNull(offset)) as P;
     case 10:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLongList(offset)) as P;
     case 11:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readStringList(offset)) as P;
     case 12:
       return (reader.readLongOrNull(offset)) as P;
     case 13:
       return (reader.readStringOrNull(offset)) as P;
     case 14:
+      return (reader.readStringOrNull(offset)) as P;
+    case 15:
+      return (reader.readLongOrNull(offset)) as P;
+    case 16:
+      return (reader.readStringOrNull(offset)) as P;
+    case 17:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -553,6 +592,392 @@ extension TaskAnswerPastRemoteQueryFilter on QueryBuilder<TaskAnswerPastRemote,
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'answer',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'answerAttachmentId',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'answerAttachmentId',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentIdEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'answerAttachmentId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentIdGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'answerAttachmentId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentIdLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'answerAttachmentId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentIdBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'answerAttachmentId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentNameIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'answerAttachmentName',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentNameIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'answerAttachmentName',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentNameEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'answerAttachmentName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentNameGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'answerAttachmentName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentNameLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'answerAttachmentName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentNameBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'answerAttachmentName',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentNameStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'answerAttachmentName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentNameEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'answerAttachmentName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+          QAfterFilterCondition>
+      answerAttachmentNameContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'answerAttachmentName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+          QAfterFilterCondition>
+      answerAttachmentNameMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'answerAttachmentName',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentNameIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'answerAttachmentName',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentNameIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'answerAttachmentName',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentUrlIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'answerAttachmentUrl',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentUrlIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'answerAttachmentUrl',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentUrlEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'answerAttachmentUrl',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentUrlGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'answerAttachmentUrl',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentUrlLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'answerAttachmentUrl',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentUrlBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'answerAttachmentUrl',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentUrlStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'answerAttachmentUrl',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentUrlEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'answerAttachmentUrl',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+          QAfterFilterCondition>
+      answerAttachmentUrlContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'answerAttachmentUrl',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+          QAfterFilterCondition>
+      answerAttachmentUrlMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'answerAttachmentUrl',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentUrlIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'answerAttachmentUrl',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote,
+      QAfterFilterCondition> answerAttachmentUrlIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'answerAttachmentUrl',
         value: '',
       ));
     });
@@ -2568,6 +2993,48 @@ extension TaskAnswerPastRemoteQuerySortBy
   }
 
   QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote, QAfterSortBy>
+      sortByAnswerAttachmentId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'answerAttachmentId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote, QAfterSortBy>
+      sortByAnswerAttachmentIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'answerAttachmentId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote, QAfterSortBy>
+      sortByAnswerAttachmentName() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'answerAttachmentName', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote, QAfterSortBy>
+      sortByAnswerAttachmentNameDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'answerAttachmentName', Sort.desc);
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote, QAfterSortBy>
+      sortByAnswerAttachmentUrl() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'answerAttachmentUrl', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote, QAfterSortBy>
+      sortByAnswerAttachmentUrlDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'answerAttachmentUrl', Sort.desc);
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote, QAfterSortBy>
       sortByAnswerReward() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'answerReward', Sort.asc);
@@ -2735,6 +3202,48 @@ extension TaskAnswerPastRemoteQuerySortThenBy
       thenByAnswerDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'answer', Sort.desc);
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote, QAfterSortBy>
+      thenByAnswerAttachmentId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'answerAttachmentId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote, QAfterSortBy>
+      thenByAnswerAttachmentIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'answerAttachmentId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote, QAfterSortBy>
+      thenByAnswerAttachmentName() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'answerAttachmentName', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote, QAfterSortBy>
+      thenByAnswerAttachmentNameDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'answerAttachmentName', Sort.desc);
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote, QAfterSortBy>
+      thenByAnswerAttachmentUrl() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'answerAttachmentUrl', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote, QAfterSortBy>
+      thenByAnswerAttachmentUrlDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'answerAttachmentUrl', Sort.desc);
     });
   }
 
@@ -2917,6 +3426,29 @@ extension TaskAnswerPastRemoteQueryWhereDistinct
   }
 
   QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote, QDistinct>
+      distinctByAnswerAttachmentId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'answerAttachmentId');
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote, QDistinct>
+      distinctByAnswerAttachmentName({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'answerAttachmentName',
+          caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote, QDistinct>
+      distinctByAnswerAttachmentUrl({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'answerAttachmentUrl',
+          caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, TaskAnswerPastRemote, QDistinct>
       distinctByAnswerReward() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'answerReward');
@@ -3023,6 +3555,27 @@ extension TaskAnswerPastRemoteQueryProperty on QueryBuilder<
       answerProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'answer');
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, int?, QQueryOperations>
+      answerAttachmentIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'answerAttachmentId');
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, String?, QQueryOperations>
+      answerAttachmentNameProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'answerAttachmentName');
+    });
+  }
+
+  QueryBuilder<TaskAnswerPastRemote, String?, QQueryOperations>
+      answerAttachmentUrlProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'answerAttachmentUrl');
     });
   }
 
