@@ -42,7 +42,7 @@ final getValidationLocalProvider =
 
 typedef GetValidationLocalRef
     = AutoDisposeFutureProviderRef<List<ValidationResponseRemote>>;
-String _$submitValidationHash() => r'9b0c9870267914e41d1f44c61d70950f9127628f';
+String _$submitValidationHash() => r'ca8b8eb813ebc393043a951df906ac4b7248005b';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -199,5 +199,22 @@ class _SubmitValidationProviderElement
   ValidateRequestRemote get validationRequestRemote =>
       (origin as SubmitValidationProvider).validationRequestRemote;
 }
+
+String _$submitValidationBgHash() =>
+    r'91cd8ff1805037f0e506059e9a64a04ab7dbda5e';
+
+/// See also [submitValidationBg].
+@ProviderFor(submitValidationBg)
+final submitValidationBgProvider = AutoDisposeFutureProvider<bool>.internal(
+  submitValidationBg,
+  name: r'submitValidationBgProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$submitValidationBgHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef SubmitValidationBgRef = AutoDisposeFutureProviderRef<bool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

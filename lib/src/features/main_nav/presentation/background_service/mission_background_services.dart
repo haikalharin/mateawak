@@ -204,6 +204,7 @@ Future<bool> submitAnswerBg(
   } on DioException {
     return false;
   } catch (e) {
+    debugPrint('fetch val mission offline : success');
     return false;
   }
 }
@@ -246,6 +247,7 @@ Future<bool> fetchMission(
           .employeeMissionIdIsNotNull()
           .findAll();
 
+    debugPrint('fetch val mission offline : isar sukses');
       await AsyncValue.guard(() => repo).then((value) async {
         if (listResponse.isNotEmpty) {
           for (var element in listResponse) {
@@ -345,6 +347,7 @@ Future<bool> fetchMission(
   } on DioException {
     return false;
   } catch (e) {
+    debugPrint('fetch val mission offline : $e');
     return false;
   }
 }
