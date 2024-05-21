@@ -14,6 +14,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../constants/constant.dart';
 import '../../../../constants/function_utils.dart';
+import '../../../../utils/common_utils.dart';
 import '../../../mission/domain/gamification_response.remote.dart';
 import '../../../task/domain/answer_request.remote.dart';
 import '../../../task/domain/task_datum_answer_request.remote.dart';
@@ -302,8 +303,8 @@ Future<bool> fetchMission(
       listResponseAfterMerge.addAll(listResponseFinal);
       for (var element in listResponseAfterMerge) {
         DateTime dueDate =
-            DateTime.parse(element.dueDate ?? '2024-00-00T00:00:00');
-        int different = calculateDifferenceDays(dueDate, DateTime.now());
+            DateTime.parse(CommonUtils.formattedDateHoursUtcToLocalForCheck(element.dueDate ?? '2024-00-00T00:00:00'));
+        int different = calculateDifferenceDate(dueDate, DateTime.now());
         if (element.missionStatusCode != null) {
           if (different > 0 && element.missionStatusCode! < 2) {
             listAfterCheckIsIncomplete.add(GamificationResponseRemote(

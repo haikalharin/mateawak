@@ -61,7 +61,9 @@ class CommonUtils {
   static daysBetween(DateTime from, DateTime to) {
     from = DateTime(from.year, from.month, from.day);
     to = DateTime(to.year, to.month, to.day);
-    return (to.difference(from).inHours / 24).round();
+    return (to
+        .difference(from)
+        .inHours / 24).round();
   }
 
   static String formatDateTimeRequestParam(String value) {
@@ -76,8 +78,8 @@ class CommonUtils {
     final DateFormat formatter = withHourMinute
         ? DateFormat('dd MMMM yyyy HH:mm', 'id')
         : withDay
-            ? DateFormat('EEEEE, dd MMMM yyyy', 'id')
-            : DateFormat('dd MMMM yyyy', 'id');
+        ? DateFormat('EEEEE, dd MMMM yyyy', 'id')
+        : DateFormat('dd MMMM yyyy', 'id');
     String formatted = formatter.format(date);
     return formatted;
   }
@@ -89,8 +91,8 @@ class CommonUtils {
     final DateFormat formatter = withHourMinute
         ? DateFormat('dd MMM yyyy HH:mm')
         : withDay
-            ? DateFormat('EEEEE, dd MMM yyyy')
-            : DateFormat('dd MMM yyyy');
+        ? DateFormat('EEEEE, dd MMM yyyy')
+        : DateFormat('dd MMM yyyy');
     String formatted = formatter.format(date);
     return formatted;
   }
@@ -100,13 +102,27 @@ class CommonUtils {
     initializeDateFormatting();
     DateTime date = DateTime.parse(value).toUtc().toLocal();
     DateTime utcTime =
-    DateTime.utc(date.year, date.month, date.day, date.hour, date.minute, date.second);
+    DateTime.utc(
+        date.year, date.month, date.day, date.hour, date.minute, date.second);
     DateTime localTime = utcTime.toLocal();
     final DateFormat formatter = withHourMinute
         ? DateFormat('dd MMM yyyy HH:mm')
         : withDay
         ? DateFormat('EEEEE, dd MMM yyyy')
         : DateFormat('dd MMM yyyy');
+    String formatted = formatter.format(localTime);
+    return formatted;
+  }
+
+  static String formattedDateHoursUtcToLocalForCheck(String value) {
+    initializeDateFormatting();
+    DateTime date = DateTime.parse(value).toUtc().toLocal();
+    DateTime utcTime =
+    DateTime.utc(
+        date.year, date.month, date.day, date.hour, date.minute, date.second);
+    DateTime localTime = utcTime.toLocal();
+    final DateFormat formatter = DateFormat("yyyy-MM-dd'T'HH:mm:ss");
+
     String formatted = formatter.format(localTime);
     return formatted;
   }
@@ -118,8 +134,8 @@ class CommonUtils {
     final DateFormat formatter = withHourMinute
         ? DateFormat('dd MMM yyyy HH:mm', 'id')
         : withDay
-            ? DateFormat('EEEEE, dd MMM yyyy', 'id')
-            : DateFormat('dd MMM yyyy', 'id');
+        ? DateFormat('EEEEE, dd MMM yyyy', 'id')
+        : DateFormat('dd MMM yyyy', 'id');
     String formatted = formatter.format(date);
     return formatted;
   }
@@ -134,7 +150,10 @@ class CommonUtils {
 
   static bool isTablet(BuildContext context) {
     // The equivalent of the "smallestWidth" qualifier on Android.
-    var shortestSide = MediaQuery.of(context).size.shortestSide;
+    var shortestSide = MediaQuery
+        .of(context)
+        .size
+        .shortestSide;
 
     // Determine if we should use mobile layout or not, 600 here is
     // a common breakpoint for a typical 7-inch tablet.
@@ -150,7 +169,7 @@ class CommonUtils {
 
   static Future<DateTime> getCurrentNTP() async {
     final ntpNow =
-        await NTP.now().onError((error, stackTrace) => DateTime.now());
+    await NTP.now().onError((error, stackTrace) => DateTime.now());
     final timeNowUtc = ntpNow.toUtc();
     final timeWita = timeNowUtc.add(const Duration(hours: 8));
     log('WITA is at $timeWita');
@@ -246,7 +265,7 @@ class EtamKawaUtils {
     }
   }
 
-String getMissionScore(int scoreId) {
+  String getMissionScore(int scoreId) {
     switch (scoreId) {
       case 1:
         return EtamKawaTranslate.needImprovement;
@@ -277,6 +296,7 @@ String getMissionScore(int scoreId) {
         return ColorTheme.danger100;
     }
   }
+
   Color getMissionStatusFontColorByCode(String code) {
     switch (code) {
       case '99':
@@ -306,7 +326,8 @@ void showLoadingDialog(BuildContext context) {
   showDialog(
     barrierDismissible: false,
     context: context,
-    builder: (context) => const Center(
+    builder: (context) =>
+    const Center(
       child: CircularProgressIndicator(),
     ),
   );
