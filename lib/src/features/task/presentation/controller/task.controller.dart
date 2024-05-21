@@ -531,8 +531,8 @@ class TaskController extends _$TaskController {
           GamificationResponseRemote dataGamification = element;
           List<TaskDatumAnswer> listData = [];
           DateTime dueDate =
-              DateTime.parse(dataGamification.dueDate ?? '2024-00-00T00:00:00');
-          int different = calculateDifferenceDays(dueDate, DateTime.now());
+              DateTime.parse(CommonUtils.formattedDateHoursUtcToLocalForCheck(dataGamification.dueDate ?? '2024-00-00T00:00:00'));
+          int different = calculateDifferenceDate(dueDate, DateTime.now());
 
           if (different > 0 && dataGamification.missionStatusCode! < 2) {
             var taskData = (dataGamification

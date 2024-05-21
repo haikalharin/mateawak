@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
-import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart' ;
+import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
@@ -72,32 +72,31 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
       //List<TaskDatum> taskData = [];
       for (var element in listTask) {
         File file = File('');
-          if (element.attachmentUrl != null) {
-            final response = connect.downloadImage(
-              url: element.attachmentUrl ?? '',
-            );
-            await AsyncValue.guard(() => response).then((value) async {
-              file = await asyncMethodSaveFile(value.value?.data);
-              listResponseFinal[index]
-                  .chapterData
-                  ?.single
-                  .missionData
-                  ?.single
-                  .taskData?[indexTask]
-                  .attachmentPath = file.path;
-              indexTask++;
-            });
-          }else{
+        if (element.attachmentUrl != null) {
+          final response = connect.downloadImage(
+            url: element.attachmentUrl ?? '',
+          );
+          await AsyncValue.guard(() => response).then((value) async {
+            file = await asyncMethodSaveFile(value.value?.data);
             listResponseFinal[index]
                 .chapterData
                 ?.single
                 .missionData
                 ?.single
                 .taskData?[indexTask]
-                .attachmentPath = '';
+                .attachmentPath = file.path;
             indexTask++;
-          }
-
+          });
+        } else {
+          listResponseFinal[index]
+              .chapterData
+              ?.single
+              .missionData
+              ?.single
+              .taskData?[indexTask]
+              .attachmentPath = '';
+          indexTask++;
+        }
       }
 
       index++;
@@ -105,9 +104,10 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
     listResponseAfterMerge.addAll(listResponse);
     listResponseAfterMerge.addAll(listResponseFinal);
     for (var element in listResponseFinal) {
-      DateTime dueDate =
-          DateTime.parse(element.dueDate ?? '2024-00-00T00:00:00');
-      int different = calculateDifferenceDays(dueDate, DateTime.now());
+      DateTime dueDate = DateTime.parse(
+          CommonUtils.formattedDateHoursUtcToLocalForCheck(
+              element.dueDate ?? '2024-00-00T00:00:00'));
+      int different = calculateDifferenceDate(dueDate, DateTime.now());
       if (element.missionStatusCode != null) {
         if (different > 0 && element.missionStatusCode! < 2) {
           listAfterCheckIsIncomplete.add(GamificationResponseRemote(
@@ -131,7 +131,8 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
     await isarInstance.writeTxn(() async {
       //await isarInstance.gamificationResponseRemotes.clear();
 
-      await isarInstance.gamificationResponseRemotes.putAll(listAfterCheckIsIncomplete);
+      await isarInstance.gamificationResponseRemotes
+          .putAll(listAfterCheckIsIncomplete);
     });
 
     ref.keepAlive();
@@ -162,6 +163,3 @@ FutureOr<List<GamificationResponseRemote>> getMissionLocal(
 
   return data;
 }
-
-
-
