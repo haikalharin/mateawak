@@ -136,7 +136,6 @@ class MissionController extends _$MissionController {
           .getMissionListBackgroundServices()
           .whenComplete(() {});
     } catch (e) {
-      print('HHHHHHHHHHHH4');
       ref.watch(submitStatusMissionBgServicesState.notifier).state =
           SubmitStatus.failure;
       if (kDebugMode) {
@@ -185,21 +184,18 @@ class MissionController extends _$MissionController {
             ref.read(submitStatusMissionBgServicesState.notifier).state =
                 SubmitStatus.success;
           }else {
-            print('HHHHHHHHHHHH2');
             ref
                 .read(submitStatusMissionBgServicesState.notifier)
                 .state =
                 SubmitStatus.failure;
           }
         } else{
-          print('HHHHHHHHHHHH1');
           ref.watch(submitStatusMissionBgServicesState.notifier).state =
               SubmitStatus.failure;
         }
         return value;
       });
     } catch (e) {
-      print('HHHHHHHHHHHH3');
       ref.watch(submitStatusMissionBgServicesState.notifier).state =
           SubmitStatus.failure;
       if (kDebugMode) {
