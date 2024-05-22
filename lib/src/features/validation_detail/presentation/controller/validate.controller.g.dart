@@ -7,7 +7,7 @@ part of 'validate.controller.dart';
 // **************************************************************************
 
 String _$validateControllerHash() =>
-    r'1cc64d3aee848c1881ccacf7180a23bceb1f8456';
+    r'bc0152e0e06dda0c595a29a556544c1b44b2b1b5';
 
 /// See also [ValidateController].
 @ProviderFor(ValidateController)

@@ -15,7 +15,9 @@ import '../../../shared_component/shared_component_etamkawa.dart';
 import '../../mission_past/presentation/controller/mission_past.controller.dart';
 
 class MissionPastDetailScreen extends ConsumerStatefulWidget {
-  const MissionPastDetailScreen({super.key});
+  const MissionPastDetailScreen({super.key, this.employeeMissionId});
+
+  final int? employeeMissionId;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -50,6 +52,11 @@ class _MissionPastDetailScreenState
   Widget build(BuildContext context) {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
+        if (widget.employeeMissionId != 0) {
+          ref
+              .watch(missionPastControllerProvider.notifier)
+              .getDetailMission(employeeMissionId: widget.employeeMissionId!);
+        }
         final gamification = ref.watch(gamificationDetailState.notifier).state;
         // final missionType = gamification
         //     .chapterData?.single.missionData?.single.missionTypeName;

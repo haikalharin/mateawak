@@ -224,10 +224,12 @@ class MissionController extends _$MissionController {
             value.value?.forEach((element) async {
               if (element.missionStatusCode != null) {
                 if (element.missionStatusCode! == 1) {
+                  debugPrint('Mission InProgress: ${element.chapterData?.single.missionData?.single.missionName}: ${element.missionStatus}: ${element.employeeMissionId}');
                   listGamificationInProgress.add(element);
                 } else if (element.missionStatusCode! == 0) {
                   listGamificationAssigned.add(element);
                 } else if (element.missionStatusCode! >= 2) {
+                  debugPrint('Mission Past: ${element.chapterData?.single.missionData?.single.missionName}: ${element.missionStatus}: ${element.employeeMissionId}');
                   listGamificationPast.add(element);
                 }
               }

@@ -39,12 +39,33 @@ class ValidateController extends _$ValidateController {
     debugPrint(validation.toString());
     ValidationResponseRemote data = ValidationResponseRemote();
     var reward =
-        data.chapterData?.single.missionData?.single.missionReward ?? 0;
-    var finalReward = reward * selectedScore;
-    data =
-        validation.copyWith(missionStatusCode: 99, missionStatus: 'Validated');
-    data.chapterData?.single.missionData?.single.taskData?.single
-        .copyWith(feedbackComment: feedback, answerReward: finalReward);
+        validation.chapterData?.single.missionData?.single.missionReward ?? 0;
+    debugPrint('reward score = $reward');
+    var selectedValue = switch (selectedScore) {
+      1 => 0,
+      2 => 0.25,
+      3 => 0.75,
+      4 => 1,
+      _ => 0,
+    };
+    var finalReward = reward * selectedValue;
+
+    debugPrint('reward score final = $finalReward');
+    validation.chapterData?.single.missionData?.single.taskData?.single
+        .copyWith(feedbackComment: feedback, answerReward: finalReward.toInt());
+    TaskValidationDatum task = TaskValidationDatum();
+    task = validation.chapterData!.single.missionData!.single.taskData!.single
+        .copyWith(feedbackComment: feedback, answerReward: finalReward.toInt(), qualitativeScoreId: selectedScore);
+    MissionValidationDatum mission = MissionValidationDatum();
+    mission = validation.chapterData!.single.missionData!.single.copyWith(taskData: [task]);
+    ChapterValidationDatum chapter = ChapterValidationDatum();
+    chapter = validation.chapterData!.single.copyWith(missionData: [mission]);
+    data = validation.copyWith(
+      missionStatusCode: 99,
+      missionStatus: 'Validated',
+      completedDate: DateTime.now().toString(),
+      chapterData: [chapter]
+    );
     final isarInstance = await ref.watch(isarInstanceProvider.future);
     await isarInstance.writeTxn(() async {
       await isarInstance.validationResponseRemotes.put(data);

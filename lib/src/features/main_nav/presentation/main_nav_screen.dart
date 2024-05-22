@@ -8,6 +8,7 @@ import 'package:module_etamkawa/src/features/mission/presentation/controller/mis
 import 'package:module_etamkawa/src/features/mission/presentation/mission.screen.dart';
 import 'package:module_etamkawa/src/features/overview/presentation/overview.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/controller/task.controller.dart';
+import 'package:module_etamkawa/src/features/validation/infrastructure/repositories/validation_local.repository.dart';
 import 'package:module_etamkawa/src/features/validation/presentation/controller/validation.controller.dart';
 import 'package:module_etamkawa/src/features/validation/presentation/validation.screen.dart';
 import 'package:module_etamkawa/src/shared_component/under_construction.screen.dart';
@@ -32,7 +33,10 @@ IndexedStack pages({required int currentIndex}) {
 }
 
 class MainNavScreen extends ConsumerStatefulWidget {
-  const MainNavScreen({super.key});
+  const MainNavScreen({super.key, this.currentIndex, this.employeeMissionId});
+
+  final int? currentIndex;
+  final int? employeeMissionId;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _MainNavScreenState();
@@ -46,10 +50,13 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
     await intializedMissionBackgroundService();
   }
 
+  int index = 0;
+
   @override
   void initState() {
     isInit = true;
     isInit = true;
+    index = widget.currentIndex ?? 0;
     initEtamkawa();
     super.initState();
   }
@@ -75,7 +82,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
           return Consumer(
               builder: (BuildContext context, WidgetRef ref, Widget? child) {
             String title = '';
-            switch (ctrl.indexNav) {
+            switch (index) {
               case 0:
                 title = 'Etam Kawa';
               case 1:
@@ -92,14 +99,13 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
               value: SystemUiOverlayStyle.light,
               child: Scaffold(
                   appBar: SharedComponentEtamkawa.appBar(
-                    backgroundColor: ctrl.indexNav == 0
+                    backgroundColor: index == 0
                         ? ColorTheme.primary500
                         : ColorTheme.backgroundWhite,
-                    titleColor: ctrl.indexNav == 0
-                        ? ColorTheme.textWhite
-                        : ColorTheme.textDark,
+                    titleColor:
+                        index == 0 ? ColorTheme.textWhite : ColorTheme.textDark,
                     context: context,
-                    elevation: ctrl.indexNav == 0 ? 0.0 : 0.5,
+                    elevation: index == 0 ? 0.0 : 0.5,
                     title: title,
                     onBack: () {
                       Navigator.of(context).pop();
@@ -134,8 +140,9 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                                 ? await ctrlTask
                                     .checkExpiredBeforeSubmitAnswer()
                                     .whenComplete(() async {
-                                    await ctrlMission
-                                        .backgroundServiceEvent(isFetchMission: true,isSubmitAnswer: true);
+                                    await ctrlMission.backgroundServiceEvent(
+                                        isFetchMission: true,
+                                        isSubmitAnswer: true);
                                   })
                                 : null;
                           },
@@ -156,16 +163,17 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                                   ? Icon(
                                       Icons.sync_disabled,
                                       color: ColorTheme.danger500,
-                                    ):const Icon(Icons.sync)),
+                                    )
+                                  : const Icon(Icons.sync)),
                       SizedBox(width: 10.w),
                       const Icon(Icons.notifications),
                       SizedBox(width: 20.w),
                     ],
                     brightnessIconStatusBar:
-                        ctrl.indexNav == 0 ? Brightness.light : Brightness.dark,
+                        index == 0 ? Brightness.light : Brightness.dark,
                   ),
                   body: Stack(children: [
-                    pages(currentIndex: ctrl.indexNav),
+                    pages(currentIndex: index),
                     submitStatus == SubmitStatus.inProgress
                         ? const Center(
                             child: CircularProgressIndicator(),
@@ -223,22 +231,23 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                                 ),
                               )
                             ],
-                            currentIndex: ctrl.indexNav,
+                            currentIndex: index,
                             onTap: (value) async {
+                              index = value;
                               ctrl.onItemTapped(value);
-                              if (ctrl.indexNav == 2) {
+                              if (index == 2) {
                                 if (submitStatusMission !=
                                         SubmitStatus.inProgress &&
                                     submitStatusMissionBgServices !=
                                         SubmitStatus.inProgress) {
-
                                   await ctrlMission
                                       .getMissionList(isInit: isInit)
                                       .whenComplete(() {
                                     isInit = false;
                                   });
                                 }
-                              } else if (ctrl.indexNav == 3) {
+                              } else if (index == 3) {
+                                ref.read(submitValidationBgProvider);
                                 await ctrlValidation.getValidationList();
                               }
                             },
