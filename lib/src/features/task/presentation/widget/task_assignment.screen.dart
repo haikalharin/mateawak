@@ -42,7 +42,6 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
   bool isResizing = false;
   bool isSubmitted = false;
 
-
   // int currentQuestionIndex = 0;
   // String? selectedOption;
   @override
@@ -457,45 +456,50 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                 ),
                                 maxLines: 10,
                                 onTapOutside: (value) async {
-                                  await ctrl
-                                      .saveAnswer(
-                                          listTask[currentQuestionIndex.state]
-                                                  .taskId ??
-                                              0,
-                                          isLast: false,
-                                          listSelectedOption: [
-                                            _textController.text
-                                          ],
-                                          attachment: attachment.state,
-                                          attachmentName: attachmentName.state,
-                                          type: listTask[currentQuestionIndex
-                                                      .state]
-                                                  .taskTypeCode ??
-                                              '',
-                                          taskGroup: listTask[
-                                                      currentQuestionIndex
-                                                          .state]
-                                                  .taskGroup ??
-                                              '')
-                                      .whenComplete(() async {
-                                    await ctrl.putAnswerFinal(isSubmitted: isSubmitted);
-                                  }).whenComplete(() {
-                                    if (_textController.text.isEmpty) {
-                                      ref
-                                          .watch(listSelectOptionStringState
-                                              .notifier)
-                                          .state = [];
+                                  if (!isSubmitted) {
+                                    debugPrint('ontapoutside asm');
+                                    await ctrl
+                                        .saveAnswer(
+                                            listTask[currentQuestionIndex
+                                                        .state]
+                                                    .taskId ??
+                                                0,
+                                            isLast: false,
+                                            listSelectedOption: [
+                                              _textController.text
+                                            ],
+                                            attachment: attachment.state,
+                                            attachmentName:
+                                                attachmentName.state,
+                                            type: listTask[currentQuestionIndex
+                                                        .state]
+                                                    .taskTypeCode ??
+                                                '',
+                                            taskGroup: listTask[
+                                                        currentQuestionIndex
+                                                            .state]
+                                                    .taskGroup ??
+                                                '')
+                                        .whenComplete(() async {
+                                      await ctrl.putAnswerFinal(
+                                          isSubmitted: isSubmitted);
+                                    }).whenComplete(() {
+                                      if (_textController.text.isEmpty) {
+                                        ref
+                                            .watch(listSelectOptionStringState
+                                                .notifier)
+                                            .state = [];
 
-                                      _textController.clear();
-                                    } else {
-                                      ref
-                                          .watch(listSelectOptionStringState
-                                              .notifier)
-                                          .state = [_textController.text];
-                                    }
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                  });
+                                        _textController.clear();
+                                      } else {
+                                        ref
+                                            .watch(listSelectOptionStringState
+                                                .notifier)
+                                            .state = [_textController.text];
+                                      }
+                                    });
+                                  }
+                                  FocusManager.instance.primaryFocus?.unfocus();
                                 },
                                 onEditingComplete: () async {
                                   await ctrl
@@ -882,11 +886,12 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                     await AsyncValue.guard(
                                                             () => status)
                                                         .then((value) async {
-                                                            isSubmitted = true;
+                                                      isSubmitted = true;
                                                       await ctrlMission
                                                           .getMissionList()
                                                           .whenComplete(() {
-                                                        if(value.value == true){
+                                                        if (value.value ==
+                                                            true) {
                                                           hideLoadingDialog(
                                                               context);
                                                           Navigator.of(context)
@@ -1090,10 +1095,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
     required List<TaskDatum> listTask,
     required int currentQuestionIndex,
   }) async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.media,
-      allowCompression: true
-    );
+    FilePickerResult? result = await FilePicker.platform
+        .pickFiles(type: FileType.media, allowCompression: true);
 
     if (result != null) {
       PlatformFile platformFile = result.files.first;

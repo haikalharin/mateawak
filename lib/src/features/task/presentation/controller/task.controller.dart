@@ -194,38 +194,38 @@ class TaskController extends _$TaskController {
                 apiResponse.result?.content);
           }
           if (sendImageSuccess == true) {
-          if (apiResponse.statusCode == 200 &&
-              apiResponse.result?.isError == false) {
-            resultSubmissionNotifier.state =
-                resultSubmissionNotifier.state.copyWith(
-              employeeMissionId: result.employeeMissionId,
-              competencyName: result.competencyName,
-              rewardGained: result.rewardGained,
-              accuracy: result.accuracy,
-            );
+            if (apiResponse.statusCode == 200 &&
+                apiResponse.result?.isError == false) {
+              resultSubmissionNotifier.state =
+                  resultSubmissionNotifier.state.copyWith(
+                employeeMissionId: result.employeeMissionId,
+                competencyName: result.competencyName,
+                rewardGained: result.rewardGained,
+                accuracy: result.accuracy,
+              );
 
-            debugPrint(
-                'Reward Response from result= ${result.competencyName} ${result.accuracy} ${result.rewardGained}');
-            debugPrint(
-                'Reward Response from notifier = ${resultSubmissionNotifier.state.competencyName} ${resultSubmissionNotifier.state.accuracy} ${resultSubmissionNotifier.state.rewardGained}');
-            await deleteAnswer(listTaskAnswer);
-          } else {
-            isSuccess = false;
-            Navigator.of(globalkey.currentContext!).pop();
-            Navigator.of(globalkey.currentContext!).pop();
-            SharedComponent.dialogPopUp(
-              type: 'info',
-              context: globalkey.currentContext!,
-              title: 'Oops!',
-              subTitle: 'Submit Failed',
-              btntitleright: 'Ok',
-              onpressright: () {
-                Navigator.of(globalkey.currentContext!).pop();
-                Navigator.of(globalkey.currentContext!).pop();
-                Navigator.of(globalkey.currentContext!).pop();
-              },
-            );
-          }
+              debugPrint(
+                  'Reward Response from result= ${result.competencyName} ${result.accuracy} ${result.rewardGained}');
+              debugPrint(
+                  'Reward Response from notifier = ${resultSubmissionNotifier.state.competencyName} ${resultSubmissionNotifier.state.accuracy} ${resultSubmissionNotifier.state.rewardGained}');
+              await deleteAnswer(listTaskAnswer);
+            } else {
+              isSuccess = false;
+              Navigator.of(globalkey.currentContext!).pop();
+              Navigator.of(globalkey.currentContext!).pop();
+              SharedComponent.dialogPopUp(
+                type: 'info',
+                context: globalkey.currentContext!,
+                title: 'Oops!',
+                subTitle: 'Submit Failed',
+                btntitleright: 'Ok',
+                onpressright: () {
+                  Navigator.of(globalkey.currentContext!).pop();
+                  Navigator.of(globalkey.currentContext!).pop();
+                  Navigator.of(globalkey.currentContext!).pop();
+                },
+              );
+            }
           } else {
             isSuccess = false;
             Navigator.of(globalkey.currentContext!).pop();

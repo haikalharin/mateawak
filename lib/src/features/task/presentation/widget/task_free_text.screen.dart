@@ -31,7 +31,6 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
   bool isInit = true;
   bool isSubmitted = false;
 
-
   @override
   void initState() {
     _textController.clear();
@@ -225,36 +224,41 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                   ),
                                   maxLines: 10,
                                   onTapOutside: (value) async {
-                                    await ctrl
-                                        .saveAnswer(
-                                            listTask[currentQuestionIndex.state]
-                                                    .taskId ??
-                                                0,
-                                            isLast: false,
-                                            listSelectedOption: [
-                                              _textController.text
-                                            ],
-                                            type: listTask[currentQuestionIndex
-                                                        .state]
-                                                    .taskTypeCode ??
-                                                '')
-                                        .whenComplete(() async {
-                                      await ctrl.putAnswerFinal(isSubmitted: isSubmitted);
-                                    }).whenComplete(() {
-                                      if (_textController.text.isEmpty) {
-                                        ref
-                                            .watch(listSelectOptionStringState
-                                                .notifier)
-                                            .state = [];
+                                    if (!isSubmitted) {
+                                      await ctrl
+                                          .saveAnswer(
+                                              listTask[currentQuestionIndex
+                                                          .state]
+                                                      .taskId ??
+                                                  0,
+                                              isLast: false,
+                                              listSelectedOption: [
+                                                _textController.text
+                                              ],
+                                              type: listTask[
+                                                          currentQuestionIndex
+                                                              .state]
+                                                      .taskTypeCode ??
+                                                  '')
+                                          .whenComplete(() async {
+                                        await ctrl.putAnswerFinal(
+                                            isSubmitted: isSubmitted);
+                                      }).whenComplete(() {
+                                        if (_textController.text.isEmpty) {
+                                          ref
+                                              .watch(listSelectOptionStringState
+                                                  .notifier)
+                                              .state = [];
 
-                                        _textController.clear();
-                                      } else {
-                                        ref
-                                            .watch(listSelectOptionStringState
-                                                .notifier)
-                                            .state = [_textController.text];
-                                      }
-                                    });
+                                          _textController.clear();
+                                        } else {
+                                          ref
+                                              .watch(listSelectOptionStringState
+                                                  .notifier)
+                                              .state = [_textController.text];
+                                        }
+                                      });
+                                    }
                                     FocusManager.instance.primaryFocus
                                         ?.unfocus();
                                   },
@@ -595,47 +599,50 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                           .submit,
                                                       type: DialogType.mission,
                                                       isConnectionAvailable:
-                                                      isConnectionAvailable,
+                                                          isConnectionAvailable,
                                                       onClosed: () async {
-                                                        showLoadingDialog(context);
-                                                        var status =  ctrl
-                                                            .putAnswerFinal(
-                                                            isSubmitted: true);
+                                                        showLoadingDialog(
+                                                            context);
+                                                        var status =
+                                                            ctrl.putAnswerFinal(
+                                                                isSubmitted:
+                                                                    true);
 
                                                         await AsyncValue.guard(
                                                                 () => status)
-                                                            .then((value) async {
+                                                            .then(
+                                                                (value) async {
                                                           isSubmitted = true;
                                                           await ctrlMission
                                                               .getMissionList()
                                                               .whenComplete(() {
-
-                                                            if(value.value == true){
+                                                            if (value.value ==
+                                                                true) {
                                                               hideLoadingDialog(
                                                                   context);
-                                                              Navigator.of(context)
+                                                              Navigator.of(
+                                                                      context)
                                                                   .pop();
                                                               showDialog(
                                                                   barrierDismissible:
-                                                                  false,
+                                                                      false,
                                                                   context:
-                                                                  context,
+                                                                      context,
                                                                   builder:
                                                                       (context) {
                                                                     return RewardDialog(
                                                                       resultSubmissionState: ref
-                                                                          .watch(resultSubmissionState
-                                                                          .notifier)
+                                                                          .watch(
+                                                                              resultSubmissionState.notifier)
                                                                           .state,
                                                                       isConnectionAvailable:
-                                                                      isConnectionAvailable,
+                                                                          isConnectionAvailable,
                                                                     );
                                                                   });
                                                             }
 
-
-                                                              _textController
-                                                                  .clear();
+                                                            _textController
+                                                                .clear();
                                                           });
                                                         });
                                                       });
