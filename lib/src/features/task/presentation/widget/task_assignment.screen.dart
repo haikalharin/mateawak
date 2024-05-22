@@ -38,6 +38,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
 
   // String? _docFilePathName;
   bool isInit = true;
+  bool isSubmitted = false;
+
 
   // int currentQuestionIndex = 0;
   // String? selectedOption;
@@ -67,6 +69,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
         final isMandatory = gamificationData.chapterData?.single.missionData
                 ?.single.isMandatoryAttachment ??
             false;
+
         debugPrint('is mandatory attachment : ${isMandatory.toString()}');
         if (ref.watch(currentTypeTaskState.notifier).state ==
             TaskType.ASM.name) {
@@ -468,7 +471,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                   .taskGroup ??
                                               '')
                                       .whenComplete(() async {
-                                    await ctrl.putAnswerFinal();
+                                    await ctrl.putAnswerFinal(isSubmitted: isSubmitted);
                                   }).whenComplete(() {
                                     if (_textController.text.isEmpty) {
                                       ref
@@ -872,10 +875,10 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                     await AsyncValue.guard(
                                                             () => status)
                                                         .then((value) async {
+                                                            isSubmitted = true;
                                                       await ctrlMission
                                                           .getMissionList()
                                                           .whenComplete(() {
-
                                                         if(value.value == true){
                                                           hideLoadingDialog(
                                                               context);

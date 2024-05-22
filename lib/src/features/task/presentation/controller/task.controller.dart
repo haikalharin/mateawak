@@ -190,7 +190,7 @@ class TaskController extends _$TaskController {
           bool sendImageSuccess = data['sendImageSuccess'];
           ResultSubmissionRequestRemote result = ResultSubmissionRequestRemote();
           if( apiResponse.result?.content != null) {
-            ResultSubmissionRequestRemote result =
+             result =
             ResultSubmissionRequestRemote.fromJson(
                 apiResponse.result?.content);
           }

@@ -40,6 +40,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
 
   //String? _docFilePathName;
   bool isInit = true;
+  bool isSubmitted = false;
+
 
   // int currentQuestionIndex = 0;
   // String? selectedOption;
@@ -476,7 +478,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                   .taskGroup ??
                                               '')
                                       .whenComplete(() async {
-                                    await ctrl.putAnswerFinal();
+                                    await ctrl.putAnswerFinal(isSubmitted: isSubmitted);
                                   }).whenComplete(() {
                                     if (_textController.text.isEmpty) {
                                       ref
@@ -916,6 +918,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                       await AsyncValue.guard(
                                                               () => status)
                                                           .then((value) async {
+                                                        isSubmitted = true;
                                                         await ctrlMission
                                                             .getMissionList()
                                                             .whenComplete(() {

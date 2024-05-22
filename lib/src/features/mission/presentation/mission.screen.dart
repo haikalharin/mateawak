@@ -241,6 +241,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                     // Tab 2 content
                                     RefreshableStarterWidget(
                                       onRefresh: () async {
+                                        ref.refresh(taskControllerProvider);
                                         ctrl.getMissionList();
                                       },
                                       slivers: [
