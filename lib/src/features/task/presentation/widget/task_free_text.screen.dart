@@ -29,6 +29,8 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
 
   var groupValue = 0;
   bool isInit = true;
+  bool isSubmitted = false;
+
 
   @override
   void initState() {
@@ -237,7 +239,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                     .taskTypeCode ??
                                                 '')
                                         .whenComplete(() async {
-                                      await ctrl.putAnswerFinal();
+                                      await ctrl.putAnswerFinal(isSubmitted: isSubmitted);
                                     }).whenComplete(() {
                                       if (_textController.text.isEmpty) {
                                         ref
@@ -603,6 +605,7 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                                         await AsyncValue.guard(
                                                                 () => status)
                                                             .then((value) async {
+                                                          isSubmitted = true;
                                                           await ctrlMission
                                                               .getMissionList()
                                                               .whenComplete(() {
