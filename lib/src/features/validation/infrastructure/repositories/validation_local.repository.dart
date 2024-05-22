@@ -164,12 +164,10 @@ FutureOr<List<ValidationResponseRemote>> getValidationRemote(
                       .chapterData?.single.missionData?.single.competencyCode,
                   competencyName: element
                       .chapterData?.single.missionData?.single.competencyName,
-                  peopleCategoryCode:
-                      element
-                      .chapterData?.single.missionData?.single.peopleCategoryCode,
-                  peopleCategoryName:
-                      element
-                      .chapterData?.single.missionData?.single.peopleCategoryName,
+                  peopleCategoryCode: element.chapterData?.single.missionData
+                      ?.single.peopleCategoryCode,
+                  peopleCategoryName: element.chapterData?.single.missionData
+                      ?.single.peopleCategoryName,
                 )
               ],
             )
@@ -218,7 +216,6 @@ Future<ResultSubmissionRequestRemote> submitValidation(SubmitValidationRef ref,
     {required ValidateRequestRemote validationRequestRemote}) async {
   final userModel = await ref.read(helperUserProvider).getUserProfile();
   final connect = ref.read(connectProvider.notifier);
-  final isarInstance = await ref.watch(isarInstanceProvider.future);
   final response = await connect.post(
       modul: ModuleType.etamkawaGamification,
       path:
@@ -226,8 +223,9 @@ Future<ResultSubmissionRequestRemote> submitValidation(SubmitValidationRef ref,
       body: validationRequestRemote.toJson());
 
   if (response.statusCode == 200) {
+    final isarInstance = await ref.watch(isarInstanceProvider.future);
     await isarInstance.writeTxn(() async {
-      await isarInstance.validateRequestRemotes
+      await isarInstance.validationResponseRemotes
           .filter()
           .employeeMissionIdEqualTo(validationRequestRemote.employeeMissionId)
           .deleteAll();
@@ -236,4 +234,65 @@ Future<ResultSubmissionRequestRemote> submitValidation(SubmitValidationRef ref,
   ResultSubmissionRequestRemote result =
       ResultSubmissionRequestRemote.fromJson(response.result?.content);
   return result;
+}
+
+@riverpod
+Future<bool> submitValidationBg(SubmitValidationBgRef ref) async {
+  final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
+  if (isConnectionAvailable) {
+    final isarInstance = await ref.watch(isarInstanceProvider.future);
+    final userModel = await ref.read(helperUserProvider).getUserProfile();
+    final connect = ref.read(connectProvider.notifier);
+    debugPrint('fetch validation submit offline : ');
+    final repoValidation = isarInstance.validationResponseRemotes
+        .filter()
+        .employeeMissionIdIsNotNull()
+        .findAll();
+
+    debugPrint('fetch validation submit offline : repoValidation');
+    List<bool> listSucces = [];
+    await AsyncValue.guard(() => repoValidation).then((value) async {
+      for (var element in value.value ?? []) {
+        //debugPrint('fetch validation submit offline : async guard');
+        ValidationResponseRemote validationRequestRemote = element;
+        debugPrint(
+            'submit validation offline not 99: ${validationRequestRemote.missionStatusCode}: ${validationRequestRemote.missionId}: ${validationRequestRemote.missionStatus}');
+        if (validationRequestRemote.missionStatusCode == 99) {
+          debugPrint(
+              'submit validation offline: 99 ${validationRequestRemote.employeeMissionId.toString()}');
+          var validationRequest = ValidateRequestRemote(
+              comment: validationRequestRemote.chapterData?.single.missionData
+                  ?.single.taskData?.first.feedbackComment,
+              employeeMissionId: validationRequestRemote.employeeMissionId,
+              qualitativeScore: validationRequestRemote.chapterData?.single
+                  .missionData?.single.taskData?.first.qualitativeScoreId,
+              taskId: validationRequestRemote.chapterData?.single.missionData
+                  ?.single.taskData?.single.taskId,
+              validationDate: validationRequestRemote.completedDate!.substring(
+                  0, validationRequestRemote.completedDate!.length - 6));
+          final response = connect.post(
+              modul: ModuleType.etamkawaGamification,
+              path:
+                  "api/mission/validate_employee_mission?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}",
+              body: validationRequest.toJson());
+
+          await AsyncValue.guard(() => response).then((value) async {
+            if (value.value?.statusCode == 200) {
+              await isarInstance.writeTxn(() async {
+                await isarInstance.validationResponseRemotes
+                    .filter()
+                    .employeeMissionIdEqualTo(
+                        validationRequest.employeeMissionId)
+                    .deleteAll();
+              });
+            }
+            var statusSuccess = value.value?.statusCode == 200 ||
+                (value.value?.result?.isError == false);
+            listSucces.add(statusSuccess);
+          });
+        }
+      }
+    });
+  }
+  return true;
 }

@@ -6,7 +6,7 @@ part of 'navigation.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$etamkawaGoRouterHash() => r'341bd9d674ca024bf9c7395efc15845b50f06b83';
+String _$etamkawaGoRouterHash() => r'b27f9a1d1755cbe73ef8be58d41c76f3be92dba4';
 
 /// See also [etamkawaGoRouter].
 @ProviderFor(etamkawaGoRouter)

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dropdown.dart';
+import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
 class CustomWithFeedbackDialog extends StatefulWidget {
@@ -138,7 +139,8 @@ class _CustomWithFeedbackDialogState extends State<CustomWithFeedbackDialog> {
             SizedBox(
                 width: double.infinity,
                 child: confirmationButton(
-                    selectedScore, controller.text, context, widget.label, (String feedback, int selectedScore) {
+                    selectedScore, controller.text, context, widget.label,
+                    (String feedback, int selectedScore) {
                   widget.onClosed!(feedback, selectedScore);
                 })),
             SizedBox(height: 8.h),
@@ -179,9 +181,9 @@ Widget confirmationButton(int? selectedScore, String feedback,
         onPressed: () {
           if (feedback != '' && selectedScore != null) {
             // Call the onClosed callback with the feedback and selectedScore parameters
+            showLoadingDialog(context);
             onClosed!(feedback, selectedScore); // <-- Invoke the callback
-            debugPrint('validate debug print: $feedback');
-            debugPrint('validate debug print onclosed: $onClosed');
+            hideLoadingDialog(context);
             context.pop(); // Close the dialog
             showDialog(
                 context: context,
@@ -194,7 +196,7 @@ Widget confirmationButton(int? selectedScore, String feedback,
                       label: "Okay",
                       onClosed: () async => {
                             Navigator.of(context).pop(),
-                            Navigator.of(context).pop()
+                            //Navigator.of(context).pop()
                           });
                 });
           }
@@ -204,4 +206,3 @@ Widget confirmationButton(int? selectedScore, String feedback,
     ],
   );
 }
-

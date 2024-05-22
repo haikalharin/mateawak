@@ -54,7 +54,6 @@ class ValidationController extends _$ValidationController {
     state = await AsyncValue.guard(() => repo).then((value) async {
       List<ValidationResponseRemote> listValidationInReview = [];
 
-      debugPrint(value.toString());
       if (value.hasValue) {
         value.value?.forEach((element) async {
           listValidationInReview.add(element);

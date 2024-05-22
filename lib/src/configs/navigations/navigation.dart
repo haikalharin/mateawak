@@ -52,10 +52,16 @@ GoRouter etamkawaGoRouter(EtamkawaGoRouterRef ref) {
               path: detailMissionPastEtamkawa,
               name: detailMissionPastEtamkawa,
               builder: (BuildContext context, GoRouterState state) {
+                debugPrint(
+                    'firebase id query params: ${state.uri.queryParameters['Id']}');
                 return SharedComponent.banner(
                     dotenv.env[EnvConstant.environment]!,
-                    const ConnectionListenerWidget(
-                        child: MissionPastDetailScreen()));
+                    ConnectionListenerWidget(
+                        child: MissionPastDetailScreen(
+                      employeeMissionId: state.uri.queryParameters['Id'] != null
+                          ? int.parse(state.pathParameters['Id']!)
+                          : 0,
+                    )));
               },
               routes: [
                 GoRoute(
@@ -64,7 +70,8 @@ GoRouter etamkawaGoRouter(EtamkawaGoRouterRef ref) {
                     builder: (BuildContext context, GoRouterState state) {
                       return SharedComponent.banner(
                           dotenv.env[EnvConstant.environment]!,
-                          const ConnectionListenerWidget(child: TaskPastScreen()));
+                          const ConnectionListenerWidget(
+                              child: TaskPastScreen()));
                     }),
               ]),
           GoRoute(
@@ -88,8 +95,15 @@ List<RouteBase> routeEtamkawa = [
       builder: (BuildContext context, GoRouterState state) {
         return SharedComponent.banner(
             dotenv.env[EnvConstant.environment]!,
-            const ConnectionListenerWidget(
-              child: MainNavScreen(),
+            ConnectionListenerWidget(
+              child: MainNavScreen(
+                currentIndex: 0,
+                //0,
+                employeeMissionId: state.uri.queryParameters['Id'] != null
+                    ? int.parse(state.pathParameters['Id']!)
+                    : 0,
+                //0,
+              ),
             ));
       },
       routes: [
@@ -116,10 +130,16 @@ List<RouteBase> routeEtamkawa = [
             path: detailMissionPastEtamkawa,
             name: detailMissionPastEtamkawa,
             builder: (BuildContext context, GoRouterState state) {
+              debugPrint(
+                  'firebase id query params: ${state.uri.queryParameters['Id']}');
               return SharedComponent.banner(
                   dotenv.env[EnvConstant.environment]!,
-                  const ConnectionListenerWidget(
-                      child: MissionPastDetailScreen()));
+                  ConnectionListenerWidget(
+                      child: MissionPastDetailScreen(
+                    employeeMissionId: state.uri.queryParameters['Id'] != null
+                        ? int.parse(state.pathParameters['Id']!)
+                        : 0,
+                  )));
             },
             routes: [
               GoRoute(
@@ -128,7 +148,8 @@ List<RouteBase> routeEtamkawa = [
                   builder: (BuildContext context, GoRouterState state) {
                     return SharedComponent.banner(
                         dotenv.env[EnvConstant.environment]!,
-                        const ConnectionListenerWidget(child: TaskPastScreen()));
+                        const ConnectionListenerWidget(
+                            child: TaskPastScreen()));
                   }),
             ]),
         GoRoute(

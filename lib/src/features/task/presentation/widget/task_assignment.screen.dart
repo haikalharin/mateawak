@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image/image.dart' as img;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:module_etamkawa/src/constants/constant.dart';
@@ -38,6 +39,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
 
   // String? _docFilePathName;
   bool isInit = true;
+  bool isResizing = false;
 
   // int currentQuestionIndex = 0;
   // String? selectedOption;
@@ -329,94 +331,99 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                       ),
                                     ],
                                   )
-                                : InkWell(
-                                    onTap: () {
-                                      if (Platform.isIOS) {
-                                        _showPicker(context,
-                                            ctrl: ctrl,
-                                            listTask: listTask,
-                                            currentQuestionIndex:
-                                                currentQuestionIndex.state);
-                                      } else {
-                                        pickImageGallery(
-                                            ctrl: ctrl,
-                                            listTask: listTask,
-                                            currentQuestionIndex:
-                                                currentQuestionIndex.state);
-                                      }
-                                    },
-                                    child: DottedBorder(
-                                      color: ColorTheme.primary500,
-                                      radius: const Radius.circular(12),
-                                      strokeWidth: 3,
-                                      //thickness of dash/dots
-                                      dashPattern: const [10, 6],
-                                      child: Container(
-                                          height: 150,
-                                          color: ColorTheme.bgGreenLight,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Row(
+                                : isResizing
+                                    ? const CircularProgressIndicator()
+                                    : InkWell(
+                                        onTap: () {
+                                          if (Platform.isIOS) {
+                                            _showPicker(context,
+                                                ctrl: ctrl,
+                                                listTask: listTask,
+                                                currentQuestionIndex:
+                                                    currentQuestionIndex.state);
+                                          } else {
+                                            pickDocFile(
+                                                ctrl: ctrl,
+                                                listTask: listTask,
+                                                currentQuestionIndex:
+                                                    currentQuestionIndex.state);
+                                          }
+                                        },
+                                        child: DottedBorder(
+                                          color: ColorTheme.primary500,
+                                          radius: const Radius.circular(12),
+                                          strokeWidth: 3,
+                                          //thickness of dash/dots
+                                          dashPattern: const [10, 6],
+                                          child: Container(
+                                              height: 150,
+                                              color: ColorTheme.bgGreenLight,
+                                              child: Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
+                                                    MainAxisAlignment.center,
                                                 children: [
-                                                  Icon(
-                                                    Icons.upload_file_rounded,
-                                                    color:
-                                                        ColorTheme.primary500,
-                                                    size: 40.h,
-                                                  ),
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
+                                                  Row(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
-                                                            .start,
+                                                            .center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
                                                     children: [
-                                                      SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            1.5,
-                                                        child: Text(
-                                                          EtamKawaTranslate
-                                                              .dropYourFile,
-                                                          style:
-                                                              Theme.of(context)
+                                                      Icon(
+                                                        Icons
+                                                            .upload_file_rounded,
+                                                        color: ColorTheme
+                                                            .primary500,
+                                                        size: 40.h,
+                                                      ),
+                                                      Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                1.5,
+                                                            child: Text(
+                                                              EtamKawaTranslate
+                                                                  .dropYourFile,
+                                                              style: Theme.of(
+                                                                      context)
                                                                   .textTheme
                                                                   .titleLarge,
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            1.5,
-                                                        child: Text(
-                                                          "Allowed files ${EtamKawaUploadConstant.fileTypeTextImage}",
-                                                          style:
-                                                              Theme.of(context)
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                1.5,
+                                                            child: Text(
+                                                              "Allowed files ${EtamKawaUploadConstant.fileTypeTextImage}",
+                                                              style: Theme.of(
+                                                                      context)
                                                                   .textTheme
                                                                   .bodyLarge,
-                                                        ),
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ],
                                                   ),
                                                 ],
-                                              ),
-                                            ],
-                                          )),
-                                    ),
-                                  ),
+                                              )),
+                                        ),
+                                      ),
                             const SizedBox(height: 8.0),
                             SizedBox(
                               width: MediaQuery.of(context).size.width,
@@ -865,8 +872,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                       isConnectionAvailable,
                                                   onClosed: () async {
                                                     showLoadingDialog(context);
-                                                    var status =  ctrl
-                                                        .putAnswerFinal(
+                                                    var status =
+                                                        ctrl.putAnswerFinal(
                                                             isSubmitted: true);
 
                                                     await AsyncValue.guard(
@@ -875,33 +882,33 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                       await ctrlMission
                                                           .getMissionList()
                                                           .whenComplete(() {
-
-                                                        if(value.value == true){
+                                                        if (value.value ==
+                                                            true) {
                                                           hideLoadingDialog(
                                                               context);
                                                           Navigator.of(context)
                                                               .pop();
                                                           showDialog(
                                                             barrierDismissible:
-                                                            false,
+                                                                false,
                                                             context: context,
                                                             builder: (context) {
                                                               return CustomDialog(
                                                                 title:
-                                                                EtamKawaTranslate
-                                                                    .hooray,
+                                                                    EtamKawaTranslate
+                                                                        .hooray,
                                                                 content:
-                                                                EtamKawaTranslate
-                                                                    .yourMissionHasBeenCompleted,
+                                                                    EtamKawaTranslate
+                                                                        .yourMissionHasBeenCompleted,
                                                                 label: "Okay",
                                                                 type: DialogType
                                                                     .success,
                                                                 onClosed: () {
                                                                   Navigator.of(
-                                                                      context)
+                                                                          context)
                                                                       .pop(); // Close the second dialog
                                                                   Navigator.of(
-                                                                      context)
+                                                                          context)
                                                                       .pop(); // Close the first dialog's parent
                                                                 },
                                                               );
@@ -969,14 +976,38 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
       required int currentQuestionIndex}) {
     showModalBottomSheet(
         context: context,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        backgroundColor: Colors.white,
         builder: (BuildContext bc) {
           return SafeArea(
-            child: Container(
-              child: Wrap(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
+                  Container(
+                    height: 5,
+                    width: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Pilih Opsi',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  const Divider(),
                   ListTile(
-                    leading: const Icon(Icons.file_present),
-                    title: const Text('File'),
+                    leading: const Icon(Icons.file_present, color: Colors.blue),
+                    title: const Text('Pilih Berkas'),
                     onTap: () async {
                       Navigator.pop(context);
                       pickDocFile(
@@ -986,8 +1017,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                     },
                   ),
                   ListTile(
-                    leading: const Icon(Icons.image),
-                    title: const Text('Gallery'),
+                    leading: const Icon(Icons.image, color: Colors.green),
+                    title: const Text('Pilih dari Galeri'),
                     onTap: () async {
                       Navigator.pop(context);
                       pickImageGallery(
@@ -996,6 +1027,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                           currentQuestionIndex: currentQuestionIndex);
                     },
                   ),
+                  const SizedBox(height: 16),
                 ],
               ),
             ),
@@ -1050,55 +1082,84 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
     }
   }
 
-  Future<void> pickImageGallery(
-      {required TaskController ctrl,
-      required List<TaskDatum> listTask,
-      required int currentQuestionIndex}) async {
+  Future<void> pickImageGallery({
+    required TaskController ctrl,
+    required List<TaskDatum> listTask,
+    required int currentQuestionIndex,
+  }) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: EtamKawaUploadConstant.fileTypeImage,
+      type: FileType.media,
     );
 
     if (result != null) {
       PlatformFile platformFile = result.files.first;
       final fileName = platformFile.name;
       final filePath = platformFile.path;
-      final fileSize = platformFile.size;
       final fileExtension = platformFile.extension;
 
-      if (EtamKawaUploadConstant.fileTypeDefault.contains(fileExtension)) {
+      if (EtamKawaUploadConstant.fileTypeImage.contains(fileExtension)) {
         debugPrint('accepted format');
-        ref.refresh(taskControllerProvider);
-        await ctrl
-            .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
-                isLast: false,
-                attachment: filePath,
-                attachmentName: fileName,
-                listSelectedOption: [_textController.text],
-                type: listTask[currentQuestionIndex].taskTypeCode ?? '',
-                taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
-            .whenComplete(() async {
-          ref.refresh(taskControllerProvider);
 
-          await ctrl.putAnswerFinal();
-        }).whenComplete(() {
-          ref.refresh(taskControllerProvider);
+        // Resize the image
+        File file = File(filePath!);
+        img.Image? image = img.decodeImage(file.readAsBytesSync());
 
+        if (image != null) {
           setState(() {
-            ref.read(attachmentNameState.notifier).state = fileName;
-            ref.read(attachmentPathState.notifier).state = filePath ?? '';
+            isResizing = true;
           });
-        });
+          // Function to resize and check the file size
+          File resizeImageToMaxSize(img.Image image, int maxSizeInBytes) {
+            int quality = 100;
+            List<int> resizedImageBytes;
+            File resizedFile;
+            do {
+              debugPrint('resize foto');
+              resizedImageBytes = img.encodeJpg(image, quality: quality);
+              resizedFile = File('${file.path}_resized.jpg')
+                ..writeAsBytesSync(resizedImageBytes);
+              quality -= 20; // Reduce quality to lower file size
+            } while (resizedFile.lengthSync() > maxSizeInBytes && quality > 0);
+            return resizedFile;
+          }
+
+          // Resize to a maximum file size of 2MB (2 * 1024 * 1024 bytes)
+          File resizedFile = resizeImageToMaxSize(image, 2 * 1024 * 1024);
+
+          ref.refresh(taskControllerProvider);
+          await ctrl
+              .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
+                  isLast: false,
+                  attachment: resizedFile.path,
+                  attachmentName: fileName,
+                  listSelectedOption: [_textController.text],
+                  type: listTask[currentQuestionIndex].taskTypeCode ?? '',
+                  taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
+              .whenComplete(() async {
+            ref.refresh(taskControllerProvider);
+
+            await ctrl.putAnswerFinal();
+          }).whenComplete(() {
+            ref.refresh(taskControllerProvider);
+
+            setState(() {
+              isResizing = false;
+              ref.read(attachmentNameState.notifier).state = fileName;
+              ref.read(attachmentPathState.notifier).state = filePath ?? '';
+            });
+          });
+        }
       }
     } else {
       // User canceled the picker
     }
   }
 
-  Future<void> pickDocFile(
-      {required TaskController ctrl,
-      required List<TaskDatum> listTask,
-      required int currentQuestionIndex}) async {
+  Future<void> pickDocFile({
+    required TaskController ctrl,
+    required List<TaskDatum> listTask,
+    required int currentQuestionIndex,
+  }) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: EtamKawaUploadConstant.fileTypeImage,
@@ -1109,32 +1170,60 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
       PlatformFile platformFile = result.files.first;
       final fileName = platformFile.name;
       final filePath = platformFile.path;
-      final fileSize = platformFile.size;
       final fileExtension = platformFile.extension;
 
-      if (EtamKawaUploadConstant.fileTypeDefault.contains(fileExtension)) {
+      if (EtamKawaUploadConstant.fileTypeImage.contains(fileExtension)) {
         debugPrint('accepted format');
-        ref.refresh(taskControllerProvider);
-        await ctrl
-            .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
-                isLast: false,
-                attachment: filePath,
-                attachmentName: fileName,
-                listSelectedOption: [_textController.text],
-                type: listTask[currentQuestionIndex].taskTypeCode ?? '',
-                taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
-            .whenComplete(() async {
-          ref.refresh(taskControllerProvider);
 
-          await ctrl.putAnswerFinal();
-        }).whenComplete(() {
-          ref.refresh(taskControllerProvider);
+        // Resize the image
+        File file = File(filePath!);
+        img.Image? image = img.decodeImage(file.readAsBytesSync());
 
+        if (image != null) {
           setState(() {
-            ref.read(attachmentNameState.notifier).state = fileName;
-            ref.read(attachmentPathState.notifier).state = filePath ?? '';
+            isResizing = true;
           });
-        });
+          // Function to resize and check the file size
+          File resizeImageToMaxSize(img.Image image, int maxSizeInBytes) {
+            int quality = 100;
+            List<int> resizedImageBytes;
+            File resizedFile;
+            do {
+              debugPrint('resize foto');
+              resizedImageBytes = img.encodeJpg(image, quality: quality);
+              resizedFile = File('${file.path}_resized.jpg')
+                ..writeAsBytesSync(resizedImageBytes);
+              quality -= 20; // Reduce quality to lower file size
+            } while (resizedFile.lengthSync() > maxSizeInBytes && quality > 0);
+            return resizedFile;
+          }
+
+          // Resize to a maximum file size of 2MB (2 * 1024 * 1024 bytes)
+          File resizedFile = resizeImageToMaxSize(image, 2 * 1024 * 1024);
+
+          ref.refresh(taskControllerProvider);
+          await ctrl
+              .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
+                  isLast: false,
+                  attachment: resizedFile.path,
+                  attachmentName: fileName,
+                  listSelectedOption: [_textController.text],
+                  type: listTask[currentQuestionIndex].taskTypeCode ?? '',
+                  taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
+              .whenComplete(() async {
+            ref.refresh(taskControllerProvider);
+
+            await ctrl.putAnswerFinal();
+          }).whenComplete(() {
+            ref.refresh(taskControllerProvider);
+
+            setState(() {
+              isResizing = false;
+              ref.read(attachmentNameState.notifier).state = fileName;
+              ref.read(attachmentPathState.notifier).state = resizedFile.path;
+            });
+          });
+        }
       }
     } else {
       // User canceled the picker

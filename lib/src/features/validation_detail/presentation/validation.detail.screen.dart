@@ -647,6 +647,7 @@ class _ValidationDetailScreenState
                                       onPressed: () async {
                                         await showDialog(
                                           context: context,
+                                          barrierDismissible: false,
                                           builder: (context) {
                                             return CustomWithFeedbackDialog(
                                                 rating: (validation
@@ -670,14 +671,18 @@ class _ValidationDetailScreenState
                                                     ''),
                                                 label: EtamKawaTranslate.stay,
                                                 onClosed: (String feedback,
-                                                        int
-                                                            selectedScore) async =>
-                                                    {
-                                                      await ctrl
-                                                          .changeStatusValidation(
-                                                              feedback,
-                                                              selectedScore)
-                                                    });
+                                                    int selectedScore) async {
+                                                  await ctrl
+                                                      .changeStatusValidation(
+                                                          feedback,
+                                                          selectedScore)
+                                                      .whenComplete(() async =>
+                                                          await ref
+                                                              .read(
+                                                                  validationControllerProvider
+                                                                      .notifier)
+                                                              .getValidationList());
+                                                });
                                           },
                                         );
                                       },
