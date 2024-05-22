@@ -1089,6 +1089,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
   }) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.media,
+      allowCompression: true
     );
 
     if (result != null) {
@@ -1145,10 +1146,22 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
             setState(() {
               isResizing = false;
               ref.read(attachmentNameState.notifier).state = fileName;
-              ref.read(attachmentPathState.notifier).state = filePath ?? '';
+              ref.read(attachmentPathState.notifier).state = resizedFile.path;
             });
           });
         }
+      } else {
+        SharedComponent.dialogPopUp(
+          type: 'info',
+          context: globalkey.currentContext!,
+          title: 'Tipe file tidak sesuai!',
+          subTitle:
+              'Hanya diperbolehkan untuk upload file tipe: .heif, .jpg, .jpeg, .png',
+          btntitleright: 'Ok',
+          onpressright: () {
+            Navigator.of(globalkey.currentContext!).pop();
+          },
+        );
       }
     } else {
       // User canceled the picker
@@ -1224,6 +1237,18 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
             });
           });
         }
+      } else {
+        SharedComponent.dialogPopUp(
+          type: 'info',
+          context: globalkey.currentContext!,
+          title: 'Tipe file tidak sesuai!',
+          subTitle:
+              'Hanya diperbolehkan untuk upload file tipe: .heif, .jpg, .jpeg, .png',
+          btntitleright: 'Ok',
+          onpressright: () {
+            Navigator.of(globalkey.currentContext!).pop();
+          },
+        );
       }
     } else {
       // User canceled the picker
