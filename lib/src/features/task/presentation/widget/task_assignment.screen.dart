@@ -42,7 +42,6 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
   bool isResizing = false;
   bool isSubmitted = false;
 
-
   // int currentQuestionIndex = 0;
   // String? selectedOption;
   @override
@@ -457,45 +456,50 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                 ),
                                 maxLines: 10,
                                 onTapOutside: (value) async {
-                                  await ctrl
-                                      .saveAnswer(
-                                          listTask[currentQuestionIndex.state]
-                                                  .taskId ??
-                                              0,
-                                          isLast: false,
-                                          listSelectedOption: [
-                                            _textController.text
-                                          ],
-                                          attachment: attachment.state,
-                                          attachmentName: attachmentName.state,
-                                          type: listTask[currentQuestionIndex
-                                                      .state]
-                                                  .taskTypeCode ??
-                                              '',
-                                          taskGroup: listTask[
-                                                      currentQuestionIndex
-                                                          .state]
-                                                  .taskGroup ??
-                                              '')
-                                      .whenComplete(() async {
-                                    await ctrl.putAnswerFinal(isSubmitted: isSubmitted);
-                                  }).whenComplete(() {
-                                    if (_textController.text.isEmpty) {
-                                      ref
-                                          .watch(listSelectOptionStringState
-                                              .notifier)
-                                          .state = [];
+                                  if (!isSubmitted) {
+                                    debugPrint('ontapoutside asm');
+                                    await ctrl
+                                        .saveAnswer(
+                                            listTask[currentQuestionIndex
+                                                        .state]
+                                                    .taskId ??
+                                                0,
+                                            isLast: false,
+                                            listSelectedOption: [
+                                              _textController.text
+                                            ],
+                                            attachment: attachment.state,
+                                            attachmentName:
+                                                attachmentName.state,
+                                            type: listTask[currentQuestionIndex
+                                                        .state]
+                                                    .taskTypeCode ??
+                                                '',
+                                            taskGroup: listTask[
+                                                        currentQuestionIndex
+                                                            .state]
+                                                    .taskGroup ??
+                                                '')
+                                        .whenComplete(() async {
+                                      await ctrl.putAnswerFinal(
+                                          isSubmitted: isSubmitted);
+                                    }).whenComplete(() {
+                                      if (_textController.text.isEmpty) {
+                                        ref
+                                            .watch(listSelectOptionStringState
+                                                .notifier)
+                                            .state = [];
 
-                                      _textController.clear();
-                                    } else {
-                                      ref
-                                          .watch(listSelectOptionStringState
-                                              .notifier)
-                                          .state = [_textController.text];
-                                    }
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                  });
+                                        _textController.clear();
+                                      } else {
+                                        ref
+                                            .watch(listSelectOptionStringState
+                                                .notifier)
+                                            .state = [_textController.text];
+                                      }
+                                    });
+                                  }
+                                  FocusManager.instance.primaryFocus?.unfocus();
                                 },
                                 onEditingComplete: () async {
                                   await ctrl
@@ -882,11 +886,12 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                     await AsyncValue.guard(
                                                             () => status)
                                                         .then((value) async {
-                                                            isSubmitted = true;
+                                                      isSubmitted = true;
                                                       await ctrlMission
                                                           .getMissionList()
                                                           .whenComplete(() {
-                                                        if(value.value == true){
+                                                        if (value.value ==
+                                                            true) {
                                                           hideLoadingDialog(
                                                               context);
                                                           Navigator.of(context)
@@ -1090,9 +1095,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
     required List<TaskDatum> listTask,
     required int currentQuestionIndex,
   }) async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.media,
-    );
+    FilePickerResult? result = await FilePicker.platform
+        .pickFiles(type: FileType.media, allowCompression: true);
 
     if (result != null) {
       PlatformFile platformFile = result.files.first;
@@ -1100,82 +1104,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
       final filePath = platformFile.path;
       final fileExtension = platformFile.extension;
 
-      if (EtamKawaUploadConstant.fileTypeImage.contains(fileExtension)) {
-        debugPrint('accepted format');
-
-        // Resize the image
-        File file = File(filePath!);
-        img.Image? image = img.decodeImage(file.readAsBytesSync());
-
-        if (image != null) {
-          setState(() {
-            isResizing = true;
-          });
-          // Function to resize and check the file size
-          File resizeImageToMaxSize(img.Image image, int maxSizeInBytes) {
-            int quality = 100;
-            List<int> resizedImageBytes;
-            File resizedFile;
-            do {
-              debugPrint('resize foto');
-              resizedImageBytes = img.encodeJpg(image, quality: quality);
-              resizedFile = File('${file.path}_resized.jpg')
-                ..writeAsBytesSync(resizedImageBytes);
-              quality -= 20; // Reduce quality to lower file size
-            } while (resizedFile.lengthSync() > maxSizeInBytes && quality > 0);
-            return resizedFile;
-          }
-
-          // Resize to a maximum file size of 2MB (2 * 1024 * 1024 bytes)
-          File resizedFile = resizeImageToMaxSize(image, 2 * 1024 * 1024);
-
-          ref.refresh(taskControllerProvider);
-          await ctrl
-              .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
-                  isLast: false,
-                  attachment: resizedFile.path,
-                  attachmentName: fileName,
-                  listSelectedOption: [_textController.text],
-                  type: listTask[currentQuestionIndex].taskTypeCode ?? '',
-                  taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
-              .whenComplete(() async {
-            ref.refresh(taskControllerProvider);
-
-            await ctrl.putAnswerFinal();
-          }).whenComplete(() {
-            ref.refresh(taskControllerProvider);
-
-            setState(() {
-              isResizing = false;
-              ref.read(attachmentNameState.notifier).state = fileName;
-              ref.read(attachmentPathState.notifier).state = filePath ?? '';
-            });
-          });
-        }
-      }
-    } else {
-      // User canceled the picker
-    }
-  }
-
-  Future<void> pickDocFile({
-    required TaskController ctrl,
-    required List<TaskDatum> listTask,
-    required int currentQuestionIndex,
-  }) async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: EtamKawaUploadConstant.fileTypeImage,
-      allowCompression: true,
-    );
-
-    if (result != null) {
-      PlatformFile platformFile = result.files.first;
-      final fileName = platformFile.name;
-      final filePath = platformFile.path;
-      final fileExtension = platformFile.extension;
-
-      if (EtamKawaUploadConstant.fileTypeImage.contains(fileExtension)) {
+      if (EtamKawaUploadConstant.fileTypeImage.contains(fileExtension?.toLowerCase())) {
         debugPrint('accepted format');
 
         // Resize the image
@@ -1227,6 +1156,105 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
             });
           });
         }
+      } else {
+        SharedComponent.dialogPopUp(
+          type: 'info',
+          context: globalkey.currentContext!,
+          title: 'Tipe file tidak sesuai!',
+          subTitle:
+              'Hanya diperbolehkan untuk upload file tipe: .heif, .jpg, .jpeg, .png',
+          btntitleright: 'Ok',
+          onpressright: () {
+            Navigator.of(globalkey.currentContext!).pop();
+          },
+        );
+      }
+    } else {
+      // User canceled the picker
+    }
+  }
+
+  Future<void> pickDocFile({
+    required TaskController ctrl,
+    required List<TaskDatum> listTask,
+    required int currentQuestionIndex,
+  }) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: EtamKawaUploadConstant.fileTypeImage,
+      allowCompression: true,
+    );
+
+    if (result != null) {
+      PlatformFile platformFile = result.files.first;
+      final fileName = platformFile.name;
+      final filePath = platformFile.path;
+      final fileExtension = platformFile.extension;
+
+      if (EtamKawaUploadConstant.fileTypeImage.contains(fileExtension?.toLowerCase())) {
+        debugPrint('accepted format');
+
+        // Resize the image
+        File file = File(filePath!);
+        img.Image? image = img.decodeImage(file.readAsBytesSync());
+
+        if (image != null) {
+          setState(() {
+            isResizing = true;
+          });
+          // Function to resize and check the file size
+          File resizeImageToMaxSize(img.Image image, int maxSizeInBytes) {
+            int quality = 100;
+            List<int> resizedImageBytes;
+            File resizedFile;
+            do {
+              debugPrint('resize foto');
+              resizedImageBytes = img.encodeJpg(image, quality: quality);
+              resizedFile = File('${file.path}_resized.jpg')
+                ..writeAsBytesSync(resizedImageBytes);
+              quality -= 20; // Reduce quality to lower file size
+            } while (resizedFile.lengthSync() > maxSizeInBytes && quality > 0);
+            return resizedFile;
+          }
+
+          // Resize to a maximum file size of 2MB (2 * 1024 * 1024 bytes)
+          File resizedFile = resizeImageToMaxSize(image, 2 * 1024 * 1024);
+
+          ref.refresh(taskControllerProvider);
+          await ctrl
+              .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
+                  isLast: false,
+                  attachment: resizedFile.path,
+                  attachmentName: fileName,
+                  listSelectedOption: [_textController.text],
+                  type: listTask[currentQuestionIndex].taskTypeCode ?? '',
+                  taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
+              .whenComplete(() async {
+            ref.refresh(taskControllerProvider);
+
+            await ctrl.putAnswerFinal();
+          }).whenComplete(() {
+            ref.refresh(taskControllerProvider);
+
+            setState(() {
+              isResizing = false;
+              ref.read(attachmentNameState.notifier).state = fileName;
+              ref.read(attachmentPathState.notifier).state = resizedFile.path;
+            });
+          });
+        }
+      } else {
+        SharedComponent.dialogPopUp(
+          type: 'info',
+          context: globalkey.currentContext!,
+          title: 'Tipe file tidak sesuai!',
+          subTitle:
+              'Hanya diperbolehkan untuk upload file tipe: .heif, .jpg, .jpeg, .png',
+          btntitleright: 'Ok',
+          onpressright: () {
+            Navigator.of(globalkey.currentContext!).pop();
+          },
+        );
       }
     } else {
       // User canceled the picker
