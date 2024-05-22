@@ -184,44 +184,48 @@ class TaskController extends _$TaskController {
             .future);
 
         await AsyncValue.guard(() => result).then((value) async {
-
           Map<String, dynamic> data = value.value ?? {};
           ApiResponse apiResponse = data['response'];
           bool sendImageSuccess = data['sendImageSuccess'];
-          ResultSubmissionRequestRemote result = ResultSubmissionRequestRemote();
-          if( apiResponse.result?.content != null) {
-            ResultSubmissionRequestRemote result =
-            ResultSubmissionRequestRemote.fromJson(
+          ResultSubmissionRequestRemote result =
+              ResultSubmissionRequestRemote();
+          if (apiResponse.result?.content != null) {
+            result = ResultSubmissionRequestRemote.fromJson(
                 apiResponse.result?.content);
           }
           if (sendImageSuccess == true) {
+          if (apiResponse.statusCode == 200 &&
+              apiResponse.result?.isError == false) {
+            resultSubmissionNotifier.state =
+                resultSubmissionNotifier.state.copyWith(
+              employeeMissionId: result.employeeMissionId,
+              competencyName: result.competencyName,
+              rewardGained: result.rewardGained,
+              accuracy: result.accuracy,
+            );
 
-            if (apiResponse.statusCode == 200 && apiResponse.result?.isError == false) {
-              resultSubmissionNotifier.state =
-                  resultSubmissionNotifier.state.copyWith(
-                employeeMissionId: result.employeeMissionId,
-                competencyName: result.competencyName,
-                rewardGained: result.rewardGained,
-                accuracy: result.accuracy,
-              );
-              await deleteAnswer(listTaskAnswer);
-            } else {
-              isSuccess = false;
-              Navigator.of(globalkey.currentContext!).pop();
-              Navigator.of(globalkey.currentContext!).pop();
-              SharedComponent.dialogPopUp(
-                type: 'info',
-                context: globalkey.currentContext!,
-                title: 'Oops!',
-                subTitle: 'Submit Failed',
-                btntitleright: 'Ok',
-                onpressright: () {
-                  Navigator.of(globalkey.currentContext!).pop();
-                  Navigator.of(globalkey.currentContext!).pop();
-                  Navigator.of(globalkey.currentContext!).pop();
-                },
-              );
-            }
+            debugPrint(
+                'Reward Response from result= ${result.competencyName} ${result.accuracy} ${result.rewardGained}');
+            debugPrint(
+                'Reward Response from notifier = ${resultSubmissionNotifier.state.competencyName} ${resultSubmissionNotifier.state.accuracy} ${resultSubmissionNotifier.state.rewardGained}');
+            await deleteAnswer(listTaskAnswer);
+          } else {
+            isSuccess = false;
+            Navigator.of(globalkey.currentContext!).pop();
+            Navigator.of(globalkey.currentContext!).pop();
+            SharedComponent.dialogPopUp(
+              type: 'info',
+              context: globalkey.currentContext!,
+              title: 'Oops!',
+              subTitle: 'Submit Failed',
+              btntitleright: 'Ok',
+              onpressright: () {
+                Navigator.of(globalkey.currentContext!).pop();
+                Navigator.of(globalkey.currentContext!).pop();
+                Navigator.of(globalkey.currentContext!).pop();
+              },
+            );
+          }
           } else {
             isSuccess = false;
             Navigator.of(globalkey.currentContext!).pop();
@@ -530,8 +534,9 @@ class TaskController extends _$TaskController {
         for (var element in data.value ?? []) {
           GamificationResponseRemote dataGamification = element;
           List<TaskDatumAnswer> listData = [];
-          DateTime dueDate =
-              DateTime.parse(CommonUtils.formattedDateHoursUtcToLocalForCheck(dataGamification.dueDate ?? '2024-00-00T00:00:00'));
+          DateTime dueDate = DateTime.parse(
+              CommonUtils.formattedDateHoursUtcToLocalForCheck(
+                  dataGamification.dueDate ?? '2024-00-00T00:00:00'));
           int different = calculateDifferenceDate(dueDate, DateTime.now());
 
           if (different > 0 && dataGamification.missionStatusCode! < 2) {
