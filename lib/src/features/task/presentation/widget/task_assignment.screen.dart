@@ -1104,7 +1104,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
       final filePath = platformFile.path;
       final fileExtension = platformFile.extension;
 
-      if (EtamKawaUploadConstant.fileTypeImage.contains(fileExtension)) {
+      if (EtamKawaUploadConstant.fileTypeImage.contains(fileExtension?.toLowerCase())) {
         debugPrint('accepted format');
 
         // Resize the image
@@ -1191,7 +1191,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
       final filePath = platformFile.path;
       final fileExtension = platformFile.extension;
 
-      if (EtamKawaUploadConstant.fileTypeImage.contains(fileExtension)) {
+      if (EtamKawaUploadConstant.fileTypeImage.contains(fileExtension?.toLowerCase())) {
         debugPrint('accepted format');
 
         // Resize the image
