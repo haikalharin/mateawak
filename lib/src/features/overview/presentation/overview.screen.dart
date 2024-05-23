@@ -88,7 +88,7 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
                                       BorderRadius.all(Radius.circular(100.r))),
                               child: Center(
                                   child: Text(
-                                (userProfile.empName ?? '')[0].toUpperCase(),
+                                (userProfile.employeeName ?? '')[0].toUpperCase(),
                                 style: SharedComponent.textStyleCustom(
                                     typographyType: TypographyType.largeH2,
                                     fontColor: ColorTheme.textDark),
@@ -101,7 +101,7 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(userProfile.empName ?? '',
+                                  Text(userProfile.employeeName ?? '',
                                       style: SharedComponent.textStyleCustom(
                                           typographyType:
                                               TypographyType.largeH5,

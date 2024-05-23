@@ -15,6 +15,7 @@ import 'package:module_etamkawa/src/shared_component/under_construction.screen.d
 import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
+import '../../../../module_etamkawa.dart';
 import '../../../shared_component/connection_listener_widget.dart';
 import '../../../shared_component/shared_component_etamkawa.dart';
 import 'background_service/mission_background_services.dart';

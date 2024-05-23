@@ -12,6 +12,8 @@ import 'package:module_etamkawa/src/features/overview/domain/news_response.remot
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../../module_etamkawa.dart';
+import '../../../../configs/services/connect_background_sevices.dart';
 import '../../../../constants/constant.dart';
 import '../../../../constants/function_utils.dart';
 import '../../../../utils/common_utils.dart';

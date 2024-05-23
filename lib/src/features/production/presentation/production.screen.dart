@@ -67,7 +67,7 @@
 //                   if (snapshot.hasData) {
 //                     final materials = snapshot.data?[0] as List<String>;
 //                     final areas = snapshot.data?[1] as List<String>;
-//                     final userModel = snapshot.data?[2] as UserModel?;
+//                     final userModel = snapshot.data?[2] as ProfileModel?;
 //
 //                     return AsyncValueWidget(
 //                       value: ref.watch(

@@ -11,23 +11,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-
-  module_shared:
-    git:
-      url: https://buma.visualstudio.com/BUMA%20-%20BSpace%202.0/_git/Frontend.Mobile.Shared
-      ref: v1.2.0-dev01
-
-  #  module_shared:
-  #    git:
-  #      url: https://buma.visualstudio.com/BUMA%20-%20BSpace%202.0/_git/Frontend.Mobile.Shared
-  #      ref: v1.0.1-dev.21
-
-
-  # module_shared:
-  #   path: ../Frontend.Mobile.Shared
-  #  module_lineup:
-  #    path: ./Frontend.Mobile.Lineup
-
   flutter_riverpod: ^2.3.6
   riverpod_generator: ^2.3.5
   riverpod_annotation: ^2.1.1
@@ -77,6 +60,32 @@ dependencies:
   html: ^0.15.3
   easy_localization: ^3.0.2
   image: ^4.1.7
+
+
+  module_shared:
+    git:
+      url: https://buma.visualstudio.com/BUMA%20-%20BSpace%202.0/_git/Frontend.Mobile.Shared
+      ref: v1.2.0-dev01
+
+dependency_overrides:
+    # * Only use local dependencies for development purposes
+  module_shared:
+    git:
+      url: https://buma.visualstudio.com/BUMA%20-%20BSpace%202.0/_git/Frontend.Mobile.Shared
+      ref: v1.2.0-dev01
+
+
+  #  module_shared:
+  #    git:
+  #      url: https://buma.visualstudio.com/BUMA%20-%20BSpace%202.0/_git/Frontend.Mobile.Shared
+  #      ref: v1.0.1-dev.21
+
+
+  # module_shared:
+  #   path: ../Frontend.Mobile.Shared
+  #  module_lineup:
+  #    path: ./Frontend.Mobile.Lineup
+
 
 dev_dependencies:
   flutter_test:

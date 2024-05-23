@@ -22,8 +22,8 @@ final imageNewsState =
 final newsState = StateProvider.autoDispose<NewsResponseRemote>(
     (ref) => NewsResponseRemote());
 
-final userProfileState = StateProvider.autoDispose<UserModel>(
-    (ref) => UserModel());
+final userProfileState = StateProvider.autoDispose<ProfileModel>(
+    (ref) => ProfileModel());
 
 @riverpod
 Future<DownloadAttachmentNewsRequestRemote?> getImage(GetImageRef ref) async {
@@ -41,7 +41,7 @@ class OverviewController extends _$OverviewController {
   NewsResponseRemote news = NewsResponseRemote();
   DownloadAttachmentNewsRequestRemote imageNews =
       DownloadAttachmentNewsRequestRemote();
-  UserModel userProfile = UserModel();
+  ProfileModel userProfile = ProfileModel();
   @override
   FutureOr<void> build() async {
     await getUserProfile();
@@ -50,8 +50,8 @@ class OverviewController extends _$OverviewController {
 
   Future<void> getUserProfile() async {
     final userModel = await ref.read(helperUserProvider).getUserProfile();
-    userProfile = userModel??UserModel();
-    ref.watch(userProfileState.notifier).state = userModel??UserModel();
+    userProfile = userModel??ProfileModel();
+    ref.watch(userProfileState.notifier).state = userModel??ProfileModel();
 
   }
 

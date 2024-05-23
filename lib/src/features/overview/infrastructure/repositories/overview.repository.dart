@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:isar/isar.dart';
+import 'package:module_etamkawa/src/configs/services/connect_etamkawa.dart';
 import 'package:module_etamkawa/src/features/overview/domain/download_attachment_request.remote.dart';
 import 'package:module_etamkawa/src/features/overview/domain/news_response.remote.dart';
 import 'package:module_shared/module_shared.dart';
@@ -15,6 +16,7 @@ part 'overview.repository.g.dart';
 @riverpod
 FutureOr<NewsResponseRemote> getNewsRemote(GetNewsRemoteRef ref) async {
   final connect = ref.read(connectProvider.notifier);
+  final connectEtamkawa = ref.read(connectEtamkawaProvider.notifier);
   // final response = {
   //   "attachId": 120,
   //   "title": "Tentang Kami",
@@ -43,8 +45,8 @@ FutureOr<NewsResponseRemote> getNewsRemote(GetNewsRemoteRef ref) async {
       if (result.attachmentUrl != null) {
         if ((value.value??[]).isEmpty || value.value?.first.attachmentPath == null ||
             value.value?.first.updatedDate != result.updatedDate) {
-          final responseImage = await connect.downloadImage(
-            url: result.attachmentUrl ?? '',
+          final responseImage = await connectEtamkawa.downloadImage(
+            url: result.attachmentUrl ?? ''
           );
           if (responseImage.statusCode == 200) {
             file = await asyncMethodSaveFile(responseImage.data);

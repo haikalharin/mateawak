@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
+import 'package:module_etamkawa/src/configs/services/connect_etamkawa.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/utils/common_utils.dart';
@@ -22,6 +23,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
 
   if (isConnectionAvailable) {
     final connect = ref.read(connectProvider.notifier);
+    final connectEtamkawa = ref.read(connectEtamkawaProvider.notifier);
     List<GamificationResponseRemote> listResponse = [];
     List<GamificationResponseRemote> listResponseFinal = [];
     List<GamificationResponseRemote> listResponseAfterMerge = [];
@@ -73,7 +75,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
       for (var element in listTask) {
         File file = File('');
         if (element.attachmentUrl != null) {
-          final response = connect.downloadImage(
+          final response = connectEtamkawa.downloadImage(
             url: element.attachmentUrl ?? '',
           );
           await AsyncValue.guard(() => response).then((value) async {

@@ -10,6 +10,7 @@ import 'package:module_etamkawa/src/features/mission_past/presentation/widget/ta
 import 'package:module_etamkawa/src/features/mission_past/presentation/widget/task_sinlgle_choice_past.screen.dart.dart';
 import 'package:module_shared/module_shared.dart';
 
+import '../../../../module_etamkawa.dart';
 import '../../../constants/constant.dart';
 import '../../../constants/image.constant.dart';
 import '../../../shared_component/async_value_widget.dart';

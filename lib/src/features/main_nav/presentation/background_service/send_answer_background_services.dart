@@ -11,6 +11,7 @@ import 'package:module_shared/module_shared.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../configs/services/connect_background_sevices.dart';
 import '../../../../constants/constant.dart';
 import '../../../mission/domain/gamification_response.remote.dart';
 
