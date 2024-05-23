@@ -15,7 +15,6 @@ dependencies:
   module_shared:
     path: ../Frontend.Mobile.Shared
 
-
   #  module_shared:
   #    git:
   #      url: https://buma.visualstudio.com/BUMA%20-%20BSpace%202.0/_git/Frontend.Mobile.Shared
@@ -70,7 +69,7 @@ dependencies:
   hive_flutter: ^1.1.0
   flutter_rating_bar: ^4.0.1
   image_picker: ^0.8.9
-  image_cropper: ^5.0.0
+  image_cropper: ^4.0.1
   file_picker: ^5.2.10
   dotted_border: ^2.1.0
   html: ^0.15.3
