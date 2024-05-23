@@ -166,7 +166,7 @@ class TaskController extends _$TaskController {
     }
     var taskAnswer = AnswerRequestRemote(
         employeeMissionId: gamification.employeeMissionId,
-        employeeName: userModel?.empName,
+        employeeName: userModel?.employeeName,
         submittedDate: today.substring(0, today.length - 6),
         status: gamification.missionStatusCode,
         taskData: listData);
@@ -579,7 +579,7 @@ class TaskController extends _$TaskController {
               var data = await sortDataListTask(listData);
               taskAnswer = AnswerRequestRemote(
                   employeeMissionId: dataGamification.employeeMissionId,
-                  employeeName: userModel?.empName,
+                  employeeName: userModel?.employeeName,
                   submittedDate: today.substring(0, today.length - 6),
                   status: 4,
                   taskData: data);

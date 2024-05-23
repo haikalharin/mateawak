@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:module_shared/module_shared.dart';
 
+import '../../module_etamkawa.dart';
+
 class UnderConstructionEtamKawaScreen extends StatelessWidget {
   const UnderConstructionEtamKawaScreen({super.key});
 

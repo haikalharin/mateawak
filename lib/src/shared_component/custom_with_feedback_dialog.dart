@@ -6,6 +6,8 @@ import 'package:module_etamkawa/src/shared_component/custom_dropdown.dart';
 import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
+import '../../module_etamkawa.dart';
+
 class CustomWithFeedbackDialog extends StatefulWidget {
   const CustomWithFeedbackDialog(
       {super.key,

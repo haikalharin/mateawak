@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:module_etamkawa/src/configs/theme/color.theme.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_assignment.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_file.screen.dart';
@@ -12,6 +13,7 @@ import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
+import '../../../../module_etamkawa.dart';
 import '../../../shared_component/async_value_widget.dart';
 import '../../../shared_component/shared_component_etamkawa.dart';
 import 'controller/task.controller.dart';
@@ -212,7 +214,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                           height: 24,
                                           width: double.infinity,
                                           decoration: BoxDecoration(
-                                            color: ColorTheme.bgGreenLight,
+                                            color: ColorThemeEtamkawa.bgGreenLight,
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(4.r)),
                                           ),

@@ -7,6 +7,8 @@ import 'package:module_etamkawa/src/constants/constant.dart';
 import 'package:module_shared/module_shared.dart';
 import 'package:ntp/ntp.dart';
 
+import '../../module_etamkawa.dart';
+
 class CommonUtils {
   static String formatThousandFromNumber(num number) {
     return NumberFormat.decimalPattern('vi_VN').format(number);

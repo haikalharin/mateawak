@@ -8,6 +8,8 @@ import 'package:module_etamkawa/src/features/mission_detail/presentation/mission
 import 'package:module_etamkawa/src/features/task/domain/result_submission_request.remote.dart';
 import 'package:module_shared/module_shared.dart';
 
+import '../../../../../module_etamkawa.dart';
+
 class RewardDialog extends StatelessWidget {
   const RewardDialog(
       {super.key,

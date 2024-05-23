@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:module_shared/module_shared.dart';
 
+import '../../module_etamkawa.dart';
 import '../constants/constant.dart';
 import '../constants/image.constant.dart';
 

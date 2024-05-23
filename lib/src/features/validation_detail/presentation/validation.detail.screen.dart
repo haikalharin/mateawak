@@ -14,6 +14,7 @@ import 'package:module_etamkawa/src/shared_component/custom_with_feedback_dialog
 import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
+import '../../../../module_etamkawa.dart';
 import '../../../shared_component/async_value_widget.dart';
 import '../../../shared_component/instruction_dialog.dart';
 import '../../../shared_component/shared_component_etamkawa.dart';

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
+import 'package:module_etamkawa/src/configs/services/connect_etamkawa.dart';
 import 'package:module_etamkawa/src/constants/function_utils.dart';
 import 'package:module_etamkawa/src/features/task/domain/result_submission_request.remote.dart';
 import 'package:module_etamkawa/src/features/validation/domain/validate_request.remote.dart';
@@ -25,6 +26,7 @@ FutureOr<List<ValidationResponseRemote>> getValidationRemote(
 
   if (isConnectionAvailable) {
     final connect = ref.read(connectProvider.notifier);
+    final connectEtamkawa = ref.read(connectEtamkawaProvider.notifier);
     List<ValidationResponseRemote> listResponse = [];
     List<ValidationResponseRemote> listResponseFinal = [];
     List<ValidationResponseRemote> listAfterInputImage = [];
@@ -93,7 +95,7 @@ FutureOr<List<ValidationResponseRemote>> getValidationRemote(
         File fileAnswer = File('');
         if (element.attachmentPath == null) {
           if (element.attachmentUrl != null) {
-            final response = await connect.downloadImage(
+            final response = await connectEtamkawa.downloadImage(
               url: element.attachmentUrl ?? '',
             );
             response.data;
@@ -106,7 +108,7 @@ FutureOr<List<ValidationResponseRemote>> getValidationRemote(
         }
         if (element.answerAttachmentPath == null) {
           if (element.answerAttachmentUrl != null) {
-            final response = await connect.downloadImage(
+            final response = await connectEtamkawa.downloadImage(
               url: element.answerAttachmentUrl ?? '',
             );
             response.data;

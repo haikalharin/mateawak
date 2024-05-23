@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:module_etamkawa/src/configs/theme/color.theme.dart';
 import 'package:module_etamkawa/src/constants/constant.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/reward_dialog.dart';
 import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
@@ -16,6 +17,7 @@ import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
 import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
+import '../../../../../module_etamkawa.dart';
 import '../../../../shared_component/instruction_dialog.dart';
 import '../../../main_nav/presentation/controller/main_nav.controller.dart';
 import '../../../mission/domain/gamification_response.remote.dart';
@@ -362,7 +364,7 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                       dashPattern: const [10, 6],
                                       child: Container(
                                           height: 150,
-                                          color: ColorTheme.bgGreenLight,
+                                          color: ColorThemeEtamkawa.bgGreenLight,
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,

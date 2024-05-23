@@ -70,6 +70,8 @@ class ColorThemeEtamkawa {
 
   static Color bgDark = '#121212'.toColor();
   static Color bgGreenLight = '#D1EFDB'.toColor();
+  static Color divider = '#DFE3E8'.toColor();
+
 }
 
 extension ColorExtension on String {

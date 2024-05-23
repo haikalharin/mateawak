@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:module_etamkawa/src/configs/theme/color.theme.dart';
 import 'package:module_shared/module_shared.dart';
 
 class InstructionDialog extends StatelessWidget {
@@ -58,7 +59,7 @@ class InstructionDialog extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             child: Column(
               children: <Widget>[
-                Divider(color: ColorTheme.divider),
+                Divider(color: ColorThemeEtamkawa.divider),
                 SizedBox(height: 16.h),
                 SharedComponent.label(
                   text: content,
@@ -75,7 +76,7 @@ class InstructionDialog extends StatelessWidget {
         ],
       ),
       actions: <Widget>[
-        Divider(color: ColorTheme.divider,),
+        Divider(color: ColorThemeEtamkawa.divider,),
         SizedBox(height: 8.h),
         Container(
           width: MediaQuery.of(context).size.width,
