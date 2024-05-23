@@ -13,9 +13,8 @@ dependencies:
 
 
   module_shared:
-    git:
-      url: https://buma.visualstudio.com/BUMA%20-%20BSpace%202.0/_git/Frontend.Mobile.Shared
-      ref: v1.2.0-dev01
+    path: ../Frontend.Mobile.Shared
+
 
   #  module_shared:
   #    git:
