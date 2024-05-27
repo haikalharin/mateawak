@@ -210,6 +210,7 @@ class TaskController extends _$TaskController {
                   'Reward Response from notifier = ${resultSubmissionNotifier.state.competencyName} ${resultSubmissionNotifier.state.accuracy} ${resultSubmissionNotifier.state.rewardGained}');
               await deleteAnswer(listTaskAnswer);
             } else {
+              if(apiResponse.result?.message == 'Already Submitted')
               isSuccess = false;
               Navigator.of(globalkey.currentContext!).pop();
               Navigator.of(globalkey.currentContext!).pop();
