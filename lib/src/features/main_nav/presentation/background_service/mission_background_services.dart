@@ -128,10 +128,11 @@ Future<bool> submitAnswerBg(
             TaskDatumAnswer taskDatumAnswer = elementAnswer;
             if (taskDatumAnswer.attachment != '' &&
                 taskDatumAnswer.attachment != null) {
+              String group = "${element.attachmentName}${generateRandomString(8)}";
               final map = FormData.fromMap({
                 "File":
                     await MultipartFile.fromFile(taskDatumAnswer.attachment!),
-                "Group": taskDatumAnswer.taskGroup,
+                "Group": group,
               });
 
               final response = ConnectBackgroundService().post(
