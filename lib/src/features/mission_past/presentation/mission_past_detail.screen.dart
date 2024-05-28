@@ -247,7 +247,7 @@ class _MissionPastDetailScreenState
                                         children: [
                                           SizedBox(height: 10.h),
                                           SvgPicture.asset(
-                                              ImageConstant.iconReward,
+                                              ImageConstant.iconAccuracy,
                                               width: 16.sp,
                                               height: 20.sp,
                                               package: Constant.moduleEtamkawa),
@@ -255,7 +255,7 @@ class _MissionPastDetailScreenState
                                             height: 6,
                                           ),
                                           Text(
-                                            EtamKawaTranslate.rewards,
+                                            EtamKawaTranslate.successRate,
                                             style:
                                                 SharedComponent.textStyleCustom(
                                                     typographyType:
@@ -264,7 +264,7 @@ class _MissionPastDetailScreenState
                                                         ColorTheme.neutral600),
                                           ),
                                           Text(
-                                            '${(gamification.chapterData?.single.missionData?.single.missionReward ?? 0).toString()} total',
+                                            '${(gamification.accuracy ?? 0).toString()}%',
                                             style:
                                                 SharedComponent.textStyleCustom(
                                                     typographyType:

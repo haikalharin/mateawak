@@ -88,8 +88,13 @@ const MissionPastResponseRemoteSchema = CollectionSchema(
       name: r'submittedDate',
       type: IsarType.string,
     ),
-    r'validatorId': PropertySchema(
+    r'totalReward': PropertySchema(
       id: 14,
+      name: r'totalReward',
+      type: IsarType.long,
+    ),
+    r'validatorId': PropertySchema(
+      id: 15,
       name: r'validatorId',
       type: IsarType.long,
     )
@@ -197,7 +202,8 @@ void _missionPastResponseRemoteSerialize(
   writer.writeString(offsets[11], object.startedDate);
   writer.writeString(offsets[12], object.submittedBy);
   writer.writeString(offsets[13], object.submittedDate);
-  writer.writeLong(offsets[14], object.validatorId);
+  writer.writeLong(offsets[14], object.totalReward);
+  writer.writeLong(offsets[15], object.validatorId);
 }
 
 MissionPastResponseRemote _missionPastResponseRemoteDeserialize(
@@ -222,7 +228,8 @@ MissionPastResponseRemote _missionPastResponseRemoteDeserialize(
     startedDate: reader.readStringOrNull(offsets[11]),
     submittedBy: reader.readStringOrNull(offsets[12]),
     submittedDate: reader.readStringOrNull(offsets[13]),
-    validatorId: reader.readLongOrNull(offsets[14]),
+    totalReward: reader.readLongOrNull(offsets[14]),
+    validatorId: reader.readLongOrNull(offsets[15]),
   );
   return object;
 }
@@ -263,6 +270,8 @@ P _missionPastResponseRemoteDeserializeProp<P>(
     case 13:
       return (reader.readStringOrNull(offset)) as P;
     case 14:
+      return (reader.readLongOrNull(offset)) as P;
+    case 15:
       return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -2305,6 +2314,80 @@ extension MissionPastResponseRemoteQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<MissionPastResponseRemote, MissionPastResponseRemote,
+      QAfterFilterCondition> totalRewardIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'totalReward',
+      ));
+    });
+  }
+
+  QueryBuilder<MissionPastResponseRemote, MissionPastResponseRemote,
+      QAfterFilterCondition> totalRewardIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'totalReward',
+      ));
+    });
+  }
+
+  QueryBuilder<MissionPastResponseRemote, MissionPastResponseRemote,
+      QAfterFilterCondition> totalRewardEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'totalReward',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MissionPastResponseRemote, MissionPastResponseRemote,
+      QAfterFilterCondition> totalRewardGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'totalReward',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MissionPastResponseRemote, MissionPastResponseRemote,
+      QAfterFilterCondition> totalRewardLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'totalReward',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MissionPastResponseRemote, MissionPastResponseRemote,
+      QAfterFilterCondition> totalRewardBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'totalReward',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<MissionPastResponseRemote, MissionPastResponseRemote,
       QAfterFilterCondition> validatorIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -2584,6 +2667,20 @@ extension MissionPastResponseRemoteQuerySortBy on QueryBuilder<
   }
 
   QueryBuilder<MissionPastResponseRemote, MissionPastResponseRemote,
+      QAfterSortBy> sortByTotalReward() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalReward', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MissionPastResponseRemote, MissionPastResponseRemote,
+      QAfterSortBy> sortByTotalRewardDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalReward', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MissionPastResponseRemote, MissionPastResponseRemote,
       QAfterSortBy> sortByValidatorId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'validatorId', Sort.asc);
@@ -2811,6 +2908,20 @@ extension MissionPastResponseRemoteQuerySortThenBy on QueryBuilder<
   }
 
   QueryBuilder<MissionPastResponseRemote, MissionPastResponseRemote,
+      QAfterSortBy> thenByTotalReward() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalReward', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MissionPastResponseRemote, MissionPastResponseRemote,
+      QAfterSortBy> thenByTotalRewardDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalReward', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MissionPastResponseRemote, MissionPastResponseRemote,
       QAfterSortBy> thenByValidatorId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'validatorId', Sort.asc);
@@ -2930,6 +3041,13 @@ extension MissionPastResponseRemoteQueryWhereDistinct on QueryBuilder<
   }
 
   QueryBuilder<MissionPastResponseRemote, MissionPastResponseRemote, QDistinct>
+      distinctByTotalReward() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'totalReward');
+    });
+  }
+
+  QueryBuilder<MissionPastResponseRemote, MissionPastResponseRemote, QDistinct>
       distinctByValidatorId() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'validatorId');
@@ -3041,6 +3159,13 @@ extension MissionPastResponseRemoteQueryProperty on QueryBuilder<
       submittedDateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'submittedDate');
+    });
+  }
+
+  QueryBuilder<MissionPastResponseRemote, int?, QQueryOperations>
+      totalRewardProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'totalReward');
     });
   }
 

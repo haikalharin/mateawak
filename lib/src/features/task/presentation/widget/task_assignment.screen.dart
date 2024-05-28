@@ -361,7 +361,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                           dashPattern: const [10, 6],
                                           child: Container(
                                               height: 150,
-                                              color: ColorThemeEtamkawa.bgGreenLight,
+                                              color: ColorThemeEtamkawa
+                                                  .bgGreenLight,
                                               child: Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,
@@ -413,7 +414,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                                     .width /
                                                                 1.5,
                                                             child: Text(
-                                                              "Allowed files ${EtamKawaUploadConstant.fileTypeTextImage}",
+                                                              "Allowed files ${Platform.isIOS ? EtamKawaUploadConstant.fileTypeTextImage : EtamKawaUploadConstant.fileTypeTextImageAndroid}",
                                                               style: Theme.of(
                                                                       context)
                                                                   .textTheme
@@ -1106,7 +1107,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
       final filePath = platformFile.path;
       final fileExtension = platformFile.extension;
 
-      if (EtamKawaUploadConstant.fileTypeImage.contains(fileExtension?.toLowerCase())) {
+      if (EtamKawaUploadConstant.fileTypeImage
+          .contains(fileExtension?.toLowerCase())) {
         debugPrint('accepted format');
 
         // Resize the image
@@ -1164,7 +1166,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
           context: globalkey.currentContext!,
           title: 'Tipe file tidak sesuai!',
           subTitle:
-              'Hanya diperbolehkan untuk upload file tipe: .heif, .jpg, .jpeg, .png',
+              'Hanya diperbolehkan untuk upload file tipe: ${Platform.isIOS ? '.heif, ' : ''}.jpg, .jpeg, .png',
           btntitleright: 'Ok',
           onpressright: () {
             Navigator.of(globalkey.currentContext!).pop();
@@ -1183,7 +1185,9 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
   }) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: EtamKawaUploadConstant.fileTypeImage,
+      allowedExtensions: Platform.isIOS
+          ? EtamKawaUploadConstant.fileTypeImage
+          : EtamKawaUploadConstant.fileTypeImageAndroid,
       allowCompression: true,
     );
 
@@ -1193,7 +1197,8 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
       final filePath = platformFile.path;
       final fileExtension = platformFile.extension;
 
-      if (EtamKawaUploadConstant.fileTypeImage.contains(fileExtension?.toLowerCase())) {
+      if (EtamKawaUploadConstant.fileTypeImage
+          .contains(fileExtension?.toLowerCase())) {
         debugPrint('accepted format');
 
         // Resize the image
@@ -1251,7 +1256,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
           context: globalkey.currentContext!,
           title: 'Tipe file tidak sesuai!',
           subTitle:
-              'Hanya diperbolehkan untuk upload file tipe: .heif, .jpg, .jpeg, .png',
+              'Hanya diperbolehkan untuk upload file tipe: ${Platform.isIOS ? '.heif, ' : ''}.jpg, .jpeg, .png',
           btntitleright: 'Ok',
           onpressright: () {
             Navigator.of(globalkey.currentContext!).pop();

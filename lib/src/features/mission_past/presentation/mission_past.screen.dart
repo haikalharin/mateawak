@@ -218,7 +218,7 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
                                   padding:
                                       const EdgeInsets.fromLTRB(3, 0, 0, 0),
                                   child: Text(
-                                      '${missionPast[index].missionReward.toString()} ${EtamKawaTranslate.pts}',
+                                      '${missionPast[index].missionReward.toString()}/${missionPast[index].totalReward.toString()} ${EtamKawaTranslate.pts}',
                                       style: SharedComponent.textStyleCustom(
                                           typographyType:
                                               TypographyType.paragraph,

@@ -196,6 +196,8 @@ class EtamKawaTranslate {
 
   static String get yourAnswerIs => '$_initial-yourAnswerIs'.tr();
 
+  static String get successRate => '$_initial-successRate'.tr();
+
   static String get alreadySubmitted => '$_initial-alreadySubmitted'.tr();
 
   static String get alreadyValidated => '$_initial-alreadyValidated'.tr();
@@ -294,6 +296,7 @@ class EtamKawaTranslate {
     search: 'Search',
     availableSoon: 'Sorry this feature will be available soon for tab Past',
     yourAnswerIs: 'Your answer is rated as',
+    successRate: 'Success rate',
     alreadySubmitted:
         'This mission has already been submitted and cannot be submitted again.',
     alreadyValidated:
@@ -394,6 +397,8 @@ class EtamKawaTranslate {
     search: 'Cari',
     availableSoon: 'Maaf fitur ini akan segera tersedia untuk tab Riwayat',
     yourAnswerIs: 'jawaban kamu bernilai',
+    successRate: 'Tingkat keberhasilan',
+    };
     alreadySubmitted:
         'Misi ini telah dikirimkan dan tidak dapat dikirimkan lagi.',
     alreadyValidated:
