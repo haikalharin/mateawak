@@ -3,109 +3,204 @@ import 'package:easy_localization/easy_localization.dart';
 class EtamKawaTranslate {
   static const _initial = 'etamkawa';
 
-  static String get yourAnswerIsRatedAs=> '$_initial-yourAnswerIsRatedAs'.tr();
+  static String get yourAnswerIsRatedAs => '$_initial-yourAnswerIsRatedAs'.tr();
+
   static String get notYetRated => '$_initial-notYetRated'.tr();
+
   static String get question => '$_initial-question'.tr();
+
   static String get of => '$_initial-of'.tr();
+
   static String get accuracy => '$_initial-accuracy'.tr();
+
   static String get lastSync => '$_initial-lastSync'.tr();
+
   static String get bulletin => '$_initial-bulletin'.tr();
+
   static String get growth => '$_initial-growth'.tr();
+
   static String get mission => '$_initial-mission'.tr();
+
   static String get missionList => '$_initial-missionList'.tr();
+
   static String get missionDetail => '$_initial-missionDetail'.tr();
+
   static String get validation => '$_initial-validation'.tr();
+
   static String get myCard => '$_initial-myCard'.tr();
+
   static String get pageArentReady => '$_initial-pageArentReady'.tr();
+
   static String get comeBackLater => '$_initial-comeBackLater'.tr();
+
   static String get assigned => '$_initial-assigned'.tr();
+
   static String get inProgress => '$_initial-inProgress'.tr();
+
   static String get underReview => '$_initial-underReview'.tr();
+
   static String get incomplete => '$_initial-incomplete'.tr();
+
   static String get validated => '$_initial-validated'.tr();
+
   static String get validate => '$_initial-validate'.tr();
+
   static String get validationList => '$_initial-validationList'.tr();
+
   static String get validationDetail => '$_initial-validationDetail'.tr();
+
   static String get start => '$_initial-start'.tr();
+
   static String get missionLateToFinish => '$_initial-missionLateToFinish'.tr();
+
   static String get pts => '$_initial-pts'.tr();
+
   static String get completed => '$_initial-completed'.tr();
+
   static String get complete => '$_initial-complete'.tr();
+
   static String get rewards => '$_initial-rewards'.tr();
+
   static String get task => '$_initial-task'.tr();
+
   static String get duration => '$_initial-duration'.tr();
+
   static String get days => '$_initial-days'.tr();
+
   static String get submittedAt => '$_initial-submittedAt'.tr();
+
   static String get submitted => '$_initial-submitted'.tr();
+
   static String get pleaseUploadYourEvidence =>
       '$_initial-pleaseUploadYourEvidence'.tr();
+
   static String get pleaseWriteAndFillYourAnswer =>
       '$_initial-pleaseWriteAndFillYourAnswer'.tr();
+
   static String get allEntriesLoaded => '$_initial-allEntriesLoaded'.tr();
+
   static String get noData => '$_initial-noData'.tr();
+
   static String get missionValidation => '$_initial-missionValidation'.tr();
+
   static String get giveAScore => '$_initial-giveAScore'.tr();
+
   static String get feedback => '$_initial-feedback'.tr();
+
   static String get needImprovement => '$_initial-needImprovement'.tr();
+
   static String get fair => '$_initial-fair'.tr();
+
   static String get good => '$_initial-good'.tr();
+
   static String get excelent => '$_initial-excelent'.tr();
+
   static String get hooray => '$_initial-hooray'.tr();
+
   static String get feedbackSuccessfullySubmitted =>
       '$_initial-feedbackSuccessfullySubmitted'.tr();
+
   static String get willReceiveFeedbackShortly =>
       '$_initial-willReceiveFeedbackShortly'.tr();
+
   static String get past => '$_initial-past'.tr();
+
   static String get view => '$_initial-view'.tr();
-  static String get youJustEarnOneCompetency => '$_initial-youJustEarnOneCompetency'.tr();
+
+  static String get youJustEarnOneCompetency =>
+      '$_initial-youJustEarnOneCompetency'.tr();
+
   static String get focusBehaviour => '$_initial-focusBehaviour'.tr();
+
   static String get overallProgress => '$_initial-overallProgress'.tr();
+
   static String get chapterGoals => '$_initial-chapterGoals'.tr();
+
   static String get yes => '$_initial-yes'.tr();
+
   static String get no => '$_initial-no'.tr();
+
   static String get next => '$_initial-next'.tr();
+
   static String get finish => '$_initial-finish'.tr();
+
   static String get previous => '$_initial-previous'.tr();
+
   static String get cancel => '$_initial-cancel'.tr();
+
   static String get leave => '$_initial-leave'.tr();
+
   static String get score => '$_initial-score'.tr();
+
   static String get pleaseSelectAnOption =>
       '$_initial-pleaseSelectAnOption'.tr();
+
   static String get chooseAScore => '$_initial-chooseAScore'.tr();
+
   static String get areYouSureWantToLeave =>
       '$_initial-areYouSureWantToLeave'.tr();
+
   static String get writeYourAnswer => '$_initial-writeYourAnswer'.tr();
+
   static String get answerDetails => '$_initial-answerDetails'.tr();
+
   static String get due => '$_initial-due'.tr();
+
   static String get yourAnswerIsCorrect => '$_initial-yourAnswerIsCorrect'.tr();
+
   static String get yourAnswerIsInCorrect =>
       '$_initial-yourAnswerIsInCorrect'.tr();
+
   static String get yourMissionHasBeenCompleted =>
       '$_initial-yourMissionHasBeenCompleted'.tr();
+
   static String get backToMissionList => '$_initial-backToMissionList'.tr();
+
   static String get answerAssignment => '$_initial-answerAssignment'.tr();
+
   static String get answerHistory => '$_initial-answerHistory'.tr();
+
   static String get confirmation => '$_initial-confirmation'.tr();
+
   static String get submit => '$_initial-submit'.tr();
+
   static String get areYouSureSubmitAnswer =>
       '$_initial-areYouSureSubmitAnswer'.tr();
+
   static String get areYouSureSubmitAssignment =>
       '$_initial-areYouSureSubmitAssignment'.tr();
+
   static String get stay => '$_initial-stay'.tr();
+
   static String get progressSuccessfullySaved =>
       '$_initial-progressSuccessfullySaved'.tr();
+
   static String get evidence => '$_initial-evidence'.tr();
+
   static String get yourMissionHasBeenSubmitted =>
       '$_initial-yourMissionHasBeenSubmitted'.tr();
+
   static String get pleaseEnsure => '$_initial-pleaseEnsure'.tr();
+
   static String get dropYourFile => '$_initial-dropYourFile'.tr();
+
   static String get validatedAt => '$_initial-validatedAt'.tr();
+
   static String get beforeYouStart => '$_initial-beforeYouStart'.tr();
+
   static String get instructions => '$_initial-instructuons'.tr();
+
   static String get search => '$_initial-search'.tr();
+
   static String get availableSoon => '$_initial-availableSoon'.tr();
+
   static String get yourAnswerIs => '$_initial-yourAnswerIs'.tr();
+
   static String get successRate => '$_initial-successRate'.tr();
+
+  static String get alreadySubmitted => '$_initial-alreadySubmitted'.tr();
+
+  static String get alreadyValidated => '$_initial-alreadyValidated'.tr();
   static Map<String, String> translateEn = {
     yourAnswerIsRatedAs: 'our answer is rated as',
     notYetRated: 'Not yet rated',
@@ -202,7 +297,10 @@ class EtamKawaTranslate {
     availableSoon: 'Sorry this feature will be available soon for tab Past',
     yourAnswerIs: 'Your answer is rated as',
     successRate: 'Success rate',
-    
+    alreadySubmitted:
+        'This mission has already been submitted and cannot be submitted again.',
+    alreadyValidated:
+        'This mission has already been validated and cannot be validated again.',
   };
   static Map<String, String> translateId = {
     yourAnswerIsRatedAs: 'Jawabanmu diberi penilaian',
@@ -218,7 +316,8 @@ class EtamKawaTranslate {
     missionDetail: 'Misi',
     validation: 'Validasi',
     myCard: 'Rapor',
-    youJustEarnOneCompetency: 'Selamat! Kamu telah berhasil mendapatkan satu Fokus Perilaku!',
+    youJustEarnOneCompetency:
+        'Selamat! Kamu telah berhasil mendapatkan satu Fokus Perilaku!',
     pageArentReady: "Halaman ini belum siap",
     comeBackLater: 'Kami sedang melakukan tahap pengerjaan',
     assigned: 'Ditugaskan',
@@ -294,10 +393,15 @@ class EtamKawaTranslate {
     pleaseEnsure: 'Pastikan format berkas anda telah sesuai.',
     dropYourFile: 'Letakkan file Anda di sini atau klik untuk mengunggah',
     beforeYouStart: 'Sebelum dimulai',
-    instructions: 'Instruksi', 
+    instructions: 'Instruksi',
     search: 'Cari',
     availableSoon: 'Maaf fitur ini akan segera tersedia untuk tab Riwayat',
     yourAnswerIs: 'jawaban kamu bernilai',
     successRate: 'Tingkat keberhasilan',
+    alreadySubmitted:
+    'Misi ini telah dikirimkan dan tidak dapat dikirimkan lagi.',
+    alreadyValidated:
+    'Misi ini telah divalidasi dan tidak dapat divalidasi lagi.',
     };
+
 }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
@@ -8,6 +10,7 @@ import 'package:module_etamkawa/src/features/task/domain/result_submission_reque
 import 'package:module_shared/module_shared.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../utils/common_utils.dart';
 import '../../offline_mode/infrastructure/repositories/isar.repository.dart';
 import '../domain/task_datum_answer_request.remote.dart';
 
@@ -128,11 +131,13 @@ Future<Map<String, dynamic>> submitMission(SubmitMissionRef ref,
   final userModel = await ref.read(helperUserProvider).getUserProfile();
   final connect = ref.read(connectProvider.notifier);
   final isarInstance = await ref.watch(isarInstanceProvider.future);
+
   await Future.forEach(answerRequestRemote.taskData!, (element) async {
     if (element.attachment != '' && element.attachment != null) {
+      String group = "${element.attachmentName}${generateRandomString(8)}";
       final map = FormData.fromMap({
         "File": await MultipartFile.fromFile(element.attachment!),
-        "Group": element.taskGroup,
+        "Group": group,
       });
 
       final response = connect.post(

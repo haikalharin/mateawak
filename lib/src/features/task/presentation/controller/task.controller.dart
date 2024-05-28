@@ -12,6 +12,7 @@ import 'package:module_etamkawa/src/features/task/infrastructure/task_local.repo
 import 'package:module_shared/module_shared.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../../module_etamkawa.dart';
 import '../../../../constants/function_utils.dart';
 import '../../../../shared_component/connection_listener_widget.dart';
 import '../../../../utils/common_utils.dart';
@@ -213,18 +214,52 @@ class TaskController extends _$TaskController {
               isSuccess = false;
               Navigator.of(globalkey.currentContext!).pop();
               Navigator.of(globalkey.currentContext!).pop();
-              SharedComponent.dialogPopUp(
-                type: 'info',
-                context: globalkey.currentContext!,
-                title: 'Oops!',
-                subTitle: 'Submit Failed',
-                btntitleright: 'Ok',
-                onpressright: () {
-                  Navigator.of(globalkey.currentContext!).pop();
-                  Navigator.of(globalkey.currentContext!).pop();
-                  Navigator.of(globalkey.currentContext!).pop();
-                },
-              );
+              if (apiResponse.result?.message?.toLowerCase() == 'already submitted') {
+                SharedComponent.dialogPopUp(
+                  type: 'info',
+                  context: globalkey.currentContext!,
+                  title: 'Oops!',
+                  subTitle: EtamKawaTranslate.alreadySubmitted,
+                  btntitleright: 'Ok',
+                  onpressright: () async {
+                    await isarInstance.writeTxn(() async {
+                      showLoadingDialog(globalkey.currentContext!);
+                      await isarInstance.answerRequestRemotes
+                          .filter()
+                          .employeeMissionIdEqualTo(
+                          result.employeeMissionId)
+                          .deleteAll()
+                          .whenComplete(() async {
+                        await isarInstance.gamificationResponseRemotes
+                            .filter()
+                            .employeeMissionIdEqualTo(
+                            result.employeeMissionId)
+                            .deleteAll();
+                      });
+                    }).whenComplete(() {
+                      hideLoadingDialog(
+                          globalkey.currentContext!);
+                      Navigator.of(globalkey.currentContext!).pop();
+                      Navigator.of(globalkey.currentContext!).pop();
+                      Navigator.of(globalkey.currentContext!).pop();
+                    });
+                  },
+                );
+              } else {
+                SharedComponent.dialogPopUp(
+                  type: 'info',
+                  context: globalkey.currentContext!,
+                  title: 'Oops!',
+                  subTitle: 'Submit Failed',
+                  btntitleright: 'Ok',
+                  onpressright: () {
+
+                    Navigator.of(globalkey.currentContext!).pop();
+                    Navigator.of(globalkey.currentContext!).pop();
+                    Navigator.of(globalkey.currentContext!).pop();
+                  },
+                );
+              }
             }
           } else {
             isSuccess = false;

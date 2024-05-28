@@ -1,4 +1,5 @@
-import 'dart:developer';
+import 'dart:developer' as dev;
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -174,7 +175,7 @@ class CommonUtils {
     await NTP.now().onError((error, stackTrace) => DateTime.now());
     final timeNowUtc = ntpNow.toUtc();
     final timeWita = timeNowUtc.add(const Duration(hours: 8));
-    log('WITA is at $timeWita');
+    dev.log('WITA is at $timeWita');
     return timeWita;
   }
 
@@ -339,4 +340,10 @@ void showLoadingDialog(BuildContext context) {
 // Function to hide the loading dialog
 void hideLoadingDialog(BuildContext context) {
   Navigator.of(context).pop();
+}
+
+String generateRandomString(int len) {
+  var r = Random();
+  const chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  return List.generate(len, (index) => chars[r.nextInt(chars.length)]).join();
 }
