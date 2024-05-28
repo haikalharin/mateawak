@@ -12,6 +12,7 @@ import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../../module_etamkawa.dart';
 import '../../../../constants/constant.dart';
 import '../../../../shared_component/connection_listener_widget.dart';
 import '../../../offline_mode/infrastructure/repositories/isar.repository.dart';
@@ -216,6 +217,7 @@ FutureOr<List<ValidationResponseRemote>> getValidationLocal(
 @riverpod
 Future<ResultSubmissionRequestRemote> submitValidation(SubmitValidationRef ref,
     {required ValidateRequestRemote validationRequestRemote}) async {
+  final isarInstance = await ref.watch(isarInstanceProvider.future);
   final userModel = await ref.read(helperUserProvider).getUserProfile();
   final connect = ref.read(connectProvider.notifier);
   final response = await connect.post(
@@ -225,13 +227,54 @@ Future<ResultSubmissionRequestRemote> submitValidation(SubmitValidationRef ref,
       body: validationRequestRemote.toJson());
 
   if (response.statusCode == 200) {
-    final isarInstance = await ref.watch(isarInstanceProvider.future);
     await isarInstance.writeTxn(() async {
       await isarInstance.validationResponseRemotes
           .filter()
           .employeeMissionIdEqualTo(validationRequestRemote.employeeMissionId)
           .deleteAll();
     });
+  }else {
+    Navigator.of(globalkey.currentContext!).pop();
+    Navigator.of(globalkey.currentContext!).pop();
+    if (response.result?.message?.toLowerCase() == 'already validated') {
+      SharedComponent.dialogPopUp(
+        type: 'info',
+        context: globalkey.currentContext!,
+        title: 'Oops!',
+        subTitle: EtamKawaTranslate.alreadyValidated,
+        btntitleright: 'Ok',
+        onpressright: () async {
+          await isarInstance.writeTxn(() async {
+            showLoadingDialog(globalkey.currentContext!);
+            await isarInstance.validationResponseRemotes
+                .filter()
+                .employeeMissionIdEqualTo(
+                validationRequestRemote.employeeMissionId)
+                .deleteAll();
+          }).whenComplete(() {
+            hideLoadingDialog(
+                globalkey.currentContext!);
+            Navigator.of(globalkey.currentContext!).pop();
+            Navigator.of(globalkey.currentContext!).pop();
+            Navigator.of(globalkey.currentContext!).pop();
+          });
+        },
+      );
+    } else {
+      SharedComponent.dialogPopUp(
+        type: 'info',
+        context: globalkey.currentContext!,
+        title: 'Oops!',
+        subTitle: 'validate Failed',
+        btntitleright: 'Ok',
+        onpressright: () {
+
+          Navigator.of(globalkey.currentContext!).pop();
+          Navigator.of(globalkey.currentContext!).pop();
+          Navigator.of(globalkey.currentContext!).pop();
+        },
+      );
+    }
   }
   ResultSubmissionRequestRemote result =
       ResultSubmissionRequestRemote.fromJson(response.result?.content);
@@ -285,6 +328,13 @@ Future<bool> submitValidationBg(SubmitValidationBgRef ref) async {
                     .filter()
                     .employeeMissionIdEqualTo(
                         validationRequest.employeeMissionId)
+                    .deleteAll();
+              });
+            } else  if (value.value?.result?.message?.toLowerCase() == 'already validated') {
+              await isarInstance.writeTxn(() async {
+                await isarInstance.validationResponseRemotes
+                    .filter()
+                    .employeeMissionIdEqualTo(validationRequestRemote.employeeMissionId)
                     .deleteAll();
               });
             }
