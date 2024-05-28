@@ -105,6 +105,7 @@ class EtamKawaTranslate {
   static String get search => '$_initial-search'.tr();
   static String get availableSoon => '$_initial-availableSoon'.tr();
   static String get yourAnswerIs => '$_initial-yourAnswerIs'.tr();
+  static String get successRate => '$_initial-successRate'.tr();
   static Map<String, String> translateEn = {
     yourAnswerIsRatedAs: 'our answer is rated as',
     notYetRated: 'Not yet rated',
@@ -200,6 +201,8 @@ class EtamKawaTranslate {
     search: 'Search',
     availableSoon: 'Sorry this feature will be available soon for tab Past',
     yourAnswerIs: 'Your answer is rated as',
+    successRate: 'Success rate',
+    
   };
   static Map<String, String> translateId = {
     yourAnswerIsRatedAs: 'Jawabanmu diberi penilaian',
@@ -295,5 +298,6 @@ class EtamKawaTranslate {
     search: 'Cari',
     availableSoon: 'Maaf fitur ini akan segera tersedia untuk tab Riwayat',
     yourAnswerIs: 'jawaban kamu bernilai',
+    successRate: 'Tingkat keberhasilan',
     };
 }

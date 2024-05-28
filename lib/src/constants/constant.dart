@@ -246,6 +246,8 @@ class EtamKawaUploadConstant {
   static const int maxSizeDefault = 2;
   static const List<String> fileTypeDefault = ['doc', 'jpg', 'jpeg', 'heic', 'png', 'gif', 'pdf'];
   static const String fileTypeTextDefault = '.jpg, .jpeg, .png, .heif, .pdf, .doc,';
-  static const List<String> fileTypeImage = ['jpg', 'jpeg', 'png','heic','heif'];
+  static const List<String> fileTypeImage = ['jpg', 'jpeg', 'png','heic','heif', 'HEIF', 'HEIC', 'JPG', 'JPEG', 'PNG'];
+  static const List<String> fileTypeImageAndroid = ['jpg', 'jpeg', 'png', 'JPG', 'JPEG', 'PNG'];
   static const String fileTypeTextImage = '.heif, .jpg, .jpeg, .png';
+  static const String fileTypeTextImageAndroid = '.jpg, .jpeg, .png';
 }

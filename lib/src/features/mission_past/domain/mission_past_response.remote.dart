@@ -32,6 +32,7 @@ class MissionPastResponseRemote {
     String? completedBy;
     String? completedDate;
     int? missionReward;
+    int? totalReward;
 
     MissionPastResponseRemote({
         this.employeeMissionId,
@@ -50,6 +51,7 @@ class MissionPastResponseRemote {
         this.completedBy,
         this.completedDate,
         this.missionReward,
+        this.totalReward,
     });
 
     MissionPastResponseRemote copyWith({
@@ -69,6 +71,7 @@ class MissionPastResponseRemote {
         String? completedBy,
         String? completedDate,
         int? missionReward,
+        int? totalReward
     }) => 
         MissionPastResponseRemote(
             employeeMissionId: employeeMissionId ?? this.employeeMissionId,
@@ -87,6 +90,7 @@ class MissionPastResponseRemote {
             completedBy: completedBy ?? this.completedBy,
             completedDate: completedDate ?? this.completedDate,
             missionReward: missionReward ?? this.missionReward,
+            totalReward: totalReward ?? this.totalReward,
         );
 
 
@@ -108,6 +112,7 @@ class MissionPastResponseRemote {
         completedBy: json["completedBy"],
         completedDate: json["completedDate"],
         missionReward: json["missionReward"],
+        totalReward: json["totalReward"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -127,5 +132,6 @@ class MissionPastResponseRemote {
         "completedBy": completedBy,
         "completedDate": completedDate,
         "missionReward": missionReward,
+        "totalReward": totalReward,
   };
 }

@@ -18,64 +18,69 @@ const GamificationResponseRemoteSchema = CollectionSchema(
   name: r'GamificationResponseRemote',
   id: -7235016258457041350,
   properties: {
-    r'chapterData': PropertySchema(
+    r'accuracy': PropertySchema(
       id: 0,
+      name: r'accuracy',
+      type: IsarType.long,
+    ),
+    r'chapterData': PropertySchema(
+      id: 1,
       name: r'chapterData',
       type: IsarType.objectList,
       target: r'ChapterDatum',
     ),
     r'completedBy': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'completedBy',
       type: IsarType.string,
     ),
     r'completedDate': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'completedDate',
       type: IsarType.string,
     ),
     r'dueDate': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'dueDate',
       type: IsarType.string,
     ),
     r'employeeId': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'employeeId',
       type: IsarType.long,
     ),
     r'missionId': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'missionId',
       type: IsarType.long,
     ),
     r'missionStatus': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'missionStatus',
       type: IsarType.string,
     ),
     r'missionStatusCode': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'missionStatusCode',
       type: IsarType.long,
     ),
     r'startedDate': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'startedDate',
       type: IsarType.string,
     ),
     r'submittedBy': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'submittedBy',
       type: IsarType.string,
     ),
     r'submittedDate': PropertySchema(
-      id: 10,
+      id: 11,
       name: r'submittedDate',
       type: IsarType.string,
     ),
     r'validatorId': PropertySchema(
-      id: 11,
+      id: 12,
       name: r'validatorId',
       type: IsarType.long,
     )
@@ -170,23 +175,24 @@ void _gamificationResponseRemoteSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
+  writer.writeLong(offsets[0], object.accuracy);
   writer.writeObjectList<ChapterDatum>(
-    offsets[0],
+    offsets[1],
     allOffsets,
     ChapterDatumSchema.serialize,
     object.chapterData,
   );
-  writer.writeString(offsets[1], object.completedBy);
-  writer.writeString(offsets[2], object.completedDate);
-  writer.writeString(offsets[3], object.dueDate);
-  writer.writeLong(offsets[4], object.employeeId);
-  writer.writeLong(offsets[5], object.missionId);
-  writer.writeString(offsets[6], object.missionStatus);
-  writer.writeLong(offsets[7], object.missionStatusCode);
-  writer.writeString(offsets[8], object.startedDate);
-  writer.writeString(offsets[9], object.submittedBy);
-  writer.writeString(offsets[10], object.submittedDate);
-  writer.writeLong(offsets[11], object.validatorId);
+  writer.writeString(offsets[2], object.completedBy);
+  writer.writeString(offsets[3], object.completedDate);
+  writer.writeString(offsets[4], object.dueDate);
+  writer.writeLong(offsets[5], object.employeeId);
+  writer.writeLong(offsets[6], object.missionId);
+  writer.writeString(offsets[7], object.missionStatus);
+  writer.writeLong(offsets[8], object.missionStatusCode);
+  writer.writeString(offsets[9], object.startedDate);
+  writer.writeString(offsets[10], object.submittedBy);
+  writer.writeString(offsets[11], object.submittedDate);
+  writer.writeLong(offsets[12], object.validatorId);
 }
 
 GamificationResponseRemote _gamificationResponseRemoteDeserialize(
@@ -196,24 +202,25 @@ GamificationResponseRemote _gamificationResponseRemoteDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = GamificationResponseRemote(
+    accuracy: reader.readLongOrNull(offsets[0]),
     chapterData: reader.readObjectList<ChapterDatum>(
-      offsets[0],
+      offsets[1],
       ChapterDatumSchema.deserialize,
       allOffsets,
       ChapterDatum(),
     ),
-    completedBy: reader.readStringOrNull(offsets[1]),
-    completedDate: reader.readStringOrNull(offsets[2]),
-    dueDate: reader.readStringOrNull(offsets[3]),
-    employeeId: reader.readLongOrNull(offsets[4]),
+    completedBy: reader.readStringOrNull(offsets[2]),
+    completedDate: reader.readStringOrNull(offsets[3]),
+    dueDate: reader.readStringOrNull(offsets[4]),
+    employeeId: reader.readLongOrNull(offsets[5]),
     employeeMissionId: id,
-    missionId: reader.readLongOrNull(offsets[5]),
-    missionStatus: reader.readStringOrNull(offsets[6]),
-    missionStatusCode: reader.readLongOrNull(offsets[7]),
-    startedDate: reader.readStringOrNull(offsets[8]),
-    submittedBy: reader.readStringOrNull(offsets[9]),
-    submittedDate: reader.readStringOrNull(offsets[10]),
-    validatorId: reader.readLongOrNull(offsets[11]),
+    missionId: reader.readLongOrNull(offsets[6]),
+    missionStatus: reader.readStringOrNull(offsets[7]),
+    missionStatusCode: reader.readLongOrNull(offsets[8]),
+    startedDate: reader.readStringOrNull(offsets[9]),
+    submittedBy: reader.readStringOrNull(offsets[10]),
+    submittedDate: reader.readStringOrNull(offsets[11]),
+    validatorId: reader.readLongOrNull(offsets[12]),
   );
   return object;
 }
@@ -226,33 +233,35 @@ P _gamificationResponseRemoteDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
+      return (reader.readLongOrNull(offset)) as P;
+    case 1:
       return (reader.readObjectList<ChapterDatum>(
         offset,
         ChapterDatumSchema.deserialize,
         allOffsets,
         ChapterDatum(),
       )) as P;
-    case 1:
-      return (reader.readStringOrNull(offset)) as P;
     case 2:
       return (reader.readStringOrNull(offset)) as P;
     case 3:
       return (reader.readStringOrNull(offset)) as P;
     case 4:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 5:
       return (reader.readLongOrNull(offset)) as P;
     case 6:
-      return (reader.readStringOrNull(offset)) as P;
-    case 7:
       return (reader.readLongOrNull(offset)) as P;
-    case 8:
+    case 7:
       return (reader.readStringOrNull(offset)) as P;
+    case 8:
+      return (reader.readLongOrNull(offset)) as P;
     case 9:
       return (reader.readStringOrNull(offset)) as P;
     case 10:
       return (reader.readStringOrNull(offset)) as P;
     case 11:
+      return (reader.readStringOrNull(offset)) as P;
+    case 12:
       return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -364,6 +373,80 @@ extension GamificationResponseRemoteQueryWhere on QueryBuilder<
 
 extension GamificationResponseRemoteQueryFilter on QueryBuilder<
     GamificationResponseRemote, GamificationResponseRemote, QFilterCondition> {
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> accuracyIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'accuracy',
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> accuracyIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'accuracy',
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> accuracyEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'accuracy',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> accuracyGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'accuracy',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> accuracyLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'accuracy',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> accuracyBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'accuracy',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
       QAfterFilterCondition> chapterDataIsNull() {
     return QueryBuilder.apply(this, (query) {
@@ -1950,6 +2033,20 @@ extension GamificationResponseRemoteQueryLinks on QueryBuilder<
 extension GamificationResponseRemoteQuerySortBy on QueryBuilder<
     GamificationResponseRemote, GamificationResponseRemote, QSortBy> {
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterSortBy> sortByAccuracy() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'accuracy', Sort.asc);
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterSortBy> sortByAccuracyDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'accuracy', Sort.desc);
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
       QAfterSortBy> sortByCompletedBy() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'completedBy', Sort.asc);
@@ -2106,6 +2203,20 @@ extension GamificationResponseRemoteQuerySortBy on QueryBuilder<
 
 extension GamificationResponseRemoteQuerySortThenBy on QueryBuilder<
     GamificationResponseRemote, GamificationResponseRemote, QSortThenBy> {
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterSortBy> thenByAccuracy() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'accuracy', Sort.asc);
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterSortBy> thenByAccuracyDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'accuracy', Sort.desc);
+    });
+  }
+
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
       QAfterSortBy> thenByCompletedBy() {
     return QueryBuilder.apply(this, (query) {
@@ -2278,6 +2389,13 @@ extension GamificationResponseRemoteQuerySortThenBy on QueryBuilder<
 extension GamificationResponseRemoteQueryWhereDistinct on QueryBuilder<
     GamificationResponseRemote, GamificationResponseRemote, QDistinct> {
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QDistinct> distinctByAccuracy() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'accuracy');
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
       QDistinct> distinctByCompletedBy({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'completedBy', caseSensitive: caseSensitive);
@@ -2364,6 +2482,13 @@ extension GamificationResponseRemoteQueryProperty on QueryBuilder<
       employeeMissionIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'employeeMissionId');
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, int?, QQueryOperations>
+      accuracyProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'accuracy');
     });
   }
 

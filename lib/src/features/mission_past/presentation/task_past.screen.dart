@@ -206,7 +206,7 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       SizedBox(height: 10.h),
-                                      SvgPicture.asset(ImageConstant.iconReward,
+                                      SvgPicture.asset(ImageConstant.iconAccuracy,
                                           width: 16.sp,
                                           height: 20.sp,
                                           package: Constant.moduleEtamkawa),
@@ -214,13 +214,13 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
                                         height: 6,
                                       ),
                                       Text(
-                                        EtamKawaTranslate.rewards,
+                                        EtamKawaTranslate.successRate,
                                         style: SharedComponent.textStyleCustom(
                                             typographyType: TypographyType.bold,
                                             fontColor: ColorTheme.neutral600),
                                       ),
                                       Text(
-                                        '${(gamificationData.chapterData?.single.missionData?.single.missionReward ?? 0).toString()} total',
+                                        '${(gamificationData.accuracy ?? 0).toString()}%',
                                         style: SharedComponent.textStyleCustom(
                                             typographyType:
                                                 TypographyType.paragraph,
