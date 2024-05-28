@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,12 +22,12 @@ import 'background_service/mission_background_services.dart';
 IndexedStack pages({required int currentIndex}) {
   return IndexedStack(
     index: currentIndex,
-    children: const <Widget>[
-      OverviewScreen(),
-      UnderConstructionEtamKawaScreen(),
-      MissionScreen(),
-      ValidationScreen(),
-      UnderConstructionEtamKawaScreen(),
+    children: <Widget>[
+      const OverviewScreen(),
+      const UnderConstructionEtamKawaScreen(),
+      MissionScreen(currentIndex: currentIndex),
+      const ValidationScreen(),
+      const UnderConstructionEtamKawaScreen(),
     ],
   );
 }
@@ -52,12 +51,16 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
   }
 
   int index = 0;
+  int missionIndex = 0;
 
   @override
   void initState() {
     isInit = true;
     isInit = true;
-    index = widget.currentIndex ?? 0;
+    missionIndex = widget.currentIndex != 9 ? 1 : 2;
+    widget.currentIndex != 9
+        ? (widget.currentIndex != 0 ? index = widget.currentIndex! : 0)
+        : 2;
     initEtamkawa();
     super.initState();
   }

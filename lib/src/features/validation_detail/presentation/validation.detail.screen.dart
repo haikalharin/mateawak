@@ -63,8 +63,8 @@ class _ValidationDetailScreenState
           data: (data) {
             return WillPopScope(
                 onWillPop: () {
-                  context.pop();
-                  context.pop();
+                  // context.pop();
+                  // context.pop();
                   return Future.value(false);
                 },
                 child: Scaffold(

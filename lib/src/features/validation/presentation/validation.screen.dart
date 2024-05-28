@@ -26,7 +26,8 @@ class ValidationScreen extends ConsumerStatefulWidget {
 
 Future<void> myAsyncMethodMoved(
     BuildContext context, ValidationResponseRemote validation) async {
-  context.goNamed(detailValidationEtamkawa);
+  context.go('/landing/etamKawa/home-etamkawa/3/$detailValidationEtamkawa');
+  //context.goNamed(detailValidationEtamkawa);
 }
 
 class _ValidationScreenState extends ConsumerState<ValidationScreen>

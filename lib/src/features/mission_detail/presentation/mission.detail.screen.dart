@@ -57,8 +57,8 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
           data: (data) {
             return WillPopScope(
                 onWillPop: () {
-                  context.pop();
-                  context.pop();
+                  // context.pop();
+                  // context.pop();
                   return Future.value(false);
                 },
                 child: Scaffold(
@@ -383,7 +383,8 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                   width: double.infinity,
                                   child: ElevatedButton(
                                       onPressed: () {
-                                        context.goNamed(taskMissionEtamkawa,
+                                        context.go(
+                                            '/landing/etamKawa/home-etamkawa/2/$detailMissionEtamkawa/$taskMissionEtamkawa',
                                             extra: {
                                               Constant.listTask: (gamification
                                                   .chapterData
@@ -392,6 +393,15 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                                   ?.single
                                                   .taskData)
                                             });
+                                        // context.goNamed(taskMissionEtamkawa,
+                                        //     extra: {
+                                        //       Constant.listTask: (gamification
+                                        //           .chapterData
+                                        //           ?.single
+                                        //           .missionData
+                                        //           ?.single
+                                        //           .taskData)
+                                        //     });
                                       },
                                       child: Text(EtamKawaTranslate.start,
                                           style:
