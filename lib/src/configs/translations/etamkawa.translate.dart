@@ -398,10 +398,10 @@ class EtamKawaTranslate {
     availableSoon: 'Maaf fitur ini akan segera tersedia untuk tab Riwayat',
     yourAnswerIs: 'jawaban kamu bernilai',
     successRate: 'Tingkat keberhasilan',
-    };
     alreadySubmitted:
-        'Misi ini telah dikirimkan dan tidak dapat dikirimkan lagi.',
+    'Misi ini telah dikirimkan dan tidak dapat dikirimkan lagi.',
     alreadyValidated:
-        'Misi ini telah divalidasi dan tidak dapat divalidasi lagi.',
-  };
+    'Misi ini telah divalidasi dan tidak dapat divalidasi lagi.',
+    };
+
 }
