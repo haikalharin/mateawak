@@ -214,7 +214,7 @@ class TaskController extends _$TaskController {
               isSuccess = false;
               Navigator.of(globalkey.currentContext!).pop();
               Navigator.of(globalkey.currentContext!).pop();
-              if (apiResponse.result?.message == 'Already Submitted') {
+              if (apiResponse.result?.message?.toLowerCase() == 'already submitted') {
                 SharedComponent.dialogPopUp(
                   type: 'info',
                   context: globalkey.currentContext!,

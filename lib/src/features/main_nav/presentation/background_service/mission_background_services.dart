@@ -134,7 +134,7 @@ Future<bool> submitAnswerBg(
                 "Group": taskDatumAnswer.taskGroup,
               });
 
-              final response =  ConnectBackgroundService().post(
+              final response = ConnectBackgroundService().post(
                   accessToken: accessToken,
                   url: url,
                   path: pathImage,
@@ -158,19 +158,23 @@ Future<bool> submitAnswerBg(
               body: answerRequestRemote.toJson());
 
           await AsyncValue.guard(() => response).then((value) async {
-
             if (value.value?.statusCode == 200) {
-
-
-              // await isarInstance.writeTxn(() async {
-              //   await isarInstance.answerRequestRemotes
-              //       .delete(answerRequestRemote.employeeMissionId ?? 0)
-              //       .whenComplete(() async {
-              //     await isarInstance.gamificationResponseRemotes
-              //         .delete(answerRequestRemote.employeeMissionId ?? 0);
-              //   });
-              // });
-
+              await isarInstance.writeTxn(() async {
+                await isarInstance.answerRequestRemotes
+                    .filter()
+                    .employeeMissionIdEqualTo(
+                        answerRequestRemote.employeeMissionId)
+                    .deleteAll()
+                    .whenComplete(() async {
+                  await isarInstance.gamificationResponseRemotes
+                      .filter()
+                      .employeeMissionIdEqualTo(
+                          answerRequestRemote.employeeMissionId)
+                      .deleteAll();
+                });
+              });
+            } else if (value.value?.result?.message?.toLowerCase() ==
+                'already submitted') {
               await isarInstance.writeTxn(() async {
                 await isarInstance.answerRequestRemotes
                     .filter()
@@ -250,7 +254,7 @@ Future<bool> fetchMission(
           .employeeMissionIdIsNotNull()
           .findAll();
 
-    debugPrint('fetch val mission offline : isar sukses');
+      debugPrint('fetch val mission offline : isar sukses');
       await AsyncValue.guard(() => repo).then((value) async {
         if (listResponse.isNotEmpty) {
           for (var element in listResponse) {
@@ -306,8 +310,9 @@ Future<bool> fetchMission(
       listResponseAfterMerge.addAll(listResponse);
       listResponseAfterMerge.addAll(listResponseFinal);
       for (var element in listResponseAfterMerge) {
-        DateTime dueDate =
-            DateTime.parse(CommonUtils.formattedDateHoursUtcToLocalForCheck(element.dueDate ?? '2024-00-00T00:00:00'));
+        DateTime dueDate = DateTime.parse(
+            CommonUtils.formattedDateHoursUtcToLocalForCheck(
+                element.dueDate ?? '2024-00-00T00:00:00'));
         int different = calculateDifferenceDate(dueDate, DateTime.now());
         if (element.missionStatusCode != null) {
           if (different > 0 && element.missionStatusCode! < 2) {
