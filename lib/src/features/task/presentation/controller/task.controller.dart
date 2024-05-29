@@ -214,7 +214,8 @@ class TaskController extends _$TaskController {
               isSuccess = false;
               Navigator.of(globalkey.currentContext!).pop();
               Navigator.of(globalkey.currentContext!).pop();
-              if (apiResponse.result?.message?.toLowerCase() == 'already submitted') {
+              if (apiResponse.result?.message?.toLowerCase() ==
+                  'already submitted') {
                 SharedComponent.dialogPopUp(
                   type: 'info',
                   context: globalkey.currentContext!,
@@ -226,19 +227,16 @@ class TaskController extends _$TaskController {
                       showLoadingDialog(globalkey.currentContext!);
                       await isarInstance.answerRequestRemotes
                           .filter()
-                          .employeeMissionIdEqualTo(
-                          result.employeeMissionId)
+                          .employeeMissionIdEqualTo(result.employeeMissionId)
                           .deleteAll()
                           .whenComplete(() async {
                         await isarInstance.gamificationResponseRemotes
                             .filter()
-                            .employeeMissionIdEqualTo(
-                            result.employeeMissionId)
+                            .employeeMissionIdEqualTo(result.employeeMissionId)
                             .deleteAll();
                       });
                     }).whenComplete(() {
-                      hideLoadingDialog(
-                          globalkey.currentContext!);
+                      hideLoadingDialog(globalkey.currentContext!);
                       Navigator.of(globalkey.currentContext!).pop();
                       Navigator.of(globalkey.currentContext!).pop();
                       Navigator.of(globalkey.currentContext!).pop();
@@ -253,7 +251,6 @@ class TaskController extends _$TaskController {
                   subTitle: 'Submit Failed',
                   btntitleright: 'Ok',
                   onpressright: () {
-
                     Navigator.of(globalkey.currentContext!).pop();
                     Navigator.of(globalkey.currentContext!).pop();
                     Navigator.of(globalkey.currentContext!).pop();
@@ -398,6 +395,8 @@ class TaskController extends _$TaskController {
     List<int> listInt = [];
     List<int> numbersList = [];
     List<TaskDatumAnswer> listTaskAnswer = [];
+    final gamificationData = ref.watch(gamificationState);
+
     var answer = '';
     index = await ref.watch(currentIndexState);
     int page = 0;
@@ -441,7 +440,8 @@ class TaskController extends _$TaskController {
         !isLast ? ref.watch(listTaskState)[index + page].taskId ?? 0 : 0;
     for (var element in dataCek) {
       await putTaskAnswer(element);
-      if (element.taskId == currentTaskId) {
+      if (element.taskId == currentTaskId &&
+          element.missionId == gamificationData.missionId) {
         answer = element.answer ?? '';
         attachment = element.attachment ?? '';
         attachmentName = element.attachmentName ?? '';
@@ -497,7 +497,7 @@ class TaskController extends _$TaskController {
     }
   }
 
-  Future<void> saveAnswer(int taskId,
+  Future<void> saveAnswer(TaskDatum task,
       {required List<dynamic>? listSelectedOption,
       String? attachment,
       String? attachmentName,
@@ -521,7 +521,8 @@ class TaskController extends _$TaskController {
         }
       }
       dataAnswer = TaskDatumAnswerRequestRemote(
-          taskId: taskId,
+          taskId: task.taskId,
+          missionId: task.missionId,
           answer: data,
           attachment: attachment ?? '',
           attachmentName: attachmentName ?? '',
@@ -531,7 +532,8 @@ class TaskController extends _$TaskController {
       if (isLast) {}
     } else {
       dataAnswer = TaskDatumAnswerRequestRemote(
-          taskId: taskId,
+          taskId: task.taskId,
+          missionId: task.missionId,
           answer: data,
           attachment: attachment ?? '',
           attachmentName: attachmentName ?? '',

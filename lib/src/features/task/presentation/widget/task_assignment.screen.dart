@@ -275,9 +275,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                       await ctrl
                                                           .saveAnswer(
                                                               listTask[currentQuestionIndex
-                                                                          .state]
-                                                                      .taskId ??
-                                                                  0,
+                                                                          .state],
                                                               isLast: false,
                                                               attachment: '',
                                                               attachmentName:
@@ -464,9 +462,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                     await ctrl
                                         .saveAnswer(
                                             listTask[currentQuestionIndex
-                                                        .state]
-                                                    .taskId ??
-                                                0,
+                                                        .state],
                                             isLast: false,
                                             listSelectedOption: [
                                               _textController.text
@@ -507,9 +503,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                 onEditingComplete: () async {
                                   await ctrl
                                       .saveAnswer(
-                                          listTask[currentQuestionIndex.state]
-                                                  .taskId ??
-                                              0,
+                                          listTask[currentQuestionIndex.state],
                                           isLast: false,
                                           listSelectedOption: [
                                             _textController.text
@@ -709,9 +703,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                         await ctrl
                                             .saveAnswer(
                                                 listTask[currentQuestionIndex
-                                                            .state]
-                                                        .taskId ??
-                                                    0,
+                                                            .state],
                                                 isLast: false,
                                                 attachment: attachment.state,
                                                 attachmentName:
@@ -832,9 +824,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                         ctrl
                                             .saveAnswer(
                                                 listTask[currentQuestionIndex
-                                                            .state]
-                                                        .taskId ??
-                                                    0,
+                                                            .state],
                                                 isLast: true,
                                                 attachment: attachment.state,
                                                 attachmentName:
@@ -1071,7 +1061,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
         ref.refresh(taskControllerProvider);
 
         await ctrl
-            .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
+            .saveAnswer(listTask[currentQuestionIndex],
                 isLast: false,
                 attachment: fileDuplicate.path ?? '',
                 attachmentName: fileDuplicate.name,
@@ -1139,7 +1129,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
 
           ref.refresh(taskControllerProvider);
           await ctrl
-              .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
+              .saveAnswer(listTask[currentQuestionIndex],
                   isLast: false,
                   attachment: resizedFile.path,
                   attachmentName: fileName,
@@ -1229,7 +1219,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
 
           ref.refresh(taskControllerProvider);
           await ctrl
-              .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
+              .saveAnswer(listTask[currentQuestionIndex],
                   isLast: false,
                   attachment: resizedFile.path,
                   attachmentName: fileName,
