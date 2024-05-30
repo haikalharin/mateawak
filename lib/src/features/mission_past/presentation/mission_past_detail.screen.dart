@@ -46,20 +46,44 @@ class _MissionPastDetailScreenState
     super.dispose();
   }
 
-  // final List<int> _screenOccupation = [0, 0];
-
   @override
   Widget build(BuildContext context) {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
-        if (widget.employeeMissionId != 0) {
-          ref
-              .watch(missionPastControllerProvider.notifier)
-              .getDetailMission(employeeMissionId: widget.employeeMissionId!);
-        }
+        // if (widget.employeeMissionId != 0) {
+        //   final ctrlPastMission =
+        //       ref.watch(missionPastControllerProvider.notifier);
+        //   ctrlPastMission
+        //       .getDetailMission(employeeMissionId: widget.employeeMissionId!)
+        //       .whenComplete(() {
+        //     ref.refresh(missionPastControllerProvider);
+        //     final gamification =
+        //         ref.watch(gamificationDetailState.notifier).state;
+        //     final ctrl = ref.watch(missionPastControllerProvider.notifier);
+        //     ref.watch(currentTypeTaskState.notifier).state =
+        //         ctrl.currentTypeTask;
+        //     if (ctrl.currentTypeTask == TaskType.STX.name ||
+        //         ctrl.currentTypeTask == TaskType.ASM.name) {
+        //       ref.watch(listSelectOptionStringState.notifier).state =
+        //           ctrl.listSelectOptionCurrentString;
+        //       ref.watch(attachmentPathState.notifier).state = ctrl.attachment;
+        //       ref.watch(attachmentNameState.notifier).state =
+        //           ctrl.attachmentName;
+        //     } else {
+        //       ref.watch(listSelectOptionState.notifier).state =
+        //           ctrl.listSelectOptionCurrent;
+        //     }
+        //     if (gamification.completedBy != null) {
+        //       context.go(
+        //           '/landing/etamKawa/home-etamkawa/2/$detailMissionPastEtamkawa/$taskMissionPastEtamkawa',
+        //           extra: {
+        //             Constant.listTask: (gamification
+        //                 .chapterData?.single.missionData?.single.taskData)
+        //           });
+        //     }
+        //   });
+        // }
         final gamification = ref.watch(gamificationDetailState.notifier).state;
-        // final missionType = gamification
-        //     .chapterData?.single.missionData?.single.missionTypeName;
         return AsyncValueWidget(
           value: ref.watch(taskControllerProvider),
           data: (data) {
@@ -390,7 +414,8 @@ class _MissionPastDetailScreenState
                                   width: double.infinity,
                                   child: ElevatedButton(
                                       onPressed: () {
-                                        context.goNamed(taskMissionPastEtamkawa,
+                                        context.go(
+                                            '/landing/etamKawa/home-etamkawa/2/$detailMissionPastEtamkawa/$taskMissionPastEtamkawa',
                                             extra: {
                                               Constant.listTask: (gamification
                                                   .chapterData
@@ -399,6 +424,15 @@ class _MissionPastDetailScreenState
                                                   ?.single
                                                   .taskData)
                                             });
+                                        // context.goNamed(taskMissionPastEtamkawa,
+                                        //     extra: {
+                                        //       Constant.listTask: (gamification
+                                        //           .chapterData
+                                        //           ?.single
+                                        //           .missionData
+                                        //           ?.single
+                                        //           .taskData)
+                                        //     });
                                       },
                                       child: Text(
                                           EtamKawaTranslate.answerDetails,

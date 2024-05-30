@@ -90,20 +90,19 @@ GoRouter etamkawaGoRouter(EtamkawaGoRouterRef ref) {
 
 List<RouteBase> routeEtamkawa = [
   GoRoute(
-      path: homeEtakawa,
+      path: '$homeEtakawa/:CurrentIndex',
       name: homeEtakawa,
       builder: (BuildContext context, GoRouterState state) {
+        final currentIndex =
+            int.tryParse(state.pathParameters['CurrentIndex'] ?? '0') ?? 0;
+        final employeeMissionId =
+            int.tryParse(state.uri.queryParameters['Id'] ?? '0') ?? 0;
         return SharedComponent.banner(
             dotenv.env[EnvConstant.environment]!,
             ConnectionListenerWidget(
               child: MainNavScreen(
-                currentIndex: 0,
-                //0,
-                employeeMissionId: state.uri.queryParameters['Id'] != null
-                    ? int.parse(state.pathParameters['Id']!)
-                    : 0,
-                //0,
-              ),
+                  currentIndex: currentIndex,
+                  employeeMissionId: employeeMissionId),
             ));
       },
       routes: [
@@ -130,16 +129,16 @@ List<RouteBase> routeEtamkawa = [
             path: detailMissionPastEtamkawa,
             name: detailMissionPastEtamkawa,
             builder: (BuildContext context, GoRouterState state) {
+              final employeeMissionId =
+                  int.tryParse(state.uri.queryParameters['Id'] ?? '0') ?? 0;
+
               debugPrint(
                   'firebase id query params: ${state.uri.queryParameters['Id']}');
               return SharedComponent.banner(
                   dotenv.env[EnvConstant.environment]!,
                   ConnectionListenerWidget(
                       child: MissionPastDetailScreen(
-                    employeeMissionId: state.uri.queryParameters['Id'] != null
-                        ? int.parse(state.pathParameters['Id']!)
-                        : 0,
-                  )));
+                          employeeMissionId: employeeMissionId)));
             },
             routes: [
               GoRoute(
