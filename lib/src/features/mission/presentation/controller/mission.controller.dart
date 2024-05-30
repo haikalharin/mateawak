@@ -2,8 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:isar/isar.dart';
+import 'package:module_etamkawa/src/features/mission/domain/gamification_additional_detail.remote.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
 import 'package:module_etamkawa/src/features/mission/infrastructure/repositories/mission_local.repository.dart';
+import 'package:module_etamkawa/src/features/offline_mode/infrastructure/repositories/isar.repository.dart';
 import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
 import 'package:module_shared/module_shared.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -61,12 +64,29 @@ class MissionController extends _$MissionController {
   @override
   FutureOr<void> build() async {
     // await getMissionListBackgroundServices();
+  }
 
+  Future<void> updateLatestSyncDate() async {
+    final isarInstance = await ref.watch(isarInstanceProvider.future);
+    final latestSyncDateIsar = await isarInstance
+        .gamificationAdditionalDetailRemotes
+        .filter()
+        .idEqualTo(0)
+        .findFirst();
+
+    if (latestSyncDateIsar != null) {
+      if (latestSyncDateIsar.latestSyncDate != null) {
+        ref.read(latestSyncDateState.notifier).state =
+            latestSyncDateIsar.latestSyncDate!;
+      }
+    }
+    debugPrint(ref.read(latestSyncDateState.notifier).state);
   }
 
   Future<void> getMissionListLocal() async {
     var repo = ref.read(getMissionLocalProvider.future);
-    ref.watch(submitStatusMissionState.notifier).state = SubmitStatus.inProgress;
+    ref.watch(submitStatusMissionState.notifier).state =
+        SubmitStatus.inProgress;
     state = await AsyncValue.guard(() => repo).then((value) async {
       if (value.value != null) {
         List<GamificationResponseRemote> listGamificationInProgress = [];
@@ -105,7 +125,10 @@ class MissionController extends _$MissionController {
     });
   }
 
-  Future<void> backgroundServiceEvent({bool isFetchMission = false,bool isSubmitAnswer = false,}) async {
+  Future<void> backgroundServiceEvent({
+    bool isFetchMission = false,
+    bool isSubmitAnswer = false,
+  }) async {
     try {
       final backgroundServices = FlutterBackgroundService();
       final isBgServiceRunning = await backgroundServices.isRunning();
@@ -117,16 +140,17 @@ class MissionController extends _$MissionController {
 
       backgroundServices.invoke(Constant.bgMissionInit, {
         'isFetchMission': isFetchMission,
-        'isSubmitAnswer':isSubmitAnswer,
+        'isSubmitAnswer': isSubmitAnswer,
         'employeeId': userModel?.employeeID,
         'requestDate': latestSyncDate,
         'url': dotenv.env[EnvConstant.rootUrl],
         'pathFetchMission':
             '/${BspaceModule.getRootUrl(moduleType: ModuleType.etamkawaGamification)}/api/mission/get_employee_mission?${Constant.apiVer}',
         'pathSubmitMission':
-        '/${BspaceModule.getRootUrl(moduleType: ModuleType.etamkawaGamification)}/api/mission/submit_employee_mission?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}',
+            '/${BspaceModule.getRootUrl(moduleType: ModuleType.etamkawaGamification)}/api/mission/submit_employee_mission?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}',
         'pathImage':
-        '/${BspaceModule.getRootUrl(moduleType: ModuleType.etamkawaGamification)}/api/attachment/insert_attachment?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}',        'accessToken': await ref.read(storageProvider.notifier).read(
+            '/${BspaceModule.getRootUrl(moduleType: ModuleType.etamkawaGamification)}/api/attachment/insert_attachment?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}',
+        'accessToken': await ref.read(storageProvider.notifier).read(
               storage: TableConstant.tbMProfile,
               key: ProfileKeyConstant.keyTokenGeneral,
             )
@@ -180,16 +204,14 @@ class MissionController extends _$MissionController {
                 value.value ?? [];
             listGamification = value.value ?? [];
           }
-          if(isConnectionAvailable){
+          if (isConnectionAvailable) {
             ref.read(submitStatusMissionBgServicesState.notifier).state =
                 SubmitStatus.success;
-          }else {
-            ref
-                .read(submitStatusMissionBgServicesState.notifier)
-                .state =
+          } else {
+            ref.read(submitStatusMissionBgServicesState.notifier).state =
                 SubmitStatus.failure;
           }
-        } else{
+        } else {
           ref.watch(submitStatusMissionBgServicesState.notifier).state =
               SubmitStatus.failure;
         }
@@ -205,8 +227,7 @@ class MissionController extends _$MissionController {
   }
 
   Future<void> getMissionList({bool isInit = false}) async {
-    ref.read(submitStatusMissionState.notifier).state =
-        SubmitStatus.inProgress;
+    ref.read(submitStatusMissionState.notifier).state = SubmitStatus.inProgress;
     try {
       final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
 
@@ -224,12 +245,14 @@ class MissionController extends _$MissionController {
             value.value?.forEach((element) async {
               if (element.missionStatusCode != null) {
                 if (element.missionStatusCode! == 1) {
-                  debugPrint('Mission InProgress: ${element.chapterData?.single.missionData?.single.missionName}: ${element.missionStatus}: ${element.employeeMissionId}');
+                  debugPrint(
+                      'Mission InProgress: ${element.chapterData?.single.missionData?.single.missionName}: ${element.missionStatus}: ${element.employeeMissionId}');
                   listGamificationInProgress.add(element);
                 } else if (element.missionStatusCode! == 0) {
                   listGamificationAssigned.add(element);
                 } else if (element.missionStatusCode! >= 2) {
-                  debugPrint('Mission Past: ${element.chapterData?.single.missionData?.single.missionName}: ${element.missionStatus}: ${element.employeeMissionId}');
+                  debugPrint(
+                      'Mission Past: ${element.chapterData?.single.missionData?.single.missionName}: ${element.missionStatus}: ${element.employeeMissionId}');
                   listGamificationPast.add(element);
                 }
               }
@@ -245,13 +268,11 @@ class MissionController extends _$MissionController {
                 value.value ?? [];
             listGamification = value.value ?? [];
           }
-          if(isConnectionAvailable){
+          if (isConnectionAvailable) {
             ref.read(submitStatusMissionState.notifier).state =
                 SubmitStatus.success;
-          }else {
-            ref
-                .read(submitStatusMissionState.notifier)
-                .state =
+          } else {
+            ref.read(submitStatusMissionState.notifier).state =
                 SubmitStatus.failure;
           }
         } else {
@@ -260,7 +281,7 @@ class MissionController extends _$MissionController {
         }
         return value;
       });
-      if(!isConnectionAvailable){
+      if (!isConnectionAvailable) {
         ref.read(submitStatusMissionState.notifier).state =
             SubmitStatus.failure;
       }
@@ -336,6 +357,4 @@ class MissionController extends _$MissionController {
 
     state = const AsyncValue.data(null);
   }
-
-
- }
+}

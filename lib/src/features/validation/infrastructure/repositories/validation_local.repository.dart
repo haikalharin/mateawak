@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:module_etamkawa/src/configs/services/connect_etamkawa.dart';
 import 'package:module_etamkawa/src/constants/function_utils.dart';
+import 'package:module_etamkawa/src/features/mission/domain/gamification_additional_detail.remote.dart';
 import 'package:module_etamkawa/src/features/task/domain/result_submission_request.remote.dart';
 import 'package:module_etamkawa/src/features/validation/domain/validate_request.remote.dart';
 import 'package:module_etamkawa/src/features/validation/domain/validation_response.remote.dart';
@@ -31,8 +32,17 @@ FutureOr<List<ValidationResponseRemote>> getValidationRemote(
     List<ValidationResponseRemote> listResponse = [];
     List<ValidationResponseRemote> listResponseFinal = [];
     List<ValidationResponseRemote> listAfterInputImage = [];
-    final latestSyncDate =
-        ref.read(latestSyncDateValidationState.notifier).state;
+    var latestSyncDate = ref.read(latestSyncDateValidationState.notifier).state;
+    final latestSyncDateIsar = await isarInstance
+        .gamificationAdditionalDetailRemotes
+        .filter()
+        .idEqualTo(0)
+        .findFirst();
+    if (latestSyncDateIsar?.latestSyncDateValidation != null) {
+      latestSyncDate = latestSyncDateIsar!.latestSyncDateValidation!;
+    }
+    debugPrint(
+        'latestsyncdate : ${latestSyncDateIsar?.latestSyncDateValidation}');
     final userModel = await ref.read(helperUserProvider).getUserProfile();
     final response = await connect.post(
         modul: ModuleType.etamkawaGamification,
@@ -183,6 +193,13 @@ FutureOr<List<ValidationResponseRemote>> getValidationRemote(
     });
     final today = CommonUtils.formatDateRequestParam(DateTime.now().toString());
     ref.read(latestSyncDateValidationState.notifier).state = today;
+    await isarInstance.writeTxn(() async {
+      await isarInstance.gamificationAdditionalDetailRemotes.put(
+          GamificationAdditionalDetailRemote(
+              id: 0,
+              latestSyncDateValidation: today,
+              latestSyncDate: latestSyncDateIsar?.latestSyncDate));
+    });
     ref.keepAlive();
   }
   final data = await isarInstance.validationResponseRemotes
@@ -233,7 +250,7 @@ Future<ResultSubmissionRequestRemote> submitValidation(SubmitValidationRef ref,
           .employeeMissionIdEqualTo(validationRequestRemote.employeeMissionId)
           .deleteAll();
     });
-  }else {
+  } else {
     Navigator.of(globalkey.currentContext!).pop();
     Navigator.of(globalkey.currentContext!).pop();
     if (response.result?.message?.toLowerCase() == 'already validated') {
@@ -249,11 +266,10 @@ Future<ResultSubmissionRequestRemote> submitValidation(SubmitValidationRef ref,
             await isarInstance.validationResponseRemotes
                 .filter()
                 .employeeMissionIdEqualTo(
-                validationRequestRemote.employeeMissionId)
+                    validationRequestRemote.employeeMissionId)
                 .deleteAll();
           }).whenComplete(() {
-            hideLoadingDialog(
-                globalkey.currentContext!);
+            hideLoadingDialog(globalkey.currentContext!);
             Navigator.of(globalkey.currentContext!).pop();
             Navigator.of(globalkey.currentContext!).pop();
             Navigator.of(globalkey.currentContext!).pop();
@@ -268,7 +284,6 @@ Future<ResultSubmissionRequestRemote> submitValidation(SubmitValidationRef ref,
         subTitle: 'validate Failed',
         btntitleright: 'Ok',
         onpressright: () {
-
           Navigator.of(globalkey.currentContext!).pop();
           Navigator.of(globalkey.currentContext!).pop();
           Navigator.of(globalkey.currentContext!).pop();
@@ -330,11 +345,13 @@ Future<bool> submitValidationBg(SubmitValidationBgRef ref) async {
                         validationRequest.employeeMissionId)
                     .deleteAll();
               });
-            } else  if (value.value?.result?.message?.toLowerCase() == 'already validated') {
+            } else if (value.value?.result?.message?.toLowerCase() ==
+                'already validated') {
               await isarInstance.writeTxn(() async {
                 await isarInstance.validationResponseRemotes
                     .filter()
-                    .employeeMissionIdEqualTo(validationRequestRemote.employeeMissionId)
+                    .employeeMissionIdEqualTo(
+                        validationRequestRemote.employeeMissionId)
                     .deleteAll();
               });
             }

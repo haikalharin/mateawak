@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:module_etamkawa/src/features/main_nav/presentation/controller/main_nav.controller.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/mission.screen.dart';
@@ -62,6 +63,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
         ? (widget.currentIndex != 0 ? index = widget.currentIndex! : 0)
         : 2;
     initEtamkawa();
+    ref.read(missionControllerProvider.notifier).updateLatestSyncDate();
     super.initState();
   }
 
@@ -75,8 +77,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
           final ctrlMission = ref.watch(missionControllerProvider.notifier);
           final ctrlValidation =
               ref.watch(validationControllerProvider.notifier);
-
-          final latestSyncDate = ref.watch(latestSyncDateState.notifier).state;
+          final latestSyncDate = ref.watch(latestSyncDateState);
           final submitStatus = ref.watch(submitStatusState);
           final submitStatusMission = ref.watch(submitStatusMissionState);
           final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
@@ -111,10 +112,9 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                     context: context,
                     elevation: index == 0 ? 0.0 : 0.5,
                     title: title,
-                    onBack: () {
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pop();
-                    },
+                    // onBack: () {
+                    //   context.pop();
+                    // },
                     actions: [
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,

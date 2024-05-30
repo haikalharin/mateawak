@@ -383,8 +383,10 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                   width: double.infinity,
                                   child: ElevatedButton(
                                       onPressed: () {
-                                        context.go(
-                                            '/landing/etamKawa/home-etamkawa/2/$detailMissionEtamkawa/$taskMissionEtamkawa',
+                                        context.goNamed(taskMissionEtamkawa,
+                                            pathParameters: {
+                                              'CurrentIndex': '2'
+                                            },
                                             extra: {
                                               Constant.listTask: (gamification
                                                   .chapterData
@@ -393,15 +395,6 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                                   ?.single
                                                   .taskData)
                                             });
-                                        // context.goNamed(taskMissionEtamkawa,
-                                        //     extra: {
-                                        //       Constant.listTask: (gamification
-                                        //           .chapterData
-                                        //           ?.single
-                                        //           .missionData
-                                        //           ?.single
-                                        //           .taskData)
-                                        //     });
                                       },
                                       child: Text(EtamKawaTranslate.start,
                                           style:

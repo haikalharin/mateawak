@@ -214,7 +214,8 @@ class TaskController extends _$TaskController {
               isSuccess = false;
               Navigator.of(globalkey.currentContext!).pop();
               Navigator.of(globalkey.currentContext!).pop();
-              if (apiResponse.result?.message?.toLowerCase() == 'already submitted') {
+              if (apiResponse.result?.message?.toLowerCase() ==
+                  'already submitted') {
                 SharedComponent.dialogPopUp(
                   type: 'info',
                   context: globalkey.currentContext!,
@@ -226,19 +227,16 @@ class TaskController extends _$TaskController {
                       showLoadingDialog(globalkey.currentContext!);
                       await isarInstance.answerRequestRemotes
                           .filter()
-                          .employeeMissionIdEqualTo(
-                          result.employeeMissionId)
+                          .employeeMissionIdEqualTo(result.employeeMissionId)
                           .deleteAll()
                           .whenComplete(() async {
                         await isarInstance.gamificationResponseRemotes
                             .filter()
-                            .employeeMissionIdEqualTo(
-                            result.employeeMissionId)
+                            .employeeMissionIdEqualTo(result.employeeMissionId)
                             .deleteAll();
                       });
                     }).whenComplete(() {
-                      hideLoadingDialog(
-                          globalkey.currentContext!);
+                      hideLoadingDialog(globalkey.currentContext!);
                       Navigator.of(globalkey.currentContext!).pop();
                       Navigator.of(globalkey.currentContext!).pop();
                       Navigator.of(globalkey.currentContext!).pop();
@@ -253,7 +251,6 @@ class TaskController extends _$TaskController {
                   subTitle: 'Submit Failed',
                   btntitleright: 'Ok',
                   onpressright: () {
-
                     Navigator.of(globalkey.currentContext!).pop();
                     Navigator.of(globalkey.currentContext!).pop();
                     Navigator.of(globalkey.currentContext!).pop();

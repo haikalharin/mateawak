@@ -22,6 +22,11 @@ const GamificationAdditionalDetailRemoteSchema = CollectionSchema(
       id: 0,
       name: r'latestSyncDate',
       type: IsarType.string,
+    ),
+    r'latestSyncDateValidation': PropertySchema(
+      id: 1,
+      name: r'latestSyncDateValidation',
+      type: IsarType.string,
     )
   },
   estimateSize: _gamificationAdditionalDetailRemoteEstimateSize,
@@ -50,6 +55,12 @@ int _gamificationAdditionalDetailRemoteEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
+  {
+    final value = object.latestSyncDateValidation;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -60,6 +71,7 @@ void _gamificationAdditionalDetailRemoteSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.latestSyncDate);
+  writer.writeString(offsets[1], object.latestSyncDateValidation);
 }
 
 GamificationAdditionalDetailRemote
@@ -70,9 +82,10 @@ GamificationAdditionalDetailRemote
   Map<Type, List<int>> allOffsets,
 ) {
   final object = GamificationAdditionalDetailRemote(
+    id: id,
     latestSyncDate: reader.readStringOrNull(offsets[0]),
+    latestSyncDateValidation: reader.readStringOrNull(offsets[1]),
   );
-  object.id = id;
   return object;
 }
 
@@ -84,6 +97,8 @@ P _gamificationAdditionalDetailRemoteDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
+      return (reader.readStringOrNull(offset)) as P;
+    case 1:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -433,6 +448,184 @@ extension GamificationAdditionalDetailRemoteQueryFilter on QueryBuilder<
       ));
     });
   }
+
+  QueryBuilder<
+      GamificationAdditionalDetailRemote,
+      GamificationAdditionalDetailRemote,
+      QAfterFilterCondition> latestSyncDateValidationIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'latestSyncDateValidation',
+      ));
+    });
+  }
+
+  QueryBuilder<
+      GamificationAdditionalDetailRemote,
+      GamificationAdditionalDetailRemote,
+      QAfterFilterCondition> latestSyncDateValidationIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'latestSyncDateValidation',
+      ));
+    });
+  }
+
+  QueryBuilder<
+      GamificationAdditionalDetailRemote,
+      GamificationAdditionalDetailRemote,
+      QAfterFilterCondition> latestSyncDateValidationEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'latestSyncDateValidation',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<
+      GamificationAdditionalDetailRemote,
+      GamificationAdditionalDetailRemote,
+      QAfterFilterCondition> latestSyncDateValidationGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'latestSyncDateValidation',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<
+      GamificationAdditionalDetailRemote,
+      GamificationAdditionalDetailRemote,
+      QAfterFilterCondition> latestSyncDateValidationLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'latestSyncDateValidation',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<
+      GamificationAdditionalDetailRemote,
+      GamificationAdditionalDetailRemote,
+      QAfterFilterCondition> latestSyncDateValidationBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'latestSyncDateValidation',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<
+      GamificationAdditionalDetailRemote,
+      GamificationAdditionalDetailRemote,
+      QAfterFilterCondition> latestSyncDateValidationStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'latestSyncDateValidation',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<
+      GamificationAdditionalDetailRemote,
+      GamificationAdditionalDetailRemote,
+      QAfterFilterCondition> latestSyncDateValidationEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'latestSyncDateValidation',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationAdditionalDetailRemote,
+          GamificationAdditionalDetailRemote, QAfterFilterCondition>
+      latestSyncDateValidationContains(String value,
+          {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'latestSyncDateValidation',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationAdditionalDetailRemote,
+          GamificationAdditionalDetailRemote, QAfterFilterCondition>
+      latestSyncDateValidationMatches(String pattern,
+          {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'latestSyncDateValidation',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<
+      GamificationAdditionalDetailRemote,
+      GamificationAdditionalDetailRemote,
+      QAfterFilterCondition> latestSyncDateValidationIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'latestSyncDateValidation',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<
+      GamificationAdditionalDetailRemote,
+      GamificationAdditionalDetailRemote,
+      QAfterFilterCondition> latestSyncDateValidationIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'latestSyncDateValidation',
+        value: '',
+      ));
+    });
+  }
 }
 
 extension GamificationAdditionalDetailRemoteQueryObject on QueryBuilder<
@@ -462,6 +655,24 @@ extension GamificationAdditionalDetailRemoteQuerySortBy on QueryBuilder<
       QAfterSortBy> sortByLatestSyncDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'latestSyncDate', Sort.desc);
+    });
+  }
+
+  QueryBuilder<
+      GamificationAdditionalDetailRemote,
+      GamificationAdditionalDetailRemote,
+      QAfterSortBy> sortByLatestSyncDateValidation() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'latestSyncDateValidation', Sort.asc);
+    });
+  }
+
+  QueryBuilder<
+      GamificationAdditionalDetailRemote,
+      GamificationAdditionalDetailRemote,
+      QAfterSortBy> sortByLatestSyncDateValidationDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'latestSyncDateValidation', Sort.desc);
     });
   }
 }
@@ -499,6 +710,24 @@ extension GamificationAdditionalDetailRemoteQuerySortThenBy on QueryBuilder<
       return query.addSortBy(r'latestSyncDate', Sort.desc);
     });
   }
+
+  QueryBuilder<
+      GamificationAdditionalDetailRemote,
+      GamificationAdditionalDetailRemote,
+      QAfterSortBy> thenByLatestSyncDateValidation() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'latestSyncDateValidation', Sort.asc);
+    });
+  }
+
+  QueryBuilder<
+      GamificationAdditionalDetailRemote,
+      GamificationAdditionalDetailRemote,
+      QAfterSortBy> thenByLatestSyncDateValidationDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'latestSyncDateValidation', Sort.desc);
+    });
+  }
 }
 
 extension GamificationAdditionalDetailRemoteQueryWhereDistinct on QueryBuilder<
@@ -511,6 +740,15 @@ extension GamificationAdditionalDetailRemoteQueryWhereDistinct on QueryBuilder<
       QDistinct> distinctByLatestSyncDate({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'latestSyncDate',
+          caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<GamificationAdditionalDetailRemote,
+          GamificationAdditionalDetailRemote, QDistinct>
+      distinctByLatestSyncDateValidation({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'latestSyncDateValidation',
           caseSensitive: caseSensitive);
     });
   }
@@ -531,6 +769,13 @@ extension GamificationAdditionalDetailRemoteQueryProperty on QueryBuilder<
       latestSyncDateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'latestSyncDate');
+    });
+  }
+
+  QueryBuilder<GamificationAdditionalDetailRemote, String?, QQueryOperations>
+      latestSyncDateValidationProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'latestSyncDateValidation');
     });
   }
 }

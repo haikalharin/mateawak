@@ -50,39 +50,6 @@ class _MissionPastDetailScreenState
   Widget build(BuildContext context) {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
-        // if (widget.employeeMissionId != 0) {
-        //   final ctrlPastMission =
-        //       ref.watch(missionPastControllerProvider.notifier);
-        //   ctrlPastMission
-        //       .getDetailMission(employeeMissionId: widget.employeeMissionId!)
-        //       .whenComplete(() {
-        //     ref.refresh(missionPastControllerProvider);
-        //     final gamification =
-        //         ref.watch(gamificationDetailState.notifier).state;
-        //     final ctrl = ref.watch(missionPastControllerProvider.notifier);
-        //     ref.watch(currentTypeTaskState.notifier).state =
-        //         ctrl.currentTypeTask;
-        //     if (ctrl.currentTypeTask == TaskType.STX.name ||
-        //         ctrl.currentTypeTask == TaskType.ASM.name) {
-        //       ref.watch(listSelectOptionStringState.notifier).state =
-        //           ctrl.listSelectOptionCurrentString;
-        //       ref.watch(attachmentPathState.notifier).state = ctrl.attachment;
-        //       ref.watch(attachmentNameState.notifier).state =
-        //           ctrl.attachmentName;
-        //     } else {
-        //       ref.watch(listSelectOptionState.notifier).state =
-        //           ctrl.listSelectOptionCurrent;
-        //     }
-        //     if (gamification.completedBy != null) {
-        //       context.go(
-        //           '/landing/etamKawa/home-etamkawa/2/$detailMissionPastEtamkawa/$taskMissionPastEtamkawa',
-        //           extra: {
-        //             Constant.listTask: (gamification
-        //                 .chapterData?.single.missionData?.single.taskData)
-        //           });
-        //     }
-        //   });
-        // }
         final gamification = ref.watch(gamificationDetailState.notifier).state;
         return AsyncValueWidget(
           value: ref.watch(taskControllerProvider),
@@ -414,8 +381,10 @@ class _MissionPastDetailScreenState
                                   width: double.infinity,
                                   child: ElevatedButton(
                                       onPressed: () {
-                                        context.go(
-                                            '/landing/etamKawa/home-etamkawa/2/$detailMissionPastEtamkawa/$taskMissionPastEtamkawa',
+                                        context.goNamed(taskMissionEtamkawa,
+                                            pathParameters: {
+                                              'CurrentIndex': '2'
+                                            },
                                             extra: {
                                               Constant.listTask: (gamification
                                                   .chapterData
@@ -424,15 +393,6 @@ class _MissionPastDetailScreenState
                                                   ?.single
                                                   .taskData)
                                             });
-                                        // context.goNamed(taskMissionPastEtamkawa,
-                                        //     extra: {
-                                        //       Constant.listTask: (gamification
-                                        //           .chapterData
-                                        //           ?.single
-                                        //           .missionData
-                                        //           ?.single
-                                        //           .taskData)
-                                        //     });
                                       },
                                       child: Text(
                                           EtamKawaTranslate.answerDetails,

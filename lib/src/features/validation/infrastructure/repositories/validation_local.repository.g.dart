@@ -7,7 +7,7 @@ part of 'validation_local.repository.dart';
 // **************************************************************************
 
 String _$getValidationRemoteHash() =>
-    r'42c790742043efe433a50f9d53aa8c95a5ad4fae';
+    r'69fa308cd8c5b3e03e9140289d7d061654e9c726';
 
 /// See also [getValidationRemote].
 @ProviderFor(getValidationRemote)
@@ -42,7 +42,7 @@ final getValidationLocalProvider =
 
 typedef GetValidationLocalRef
     = AutoDisposeFutureProviderRef<List<ValidationResponseRemote>>;
-String _$submitValidationHash() => r'ca8b8eb813ebc393043a951df906ac4b7248005b';
+String _$submitValidationHash() => r'c564219896f1afe128a7f1de4cc2685dc330fd9a';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -201,7 +201,7 @@ class _SubmitValidationProviderElement
 }
 
 String _$submitValidationBgHash() =>
-    r'7235e27a9e8af4538c5ed3bb2f85942dcda10811';
+    r'1fcac9c205a5f0ddb693cc95ecd9eabf90a3ef8c';
 
 /// See also [submitValidationBg].
 @ProviderFor(submitValidationBg)
