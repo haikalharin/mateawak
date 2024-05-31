@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_additional_detail.remote.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
+import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -18,7 +20,16 @@ FutureOr<bool> fetchMission(FetchMissionRef ref) async {
   List<GamificationResponseRemote> listResponse = [];
   //const rawMissionDummy = Constant.rawMissionDummy;
   final userModel = await ref.read(helperUserProvider).getUserProfile();
-  final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
+  var latestSyncDate = ref.read(latestSyncDateState.notifier).state;
+  final latestSyncDateIsar = await isarInstance
+      .gamificationAdditionalDetailRemotes
+      .filter()
+      .idEqualTo(0)
+      .findFirst();
+  if (latestSyncDateIsar?.latestSyncDate != null) {
+    latestSyncDate = latestSyncDateIsar!.latestSyncDate!;
+  }
+  debugPrint('latestsyncdate : ${latestSyncDateIsar?.latestSyncDate}');
   final response = await connect.post(
       modul: ModuleType.etamkawaGamification,
       path: "api/mission/get_employee_mission?${Constant.apiVer}",
@@ -32,11 +43,19 @@ FutureOr<bool> fetchMission(FetchMissionRef ref) async {
     final result = GamificationResponseRemote.fromJson(element);
     listResponse.add(result);
   }
-
   await isarInstance.writeTxn(() async {
-    //await isarInstance.gamificationResponseRemotes.clear();
-    await isarInstance.gamificationAdditionalDetailRemotes.put(GamificationAdditionalDetailRemote(latestSyncDate: latestSyncDate));
     await isarInstance.gamificationResponseRemotes.putAll(listResponse);
+  });
+
+  final today = CommonUtils.formatDateRequestParam(DateTime.now().toString());
+  ref.read(latestSyncDateState.notifier).state = today;
+  await isarInstance.writeTxn(() async {
+    await isarInstance.gamificationAdditionalDetailRemotes.put(
+        GamificationAdditionalDetailRemote(
+            id: 0,
+            latestSyncDate: today,
+            latestSyncDateValidation:
+                latestSyncDateIsar?.latestSyncDateValidation));
   });
 
   ref.keepAlive();

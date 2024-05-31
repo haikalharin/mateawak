@@ -174,7 +174,7 @@ Future<bool> submitAnswerBg(
                       .deleteAll();
                 });
               });
-            } else if (value.value?.result?.message?.toLowerCase() ==
+            } else if (value.value?.result?.content?.toLowerCase() ==
                 'already submitted') {
               await isarInstance.writeTxn(() async {
                 await isarInstance.answerRequestRemotes

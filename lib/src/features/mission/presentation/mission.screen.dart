@@ -32,12 +32,10 @@ class MissionScreen extends ConsumerStatefulWidget {
 Future<void> myAsyncMethodMoved(
     BuildContext context, GamificationResponseRemote gamification) async {
   if ((gamification.missionStatusCode ?? 0) > 0) {
-    //context.goNamed(taskMissionEtamkawa);
-    context.go(
-        '/landing/etamKawa/home-etamkawa/2/$detailMissionEtamkawa/$taskMissionEtamkawa');
+    context.goNamed(taskMissionEtamkawa, pathParameters: {'CurrentIndex': '2'});
   } else {
-    //context.goNamed(detailMissionEtamkawa);
-    context.go('/landing/etamKawa/home-etamkawa/2/$detailMissionEtamkawa');
+    context
+        .goNamed(detailMissionEtamkawa, pathParameters: {'CurrentIndex': '2'});
   }
 }
 

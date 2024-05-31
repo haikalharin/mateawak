@@ -13,8 +13,8 @@ class ConnectBackgroundService {
     BaseOptions options = BaseOptions(
         baseUrl: url,
         receiveDataWhenStatusError: true,
-        connectTimeout: const Duration(seconds: 3600),
-        receiveTimeout: const Duration(seconds: 3600),
+        connectTimeout: const Duration(seconds: 60),
+        receiveTimeout: const Duration(seconds: 60),
         headers: {
           'Accept': 'application/json',
         });

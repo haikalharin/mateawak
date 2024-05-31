@@ -885,7 +885,6 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                                     var status =
                                                         ctrl.putAnswerFinal(
                                                             isSubmitted: true);
-
                                                     await AsyncValue.guard(
                                                             () => status)
                                                         .then((value) async {

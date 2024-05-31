@@ -62,6 +62,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
         ? (widget.currentIndex != 0 ? index = widget.currentIndex! : 0)
         : 2;
     initEtamkawa();
+    ref.read(missionControllerProvider.notifier).updateLatestSyncDate();
     super.initState();
   }
 
@@ -75,8 +76,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
           final ctrlMission = ref.watch(missionControllerProvider.notifier);
           final ctrlValidation =
               ref.watch(validationControllerProvider.notifier);
-
-          final latestSyncDate = ref.watch(latestSyncDateState.notifier).state;
+          final latestSyncDate = ref.watch(latestSyncDateState);
           final submitStatus = ref.watch(submitStatusState);
           final submitStatusMission = ref.watch(submitStatusMissionState);
           final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
@@ -111,10 +111,9 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                     context: context,
                     elevation: index == 0 ? 0.0 : 0.5,
                     title: title,
-                    onBack: () {
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pop();
-                    },
+                    // onBack: () {
+                    //   context.pop();
+                    // },
                     actions: [
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -126,10 +125,10 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                               fontWeight: FontWeight.w600,
                               fontSize: 8.sp),
                           SharedComponent.label(
-                              text: CommonUtils.formattedDate(
+                              text: latestSyncDate != '2024-03-01T03:55:58.918Z' ? CommonUtils.formattedDate(
                                   latestSyncDate.toString(),
                                   withDay: false,
-                                  withHourMinute: true),
+                                  withHourMinute: true) : '-',
                               context: context,
                               fontWeight: FontWeight.w400,
                               fontSize: 8.sp),

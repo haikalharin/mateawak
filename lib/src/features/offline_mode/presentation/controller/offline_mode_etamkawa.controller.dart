@@ -11,7 +11,7 @@ class OfflineModeEtamkawaController extends _$OfflineModeEtamkawaController {
   @override
   FutureOr<void> build() {}
 
-  Future<void> clearAllEtamKawaData() async {
+  FutureOr<void> clearAllEtamKawaData() async {
     final isarInstance = await ref.watch(isarInstanceProvider.future);
     isarInstance.writeTxn(() async {
       await isarInstance.clear();
