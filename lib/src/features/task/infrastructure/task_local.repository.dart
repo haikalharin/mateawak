@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
+import 'package:module_etamkawa/src/configs/services/connect_etamkawa.dart';
 import 'package:module_etamkawa/src/constants/constant.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
 import 'package:module_etamkawa/src/features/task/domain/answer_request.remote.dart';
@@ -129,7 +130,7 @@ Future<Map<String, dynamic>> submitMission(SubmitMissionRef ref,
     required int status}) async {
   bool? sendImageSuccess = true;
   final userModel = await ref.read(helperUserProvider).getUserProfile();
-  final connect = ref.read(connectProvider.notifier);
+  final connect = ref.read(connectEtamkawaProvider.notifier);
   final isarInstance = await ref.watch(isarInstanceProvider.future);
 
   await Future.forEach(answerRequestRemote.taskData!, (element) async {
@@ -167,17 +168,17 @@ Future<Map<String, dynamic>> submitMission(SubmitMissionRef ref,
     }
   });
   ApiResponse? responseData = ApiResponse();
-  if( sendImageSuccess != false) {
+  if (sendImageSuccess != false) {
     answerRequestRemote.status = 2;
     final response = connect.post(
         modul: ModuleType.etamkawaGamification,
         path:
-        "api/mission/submit_employee_mission?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}",
+            "api/mission/submit_employee_mission?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}",
         body: answerRequestRemote.toJson());
     await AsyncValue.guard(() => response).then((value) async {
-      ApiResponse response = value.value ?? ApiResponse();
-      responseData = response;
       if (value.hasValue) {
+        ApiResponse response = value.value ?? ApiResponse();
+        responseData = response;
         if (response.statusCode == 200 && response.result?.isError == false) {
           await isarInstance.writeTxn(() async {
             await isarInstance.answerRequestRemotes
@@ -191,7 +192,6 @@ Future<Map<String, dynamic>> submitMission(SubmitMissionRef ref,
       }
     });
   }
-
 
   Map<String, dynamic> data = {
     'sendImageSuccess': sendImageSuccess,

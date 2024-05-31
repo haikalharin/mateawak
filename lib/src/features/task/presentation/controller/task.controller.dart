@@ -188,15 +188,15 @@ class TaskController extends _$TaskController {
           Map<String, dynamic> data = value.value ?? {};
           ApiResponse apiResponse = data['response'];
           bool sendImageSuccess = data['sendImageSuccess'];
-          ResultSubmissionRequestRemote result =
-              ResultSubmissionRequestRemote();
-          if (apiResponse.result?.content != null) {
-            result = ResultSubmissionRequestRemote.fromJson(
-                apiResponse.result?.content);
-          }
           if (sendImageSuccess == true) {
             if (apiResponse.statusCode == 200 &&
                 apiResponse.result?.isError == false) {
+              ResultSubmissionRequestRemote result =
+                  ResultSubmissionRequestRemote();
+              if (apiResponse.result?.content != null) {
+                result = ResultSubmissionRequestRemote.fromJson(
+                    apiResponse.result?.content);
+              }
               resultSubmissionNotifier.state =
                   resultSubmissionNotifier.state.copyWith(
                 employeeMissionId: result.employeeMissionId,
@@ -214,7 +214,7 @@ class TaskController extends _$TaskController {
               isSuccess = false;
               Navigator.of(globalkey.currentContext!).pop();
               Navigator.of(globalkey.currentContext!).pop();
-              if (apiResponse.result?.message?.toLowerCase() ==
+              if (apiResponse.result?.content?.toLowerCase() ==
                   'already submitted') {
                 SharedComponent.dialogPopUp(
                   type: 'info',
@@ -227,12 +227,12 @@ class TaskController extends _$TaskController {
                       showLoadingDialog(globalkey.currentContext!);
                       await isarInstance.answerRequestRemotes
                           .filter()
-                          .employeeMissionIdEqualTo(result.employeeMissionId)
+                          .employeeMissionIdEqualTo(gamification.employeeMissionId)
                           .deleteAll()
                           .whenComplete(() async {
                         await isarInstance.gamificationResponseRemotes
                             .filter()
-                            .employeeMissionIdEqualTo(result.employeeMissionId)
+                            .employeeMissionIdEqualTo(gamification.employeeMissionId)
                             .deleteAll();
                       });
                     }).whenComplete(() {

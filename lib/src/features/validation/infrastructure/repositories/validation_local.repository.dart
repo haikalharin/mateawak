@@ -253,7 +253,7 @@ Future<ResultSubmissionRequestRemote> submitValidation(SubmitValidationRef ref,
   } else {
     Navigator.of(globalkey.currentContext!).pop();
     Navigator.of(globalkey.currentContext!).pop();
-    if (response.result?.message?.toLowerCase() == 'already validated') {
+    if (response.result?.content?.toLowerCase() == 'already validated') {
       SharedComponent.dialogPopUp(
         type: 'info',
         context: globalkey.currentContext!,
@@ -345,7 +345,7 @@ Future<bool> submitValidationBg(SubmitValidationBgRef ref) async {
                         validationRequest.employeeMissionId)
                     .deleteAll();
               });
-            } else if (value.value?.result?.message?.toLowerCase() ==
+            } else if (value.value?.result?.content?.toLowerCase() ==
                 'already validated') {
               await isarInstance.writeTxn(() async {
                 await isarInstance.validationResponseRemotes
