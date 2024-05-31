@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
+import 'package:module_etamkawa/src/features/task/presentation/controller/task.controller.dart';
 import 'package:module_shared/module_shared.dart';
 
 final isConnectionAvailableProvider = StateProvider<bool>((ref) {
@@ -23,19 +25,45 @@ class ConnectionListenerWidget extends ConsumerStatefulWidget {
 }
 
 class _ConnectionListenerWidgetState
-    extends ConsumerState<ConnectionListenerWidget> {
+    extends ConsumerState<ConnectionListenerWidget>  with WidgetsBindingObserver {
   late StreamSubscription<InternetConnectionStatus> connectionListener;
+  late StreamSubscription<int> timeListener;
+  final stream = Stream.periodic(const Duration(seconds: 1), (i) => i);
+  bool isInit = true;
 
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    final ctrl = ref.read(missionControllerProvider.notifier);
+    final ctrlTask = ref.read(taskControllerProvider.notifier);
+    // Initialize a new stream listener when connected
+    timeListener = stream.listen((value) async {
+      // if (kDebugMode) {
+      //   print(value);
+      // }
+      if (value % 7200 == 0) {
+       await ctrlTask.checkExpiredBeforeSubmitAnswer().whenComplete(() async {
+         await  ctrl.backgroundServiceEvent(isFetchMission: true,isSubmitAnswer: true);
+        });
+
+      }
+    });
     connectionListener =
-        InternetConnectionChecker().onStatusChange.listen((status) {
+        InternetConnectionChecker().onStatusChange.listen((status) async {
       switch (status) {
         case InternetConnectionStatus.connected:
           ref.read(isConnectionAvailableProvider.notifier).state = true;
+          if (isInit) {
+            await ctrlTask.checkExpiredBeforeSubmitAnswer().whenComplete(() async {
+              await  ctrl.backgroundServiceEvent(isFetchMission: true,isSubmitAnswer: true);
+            });
+            isInit = false;
+          }
+
           break;
         case InternetConnectionStatus.disconnected:
           ref.read(isConnectionAvailableProvider.notifier).state = false;
+          isInit = true;
           break;
       }
     });
@@ -46,7 +74,17 @@ class _ConnectionListenerWidgetState
   @override
   void dispose() {
     connectionListener.cancel();
+    timeListener.cancel();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+    }
+    if (state == AppLifecycleState.resumed) {
+    }
+    super.didChangeAppLifecycleState(state);
   }
 
   @override
@@ -62,8 +100,10 @@ class _ConnectionListenerWidgetState
         children: [
           Consumer(builder: (context, widgetRef, _) {
             if (!widgetRef.watch(isConnectionAvailableProvider)) {
+              timeListener.pause();
               return const ConnectionStatusWidget();
             } else {
+              timeListener.resume();
               return const SizedBox.shrink();
             }
           }),

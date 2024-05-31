@@ -8,12 +8,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:module_etamkawa/main.dart';
+import 'package:module_etamkawa/src/app.dart';
+import 'package:module_etamkawa/src/constants/function_utils.dart';
+import 'package:module_etamkawa/src/utils/common_utils.dart';
+import 'package:module_shared/module_shared.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    final appConfig = AppConfig(appName: "etamkawa", flavor: FlavorType.uat);
+    await tester.pumpWidget(MainApp(config: appConfig));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);
@@ -26,5 +29,12 @@ void main() {
     // Verify that our counter has incremented.
     expect(find.text('0'), findsNothing);
     expect(find.text('1'), findsOneWidget);
+  });
+  testWidgets('difference day test', (WidgetTester tester) async {
+
+    DateTime dueDate =
+    DateTime.parse(CommonUtils.formattedDateHoursUtcToLocalForCheck('2024-05-21T03:29:00'));
+    int different = calculateDifferenceDate(dueDate, DateTime.now());
+    print(different);
   });
 }

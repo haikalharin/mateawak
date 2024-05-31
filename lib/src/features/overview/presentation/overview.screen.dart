@@ -1,18 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:module_etamkawa/src/features/main_nav/presentation/controller/main_nav.controller.dart';
-import 'package:module_etamkawa/src/features/main_nav/presentation/custom_mainappbar_widget.dart';
+import 'package:module_etamkawa/src/constants/etamkawa_empty_state_widget.dart';
 import 'package:module_etamkawa/src/features/overview/presentation/controller/overview.controller.dart';
-import 'package:module_etamkawa/src/features/overview/presentation/widgets/header/header_overview_widget.dart';
-import 'package:module_etamkawa/src/features/overview/presentation/widgets/unit_breakdown/unit_breakdown_widget.dart';
 import 'package:module_shared/module_shared.dart';
 
-import '../../setting/domain/setting.model.dart';
-import '../../setting/presentation/controller/setting.controller.dart';
+import '../../../shared_component/async_value_widget.dart';
 import '../../../shared_component/refreshable_starter_widget.dart';
-import '../infrastructure/repositories/overview.repository.dart';
+import '../../../utils/custom_html_widget.dart';
 
 class OverviewScreen extends ConsumerStatefulWidget {
   const OverviewScreen({super.key});
@@ -41,14 +39,13 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
     super.dispose();
   }
 
-  final List<int> _screenOccupation = [0, 0];
+  // final List<int> _screenOccupation = [0, 0];
 
   @override
   Widget build(BuildContext context) {
-    final isScrolled = ref.watch(isScrollProvider);
+    // final isScrolled = ref.watch(isScrollProvider);
 
-    final indexMenuOverview = ref.watch(indexMenuOverviewProvider);
-
+    // final indexMenuOverview = ref.watch(indexMenuOverviewProvider);
     return WillPopScope(
       onWillPop: () {
         context.pop();
@@ -56,138 +53,157 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
         return Future.value(false);
       },
       child: Scaffold(
-        appBar: isScrolled
-            ? CustomMainAppbarWidget(
-                title: 'Overview',
-                currentIndex: indexMenuOverview,
-                ref: ref,
-              )
-            : null,
-        body: RefreshableStarterWidget(
-          scrollController: _scrollController,
-          onRefresh: () async {
-            final materials = await ref.watch(
-                getActiveSwitchersProvider(SwitcherMode.material)
-                    .future);
-            final areas = await ref.watch(
-                getActiveSwitchersProvider(SwitcherMode.area).future);
-            final userModel =
-                await ref.read(helperUserProvider).getUserProfile();
-
-            // ignore: unused_result
-            await ref.refresh(isDayShiftProvider.future);
-
-            // ignore: unused_result
-            await ref.refresh(getDetailHourlyGrafikRemoteProvider(
-              areas: areas,
-              material: materials[ref.read(indexSliderProvider)],
-              adAccount: userModel?.adAccount,
-              uid: userModel?.employeeID ?? 0,
-            ).future);
-
-            // ignore: unused_result
-            await ref.refresh(getAchievementProduksiRemoteProvider(
-              areas: areas,
-              material: materials[ref.read(indexSliderProvider)],
-              adAccount: userModel?.adAccount,
-              uid: userModel?.employeeID ?? 0,
-            ).future);
-
-            // ignore: unused_result
-            // await ref.refresh(getBannerWaterfallRemoteProvider(
-            //   areas: areas,
-            //   material: materials[ref.read(indexSliderProvider)],
-            //   adAccount: userModel?.adAccount,
-            //   uid: userModel?.employeeID ?? 0,
-            // ).future);
-
-            // ignore: unused_result
-            await ref.refresh(getUnitBreakdownRemoteProvider(
-              areas: areas,
-              material: materials[ref.read(indexSliderProvider)],
-              adAccount: userModel?.adAccount,
-              uid: userModel?.employeeID ?? 0,
-            ).future);
-          },
-          slivers: [
-            SliverToBoxAdapter(
-              child: Stack(
+        body: Consumer(builder: (context, ref, child) {
+          final ctrl = ref.watch(overviewControllerProvider.notifier);
+          final news = ref.watch(newsState);
+          //final imageNews = ref.watch(imageNewsState);
+          final userProfile = ref.watch(userProfileState);
+          // Uint8List imageBytes = imageNews.attachmentId != 0
+          //     ? base64Decode(imageNews.formattedName ?? '')
+          //     : Uint8List(1);
+          return AsyncValueWidget(
+            value: ref.watch(overviewControllerProvider),
+            data: (data) {
+              return Stack(
                 children: [
-                  HeaderOverviewWidget(isScrolled: isScrolled),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: 24.h,
-                      right: 16.w,
-                      left: 16.w,
-                    ),
-                    child: Column(
-                      children: [
-                        SizedBox(height: kToolbarHeight + 88.sp),
-                        SizedBox(height: 16.h),
-                        Consumer(
-                          builder: (context, consRef, child) {
-                            return FutureBuilder(
-                              future: Future.wait(
-                                [
-                                  consRef.watch(getActiveSwitchersProvider(
-                                          SwitcherMode.material)
-                                      .future),
-                                  consRef.watch(getActiveSwitchersProvider(
-                                          SwitcherMode.area)
-                                      .future),
-                                  consRef
-                                      .read(helperUserProvider)
-                                      .getUserProfile(),
+                  Column(
+                    children: [
+                      Container(
+                        height: 80,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: ColorTheme.primary500,
+                            borderRadius: const BorderRadius.only(
+                                bottomRight: Radius.circular(24.0))),
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  color: ColorTheme.primary100,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(100.r))),
+                              child: Center(
+                                  child: Text(
+                                (userProfile.employeeName ?? '')[0].toUpperCase(),
+                                style: SharedComponent.textStyleCustom(
+                                    typographyType: TypographyType.largeH2,
+                                    fontColor: ColorTheme.textDark),
+                              )),
+                            ),
+                            Container(
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(userProfile.employeeName ?? '',
+                                      style: SharedComponent.textStyleCustom(
+                                          typographyType:
+                                              TypographyType.largeH5,
+                                          fontColor: ColorTheme.textWhite)),
+                                  Text(userProfile.positionName ?? '',
+                                      style: SharedComponent.textStyleCustom(
+                                          typographyType: TypographyType.body,
+                                          fontColor: ColorTheme.textWhite)),
                                 ],
                               ),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  final materials =
-                                      snapshot.data?[0] as List<String>;
-                                  final areas =
-                                      snapshot.data?[1] as List<String>;
-                                  final userModel =
-                                      snapshot.data?[2] as UserModel?;
-                                  if (materials.isNotEmpty &&
-                                      areas.isNotEmpty) {
-                                    return Column(
-                                      children: [
-                                        HeaderSlideWidget(
-                                          getActiveAreas: areas,
-                                          getActiveMaterials: materials,
-                                          userModel: userModel,
-                                          screenOccupation: _screenOccupation,
-                                        ),
-                                        SizedBox(height: 24.h),
-                                        UnitBreakdownWidget(
-                                          areas: areas,
-                                          materials: materials,
-                                          userModel: userModel,
-                                          screenOccupation: _screenOccupation,
-                                        )
-                                      ],
-                                    );
-                                  }
-                                }
-                                return Container(
-                                  child: const Center(
-                                      child: Text(
-                                    'Halooo',
-                                    style: TextStyle(fontSize: 50),
-                                  )),
-                                );
-                              },
-                            );
-                          },
+                            )
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                      Expanded(
+                        child: RefreshableStarterWidget(
+                          // scrollController: _scrollController,
+                          onRefresh: () async {
+                            ctrl.getNews();
+                          },
+                          slivers: [
+                            SliverToBoxAdapter(
+                              child: Stack(
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16, vertical: 16),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(news.title ?? '',
+                                                style: SharedComponent
+                                                    .textStyleCustom(
+                                                        typographyType:
+                                                            TypographyType
+                                                                .largeH5,
+                                                        fontColor: ColorTheme
+                                                            .textDark)),
+                                            const SizedBox(
+                                              height: 8,
+                                            ),
+                                            news.attachmentPath != null
+                                                ? Padding(
+                                                    padding: const EdgeInsets
+                                                        .fromLTRB(0, 8, 0, 16),
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.r),
+                                                      child: Image(
+                                                        image: FileImage(File(
+                                                            news.attachmentPath ??
+                                                                '')),
+                                                        fit: BoxFit.contain,
+                                                      ),
+                                                    ),
+                                                  )
+                                                : Container(),
+                                            const SizedBox(
+                                              height: 8,
+                                            ),
+                                            customHtmlWidget(
+                                              news.content ?? '',
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
+                  news.content == null
+                      ? EtamkawaEmptyStateWidget(
+                          onPressed: () {
+                            ref.watch(overviewControllerProvider);
+                          },
+                          title:
+                              'There’s no data yet. Please tap here to Retry',
+                        )
+                      : Container(),
                 ],
-              ),
+              );
+            },
+            onError: (p0, p1) => EtamkawaEmptyStateWidget(
+              onPressed: () {
+                ref.invalidate(overviewControllerProvider);
+              },
+              title: 'There’s no data yet. Please tap here to Retry',
             ),
-          ],
-        ),
+          );
+        }),
       ),
     );
   }

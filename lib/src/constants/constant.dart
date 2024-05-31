@@ -1,11 +1,10 @@
-
 import '../features/telematry/domain/user_infos_response.remote.dart';
 
 class Constant {
   static const baseUrl = 'baseUrlKey';
   static const tokenApi = 'tokenApiKey';
   static const apiVer = 'ver=v1';
-  static const bpsIsarInstance = 'bps-isar-instance';
+  static const etamkawaIsarInstance = 'etamkawa-isar-instance';
   static const feature = 'BPS';
 
   static const defaultUnParseErrorMsg = "Ooops.. Something went wrong";
@@ -127,8 +126,11 @@ class Constant {
       'https://docs.google.com/forms/d/e/1FAIpQLSf0X5exhVrGjYvgEOsl3MSbEe3bspfhQL1IuimGOo3PMoMYzw/viewform?usp=pp_url';
 
   //background service
-  static const bgTelematryClose = 'telematry-close';
-  static const bgTelematryStopServiceManual = 'stop-service-manual';
+  static const bgMainNavClose = 'mainNav-close';
+  static const bgMainNavInit = 'mainNav-init';
+  static const bgMissionInit = 'mission-init';
+  static const bgSendAnswer = 'send-answer';
+  static const bgMainNavStopServiceManual = 'stop-service-manual';
 
   static const dateSelectorModeDari = 'Dari';
   static const dateSelectorModeKe = 'Ke';
@@ -137,12 +139,15 @@ class Constant {
   static const fullscreenTrailing = 'trailing';
   static const fullscreenChild = 'child';
   static const fullscreenOnRefresh = 'onRefresh';
+  static const listTask = 'list-task';
+  static const gamification = 'gamification';
 
   static const menuOverview = 'Menu Overview';
   static const menuLive = 'Menu Live';
   static const menuSitePerform = 'Menu Site Perform';
   static const menuLineupOperator = 'Menu Lineup Operator';
   static const menuLineupSpv = 'Menu Lineup Spv';
+  static const String testToken = 'testToken';
 
   static final Map<String, RoleAccess> fullListFeature = {
     //BPS
@@ -199,7 +204,7 @@ class Constant {
   };
 
   ///Module Lineup ----
-  static const moduleBPS = 'module_etamkawa';
+  static const moduleEtamkawa = 'module_etamkawa';
   static const izinSakit = "Sakit";
   static const izinKarantina = "Karantina";
   static const izinKeperluanPribadi = "Keperluan Pribadi";
@@ -235,4 +240,14 @@ class Constant {
   static const lineUpMasterUploader = "Master Uploader";
 
   static const readinessTidakBekerja = "TIDAK BEKERJA";
+}
+
+class EtamKawaUploadConstant {
+  static const int maxSizeDefault = 2;
+  static const List<String> fileTypeDefault = ['doc', 'jpg', 'jpeg', 'heic', 'png', 'gif', 'pdf'];
+  static const String fileTypeTextDefault = '.jpg, .jpeg, .png, .heif, .pdf, .doc,';
+  static const List<String> fileTypeImage = ['jpg', 'jpeg', 'png','heic','heif', 'HEIF', 'HEIC', 'JPG', 'JPEG', 'PNG'];
+  static const List<String> fileTypeImageAndroid = ['jpg', 'jpeg', 'png', 'JPG', 'JPEG', 'PNG'];
+  static const String fileTypeTextImage = '.heif, .jpg, .jpeg, .png';
+  static const String fileTypeTextImageAndroid = '.jpg, .jpeg, .png';
 }
