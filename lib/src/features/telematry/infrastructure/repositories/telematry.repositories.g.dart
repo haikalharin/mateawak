@@ -7,7 +7,7 @@ part of 'telematry.repositories.dart';
 // **************************************************************************
 
 String _$getUserInfosRemoteHash() =>
-    r'5701ed4934295debcb1e71727e61d1f65d5b277b';
+    r'e545989c26472f99b48a5d35f859e61b964adf37';
 
 /// See also [getUserInfosRemote].
 @ProviderFor(getUserInfosRemote)

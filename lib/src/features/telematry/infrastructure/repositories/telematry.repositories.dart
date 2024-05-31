@@ -1,14 +1,15 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:module_etamkawa/src/constants/constant.dart';
-import 'package:module_etamkawa/src/features/offline_mode/infrastructure/repositories/isar.repository.dart';
-import 'package:module_etamkawa/src/features/telematry/domain/telematry_data_model.dart';
-import 'package:module_etamkawa/src/features/telematry/domain/user_infos_response.remote.dart';
 import 'package:module_etamkawa/src/features/telematry/infrastructure/repositories/telematry_local.repository.dart';
-import 'package:module_etamkawa/src/features/telematry/presentation/controller/telematry.controller.dart';
 import 'package:module_shared/module_shared.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../../../constants/constant.dart';
+import '../../../offline_mode/infrastructure/repositories/isar.repository.dart';
+import '../../domain/telematry_data_model.dart';
+import '../../domain/user_infos_response.remote.dart';
+import '../../presentation/controller/telematry.controller.dart';
 
 part 'telematry.repositories.g.dart';
 
@@ -82,12 +83,27 @@ Future<UserInfosResponseRemote> getUserInfosRemote(
 
   final isarInstance = await ref.watch(isarInstanceProvider.future);
   await isarInstance.writeTxn(() async {
+    final existingUserInfo = await isarInstance.userInfosResponseRemotes.get(1);
+
+    //keep areaAccess value
+    if (existingUserInfo?.siteAccess != null) {
+      result.siteAccess = existingUserInfo?.siteAccess;
+    }
+
+    //set default selected site if empty
+    final isNoSelectedSite = result.siteAccess
+        ?.where((element) => element.isSelected == true)
+        .toList()
+        .isEmpty;
+    if (isNoSelectedSite == true) {
+      result.siteAccess?[0].isSelected = true;
+    }
+
     await isarInstance.userInfosResponseRemotes.clear();
     await isarInstance.userInfosResponseRemotes.put(result);
     ref.invalidate(getUserInfosLocalProvider);
   });
 
-  ref.keepAlive();
   return result;
 }
 

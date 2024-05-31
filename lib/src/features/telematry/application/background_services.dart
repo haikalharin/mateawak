@@ -6,10 +6,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:isar/isar.dart';
-import 'package:module_etamkawa/src/constants/constant.dart';
 import 'package:module_etamkawa/src/features/telematry/domain/telematry_data_model.dart';
 import 'package:module_shared/module_shared.dart';
 import 'package:path_provider/path_provider.dart';
+
+import '../../../constants/constant.dart';
 
 Future<void> intializedBackgroundService() async {
   log('intializedBackgroundService');
@@ -49,9 +50,7 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
   serviceInstance.on(Constant.bgMainNavClose).listen((payload) {
     if (payload?['lastActiveWidgetId'] != null) {
       try {
-        final existingIsarInstance = Isar.getInstance(Constant.etamkawaIsarInstance);
-
-        final isarInstance = existingIsarInstance ??
+        final isarInstance = Isar.getInstance(Constant.etamkawaIsarInstance) ??
             Isar.openSync([TelematryDataModelSchema],
                 directory: dir.path, name: Constant.etamkawaIsarInstance);
 
@@ -72,22 +71,23 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
           isarInstance.writeTxnSync(() {
             isarInstance.telematryDataModels.putSync(data);
           });
+          log('sending telematry in background...');
 
-          submitTelematry(
+          submitTelematryInBg(
             accessToken: payload?['accessToken'] as String,
             path: payload?['path'] as String,
             url: payload?['url'] as String,
             telematryData: [data],
           ).then((value) async {
-            log('submit telematry result: $value');
+            log('submit telematry background result: $value');
 
             isarInstance.writeTxnSync(() {
               isarInstance.telematryDataModels.deleteSync(data.id);
             });
-            if (isarInstance.isOpen) {
-              await isarInstance.close();
-            }
-            //await serviceInstance.stopSelf();
+            /* if (isarInstance?.isOpen == true) {
+              await isarInstance?.close();
+              serviceInstance.stopSelf();
+            } */
           });
         }
       } catch (e) {
@@ -98,7 +98,7 @@ Future<void> performExecution(ServiceInstance serviceInstance) async {
   });
 }
 
-Future<bool> submitTelematry(
+Future<bool> submitTelematryInBg(
     {required String url,
     required String path,
     required List<TelematryDataModel> telematryData,

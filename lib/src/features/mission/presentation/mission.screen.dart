@@ -13,8 +13,10 @@ import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../constants/constant.dart';
+import '../../../constants/telematry.constant.dart';
 import '../../../shared_component/async_value_widget.dart';
 import '../../../shared_component/refreshable_starter_widget.dart';
+import '../../../shared_component/visibility_detector_telematry.dart';
 import '../../main_nav/presentation/controller/main_nav.controller.dart';
 import '../../task/presentation/controller/task.controller.dart';
 
@@ -67,334 +69,337 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(
-        builder: (BuildContext context, WidgetRef ref, Widget? child) {
-      final ctrl = ref.watch(missionControllerProvider.notifier);
-      final ctrlTask = ref.watch(taskControllerProvider.notifier);
-      final gamificationInProgress = ref.watch(gamificationInProgressState);
-      final gamificationAssigned = ref.watch(gamificationAssignedState);
-      final gamificationPast = ref.watch(gamificationPastState);
-      final submitStatus = ref.watch(submitStatusMissionState);
-      final submitStatusBgServices =
-          ref.watch(submitStatusMissionBgServicesState);
-      final isInit = ref.watch(isInitMissionState);
-      final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
-      return AsyncValueWidget(
-          value: ref.watch(missionControllerProvider),
-          data: (data) {
-            return Scaffold(
-                body: Stack(
-              children: [
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        readOnly: _selectedIndex == 2 && isConnectionAvailable,
-                        textInputAction: TextInputAction.search,
-                        decoration: InputDecoration(
-                          hintText: "${EtamKawaTranslate.search}...",
-                          suffixIcon: const Icon(Icons.search),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                        onTap: () {
-                          if (_selectedIndex == 2 && isConnectionAvailable) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content:
-                                    Text(EtamKawaTranslate.availableSoon)));
-                          }
-                        },
-                        onChanged: (keyword) {
-                          ctrl.filterMissionList(keyword);
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      child: DefaultTabController(
-                        length: 3,
-                        initialIndex: 1,
-                        child: Column(
-                          children: [
-                            TabBar(
-                              onTap: (index) {
-                                switch (index) {
-                                  case 0:
-                                    setState(() {
-                                      _selectedIndex = index;
-                                    });
-                                    //   submitStatus != SubmitStatus.inProgress &&
-                                    //           submitStatusBgServices !=
-                                    //               SubmitStatus.inProgress
-                                    //       ? ctrl
-                                    //           .backgroundServiceEvent()
-                                    //           .whenComplete(() {
-                                    //           ref.refresh(
-                                    //               missionControllerProvider);
-                                    //         })
-                                    //       : null;
-
-                                    break;
-                                  case 1:
-                                    setState(() {
-                                      _selectedIndex = index;
-                                    });
-                                    submitStatus != SubmitStatus.inProgress &&
-                                            submitStatusBgServices !=
-                                                SubmitStatus.inProgress
-                                        ? ctrl
-                                            .backgroundServiceEvent(
-                                                isFetchMission: true,
-                                                isSubmitAnswer: true)
-                                            .whenComplete(() {
-                                            ref.refresh(
-                                                missionControllerProvider);
-                                          })
-                                        : null;
-                                    break;
-
-                                  case 2:
-                                    setState(() {
-                                      _selectedIndex = index;
-                                    });
-
-                                    //   submitStatus != SubmitStatus.inProgress &&
-                                    //           submitStatusBgServices !=
-                                    //               SubmitStatus.inProgress
-                                    //       ? ctrl
-                                    //           .backgroundServiceEvent()
-                                    //           .whenComplete(() {
-                                    //           ref.refresh(
-                                    //               missionControllerProvider);
-                                    //         })
-                                    //       : null;
-                                    break;
-                                }
-                              },
-                              labelStyle: SharedComponent.textStyleCustom(
-                                  typographyType: TypographyType.medium),
-                              unselectedLabelColor: ColorTheme.neutral500,
-                              tabs: listTab,
+    return  VisibilityDetectorTelematry(
+      widgetName: TelematryConstant.mission,
+      child: Consumer(
+          builder: (BuildContext context, WidgetRef ref, Widget? child) {
+        final ctrl = ref.watch(missionControllerProvider.notifier);
+        final ctrlTask = ref.watch(taskControllerProvider.notifier);
+        final gamificationInProgress = ref.watch(gamificationInProgressState);
+        final gamificationAssigned = ref.watch(gamificationAssignedState);
+        final gamificationPast = ref.watch(gamificationPastState);
+        final submitStatus = ref.watch(submitStatusMissionState);
+        final submitStatusBgServices =
+            ref.watch(submitStatusMissionBgServicesState);
+        final isInit = ref.watch(isInitMissionState);
+        final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
+        return AsyncValueWidget(
+            value: ref.watch(missionControllerProvider),
+            data: (data) {
+              return Scaffold(
+                  body: Stack(
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          readOnly: _selectedIndex == 2 && isConnectionAvailable,
+                          textInputAction: TextInputAction.search,
+                          decoration: InputDecoration(
+                            hintText: "${EtamKawaTranslate.search}...",
+                            suffixIcon: const Icon(Icons.search),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
-                            Expanded(
-                              child: Container(
-                                color: ColorTheme.neutral100,
-                                child: TabBarView(
-                                  children: [
-                                    // Tab 1 content
-                                    RefreshableStarterWidget(
-                                      onRefresh: () async {
-                                        submitStatus !=
-                                                    SubmitStatus.inProgress &&
-                                                submitStatusBgServices !=
-                                                    SubmitStatus.inProgress
-                                            ? ctrl.getMissionList()
-                                            : null;
-                                      },
-                                      slivers: [
-                                        SliverList(
-                                          delegate: SliverChildBuilderDelegate(
-                                            (context, index) {
-                                              // Build items for Tab 1
-                                              if (gamificationInProgress
-                                                  .isNotEmpty) {
-                                                return _buildListItem(
-                                                    index,
-                                                    ctrl,
-                                                    ctrlTask,
-                                                    gamificationInProgress);
-                                              } else {
-                                                return Container();
-                                              }
-                                            },
-                                            childCount:
-                                                gamificationInProgress.length,
-                                          ),
-                                        ),
-                                        SliverToBoxAdapter(
-                                          child: Container(
-                                            margin: const EdgeInsets.symmetric(
-                                              vertical: 10.0,
+                          ),
+                          onTap: () {
+                            if (_selectedIndex == 2 && isConnectionAvailable) {
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  content:
+                                      Text(EtamKawaTranslate.availableSoon)));
+                            }
+                          },
+                          onChanged: (keyword) {
+                            ctrl.filterMissionList(keyword);
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        child: DefaultTabController(
+                          length: 3,
+                          initialIndex: 1,
+                          child: Column(
+                            children: [
+                              TabBar(
+                                onTap: (index) {
+                                  switch (index) {
+                                    case 0:
+                                      setState(() {
+                                        _selectedIndex = index;
+                                      });
+                                      //   submitStatus != SubmitStatus.inProgress &&
+                                      //           submitStatusBgServices !=
+                                      //               SubmitStatus.inProgress
+                                      //       ? ctrl
+                                      //           .backgroundServiceEvent()
+                                      //           .whenComplete(() {
+                                      //           ref.refresh(
+                                      //               missionControllerProvider);
+                                      //         })
+                                      //       : null;
+
+                                      break;
+                                    case 1:
+                                      setState(() {
+                                        _selectedIndex = index;
+                                      });
+                                      submitStatus != SubmitStatus.inProgress &&
+                                              submitStatusBgServices !=
+                                                  SubmitStatus.inProgress
+                                          ? ctrl
+                                              .backgroundServiceEvent(
+                                                  isFetchMission: true,
+                                                  isSubmitAnswer: true)
+                                              .whenComplete(() {
+                                              ref.refresh(
+                                                  missionControllerProvider);
+                                            })
+                                          : null;
+                                      break;
+
+                                    case 2:
+                                      setState(() {
+                                        _selectedIndex = index;
+                                      });
+
+                                      //   submitStatus != SubmitStatus.inProgress &&
+                                      //           submitStatusBgServices !=
+                                      //               SubmitStatus.inProgress
+                                      //       ? ctrl
+                                      //           .backgroundServiceEvent()
+                                      //           .whenComplete(() {
+                                      //           ref.refresh(
+                                      //               missionControllerProvider);
+                                      //         })
+                                      //       : null;
+                                      break;
+                                  }
+                                },
+                                labelStyle: SharedComponent.textStyleCustom(
+                                    typographyType: TypographyType.medium),
+                                unselectedLabelColor: ColorTheme.neutral500,
+                                tabs: listTab,
+                              ),
+                              Expanded(
+                                child: Container(
+                                  color: ColorTheme.neutral100,
+                                  child: TabBarView(
+                                    children: [
+                                      // Tab 1 content
+                                      RefreshableStarterWidget(
+                                        onRefresh: () async {
+                                          submitStatus !=
+                                                      SubmitStatus.inProgress &&
+                                                  submitStatusBgServices !=
+                                                      SubmitStatus.inProgress
+                                              ? ctrl.getMissionList()
+                                              : null;
+                                        },
+                                        slivers: [
+                                          SliverList(
+                                            delegate: SliverChildBuilderDelegate(
+                                              (context, index) {
+                                                // Build items for Tab 1
+                                                if (gamificationInProgress
+                                                    .isNotEmpty) {
+                                                  return _buildListItem(
+                                                      index,
+                                                      ctrl,
+                                                      ctrlTask,
+                                                      gamificationInProgress);
+                                                } else {
+                                                  return Container();
+                                                }
+                                              },
+                                              childCount:
+                                                  gamificationInProgress.length,
                                             ),
-                                            // Sesuaikan margin sesuai kebutuhan
-                                            child: SingleChildScrollView(
-                                              scrollDirection: Axis.horizontal,
-                                              child: SizedBox(
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                child: Center(
-                                                  child: Text(
-                                                    gamificationInProgress
-                                                            .isNotEmpty
-                                                        ? EtamKawaTranslate
-                                                            .allEntriesLoaded
-                                                        : EtamKawaTranslate
-                                                            .noData,
-                                                    style: SharedComponent
-                                                        .textStyleCustom(
-                                                      typographyType:
-                                                          TypographyType.body,
-                                                      fontColor:
-                                                          ColorTheme.neutral600,
+                                          ),
+                                          SliverToBoxAdapter(
+                                            child: Container(
+                                              margin: const EdgeInsets.symmetric(
+                                                vertical: 10.0,
+                                              ),
+                                              // Sesuaikan margin sesuai kebutuhan
+                                              child: SingleChildScrollView(
+                                                scrollDirection: Axis.horizontal,
+                                                child: SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  child: Center(
+                                                    child: Text(
+                                                      gamificationInProgress
+                                                              .isNotEmpty
+                                                          ? EtamKawaTranslate
+                                                              .allEntriesLoaded
+                                                          : EtamKawaTranslate
+                                                              .noData,
+                                                      style: SharedComponent
+                                                          .textStyleCustom(
+                                                        typographyType:
+                                                            TypographyType.body,
+                                                        fontColor:
+                                                            ColorTheme.neutral600,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    // Tab 2 content
-                                    RefreshableStarterWidget(
-                                      onRefresh: () async {
-                                        ref.refresh(taskControllerProvider);
-                                        ctrl.getMissionList();
-                                      },
-                                      slivers: [
-                                        SliverList(
-                                          delegate: SliverChildBuilderDelegate(
-                                            (context, index) {
-                                              // Build items for Tab 2
-                                              if (gamificationAssigned
-                                                  .isNotEmpty) {
-                                                return _buildListItem(
-                                                    index,
-                                                    ctrl,
-                                                    ctrlTask,
-                                                    gamificationAssigned);
-                                              } else {
-                                                return Container();
-                                              }
-                                            },
-                                            childCount:
-                                                gamificationAssigned.length,
-                                          ),
-                                        ),
-                                        SliverToBoxAdapter(
-                                          child: Container(
-                                            margin: const EdgeInsets.symmetric(
-                                              vertical: 10.0,
+                                        ],
+                                      ),
+                                      // Tab 2 content
+                                      RefreshableStarterWidget(
+                                        onRefresh: () async {
+                                          ref.refresh(taskControllerProvider);
+                                          ctrl.getMissionList();
+                                        },
+                                        slivers: [
+                                          SliverList(
+                                            delegate: SliverChildBuilderDelegate(
+                                              (context, index) {
+                                                // Build items for Tab 2
+                                                if (gamificationAssigned
+                                                    .isNotEmpty) {
+                                                  return _buildListItem(
+                                                      index,
+                                                      ctrl,
+                                                      ctrlTask,
+                                                      gamificationAssigned);
+                                                } else {
+                                                  return Container();
+                                                }
+                                              },
+                                              childCount:
+                                                  gamificationAssigned.length,
                                             ),
-                                            // Sesuaikan margin sesuai kebutuhan
-                                            child: SingleChildScrollView(
-                                              scrollDirection: Axis.horizontal,
-                                              child: SizedBox(
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                child: Center(
-                                                  child: Text(
-                                                    gamificationAssigned
-                                                            .isNotEmpty
-                                                        ? EtamKawaTranslate
-                                                            .allEntriesLoaded
-                                                        : EtamKawaTranslate
-                                                            .noData,
-                                                    style: SharedComponent
-                                                        .textStyleCustom(
-                                                      typographyType:
-                                                          TypographyType.body,
-                                                      fontColor:
-                                                          ColorTheme.neutral600,
+                                          ),
+                                          SliverToBoxAdapter(
+                                            child: Container(
+                                              margin: const EdgeInsets.symmetric(
+                                                vertical: 10.0,
+                                              ),
+                                              // Sesuaikan margin sesuai kebutuhan
+                                              child: SingleChildScrollView(
+                                                scrollDirection: Axis.horizontal,
+                                                child: SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  child: Center(
+                                                    child: Text(
+                                                      gamificationAssigned
+                                                              .isNotEmpty
+                                                          ? EtamKawaTranslate
+                                                              .allEntriesLoaded
+                                                          : EtamKawaTranslate
+                                                              .noData,
+                                                      style: SharedComponent
+                                                          .textStyleCustom(
+                                                        typographyType:
+                                                            TypographyType.body,
+                                                        fontColor:
+                                                            ColorTheme.neutral600,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    // Tab 3 content
-                                    isConnectionAvailable
-                                        ? const MissionPastScreen()
-                                        : RefreshableStarterWidget(
-                                            onRefresh: () async {
-                                              ctrl.getMissionList();
-                                            },
-                                            slivers: [
-                                              SliverList(
-                                                delegate:
-                                                    SliverChildBuilderDelegate(
-                                                  (context, index) {
-                                                    // Build items for Tab 3
-                                                    if (gamificationPast
-                                                        .isNotEmpty) {
-                                                      return _buildListItem(
-                                                          index,
-                                                          ctrl,
-                                                          ctrlTask,
-                                                          gamificationPast);
-                                                    } else {
-                                                      return Container();
-                                                    }
-                                                  },
-                                                  childCount:
-                                                      gamificationPast.length,
-                                                ),
-                                              ),
-                                              SliverToBoxAdapter(
-                                                child: Container(
-                                                  margin: const EdgeInsets
-                                                      .symmetric(
-                                                    vertical: 10.0,
+                                        ],
+                                      ),
+                                      // Tab 3 content
+                                      isConnectionAvailable
+                                          ? const MissionPastScreen()
+                                          : RefreshableStarterWidget(
+                                              onRefresh: () async {
+                                                ctrl.getMissionList();
+                                              },
+                                              slivers: [
+                                                SliverList(
+                                                  delegate:
+                                                      SliverChildBuilderDelegate(
+                                                    (context, index) {
+                                                      // Build items for Tab 3
+                                                      if (gamificationPast
+                                                          .isNotEmpty) {
+                                                        return _buildListItem(
+                                                            index,
+                                                            ctrl,
+                                                            ctrlTask,
+                                                            gamificationPast);
+                                                      } else {
+                                                        return Container();
+                                                      }
+                                                    },
+                                                    childCount:
+                                                        gamificationPast.length,
                                                   ),
-                                                  // Sesuaikan margin sesuai kebutuhan
-                                                  child: SingleChildScrollView(
-                                                    scrollDirection:
-                                                        Axis.horizontal,
-                                                    child: SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                      child: Center(
-                                                        child: Text(
-                                                          gamificationPast
-                                                                  .isNotEmpty
-                                                              ? EtamKawaTranslate
-                                                                  .allEntriesLoaded
-                                                              : EtamKawaTranslate
-                                                                  .noData,
-                                                          style: SharedComponent
-                                                              .textStyleCustom(
-                                                            typographyType:
-                                                                TypographyType
-                                                                    .body,
-                                                            fontColor:
-                                                                ColorTheme
-                                                                    .neutral600,
+                                                ),
+                                                SliverToBoxAdapter(
+                                                  child: Container(
+                                                    margin: const EdgeInsets
+                                                        .symmetric(
+                                                      vertical: 10.0,
+                                                    ),
+                                                    // Sesuaikan margin sesuai kebutuhan
+                                                    child: SingleChildScrollView(
+                                                      scrollDirection:
+                                                          Axis.horizontal,
+                                                      child: SizedBox(
+                                                        width:
+                                                            MediaQuery.of(context)
+                                                                .size
+                                                                .width,
+                                                        child: Center(
+                                                          child: Text(
+                                                            gamificationPast
+                                                                    .isNotEmpty
+                                                                ? EtamKawaTranslate
+                                                                    .allEntriesLoaded
+                                                                : EtamKawaTranslate
+                                                                    .noData,
+                                                            style: SharedComponent
+                                                                .textStyleCustom(
+                                                              typographyType:
+                                                                  TypographyType
+                                                                      .body,
+                                                              fontColor:
+                                                                  ColorTheme
+                                                                      .neutral600,
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                  ],
+                                              ],
+                                            ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                submitStatus == SubmitStatus.inProgress && isInit == true
-                    ? Container(
-                        color: Colors.white.withAlpha(130),
-                        child: const Center(child: CircularProgressIndicator()))
-                    : Container()
-              ],
-            ));
-          });
-    });
+                    ],
+                  ),
+                  submitStatus == SubmitStatus.inProgress && isInit == true
+                      ? Container(
+                          color: Colors.white.withAlpha(130),
+                          child: const Center(child: CircularProgressIndicator()))
+                      : Container()
+                ],
+              ));
+            });
+      }),
+    );
   }
 
   Widget _buildListItem(int index, MissionController ctrl,

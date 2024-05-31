@@ -426,6 +426,7 @@ class TaskController extends _$TaskController {
       for (var element in listTaskAnswer) {
         dataCek.add(TaskDatumAnswerRequestRemote(
             taskId: element.taskId,
+            missionId: element.missionId,
             answer: element.answer,
             attachmentName: element.attachmentName,
             attachment: element.attachment,
