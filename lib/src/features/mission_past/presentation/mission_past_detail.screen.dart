@@ -381,7 +381,7 @@ class _MissionPastDetailScreenState
                                   width: double.infinity,
                                   child: ElevatedButton(
                                       onPressed: () {
-                                        context.goNamed(taskMissionEtamkawa,
+                                        context.goNamed(taskMissionPastEtamkawa,
                                             pathParameters: {
                                               'CurrentIndex': '2'
                                             },

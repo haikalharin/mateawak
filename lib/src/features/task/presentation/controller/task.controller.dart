@@ -248,7 +248,7 @@ class TaskController extends _$TaskController {
                   type: 'info',
                   context: globalkey.currentContext!,
                   title: 'Oops!',
-                  subTitle: 'Submit Failed',
+                  subTitle: EtamKawaTranslate.submitFailed,
                   btntitleright: 'Ok',
                   onpressright: () {
                     Navigator.of(globalkey.currentContext!).pop();
@@ -266,7 +266,7 @@ class TaskController extends _$TaskController {
               type: 'info',
               context: globalkey.currentContext!,
               title: 'Oops!',
-              subTitle: 'Submit Failed',
+              subTitle: EtamKawaTranslate.submitAttachmentFailed,
               btntitleright: 'Ok',
               onpressright: () {
                 Navigator.of(globalkey.currentContext!).pop();

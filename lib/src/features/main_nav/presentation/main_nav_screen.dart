@@ -126,10 +126,10 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                               fontWeight: FontWeight.w600,
                               fontSize: 8.sp),
                           SharedComponent.label(
-                              text: CommonUtils.formattedDate(
+                              text: latestSyncDate != '2024-03-01T03:55:58.918Z' ? CommonUtils.formattedDate(
                                   latestSyncDate.toString(),
                                   withDay: false,
-                                  withHourMinute: true),
+                                  withHourMinute: true) : '-',
                               context: context,
                               fontWeight: FontWeight.w400,
                               fontSize: 8.sp),
