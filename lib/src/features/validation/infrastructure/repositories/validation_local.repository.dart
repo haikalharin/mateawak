@@ -236,7 +236,7 @@ Future<ResultSubmissionRequestRemote> submitValidation(SubmitValidationRef ref,
     {required ValidateRequestRemote validationRequestRemote}) async {
   final isarInstance = await ref.watch(isarInstanceProvider.future);
   final userModel = await ref.read(helperUserProvider).getUserProfile();
-  final connect = ref.read(connectProvider.notifier);
+  final connect = ref.read(connectEtamkawaProvider.notifier);
   final response = await connect.post(
       modul: ModuleType.etamkawaGamification,
       path:
