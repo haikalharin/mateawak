@@ -395,6 +395,8 @@ class TaskController extends _$TaskController {
     List<int> listInt = [];
     List<int> numbersList = [];
     List<TaskDatumAnswer> listTaskAnswer = [];
+    final gamificationData = ref.watch(gamificationState);
+
     var answer = '';
     index = await ref.watch(currentIndexState);
     int page = 0;
@@ -438,7 +440,8 @@ class TaskController extends _$TaskController {
         !isLast ? ref.watch(listTaskState)[index + page].taskId ?? 0 : 0;
     for (var element in dataCek) {
       await putTaskAnswer(element);
-      if (element.taskId == currentTaskId) {
+      if (element.taskId == currentTaskId &&
+          element.missionId == gamificationData.missionId) {
         answer = element.answer ?? '';
         attachment = element.attachment ?? '';
         attachmentName = element.attachmentName ?? '';
@@ -494,7 +497,7 @@ class TaskController extends _$TaskController {
     }
   }
 
-  Future<void> saveAnswer(int taskId,
+  Future<void> saveAnswer(TaskDatum task,
       {required List<dynamic>? listSelectedOption,
       String? attachment,
       String? attachmentName,
@@ -518,7 +521,8 @@ class TaskController extends _$TaskController {
         }
       }
       dataAnswer = TaskDatumAnswerRequestRemote(
-          taskId: taskId,
+          taskId: task.taskId,
+          missionId: task.missionId,
           answer: data,
           attachment: attachment ?? '',
           attachmentName: attachmentName ?? '',
@@ -528,7 +532,8 @@ class TaskController extends _$TaskController {
       if (isLast) {}
     } else {
       dataAnswer = TaskDatumAnswerRequestRemote(
-          taskId: taskId,
+          taskId: task.taskId,
+          missionId: task.missionId,
           answer: data,
           attachment: attachment ?? '',
           attachmentName: attachmentName ?? '',
