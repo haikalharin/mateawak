@@ -6,7 +6,7 @@ part of 'connect_etamkawa.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$connectEtamkawaHash() => r'530834c5789e41d8b82781eef1e4038a2a8c2eb5';
+String _$connectEtamkawaHash() => r'361817fb932ddc7065bdef9b7bd5f95f0d5f2653';
 
 /// See also [ConnectEtamkawa].
 @ProviderFor(ConnectEtamkawa)
