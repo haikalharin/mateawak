@@ -27,7 +27,7 @@ class MissionPastScreen extends ConsumerStatefulWidget {
 }
 
 Future<void> myAsyncMethodMoved(BuildContext context) async {
-  context.goNamed(detailMissionPastEtamkawa);
+  context.goNamed(detailMissionPastEtamkawa, pathParameters: {'CurrentIndex': '2'});
 }
 
 class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {

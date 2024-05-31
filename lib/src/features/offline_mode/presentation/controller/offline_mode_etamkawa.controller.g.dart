@@ -7,7 +7,7 @@ part of 'offline_mode_etamkawa.controller.dart';
 // **************************************************************************
 
 String _$offlineModeEtamkawaControllerHash() =>
-    r'9238831e5133a0761f1eaab521d951091505c152';
+    r'0ace21beb8f10405e2422fda5f552b9dd370f274';
 
 /// See also [OfflineModeEtamkawaController].
 @ProviderFor(OfflineModeEtamkawaController)

@@ -64,6 +64,29 @@ class ConnectEtamkawa extends _$ConnectEtamkawa {
         onResponse: (e, handler) => handler.next(e)));
   }
 
+  Future<ApiResponse> post(
+      {required ModuleType modul,
+      required String path,
+      required dynamic body,
+      Map<String, dynamic>? query,
+      CancelToken? cancelToken}) async {
+    try {
+      Response response = await dio.post(
+        '/${BspaceModule.getRootUrl(moduleType: modul)}/$path',
+        data: body,
+        queryParameters: query,
+        cancelToken: cancelToken,
+      );
+      ApiResponse apiResponse =
+          ApiResponse.fromJson(response.data as Map<String, dynamic>);
+      return apiResponse;
+    } on DioException catch (e) {
+      return exceptionDio(e);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<ApiResponse> delete(
       {required ModuleType modul,
       required String path,
@@ -88,8 +111,6 @@ class ConnectEtamkawa extends _$ConnectEtamkawa {
     }
   }
 
-
-
   Future<Response> downloadImage(
       {required String url,
       Map<String, dynamic>? query,
@@ -109,11 +130,9 @@ class ConnectEtamkawa extends _$ConnectEtamkawa {
         url,
         queryParameters: query,
         onReceiveProgress: showDownloadProgress,
-        options: Options(
-            responseType: ResponseType.bytes),
+        options: Options(responseType: ResponseType.bytes),
       );
       if (response.statusCode != 200) {
-
         throw response.statusMessage.toString();
       } else {
         return response;
@@ -124,8 +143,6 @@ class ConnectEtamkawa extends _$ConnectEtamkawa {
       rethrow;
     }
   }
-
-
 
   exceptionDio(DioException e) {
     return switch (e.type) {

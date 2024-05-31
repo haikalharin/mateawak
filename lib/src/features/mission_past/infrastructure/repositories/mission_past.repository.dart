@@ -1,5 +1,6 @@
 
 import 'package:module_etamkawa/src/features/mission_past/domain/mission_past_response.remote.dart';
+import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -20,15 +21,20 @@ FutureOr<List<MissionPastResponseRemote>> getMissionPastList(
   //                                 CommonUtils.getCurrentWITATime()
   //                                     .toIso8601String(),
   //                                 withDay: false);
+  final today = DateTime.now();
+  final todayFormatted =
+        CommonUtils.formatDateRequestParam(today.toUtc().toString());
+  final upToFormatted = 
+        CommonUtils.formatDateRequestParam((DateTime(today.year, today.month - 3, today.day)).toUtc().toString());
   final response = await connect.post(
       modul: ModuleType.etamkawaGamification,
       path: "/api/mission/get_past_employee_mission?${Constant.apiVer}",
       body: {
         "employeeId": userModel?.employeeID,
-        "startDate": "2024-01-23T06:50:18.014Z",
-        "endDate": "2024-12-06T06:50:18.014Z",
+        "startDate": upToFormatted,
+        "endDate": '${todayFormatted.substring(0, todayFormatted.length - 2)}Z',
         "pageNo": 1,
-        "pageSize": 99,
+        "pageSize": 999,
       });
   var missionPast = response.result?.content.isNotEmpty
       ? response.result?.content

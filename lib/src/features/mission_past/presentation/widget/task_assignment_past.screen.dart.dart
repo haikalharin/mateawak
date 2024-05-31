@@ -127,7 +127,6 @@ class _TaskAssignmentPastScreenState
                                               ),
                                               Image.network(widget.taskDatum
                                                   .answerAttachmentUrl??'')
-
                                             ],
                                           ),
                                         ],

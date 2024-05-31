@@ -57,8 +57,8 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
           data: (data) {
             return WillPopScope(
                 onWillPop: () {
-                  context.pop();
-                  context.pop();
+                  // context.pop();
+                  // context.pop();
                   return Future.value(false);
                 },
                 child: Scaffold(
@@ -384,6 +384,9 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                   child: ElevatedButton(
                                       onPressed: () {
                                         context.goNamed(taskMissionEtamkawa,
+                                            pathParameters: {
+                                              'CurrentIndex': '2'
+                                            },
                                             extra: {
                                               Constant.listTask: (gamification
                                                   .chapterData

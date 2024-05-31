@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,12 +22,12 @@ import 'background_service/mission_background_services.dart';
 IndexedStack pages({required int currentIndex}) {
   return IndexedStack(
     index: currentIndex,
-    children: const <Widget>[
-      OverviewScreen(),
-      UnderConstructionEtamKawaScreen(),
-      MissionScreen(),
-      ValidationScreen(),
-      UnderConstructionEtamKawaScreen(),
+    children: <Widget>[
+      const OverviewScreen(),
+      const UnderConstructionEtamKawaScreen(),
+      MissionScreen(currentIndex: currentIndex),
+      const ValidationScreen(),
+      const UnderConstructionEtamKawaScreen(),
     ],
   );
 }
@@ -52,13 +51,18 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
   }
 
   int index = 0;
+  int missionIndex = 0;
 
   @override
   void initState() {
     isInit = true;
     isInit = true;
-    index = widget.currentIndex ?? 0;
+    missionIndex = widget.currentIndex != 9 ? 1 : 2;
+    widget.currentIndex != 9
+        ? (widget.currentIndex != 0 ? index = widget.currentIndex! : 0)
+        : 2;
     initEtamkawa();
+    ref.read(missionControllerProvider.notifier).updateLatestSyncDate();
     super.initState();
   }
 
@@ -72,8 +76,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
           final ctrlMission = ref.watch(missionControllerProvider.notifier);
           final ctrlValidation =
               ref.watch(validationControllerProvider.notifier);
-
-          final latestSyncDate = ref.watch(latestSyncDateState.notifier).state;
+          final latestSyncDate = ref.watch(latestSyncDateState);
           final submitStatus = ref.watch(submitStatusState);
           final submitStatusMission = ref.watch(submitStatusMissionState);
           final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
@@ -108,9 +111,9 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                     context: context,
                     elevation: index == 0 ? 0.0 : 0.5,
                     title: title,
-                    onBack: () {
-                      Navigator.of(context).pop();
-                    },
+                    // onBack: () {
+                    //   context.pop();
+                    // },
                     actions: [
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -122,10 +125,10 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                               fontWeight: FontWeight.w600,
                               fontSize: 8.sp),
                           SharedComponent.label(
-                              text: CommonUtils.formattedDate(
+                              text: latestSyncDate != '2024-03-01T03:55:58.918Z' ? CommonUtils.formattedDate(
                                   latestSyncDate.toString(),
                                   withDay: false,
-                                  withHourMinute: true),
+                                  withHourMinute: true) : '-',
                               context: context,
                               fontWeight: FontWeight.w400,
                               fontSize: 8.sp),

@@ -12,7 +12,6 @@ import 'package:module_etamkawa/src/shared_component/connection_listener_widget.
 import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
-
 import '../../../constants/constant.dart';
 import '../../../shared_component/async_value_widget.dart';
 import '../../../shared_component/refreshable_starter_widget.dart';
@@ -22,7 +21,9 @@ import '../../task/presentation/controller/task.controller.dart';
 enum TypeListMission { inProgress, assigned, past }
 
 class MissionScreen extends ConsumerStatefulWidget {
-  const MissionScreen({super.key});
+  const MissionScreen({super.key, this.currentIndex});
+
+  final int? currentIndex;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _MissionScreenState();
@@ -31,14 +32,15 @@ class MissionScreen extends ConsumerStatefulWidget {
 Future<void> myAsyncMethodMoved(
     BuildContext context, GamificationResponseRemote gamification) async {
   if ((gamification.missionStatusCode ?? 0) > 0) {
-    context.goNamed(taskMissionEtamkawa);
+    context.goNamed(taskMissionEtamkawa, pathParameters: {'CurrentIndex': '2'});
   } else {
-    context.goNamed(detailMissionEtamkawa);
+    context
+        .goNamed(detailMissionEtamkawa, pathParameters: {'CurrentIndex': '2'});
   }
 }
 
 class _MissionScreenState extends ConsumerState<MissionScreen>
-    with SingleTickerProviderStateMixin {
+    with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   late TabController _controller;
   int _selectedIndex = 0;
   List<Widget> listTab = [
@@ -50,7 +52,9 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
   @override
   void initState() {
     super.initState();
-
+    if (widget.currentIndex == 9) {
+      _selectedIndex = 2;
+    }
     _controller = TabController(length: listTab.length, vsync: this);
 
     _controller.addListener(() {
@@ -97,10 +101,9 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                         ),
                         onTap: () {
                           if (_selectedIndex == 2 && isConnectionAvailable) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                 SnackBar(
-                                    content: Text(
-                                        EtamKawaTranslate.availableSoon)));
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content:
+                                    Text(EtamKawaTranslate.availableSoon)));
                           }
                         },
                         onChanged: (keyword) {
@@ -223,7 +226,12 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                                     .width,
                                                 child: Center(
                                                   child: Text(
-                                                    gamificationInProgress.isNotEmpty ? EtamKawaTranslate.allEntriesLoaded : EtamKawaTranslate.noData,
+                                                    gamificationInProgress
+                                                            .isNotEmpty
+                                                        ? EtamKawaTranslate
+                                                            .allEntriesLoaded
+                                                        : EtamKawaTranslate
+                                                            .noData,
                                                     style: SharedComponent
                                                         .textStyleCustom(
                                                       typographyType:
@@ -279,7 +287,12 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                                     .width,
                                                 child: Center(
                                                   child: Text(
-                                                    gamificationAssigned.isNotEmpty ? EtamKawaTranslate.allEntriesLoaded : EtamKawaTranslate.noData,
+                                                    gamificationAssigned
+                                                            .isNotEmpty
+                                                        ? EtamKawaTranslate
+                                                            .allEntriesLoaded
+                                                        : EtamKawaTranslate
+                                                            .noData,
                                                     style: SharedComponent
                                                         .textStyleCustom(
                                                       typographyType:
@@ -340,7 +353,12 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                                               .width,
                                                       child: Center(
                                                         child: Text(
-                                                          gamificationPast.isNotEmpty ? EtamKawaTranslate.allEntriesLoaded : EtamKawaTranslate.noData,
+                                                          gamificationPast
+                                                                  .isNotEmpty
+                                                              ? EtamKawaTranslate
+                                                                  .allEntriesLoaded
+                                                              : EtamKawaTranslate
+                                                                  .noData,
                                                           style: SharedComponent
                                                               .textStyleCustom(
                                                             typographyType:

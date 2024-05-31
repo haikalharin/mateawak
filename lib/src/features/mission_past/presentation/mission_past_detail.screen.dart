@@ -46,20 +46,11 @@ class _MissionPastDetailScreenState
     super.dispose();
   }
 
-  // final List<int> _screenOccupation = [0, 0];
-
   @override
   Widget build(BuildContext context) {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
-        if (widget.employeeMissionId != 0) {
-          ref
-              .watch(missionPastControllerProvider.notifier)
-              .getDetailMission(employeeMissionId: widget.employeeMissionId!);
-        }
         final gamification = ref.watch(gamificationDetailState.notifier).state;
-        // final missionType = gamification
-        //     .chapterData?.single.missionData?.single.missionTypeName;
         return AsyncValueWidget(
           value: ref.watch(taskControllerProvider),
           data: (data) {
@@ -391,6 +382,9 @@ class _MissionPastDetailScreenState
                                   child: ElevatedButton(
                                       onPressed: () {
                                         context.goNamed(taskMissionPastEtamkawa,
+                                            pathParameters: {
+                                              'CurrentIndex': '2'
+                                            },
                                             extra: {
                                               Constant.listTask: (gamification
                                                   .chapterData

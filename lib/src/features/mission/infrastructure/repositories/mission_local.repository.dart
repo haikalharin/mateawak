@@ -33,19 +33,15 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
     // const rawMissionDummy = Constant.rawMissionDummy;
     final userModel = await ref.read(helperUserProvider).getUserProfile();
     var latestSyncDate = ref.read(latestSyncDateState.notifier).state;
-    final latestSyncDateIsar = isarInstance.gamificationAdditionalDetailRemotes
+    final latestSyncDateIsar = await isarInstance
+        .gamificationAdditionalDetailRemotes
         .filter()
-        .latestSyncDateIsNotNull()
+        .idEqualTo(0)
         .findFirst();
-    await AsyncValue.guard(() => latestSyncDateIsar).then((value) async {
-      if ((value.value ?? GamificationAdditionalDetailRemote())
-              .latestSyncDate !=
-          null) {
-        latestSyncDate = (value.value ?? GamificationAdditionalDetailRemote())
-                .latestSyncDate ??
-            '';
-      }
-    });
+    if (latestSyncDateIsar != null) {
+      latestSyncDate = latestSyncDateIsar.latestSyncDate!;
+    }
+    debugPrint('latestsyncdate : ${latestSyncDateIsar?.latestSyncDate}');
     final response = await connect.post(
         modul: ModuleType.etamkawaGamification,
         path: "api/mission/get_employee_mission?${Constant.apiVer}",
@@ -59,8 +55,6 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
       final result = GamificationResponseRemote.fromJson(element);
       listResponse.add(result);
     }
-    final today = CommonUtils.formatDateRequestParam(DateTime.now().toString());
-    ref.read(latestSyncDateState.notifier).state = today;
     final repo = isarInstance.gamificationResponseRemotes
         .filter()
         .employeeMissionIdIsNotNull()
@@ -145,12 +139,20 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
     }
 
     await isarInstance.writeTxn(() async {
-      //await isarInstance.gamificationResponseRemotes.clear();
-
       await isarInstance.gamificationResponseRemotes
           .putAll(listAfterCheckIsIncomplete);
     });
 
+    final today = CommonUtils.formatDateRequestParam(DateTime.now().toString());
+    ref.read(latestSyncDateState.notifier).state = today;
+    await isarInstance.writeTxn(() async {
+      await isarInstance.gamificationAdditionalDetailRemotes.put(
+          GamificationAdditionalDetailRemote(
+              id: 0,
+              latestSyncDate: today,
+              latestSyncDateValidation:
+                  latestSyncDateIsar?.latestSyncDateValidation));
+    });
     ref.keepAlive();
   }
 

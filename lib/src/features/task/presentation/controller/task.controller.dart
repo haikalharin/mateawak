@@ -188,15 +188,15 @@ class TaskController extends _$TaskController {
           Map<String, dynamic> data = value.value ?? {};
           ApiResponse apiResponse = data['response'];
           bool sendImageSuccess = data['sendImageSuccess'];
-          ResultSubmissionRequestRemote result =
-              ResultSubmissionRequestRemote();
-          if (apiResponse.result?.content != null) {
-            result = ResultSubmissionRequestRemote.fromJson(
-                apiResponse.result?.content);
-          }
           if (sendImageSuccess == true) {
             if (apiResponse.statusCode == 200 &&
                 apiResponse.result?.isError == false) {
+              ResultSubmissionRequestRemote result =
+                  ResultSubmissionRequestRemote();
+              if (apiResponse.result?.content != null) {
+                result = ResultSubmissionRequestRemote.fromJson(
+                    apiResponse.result?.content);
+              }
               resultSubmissionNotifier.state =
                   resultSubmissionNotifier.state.copyWith(
                 employeeMissionId: result.employeeMissionId,
@@ -214,7 +214,7 @@ class TaskController extends _$TaskController {
               isSuccess = false;
               Navigator.of(globalkey.currentContext!).pop();
               Navigator.of(globalkey.currentContext!).pop();
-              if (apiResponse.result?.message?.toLowerCase() ==
+              if (apiResponse.result?.content?.toLowerCase() ==
                   'already submitted') {
                 SharedComponent.dialogPopUp(
                   type: 'info',
@@ -227,12 +227,12 @@ class TaskController extends _$TaskController {
                       showLoadingDialog(globalkey.currentContext!);
                       await isarInstance.answerRequestRemotes
                           .filter()
-                          .employeeMissionIdEqualTo(result.employeeMissionId)
+                          .employeeMissionIdEqualTo(gamification.employeeMissionId)
                           .deleteAll()
                           .whenComplete(() async {
                         await isarInstance.gamificationResponseRemotes
                             .filter()
-                            .employeeMissionIdEqualTo(result.employeeMissionId)
+                            .employeeMissionIdEqualTo(gamification.employeeMissionId)
                             .deleteAll();
                       });
                     }).whenComplete(() {
@@ -248,7 +248,7 @@ class TaskController extends _$TaskController {
                   type: 'info',
                   context: globalkey.currentContext!,
                   title: 'Oops!',
-                  subTitle: 'Submit Failed',
+                  subTitle: EtamKawaTranslate.submitFailed,
                   btntitleright: 'Ok',
                   onpressright: () {
                     Navigator.of(globalkey.currentContext!).pop();
@@ -266,7 +266,7 @@ class TaskController extends _$TaskController {
               type: 'info',
               context: globalkey.currentContext!,
               title: 'Oops!',
-              subTitle: 'Submit Failed',
+              subTitle: EtamKawaTranslate.submitAttachmentFailed,
               btntitleright: 'Ok',
               onpressright: () {
                 Navigator.of(globalkey.currentContext!).pop();
@@ -395,8 +395,6 @@ class TaskController extends _$TaskController {
     List<int> listInt = [];
     List<int> numbersList = [];
     List<TaskDatumAnswer> listTaskAnswer = [];
-    final gamificationData = ref.watch(gamificationState);
-
     var answer = '';
     index = await ref.watch(currentIndexState);
     int page = 0;
@@ -440,8 +438,7 @@ class TaskController extends _$TaskController {
         !isLast ? ref.watch(listTaskState)[index + page].taskId ?? 0 : 0;
     for (var element in dataCek) {
       await putTaskAnswer(element);
-      if (element.taskId == currentTaskId &&
-          element.missionId == gamificationData.missionId) {
+      if (element.taskId == currentTaskId) {
         answer = element.answer ?? '';
         attachment = element.attachment ?? '';
         attachmentName = element.attachmentName ?? '';
@@ -497,7 +494,7 @@ class TaskController extends _$TaskController {
     }
   }
 
-  Future<void> saveAnswer(TaskDatum task,
+  Future<void> saveAnswer(int taskId,
       {required List<dynamic>? listSelectedOption,
       String? attachment,
       String? attachmentName,
@@ -521,8 +518,7 @@ class TaskController extends _$TaskController {
         }
       }
       dataAnswer = TaskDatumAnswerRequestRemote(
-          taskId: task.taskId,
-          missionId: task.missionId,
+          taskId: taskId,
           answer: data,
           attachment: attachment ?? '',
           attachmentName: attachmentName ?? '',
@@ -532,8 +528,7 @@ class TaskController extends _$TaskController {
       if (isLast) {}
     } else {
       dataAnswer = TaskDatumAnswerRequestRemote(
-          taskId: task.taskId,
-          missionId: task.missionId,
+          taskId: taskId,
           answer: data,
           attachment: attachment ?? '',
           attachmentName: attachmentName ?? '',
