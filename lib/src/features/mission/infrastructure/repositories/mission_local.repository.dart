@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
 import 'package:module_etamkawa/src/configs/services/connect_etamkawa.dart';
+import 'package:module_etamkawa/src/features/mission/domain/gamification_additional_detail.remote.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/utils/common_utils.dart';
@@ -31,7 +32,20 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
 
     // const rawMissionDummy = Constant.rawMissionDummy;
     final userModel = await ref.read(helperUserProvider).getUserProfile();
-    final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
+    var latestSyncDate = ref.read(latestSyncDateState.notifier).state;
+    final latestSyncDateIsar = isarInstance.gamificationAdditionalDetailRemotes
+        .filter()
+        .latestSyncDateIsNotNull()
+        .findFirst();
+    await AsyncValue.guard(() => latestSyncDateIsar).then((value) async {
+      if ((value.value ?? GamificationAdditionalDetailRemote())
+              .latestSyncDate !=
+          null) {
+        latestSyncDate = (value.value ?? GamificationAdditionalDetailRemote())
+                .latestSyncDate ??
+            '';
+      }
+    });
     final response = await connect.post(
         modul: ModuleType.etamkawaGamification,
         path: "api/mission/get_employee_mission?${Constant.apiVer}",

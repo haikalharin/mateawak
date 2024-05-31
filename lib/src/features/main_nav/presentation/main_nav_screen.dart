@@ -110,7 +110,6 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                     title: title,
                     onBack: () {
                       Navigator.of(context).pop();
-                      Navigator.of(context).pop();
                     },
                     actions: [
                       Column(
