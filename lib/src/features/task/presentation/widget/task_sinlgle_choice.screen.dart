@@ -218,7 +218,8 @@ class _TaskSingleChoiceScreenState
                                             .saveAnswer(
                                                 listTask[currentQuestionIndex
                                                             .state]
-                                                   ,
+                                                        .taskId ??
+                                                    0,
                                                 isLast: false,
                                                 listSelectedOption: [
                                                   listAnswer?[index].answerId ??
@@ -394,7 +395,8 @@ class _TaskSingleChoiceScreenState
                                           .saveAnswer(
                                               listTask[currentQuestionIndex
                                                           .state]
-                                                  ,
+                                                      .taskId ??
+                                                  0,
                                               isLast: false,
                                               listSelectedOption:
                                                   listSelectedOption.state,
@@ -491,7 +493,9 @@ class _TaskSingleChoiceScreenState
                                       await ctrl
                                           .saveAnswer(
                                               listTask[currentQuestionIndex
-                                                          .state],
+                                                          .state]
+                                                      .taskId ??
+                                                  0,
                                               isLast: true,
                                               listSelectedOption:
                                                   listSelectedOption.state,

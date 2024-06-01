@@ -241,7 +241,8 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                             .saveAnswer(
                                                 listTask[currentQuestionIndex
                                                             .state]
-                                                    ,
+                                                        .taskId ??
+                                                    0,
                                                 isLast: false,
                                                 listSelectedOption: listData,
                                                 type: listTask[
@@ -401,7 +402,8 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                             .saveAnswer(
                                                 listTask[currentQuestionIndex
                                                             .state]
-                                                   ,
+                                                        .taskId ??
+                                                    0,
                                                 isLast: false,
                                                 listSelectedOption: listData,
                                                 type: listTask[
@@ -502,7 +504,8 @@ class _TaskMultiChoiceScreenState extends ConsumerState<TaskMultiChoiceScreen> {
                                             .saveAnswer(
                                                 listTask[currentQuestionIndex
                                                             .state]
-                                                    ,
+                                                        .taskId ??
+                                                    0,
                                                 isLast: true,
                                                 listSelectedOption: listData,
                                                 type: listTask[

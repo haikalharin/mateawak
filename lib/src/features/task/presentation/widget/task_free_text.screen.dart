@@ -229,7 +229,9 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                       await ctrl
                                           .saveAnswer(
                                               listTask[currentQuestionIndex
-                                                          .state],
+                                                          .state]
+                                                      .taskId ??
+                                                  0,
                                               isLast: false,
                                               listSelectedOption: [
                                                 _textController.text
@@ -265,7 +267,8 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                     await ctrl
                                         .saveAnswer(
                                             listTask[currentQuestionIndex.state]
-                                                 ,
+                                                    .taskId ??
+                                                0,
                                             isLast: false,
                                             listSelectedOption: [
                                               _textController.text
@@ -454,7 +457,8 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                               .saveAnswer(
                                                   listTask[currentQuestionIndex
                                                               .state]
-                                                      ,
+                                                          .taskId ??
+                                                      0,
                                                   isLast: false,
                                                   listSelectedOption:
                                                       listSelectedOptionString,
@@ -558,7 +562,8 @@ class _TaskFreeTextScreenState extends ConsumerState<TaskFreeTextScreen> {
                                               .saveAnswer(
                                                   listTask[currentQuestionIndex
                                                               .state]
-                                                      ,
+                                                          .taskId ??
+                                                      0,
                                                   isLast: true,
                                                   listSelectedOption:
                                                       listSelectedOptionString,

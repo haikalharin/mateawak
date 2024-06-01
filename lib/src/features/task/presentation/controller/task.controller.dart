@@ -395,8 +395,6 @@ class TaskController extends _$TaskController {
     List<int> listInt = [];
     List<int> numbersList = [];
     List<TaskDatumAnswer> listTaskAnswer = [];
-    final gamificationData = ref.watch(gamificationState);
-
     var answer = '';
     index = await ref.watch(currentIndexState);
     int page = 0;
@@ -426,7 +424,6 @@ class TaskController extends _$TaskController {
       for (var element in listTaskAnswer) {
         dataCek.add(TaskDatumAnswerRequestRemote(
             taskId: element.taskId,
-            missionId: element.missionId,
             answer: element.answer,
             attachmentName: element.attachmentName,
             attachment: element.attachment,
@@ -441,8 +438,7 @@ class TaskController extends _$TaskController {
         !isLast ? ref.watch(listTaskState)[index + page].taskId ?? 0 : 0;
     for (var element in dataCek) {
       await putTaskAnswer(element);
-      if (element.taskId == currentTaskId &&
-          element.missionId == gamificationData.missionId) {
+      if (element.taskId == currentTaskId) {
         answer = element.answer ?? '';
         attachment = element.attachment ?? '';
         attachmentName = element.attachmentName ?? '';
@@ -498,7 +494,7 @@ class TaskController extends _$TaskController {
     }
   }
 
-  Future<void> saveAnswer(TaskDatum task,
+  Future<void> saveAnswer(int taskId,
       {required List<dynamic>? listSelectedOption,
       String? attachment,
       String? attachmentName,
@@ -522,8 +518,7 @@ class TaskController extends _$TaskController {
         }
       }
       dataAnswer = TaskDatumAnswerRequestRemote(
-          taskId: task.taskId,
-          missionId: task.missionId,
+          taskId: taskId,
           answer: data,
           attachment: attachment ?? '',
           attachmentName: attachmentName ?? '',
@@ -533,8 +528,7 @@ class TaskController extends _$TaskController {
       if (isLast) {}
     } else {
       dataAnswer = TaskDatumAnswerRequestRemote(
-          taskId: task.taskId,
-          missionId: task.missionId,
+          taskId: taskId,
           answer: data,
           attachment: attachment ?? '',
           attachmentName: attachmentName ?? '',

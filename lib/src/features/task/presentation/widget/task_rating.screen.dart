@@ -198,7 +198,8 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                     await ctrl
                                         .saveAnswer(
                                             listTask[currentQuestionIndex.state]
-                                                ,
+                                                    .taskId ??
+                                                0,
                                             isLast: false,
                                             listSelectedOption: [
                                               rating.toInt()
@@ -369,7 +370,8 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                             .saveAnswer(
                                                 listTask[currentQuestionIndex
                                                             .state]
-                                                    ,
+                                                        .taskId ??
+                                                    0,
                                                 isLast: false,
                                                 listSelectedOption:
                                                     listSelectedOption.state,
@@ -476,7 +478,8 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                             .saveAnswer(
                                                 listTask[currentQuestionIndex
                                                             .state]
-                                                    ,
+                                                        .taskId ??
+                                                    0,
                                                 isLast: true,
                                                 listSelectedOption:
                                                     listSelectedOption.state,
