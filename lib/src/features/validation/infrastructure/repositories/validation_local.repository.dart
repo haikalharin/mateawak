@@ -240,7 +240,7 @@ Future<ResultSubmissionRequestRemote> submitValidation(SubmitValidationRef ref,
   final response = await connect.post(
       modul: ModuleType.etamkawaGamification,
       path:
-          "api/mission/validate_employee_mission?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}",
+          "api/mission/validate_employee_mission?userAccount=${userModel?.upnAccount ?? ''}&${Constant.apiVer}",
       body: validationRequestRemote.toJson());
 
   if (response.statusCode == 200) {
@@ -333,7 +333,7 @@ Future<bool> submitValidationBg(SubmitValidationBgRef ref) async {
           final response = connect.post(
               modul: ModuleType.etamkawaGamification,
               path:
-                  "api/mission/validate_employee_mission?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}",
+                  "api/mission/validate_employee_mission?userAccount=${userModel?.upnAccount ?? ''}&${Constant.apiVer}",
               body: validationRequest.toJson());
 
           await AsyncValue.guard(() => response).then((value) async {

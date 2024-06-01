@@ -65,14 +65,14 @@ dependencies:
   module_shared:
     git:
       url: https://buma.visualstudio.com/BUMA%20-%20BSpace%202.0/_git/Frontend.Mobile.Shared
-      ref: v1.2.0-dev01
+      ref: v1.2.0-dev08
 
 dependency_overrides:
     # * Only use local dependencies for development purposes
   module_shared:
     git:
       url: https://buma.visualstudio.com/BUMA%20-%20BSpace%202.0/_git/Frontend.Mobile.Shared
-      ref: v1.2.0-dev01
+      ref: v1.2.0-dev08
 
 
   #  module_shared:

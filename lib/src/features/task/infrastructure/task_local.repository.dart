@@ -144,7 +144,7 @@ Future<Map<String, dynamic>> submitMission(SubmitMissionRef ref,
       final response = connect.post(
           modul: ModuleType.etamkawaGamification,
           path:
-              "api/attachment/insert_attachment?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}",
+              "api/attachment/insert_attachment?userAccount=${userModel?.upnAccount ?? ''}&${Constant.apiVer}",
           body: map);
       await AsyncValue.guard(() => response).then((value) async {
         if (value.hasValue) {
@@ -173,7 +173,7 @@ Future<Map<String, dynamic>> submitMission(SubmitMissionRef ref,
     final response = connect.post(
         modul: ModuleType.etamkawaGamification,
         path:
-            "api/mission/submit_employee_mission?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}",
+            "api/mission/submit_employee_mission?userAccount=${userModel?.upnAccount ?? ''}&${Constant.apiVer}",
         body: answerRequestRemote.toJson());
     await AsyncValue.guard(() => response).then((value) async {
       if (value.hasValue) {
