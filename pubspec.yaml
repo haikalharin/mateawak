@@ -2,7 +2,6 @@ name: module_etamkawa
 description: A new Flutter package project.
 publish_to: 'none'
 version: 1.0.0
-homepage:
 
 environment:
   sdk: '>=3.0.6 <4.0.0'
@@ -60,6 +59,7 @@ dependencies:
   html: ^0.15.3
   easy_localization: ^3.0.2
   image: ^4.1.7
+  flutter_image_compress: ^2.3.0
 
 
   module_shared:
