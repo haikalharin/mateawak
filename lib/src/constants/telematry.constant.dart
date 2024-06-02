@@ -5,7 +5,9 @@ class TelematryConstant {
 
 //overview
   static const general = 'Home-EtamKawa#Buletin#';
-  static const mission = 'Home-EtamKawa#Mission#';
+  static const assignedMission = 'Home-EtamKawa#Assigned-Mission#';
+  static const pastMission = 'Home-EtamKawa#Past-Mission#';
+  static const inProgressMission = 'Home-EtamKawa#InProgress-Mission#';
   static const generalGrafik = 'Overview# #General-Grafik';
   static const generalUnitBreakdown = 'Overview# #General-Unit Breakdown';
 

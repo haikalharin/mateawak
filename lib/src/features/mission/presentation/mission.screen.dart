@@ -19,6 +19,7 @@ import '../../../shared_component/refreshable_starter_widget.dart';
 import '../../../shared_component/visibility_detector_telematry.dart';
 import '../../main_nav/presentation/controller/main_nav.controller.dart';
 import '../../task/presentation/controller/task.controller.dart';
+import '../../telematry/presentation/controller/telematry.controller.dart';
 
 enum TypeListMission { inProgress, assigned, past }
 
@@ -69,8 +70,14 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
 
   @override
   Widget build(BuildContext context) {
-    return  VisibilityDetectorTelematry(
-      widgetName: TelematryConstant.mission,
+    return VisibilityDetectorTelematry(
+      widgetName: _selectedIndex == 0
+          ? TelematryConstant.inProgressMission
+          : _selectedIndex == 1
+              ? TelematryConstant.assignedMission
+              : _selectedIndex == 2
+                  ? TelematryConstant.pastMission
+                  : '',
       child: Consumer(
           builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final ctrl = ref.watch(missionControllerProvider.notifier);
@@ -94,7 +101,8 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
-                          readOnly: _selectedIndex == 2 && isConnectionAvailable,
+                          readOnly:
+                              _selectedIndex == 2 && isConnectionAvailable,
                           textInputAction: TextInputAction.search,
                           decoration: InputDecoration(
                             hintText: "${EtamKawaTranslate.search}...",
@@ -105,9 +113,10 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                           ),
                           onTap: () {
                             if (_selectedIndex == 2 && isConnectionAvailable) {
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                  content:
-                                      Text(EtamKawaTranslate.availableSoon)));
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text(
+                                          EtamKawaTranslate.availableSoon)));
                             }
                           },
                           onChanged: (keyword) {
@@ -128,6 +137,30 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                       setState(() {
                                         _selectedIndex = index;
                                       });
+
+                                      ref.listen(activeWidgetProvider,
+                                          (previous, now) {
+                                        if (previous != now) {
+                                          if (now != null) {
+                                            ref
+                                                .read(
+                                                    telematryControllerProvider
+                                                        .notifier)
+                                                .insertInitTelematryData(now);
+                                          }
+                                          if (previous != null) {
+                                            ref
+                                                .read(
+                                                    telematryControllerProvider
+                                                        .notifier)
+                                                .completeTelematryDataThenSend(
+                                                    previous,
+                                                    GoRouterState.of(context)
+                                                        .uri
+                                                        .toString());
+                                          }
+                                        }
+                                      });
                                       //   submitStatus != SubmitStatus.inProgress &&
                                       //           submitStatusBgServices !=
                                       //               SubmitStatus.inProgress
@@ -144,6 +177,29 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                       setState(() {
                                         _selectedIndex = index;
                                       });
+                                      ref.listen(activeWidgetProvider,
+                                              (previous, now) {
+                                            if (previous != now) {
+                                              if (now != null) {
+                                                ref
+                                                    .read(
+                                                    telematryControllerProvider
+                                                        .notifier)
+                                                    .insertInitTelematryData(now);
+                                              }
+                                              if (previous != null) {
+                                                ref
+                                                    .read(
+                                                    telematryControllerProvider
+                                                        .notifier)
+                                                    .completeTelematryDataThenSend(
+                                                    previous,
+                                                    GoRouterState.of(context)
+                                                        .uri
+                                                        .toString());
+                                              }
+                                            }
+                                          });
                                       submitStatus != SubmitStatus.inProgress &&
                                               submitStatusBgServices !=
                                                   SubmitStatus.inProgress
@@ -162,6 +218,30 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                       setState(() {
                                         _selectedIndex = index;
                                       });
+
+                                      ref.listen(activeWidgetProvider,
+                                              (previous, now) {
+                                            if (previous != now) {
+                                              if (now != null) {
+                                                ref
+                                                    .read(
+                                                    telematryControllerProvider
+                                                        .notifier)
+                                                    .insertInitTelematryData(now);
+                                              }
+                                              if (previous != null) {
+                                                ref
+                                                    .read(
+                                                    telematryControllerProvider
+                                                        .notifier)
+                                                    .completeTelematryDataThenSend(
+                                                    previous,
+                                                    GoRouterState.of(context)
+                                                        .uri
+                                                        .toString());
+                                              }
+                                            }
+                                          });
 
                                       //   submitStatus != SubmitStatus.inProgress &&
                                       //           submitStatusBgServices !=
@@ -198,7 +278,8 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                         },
                                         slivers: [
                                           SliverList(
-                                            delegate: SliverChildBuilderDelegate(
+                                            delegate:
+                                                SliverChildBuilderDelegate(
                                               (context, index) {
                                                 // Build items for Tab 1
                                                 if (gamificationInProgress
@@ -218,12 +299,14 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                           ),
                                           SliverToBoxAdapter(
                                             child: Container(
-                                              margin: const EdgeInsets.symmetric(
+                                              margin:
+                                                  const EdgeInsets.symmetric(
                                                 vertical: 10.0,
                                               ),
                                               // Sesuaikan margin sesuai kebutuhan
                                               child: SingleChildScrollView(
-                                                scrollDirection: Axis.horizontal,
+                                                scrollDirection:
+                                                    Axis.horizontal,
                                                 child: SizedBox(
                                                   width: MediaQuery.of(context)
                                                       .size
@@ -240,8 +323,8 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                                           .textStyleCustom(
                                                         typographyType:
                                                             TypographyType.body,
-                                                        fontColor:
-                                                            ColorTheme.neutral600,
+                                                        fontColor: ColorTheme
+                                                            .neutral600,
                                                       ),
                                                     ),
                                                   ),
@@ -259,7 +342,8 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                         },
                                         slivers: [
                                           SliverList(
-                                            delegate: SliverChildBuilderDelegate(
+                                            delegate:
+                                                SliverChildBuilderDelegate(
                                               (context, index) {
                                                 // Build items for Tab 2
                                                 if (gamificationAssigned
@@ -279,12 +363,14 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                           ),
                                           SliverToBoxAdapter(
                                             child: Container(
-                                              margin: const EdgeInsets.symmetric(
+                                              margin:
+                                                  const EdgeInsets.symmetric(
                                                 vertical: 10.0,
                                               ),
                                               // Sesuaikan margin sesuai kebutuhan
                                               child: SingleChildScrollView(
-                                                scrollDirection: Axis.horizontal,
+                                                scrollDirection:
+                                                    Axis.horizontal,
                                                 child: SizedBox(
                                                   width: MediaQuery.of(context)
                                                       .size
@@ -301,8 +387,8 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                                           .textStyleCustom(
                                                         typographyType:
                                                             TypographyType.body,
-                                                        fontColor:
-                                                            ColorTheme.neutral600,
+                                                        fontColor: ColorTheme
+                                                            .neutral600,
                                                       ),
                                                     ),
                                                   ),
@@ -347,14 +433,15 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                                       vertical: 10.0,
                                                     ),
                                                     // Sesuaikan margin sesuai kebutuhan
-                                                    child: SingleChildScrollView(
+                                                    child:
+                                                        SingleChildScrollView(
                                                       scrollDirection:
                                                           Axis.horizontal,
                                                       child: SizedBox(
-                                                        width:
-                                                            MediaQuery.of(context)
-                                                                .size
-                                                                .width,
+                                                        width: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width,
                                                         child: Center(
                                                           child: Text(
                                                             gamificationPast
@@ -393,7 +480,8 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                   submitStatus == SubmitStatus.inProgress && isInit == true
                       ? Container(
                           color: Colors.white.withAlpha(130),
-                          child: const Center(child: CircularProgressIndicator()))
+                          child:
+                              const Center(child: CircularProgressIndicator()))
                       : Container()
                 ],
               ));
