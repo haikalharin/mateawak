@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image/image.dart' as img;
@@ -1097,61 +1098,55 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
     required List<TaskDatum> listTask,
     required int currentQuestionIndex,
   }) async {
-    FilePickerResult? result = await FilePicker.platform
-        .pickFiles(type: FileType.media, allowCompression: true);
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.media,
+      allowCompression: true,
+    );
 
     if (result != null) {
       PlatformFile platformFile = result.files.first;
       final fileName = platformFile.name;
       final filePath = platformFile.path;
-      final fileExtension = platformFile.extension;
+      final fileExtension = platformFile.extension?.toLowerCase();
 
-      if (EtamKawaUploadConstant.fileTypeImage
-          .contains(fileExtension?.toLowerCase())) {
+      if (Platform.isAndroid
+          ? EtamKawaUploadConstant.fileTypeImageAndroid.contains(fileExtension)
+          : EtamKawaUploadConstant.fileTypeImage.contains(fileExtension)) {
         debugPrint('accepted format');
 
-        // Resize the image
         File file = File(filePath!);
-        img.Image? image = img.decodeImage(file.readAsBytesSync());
+        img.Image? image;
+
+        if (fileExtension == 'heic' || fileExtension == 'heif') {
+          file = await _convertHeicToJpeg(file);
+        }
+
+        image = img.decodeImage(file.readAsBytesSync());
 
         if (image != null) {
           setState(() {
             isResizing = true;
           });
-          // Function to resize and check the file size
-          File resizeImageToMaxSize(img.Image image, int maxSizeInBytes) {
-            int quality = 100;
-            List<int> resizedImageBytes;
-            File resizedFile;
-            do {
-              debugPrint('resize foto');
-              resizedImageBytes = img.encodeJpg(image, quality: quality);
-              resizedFile = File('${file.path}_resized.jpg')
-                ..writeAsBytesSync(resizedImageBytes);
-              quality -= 20; // Reduce quality to lower file size
-            } while (resizedFile.lengthSync() > maxSizeInBytes && quality > 0);
-            return resizedFile;
-          }
 
-          // Resize to a maximum file size of 2MB (2 * 1024 * 1024 bytes)
-          File resizedFile = resizeImageToMaxSize(image, 2 * 1024 * 1024);
+          File resizedFile =
+              _resizeImageToMaxSize(image, file.path, 2 * 1024 * 1024);
 
           ref.refresh(taskControllerProvider);
           await ctrl
-              .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
-                  isLast: false,
-                  attachment: resizedFile.path,
-                  attachmentName: fileName,
-                  listSelectedOption: [_textController.text],
-                  type: listTask[currentQuestionIndex].taskTypeCode ?? '',
-                  taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
+              .saveAnswer(
+            listTask[currentQuestionIndex].taskId ?? 0,
+            isLast: false,
+            attachment: resizedFile.path,
+            attachmentName: fileName,
+            listSelectedOption: [_textController.text],
+            type: listTask[currentQuestionIndex].taskTypeCode ?? '',
+            taskGroup: listTask[currentQuestionIndex].taskGroup ?? '',
+          )
               .whenComplete(() async {
             ref.refresh(taskControllerProvider);
-
             await ctrl.putAnswerFinal();
           }).whenComplete(() {
             ref.refresh(taskControllerProvider);
-
             setState(() {
               isResizing = false;
               ref.read(attachmentNameState.notifier).state = fileName;
@@ -1194,54 +1189,46 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
       PlatformFile platformFile = result.files.first;
       final fileName = platformFile.name;
       final filePath = platformFile.path;
-      final fileExtension = platformFile.extension;
+      final fileExtension = platformFile.extension?.toLowerCase();
 
-      if (EtamKawaUploadConstant.fileTypeImage
-          .contains(fileExtension?.toLowerCase())) {
+      if (Platform.isAndroid
+          ? EtamKawaUploadConstant.fileTypeImageAndroid.contains(fileExtension)
+          : EtamKawaUploadConstant.fileTypeImage.contains(fileExtension)) {
         debugPrint('accepted format');
 
-        // Resize the image
         File file = File(filePath!);
-        img.Image? image = img.decodeImage(file.readAsBytesSync());
+        img.Image? image;
+
+        if (fileExtension == 'heic' || fileExtension == 'heif') {
+          file = await _convertHeicToJpeg(file);
+        }
+
+        image = img.decodeImage(file.readAsBytesSync());
 
         if (image != null) {
           setState(() {
             isResizing = true;
           });
-          // Function to resize and check the file size
-          File resizeImageToMaxSize(img.Image image, int maxSizeInBytes) {
-            int quality = 100;
-            List<int> resizedImageBytes;
-            File resizedFile;
-            do {
-              debugPrint('resize foto');
-              resizedImageBytes = img.encodeJpg(image, quality: quality);
-              resizedFile = File('${file.path}_resized.jpg')
-                ..writeAsBytesSync(resizedImageBytes);
-              quality -= 20; // Reduce quality to lower file size
-            } while (resizedFile.lengthSync() > maxSizeInBytes && quality > 0);
-            return resizedFile;
-          }
 
-          // Resize to a maximum file size of 2MB (2 * 1024 * 1024 bytes)
-          File resizedFile = resizeImageToMaxSize(image, 2 * 1024 * 1024);
+          File resizedFile =
+              _resizeImageToMaxSize(image, file.path, 2 * 1024 * 1024);
 
           ref.refresh(taskControllerProvider);
           await ctrl
-              .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
-                  isLast: false,
-                  attachment: resizedFile.path,
-                  attachmentName: fileName,
-                  listSelectedOption: [_textController.text],
-                  type: listTask[currentQuestionIndex].taskTypeCode ?? '',
-                  taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
+              .saveAnswer(
+            listTask[currentQuestionIndex].taskId ?? 0,
+            isLast: false,
+            attachment: resizedFile.path,
+            attachmentName: fileName,
+            listSelectedOption: [_textController.text],
+            type: listTask[currentQuestionIndex].taskTypeCode ?? '',
+            taskGroup: listTask[currentQuestionIndex].taskGroup ?? '',
+          )
               .whenComplete(() async {
             ref.refresh(taskControllerProvider);
-
             await ctrl.putAnswerFinal();
           }).whenComplete(() {
             ref.refresh(taskControllerProvider);
-
             setState(() {
               isResizing = false;
               ref.read(attachmentNameState.notifier).state = fileName;
@@ -1265,5 +1252,37 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
     } else {
       // User canceled the picker
     }
+  }
+
+  Future<File> _convertHeicToJpeg(File file) async {
+    final compressedBytes = await FlutterImageCompress.compressWithFile(
+      file.path,
+      format: CompressFormat.jpeg,
+      quality: 100,
+    );
+
+    if (compressedBytes == null) {
+      throw Exception('Failed to convert HEIC to JPEG');
+    }
+
+    final tempDir = Directory.systemTemp;
+    final tempFile = File('${tempDir.path}/temp_image.jpg');
+    await tempFile.writeAsBytes(compressedBytes); // Use async method here
+    return tempFile;
+  }
+
+  File _resizeImageToMaxSize(
+      img.Image image, String filePath, int maxSizeInBytes) {
+    int quality = 100;
+    List<int> resizedImageBytes;
+    File resizedFile;
+    do {
+      debugPrint('resize foto');
+      resizedImageBytes = img.encodeJpg(image, quality: quality);
+      resizedFile = File('${filePath}_resized.jpg')
+        ..writeAsBytesSync(resizedImageBytes);
+      quality -= 20; // Reduce quality to lower file size
+    } while (resizedFile.lengthSync() > maxSizeInBytes && quality > 0);
+    return resizedFile;
   }
 }
