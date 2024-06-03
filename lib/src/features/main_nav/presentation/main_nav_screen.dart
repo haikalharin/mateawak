@@ -21,16 +21,7 @@ import '../../../shared_component/connection_listener_widget.dart';
 import '../../../shared_component/shared_component_etamkawa.dart';
 import '../../telematry/presentation/controller/telematry.controller.dart';
 import 'background_service/mission_background_services.dart';
-// LazyLoadIndexedStack _buildBody(int currentIndex, USERROLE? userRole) {
-//   return LazyLoadIndexedStack(index: currentIndex, children: [
-//     if (isAbleAccessOverview) const OverviewScreen(),
-//     if (isAbleAccessLive)
-//       isRoleSPV ? const LiveSPVScreen() : const LiveScreen(),
-//     if (isAbleAccessSitePerform) const SitePerformScreen(),
-//     if (isAbleAccessLineupSpv) const LineupSPVScreen(),
-//     if (isAbleAccessLineupOperator) const LineupScreen()
-//   ]);
-// }
+
 IndexedStack pages({required int currentIndex}) {
   return IndexedStack(
     index: currentIndex,
@@ -62,17 +53,16 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
     await intializedMissionBackgroundService();
   }
 
-  // int currentIndex = 0;
-  int missionIndex = 0;
+  int currentIndex = 0;
 
   @override
   void initState() {
+    currentIndex = widget.currentIndex??0;
     isInit = true;
     isInit = true;
-    missionIndex = widget.currentIndex != 9 ? 1 : 2;
-    // widget.currentIndex != 9
-    //     ? (widget.currentIndex != 0 ? currentIndex = widget.currentIndex! : 0)
-    //     : 2;
+    widget.currentIndex != 9
+        ? (widget.currentIndex != 0 ? currentIndex = widget.currentIndex! : currentIndex)
+        : 2;
     initEtamkawa();
     ref.read(missionControllerProvider.notifier).updateLatestSyncDate();
     super.initState();
@@ -130,13 +120,13 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
               value: SystemUiOverlayStyle.light,
               child: Scaffold(
                   appBar: SharedComponentEtamkawa.appBar(
-                    backgroundColor: widget.currentIndex == 0
+                    backgroundColor:currentIndex == 0
                         ? ColorTheme.primary500
                         : ColorTheme.backgroundWhite,
                     titleColor:
-                    widget.currentIndex == 0 ? ColorTheme.textWhite : ColorTheme.textDark,
+                   currentIndex == 0 ? ColorTheme.textWhite : ColorTheme.textDark,
                     context: context,
-                    elevation: widget.currentIndex == 0 ? 0.0 : 0.5,
+                    elevation:currentIndex == 0 ? 0.0 : 0.5,
                     title: title,
                     // onBack: () {
                     //   context.pop();
@@ -200,10 +190,10 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                       SizedBox(width: 20.w),
                     ],
                     brightnessIconStatusBar:
-                    widget.currentIndex == 0 ? Brightness.light : Brightness.dark,
+                   currentIndex == 0 ? Brightness.light : Brightness.dark,
                   ),
                   body: Stack(children: [
-                    pages(currentIndex: widget.currentIndex??0),
+                    pages(currentIndex:currentIndex??0),
                     submitStatus == SubmitStatus.inProgress
                         ? const Center(
                             child: CircularProgressIndicator(),
@@ -261,7 +251,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                                 ),
                               )
                             ],
-                            currentIndex: widget.currentIndex??0,
+                            currentIndex:currentIndex,
                             onTap: (selectedIndex) async {
                               if (widget.currentIndex != selectedIndex) {
                                 context.goNamed(homeEtakawa, pathParameters: {
