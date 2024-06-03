@@ -69,7 +69,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
   @override
   Widget build(BuildContext context) {
     widget.currentIndex != 9
-        ? (widget.currentIndex != 0 ? currentIndex = widget.currentIndex! : currentIndex)
+        ? (widget.currentIndex != null ? currentIndex = widget.currentIndex??0 : currentIndex)
         : 2;
     ref.listen(activeWidgetProvider, (previous, now) {
      if (previous != now) {
