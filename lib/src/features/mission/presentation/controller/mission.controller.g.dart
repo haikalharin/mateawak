@@ -6,7 +6,7 @@ part of 'mission.controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$missionControllerHash() => r'9c6f6752125cae06d9de9bf73c5321db97f64528';
+String _$missionControllerHash() => r'2d15e0f0b98a56e44d2e74bc2a4b8d37c1dc6f0c';
 
 /// See also [MissionController].
 @ProviderFor(MissionController)
