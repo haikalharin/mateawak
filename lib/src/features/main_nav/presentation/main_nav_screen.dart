@@ -104,7 +104,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
           return Consumer(
               builder: (BuildContext context, WidgetRef ref, Widget? child) {
             String title = '';
-            switch (widget.currentIndex) {
+            switch (currentIndex) {
               case 0:
                 title = 'Etam Kawa';
               case 1:
@@ -254,13 +254,13 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                             ],
                             currentIndex:currentIndex,
                             onTap: (selectedIndex) async {
-                              if (widget.currentIndex != selectedIndex) {
+                              if (currentIndex != selectedIndex) {
                                 context.goNamed(homeEtakawa, pathParameters: {
                                   'CurrentIndex': '$selectedIndex'
                                 });
                               }
                               // ctrl.onItemTapped(selectedIndex);
-                              if (widget.currentIndex == 2) {
+                              if (currentIndex == 2) {
                                 if (submitStatusMission !=
                                         SubmitStatus.inProgress &&
                                     submitStatusMissionBgServices !=
@@ -271,7 +271,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                                     isInit = false;
                                   });
                                 }
-                              } else if (widget.currentIndex == 3) {
+                              } else if (currentIndex == 3) {
                                 ref.read(submitValidationBgProvider);
                                 await ctrlValidation.getValidationList();
                               }
