@@ -17,6 +17,7 @@ String taskDatumAnswerRequestRemoteToJson(TaskDatumAnswerRequestRemote data) =>
 @collection
 class TaskDatumAnswerRequestRemote {
   Id? taskId;
+  int? missionId;
   String? answer;
   String? attachment;
   String? attachmentName;
@@ -25,6 +26,7 @@ class TaskDatumAnswerRequestRemote {
 
   TaskDatumAnswerRequestRemote({
     this.taskId,
+    this.missionId,
     this.answer,
     this.attachment,
     this.attachmentName,
@@ -34,6 +36,7 @@ class TaskDatumAnswerRequestRemote {
 
   TaskDatumAnswerRequestRemote copyWith({
     Id? taskId,
+    int? missionId,
     String? answer,
     String? attachment,
     String? attachmentName,
@@ -42,6 +45,7 @@ class TaskDatumAnswerRequestRemote {
   }) =>
       TaskDatumAnswerRequestRemote(
         taskId: taskId ?? this.taskId,
+        missionId: missionId ?? this.missionId,
         answer: answer ?? this.answer,
         attachment: attachment ?? this.attachment,
         attachmentName: attachmentName ?? this.attachmentName,
@@ -52,6 +56,7 @@ class TaskDatumAnswerRequestRemote {
   factory TaskDatumAnswerRequestRemote.fromJson(Map<String, dynamic> json) =>
       TaskDatumAnswerRequestRemote(
         taskId: json["taskId"],
+        missionId: json["missionId"],
         answer: json["answer"],
         attachmentId: json["attachmentId"],
         taskGroup: json["taskGroup"],
@@ -59,6 +64,7 @@ class TaskDatumAnswerRequestRemote {
 
   Map<String, dynamic> toJson() => {
         "taskId": taskId,
+        "missionId": missionId,
         "answer": answer,
         "attachmentId": attachmentId,
         "taskGroup": taskGroup,

@@ -38,8 +38,13 @@ const TaskDatumAnswerRequestRemoteSchema = CollectionSchema(
       name: r'attachmentName',
       type: IsarType.string,
     ),
-    r'taskGroup': PropertySchema(
+    r'missionId': PropertySchema(
       id: 4,
+      name: r'missionId',
+      type: IsarType.long,
+    ),
+    r'taskGroup': PropertySchema(
+      id: 5,
       name: r'taskGroup',
       type: IsarType.string,
     )
@@ -101,7 +106,8 @@ void _taskDatumAnswerRequestRemoteSerialize(
   writer.writeString(offsets[1], object.attachment);
   writer.writeLong(offsets[2], object.attachmentId);
   writer.writeString(offsets[3], object.attachmentName);
-  writer.writeString(offsets[4], object.taskGroup);
+  writer.writeLong(offsets[4], object.missionId);
+  writer.writeString(offsets[5], object.taskGroup);
 }
 
 TaskDatumAnswerRequestRemote _taskDatumAnswerRequestRemoteDeserialize(
@@ -115,7 +121,8 @@ TaskDatumAnswerRequestRemote _taskDatumAnswerRequestRemoteDeserialize(
     attachment: reader.readStringOrNull(offsets[1]),
     attachmentId: reader.readLongOrNull(offsets[2]),
     attachmentName: reader.readStringOrNull(offsets[3]),
-    taskGroup: reader.readStringOrNull(offsets[4]),
+    missionId: reader.readLongOrNull(offsets[4]),
+    taskGroup: reader.readStringOrNull(offsets[5]),
     taskId: id,
   );
   return object;
@@ -137,6 +144,8 @@ P _taskDatumAnswerRequestRemoteDeserializeProp<P>(
     case 3:
       return (reader.readStringOrNull(offset)) as P;
     case 4:
+      return (reader.readLongOrNull(offset)) as P;
+    case 5:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -785,6 +794,80 @@ extension TaskDatumAnswerRequestRemoteQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> missionIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'missionId',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> missionIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'missionId',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> missionIdEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'missionId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> missionIdGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'missionId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> missionIdLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'missionId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterFilterCondition> missionIdBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'missionId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
       QAfterFilterCondition> taskGroupIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1084,6 +1167,20 @@ extension TaskDatumAnswerRequestRemoteQuerySortBy on QueryBuilder<
   }
 
   QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterSortBy> sortByMissionId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'missionId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterSortBy> sortByMissionIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'missionId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
       QAfterSortBy> sortByTaskGroup() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'taskGroup', Sort.asc);
@@ -1157,6 +1254,20 @@ extension TaskDatumAnswerRequestRemoteQuerySortThenBy on QueryBuilder<
   }
 
   QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterSortBy> thenByMissionId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'missionId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QAfterSortBy> thenByMissionIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'missionId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
       QAfterSortBy> thenByTaskGroup() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'taskGroup', Sort.asc);
@@ -1217,6 +1328,13 @@ extension TaskDatumAnswerRequestRemoteQueryWhereDistinct on QueryBuilder<
   }
 
   QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
+      QDistinct> distinctByMissionId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'missionId');
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, TaskDatumAnswerRequestRemote,
       QDistinct> distinctByTaskGroup({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'taskGroup', caseSensitive: caseSensitive);
@@ -1260,6 +1378,13 @@ extension TaskDatumAnswerRequestRemoteQueryProperty on QueryBuilder<
       attachmentNameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'attachmentName');
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswerRequestRemote, int?, QQueryOperations>
+      missionIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'missionId');
     });
   }
 

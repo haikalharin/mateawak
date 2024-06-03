@@ -12,8 +12,10 @@ import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../constants/constant.dart';
+import '../../../constants/telematry.constant.dart';
 import '../../../shared_component/async_value_widget.dart';
 import '../../../shared_component/refreshable_starter_widget.dart';
+import '../../../shared_component/visibility_detector_telematry.dart';
 import '../../task/presentation/controller/task.controller.dart';
 
 class ValidationScreen extends ConsumerStatefulWidget {
@@ -56,87 +58,90 @@ class _ValidationScreenState extends ConsumerState<ValidationScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Consumer(
-        builder: (BuildContext context, WidgetRef ref, Widget? child) {
-          final ctrl = ref.watch(validationControllerProvider.notifier);
-          final listValidation = ref.watch(validationInReviewState);
-          debugPrint(listValidation.toString());
-          return AsyncValueWidget(
-              value: ref.watch(taskControllerProvider),
-              data: (data) {
-                return Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        textInputAction: TextInputAction.search,
-                        decoration: InputDecoration(
-                          hintText: "${EtamKawaTranslate.search}...",
-                          suffixIcon: const Icon(Icons.search),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                        onChanged: (keyword) {
-                          ctrl.filterValidationList(keyword);
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        color: ColorTheme.neutral100,
-                        child: RefreshableStarterWidget(
-                          onRefresh: () async {
-                            ref.read(submitValidationBgProvider);
-                            ctrl.getValidationList();
-                          },
-                          slivers: [
-                            SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                (context, index) {
-                                  if (listValidation.isNotEmpty) {
-                                    return _buildListItem(
-                                        index, ctrl, listValidation);
-                                  } else {
-                                    return Container();
-                                  }
-                                },
-                                childCount: listValidation.length,
-                              ),
+    return  VisibilityDetectorTelematry(
+      widgetName: TelematryConstant.inProgressMission,
+      child: Scaffold(
+        body: Consumer(
+          builder: (BuildContext context, WidgetRef ref, Widget? child) {
+            final ctrl = ref.watch(validationControllerProvider.notifier);
+            final listValidation = ref.watch(validationInReviewState);
+            debugPrint(listValidation.toString());
+            return AsyncValueWidget(
+                value: ref.watch(taskControllerProvider),
+                data: (data) {
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          textInputAction: TextInputAction.search,
+                          decoration: InputDecoration(
+                            hintText: "${EtamKawaTranslate.search}...",
+                            suffixIcon: const Icon(Icons.search),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
-                            SliverToBoxAdapter(
-                              child: Container(
-                                margin: const EdgeInsets.symmetric(
-                                  vertical: 10.0,
-                                ), // Sesuaikan margin sesuai kebutuhan
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: SizedBox(
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Center(
-                                      child: Text(
-                                        listValidation.isNotEmpty
-                                            ? EtamKawaTranslate.allEntriesLoaded
-                                            : EtamKawaTranslate.noData,
-                                        style: SharedComponent.textStyleCustom(
-                                          typographyType: TypographyType.body,
-                                          fontColor: ColorTheme.neutral600,
+                          ),
+                          onChanged: (keyword) {
+                            ctrl.filterValidationList(keyword);
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          color: ColorTheme.neutral100,
+                          child: RefreshableStarterWidget(
+                            onRefresh: () async {
+                              ref.read(submitValidationBgProvider);
+                              ctrl.getValidationList();
+                            },
+                            slivers: [
+                              SliverList(
+                                delegate: SliverChildBuilderDelegate(
+                                  (context, index) {
+                                    if (listValidation.isNotEmpty) {
+                                      return _buildListItem(
+                                          index, ctrl, listValidation);
+                                    } else {
+                                      return Container();
+                                    }
+                                  },
+                                  childCount: listValidation.length,
+                                ),
+                              ),
+                              SliverToBoxAdapter(
+                                child: Container(
+                                  margin: const EdgeInsets.symmetric(
+                                    vertical: 10.0,
+                                  ), // Sesuaikan margin sesuai kebutuhan
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: SizedBox(
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Center(
+                                        child: Text(
+                                          listValidation.isNotEmpty
+                                              ? EtamKawaTranslate.allEntriesLoaded
+                                              : EtamKawaTranslate.noData,
+                                          style: SharedComponent.textStyleCustom(
+                                            typographyType: TypographyType.body,
+                                            fontColor: ColorTheme.neutral600,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                );
-              });
-        },
+                    ],
+                  );
+                });
+          },
+        ),
       ),
     );
   }

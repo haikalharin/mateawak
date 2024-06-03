@@ -1029,13 +1029,18 @@ const TaskDatumAnswerSchema = Schema(
       name: r'attachmentName',
       type: IsarType.string,
     ),
-    r'taskGroup': PropertySchema(
+    r'missionId': PropertySchema(
       id: 4,
+      name: r'missionId',
+      type: IsarType.long,
+    ),
+    r'taskGroup': PropertySchema(
+      id: 5,
       name: r'taskGroup',
       type: IsarType.string,
     ),
     r'taskId': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'taskId',
       type: IsarType.long,
     )
@@ -1089,8 +1094,9 @@ void _taskDatumAnswerSerialize(
   writer.writeString(offsets[1], object.attachment);
   writer.writeLong(offsets[2], object.attachmentId);
   writer.writeString(offsets[3], object.attachmentName);
-  writer.writeString(offsets[4], object.taskGroup);
-  writer.writeLong(offsets[5], object.taskId);
+  writer.writeLong(offsets[4], object.missionId);
+  writer.writeString(offsets[5], object.taskGroup);
+  writer.writeLong(offsets[6], object.taskId);
 }
 
 TaskDatumAnswer _taskDatumAnswerDeserialize(
@@ -1104,8 +1110,9 @@ TaskDatumAnswer _taskDatumAnswerDeserialize(
     attachment: reader.readStringOrNull(offsets[1]),
     attachmentId: reader.readLongOrNull(offsets[2]),
     attachmentName: reader.readStringOrNull(offsets[3]),
-    taskGroup: reader.readStringOrNull(offsets[4]),
-    taskId: reader.readLongOrNull(offsets[5]),
+    missionId: reader.readLongOrNull(offsets[4]),
+    taskGroup: reader.readStringOrNull(offsets[5]),
+    taskId: reader.readLongOrNull(offsets[6]),
   );
   return object;
 }
@@ -1126,8 +1133,10 @@ P _taskDatumAnswerDeserializeProp<P>(
     case 3:
       return (reader.readStringOrNull(offset)) as P;
     case 4:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 5:
+      return (reader.readStringOrNull(offset)) as P;
+    case 6:
       return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1668,6 +1677,80 @@ extension TaskDatumAnswerQueryFilter
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'attachmentName',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      missionIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'missionId',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      missionIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'missionId',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      missionIdEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'missionId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      missionIdGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'missionId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      missionIdLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'missionId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDatumAnswer, TaskDatumAnswer, QAfterFilterCondition>
+      missionIdBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'missionId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }

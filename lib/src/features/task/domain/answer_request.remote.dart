@@ -62,6 +62,7 @@ class AnswerRequestRemote {
 @embedded
 class TaskDatumAnswer {
   int? taskId;
+  int? missionId;
   String? answer;
   String? attachment;
   String? attachmentName;
@@ -70,6 +71,7 @@ class TaskDatumAnswer {
 
   TaskDatumAnswer({
     this.taskId,
+    this.missionId,
     this.answer,
     this.attachment,
     this.attachmentName,
@@ -79,6 +81,7 @@ class TaskDatumAnswer {
 
   TaskDatumAnswer copyWith({
     int? taskId,
+    int?  missionId,
     String? answer,
     String? attachment,
     String? attachmentName,
@@ -87,6 +90,7 @@ class TaskDatumAnswer {
   }) =>
       TaskDatumAnswer(
         taskId: taskId ?? this.taskId,
+        missionId: missionId ?? this.missionId,
         answer: answer ?? this.answer,
         attachmentName: attachmentName ?? this.attachmentName,
         attachment: attachment ?? this.attachment,
@@ -96,6 +100,7 @@ class TaskDatumAnswer {
 
   factory TaskDatumAnswer.fromJson(Map<String, dynamic> json) => TaskDatumAnswer(
     taskId: json["taskId"],
+    missionId: json["missionId"],
     answer: json["answer"],
     attachmentId: json["attachmentId"],
     taskGroup: json["taskGroup"],
@@ -103,6 +108,7 @@ class TaskDatumAnswer {
 
   Map<String, dynamic> toJson() => {
     "taskId": taskId,
+    "missionId": missionId,
     "answer": answer,
     "attachmentId": attachmentId,
     "taskGroup": taskGroup,
