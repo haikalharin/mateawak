@@ -15,7 +15,7 @@ part 'main_nav.repository.g.dart';
 @riverpod
 FutureOr<bool> fetchMission(FetchMissionRef ref) async {
   final isarInstance = await ref.watch(isarInstanceProvider.future);
-
+  final today = CommonUtils.formatDateRequestParam(DateTime.now().toString());
   final connect = ref.read(connectProvider.notifier);
   List<GamificationResponseRemote> listResponse = [];
   //const rawMissionDummy = Constant.rawMissionDummy;
@@ -47,7 +47,6 @@ FutureOr<bool> fetchMission(FetchMissionRef ref) async {
     await isarInstance.gamificationResponseRemotes.putAll(listResponse);
   });
 
-  final today = CommonUtils.formatDateRequestParam(DateTime.now().toString());
   ref.read(latestSyncDateState.notifier).state = today;
   await isarInstance.writeTxn(() async {
     await isarInstance.gamificationAdditionalDetailRemotes.put(

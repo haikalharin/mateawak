@@ -29,6 +29,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
     List<GamificationResponseRemote> listResponseFinal = [];
     List<GamificationResponseRemote> listResponseAfterMerge = [];
     List<GamificationResponseRemote> listAfterCheckIsIncomplete = [];
+    final today = CommonUtils.formatDateRequestParam(DateTime.now().toString());
 
     // const rawMissionDummy = Constant.rawMissionDummy;
     final userModel = await ref.read(helperUserProvider).getUserProfile();
@@ -143,7 +144,6 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
           .putAll(listAfterCheckIsIncomplete);
     });
 
-    final today = CommonUtils.formatDateRequestParam(DateTime.now().toString());
     ref.read(latestSyncDateState.notifier).state = today;
     await isarInstance.writeTxn(() async {
       await isarInstance.gamificationAdditionalDetailRemotes.put(

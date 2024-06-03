@@ -25,6 +25,7 @@ FutureOr<List<ValidationResponseRemote>> getValidationRemote(
     GetValidationLocalRef ref) async {
   final isarInstance = await ref.watch(isarInstanceProvider.future);
   final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
+  final today = CommonUtils.formatDateRequestParam(DateTime.now().toString());
 
   if (isConnectionAvailable) {
     final connect = ref.read(connectProvider.notifier);
@@ -191,7 +192,6 @@ FutureOr<List<ValidationResponseRemote>> getValidationRemote(
     await isarInstance.writeTxn(() async {
       await isarInstance.validationResponseRemotes.putAll(listAfterInputImage);
     });
-    final today = CommonUtils.formatDateRequestParam(DateTime.now().toString());
     ref.read(latestSyncDateValidationState.notifier).state = today;
     await isarInstance.writeTxn(() async {
       await isarInstance.gamificationAdditionalDetailRemotes.put(
