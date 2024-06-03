@@ -23,12 +23,17 @@ import '../../telematry/presentation/controller/telematry.controller.dart';
 import 'background_service/mission_background_services.dart';
 
 IndexedStack pages({required int currentIndex}) {
+  var index = currentIndex;
+  var missionIndex = currentIndex;
+  if (currentIndex == 9){
+    index = 2;
+  }
   return IndexedStack(
-    index: currentIndex,
+    index: index,
     children: <Widget>[
       const OverviewScreen(),
       const UnderConstructionEtamKawaScreen(),
-      MissionScreen(currentIndex: currentIndex),
+      MissionScreen(currentIndex: missionIndex),
       const ValidationScreen(),
       const UnderConstructionEtamKawaScreen(),
     ],
@@ -60,9 +65,10 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
 
   @override
   void initState() {
-    currentIndex = widget.currentIndex??0;
     isInit = true;
-
+    widget.currentIndex != 9
+        ? (widget.currentIndex != 0 ? currentIndex = widget.currentIndex! : 0)
+        : 2;
     initEtamkawa();
     super.initState();
   }
@@ -70,10 +76,9 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
   @override
   Widget build(BuildContext context) {
     widget.currentIndex != 9
-        ? (widget.currentIndex != null ? currentIndex = widget.currentIndex??0 : currentIndex)
-        : 2;
+        ? currentIndex = widget.currentIndex! : 2;
     ref.listen(activeWidgetProvider, (previous, now) {
-     if (previous != now) {
+      if (previous != now) {
         if (now != null) {
           ref
               .read(telematryControllerProvider.notifier)
@@ -83,7 +88,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
           ref
               .read(telematryControllerProvider.notifier)
               .completeTelematryDataThenSend(
-              previous, GoRouterState.of(context).uri.toString());
+                  previous, GoRouterState.of(context).uri.toString());
         }
       }
     });
@@ -122,13 +127,14 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
               value: SystemUiOverlayStyle.light,
               child: Scaffold(
                   appBar: SharedComponentEtamkawa.appBar(
-                    backgroundColor:currentIndex == 0
+                    backgroundColor: currentIndex == 0
                         ? ColorTheme.primary500
                         : ColorTheme.backgroundWhite,
-                    titleColor:
-                   currentIndex == 0 ? ColorTheme.textWhite : ColorTheme.textDark,
+                    titleColor: currentIndex == 0
+                        ? ColorTheme.textWhite
+                        : ColorTheme.textDark,
                     context: context,
-                    elevation:currentIndex == 0 ? 0.0 : 0.5,
+                    elevation: currentIndex == 0 ? 0.0 : 0.5,
                     title: title,
                     // onBack: () {
                     //   context.pop();
@@ -194,10 +200,10 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                       SizedBox(width: 20.w),
                     ],
                     brightnessIconStatusBar:
-                   currentIndex == 0 ? Brightness.light : Brightness.dark,
+                        currentIndex == 0 ? Brightness.light : Brightness.dark,
                   ),
                   body: Stack(children: [
-                    pages(currentIndex:currentIndex??0),
+                    pages(currentIndex: currentIndex),
                     submitStatus == SubmitStatus.inProgress
                         ? const Center(
                             child: CircularProgressIndicator(),
@@ -255,7 +261,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                                 ),
                               )
                             ],
-                            currentIndex:currentIndex,
+                            currentIndex: currentIndex,
                             onTap: (selectedIndex) async {
                               if (currentIndex != selectedIndex) {
                                 context.goNamed(homeEtakawa, pathParameters: {

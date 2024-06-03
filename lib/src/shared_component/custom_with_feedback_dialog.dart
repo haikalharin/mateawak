@@ -125,16 +125,7 @@ class _CustomWithFeedbackDialogState extends State<CustomWithFeedbackDialog> {
                   border: const OutlineInputBorder(),
                 ),
                 maxLines: 10,
-                onChanged: (value) {
-                  setState(() {
-                    if (value.isNotEmpty) {
-                      controller.text = value;
-                    }
-                  });
-                }, // Allows multiple lines of input
-                onTapOutside: (event) {
-                  FocusScope.of(context).unfocus();
-                },
+                
               ),
             ),
             SizedBox(height: 16.h),
