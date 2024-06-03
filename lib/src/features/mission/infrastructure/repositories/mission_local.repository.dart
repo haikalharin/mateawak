@@ -38,8 +38,8 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
         .filter()
         .idEqualTo(0)
         .findFirst();
-    if (latestSyncDateIsar != null) {
-      latestSyncDate = latestSyncDateIsar.latestSyncDate!;
+    if (latestSyncDateIsar?.latestSyncDate != null) {
+      latestSyncDate = latestSyncDateIsar!.latestSyncDate!;
     }
     debugPrint('latestsyncdate : ${latestSyncDateIsar?.latestSyncDate}');
     final response = await connect.post(
@@ -168,16 +168,11 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
 FutureOr<List<GamificationResponseRemote>> getMissionLocal(
     GetMissionLocalRef ref) async {
   final isarInstance = await ref.watch(isarInstanceProvider.future);
-  List<GamificationResponseRemote> listResponse = [];
 
   final data = await isarInstance.gamificationResponseRemotes
       .filter()
       .employeeMissionIdIsNotNull()
       .findAll();
-
-  for (var element in data) {
-    listResponse.add(element);
-  }
 
   return data;
 }

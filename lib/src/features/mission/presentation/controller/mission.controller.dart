@@ -226,6 +226,46 @@ class MissionController extends _$MissionController {
     }
   }
 
+  Future<void> initMissionList() async {
+    var repo = ref.read(getMissionLocalProvider.future);
+
+    await AsyncValue.guard(() => repo).then((value) async {
+      if (value.value != null && value.value != []) {
+        List<GamificationResponseRemote> listGamificationInProgress = [];
+        List<GamificationResponseRemote> listGamificationAssigned = [];
+        List<GamificationResponseRemote> listGamificationPast = [];
+
+        if (value.hasValue) {
+          value.value?.forEach((element) async {
+            if (element.missionStatusCode != null) {
+              if (element.missionStatusCode! == 1) {
+                debugPrint(
+                    'Mission InProgress: ${element.chapterData?.single.missionData?.single.missionName}: ${element.missionStatus}: ${element.employeeMissionId}');
+                listGamificationInProgress.add(element);
+              } else if (element.missionStatusCode! == 0) {
+                listGamificationAssigned.add(element);
+              } else if (element.missionStatusCode! >= 2) {
+                debugPrint(
+                    'Mission Past: ${element.chapterData?.single.missionData?.single.missionName}: ${element.missionStatus}: ${element.employeeMissionId}');
+                listGamificationPast.add(element);
+              }
+            }
+          });
+          ref.watch(gamificationInProgressState.notifier).state =
+              listGamificationInProgress;
+          ref.watch(gamificationAssignedState.notifier).state =
+              listGamificationAssigned;
+          ref.watch(gamificationPastState.notifier).state =
+              listGamificationPast;
+          ref.watch(listGamificationState.notifier).state = value.value ?? [];
+          ref.watch(fixedGamificationAssigned.notifier).state =
+              value.value ?? [];
+          listGamification = value.value ?? [];
+        }
+      }
+    });
+  }
+
   Future<void> getMissionList({bool isInit = false}) async {
     ref.read(submitStatusMissionState.notifier).state = SubmitStatus.inProgress;
     try {
