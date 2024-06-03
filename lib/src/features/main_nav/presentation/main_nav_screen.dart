@@ -60,9 +60,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
     currentIndex = widget.currentIndex??0;
     isInit = true;
     isInit = true;
-    widget.currentIndex != 9
-        ? (widget.currentIndex != 0 ? currentIndex = widget.currentIndex! : currentIndex)
-        : 2;
+
     initEtamkawa();
     ref.read(missionControllerProvider.notifier).updateLatestSyncDate();
     super.initState();
@@ -70,6 +68,9 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
 
   @override
   Widget build(BuildContext context) {
+    widget.currentIndex != 9
+        ? (widget.currentIndex != 0 ? currentIndex = widget.currentIndex! : currentIndex)
+        : 2;
     ref.listen(activeWidgetProvider, (previous, now) {
      if (previous != now) {
         if (now != null) {
