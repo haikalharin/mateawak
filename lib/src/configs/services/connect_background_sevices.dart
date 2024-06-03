@@ -3,13 +3,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:module_shared/src/configs/services/model/response.model.dart';
 
-
 class ConnectBackgroundService {
   Future<ApiResponse> post(
       {required String url,
-        required String path,
-        required body,
-        required accessToken}) async {
+      required String path,
+      required body,
+      required accessToken}) async {
     BaseOptions options = BaseOptions(
         baseUrl: url,
         receiveDataWhenStatusError: true,
@@ -43,18 +42,19 @@ class ConnectBackgroundService {
     }
 
     try {
-      final response = await dio.post(path, data: body,  onReceiveProgress: showDownloadProgress,);
+      final response = await dio.post(
+        path,
+        data: body,
+        onReceiveProgress: showDownloadProgress,
+      );
       ApiResponse apiResponse = ApiResponse.fromJson({});
-      if(response.data != null) {
-        apiResponse = ApiResponse.fromJson(response.data as Map<String, dynamic>);
+      if (response.data != null) {
+        apiResponse =
+            ApiResponse.fromJson(response.data as Map<String, dynamic>);
       }
       debugPrint('responsesubmitData: ${apiResponse.result}');
 
-      if (apiResponse.result?.isError == true) {
-        throw apiResponse.result!.message.toString();
-      } else {
-        return apiResponse;
-      }
+      return apiResponse;
     } on DioException {
       return ApiResponse();
     } catch (e) {
@@ -64,8 +64,8 @@ class ConnectBackgroundService {
 
   Future<Response> downloadImage(
       {required String url,
-        Map<String, dynamic>? query,
-        CancelToken? cancelToken}) async {
+      Map<String, dynamic>? query,
+      CancelToken? cancelToken}) async {
     try {
       Dio dioDownload = Dio();
       //dioDownload.interceptors.add(ChuckerDioInterceptor());
@@ -94,6 +94,7 @@ class ConnectBackgroundService {
       rethrow;
     }
   }
+
   exceptionDio(DioException e) {
     return switch (e.type) {
       DioExceptionType.connectionError => throw 'Connection Error',

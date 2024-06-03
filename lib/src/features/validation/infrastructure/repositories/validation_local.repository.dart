@@ -236,11 +236,11 @@ Future<ResultSubmissionRequestRemote> submitValidation(SubmitValidationRef ref,
     {required ValidateRequestRemote validationRequestRemote}) async {
   final isarInstance = await ref.watch(isarInstanceProvider.future);
   final userModel = await ref.read(helperUserProvider).getUserProfile();
-  final connect = ref.read(connectProvider.notifier);
+  final connect = ref.read(connectEtamkawaProvider.notifier);
   final response = await connect.post(
       modul: ModuleType.etamkawaGamification,
       path:
-          "api/mission/validate_employee_mission?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}",
+          "api/mission/validate_employee_mission?userAccount=${userModel?.upnAccount ?? ''}&${Constant.apiVer}",
       body: validationRequestRemote.toJson());
 
   if (response.statusCode == 200) {
@@ -333,7 +333,7 @@ Future<bool> submitValidationBg(SubmitValidationBgRef ref) async {
           final response = connect.post(
               modul: ModuleType.etamkawaGamification,
               path:
-                  "api/mission/validate_employee_mission?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}",
+                  "api/mission/validate_employee_mission?userAccount=${userModel?.upnAccount ?? ''}&${Constant.apiVer}",
               body: validationRequest.toJson());
 
           await AsyncValue.guard(() => response).then((value) async {

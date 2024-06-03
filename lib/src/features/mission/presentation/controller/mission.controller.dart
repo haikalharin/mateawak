@@ -147,9 +147,9 @@ class MissionController extends _$MissionController {
         'pathFetchMission':
             '/${BspaceModule.getRootUrl(moduleType: ModuleType.etamkawaGamification)}/api/mission/get_employee_mission?${Constant.apiVer}',
         'pathSubmitMission':
-            '/${BspaceModule.getRootUrl(moduleType: ModuleType.etamkawaGamification)}/api/mission/submit_employee_mission?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}',
+            '/${BspaceModule.getRootUrl(moduleType: ModuleType.etamkawaGamification)}/api/mission/submit_employee_mission?userAccount=${userModel?.upnAccount ?? ''}&${Constant.apiVer}',
         'pathImage':
-            '/${BspaceModule.getRootUrl(moduleType: ModuleType.etamkawaGamification)}/api/attachment/insert_attachment?userAccount=${userModel?.email ?? ''}&${Constant.apiVer}',
+            '/${BspaceModule.getRootUrl(moduleType: ModuleType.etamkawaGamification)}/api/attachment/insert_attachment?userAccount=${userModel?.upnAccount ?? ''}&${Constant.apiVer}',
         'accessToken': await ref.read(storageProvider.notifier).read(
               storage: TableConstant.tbMProfile,
               key: ProfileKeyConstant.keyTokenGeneral,
