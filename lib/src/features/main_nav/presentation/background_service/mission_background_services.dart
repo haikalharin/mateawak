@@ -4,7 +4,6 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:dio/dio.dart';
-import 'package:module_shared/module_shared.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:isar/isar.dart';
@@ -12,7 +11,6 @@ import 'package:module_etamkawa/src/features/overview/domain/news_response.remot
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../../module_etamkawa.dart';
 import '../../../../configs/services/connect_background_sevices.dart';
 import '../../../../constants/constant.dart';
 import '../../../../constants/function_utils.dart';
@@ -116,7 +114,7 @@ Future<bool> submitAnswerBg(
         .findAll();
     final repoGamification = isarInstance.gamificationResponseRemotes
         .filter()
-        .employeeMissionIdIsNotNull()
+        .missionStatusCodeEqualTo(4)
         .findAll();
     List<bool> listSucces = [];
     await AsyncValue.guard(() => repo).then((value) async {
@@ -128,7 +126,8 @@ Future<bool> submitAnswerBg(
             TaskDatumAnswer taskDatumAnswer = elementAnswer;
             if (taskDatumAnswer.attachment != '' &&
                 taskDatumAnswer.attachment != null) {
-              String group = "${element.attachmentName}${generateRandomString(8)}";
+              String group =
+                  "${taskDatumAnswer.attachmentName}${generateRandomString(8)}";
               final map = FormData.fromMap({
                 "File":
                     await MultipartFile.fromFile(taskDatumAnswer.attachment!),
@@ -196,6 +195,45 @@ Future<bool> submitAnswerBg(
             listSucces.add(statusSuccess);
           });
         }
+      }
+    });
+
+    await AsyncValue.guard(() => repoGamification).then((value) async {
+      for (var element in value.value ?? []) {
+        AnswerRequestRemote answerRequestRemote = AnswerRequestRemote(
+            employeeMissionId: element.employeeMissionId,
+            employeeName: '-',
+            status: 4,
+            taskData: [],
+            submittedDate: CommonUtils.formatDateRequestParam(
+                DateTime.now().toString()));
+        final response = ConnectBackgroundService().post(
+            accessToken: accessToken,
+            path: path,
+            url: url,
+            body: answerRequestRemote.toJson());
+
+        await AsyncValue.guard(() => response).then((value) async {
+          if (value.value?.statusCode == 200) {
+            await isarInstance.writeTxn(() async {
+              await isarInstance.gamificationResponseRemotes
+                  .filter()
+                  .employeeMissionIdEqualTo(element.employeeMissionId)
+                  .deleteAll();
+            });
+          } else if (value.value?.result?.content?.toLowerCase() ==
+              'already submitted') {
+            await isarInstance.writeTxn(() async {
+              await isarInstance.gamificationResponseRemotes
+                  .filter()
+                  .employeeMissionIdEqualTo(element.employeeMissionId)
+                  .deleteAll();
+            });
+          }
+          var statusSuccess = value.value?.statusCode == 200 ||
+              (value.value?.result?.isError == false);
+          listSucces.add(statusSuccess);
+        });
       }
     });
 

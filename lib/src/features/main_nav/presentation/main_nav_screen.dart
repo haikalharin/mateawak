@@ -48,9 +48,12 @@ class MainNavScreen extends ConsumerStatefulWidget {
 class _MainNavScreenState extends ConsumerState<MainNavScreen>
     with WidgetsBindingObserver {
   bool isInit = false;
+
   Future<void> initEtamkawa() async {
     WidgetsFlutterBinding.ensureInitialized();
     await intializedMissionBackgroundService();
+    ref.read(missionControllerProvider.notifier).updateLatestSyncDate();
+    ref.read(missionControllerProvider.notifier).initMissionList();
   }
 
   int currentIndex = 0;
@@ -59,10 +62,8 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
   void initState() {
     currentIndex = widget.currentIndex??0;
     isInit = true;
-    isInit = true;
 
     initEtamkawa();
-    ref.read(missionControllerProvider.notifier).updateLatestSyncDate();
     super.initState();
   }
 
@@ -143,10 +144,12 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                               fontWeight: FontWeight.w600,
                               fontSize: 8.sp),
                           SharedComponent.label(
-                              text: latestSyncDate != '2024-03-01T03:55:58.918Z' ? CommonUtils.formattedDate(
-                                  latestSyncDate.toString(),
-                                  withDay: false,
-                                  withHourMinute: true) : '-',
+                              text: latestSyncDate != '2024-03-01T03:55:58.918Z'
+                                  ? CommonUtils.formattedDate(
+                                      latestSyncDate.toString(),
+                                      withDay: false,
+                                      withHourMinute: true)
+                                  : '-',
                               context: context,
                               fontWeight: FontWeight.w400,
                               fontSize: 8.sp),
