@@ -1,7 +1,8 @@
-import 'package:module_etamkawa/src/features/offline_mode/infrastructure/repositories/isar.repository.dart';
-import 'package:module_etamkawa/src/features/telematry/domain/user_infos_response.remote.dart';
-import 'package:module_etamkawa/src/features/telematry/presentation/controller/telematry.controller.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../../offline_mode/infrastructure/repositories/isar.repository.dart';
+import '../../domain/user_infos_response.remote.dart';
+import '../../presentation/controller/telematry.controller.dart';
 
 part 'telematry_local.repository.g.dart';
 

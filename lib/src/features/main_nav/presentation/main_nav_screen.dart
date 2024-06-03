@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lazy_load_indexed_stack/lazy_load_indexed_stack.dart';
 import 'package:module_etamkawa/src/features/main_nav/presentation/controller/main_nav.controller.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/mission.screen.dart';
@@ -17,15 +19,21 @@ import 'package:module_shared/module_shared.dart';
 import '../../../../module_etamkawa.dart';
 import '../../../shared_component/connection_listener_widget.dart';
 import '../../../shared_component/shared_component_etamkawa.dart';
+import '../../telematry/presentation/controller/telematry.controller.dart';
 import 'background_service/mission_background_services.dart';
 
 IndexedStack pages({required int currentIndex}) {
+  var index = currentIndex;
+  var missionIndex = currentIndex;
+  if (currentIndex == 9){
+    index = 2;
+  }
   return IndexedStack(
-    index: currentIndex,
+    index: index,
     children: <Widget>[
       const OverviewScreen(),
       const UnderConstructionEtamKawaScreen(),
-      MissionScreen(currentIndex: currentIndex),
+      MissionScreen(currentIndex: missionIndex),
       const ValidationScreen(),
       const UnderConstructionEtamKawaScreen(),
     ],
@@ -45,29 +53,45 @@ class MainNavScreen extends ConsumerStatefulWidget {
 class _MainNavScreenState extends ConsumerState<MainNavScreen>
     with WidgetsBindingObserver {
   bool isInit = false;
+
   Future<void> initEtamkawa() async {
     WidgetsFlutterBinding.ensureInitialized();
     await intializedMissionBackgroundService();
+    ref.read(missionControllerProvider.notifier).updateLatestSyncDate();
+    ref.read(missionControllerProvider.notifier).initMissionList();
   }
 
-  int index = 0;
-  int missionIndex = 0;
+  int currentIndex = 0;
 
   @override
   void initState() {
     isInit = true;
-    isInit = true;
-    missionIndex = widget.currentIndex != 9 ? 1 : 2;
     widget.currentIndex != 9
-        ? (widget.currentIndex != 0 ? index = widget.currentIndex! : 0)
+        ? (widget.currentIndex != 0 ? currentIndex = widget.currentIndex! : 0)
         : 2;
     initEtamkawa();
-    ref.read(missionControllerProvider.notifier).updateLatestSyncDate();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    widget.currentIndex != 9
+        ? currentIndex = widget.currentIndex! : 2;
+    ref.listen(activeWidgetProvider, (previous, now) {
+      if (previous != now) {
+        if (now != null) {
+          ref
+              .read(telematryControllerProvider.notifier)
+              .insertInitTelematryData(now);
+        }
+        if (previous != null) {
+          ref
+              .read(telematryControllerProvider.notifier)
+              .completeTelematryDataThenSend(
+                  previous, GoRouterState.of(context).uri.toString());
+        }
+      }
+    });
     return AsyncValueSharedWidget(
         value: ref.watch(mainNavControllerProvider),
         data: (data) {
@@ -86,7 +110,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
           return Consumer(
               builder: (BuildContext context, WidgetRef ref, Widget? child) {
             String title = '';
-            switch (index) {
+            switch (currentIndex) {
               case 0:
                 title = 'Etam Kawa';
               case 1:
@@ -103,13 +127,14 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
               value: SystemUiOverlayStyle.light,
               child: Scaffold(
                   appBar: SharedComponentEtamkawa.appBar(
-                    backgroundColor: index == 0
+                    backgroundColor: currentIndex == 0
                         ? ColorTheme.primary500
                         : ColorTheme.backgroundWhite,
-                    titleColor:
-                        index == 0 ? ColorTheme.textWhite : ColorTheme.textDark,
+                    titleColor: currentIndex == 0
+                        ? ColorTheme.textWhite
+                        : ColorTheme.textDark,
                     context: context,
-                    elevation: index == 0 ? 0.0 : 0.5,
+                    elevation: currentIndex == 0 ? 0.0 : 0.5,
                     title: title,
                     // onBack: () {
                     //   context.pop();
@@ -125,10 +150,12 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                               fontWeight: FontWeight.w600,
                               fontSize: 8.sp),
                           SharedComponent.label(
-                              text: latestSyncDate != '2024-03-01T03:55:58.918Z' ? CommonUtils.formattedDate(
-                                  latestSyncDate.toString(),
-                                  withDay: false,
-                                  withHourMinute: true) : '-',
+                              text: latestSyncDate != '2024-03-01T03:55:58.918Z'
+                                  ? CommonUtils.formattedDate(
+                                      latestSyncDate.toString(),
+                                      withDay: false,
+                                      withHourMinute: true)
+                                  : '-',
                               context: context,
                               fontWeight: FontWeight.w400,
                               fontSize: 8.sp),
@@ -173,10 +200,10 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                       SizedBox(width: 20.w),
                     ],
                     brightnessIconStatusBar:
-                        index == 0 ? Brightness.light : Brightness.dark,
+                        currentIndex == 0 ? Brightness.light : Brightness.dark,
                   ),
                   body: Stack(children: [
-                    pages(currentIndex: index),
+                    pages(currentIndex: currentIndex),
                     submitStatus == SubmitStatus.inProgress
                         ? const Center(
                             child: CircularProgressIndicator(),
@@ -234,11 +261,15 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                                 ),
                               )
                             ],
-                            currentIndex: index,
-                            onTap: (value) async {
-                              index = value;
-                              ctrl.onItemTapped(value);
-                              if (index == 2) {
+                            currentIndex: currentIndex,
+                            onTap: (selectedIndex) async {
+                              if (currentIndex != selectedIndex) {
+                                context.goNamed(homeEtakawa, pathParameters: {
+                                  'CurrentIndex': '$selectedIndex'
+                                });
+                              }
+                              // ctrl.onItemTapped(selectedIndex);
+                              if (currentIndex == 2) {
                                 if (submitStatusMission !=
                                         SubmitStatus.inProgress &&
                                     submitStatusMissionBgServices !=
@@ -249,7 +280,7 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                                     isInit = false;
                                   });
                                 }
-                              } else if (index == 3) {
+                              } else if (currentIndex == 3) {
                                 ref.read(submitValidationBgProvider);
                                 await ctrlValidation.getValidationList();
                               }

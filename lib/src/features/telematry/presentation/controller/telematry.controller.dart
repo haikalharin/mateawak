@@ -8,15 +8,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart' as location_package;
-import 'package:module_etamkawa/src/constants/constant.dart';
 import 'package:module_etamkawa/src/features/telematry/domain/telematry_data_model.dart';
-import 'package:module_etamkawa/src/features/telematry/infrastructure/repositories/telematry.repositories.dart';
-import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
 import 'package:module_shared/module_shared.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../../constants/constant.dart';
+import '../../../../shared_component/connection_listener_widget.dart';
 import '../../../offline_mode/infrastructure/repositories/isar.repository.dart';
+import '../../infrastructure/repositories/telematry.repositories.dart';
 
 part 'telematry.controller.g.dart';
 
@@ -86,7 +86,8 @@ class TelematryController extends _$TelematryController {
     });
   }
 
-  Future<void> completeTelematryDataThenSend(String pageTabWidget) async {
+  Future<void> completeTelematryDataThenSend(
+      String pageTabWidget, String screenName) async {
     final timeNow = DateTime.now().toIso8601String();
     final isarInstance = await ref.watch(isarInstanceProvider.future);
 
@@ -123,6 +124,20 @@ class TelematryController extends _$TelematryController {
           dart_dev.log('submit telematry result: $res');
 
           await isarInstance.telematryDataModels.delete(data.id);
+
+          DateTime dateCheckIn =
+              DateTime.parse(data.checkin ?? DateTime.now().toIso8601String());
+          DateTime dateCheckOut =
+              DateTime.parse(data.checkout ?? DateTime.now().toIso8601String());
+          int getTime = dateCheckOut.difference(dateCheckIn).inSeconds;
+          Telemetry().onCapture(
+            pageName: '${data.page}',
+            tabName: '${data.tab}',
+            widgetName: '${data.widget}',
+            checkIn: data.checkin,
+            checkOut: data.checkout,
+            durationSeconds: getTime,
+          );
         }
       });
     }
