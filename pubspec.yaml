@@ -60,6 +60,8 @@ dependencies:
   easy_localization: ^3.0.2
   image: ^4.1.7
   flutter_image_compress: ^2.3.0
+  widget_zoom: ^0.0.4
+
 
 
   module_shared:

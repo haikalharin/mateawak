@@ -19,6 +19,7 @@ import 'package:module_shared/module_shared.dart';
 
 import '../../../../../module_etamkawa.dart';
 import '../../../../shared_component/instruction_dialog.dart';
+import '../../../../shared_component/shared_component_etamkawa.dart';
 import '../../../main_nav/presentation/controller/main_nav.controller.dart';
 import '../../../mission/domain/gamification_response.remote.dart';
 import '../controller/task.controller.dart';
@@ -191,17 +192,29 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                                     listTask[currentQuestionIndex.state]
                                             .attachmentPath !=
                                         ''
-                                ? Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 8, 0, 16),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10.r),
-                                      child: Image(
-                                        image: FileImage(File(
-                                            listTask[currentQuestionIndex.state]
-                                                    .attachmentPath ??
-                                                '')),
-                                        fit: BoxFit.contain,
+                                ? InkWell(
+                                    onTap: () {
+                                      SharedComponentEtamkawa.showImage(
+                                          context: context,
+                                          path: listTask[currentQuestionIndex
+                                                      .state]
+                                                  .attachmentPath ??
+                                              '');
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 8, 0, 16),
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(10.r),
+                                        child: Image(
+                                          image: FileImage(File(listTask[
+                                                      currentQuestionIndex
+                                                          .state]
+                                                  .attachmentPath ??
+                                              '')),
+                                          fit: BoxFit.contain,
+                                        ),
                                       ),
                                     ),
                                   )
@@ -1117,7 +1130,9 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
         File file = File(filePath!);
         img.Image? image;
 
-        if (fileExtension == 'heic' || fileExtension == 'heif' || fileExtension == 'jpeg') {
+        if (fileExtension == 'heic' ||
+            fileExtension == 'heif' ||
+            fileExtension == 'jpeg') {
           file = await _convertHeicToJpeg(file);
         }
 
@@ -1199,7 +1214,9 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
         File file = File(filePath!);
         img.Image? image;
 
-        if (fileExtension == 'heic' || fileExtension == 'heif' || fileExtension == 'jpeg') {
+        if (fileExtension == 'heic' ||
+            fileExtension == 'heif' ||
+            fileExtension == 'jpeg') {
           file = await _convertHeicToJpeg(file);
         }
 
@@ -1254,23 +1271,22 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
     }
   }
 
+  Future<File> _handleLivePhoto(File file) async {
+    final compressedBytes = await FlutterImageCompress.compressWithFile(
+      file.path,
+      format: CompressFormat.jpeg,
+      quality: 100,
+    );
 
-Future<File> _handleLivePhoto(File file) async {
-  final compressedBytes = await FlutterImageCompress.compressWithFile(
-    file.path,
-    format: CompressFormat.jpeg,
-    quality: 100,
-  );
+    if (compressedBytes == null) {
+      throw Exception('Failed to process live photo');
+    }
 
-  if (compressedBytes == null) {
-    throw Exception('Failed to process live photo');
+    final tempDir = Directory.systemTemp;
+    final tempFile = File('${tempDir.path}/live_photo.jpg');
+    await tempFile.writeAsBytes(compressedBytes);
+    return tempFile;
   }
-
-  final tempDir = Directory.systemTemp;
-  final tempFile = File('${tempDir.path}/live_photo.jpg');
-  await tempFile.writeAsBytes(compressedBytes);
-  return tempFile;
-}
 
   Future<File> _convertHeicToJpeg(File file) async {
     final compressedBytes = await FlutterImageCompress.compressWithFile(

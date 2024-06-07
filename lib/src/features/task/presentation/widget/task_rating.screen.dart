@@ -12,6 +12,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../../../../../module_etamkawa.dart';
 import '../../../../shared_component/instruction_dialog.dart';
+import '../../../../shared_component/shared_component_etamkawa.dart';
 import '../../../main_nav/presentation/controller/main_nav.controller.dart';
 import '../../../mission/presentation/controller/mission.controller.dart';
 import '../controller/task.controller.dart';
@@ -150,17 +151,29 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                     listTask[currentQuestionIndex.state]
                                             .attachmentPath !=
                                         ''
-                                ? Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 8, 0, 16),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10.r),
-                                      child: Image(
-                                        image: FileImage(File(
-                                            listTask[currentQuestionIndex.state]
-                                                    .attachmentPath ??
-                                                '')),
-                                        fit: BoxFit.contain,
+                                ? InkWell(
+                                    onTap: () {
+                                      SharedComponentEtamkawa.showImage(
+                                          context: context,
+                                          path: listTask[currentQuestionIndex
+                                                      .state]
+                                                  .attachmentPath ??
+                                              '');
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 8, 0, 16),
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(10.r),
+                                        child: Image(
+                                          image: FileImage(File(listTask[
+                                                      currentQuestionIndex
+                                                          .state]
+                                                  .attachmentPath ??
+                                              '')),
+                                          fit: BoxFit.contain,
+                                        ),
                                       ),
                                     ),
                                   )
@@ -519,10 +532,12 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                     isConnectionAvailable:
                                                         isConnectionAvailable,
                                                     onClosed: () async {
-                                                      showLoadingDialog(context);
-                                                      var status =  ctrl
-                                                          .putAnswerFinal(
-                                                          isSubmitted: true);
+                                                      showLoadingDialog(
+                                                          context);
+                                                      var status =
+                                                          ctrl.putAnswerFinal(
+                                                              isSubmitted:
+                                                                  true);
 
                                                       await AsyncValue.guard(
                                                               () => status)
@@ -530,30 +545,30 @@ class _TaskRatingScreenState extends ConsumerState<TaskRatingScreen> {
                                                         await ctrlMission
                                                             .getMissionList()
                                                             .whenComplete(() {
-
-                                                          if(value.value == true){
+                                                          if (value.value ==
+                                                              true) {
                                                             hideLoadingDialog(
                                                                 context);
-                                                            Navigator.of(context)
+                                                            Navigator.of(
+                                                                    context)
                                                                 .pop();
                                                             showDialog(
                                                                 barrierDismissible:
-                                                                false,
+                                                                    false,
                                                                 context:
-                                                                context,
+                                                                    context,
                                                                 builder:
                                                                     (context) {
                                                                   return RewardDialog(
                                                                     resultSubmissionState: ref
                                                                         .watch(resultSubmissionState
-                                                                        .notifier)
+                                                                            .notifier)
                                                                         .state,
                                                                     isConnectionAvailable:
-                                                                    isConnectionAvailable,
+                                                                        isConnectionAvailable,
                                                                   );
                                                                 });
                                                           }
-
                                                         });
                                                       });
                                                     });
