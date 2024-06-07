@@ -7,6 +7,7 @@ import 'package:module_etamkawa/module_etamkawa.dart';
 import 'package:module_etamkawa/src/constants/image.constant.dart';
 import 'package:module_etamkawa/src/features/mission/domain/gamification_response.remote.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
+import 'package:module_etamkawa/src/features/mission_past/presentation/controller/mission_past.controller.dart';
 import 'package:module_etamkawa/src/features/mission_past/presentation/mission_past.screen.dart';
 import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
 import 'package:module_etamkawa/src/utils/common_utils.dart';
@@ -59,40 +60,30 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
       _selectedIndex = 2;
     }
     _controller = TabController(length: listTab.length, vsync: this);
-
     _controller.addListener(() {
       setState(() {
         _selectedIndex = _controller.index;
       });
-      print("Selected Index: " + _controller.index.toString());
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(activeWidgetProvider,
-            (previous, now) {
-          if (previous != now) {
-            if (now != null) {
-              ref
-                  .read(
-                  telematryControllerProvider
-                      .notifier)
-                  .insertInitTelematryData(now);
-            }
-            if (previous != null) {
-              ref
-                  .read(
-                  telematryControllerProvider
-                      .notifier)
-                  .completeTelematryDataThenSend(
-                  previous,
-                  GoRouterState.of(context)
-                      .uri
-                      .toString());
-            }
-          }
-        });
+    ref.listen(activeWidgetProvider, (previous, now) {
+      if (previous != now) {
+        if (now != null) {
+          ref
+              .read(telematryControllerProvider.notifier)
+              .insertInitTelematryData(now);
+        }
+        if (previous != null) {
+          ref
+              .read(telematryControllerProvider.notifier)
+              .completeTelematryDataThenSend(
+                  previous, GoRouterState.of(context).uri.toString());
+        }
+      }
+    });
     return Consumer(
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
       final ctrl = ref.watch(missionControllerProvider.notifier);
@@ -105,6 +96,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
           ref.watch(submitStatusMissionBgServicesState);
       final isInit = ref.watch(isInitMissionState);
       final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
+      final isFromPageHistory = ref.read(isFromHistory);
       return AsyncValueWidget(
           value: ref.watch(missionControllerProvider),
           data: (data) {
@@ -140,7 +132,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                     Expanded(
                       child: DefaultTabController(
                         length: 3,
-                        initialIndex: 1,
+                        initialIndex: isFromPageHistory ? 2 : 1,
                         child: Column(
                           children: [
                             TabBar(
@@ -150,17 +142,6 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                     setState(() {
                                       _selectedIndex = index;
                                     });
-                                    //   submitStatus != SubmitStatus.inProgress &&
-                                    //           submitStatusBgServices !=
-                                    //               SubmitStatus.inProgress
-                                    //       ? ctrl
-                                    //           .backgroundServiceEvent()
-                                    //           .whenComplete(() {
-                                    //           ref.refresh(
-                                    //               missionControllerProvider);
-                                    //         })
-                                    //       : null;
-
                                     break;
                                   case 1:
                                     setState(() {
@@ -179,22 +160,10 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                           })
                                         : null;
                                     break;
-
                                   case 2:
                                     setState(() {
                                       _selectedIndex = index;
                                     });
-
-                                    //   submitStatus != SubmitStatus.inProgress &&
-                                    //           submitStatusBgServices !=
-                                    //               SubmitStatus.inProgress
-                                    //       ? ctrl
-                                    //           .backgroundServiceEvent()
-                                    //           .whenComplete(() {
-                                    //           ref.refresh(
-                                    //               missionControllerProvider);
-                                    //         })
-                                    //       : null;
                                     break;
                                 }
                               },
@@ -425,27 +394,6 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
 
   Widget _buildListItem(int index, MissionController ctrl,
       TaskController ctrlTask, List<GamificationResponseRemote> gamification) {
-    // Future<void> putData() async {
-    //   List<MissionDatum> listMission = [];
-    //   ref.watch(missionDataState.notifier).state =
-    //       gamification[index].chapterData?.single.missionData?.single ??
-    //           MissionDatum();
-    //   ref.watch(gamificationState.notifier).state = gamification[index];
-    //   for (var element in gamification) {
-    //     listMission.add(
-    //         element.chapterData?.single.missionData?.single ?? MissionDatum());
-    //   }
-    //   ref.watch(listMissionState.notifier).state = listMission;
-    //   List<TaskDatum> listTask = (gamification[index]
-    //           .chapterData
-    //           ?.single
-    //           .missionData
-    //           ?.single
-    //           .taskData ??
-    //       []);
-    //   ref.watch(listTaskState.notifier).state = listTask;
-    // }
-
     Future<void> putCurrentAnswerFinal() async {
       ref.watch(currentTypeTaskState.notifier).state = ctrlTask.currentTypeTask;
       if (ctrlTask.currentTypeTask == TaskType.STX.name ||
@@ -460,16 +408,14 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
       }
     }
 
-
     return VisibilityDetectorTelematry(
       widgetName: _selectedIndex == 0
           ? TelematryConstant.inProgressMission
           : _selectedIndex == 1
-          ? TelematryConstant.assignedMission
-          : _selectedIndex == 2
-          ? TelematryConstant.pastMission
-          : '',
-
+              ? TelematryConstant.assignedMission
+              : _selectedIndex == 2
+                  ? TelematryConstant.pastMission
+                  : '',
       child: Consumer(
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
           return Card(
@@ -498,8 +444,8 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                 padding: const EdgeInsets.fromLTRB(0, 7, 0, 7),
                                 child: DecoratedBox(
                                   decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(5.r)),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.r)),
                                       color: EtamKawaUtils()
                                           .getMissionStatusBGColorByCode(
                                               gamification[index]
@@ -512,7 +458,8 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                         EtamKawaUtils().getMissionStatus(
                                             gamification[index].missionStatus!),
                                         style: SharedComponent.textStyleCustom(
-                                            typographyType: TypographyType.small,
+                                            typographyType:
+                                                TypographyType.small,
                                             fontColor: EtamKawaUtils()
                                                 .getMissionStatusFontColorByCode(
                                                     gamification[index]
@@ -540,21 +487,19 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                             '${gamification[index].chapterData?.single.missionData?.single.missionReward.toString()} ${EtamKawaTranslate.pts}',
                                             style: SharedComponent
                                                 .textStyleCustom(
-                                                    typographyType: TypographyType
-                                                        .paragraph,
-                                                    fontColor:
-                                                        ColorTheme.neutral500)
-                                            //TextStyle(fontSize: 12.sp),
-                                            )
+                                                    typographyType:
+                                                        TypographyType
+                                                            .paragraph,
+                                                    fontColor: ColorTheme
+                                                        .neutral500))
                                         : Text('0 ${EtamKawaTranslate.pts}',
                                             style:
                                                 SharedComponent.textStyleCustom(
                                                     typographyType:
-                                                        TypographyType.paragraph,
+                                                        TypographyType
+                                                            .paragraph,
                                                     fontColor:
-                                                        ColorTheme.neutral500)
-                                            //TextStyle(fontSize: 12.sp),
-                                            ),
+                                                        ColorTheme.neutral500)),
                                   ),
                                 ],
                               ),
@@ -569,19 +514,13 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                 '',
                             style: SharedComponent.textStyleCustom(
                                 typographyType: TypographyType.largeH5,
-                                fontColor: ColorTheme.neutral600)
-                            // TextStyle(
-                            //     fontWeight: FontWeight.bold,
-                            //     fontSize: 16.sp,
-                            //     color: ColorTheme.neutral600),
-                            ),
+                                fontColor: ColorTheme.neutral600)),
                         Text(
-                            gamification[index].chapterData?[0].chapterName ?? '',
+                            gamification[index].chapterData?[0].chapterName ??
+                                '',
                             style: SharedComponent.textStyleCustom(
                                 typographyType: TypographyType.paragraph,
-                                fontColor: ColorTheme.neutral500)
-                            //TextStyle(fontSize: 12.sp)
-                            ),
+                                fontColor: ColorTheme.neutral500)),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                           child: Row(
@@ -598,9 +537,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                     '${EtamKawaTranslate.due}: ${CommonUtils.formattedDateHoursUtcToLocal(gamification[index].dueDate ?? DateTime.now().toString())}',
                                     style: SharedComponent.textStyleCustom(
                                         typographyType: TypographyType.small,
-                                        fontColor: ColorTheme.neutral500)
-                                    //TextStyle(fontSize: 11.sp),
-                                    ),
+                                        fontColor: ColorTheme.neutral500)),
                               ),
                             ],
                           ),
@@ -625,12 +562,13 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                           0) {
                                         await ctrl
                                             .putDetailMissionData(
-                                                missionDatum: gamification[index]
-                                                        .chapterData
-                                                        ?.single
-                                                        .missionData
-                                                        ?.single ??
-                                                    MissionDatum(),
+                                                missionDatum:
+                                                    gamification[index]
+                                                            .chapterData
+                                                            ?.single
+                                                            .missionData
+                                                            ?.single ??
+                                                        MissionDatum(),
                                                 listGamification: gamification,
                                                 gamificationResponseRemote:
                                                     gamification[index])
@@ -655,12 +593,13 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                       } else {
                                         await ctrl
                                             .putDetailMissionData(
-                                                missionDatum: gamification[index]
-                                                        .chapterData
-                                                        ?.single
-                                                        .missionData
-                                                        ?.single ??
-                                                    MissionDatum(),
+                                                missionDatum:
+                                                    gamification[index]
+                                                            .chapterData
+                                                            ?.single
+                                                            .missionData
+                                                            ?.single ??
+                                                        MissionDatum(),
                                                 listGamification: gamification,
                                                 gamificationResponseRemote:
                                                     gamification[index])

@@ -3,6 +3,7 @@ const String homeEtakawa = 'home-etamkawa';
 const String testHomeEtakawa = 'test-home-etamkawa';
 const String detailMissionEtamkawa = 'detail-mission-etamkawa';
 const String detailMissionPastEtamkawa = 'detail-mission-past-etamkawa';
+const String detailMissionPastv2Etamkawa = 'detail-mission-past-v2-etamkawa';
 const String detailValidationEtamkawa = 'detail-validation-etamkawa';
 const String taskMissionEtamkawa = 'task-mission-etamkawa';
 const String taskMissionPastEtamkawa = 'task-mission-past-etamkawa';

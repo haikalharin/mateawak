@@ -1117,9 +1117,9 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
         File file = File(filePath!);
         img.Image? image;
 
-        if (fileExtension == 'heic' || fileExtension == 'heif' || fileExtension == 'jpeg') {
-          file = await _convertHeicToJpeg(file);
-        }
+        //if (fileExtension == 'heic' || fileExtension == 'heif' || fileExtension == 'jpeg') {
+        file = await _convertHeicToJpeg(file);
+        //}
 
         image = img.decodeImage(file.readAsBytesSync());
 
@@ -1199,9 +1199,11 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
         File file = File(filePath!);
         img.Image? image;
 
-        if (fileExtension == 'heic' || fileExtension == 'heif' || fileExtension == 'jpeg') {
-          file = await _convertHeicToJpeg(file);
-        }
+        // if (fileExtension == 'heic' ||
+        //     fileExtension == 'heif' ||
+        //     fileExtension == 'jpeg') {
+        file = await _convertHeicToJpeg(file);
+        //}
 
         image = img.decodeImage(file.readAsBytesSync());
 
@@ -1254,29 +1256,28 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
     }
   }
 
+  Future<File> _handleLivePhoto(File file) async {
+    final compressedBytes = await FlutterImageCompress.compressWithFile(
+      file.path,
+      format: CompressFormat.jpeg,
+      quality: 100,
+    );
 
-Future<File> _handleLivePhoto(File file) async {
-  final compressedBytes = await FlutterImageCompress.compressWithFile(
-    file.path,
-    format: CompressFormat.jpeg,
-    quality: 100,
-  );
+    if (compressedBytes == null) {
+      throw Exception('Failed to process live photo');
+    }
 
-  if (compressedBytes == null) {
-    throw Exception('Failed to process live photo');
+    final tempDir = Directory.systemTemp;
+    final tempFile = File('${tempDir.path}/live_photo.jpg');
+    await tempFile.writeAsBytes(compressedBytes);
+    return tempFile;
   }
-
-  final tempDir = Directory.systemTemp;
-  final tempFile = File('${tempDir.path}/live_photo.jpg');
-  await tempFile.writeAsBytes(compressedBytes);
-  return tempFile;
-}
 
   Future<File> _convertHeicToJpeg(File file) async {
     final compressedBytes = await FlutterImageCompress.compressWithFile(
       file.path,
       format: CompressFormat.jpeg,
-      quality: 100,
+      quality: 90,
     );
 
     if (compressedBytes == null) {

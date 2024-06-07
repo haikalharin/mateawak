@@ -69,6 +69,7 @@ class _MissionPastDetailScreenState
                         title: EtamKawaTranslate.missionDetail,
                         brightnessIconStatusBar: Brightness.light,
                         onBack: () {
+                          ref.read(isFromHistory.notifier).state = true;
                           ref.refresh(missionPastControllerProvider);
                           context.pop();
                         }),

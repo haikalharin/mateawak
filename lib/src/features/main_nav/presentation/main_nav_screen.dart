@@ -104,7 +104,6 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
           final submitStatus = ref.watch(submitStatusState);
           final submitStatusMission = ref.watch(submitStatusMissionState);
           final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
-
           final submitStatusMissionBgServices =
               ref.watch(submitStatusMissionBgServicesState);
           return Consumer(
