@@ -1162,10 +1162,13 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
             await ctrl.putAnswerFinal();
           }).whenComplete(() {
             ref.refresh(taskControllerProvider);
-            setState(() {
-              isResizing = false;
-              ref.read(attachmentNameState.notifier).state = fileName;
-              ref.read(attachmentPathState.notifier).state = resizedFile.path;
+            Future.delayed(const Duration(seconds: 1), () {
+              setState(() {
+                isResizing = false;
+
+                ref.read(attachmentNameState.notifier).state = fileName;
+                ref.read(attachmentPathState.notifier).state = resizedFile.path;
+              });
             });
           });
         }
@@ -1246,10 +1249,13 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
             await ctrl.putAnswerFinal();
           }).whenComplete(() {
             ref.refresh(taskControllerProvider);
-            setState(() {
-              isResizing = false;
-              ref.read(attachmentNameState.notifier).state = fileName;
-              ref.read(attachmentPathState.notifier).state = resizedFile.path;
+            Future.delayed(const Duration(seconds: 1), () {
+              setState(() {
+                isResizing = false;
+
+                ref.read(attachmentNameState.notifier).state = fileName;
+                ref.read(attachmentPathState.notifier).state = resizedFile.path;
+              });
             });
           });
         }
