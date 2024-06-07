@@ -102,6 +102,7 @@ flutter:
     - .env.dev
     - .env.uat
     - .env
+    - assets/css/
     - assets/images/
     - assets/images/general/
 
