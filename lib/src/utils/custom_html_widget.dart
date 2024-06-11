@@ -1,6 +1,10 @@
+
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:html/dom.dart' as dom;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:module_etamkawa/src/configs/theme/color.theme.dart';
 
 // Custom styling function
 Widget customListStyle(dom.Element children, bool isOrderedList,
@@ -10,141 +14,99 @@ Widget customListStyle(dom.Element children, bool isOrderedList,
 
 Widget _buildListItem(
     dom.Element element, bool isOrderedList, String? listStyle) {
-  if (listStyle == 'ql-align-center') {
-    return Align(
-      alignment: Alignment.center,
-      child: Text(element.text),
-    );
-  }
-  if (listStyle == 'ql-align-justify') {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Text(
-        element.text,
-        textAlign: TextAlign.justify,
+  if (element is Text) {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: isOrderedList || listStyle != null
+            ? 18.0
+            : 0.0, // Adjust padding based on list type and custom style
       ),
-    );
-  }
-  if (listStyle == 'ql-align-center') {
-    return Align(
-      alignment: Alignment.center,
       child: Text(element.text),
     );
+  } else if (element is dom.Node) {
+    return customListStyle(element, isOrderedList, listStyle: listStyle);
+  } else {
+    return const Text('Unsupported node type');
   }
-
-  if (listStyle == 'ql-size-huge') {
-    return Text(
-      element.text,
-      style: const TextStyle(fontSize: 40),
-    );
-  }
-  return Padding(
-    padding: EdgeInsets.only(
-      left: isOrderedList || listStyle != null
-          ? 18.0
-          : 0.0, // Adjust padding based on list type and custom style
-    ),
-    child: Text(element.text),
-  );
 }
 
 // Example usage
 HtmlWidget customHtmlWidget(String html) {
-  bool isCenter = false;
-  bool isJustify = false;
-  bool isRight = false;
-  String htmlContent = '''
-    <style>
-      .ql-align-center {
-        text-align: center;
-      }
-      .ql-align-justify {
-        text-align: justify;
-      }
-      .ql-align-right {
-        text-align: right;
-      }
-      .ql-size-small {
-        font-size: 0.75em;
-        line-height: 16px;
-      }
-      .ql-size-large {
-        font-size: 1.5em;
-        line-height: 28px;
-      }
-      .ql-size-huge {
-        font-size: 2.5em;
-        line-height: 40px;
-      }
-      ol, ul {
-        padding-left: 1.5em;
-      }
-      ol > li, ul > li {
-        list-style-type: none;
-      }
-      ul > li::before {
-        content: '\2022';
-      }
-      ul[data-checked=true], ul[data-checked=false] {
-        pointer-events: none;
-      }
-      ul[data-checked=true] > li *, ul[data-checked=false] > li * {
-        pointer-events: all;
-      }
-      ul[data-checked=true] > li::before, ul[data-checked=false] > li::before {
-        color: #777;
-        cursor: pointer;
-        pointer-events: all;
-      }
-      ul[data-checked=true] > li::before {
-        content: '\2611';
-      }
-      ul[data-checked=false] > li::before {
-        content: '\2610';
-      }
-      li::before {
-        display: inline-block;
-        white-space: nowrap;
-        width: 1.2em;
-      }
-      li:not(.ql-direction-rtl)::before {
-        margin-left: -1.5em;
-        margin-right: 0.3em;
-        text-align: right;
-      }
-      li.ql-direction-rtl::before {
-        margin-left: 0.3em;
-        margin-right: -1.5em;
-      }
-      ol li:not(.ql-direction-rtl), ul li:not(.ql-direction-rtl) {
-        padding-left: 1.5em;
-      }
-      ol li.ql-direction-rtl, ul li.ql-direction-rtl {
-        padding-right: 1.5em;
-      }
-      ol li {
-        counter-increment: list-0;
-      }
-      ol li:before {
-        content: counter(list-0, decimal) '. ';
-      }
-    </style>
-    
-    $html
-    ''';
+  debugPrint(html);
   final richText = HtmlWidget(
-    htmlContent,
-    customStylesBuilder: (element) {
-      if (element.attributes.values.isNotEmpty) {
-        final String style = element.attributes.values.first ?? '';
-        if (style == 'ql-align-right') {
-          return {'text-align': 'right', 'width': '100%', 'display': 'inline-block'};
-        }
-        if (style == 'ql-size-huge') {
-          return {'font-size': '2.5em', 'line-height': '40px'};
-        }
-      }
+    html,
+    customWidgetBuilder: (element) {
+      if (element.localName == 'li') {
+        TextAlign textAlign = TextAlign.left;
+        Alignment alignment = Alignment.centerLeft;
 
+        if (element.classes.contains('ql-align-center')) {
+          textAlign = TextAlign.center;
+          alignment = Alignment.center;
+        } else if (element.classes.contains('ql-align-justify')) {
+          textAlign = TextAlign.justify;
+          alignment = Alignment.centerLeft;
+
+        } else if (element.classes.contains('ql-align-right')) {
+          textAlign = TextAlign.right;
+          alignment = Alignment.centerRight;
+
+        }
+        double fontSize = 10.sp;
+        double lineHeight = 1.2.h;
+        if (element.innerHtml.contains('ql-size-small')) {
+          fontSize = 10.sp;
+          lineHeight = 10.h / 10.h;
+        } else if (element.innerHtml.contains('ql-size-large')) {
+          fontSize = 18.sp;
+          lineHeight = 24.h / 18.h;
+        } else if (element.innerHtml.contains('ql-size-huge')) {
+          fontSize = 32;
+          lineHeight = 32.h / 32.h;
+        }
+
+        // Determine if the parent is <ul> or <ol>
+        bool isOrderedList = element.parent?.localName == 'ol';
+
+        // List marker
+        String marker;
+        if (isOrderedList) {
+          // For ordered lists
+          int index = element.parent?.children.indexOf(element) ?? 0;
+          marker ='${index + 1}. ';
+        } else {
+          // For unordered lists
+          marker ='\u2022 ';
+        }
+
+        return  Align(alignment: alignment,
+          child: RichText(
+            textAlign: textAlign,
+            text: TextSpan(
+              text: marker,
+                style: TextStyle(
+                  fontSize: fontSize,
+                  height: lineHeight,
+                  color: ColorThemeEtamkawa.textDark
+                ),
+              children: [
+
+                TextSpan(
+                  text: element.text,
+                  style: TextStyle(
+                    fontSize: fontSize,
+                    height: lineHeight,
+                      color: ColorThemeEtamkawa.textDark,
+                    fontWeight: element.innerHtml.startsWith('<strong')
+                        ? FontWeight.bold
+                        : FontWeight.normal,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      }
       return null;
     },
   );

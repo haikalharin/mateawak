@@ -174,18 +174,8 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
                                                 const SizedBox(
                                                   height: 8,
                                                 ),
-                                                Container(
-                                                  decoration: BoxDecoration( border: Border.all(
-                                                    color: ColorTheme.primary500,
-                                                  ) ),
-                                                  width: MediaQuery.of(context).size.width,
-                                                  child: Row(
-                                                    children: [
-                                                      customHtmlWidget(
-                                                        news.content ?? '',
-                                                      ),
-                                                    ],
-                                                  ),
+                                                customHtmlWidget(
+                                                  news.content ?? '',
                                                 ),
                                               ],
                                             ),
