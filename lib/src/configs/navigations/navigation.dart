@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:module_etamkawa/src/configs/navigations/routes.dart';
 import 'package:module_etamkawa/src/features/mission_detail/presentation/mission.detail.screen.dart';
 import 'package:module_etamkawa/src/features/mission_past/presentation/mission_past_detail.screen.dart';
+import 'package:module_etamkawa/src/features/mission_past/presentation/mission_past_notif_detail.screen.dart';
 import 'package:module_etamkawa/src/features/mission_past/presentation/task_past.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/task.screen.dart';
 import 'package:module_etamkawa/src/features/validation_detail/presentation/validation.detail.screen.dart';
@@ -126,14 +127,11 @@ List<RouteBase> routeEtamkawa = [
                   }),
             ]),
         GoRoute(
-            path: detailMissionPastEtamkawa,
-            name: detailMissionPastEtamkawa,
+            path: detailMissionPastv2Etamkawa,
+            name: detailMissionPastv2Etamkawa,
             builder: (BuildContext context, GoRouterState state) {
               final employeeMissionId =
                   int.tryParse(state.uri.queryParameters['Id'] ?? '0') ?? 0;
-
-              debugPrint(
-                  'firebase id query params: ${state.uri.queryParameters['Id']}');
               return SharedComponent.banner(
                   dotenv.env[EnvConstant.environment]!,
                   ConnectionListenerWidget(
@@ -151,6 +149,19 @@ List<RouteBase> routeEtamkawa = [
                             child: TaskPastScreen()));
                   }),
             ]),
+        GoRoute(
+          path: detailMissionPastEtamkawa,
+          name: detailMissionPastEtamkawa,
+          builder: (BuildContext context, GoRouterState state) {
+            final employeeMissionId =
+                int.tryParse(state.uri.queryParameters['Id'] ?? '0') ?? 0;
+            return SharedComponent.banner(
+                dotenv.env[EnvConstant.environment]!,
+                ConnectionListenerWidget(
+                    child: MissionPastNotifDetailScreen(
+                        employeeMissionId: employeeMissionId)));
+          },
+        ),
         GoRoute(
           path: detailValidationEtamkawa,
           name: detailValidationEtamkawa,

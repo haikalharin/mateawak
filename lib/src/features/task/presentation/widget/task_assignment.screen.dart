@@ -1277,28 +1277,11 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
     }
   }
 
-  Future<File> _handleLivePhoto(File file) async {
-    final compressedBytes = await FlutterImageCompress.compressWithFile(
-      file.path,
-      format: CompressFormat.jpeg,
-      quality: 100,
-    );
-
-    if (compressedBytes == null) {
-      throw Exception('Failed to process live photo');
-    }
-
-    final tempDir = Directory.systemTemp;
-    final tempFile = File('${tempDir.path}/live_photo.jpg');
-    await tempFile.writeAsBytes(compressedBytes);
-    return tempFile;
-  }
-
   Future<File> _convertHeicToJpeg(File file) async {
     final compressedBytes = await FlutterImageCompress.compressWithFile(
       file.path,
       format: CompressFormat.jpeg,
-      quality: 100,
+      quality: 90,
     );
 
     if (compressedBytes == null) {
