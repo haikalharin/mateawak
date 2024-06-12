@@ -25,6 +25,8 @@ final gamificationDetailState =
 final listTaskPastState =
     StateProvider.autoDispose<List<TaskAnswerPastRemote>>((ref) => []);
 
+final isFromHistory = StateProvider<bool>((ref) => false);
+
 @riverpod
 class MissionPastController extends _$MissionPastController {
   List<MissionPastResponseRemote> listMissionPast = [];
@@ -87,8 +89,8 @@ class MissionPastController extends _$MissionPastController {
           } else {
             if (data.taskTypeCode == TaskType.MCQ.name) {
               List<int>? numbersList;
-              if(data.answer != null && data.answer != ''){
-                numbersList  = data.answer
+              if (data.answer != null && data.answer != '') {
+                numbersList = data.answer
                     ?.split(';')
                     .map((numString) => int.parse(numString))
                     .toList();
@@ -160,10 +162,7 @@ class MissionPastController extends _$MissionPastController {
       });
     } catch (e) {
       ref.watch(submitStatusDetailState.notifier).state = SubmitStatus.failure;
-      if (kDebugMode) {
-      }
+      if (kDebugMode) {}
     }
   }
-
-
 }
