@@ -8,6 +8,7 @@ import 'package:module_etamkawa/src/features/mission/presentation/controller/mis
 import 'package:module_etamkawa/src/features/task/presentation/widget/reward_dialog.dart';
 import 'package:module_etamkawa/src/shared_component/connection_listener_widget.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
+import 'package:module_etamkawa/src/shared_component/shared_component_etamkawa.dart';
 import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
@@ -151,17 +152,29 @@ class _TaskSingleChoiceScreenState
                                     listTask[currentQuestionIndex.state]
                                             .attachmentPath !=
                                         ''
-                                ? Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 8, 0, 16),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10.r),
-                                      child: Image(
-                                        image: FileImage(File(
-                                            listTask[currentQuestionIndex.state]
-                                                    .attachmentPath ??
-                                                '')),
-                                        fit: BoxFit.contain,
+                                ? InkWell(
+                                    onTap: () {
+                                      SharedComponentEtamkawa.showImage(
+                                          context: context,
+                                          path: listTask[currentQuestionIndex
+                                                      .state]
+                                                  .attachmentPath ??
+                                              '');
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 8, 0, 16),
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(10.r),
+                                        child: Image(
+                                          image: FileImage(File(listTask[
+                                                      currentQuestionIndex
+                                                          .state]
+                                                  .attachmentPath ??
+                                              '')),
+                                          fit: BoxFit.contain,
+                                        ),
                                       ),
                                     ),
                                   )

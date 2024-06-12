@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:widget_zoom/widget_zoom.dart';
 import 'package:module_shared/module_shared.dart';
 
 class SharedComponentEtamkawa {
@@ -19,7 +20,7 @@ class SharedComponentEtamkawa {
     return AppBar(
       elevation: elevation,
       shadowColor: ColorTheme.textLightDark,
-      backgroundColor:backgroundColor?? ColorTheme.primary500,
+      backgroundColor: backgroundColor ?? ColorTheme.primary500,
       foregroundColor: titleColor,
       surfaceTintColor: titleColor,
       centerTitle: centerTitle,
@@ -47,6 +48,28 @@ class SharedComponentEtamkawa {
                   statusBarIconBrightness: brightnessIconStatusBar,
                   statusBarColor: Colors.transparent,
                 ),
+    );
+  }
+
+  static void showImage({required BuildContext context, required String path}) {
+    bool validURL = Uri.parse(path).isAbsolute;
+    showDialog(
+      context: context,
+      builder: (_) => Dialog(
+          child: SizedBox(
+        child: WidgetZoom(
+          heroAnimationTag: 'tag',
+          zoomWidget: (validURL)
+              ? Image.network(
+                  path,
+                  fit: BoxFit.cover,
+                )
+              : Image.file(
+                  File(path),
+                  fit: BoxFit.cover,
+                ),
+        ),
+      )),
     );
   }
 }

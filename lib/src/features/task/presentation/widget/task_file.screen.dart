@@ -19,6 +19,7 @@ import 'package:module_shared/module_shared.dart';
 
 import '../../../../../module_etamkawa.dart';
 import '../../../../shared_component/instruction_dialog.dart';
+import '../../../../shared_component/shared_component_etamkawa.dart';
 import '../../../main_nav/presentation/controller/main_nav.controller.dart';
 import '../../../mission/domain/gamification_response.remote.dart';
 import '../../../mission/presentation/controller/mission.controller.dart';
@@ -43,7 +44,6 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
   //String? _docFilePathName;
   bool isInit = true;
   bool isSubmitted = false;
-
 
   // int currentQuestionIndex = 0;
   // String? selectedOption;
@@ -188,17 +188,29 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                     listTask[currentQuestionIndex.state]
                                             .attachmentPath !=
                                         ''
-                                ? Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 8, 0, 16),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10.r),
-                                      child: Image(
-                                        image: FileImage(File(
-                                            listTask[currentQuestionIndex.state]
-                                                    .attachmentPath ??
-                                                '')),
-                                        fit: BoxFit.contain,
+                                ? InkWell(
+                                    onTap: () {
+                                      SharedComponentEtamkawa.showImage(
+                                          context: context,
+                                          path: listTask[currentQuestionIndex
+                                                      .state]
+                                                  .attachmentPath ??
+                                              '');
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 8, 0, 16),
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(10.r),
+                                        child: Image(
+                                          image: FileImage(File(listTask[
+                                                      currentQuestionIndex
+                                                          .state]
+                                                  .attachmentPath ??
+                                              '')),
+                                          fit: BoxFit.contain,
+                                        ),
                                       ),
                                     ),
                                   )
@@ -364,7 +376,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                       dashPattern: const [10, 6],
                                       child: Container(
                                           height: 150,
-                                          color: ColorThemeEtamkawa.bgGreenLight,
+                                          color:
+                                              ColorThemeEtamkawa.bgGreenLight,
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
@@ -480,7 +493,8 @@ class _TaskFileScreenState extends ConsumerState<TaskFileScreen> {
                                                   .taskGroup ??
                                               '')
                                       .whenComplete(() async {
-                                    await ctrl.putAnswerFinal(isSubmitted: isSubmitted);
+                                    await ctrl.putAnswerFinal(
+                                        isSubmitted: isSubmitted);
                                   }).whenComplete(() {
                                     if (_textController.text.isEmpty) {
                                       ref
