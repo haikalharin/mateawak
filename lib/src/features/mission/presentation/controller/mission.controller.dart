@@ -130,23 +130,13 @@ class MissionController extends _$MissionController {
     bool isSubmitAnswer = false,
   }) async {
     try {
-      final isarInstance = await ref.watch(isarInstanceProvider.future);
-
       final backgroundServices = FlutterBackgroundService();
       final isBgServiceRunning = await backgroundServices.isRunning();
       if (!isBgServiceRunning) {
         await backgroundServices.startService();
       }
       final userModel = await ref.read(helperUserProvider).getUserProfile();
-      var latestSyncDate = ref.read(latestSyncDateState.notifier).state;
-      final latestSyncDateIsar = await isarInstance
-          .gamificationAdditionalDetailRemotes
-          .filter()
-          .idEqualTo(0)
-          .findFirst();
-      if (latestSyncDateIsar?.latestSyncDate != null) {
-        latestSyncDate = latestSyncDateIsar!.latestSyncDate!;
-      }
+      final latestSyncDate = ref.read(latestSyncDateState.notifier).state;
 
       backgroundServices.invoke(Constant.bgMissionInit, {
         'isFetchMission': isFetchMission,
@@ -165,7 +155,10 @@ class MissionController extends _$MissionController {
               key: ProfileKeyConstant.keyTokenGeneral,
             )
       });
-
+      await ref
+          .watch(missionControllerProvider.notifier)
+          .getMissionListBackgroundServices()
+          .whenComplete(() {});
     } catch (e) {
       ref.watch(submitStatusMissionBgServicesState.notifier).state =
           SubmitStatus.failure;
@@ -179,13 +172,8 @@ class MissionController extends _$MissionController {
     ref.watch(submitStatusMissionBgServicesState.notifier).state =
         SubmitStatus.inProgress;
     try {
-      final isarInstance = await ref.watch(isarInstanceProvider.future);
       final isConnectionAvailable = ref.read(isConnectionAvailableProvider);
-      var repo =  isarInstance.gamificationResponseRemotes
-          .filter()
-          .employeeMissionIdIsNotNull()
-          .findAll();
-
+      var repo = ref.read(getMissionRemoteProvider.future);
 
       state = await AsyncValue.guard(() => repo).then((value) async {
         if (value.value != null && value.value != []) {

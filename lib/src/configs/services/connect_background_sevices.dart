@@ -20,7 +20,7 @@ class ConnectBackgroundService {
         });
 
     final dio = Dio(options);
-    dio.interceptors.add(ChuckerDioInterceptor());
+    // dio.interceptors.add(ChuckerDioInterceptor());
     dio.interceptors.add(LogInterceptor(
         responseBody: true,
         requestBody: true,
