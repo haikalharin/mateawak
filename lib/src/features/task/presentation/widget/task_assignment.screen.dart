@@ -1117,6 +1117,9 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
     );
 
     if (result != null) {
+      setState(() {
+        isResizing = true;
+      });
       PlatformFile platformFile = result.files.first;
       final fileName = platformFile.name;
       final filePath = platformFile.path;
@@ -1139,9 +1142,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
         image = img.decodeImage(file.readAsBytesSync());
 
         if (image != null) {
-          setState(() {
-            isResizing = true;
-          });
+
 
           File resizedFile =
               _resizeImageToMaxSize(image, file.path, 2 * 1024 * 1024);
@@ -1204,6 +1205,9 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
     );
 
     if (result != null) {
+      setState(() {
+        isResizing = true;
+      });
       PlatformFile platformFile = result.files.first;
       final fileName = platformFile.name;
       final filePath = platformFile.path;
@@ -1226,9 +1230,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
         image = img.decodeImage(file.readAsBytesSync());
 
         if (image != null) {
-          setState(() {
-            isResizing = true;
-          });
+
 
           File resizedFile =
               _resizeImageToMaxSize(image, file.path, 2 * 1024 * 1024);

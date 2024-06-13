@@ -12,6 +12,7 @@ import 'package:module_shared/module_shared.dart';
 import '../../../constants/telematry.constant.dart';
 import '../../../shared_component/async_value_widget.dart';
 import '../../../shared_component/refreshable_starter_widget.dart';
+import '../../../shared_component/shared_component_etamkawa.dart';
 import '../../../utils/custom_html_widget.dart';
 
 class OverviewScreen extends ConsumerStatefulWidget {
@@ -48,7 +49,7 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
     // final isScrolled = ref.watch(isScrollProvider);
 
     // final indexMenuOverview = ref.watch(indexMenuOverviewProvider);
-    return  VisibilityDetectorTelematry(
+    return VisibilityDetectorTelematry(
       widgetName: TelematryConstant.general,
       child: WillPopScope(
         onWillPop: () {
@@ -88,11 +89,12 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
                                 height: 50,
                                 decoration: BoxDecoration(
                                     color: ColorTheme.primary100,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(100.r))),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(100.r))),
                                 child: Center(
                                     child: Text(
-                                  (userProfile.employeeName ?? '')[0].toUpperCase(),
+                                  (userProfile.employeeName ?? '')[0]
+                                      .toUpperCase(),
                                   style: SharedComponent.textStyleCustom(
                                       typographyType: TypographyType.largeH2,
                                       fontColor: ColorTheme.textDark),
@@ -149,24 +151,40 @@ class _OverviewScreenState extends ConsumerState<OverviewScreen> {
                                                             typographyType:
                                                                 TypographyType
                                                                     .largeH5,
-                                                            fontColor: ColorTheme
-                                                                .textDark)),
+                                                            fontColor:
+                                                                ColorTheme
+                                                                    .textDark)),
                                                 const SizedBox(
                                                   height: 8,
                                                 ),
                                                 news.attachmentPath != null
-                                                    ? Padding(
-                                                        padding: const EdgeInsets
-                                                            .fromLTRB(0, 8, 0, 16),
-                                                        child: ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius.circular(
-                                                                  10.r),
-                                                          child: Image(
-                                                            image: FileImage(File(
-                                                                news.attachmentPath ??
-                                                                    '')),
-                                                            fit: BoxFit.contain,
+                                                    ? InkWell(
+                                                        onTap: () {
+                                                          SharedComponentEtamkawa
+                                                              .showImage(
+                                                                  context:
+                                                                      context,
+                                                                  path:
+                                                                      news.attachmentPath ??
+                                                                          '');
+                                                        },
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .fromLTRB(
+                                                                  0, 8, 0, 16),
+                                                          child: ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10.r),
+                                                            child: Image(
+                                                              image: FileImage(File(
+                                                                  news.attachmentPath ??
+                                                                      '')),
+                                                              fit: BoxFit
+                                                                  .contain,
+                                                            ),
                                                           ),
                                                         ),
                                                       )
