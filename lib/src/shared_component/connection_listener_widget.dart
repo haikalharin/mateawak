@@ -43,7 +43,16 @@ class _ConnectionListenerWidgetState
       // }
       if (value % 7200 == 0) {
        await ctrlTask.checkExpiredBeforeSubmitAnswer().whenComplete(() async {
-         await  ctrl.backgroundServiceEvent(isFetchMission: true,isSubmitAnswer: true);
+         await  ctrl.backgroundServiceEvent(isFetchMission: true,isSubmitAnswer: true)
+           .whenComplete(() async {
+           await ref
+               .watch(missionControllerProvider
+               .notifier)
+               .getMissionListBackgroundServices()
+               .whenComplete(() {
+
+           });
+         });
         });
 
       }
@@ -55,7 +64,15 @@ class _ConnectionListenerWidgetState
           ref.read(isConnectionAvailableProvider.notifier).state = true;
           if (isInit) {
             await ctrlTask.checkExpiredBeforeSubmitAnswer().whenComplete(() async {
-              await  ctrl.backgroundServiceEvent(isFetchMission: true,isSubmitAnswer: true);
+              await  ctrl.backgroundServiceEvent(isFetchMission: true,isSubmitAnswer: true).whenComplete(() async {
+                await ref
+                    .watch(missionControllerProvider
+                    .notifier)
+                    .getMissionListBackgroundServices()
+                    .whenComplete(() {
+
+                });
+              });
             });
             isInit = false;
           }

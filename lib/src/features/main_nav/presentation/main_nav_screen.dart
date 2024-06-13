@@ -171,7 +171,12 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                                     .whenComplete(() async {
                                     await ctrlMission.backgroundServiceEvent(
                                         isFetchMission: true,
-                                        isSubmitAnswer: true);
+                                        isSubmitAnswer: true).whenComplete(() async {
+                                      await ref
+                                          .watch(missionControllerProvider.notifier)
+                                          .getMissionListBackgroundServices()
+                                          .whenComplete(() {});
+                                    });
                                   })
                                 : null;
                           },

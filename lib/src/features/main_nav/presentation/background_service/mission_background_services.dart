@@ -15,6 +15,7 @@ import '../../../../configs/services/connect_background_sevices.dart';
 import '../../../../constants/constant.dart';
 import '../../../../constants/function_utils.dart';
 import '../../../../utils/common_utils.dart';
+import '../../../mission/domain/gamification_additional_detail.remote.dart';
 import '../../../mission/domain/gamification_response.remote.dart';
 import '../../../task/domain/answer_request.remote.dart';
 import '../../../task/domain/task_datum_answer_request.remote.dart';
@@ -206,7 +207,7 @@ Future<bool> submitAnswerBg(
             status: 4,
             taskData: [],
             submittedDate: CommonUtils.formatDateRequestParam(
-                DateTime.now().toString()));
+                DateTime.now().toUtc().toString()));
         final response = ConnectBackgroundService().post(
             accessToken: accessToken,
             path: path,
@@ -267,6 +268,13 @@ Future<bool> fetchMission(
     List<GamificationResponseRemote> listResponseFinal = [];
     List<GamificationResponseRemote> listResponseAfterMerge = [];
     List<GamificationResponseRemote> listAfterCheckIsIncomplete = [];
+
+    final latestSyncDateIsar = await isarInstance
+        .gamificationAdditionalDetailRemotes
+        .filter()
+        .idEqualTo(0)
+        .findFirst();
+
 
     final response = await ConnectBackgroundService().post(
       accessToken: accessToken as String,
@@ -382,6 +390,15 @@ Future<bool> fetchMission(
 //await isarInstance.gamificationResponseRemotes.clear();
         await isarInstance.gamificationResponseRemotes
             .putAll(listAfterCheckIsIncomplete);
+
+        await isarInstance.writeTxn(() async {
+          await isarInstance.gamificationAdditionalDetailRemotes.put(
+              GamificationAdditionalDetailRemote(
+                  id: 0,
+                  latestSyncDate: requestDate,
+                  latestSyncDateValidation:
+                  latestSyncDateIsar?.latestSyncDateValidation));
+        });
       });
 
 // final data = await isarInstance.gamificationResponseRemotes

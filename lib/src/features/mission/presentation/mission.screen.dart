@@ -154,9 +154,15 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                             .backgroundServiceEvent(
                                                 isFetchMission: true,
                                                 isSubmitAnswer: true)
-                                            .whenComplete(() {
-                                            ref.refresh(
-                                                missionControllerProvider);
+                                            .whenComplete(() async {
+                                            await ref
+                                                .watch(missionControllerProvider
+                                                    .notifier)
+                                                .getMissionListBackgroundServices()
+                                                .whenComplete(() {
+                                              ref.refresh(
+                                                  missionControllerProvider);
+                                            });
                                           })
                                         : null;
                                     break;
