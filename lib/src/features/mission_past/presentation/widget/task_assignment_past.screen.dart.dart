@@ -5,6 +5,7 @@ import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
 import '../../../../../module_etamkawa.dart';
+import '../../../../shared_component/shared_component_etamkawa.dart';
 import '../../../task/presentation/controller/task.controller.dart';
 import '../../domain/task_answer_past.remote.dart';
 import '../controller/mission_past.controller.dart';
@@ -125,8 +126,15 @@ class _TaskAssignmentPastScreenState
                                               const SizedBox(
                                                 height: 12,
                                               ),
-                                              Image.network(widget.taskDatum
-                                                  .answerAttachmentUrl??'')
+                                              InkWell(onTap: (){
+                                                SharedComponentEtamkawa.showImage(
+                                                    context: context,
+                                                    path: widget.taskDatum
+                                                        .answerAttachmentUrl??'');
+                                              },
+                                                child: Image.network(widget.taskDatum
+                                                    .answerAttachmentUrl??''),
+                                              )
                                             ],
                                           ),
                                         ],
