@@ -473,29 +473,46 @@ class _ValidationDetailScreenState
                                                               ?.first
                                                               .attachmentPath !=
                                                           ''
-                                                  ? Padding(
-                                                      padding: const EdgeInsets
-                                                          .fromLTRB(
-                                                          0, 8, 0, 16),
-                                                      child: ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10.r),
-                                                        child: Image(
-                                                          image: FileImage(File(
-                                                              validation
-                                                                      .chapterData
-                                                                      ?.single
-                                                                      .missionData
-                                                                      ?.single
-                                                                      .taskData
-                                                                      ?.first
-                                                                      .attachmentPath ??
-                                                                  '')),
-                                                          fit: BoxFit.contain,
+                                                  ? InkWell(
+                                                onTap: (){
+                                                  SharedComponentEtamkawa
+                                                      .showImage(
+                                                      context:
+                                                      context,
+                                                      path:
+                                                      validation
+                                                          .chapterData
+                                                          ?.single
+                                                          .missionData
+                                                          ?.single
+                                                          .taskData
+                                                          ?.first
+                                                          .attachmentPath ??'');
+                                                },
+                                                    child: Padding(
+                                                        padding: const EdgeInsets
+                                                            .fromLTRB(
+                                                            0, 8, 0, 16),
+                                                        child: ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10.r),
+                                                          child: Image(
+                                                            image: FileImage(File(
+                                                                validation
+                                                                        .chapterData
+                                                                        ?.single
+                                                                        .missionData
+                                                                        ?.single
+                                                                        .taskData
+                                                                        ?.first
+                                                                        .attachmentPath ??
+                                                                    '')),
+                                                            fit: BoxFit.contain,
+                                                          ),
                                                         ),
                                                       ),
-                                                    )
+                                                  )
                                                   : Container(),
                                               const SizedBox(height: 10.0),
                                               Text(
@@ -563,29 +580,46 @@ class _ValidationDetailScreenState
                                                               ?.first
                                                               .answerAttachmentPath !=
                                                           ''
-                                                  ? Padding(
-                                                      padding: const EdgeInsets
-                                                          .fromLTRB(
-                                                          0, 8, 0, 16),
-                                                      child: ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10.r),
-                                                        child: Image(
-                                                          image: FileImage(File(
-                                                              validation
-                                                                      .chapterData
-                                                                      ?.single
-                                                                      .missionData
-                                                                      ?.single
-                                                                      .taskData
-                                                                      ?.first
-                                                                      .answerAttachmentPath ??
-                                                                  '')),
-                                                          fit: BoxFit.contain,
+                                                  ? InkWell(onTap: (){
+                                                SharedComponentEtamkawa
+                                                    .showImage(
+                                                    context:
+                                                    context,
+                                                    path:
+                                                    validation
+                                                        .chapterData
+                                                        ?.single
+                                                        .missionData
+                                                        ?.single
+                                                        .taskData
+                                                        ?.first
+                                                        .answerAttachmentPath ??
+                                                        '');
+                                              },
+                                                    child: Padding(
+                                                        padding: const EdgeInsets
+                                                            .fromLTRB(
+                                                            0, 8, 0, 16),
+                                                        child: ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10.r),
+                                                          child: Image(
+                                                            image: FileImage(File(
+                                                                validation
+                                                                        .chapterData
+                                                                        ?.single
+                                                                        .missionData
+                                                                        ?.single
+                                                                        .taskData
+                                                                        ?.first
+                                                                        .answerAttachmentPath ??
+                                                                    '')),
+                                                            fit: BoxFit.contain,
+                                                          ),
                                                         ),
                                                       ),
-                                                    )
+                                                  )
                                                   : Container(),
                                               const SizedBox(height: 10.0),
                                               Text(

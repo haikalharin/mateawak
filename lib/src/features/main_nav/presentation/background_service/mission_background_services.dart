@@ -206,7 +206,7 @@ Future<bool> submitAnswerBg(
             status: 4,
             taskData: [],
             submittedDate: CommonUtils.formatDateRequestParam(
-                DateTime.now().toString()));
+                DateTime.now().toUtc().toString()));
         final response = ConnectBackgroundService().post(
             accessToken: accessToken,
             path: path,
@@ -310,42 +310,7 @@ Future<bool> fetchMission(
           }
         }
       });
-      int index = 0;
-      for (var element in listResponseFinal) {
-        List<TaskDatum> listTask =
-            element.chapterData?.single.missionData?.single.taskData ?? [];
-        int indexTask = 0;
-        for (var element in listTask) {
-          File file = File('');
-          if (element.attachmentUrl != null) {
-            final response = ConnectBackgroundService().downloadImage(
-              url: element.attachmentUrl ?? '',
-            );
-            await AsyncValue.guard(() => response).then((value) async {
-              file = await asyncMethodSaveFile(value.value?.data);
-              listResponseFinal[index]
-                  .chapterData
-                  ?.single
-                  .missionData
-                  ?.single
-                  .taskData?[indexTask]
-                  .attachmentPath = file.path;
-              indexTask++;
-            });
-          } else {
-            listResponseFinal[index]
-                .chapterData
-                ?.single
-                .missionData
-                ?.single
-                .taskData?[indexTask]
-                .attachmentPath = '';
-            indexTask++;
-          }
-        }
 
-        index++;
-      }
       listResponseAfterMerge.addAll(listResponse);
       listResponseAfterMerge.addAll(listResponseFinal);
       for (var element in listResponseAfterMerge) {
@@ -369,6 +334,46 @@ Future<bool> fetchMission(
                 chapterData: element.chapterData));
           } else {
             listAfterCheckIsIncomplete.add(element);
+          }
+          int index = 0;
+          for (var element in listAfterCheckIsIncomplete) {
+            List<TaskDatum> listTask =
+                element.chapterData?.single.missionData?.single.taskData ?? [];
+            if(element.missionStatusCode != 4){
+              int indexTask = 0;
+              for (var element in listTask) {
+                File file = File('');
+                if (element.attachmentUrl != null) {
+                  final response = ConnectBackgroundService().downloadImage(
+                    url: element.attachmentUrl ?? '',
+                  );
+                  await AsyncValue.guard(() => response).then((value) async {
+                    file = await asyncMethodSaveFile(value.value?.data);
+                    listAfterCheckIsIncomplete[index]
+                        .chapterData
+                        ?.single
+                        .missionData
+                        ?.single
+                        .taskData?[indexTask]
+                        .attachmentPath = file.path;
+                    indexTask++;
+                  });
+                } else {
+                  listAfterCheckIsIncomplete[index]
+                      .chapterData
+                      ?.single
+                      .missionData
+                      ?.single
+                      .taskData?[indexTask]
+                      .attachmentPath = '';
+                  indexTask++;
+                }
+              }
+            }
+
+
+            index++;
+
           }
         }
       }

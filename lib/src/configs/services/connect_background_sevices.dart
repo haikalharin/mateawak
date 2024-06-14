@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:module_shared/src/configs/services/model/response.model.dart';
 
 class ConnectBackgroundService {
