@@ -206,7 +206,7 @@ Future<bool> submitAnswerBg(
             status: 4,
             taskData: [],
             submittedDate: CommonUtils.formatDateRequestParam(
-                DateTime.now().toUtc().toString()));
+                '${(DateTime.now().toUtc().toString()).substring(0, (DateTime.now().toUtc().toString()).length - 2)}Z'));
         final response = ConnectBackgroundService().post(
             accessToken: accessToken,
             path: path,
@@ -339,7 +339,7 @@ Future<bool> fetchMission(
           for (var element in listAfterCheckIsIncomplete) {
             List<TaskDatum> listTask =
                 element.chapterData?.single.missionData?.single.taskData ?? [];
-            if(element.missionStatusCode != 4){
+            if (element.missionStatusCode != 4) {
               int indexTask = 0;
               for (var element in listTask) {
                 File file = File('');
@@ -371,9 +371,7 @@ Future<bool> fetchMission(
               }
             }
 
-
             index++;
-
           }
         }
       }
