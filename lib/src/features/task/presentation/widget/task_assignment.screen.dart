@@ -1111,14 +1111,20 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
     required List<TaskDatum> listTask,
     required int currentQuestionIndex,
   }) async {
+    setState(() {
+      isResizing = true;
+    });
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.media,
       allowCompression: true,
     );
 
+
+
     if (result != null) {
+      if(result.paths.isEmpty);
       setState(() {
-        isResizing = true;
+        isResizing = false;
       });
       PlatformFile platformFile = result.files.first;
       final fileName = platformFile.name;
@@ -1142,8 +1148,6 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
         image = img.decodeImage(file.readAsBytesSync());
 
         if (image != null) {
-
-
           File resizedFile =
               _resizeImageToMaxSize(image, file.path, 2 * 1024 * 1024);
 
@@ -1187,6 +1191,9 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
         );
       }
     } else {
+      setState(() {
+        isResizing = false;
+      });
       // User canceled the picker
     }
   }
@@ -1196,6 +1203,9 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
     required List<TaskDatum> listTask,
     required int currentQuestionIndex,
   }) async {
+    setState(() {
+      isResizing = true;
+    });
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: Platform.isIOS
@@ -1203,10 +1213,14 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
           : EtamKawaUploadConstant.fileTypeImageAndroid,
       allowCompression: true,
     );
+    setState(() {
+      isResizing = false;
+    });
 
     if (result != null) {
+      if(result.paths.isEmpty);
       setState(() {
-        isResizing = true;
+        isResizing = false;
       });
       PlatformFile platformFile = result.files.first;
       final fileName = platformFile.name;
@@ -1230,8 +1244,6 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
         image = img.decodeImage(file.readAsBytesSync());
 
         if (image != null) {
-
-
           File resizedFile =
               _resizeImageToMaxSize(image, file.path, 2 * 1024 * 1024);
 
