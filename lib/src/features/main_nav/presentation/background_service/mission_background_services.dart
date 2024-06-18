@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:isar/isar.dart';
+import 'package:module_etamkawa/src/features/mission/domain/gamification_additional_detail.remote.dart';
 import 'package:module_etamkawa/src/features/overview/domain/news_response.remote.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -267,27 +268,36 @@ Future<bool> fetchMission(
     List<GamificationResponseRemote> listResponseFinal = [];
     List<GamificationResponseRemote> listResponseAfterMerge = [];
     List<GamificationResponseRemote> listAfterCheckIsIncomplete = [];
-
+    var latestSyncDate = requestDate;
+    final latestSyncDateIsar = await isarInstance
+        .gamificationAdditionalDetailRemotes
+        .filter()
+        .idEqualTo(0)
+        .findFirst();
+    if (latestSyncDateIsar?.latestSyncDate != null) {
+      latestSyncDate = latestSyncDateIsar!.latestSyncDate!;
+    }
+    final today = CommonUtils.formatDateRequestParam(DateTime.now().toString());
     final response = await ConnectBackgroundService().post(
       accessToken: accessToken as String,
       path: path,
       url: url,
-      body: {
-        "employeeId": employeeId,
-        "requestDate": requestDate
-//"requestDate": '2024-03-01T03:55:58.918Z'
-      },
+      body: {"employeeId": employeeId, "requestDate": latestSyncDate},
     );
     if (response.statusCode == 200) {
       log('submit data result: ${response.result}');
       for (var element in response.result?.content) {
-// for (var element in rawMissionDummy) {
         final result = GamificationResponseRemote.fromJson(element);
         listResponse.add(result);
       }
-// final today = CommonUtils.formatDateRequestParam(DateTime.now().toString());
-// ref.watch(latestSyncDateState.notifier).state = today;
-
+      await isarInstance.writeTxn(() async {
+        await isarInstance.gamificationAdditionalDetailRemotes.put(
+            GamificationAdditionalDetailRemote(
+                id: 0,
+                latestSyncDate: today,
+                latestSyncDateValidation:
+                    latestSyncDateIsar?.latestSyncDateValidation));
+      });
       final repo = isarInstance.gamificationResponseRemotes
           .filter()
           .employeeMissionIdIsNotNull()
@@ -370,27 +380,14 @@ Future<bool> fetchMission(
                 }
               }
             }
-
             index++;
           }
         }
       }
-
       await isarInstance.writeTxn(() async {
-//await isarInstance.gamificationResponseRemotes.clear();
         await isarInstance.gamificationResponseRemotes
             .putAll(listAfterCheckIsIncomplete);
       });
-
-// final data = await isarInstance.gamificationResponseRemotes
-//     .filter()
-//     .employeeMissionIdIsNotNull()
-//     .findAll();
-
-// if (isarInstance.isOpen) {
-//   await isarInstance.close();
-// }
-//await serviceInstance.stopSelf();
       return true;
     }
     return false;

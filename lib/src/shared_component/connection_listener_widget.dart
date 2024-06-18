@@ -41,11 +41,10 @@ class _ConnectionListenerWidgetState
       // if (kDebugMode) {
       //   print(value);
       // }
-      if (value % 7200 == 0) {
+      if (value % 7200 == 0 && value != 0) {
        await ctrlTask.checkExpiredBeforeSubmitAnswer().whenComplete(() async {
-         await  ctrl.backgroundServiceEvent(isFetchMission: true,isSubmitAnswer: true);
+         await ctrl.backgroundServiceEvent(isFetchMission: true,isSubmitAnswer: true);
         });
-
       }
     });
     connectionListener =
@@ -55,7 +54,7 @@ class _ConnectionListenerWidgetState
           ref.read(isConnectionAvailableProvider.notifier).state = true;
           if (isInit) {
             await ctrlTask.checkExpiredBeforeSubmitAnswer().whenComplete(() async {
-              await  ctrl.backgroundServiceEvent(isFetchMission: true,isSubmitAnswer: true);
+              await  ctrl.backgroundServiceEvent(isFetchMission: false,isSubmitAnswer: true);
             });
             isInit = false;
           }

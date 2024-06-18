@@ -1045,6 +1045,7 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
                     title: const Text('Pilih dari Galeri'),
                     onTap: () async {
                       Navigator.pop(context);
+                      //pickAndCropImageGallery(ctrl: ctrl, listTask: listTask, currentQuestionIndex: currentQuestionIndex);
                       pickImageGallery(
                           ctrl: ctrl,
                           listTask: listTask,
@@ -1065,44 +1066,44 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
       required int currentQuestionIndex}) async {
     final pickedFile = await ImagePicker().pickImage(
       source: ImageSource.gallery,
-      imageQuality: 25,
+      imageQuality: 80,
     );
 
     if (pickedFile != null) {
-      CroppedFile? croppedFile = await ImageCropper.platform
-          .cropImage(sourcePath: pickedFile.path, aspectRatioPresets: [
-        CropAspectRatioPreset.square,
-        CropAspectRatioPreset.ratio3x2,
-        CropAspectRatioPreset.original,
-        CropAspectRatioPreset.ratio4x3,
-        CropAspectRatioPreset.ratio16x9,
-      ]);
-      if (croppedFile != null) {
-        XFile imageFile = XFile(croppedFile.path);
+      // CroppedFile? croppedFile = await ImageCropper.platform
+      //     .cropImage(sourcePath: pickedFile.path, aspectRatioPresets: [
+      //   CropAspectRatioPreset.square,
+      //   CropAspectRatioPreset.ratio3x2,
+      //   CropAspectRatioPreset.original,
+      //   CropAspectRatioPreset.ratio4x3,
+      //   CropAspectRatioPreset.ratio16x9,
+      // ]);
+      //if (croppedFile != null) {
+      XFile imageFile = XFile(pickedFile.path);
 
-        var fileDuplicate = imageFile;
+      var fileDuplicate = imageFile;
+      ref.refresh(taskControllerProvider);
+
+      await ctrl
+          .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
+              isLast: false,
+              attachment: fileDuplicate.path ?? '',
+              attachmentName: fileDuplicate.name,
+              listSelectedOption: [_textController.text],
+              type: listTask[currentQuestionIndex].taskTypeCode ?? '',
+              taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
+          .whenComplete(() async {
+        await ctrl.putAnswerFinal();
+      }).whenComplete(() {
         ref.refresh(taskControllerProvider);
 
-        await ctrl
-            .saveAnswer(listTask[currentQuestionIndex].taskId ?? 0,
-                isLast: false,
-                attachment: fileDuplicate.path ?? '',
-                attachmentName: fileDuplicate.name,
-                listSelectedOption: [_textController.text],
-                type: listTask[currentQuestionIndex].taskTypeCode ?? '',
-                taskGroup: listTask[currentQuestionIndex].taskGroup ?? '')
-            .whenComplete(() async {
-          await ctrl.putAnswerFinal();
-        }).whenComplete(() {
-          ref.refresh(taskControllerProvider);
-
-          setState(() {
-            ref.read(attachmentNameState.notifier).state = fileDuplicate.name;
-            ref.read(attachmentPathState.notifier).state =
-                fileDuplicate.path ?? '';
-          });
+        setState(() {
+          ref.read(attachmentNameState.notifier).state = fileDuplicate.name;
+          ref.read(attachmentPathState.notifier).state =
+              fileDuplicate.path ?? '';
         });
-      }
+      });
+      //}
     }
   }
 
@@ -1114,34 +1115,31 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
     setState(() {
       isResizing = true;
     });
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.media,
-      allowCompression: true,
+    final pickedFile = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 80,
     );
 
 
-
-    if (result != null) {
-      if(result.paths.isEmpty);
+    if (pickedFile != null) {
+      if(pickedFile.path.isEmpty);
       setState(() {
         isResizing = false;
       });
-      PlatformFile platformFile = result.files.first;
-      final fileName = platformFile.name;
-      final filePath = platformFile.path;
-      final fileExtension = platformFile.extension?.toLowerCase();
+      //PlatformFile platformFile = result.files.first;
+      final fileName = pickedFile.name;
+      final filePath = pickedFile.path;
+      final fileExtension = getLastStringAfterLastDot(fileName);
 
       if (Platform.isAndroid
           ? EtamKawaUploadConstant.fileTypeImageAndroid.contains(fileExtension)
           : EtamKawaUploadConstant.fileTypeImage.contains(fileExtension)) {
         debugPrint('accepted format');
 
-        File file = File(filePath!);
+        File file = File(filePath);
         img.Image? image;
 
-        if (fileExtension == 'heic' ||
-            fileExtension == 'heif' ||
-            fileExtension == 'jpeg') {
+        if (fileExtension == 'heic' || fileExtension == 'heif') {
           file = await _convertHeicToJpeg(file);
         }
 
@@ -1321,5 +1319,13 @@ class _TaskAssignmentScreenState extends ConsumerState<TaskAssignmentScreen> {
       quality -= 20; // Reduce quality to lower file size
     } while (resizedFile.lengthSync() > maxSizeInBytes && quality > 0);
     return resizedFile;
+  }
+
+  String getLastStringAfterLastDot(String input) {
+    int lastDotIndex = input.lastIndexOf('.');
+    if (lastDotIndex == -1) {
+      return input; // No dot found, return the whole string
+    }
+    return input.substring(lastDotIndex + 1);
   }
 }

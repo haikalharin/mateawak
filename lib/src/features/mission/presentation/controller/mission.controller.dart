@@ -80,7 +80,7 @@ class MissionController extends _$MissionController {
             latestSyncDateIsar.latestSyncDate!;
       }
     }
-    debugPrint(ref.read(latestSyncDateState.notifier).state);
+    //debugPrint(ref.read(latestSyncDateState.notifier).state);
   }
 
   Future<void> getMissionListLocal() async {
@@ -159,6 +159,7 @@ class MissionController extends _$MissionController {
           .watch(missionControllerProvider.notifier)
           .getMissionListBackgroundServices()
           .whenComplete(() {});
+     
     } catch (e) {
       ref.watch(submitStatusMissionBgServicesState.notifier).state =
           SubmitStatus.failure;
