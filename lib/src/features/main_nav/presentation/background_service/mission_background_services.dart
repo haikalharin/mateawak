@@ -277,6 +277,7 @@ Future<bool> fetchMission(
     if (latestSyncDateIsar?.latestSyncDate != null) {
       latestSyncDate = latestSyncDateIsar!.latestSyncDate!;
     }
+    final today = CommonUtils.formatDateRequestParam(DateTime.now().toString());
     final response = await ConnectBackgroundService().post(
       accessToken: accessToken as String,
       path: path,
@@ -289,8 +290,6 @@ Future<bool> fetchMission(
         final result = GamificationResponseRemote.fromJson(element);
         listResponse.add(result);
       }
-      final today =
-          CommonUtils.formatDateRequestParam(DateTime.now().toString());
       await isarInstance.writeTxn(() async {
         await isarInstance.gamificationAdditionalDetailRemotes.put(
             GamificationAdditionalDetailRemote(
