@@ -132,7 +132,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                     Expanded(
                       child: DefaultTabController(
                         length: 3,
-                        initialIndex: isFromPageHistory ? 2 : 1,
+                        initialIndex: isFromPageHistory ? 2 : 0,
                         child: Column(
                           children: [
                             TabBar(
@@ -142,23 +142,24 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                     setState(() {
                                       _selectedIndex = index;
                                     });
+                                    submitStatus != SubmitStatus.inProgress &&
+                                        submitStatusBgServices !=
+                                            SubmitStatus.inProgress
+                                        ? ctrl
+                                        .backgroundServiceEvent(
+                                        isFetchMission: true,
+                                        isSubmitAnswer: true)
+                                        .whenComplete(() {
+                                      ref.refresh(
+                                          missionControllerProvider);
+                                    })
+                                        : null;
+
                                     break;
                                   case 1:
                                     setState(() {
                                       _selectedIndex = index;
                                     });
-                                    submitStatus != SubmitStatus.inProgress &&
-                                            submitStatusBgServices !=
-                                                SubmitStatus.inProgress
-                                        ? ctrl
-                                            .backgroundServiceEvent(
-                                                isFetchMission: true,
-                                                isSubmitAnswer: true)
-                                            .whenComplete(() {
-                                            ref.refresh(
-                                                missionControllerProvider);
-                                          })
-                                        : null;
                                     break;
                                   case 2:
                                     setState(() {
@@ -192,19 +193,20 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                           delegate: SliverChildBuilderDelegate(
                                             (context, index) {
                                               // Build items for Tab 1
-                                              if (gamificationInProgress
+                                              if (gamificationAssigned
                                                   .isNotEmpty) {
                                                 return _buildListItem(
                                                     index,
                                                     ctrl,
                                                     ctrlTask,
-                                                    gamificationInProgress);
+                                                    gamificationAssigned);
                                               } else {
                                                 return Container();
                                               }
+
                                             },
                                             childCount:
-                                                gamificationInProgress.length,
+                                                gamificationAssigned.length,
                                           ),
                                         ),
                                         SliverToBoxAdapter(
@@ -253,19 +255,19 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                           delegate: SliverChildBuilderDelegate(
                                             (context, index) {
                                               // Build items for Tab 2
-                                              if (gamificationAssigned
+                                              if (gamificationInProgress
                                                   .isNotEmpty) {
                                                 return _buildListItem(
                                                     index,
                                                     ctrl,
                                                     ctrlTask,
-                                                    gamificationAssigned);
+                                                    gamificationInProgress);
                                               } else {
                                                 return Container();
                                               }
                                             },
                                             childCount:
-                                                gamificationAssigned.length,
+                                                gamificationInProgress.length,
                                           ),
                                         ),
                                         SliverToBoxAdapter(

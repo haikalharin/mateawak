@@ -122,6 +122,8 @@ class EtamKawaTranslate {
 
   static String get next => '$_initial-next'.tr();
 
+  static String get back => '$_initial-back'.tr();
+
   static String get finish => '$_initial-finish'.tr();
 
   static String get previous => '$_initial-previous'.tr();
@@ -200,11 +202,14 @@ class EtamKawaTranslate {
 
   static String get submitFailed => '$_initial-submitFailed'.tr();
 
-  static String get submitAttachmentFailed => '$_initial-submitAttachmentFailed'.tr();
+  static String get submitAttachmentFailed =>
+      '$_initial-submitAttachmentFailed'.tr();
 
   static String get alreadySubmitted => '$_initial-alreadySubmitted'.tr();
 
   static String get alreadyValidated => '$_initial-alreadyValidated'.tr();
+
+  static String get beforeToDetailPast => '$_initial-beforeToDetailPast'.tr();
   static Map<String, String> translateEn = {
     yourAnswerIsRatedAs: 'our answer is rated as',
     notYetRated: 'Not yet rated',
@@ -265,6 +270,7 @@ class EtamKawaTranslate {
     yes: 'Yes',
     no: 'No',
     next: 'Next',
+    back: 'Back',
     previous: 'Previous',
     finish: 'Finish',
     cancel: 'Cancel',
@@ -307,6 +313,8 @@ class EtamKawaTranslate {
         'This mission has already been submitted and cannot be submitted again.',
     alreadyValidated:
         'This mission has already been validated and cannot be validated again.',
+    beforeToDetailPast:
+        'You can view this mission history after the mission time limit has been completed',
   };
   static Map<String, String> translateId = {
     yourAnswerIsRatedAs: 'Jawabanmu diberi penilaian',
@@ -369,6 +377,7 @@ class EtamKawaTranslate {
     yes: 'Ya',
     no: 'Tidak',
     next: 'Selanjutnya',
+    back: 'Kembali',
     previous: 'Sebelumnya',
     finish: 'Selesai',
     cancel: 'Batal',
@@ -407,9 +416,10 @@ class EtamKawaTranslate {
     submitFailed: 'Gagal submit',
     submitAttachmentFailed: 'Gagal upload file',
     alreadySubmitted:
-    'Misi ini telah dikirimkan dan tidak dapat dikirimkan lagi.',
+        'Misi ini telah dikirimkan dan tidak dapat dikirimkan lagi.',
     alreadyValidated:
-    'Misi ini telah divalidasi dan tidak dapat divalidasi lagi.',
-    };
-
+        'Misi ini telah divalidasi dan tidak dapat divalidasi lagi.',
+    beforeToDetailPast:
+        'Riwayat misi ini dapat kamu lihat setelah batas waktu misi telah selesai',
+  };
 }

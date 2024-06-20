@@ -14,6 +14,10 @@ import 'package:module_etamkawa/src/shared_component/shared_component_etamkawa.d
 import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
+import '../../../constants/function_utils.dart';
+import '../../../shared_component/connection_listener_widget.dart';
+import '../../../shared_component/custom_dialog.dart';
+
 class MissionPastNotifDetailScreen extends ConsumerStatefulWidget {
   const MissionPastNotifDetailScreen({super.key, this.employeeMissionId});
 
@@ -84,6 +88,9 @@ class _MissionPastNotifDetailScreenState
                 builder: (BuildContext context, WidgetRef ref, Widget? child) {
                   final gamification =
                       ref.watch(gamificationDetailState.notifier).state;
+                  final isConnectionAvailable =
+                      ref.watch(isConnectionAvailableProvider);
+
                   return AsyncValueWidget(
                     value: ref.watch(taskControllerProvider),
                     data: (data) {
@@ -102,7 +109,8 @@ class _MissionPastNotifDetailScreenState
                                   title: EtamKawaTranslate.missionDetail,
                                   brightnessIconStatusBar: Brightness.light,
                                   onBack: () {
-                                    ref.read(isFromHistory.notifier).state = true;
+                                    ref.read(isFromHistory.notifier).state =
+                                        true;
                                     ref.refresh(missionPastControllerProvider);
                                     context.pop();
                                   }),
@@ -474,20 +482,51 @@ class _MissionPastNotifDetailScreenState
                                             width: double.infinity,
                                             child: ElevatedButton(
                                                 onPressed: () {
-                                                  context.goNamed(
-                                                      taskMissionPastEtamkawa,
-                                                      pathParameters: {
-                                                        'CurrentIndex': '2'
+                                                  DateTime dueDate =
+                                                      DateTime.parse(CommonUtils
+                                                          .formattedDateHoursUtcToLocalForCheck(
+                                                              gamification
+                                                                      .dueDate ??
+                                                                  '2024-00-00T00:00:00'));
+                                                  int different =
+                                                      calculateDifferenceDate(
+                                                          dueDate,
+                                                          DateTime.now());
+                                                  if (different > 0) {
+                                                    context.goNamed(
+                                                        taskMissionPastEtamkawa,
+                                                        pathParameters: {
+                                                          'CurrentIndex': '2'
+                                                        },
+                                                        extra: {
+                                                          Constant.listTask:
+                                                              (gamification
+                                                                  .chapterData
+                                                                  ?.single
+                                                                  .missionData
+                                                                  ?.single
+                                                                  .taskData)
+                                                        });
+                                                  } else {
+                                                    showDialog(
+                                                      barrierDismissible: false,
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return CustomDialog(
+                                                            title: 'Info',
+                                                            content:
+                                                                EtamKawaTranslate
+                                                                    .beforeToDetailPast,
+                                                            label:
+                                                                EtamKawaTranslate
+                                                                    .back,
+                                                            type:
+                                                                DialogType.info,
+                                                            isConnectionAvailable:
+                                                                isConnectionAvailable);
                                                       },
-                                                      extra: {
-                                                        Constant.listTask:
-                                                            (gamification
-                                                                .chapterData
-                                                                ?.single
-                                                                .missionData
-                                                                ?.single
-                                                                .taskData)
-                                                      });
+                                                    );
+                                                  }
                                                 },
                                                 child: Text(
                                                     EtamKawaTranslate

@@ -22,13 +22,22 @@ class ImageConstant {
   static const String logoAdt58 = 'assets/images/logo_adt_58.png';
 
   //mission
+
+  //ini
   static const String iconReward = 'assets/images/icon_reward.svg';
+  //ini
   static const String iconCalendar = 'assets/images/icon_calendar.svg';
+  //ini
   static const String iconChecklist = 'assets/images/icon_checklist.svg';
+  //ini
   static const String iconValidated = 'assets/images/icon_validated.svg';
+  //ini
   static const String iconTask = 'assets/images/icon_task.svg';
+  //ini
   static const String iconDuration = 'assets/images/icon_duration.svg';
+  //ini
   static const String iconAchievment = 'assets/images/icon_achievment.svg';
+  //ini
   static const String iconAccuracy = 'assets/images/icon_accuracy.svg';
 
   //main nav
