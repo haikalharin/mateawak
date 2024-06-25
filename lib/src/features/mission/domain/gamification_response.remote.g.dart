@@ -64,23 +64,28 @@ const GamificationResponseRemoteSchema = CollectionSchema(
       name: r'missionStatusCode',
       type: IsarType.long,
     ),
-    r'startedDate': PropertySchema(
+    r'rewardGained': PropertySchema(
       id: 9,
+      name: r'rewardGained',
+      type: IsarType.long,
+    ),
+    r'startedDate': PropertySchema(
+      id: 10,
       name: r'startedDate',
       type: IsarType.string,
     ),
     r'submittedBy': PropertySchema(
-      id: 10,
+      id: 11,
       name: r'submittedBy',
       type: IsarType.string,
     ),
     r'submittedDate': PropertySchema(
-      id: 11,
+      id: 12,
       name: r'submittedDate',
       type: IsarType.string,
     ),
     r'validatorId': PropertySchema(
-      id: 12,
+      id: 13,
       name: r'validatorId',
       type: IsarType.long,
     )
@@ -189,10 +194,11 @@ void _gamificationResponseRemoteSerialize(
   writer.writeLong(offsets[6], object.missionId);
   writer.writeString(offsets[7], object.missionStatus);
   writer.writeLong(offsets[8], object.missionStatusCode);
-  writer.writeString(offsets[9], object.startedDate);
-  writer.writeString(offsets[10], object.submittedBy);
-  writer.writeString(offsets[11], object.submittedDate);
-  writer.writeLong(offsets[12], object.validatorId);
+  writer.writeLong(offsets[9], object.rewardGained);
+  writer.writeString(offsets[10], object.startedDate);
+  writer.writeString(offsets[11], object.submittedBy);
+  writer.writeString(offsets[12], object.submittedDate);
+  writer.writeLong(offsets[13], object.validatorId);
 }
 
 GamificationResponseRemote _gamificationResponseRemoteDeserialize(
@@ -217,10 +223,11 @@ GamificationResponseRemote _gamificationResponseRemoteDeserialize(
     missionId: reader.readLongOrNull(offsets[6]),
     missionStatus: reader.readStringOrNull(offsets[7]),
     missionStatusCode: reader.readLongOrNull(offsets[8]),
-    startedDate: reader.readStringOrNull(offsets[9]),
-    submittedBy: reader.readStringOrNull(offsets[10]),
-    submittedDate: reader.readStringOrNull(offsets[11]),
-    validatorId: reader.readLongOrNull(offsets[12]),
+    rewardGained: reader.readLongOrNull(offsets[9]),
+    startedDate: reader.readStringOrNull(offsets[10]),
+    submittedBy: reader.readStringOrNull(offsets[11]),
+    submittedDate: reader.readStringOrNull(offsets[12]),
+    validatorId: reader.readLongOrNull(offsets[13]),
   );
   return object;
 }
@@ -256,12 +263,14 @@ P _gamificationResponseRemoteDeserializeProp<P>(
     case 8:
       return (reader.readLongOrNull(offset)) as P;
     case 9:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 10:
       return (reader.readStringOrNull(offset)) as P;
     case 11:
       return (reader.readStringOrNull(offset)) as P;
     case 12:
+      return (reader.readStringOrNull(offset)) as P;
+    case 13:
       return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1475,6 +1484,80 @@ extension GamificationResponseRemoteQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> rewardGainedIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'rewardGained',
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> rewardGainedIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'rewardGained',
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> rewardGainedEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'rewardGained',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> rewardGainedGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'rewardGained',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> rewardGainedLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'rewardGained',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterFilterCondition> rewardGainedBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'rewardGained',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
       QAfterFilterCondition> startedDateIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -2145,6 +2228,20 @@ extension GamificationResponseRemoteQuerySortBy on QueryBuilder<
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterSortBy> sortByRewardGained() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rewardGained', Sort.asc);
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterSortBy> sortByRewardGainedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rewardGained', Sort.desc);
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
       QAfterSortBy> sortByStartedDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'startedDate', Sort.asc);
@@ -2330,6 +2427,20 @@ extension GamificationResponseRemoteQuerySortThenBy on QueryBuilder<
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterSortBy> thenByRewardGained() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rewardGained', Sort.asc);
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QAfterSortBy> thenByRewardGainedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rewardGained', Sort.desc);
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
       QAfterSortBy> thenByStartedDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'startedDate', Sort.asc);
@@ -2447,6 +2558,13 @@ extension GamificationResponseRemoteQueryWhereDistinct on QueryBuilder<
   }
 
   QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
+      QDistinct> distinctByRewardGained() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'rewardGained');
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, GamificationResponseRemote,
       QDistinct> distinctByStartedDate({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'startedDate', caseSensitive: caseSensitive);
@@ -2545,6 +2663,13 @@ extension GamificationResponseRemoteQueryProperty on QueryBuilder<
       missionStatusCodeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'missionStatusCode');
+    });
+  }
+
+  QueryBuilder<GamificationResponseRemote, int?, QQueryOperations>
+      rewardGainedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'rewardGained');
     });
   }
 
