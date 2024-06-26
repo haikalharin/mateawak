@@ -29,6 +29,7 @@ class GamificationResponseRemote {
   String? completedDate;
   int? validatorId;
   int? accuracy;
+  int? rewardGained;
   List<ChapterDatum>? chapterData;
 
   GamificationResponseRemote({
@@ -45,6 +46,7 @@ class GamificationResponseRemote {
     this.completedDate,
     this.validatorId,
     this.accuracy,
+    this.rewardGained,
     this.chapterData,
   });
 
@@ -62,6 +64,7 @@ class GamificationResponseRemote {
     String? completedDate,
     int? validatorId,
     int? accuracy,
+    int? rewardGained,
     List<ChapterDatum>? chapterData,
   }) =>
       GamificationResponseRemote(
@@ -78,6 +81,7 @@ class GamificationResponseRemote {
         completedDate: completedDate ?? this.completedDate,
         validatorId: validatorId ?? this.validatorId,
         accuracy: accuracy ?? this.accuracy,
+        rewardGained: rewardGained ?? this.rewardGained,
         chapterData: chapterData ?? this.chapterData,
       );
 
@@ -96,6 +100,7 @@ class GamificationResponseRemote {
         completedDate: json["completedDate"],
         validatorId: json["validatorId"],
         accuracy: json["accuracy"],
+        rewardGained: json["rewardGained"],
         chapterData: json["chapterData"] == null
             ? []
             : List<ChapterDatum>.from(
@@ -116,6 +121,7 @@ class GamificationResponseRemote {
         "completedDate": completedDate,
         "validatorId": validatorId,
         "accuracy": accuracy,
+        "rewardGained": rewardGained,
         "chapterData": chapterData == null
             ? []
             : List<dynamic>.from(chapterData!.map((x) => x.toJson())),

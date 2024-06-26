@@ -49,7 +49,11 @@ class EtamKawaTranslate {
 
   static String get validationDetail => '$_initial-validationDetail'.tr();
 
-  static String get start => '$_initial-start'.tr();
+  static String get start => '$_initial-start'.tr(); 
+
+  static String get startDate => '$_initial-startDate'.tr();
+
+  static String get endDate => '$_initial-endDate'.tr();
 
   static String get missionLateToFinish => '$_initial-missionLateToFinish'.tr();
 
@@ -60,6 +64,10 @@ class EtamKawaTranslate {
   static String get complete => '$_initial-complete'.tr();
 
   static String get rewards => '$_initial-rewards'.tr();
+
+  static String get maxRewards => '$_initial-maxRewards'.tr();
+
+  static String get gainedRewards => '$_initial-gainedRewards'.tr();
 
   static String get task => '$_initial-task'.tr();
 
@@ -237,12 +245,16 @@ class EtamKawaTranslate {
     validationList: 'Validation List',
     validationDetail: 'Validation Details',
     start: 'Start',
+    startDate: 'Start Date',
+    endDate: 'End Date',
     pleaseSelectAnOption: 'Please select an option',
     missionLateToFinish: 'a Mission late to Finish',
     pts: 'Poin',
     completed: 'Completed',
     complete: 'Complete',
     rewards: 'Rewards',
+    maxRewards: 'Max Reward',
+    gainedRewards: 'Gained Reward',
     task: 'Task',
     duration: 'Duration',
     days: 'Days',
@@ -343,12 +355,16 @@ class EtamKawaTranslate {
     validationList: 'Daftar Validasi',
     validationDetail: 'Validasi',
     start: 'Mulai',
+    startDate: 'Waktu Mulai',
+    endDate: 'Waktu Akhir',
     pleaseSelectAnOption: 'Mohon pilih jawabanmu',
     missionLateToFinish: 'Misi terlambat dikerjakan',
     pts: 'Poin',
     completed: 'Selesai',
     complete: 'Selesai',
     rewards: 'Poin',
+    maxRewards: 'Poin Maksimal',
+    gainedRewards: 'Poin Didapat',
     task: 'Tugas',
     duration: 'Durasi',
     days: 'Hari',
