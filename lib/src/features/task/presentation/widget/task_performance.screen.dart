@@ -59,15 +59,7 @@ class _TaskPerformanceScreenState extends ConsumerState<TaskPerformanceScreen> {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
-        final ctrl = ref.watch(taskControllerProvider.notifier);
-        //final ctrlMainNav = ref.read(mainNavControllerProvider.notifier);
-        final ctrlMission = ref.read(missionControllerProvider.notifier);
         final currentQuestionIndex = ref.watch(currentIndexState.notifier);
-        final attachment = ref.watch(attachmentPathState.notifier);
-        final attachmentName = ref.watch(attachmentNameState.notifier);
-        final listSelectedOptionString = ref.watch(listSelectOptionStringState);
-        final currentQuestionProgress = ref.watch(currentProgressState);
-        final lengthAnswer = ref.watch(listTaskState).length;
         final listTask = ref.watch(listTaskState);
         final gamificationData = ref.watch(gamificationState);
         final isConnectionAvailable = ref.watch(isConnectionAvailableProvider);
