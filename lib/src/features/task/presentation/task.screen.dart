@@ -7,6 +7,7 @@ import 'package:module_etamkawa/src/features/task/presentation/widget/task_assig
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_file.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_free_text.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_multi_choice.screen.dart';
+import 'package:module_etamkawa/src/features/task/presentation/widget/task_performance.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_rating.screen.dart';
 import 'package:module_etamkawa/src/features/task/presentation/widget/task_sinlgle_choice.screen.dart';
 import 'package:module_etamkawa/src/shared_component/custom_dialog.dart';
@@ -196,7 +197,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                           ),
                           if (gamificationData.chapterData?.single.missionData
                                   ?.single.missionTypeName !=
-                              "Assignment")
+                              "Assignment" && gamificationData.chapterData?.single.missionData
+                              ?.single.missionTypeName !=
+                              "Performance")
                             Container(
                               margin: const EdgeInsets.only(top: 24),
                               child: Column(
@@ -288,6 +291,12 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                         ? const Expanded(
                             child: TaskRatingScreen(),
                           )
+                        : Container(),
+                    listTask[currentQuestionIndex.state].taskTypeCode ==
+                        TaskType.PFM.name
+                        ? const Expanded(
+                      child: TaskPerformanceScreen(),
+                    )
                         : Container(),
                     listTask[currentQuestionIndex.state].taskTypeCode ==
                                 TaskType.ASM.name &&

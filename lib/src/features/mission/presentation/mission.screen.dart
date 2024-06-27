@@ -48,8 +48,8 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
   late TabController _controller;
   int _selectedIndex = 0;
   List<Widget> listTab = [
-    Tab(text: EtamKawaTranslate.inProgress),
     Tab(text: EtamKawaTranslate.assigned),
+    Tab(text: EtamKawaTranslate.inProgress),
     Tab(text: EtamKawaTranslate.past),
   ];
 
@@ -412,9 +412,9 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
 
     return VisibilityDetectorTelematry(
       widgetName: _selectedIndex == 0
-          ? TelematryConstant.inProgressMission
+          ? TelematryConstant.assignedMission
           : _selectedIndex == 1
-              ? TelematryConstant.assignedMission
+              ?  TelematryConstant.inProgressMission
               : _selectedIndex == 2
                   ? TelematryConstant.pastMission
                   : '',
