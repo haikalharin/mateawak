@@ -223,7 +223,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                                     .width,
                                                 child: Center(
                                                   child: Text(
-                                                    gamificationInProgress
+                                                    gamificationAssigned
                                                             .isNotEmpty
                                                         ? EtamKawaTranslate
                                                             .allEntriesLoaded
@@ -284,7 +284,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen>
                                                     .width,
                                                 child: Center(
                                                   child: Text(
-                                                    gamificationAssigned
+                                                    gamificationInProgress
                                                             .isNotEmpty
                                                         ? EtamKawaTranslate
                                                             .allEntriesLoaded

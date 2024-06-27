@@ -78,7 +78,8 @@ class _TaskAssignmentPastScreenState
                               children: [
                                 const SizedBox(height: 20.0),
                                 widget.taskDatum.answerAttachmentUrl != null &&
-                                        widget.taskDatum.answerAttachmentUrl != ''
+                                        widget.taskDatum.answerAttachmentUrl !=
+                                            ''
                                     ? Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -126,14 +127,18 @@ class _TaskAssignmentPastScreenState
                                               const SizedBox(
                                                 height: 12,
                                               ),
-                                              InkWell(onTap: (){
-                                                SharedComponentEtamkawa.showImage(
-                                                    context: context,
-                                                    path: widget.taskDatum
-                                                        .answerAttachmentUrl??'');
-                                              },
-                                                child: Image.network(widget.taskDatum
-                                                    .answerAttachmentUrl??''),
+                                              InkWell(
+                                                onTap: () {
+                                                  SharedComponentEtamkawa.showImage(
+                                                      context: context,
+                                                      path: widget.taskDatum
+                                                              .answerAttachmentUrl ??
+                                                          '');
+                                                },
+                                                child: Image.network(widget
+                                                        .taskDatum
+                                                        .answerAttachmentUrl ??
+                                                    ''),
                                               )
                                             ],
                                           ),

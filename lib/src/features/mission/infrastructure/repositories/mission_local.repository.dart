@@ -25,7 +25,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
   if (isConnectionAvailable) {
     final connect = ref.read(connectProvider.notifier);
     final connectEtamkawa = ref.read(connectEtamkawaProvider.notifier);
-    var dummy =      {
+    var dummy = {
       "employeeMissionId": 23860000000000,
       "employeeId": 70002003,
       "missionId": 9730000000,
@@ -42,14 +42,16 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
           "chapterId": 15900000000,
           "chapterCode": "C00063",
           "chapterName": "Chapter 63 :TEST PEFORMANCE",
-          "chapterGoal": "Pengawas Produksi dapat secara aktif membentuk kegiatan dan kolaborasi sesuai struktur Tim kerja masing-masing, serta mendapatkan pengembanganan sebagai pengawas produksi dan bapak asuh yang baik, positif dan produktif",
+          "chapterGoal":
+              "Pengawas Produksi dapat secara aktif membentuk kegiatan dan kolaborasi sesuai struktur Tim kerja masing-masing, serta mendapatkan pengembanganan sebagai pengawas produksi dan bapak asuh yang baik, positif dan produktif",
           "missionData": [
             {
               "missionId": 9730000000,
               "chapterId": 159,
               "missionCode": "M0000973",
               "missionName": "24 Juni [ASM] [1]",
-              "missionInstruction": "Langkah Kerja\n\n1. Bacalah tugas dengan seksama\n2. Lakukan tugas sesuai dengan panduan\n3. Ketika sudah selesai melakukan tugas, klik \"kirim\" untuk mendapatkan poin\n4. Tugas hanya bisa dikerjakan hingga 3 hari setelah misi didapatkan\n5. Jika membutuhkan bantuan bisa berdiskusi/bertanya dengan rekan kerja atau atasan dalam tim masing-masing.",
+              "missionInstruction":
+                  "Langkah Kerja\n\n1. Bacalah tugas dengan seksama\n2. Lakukan tugas sesuai dengan panduan\n3. Ketika sudah selesai melakukan tugas, klik \"kirim\" untuk mendapatkan poin\n4. Tugas hanya bisa dikerjakan hingga 3 hari setelah misi didapatkan\n5. Jika membutuhkan bantuan bisa berdiskusi/bertanya dengan rekan kerja atau atasan dalam tim masing-masing.",
               "missionDuration": 1,
               "missionActiveOnDay": 1,
               "missionTypeCode": "Performance",
@@ -65,10 +67,12 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
                   "taskId": 3460000000,
                   "missionId": 973,
                   "attachmentId": 1950,
-                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/foto potrait 1-36327.jpg?sv=2023-11-03&st=2024-06-26T10%3A16%3A58Z&se=2024-06-27T10%3A16%3A58Z&sr=b&sp=r&sig=dvy%2BC05b7Ocxbi6H4PugVrGz4WCljIFxyKvy2SV2NSI%3D",
+                  "attachmentUrl":
+                      "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/foto potrait 1-36327.jpg?sv=2023-11-03&st=2024-06-26T10%3A16%3A58Z&se=2024-06-27T10%3A16%3A58Z&sr=b&sp=r&sig=dvy%2BC05b7Ocxbi6H4PugVrGz4WCljIFxyKvy2SV2NSI%3D",
                   "taskCode": "T0003460",
                   "taskGroup": "1Rnxr8ITwuzPIvl",
-                  "taskCaption": "Anda diminta untuk memulai / mengajak semua pengawas dalam tim anda (supervisor dan semua foreman di dalam struktur tim anda)untuk melakukan sesi ngobrol tatap muka (yang sedang off atau cuti dalam bergabung secara Online).\n-anda dan pengawas lainnya diminta untuk membuat kesepakatan untuk kegiatan kebersamaan dalam Tim (Contoh : masak bersama, berkumpun 1 bulan 1 kali, mengadakan sesi sharing dari LC)\n-buatlah group WA masing-masing jika dirasa dari hasil diskusi diperlukan\n\nsetelah melakukan diskusi bersama anda perlu mengirimkan laporan pada aplikasi berupa :\n1. foto pada saat melakukan diskusi\n2. sebutkan siapa saja pengawas yang mengikuti sesi tersebut. lalu\nceritakan hasil diskusi anda dan kegiatan apa yang disepakati dalam tim",
+                  "taskCaption":
+                      "Anda diminta untuk memulai / mengajak semua pengawas dalam tim anda (supervisor dan semua foreman di dalam struktur tim anda)untuk melakukan sesi ngobrol tatap muka (yang sedang off atau cuti dalam bergabung secara Online).\n-anda dan pengawas lainnya diminta untuk membuat kesepakatan untuk kegiatan kebersamaan dalam Tim (Contoh : masak bersama, berkumpun 1 bulan 1 kali, mengadakan sesi sharing dari LC)\n-buatlah group WA masing-masing jika dirasa dari hasil diskusi diperlukan\n\nsetelah melakukan diskusi bersama anda perlu mengirimkan laporan pada aplikasi berupa :\n1. foto pada saat melakukan diskusi\n2. sebutkan siapa saja pengawas yang mengikuti sesi tersebut. lalu\nceritakan hasil diskusi anda dan kegiatan apa yang disepakati dalam tim",
                   "taskTypeCode": "PFM",
                   "taskTypeName": "Performance",
                   "taskReward": 100,
@@ -80,8 +84,11 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
         }
       ]
     };
-    final gamificationResponseRemoteDummy = GamificationResponseRemote.fromJson(dummy);
-    List<GamificationResponseRemote> listResponse = [gamificationResponseRemoteDummy];
+    final gamificationResponseRemoteDummy =
+        GamificationResponseRemote.fromJson(dummy);
+    List<GamificationResponseRemote> listResponse = [
+      gamificationResponseRemoteDummy
+    ];
     List<GamificationResponseRemote> listResponseFinal = [];
     List<GamificationResponseRemote> listResponseAfterMerge = [];
     List<GamificationResponseRemote> listAfterCheckIsIncomplete = [];
@@ -141,18 +148,21 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
       int different = calculateDifferenceDate(dueDate, DateTime.now());
       if (element.missionStatusCode != null) {
         if (different > 0 && element.missionStatusCode! < 2) {
-          listAfterCheckIsIncomplete.add(GamificationResponseRemote(
-              employeeMissionId: element.employeeMissionId,
-              missionId: element.missionId,
-              missionStatusCode: 4,
-              missionStatus: 'Incomplete',
-              startedDate: element.startedDate,
-              dueDate: element.dueDate,
-              submittedBy: element.submittedBy,
-              submittedDate: element.submittedDate,
-              completedBy: element.completedBy,
-              completedDate: element.completedDate,
-              chapterData: element.chapterData));
+          if (element.chapterData?.single.missionData?.single.missionTypeCode !=
+              'Performance') {
+            listAfterCheckIsIncomplete.add(GamificationResponseRemote(
+                employeeMissionId: element.employeeMissionId,
+                missionId: element.missionId,
+                missionStatusCode: 4,
+                missionStatus: 'Incomplete',
+                startedDate: element.startedDate,
+                dueDate: element.dueDate,
+                submittedBy: element.submittedBy,
+                submittedDate: element.submittedDate,
+                completedBy: element.completedBy,
+                completedDate: element.completedDate,
+                chapterData: element.chapterData));
+          }
         } else {
           listAfterCheckIsIncomplete.add(element);
         }
@@ -160,7 +170,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
         for (var element in listAfterCheckIsIncomplete) {
           List<TaskDatum> listTask =
               element.chapterData?.single.missionData?.single.taskData ?? [];
-          if(element.missionStatusCode != 4){
+          if (element.missionStatusCode != 4) {
             int indexTask = 0;
             //List<TaskDatum> taskData = [];
             for (var element in listTask) {
@@ -192,7 +202,6 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
               }
             }
           }
-
 
           index++;
         }

@@ -174,6 +174,8 @@ class EtamKawaTranslate {
 
   static String get submit => '$_initial-submit'.tr();
 
+  static String get results => '$_initial-results'.tr();
+
   static String get areYouSureSubmitAnswer =>
       '$_initial-areYouSureSubmitAnswer'.tr();
 
@@ -301,6 +303,7 @@ class EtamKawaTranslate {
     answerHistory: 'Answer',
     confirmation: 'Confirmation',
     submit: 'Submit',
+    results: 'Results',
     validatedAt: 'Validated at',
     areYouSureSubmitAnswer: 'Are you sure want to to submit your answer?',
     areYouSureSubmitAssignment:
@@ -413,6 +416,7 @@ class EtamKawaTranslate {
     answerHistory: 'Jawaban',
     confirmation: 'Konfirmasi',
     submit: 'Kirim',
+    results: 'Hasil',
     areYouSureSubmitAnswer: 'Kamu yakin ingin mengirimkan jawabanmu?',
     areYouSureSubmitAssignment: 'Kamu yakin ingin mengirimkan laporanmu?',
     stay: 'Tidak',

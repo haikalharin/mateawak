@@ -445,24 +445,24 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                         ),
                                         addVerticalDivider(),
                                         Expanded(
-                                          flex: 1,
+                                          flex: 2,
                                           child: Column(
                                             mainAxisAlignment:
                                             MainAxisAlignment.center,
                                             children: [
-                                              SizedBox(height: 10.h),
+                                              SizedBox(height: 5.h),
                                               Text(
                                                 'Periode',
                                                 style: SharedComponent
                                                     .textStyleCustom(
                                                   typographyType:
                                                   TypographyType
-                                                      .paragraph,
+                                                      .bold,
                                                   fontColor:
                                                   ColorTheme.neutral600,
                                                 ),
                                               ),
-                                              SizedBox(height: 10.h),
+                                              SizedBox(height: 5.h),
                                               addHorizontalDivider(),
                                               Row(
                                                 mainAxisAlignment:
@@ -525,7 +525,7 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                                   ),
                                                   SizedBox(
                                                     height:
-                                                    100, // Set this to your desired height
+                                                    90.h, // Set this to your desired height
                                                     child: VerticalDivider(
                                                       thickness: 1.sp,
                                                       width: 1.sp,

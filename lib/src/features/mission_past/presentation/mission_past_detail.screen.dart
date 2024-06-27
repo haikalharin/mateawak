@@ -459,7 +459,7 @@ class _MissionPastDetailScreenState
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
                                                 children: [
-                                                  SizedBox(height: 10.h),
+                                                  SizedBox(height: 5.h),
                                                   Text(
                                                     'Periode',
                                                     style: SharedComponent
@@ -470,7 +470,7 @@ class _MissionPastDetailScreenState
                                                           ColorTheme.neutral600,
                                                     ),
                                                   ),
-                                                  SizedBox(height: 10.h),
+                                                  SizedBox(height: 5.h),
                                                   addHorizontalDivider(),
                                                   Row(
                                                     mainAxisAlignment:
@@ -533,7 +533,7 @@ class _MissionPastDetailScreenState
                                                       ),
                                                       SizedBox(
                                                         height:
-                                                            100, // Set this to your desired height
+                                                            90, // Set this to your desired height
                                                         child: VerticalDivider(
                                                           thickness: 1.sp,
                                                           width: 1.sp,
