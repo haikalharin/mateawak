@@ -21,7 +21,7 @@ import '../../../offline_mode/infrastructure/repositories/isar.repository.dart';
 
 part 'task.controller.g.dart';
 
-enum TaskType { MCQ, SCQ, YNQ, STX, RAT, ASM, DEFAULT }
+enum TaskType { MCQ, SCQ, YNQ, STX, RAT, ASM,PFM, DEFAULT }
 
 enum PagePosition { NEXT, PREV, CURRENT }
 
