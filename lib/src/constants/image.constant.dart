@@ -30,6 +30,8 @@ class ImageConstant {
   //ini
   static const String iconEndDate = 'assets/images/icon_enddate.svg';
   //ini
+  static const String iconRewardGained = 'assets/images/icon_gainedreward.svg';
+  //ini
   static const String iconCalendar = 'assets/images/icon_calendar.svg';
   //ini
   static const String iconChecklist = 'assets/images/icon_checklist.svg';

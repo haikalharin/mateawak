@@ -353,7 +353,7 @@ class _MissionPastDetailScreenState
                                                             children: [
                                                               SvgPicture.asset(
                                                                 ImageConstant
-                                                                    .iconAccuracy,
+                                                                    .iconRewardGained,
                                                                 width: 16.sp,
                                                                 height: 20.sp,
                                                                 package: Constant
@@ -362,7 +362,8 @@ class _MissionPastDetailScreenState
                                                               const SizedBox(
                                                                   height: 6),
                                                               Text(
-                                                                EtamKawaTranslate.gainedRewards,
+                                                                EtamKawaTranslate
+                                                                    .gainedRewards,
                                                                 textAlign:
                                                                     TextAlign
                                                                         .center,
@@ -393,7 +394,7 @@ class _MissionPastDetailScreenState
                                                             ],
                                                           ),
                                                         )
-                                                      : Column(),
+                                                      : const Column(),
                                                   addVerticalDivider(),
                                                   Expanded(
                                                     flex: 1,
@@ -449,7 +450,11 @@ class _MissionPastDetailScreenState
                                             ),
                                             addVerticalDivider(),
                                             Expanded(
-                                              flex: 1,
+                                              flex: gamification
+                                                          .missionStatusCode ==
+                                                      99
+                                                  ? 1
+                                                  : 2,
                                               child: Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
@@ -460,8 +465,7 @@ class _MissionPastDetailScreenState
                                                     style: SharedComponent
                                                         .textStyleCustom(
                                                       typographyType:
-                                                          TypographyType
-                                                              .paragraph,
+                                                          TypographyType.bold,
                                                       fontColor:
                                                           ColorTheme.neutral600,
                                                     ),
