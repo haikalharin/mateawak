@@ -49,14 +49,14 @@ HtmlWidget customHtmlWidget(String html) {
           textAlign = TextAlign.right;
           alignment = Alignment.centerRight;
         }
-        double fontSize = 10.sp;
-        double lineHeight = 1.2.h;
+        double fontSize = 11.sp;
+        double lineHeight = 1.h;
         if (element.innerHtml.contains('ql-size-small')) {
-          fontSize = 10.sp;
-          lineHeight = 10.h / 10.h;
+          fontSize = 9.sp;
+          lineHeight = 9.h / 9.h;
         } else if (element.innerHtml.contains('ql-size-large')) {
-          fontSize = 18.sp;
-          lineHeight = 24.h / 18.h;
+          fontSize = 24.sp;
+          lineHeight = 24.h / 24.h;
         } else if (element.innerHtml.contains('ql-size-huge')) {
           fontSize = 32;
           lineHeight = 32.h / 32.h;
@@ -122,14 +122,14 @@ HtmlWidget customHtmlWidget(String html) {
           textAlign = TextAlign.right;
           alignment = Alignment.centerRight;
         }
-        double fontSize = 10.sp;
-        double lineHeight = 1.2.h;
+        double fontSize = 11.sp;
+        double lineHeight = 1.h;
         if (element.innerHtml.contains('ql-size-small')) {
-          fontSize = 10.sp;
-          lineHeight = 10.h / 10.h;
+          fontSize = 9.sp;
+          lineHeight = 9.h / 9.h;
         } else if (element.innerHtml.contains('ql-size-large')) {
-          fontSize = 18.sp;
-          lineHeight = 24.h / 18.h;
+          fontSize = 24.sp;
+          lineHeight = 24.h / 24.h;
         } else if (element.innerHtml.contains('ql-size-huge')) {
           fontSize = 32;
           lineHeight = 32.h / 32.h;

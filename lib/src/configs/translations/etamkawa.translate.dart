@@ -49,7 +49,7 @@ class EtamKawaTranslate {
 
   static String get validationDetail => '$_initial-validationDetail'.tr();
 
-  static String get start => '$_initial-start'.tr(); 
+  static String get start => '$_initial-start'.tr();
 
   static String get startDate => '$_initial-startDate'.tr();
 
@@ -220,6 +220,9 @@ class EtamKawaTranslate {
   static String get alreadyValidated => '$_initial-alreadyValidated'.tr();
 
   static String get beforeToDetailPast => '$_initial-beforeToDetailPast'.tr();
+
+  static String get seeDetails => '$_initial-seeDetails'.tr();
+
   static Map<String, String> translateEn = {
     yourAnswerIsRatedAs: 'our answer is rated as',
     notYetRated: 'Not yet rated',
@@ -330,6 +333,7 @@ class EtamKawaTranslate {
         'This mission has already been validated and cannot be validated again.',
     beforeToDetailPast:
         'You can view this mission history after the mission time limit has been completed',
+    seeDetails: 'See Details',
   };
   static Map<String, String> translateId = {
     yourAnswerIsRatedAs: 'Jawabanmu diberi penilaian',
@@ -441,5 +445,6 @@ class EtamKawaTranslate {
         'Misi ini telah divalidasi dan tidak dapat divalidasi lagi.',
     beforeToDetailPast:
         'Riwayat misi ini dapat kamu lihat setelah batas waktu misi telah selesai',
+    seeDetails: 'Lihat Selengkapnya'
   };
 }

@@ -67,8 +67,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
                   "taskId": 3460000000,
                   "missionId": 973,
                   "attachmentId": 1950,
-                  "attachmentUrl":
-                      "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/foto potrait 1-36327.jpg?sv=2023-11-03&st=2024-06-26T10%3A16%3A58Z&se=2024-06-27T10%3A16%3A58Z&sr=b&sp=r&sig=dvy%2BC05b7Ocxbi6H4PugVrGz4WCljIFxyKvy2SV2NSI%3D",
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/image 1-02742.png?sv=2023-11-03&st=2024-06-28T01%3A01%3A48Z&se=2024-06-29T01%3A01%3A48Z&sr=b&sp=r&sig=F8R0oogYHATDVi3fL7PZ3%2FpFF8PDG95sSWUtN0lRmg4%3D",
                   "taskCode": "T0003460",
                   "taskGroup": "1Rnxr8ITwuzPIvl",
                   "taskCaption":

@@ -675,7 +675,12 @@ class _MissionDetailScreenState extends ConsumerState<MissionDetailScreen> {
                                                   .taskData)
                                             });
                                       },
-                                      child: Text(EtamKawaTranslate.start,
+                                      child: Text( gamification
+                                          .chapterData
+                                          ?.single
+                                          .missionData
+                                          ?.single
+                                          .missionTypeName == 'Performance'?EtamKawaTranslate.seeDetails :EtamKawaTranslate.start,
                                           style:
                                               SharedComponent.textStyleCustom(
                                                   typographyType: TypographyType
