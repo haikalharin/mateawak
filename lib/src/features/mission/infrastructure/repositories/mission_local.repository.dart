@@ -65,7 +65,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
                   "taskId": 3460000000,
                   "missionId": 973,
                   "attachmentId": 1950,
-                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/foto potrait 1-36327.jpg?sv=2023-11-03&st=2024-06-26T10%3A16%3A58Z&se=2024-06-27T10%3A16%3A58Z&sr=b&sp=r&sig=dvy%2BC05b7Ocxbi6H4PugVrGz4WCljIFxyKvy2SV2NSI%3D",
+                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/image 1-02742.png?sv=2023-11-03&st=2024-06-28T01%3A01%3A48Z&se=2024-06-29T01%3A01%3A48Z&sr=b&sp=r&sig=F8R0oogYHATDVi3fL7PZ3%2FpFF8PDG95sSWUtN0lRmg4%3D",
                   "taskCode": "T0003460",
                   "taskGroup": "1Rnxr8ITwuzPIvl",
                   "taskCaption": "Anda diminta untuk memulai / mengajak semua pengawas dalam tim anda (supervisor dan semua foreman di dalam struktur tim anda)untuk melakukan sesi ngobrol tatap muka (yang sedang off atau cuti dalam bergabung secara Online).\n-anda dan pengawas lainnya diminta untuk membuat kesepakatan untuk kegiatan kebersamaan dalam Tim (Contoh : masak bersama, berkumpun 1 bulan 1 kali, mengadakan sesi sharing dari LC)\n-buatlah group WA masing-masing jika dirasa dari hasil diskusi diperlukan\n\nsetelah melakukan diskusi bersama anda perlu mengirimkan laporan pada aplikasi berupa :\n1. foto pada saat melakukan diskusi\n2. sebutkan siapa saja pengawas yang mengikuti sesi tersebut. lalu\nceritakan hasil diskusi anda dan kegiatan apa yang disepakati dalam tim",
