@@ -25,7 +25,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
   if (isConnectionAvailable) {
     final connect = ref.read(connectProvider.notifier);
     final connectEtamkawa = ref.read(connectEtamkawaProvider.notifier);
-    var dummy =      {
+    var dummy = {
       "employeeMissionId": 23860000000000,
       "employeeId": 70002003,
       "missionId": 9730000000,
@@ -42,14 +42,16 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
           "chapterId": 15900000000,
           "chapterCode": "C00063",
           "chapterName": "Chapter 63 :TEST PEFORMANCE",
-          "chapterGoal": "Pengawas Produksi dapat secara aktif membentuk kegiatan dan kolaborasi sesuai struktur Tim kerja masing-masing, serta mendapatkan pengembanganan sebagai pengawas produksi dan bapak asuh yang baik, positif dan produktif",
+          "chapterGoal":
+              "Pengawas Produksi dapat secara aktif membentuk kegiatan dan kolaborasi sesuai struktur Tim kerja masing-masing, serta mendapatkan pengembanganan sebagai pengawas produksi dan bapak asuh yang baik, positif dan produktif",
           "missionData": [
             {
               "missionId": 9730000000,
               "chapterId": 159,
               "missionCode": "M0000973",
               "missionName": "24 Juni [ASM] [1]",
-              "missionInstruction": "Langkah Kerja\n\n1. Bacalah tugas dengan seksama\n2. Lakukan tugas sesuai dengan panduan\n3. Ketika sudah selesai melakukan tugas, klik \"kirim\" untuk mendapatkan poin\n4. Tugas hanya bisa dikerjakan hingga 3 hari setelah misi didapatkan\n5. Jika membutuhkan bantuan bisa berdiskusi/bertanya dengan rekan kerja atau atasan dalam tim masing-masing.",
+              "missionInstruction":
+                  "Langkah Kerja\n\n1. Bacalah tugas dengan seksama\n2. Lakukan tugas sesuai dengan panduan\n3. Ketika sudah selesai melakukan tugas, klik \"kirim\" untuk mendapatkan poin\n4. Tugas hanya bisa dikerjakan hingga 3 hari setelah misi didapatkan\n5. Jika membutuhkan bantuan bisa berdiskusi/bertanya dengan rekan kerja atau atasan dalam tim masing-masing.",
               "missionDuration": 1,
               "missionActiveOnDay": 1,
               "missionTypeCode": "Performance",
@@ -65,10 +67,12 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
                   "taskId": 3460000000,
                   "missionId": 973,
                   "attachmentId": 1950,
-                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/image 1-02742.png?sv=2023-11-03&st=2024-06-28T01%3A01%3A48Z&se=2024-06-29T01%3A01%3A48Z&sr=b&sp=r&sig=F8R0oogYHATDVi3fL7PZ3%2FpFF8PDG95sSWUtN0lRmg4%3D",
+                  "attachmentUrl":
+                      "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/image 1-02742.png?sv=2023-11-03&st=2024-06-28T01%3A01%3A48Z&se=2024-06-29T01%3A01%3A48Z&sr=b&sp=r&sig=F8R0oogYHATDVi3fL7PZ3%2FpFF8PDG95sSWUtN0lRmg4%3D",
                   "taskCode": "T0003460",
                   "taskGroup": "1Rnxr8ITwuzPIvl",
-                  "taskCaption": "Anda diminta untuk memulai / mengajak semua pengawas dalam tim anda (supervisor dan semua foreman di dalam struktur tim anda)untuk melakukan sesi ngobrol tatap muka (yang sedang off atau cuti dalam bergabung secara Online).\n-anda dan pengawas lainnya diminta untuk membuat kesepakatan untuk kegiatan kebersamaan dalam Tim (Contoh : masak bersama, berkumpun 1 bulan 1 kali, mengadakan sesi sharing dari LC)\n-buatlah group WA masing-masing jika dirasa dari hasil diskusi diperlukan\n\nsetelah melakukan diskusi bersama anda perlu mengirimkan laporan pada aplikasi berupa :\n1. foto pada saat melakukan diskusi\n2. sebutkan siapa saja pengawas yang mengikuti sesi tersebut. lalu\nceritakan hasil diskusi anda dan kegiatan apa yang disepakati dalam tim",
+                  "taskCaption":
+                      "Anda diminta untuk memulai / mengajak semua pengawas dalam tim anda (supervisor dan semua foreman di dalam struktur tim anda)untuk melakukan sesi ngobrol tatap muka (yang sedang off atau cuti dalam bergabung secara Online).\n-anda dan pengawas lainnya diminta untuk membuat kesepakatan untuk kegiatan kebersamaan dalam Tim (Contoh : masak bersama, berkumpun 1 bulan 1 kali, mengadakan sesi sharing dari LC)\n-buatlah group WA masing-masing jika dirasa dari hasil diskusi diperlukan\n\nsetelah melakukan diskusi bersama anda perlu mengirimkan laporan pada aplikasi berupa :\n1. foto pada saat melakukan diskusi\n2. sebutkan siapa saja pengawas yang mengikuti sesi tersebut. lalu\nceritakan hasil diskusi anda dan kegiatan apa yang disepakati dalam tim",
                   "taskTypeCode": "PFM",
                   "taskTypeName": "Performance",
                   "taskReward": 100,
@@ -80,8 +84,11 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
         }
       ]
     };
-    final gamificationResponseRemoteDummy = GamificationResponseRemote.fromJson(dummy);
-    List<GamificationResponseRemote> listResponse = [gamificationResponseRemoteDummy];
+    final gamificationResponseRemoteDummy =
+        GamificationResponseRemote.fromJson(dummy);
+    List<GamificationResponseRemote> listResponse = [
+      gamificationResponseRemoteDummy
+    ];
     List<GamificationResponseRemote> listResponseFinal = [];
     List<GamificationResponseRemote> listResponseAfterMerge = [];
     List<GamificationResponseRemote> listAfterCheckIsIncomplete = [];
@@ -134,7 +141,8 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
 
     listResponseAfterMerge.addAll(listResponse);
     listResponseAfterMerge.addAll(listResponseFinal);
-    for (var element in listResponseFinal) {
+    int indexListResponseAfterMerge = 0;
+    for (var element in listResponseAfterMerge) {
       DateTime dueDate = DateTime.parse(
           CommonUtils.formattedDateHoursUtcToLocalForCheck(
               element.dueDate ?? '2024-00-00T00:00:00'));
@@ -156,47 +164,49 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
         } else {
           listAfterCheckIsIncomplete.add(element);
         }
-        int index = 0;
-        for (var element in listAfterCheckIsIncomplete) {
-          List<TaskDatum> listTask =
-              element.chapterData?.single.missionData?.single.taskData ?? [];
-          if(element.missionStatusCode != 4){
-            int indexTask = 0;
-            //List<TaskDatum> taskData = [];
-            for (var element in listTask) {
-              File file = File('');
-              if (element.attachmentUrl != null) {
-                final response = connectEtamkawa.downloadImage(
-                  url: element.attachmentUrl ?? '',
-                );
-                await AsyncValue.guard(() => response).then((value) async {
-                  file = await asyncMethodSaveFile(value.value?.data);
-                  listAfterCheckIsIncomplete[index]
-                      .chapterData
-                      ?.single
-                      .missionData
-                      ?.single
-                      .taskData?[indexTask]
-                      .attachmentPath = file.path;
-                  indexTask++;
-                });
-              } else {
-                listAfterCheckIsIncomplete[index]
-                    .chapterData
-                    ?.single
-                    .missionData
-                    ?.single
-                    .taskData?[indexTask]
-                    .attachmentPath = '';
-                indexTask++;
-              }
-            }
+      }
+      indexListResponseAfterMerge ++;
+    }
+
+    int index = 0;
+    for (var element in listAfterCheckIsIncomplete) {
+      var attachmentPath =  element.chapterData?.first.missionData?.first.taskData?.first.attachmentPath;
+      List<TaskDatum> listTask =
+          element.chapterData?.single.missionData?.single.taskData ?? [];
+      if (element.missionStatusCode != 4 && attachmentPath !='' && attachmentPath!=null) {
+        int indexTask = 0;
+        //List<TaskDatum> taskData = [];
+        for (var element in listTask) {
+          File file = File('');
+          if (element.attachmentUrl != null) {
+            final response = connectEtamkawa.downloadImage(
+              url: element.attachmentUrl ?? '',
+            );
+            await AsyncValue.guard(() => response).then((value) async {
+              file = await asyncMethodSaveFile(value.value?.data);
+              listAfterCheckIsIncomplete[index]
+                  .chapterData
+                  ?.single
+                  .missionData
+                  ?.single
+                  .taskData?[indexTask]
+                  .attachmentPath = file.path;
+              indexTask++;
+            });
+          } else {
+            listAfterCheckIsIncomplete[index]
+                .chapterData
+                ?.single
+                .missionData
+                ?.single
+                .taskData?[indexTask]
+                .attachmentPath = '';
+            indexTask++;
           }
-
-
-          index++;
         }
       }
+
+      index++;
     }
 
     await isarInstance.writeTxn(() async {

@@ -32,149 +32,308 @@ Widget _buildListItem(
 // Example usage
 HtmlWidget customHtmlWidget(String html) {
   debugPrint(html);
-  final richText = HtmlWidget(
-    html,
-    customWidgetBuilder: (element) {
-      if (element.localName == 'li') {
-        TextAlign textAlign = TextAlign.left;
-        Alignment alignment = Alignment.centerLeft;
+  final richText = HtmlWidget(html, customWidgetBuilder: (element) {
+    TextAlign textAlign = TextAlign.left;
+    Alignment alignment = Alignment.centerLeft;
+    double fontSize = 12.sp;
+    double lineHeight = 1.h;
 
-        if (element.classes.contains('ql-align-center')) {
+    if (element.localName == 'li') {
+      // Determine if the parent is <ul> or <ol>
+      bool isOrderedList = element.parent?.localName == 'ol';
+
+      // List marker
+      String marker;
+      if (isOrderedList) {
+        // For ordered lists
+        int index = element.parent?.children.indexOf(element) ?? 0;
+        marker = '${index + 1}. ';
+      } else {
+        // For unordered lists
+        marker = '\u2022 ';
+      }
+      List<InlineSpan> listSpan = [];
+
+      if (element.attributes.isNotEmpty) {
+        if (element.attributes.values.first.contains('ql-align-center')) {
           textAlign = TextAlign.center;
           alignment = Alignment.center;
-        } else if (element.classes.contains('ql-align-justify')) {
+        } else if (element.attributes.values.first
+            .contains('ql-align-justify')) {
           textAlign = TextAlign.justify;
           alignment = Alignment.centerLeft;
-        } else if (element.classes.contains('ql-align-right')) {
+        } else if (element.attributes.values.first.contains('ql-align-right')) {
           textAlign = TextAlign.right;
           alignment = Alignment.centerRight;
         }
-        double fontSize = 11.sp;
-        double lineHeight = 1.h;
-        if (element.innerHtml.contains('ql-size-small')) {
-          fontSize = 9.sp;
-          lineHeight = 9.h / 9.h;
-        } else if (element.innerHtml.contains('ql-size-large')) {
-          fontSize = 24.sp;
-          lineHeight = 24.h / 24.h;
-        } else if (element.innerHtml.contains('ql-size-huge')) {
-          fontSize = 32;
-          lineHeight = 32.h / 32.h;
+      }
+      if (element.nodes.isNotEmpty) {
+        for (var element in element.nodes) {
+          fontSize = 12.sp;
+          lineHeight = 1.h;
+          FontStyle fontStyle = FontStyle.normal;
+          TextDecoration textDecoration = TextDecoration.none;
+          FontWeight fontWeight = FontWeight.normal;
+          if (element.toString() == '<html strong>') {
+            fontWeight = FontWeight.bold;
+            if (element.attributes.isNotEmpty) {
+              if (element.attributes.values.first.contains('ql-size-small')) {
+                fontSize = 9.sp;
+                lineHeight = 9.h / 9.h;
+              } else if (element.attributes.values.first
+                  .contains('ql-size-large')) {
+                fontSize = 20.sp;
+                lineHeight = 20.h / 20.h;
+              } else if (element.attributes.values.first
+                  .contains('ql-size-huge')) {
+                fontSize = 32;
+                lineHeight = 32.h / 32.h;
+              }
+            }
+          } else if (element.toString() == '<html span>') {
+            if (element.attributes.isNotEmpty) {
+              if (element.attributes.values.first.contains('ql-size-small')) {
+                fontSize = 9.sp;
+                lineHeight = 9.h / 9.h;
+              } else if (element.attributes.values.first
+                  .contains('ql-size-large')) {
+                fontSize = 24.sp;
+                lineHeight = 24.h / 24.h;
+              } else if (element.attributes.values.first
+                  .contains('ql-size-huge')) {
+                fontSize = 32;
+                lineHeight = 32.h / 32.h;
+              }
+            }
+          } else {
+            if (element.attributes.isNotEmpty) {
+              if (element.attributes.values.first.contains('ql-size-small')) {
+                fontSize = 9.sp;
+                lineHeight = 9.h / 9.h;
+              } else if (element.attributes.values.first
+                  .contains('ql-size-large')) {
+                fontSize = 24.sp;
+                lineHeight = 24.h / 24.h;
+              } else if (element.attributes.values.first
+                  .contains('ql-size-huge')) {
+                fontSize = 32;
+                lineHeight = 32.h / 32.h;
+              }
+            }
+          }
+          if (element.nodes.isNotEmpty) {
+            for (var element in element.nodes) {
+              if (element.toString() == '<html em>') {
+                fontStyle = FontStyle.italic;
+              } else if (element.toString() == '<html u>') {
+                textDecoration = TextDecoration.underline;
+              }
+              if (element.nodes.isNotEmpty) {
+                for (var element in element.nodes) {
+                  if (element.toString() == '<html u>') {
+                    textDecoration = TextDecoration.underline;
+                  }
+
+                  listSpan.add(
+                    TextSpan(
+                      text: element.text,
+                      style: TextStyle(
+                        fontSize: fontSize,
+                        fontStyle: fontStyle,
+                        decoration: textDecoration,
+                        height: lineHeight,
+                        color: ColorThemeEtamkawa.textDark,
+                        fontWeight: fontWeight,
+                      ),
+                    ),
+                  );
+                }
+              } else {
+                listSpan.add(
+                  TextSpan(
+                    text: element.text,
+                    style: TextStyle(
+                      fontSize: fontSize,
+                      fontStyle: fontStyle,
+                      decoration: textDecoration,
+                      height: lineHeight,
+                      color: ColorThemeEtamkawa.textDark,
+                      fontWeight: fontWeight,
+                    ),
+                  ),
+                );
+              }
+            }
+          } else {
+            listSpan.add(
+              TextSpan(
+                text: element.text,
+                style: TextStyle(
+                  fontSize: fontSize,
+                  fontStyle: fontStyle,
+                  decoration: textDecoration,
+                  height: lineHeight,
+                  color: ColorThemeEtamkawa.textDark,
+                  fontWeight: fontWeight,
+                ),
+              ),
+            );
+          }
         }
-
-        // Determine if the parent is <ul> or <ol>
-        bool isOrderedList = element.parent?.localName == 'ol';
-
-        // List marker
-        String marker;
-        if (isOrderedList) {
-          // For ordered lists
-          int index = element.parent?.children.indexOf(element) ?? 0;
-          marker = '${index + 1}. ';
-        } else {
-          // For unordered lists
-          marker = '\u2022 ';
-        }
-
-        return Align(
-          alignment: alignment,
-          child: RichText(
-            textAlign: textAlign,
-            text: TextSpan(
+      }
+      return Align(
+        alignment: alignment,
+        child: RichText(
+          textAlign: textAlign,
+          text: TextSpan(
               text: marker,
               style: TextStyle(
                   fontSize: fontSize,
                   height: lineHeight,
                   color: ColorThemeEtamkawa.textDark),
-              children: [
-                TextSpan(
-                  text: element.text,
-                  style: TextStyle(
-                    fontSize: fontSize,
-                    fontStyle: element.innerHtml.contains('<em')
-                        ? FontStyle.italic
-                        : FontStyle.normal,
-                    decoration: element.innerHtml.contains('<u')
-                        ? TextDecoration.underline
-                        : TextDecoration.none,
-                    height: lineHeight,
-                    color: ColorThemeEtamkawa.textDark,
-                    fontWeight: element.innerHtml.startsWith('<strong')
-                        ? FontWeight.bold
-                        : FontWeight.normal,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      } else if (element.localName == 'p') {
-        TextAlign textAlign = TextAlign.left;
-        Alignment alignment = Alignment.centerLeft;
+              children: listSpan),
+        ),
+      );
+    } else if (element.localName == 'p') {
+      List<InlineSpan> listSpan = [];
 
-        if (element.classes.contains('ql-align-center')) {
+      if (element.attributes.isNotEmpty) {
+        if (element.attributes.values.first.contains('ql-align-center')) {
           textAlign = TextAlign.center;
           alignment = Alignment.center;
-        } else if (element.classes.contains('ql-align-justify')) {
+        } else if (element.attributes.values.first
+            .contains('ql-align-justify')) {
           textAlign = TextAlign.justify;
           alignment = Alignment.centerLeft;
-        } else if (element.classes.contains('ql-align-right')) {
+        } else if (element.attributes.values.first.contains('ql-align-right')) {
           textAlign = TextAlign.right;
           alignment = Alignment.centerRight;
         }
-        double fontSize = 11.sp;
-        double lineHeight = 1.h;
-        if (element.innerHtml.contains('ql-size-small')) {
-          fontSize = 9.sp;
-          lineHeight = 9.h / 9.h;
-        } else if (element.innerHtml.contains('ql-size-large')) {
-          fontSize = 24.sp;
-          lineHeight = 24.h / 24.h;
-        } else if (element.innerHtml.contains('ql-size-huge')) {
-          fontSize = 32;
-          lineHeight = 32.h / 32.h;
-        }
-
-        // Determine if the parent is <ul> or <ol>
-        // bool isOrderedList = element.parent?.localName == 'ol';
-
-        // List marker
-        // // String marker;
-        // if (isOrderedList) {
-        //   // For ordered lists
-        //   int index = element.parent?.children.indexOf(element) ?? 0;
-        //   marker ='${index + 1}. ';
-        // } else {
-        //   // For unordered lists
-        //   marker ='\u2022 ';
-        // }
-
-        return Align(
-          alignment: alignment,
-          child: RichText(
-            textAlign: textAlign,
-            text: TextSpan(
-              text: element.text,
-              style:  TextStyle(
-                fontSize: fontSize,
-                fontStyle: element.innerHtml.contains('<em')
-                    ? FontStyle.italic
-                    : FontStyle.normal,
-                decoration: element.innerHtml.contains('<u')
-                    ? TextDecoration.underline
-                    : TextDecoration.none,
-                height: lineHeight,
-                color: ColorThemeEtamkawa.textDark,
-                fontWeight: element.innerHtml.startsWith('<strong')
-                    ? FontWeight.bold
-                    : FontWeight.normal,
-              ),
-            ),
-          ),
-        );
       }
-      return null;
-    },
-  );
+      if (element.nodes.isNotEmpty) {
+        for (var element in element.nodes) {
+          double fontSize = 12.sp;
+          double lineHeight = 1.h;
+          FontStyle fontStyle = FontStyle.normal;
+          TextDecoration textDecoration = TextDecoration.none;
+          FontWeight fontWeight = FontWeight.normal;
+          if (element.toString() == '<html strong>') {
+            fontWeight = FontWeight.bold;
+            if (element.attributes.isNotEmpty) {
+              if (element.attributes.values.first.contains('ql-size-small')) {
+                fontSize = 9.sp;
+                lineHeight = 9.h / 9.h;
+              } else if (element.attributes.values.first
+                  .contains('ql-size-large')) {
+                fontSize = 20.sp;
+                lineHeight = 20.h / 20.h;
+              } else if (element.attributes.values.first
+                  .contains('ql-size-huge')) {
+                fontSize = 32;
+                lineHeight = 32.h / 32.h;
+              }
+            }
+          } else if (element.toString() == '<html span>') {
+            if (element.attributes.isNotEmpty) {
+              if (element.attributes.values.first.contains('ql-size-small')) {
+                fontSize = 9.sp;
+                lineHeight = 9.h / 9.h;
+              } else if (element.attributes.values.first
+                  .contains('ql-size-large')) {
+                fontSize = 24.sp;
+                lineHeight = 24.h / 24.h;
+              } else if (element.attributes.values.first
+                  .contains('ql-size-huge')) {
+                fontSize = 32;
+                lineHeight = 32.h / 32.h;
+              }
+            }
+          } else {
+            if (element.attributes.isNotEmpty) {
+              if (element.attributes.values.first.contains('ql-size-small')) {
+                fontSize = 9.sp;
+                lineHeight = 9.h / 9.h;
+              } else if (element.attributes.values.first
+                  .contains('ql-size-large')) {
+                fontSize = 24.sp;
+                lineHeight = 24.h / 24.h;
+              } else if (element.attributes.values.first
+                  .contains('ql-size-huge')) {
+                fontSize = 32;
+                lineHeight = 32.h / 32.h;
+              }
+            }
+          }
+          if (element.nodes.isNotEmpty) {
+            for (var element in element.nodes) {
+              if (element.toString() == '<html em>') {
+                fontStyle = FontStyle.italic;
+              } else if (element.toString() == '<html u>') {
+                textDecoration = TextDecoration.underline;
+              }
+              if (element.nodes.isNotEmpty) {
+                for (var element in element.nodes) {
+                  if (element.toString() == '<html u>') {
+                    textDecoration = TextDecoration.underline;
+                  }
+
+                  listSpan.add(
+                    TextSpan(
+                      text: element.text,
+                      style: TextStyle(
+                        fontSize: fontSize,
+                        fontStyle: fontStyle,
+                        decoration: textDecoration,
+                        height: lineHeight,
+                        color: ColorThemeEtamkawa.textDark,
+                        fontWeight: fontWeight,
+                      ),
+                    ),
+                  );
+                }
+              } else {
+                listSpan.add(
+                  TextSpan(
+                    text: element.text,
+                    style: TextStyle(
+                      fontSize: fontSize,
+                      fontStyle: fontStyle,
+                      decoration: textDecoration,
+                      height: lineHeight,
+                      color: ColorThemeEtamkawa.textDark,
+                      fontWeight: fontWeight,
+                    ),
+                  ),
+                );
+              }
+            }
+          } else {
+            listSpan.add(
+              TextSpan(
+                text: element.text,
+                style: TextStyle(
+                  fontSize: fontSize,
+                  fontStyle: fontStyle,
+                  decoration: textDecoration,
+                  height: lineHeight,
+                  color: ColorThemeEtamkawa.textDark,
+                  fontWeight: fontWeight,
+                ),
+              ),
+            );
+          }
+        }
+      }
+
+      return Align(
+        alignment: alignment,
+        child: RichText(
+          textAlign: textAlign,
+          text: TextSpan(children: listSpan),
+        ),
+      );
+    }
+    return null;
+  });
   return richText;
 }
