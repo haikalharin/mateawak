@@ -149,18 +149,21 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
       int different = calculateDifferenceDate(dueDate, DateTime.now());
       if (element.missionStatusCode != null) {
         if (different > 0 && element.missionStatusCode! < 2) {
-          listAfterCheckIsIncomplete.add(GamificationResponseRemote(
-              employeeMissionId: element.employeeMissionId,
-              missionId: element.missionId,
-              missionStatusCode: 4,
-              missionStatus: 'Incomplete',
-              startedDate: element.startedDate,
-              dueDate: element.dueDate,
-              submittedBy: element.submittedBy,
-              submittedDate: element.submittedDate,
-              completedBy: element.completedBy,
-              completedDate: element.completedDate,
-              chapterData: element.chapterData));
+          if (element.chapterData?.single.missionData?.single.missionTypeCode !=
+              'Performance') {
+            listAfterCheckIsIncomplete.add(GamificationResponseRemote(
+                employeeMissionId: element.employeeMissionId,
+                missionId: element.missionId,
+                missionStatusCode: 4,
+                missionStatus: 'Incomplete',
+                startedDate: element.startedDate,
+                dueDate: element.dueDate,
+                submittedBy: element.submittedBy,
+                submittedDate: element.submittedDate,
+                completedBy: element.completedBy,
+                completedDate: element.completedDate,
+                chapterData: element.chapterData));
+          }
         } else {
           listAfterCheckIsIncomplete.add(element);
         }

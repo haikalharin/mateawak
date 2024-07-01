@@ -21,7 +21,7 @@ import '../../../offline_mode/infrastructure/repositories/isar.repository.dart';
 
 part 'task.controller.g.dart';
 
-enum TaskType { MCQ, SCQ, YNQ, STX, RAT, ASM,PFM, DEFAULT }
+enum TaskType { MCQ, SCQ, YNQ, STX, RAT, ASM, PFM, DEFAULT }
 
 enum PagePosition { NEXT, PREV, CURRENT }
 
@@ -227,12 +227,14 @@ class TaskController extends _$TaskController {
                       showLoadingDialog(globalkey.currentContext!);
                       await isarInstance.answerRequestRemotes
                           .filter()
-                          .employeeMissionIdEqualTo(gamification.employeeMissionId)
+                          .employeeMissionIdEqualTo(
+                              gamification.employeeMissionId)
                           .deleteAll()
                           .whenComplete(() async {
                         await isarInstance.gamificationResponseRemotes
                             .filter()
-                            .employeeMissionIdEqualTo(gamification.employeeMissionId)
+                            .employeeMissionIdEqualTo(
+                                gamification.employeeMissionId)
                             .deleteAll();
                       });
                     }).whenComplete(() {

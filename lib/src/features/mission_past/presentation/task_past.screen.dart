@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:module_etamkawa/src/features/mission_past/presentation/widget/task_assignment_past.screen.dart.dart';
 import 'package:module_etamkawa/src/features/mission_past/presentation/widget/task_free_text_past.screen.dart.dart';
 import 'package:module_etamkawa/src/features/mission_past/presentation/widget/task_multiple_choice_past.screen.dart.dart';
+import 'package:module_etamkawa/src/features/mission_past/presentation/widget/task_performance_past.screen.dart';
 import 'package:module_etamkawa/src/features/mission_past/presentation/widget/task_rating_past.screen.dart.dart';
 import 'package:module_etamkawa/src/features/mission_past/presentation/widget/task_sinlgle_choice_past.screen.dart.dart';
 import 'package:module_shared/module_shared.dart';
@@ -88,6 +89,9 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
             // listWidget.add(
             //     TaskFilePastScreen(index: index, taskDatum: listTask[index]));
           }
+        } else if (element.taskTypeCode == TaskType.PFM.name) {
+          listWidget.add(TaskPerformancePastScreen(
+              index: index, taskDatum: listTask[index]));
         }
         index++;
       }
@@ -135,7 +139,7 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
                                 children: [
                                   SizedBox(
                                     width:
-                                    MediaQuery.of(context).size.width / 1.5,
+                                        MediaQuery.of(context).size.width / 1.5,
                                     child: Text(
                                         gamificationData.chapterData?.single
                                                 .chapterName ??
@@ -196,102 +200,363 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
                             elevation: 0,
                             margin: const EdgeInsets.fromLTRB(0, 16, 0, 16),
                             child: IntrinsicHeight(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      SizedBox(height: 10.h),
-                                      SvgPicture.asset(ImageConstant.iconAccuracy,
-                                          width: 16.sp,
-                                          height: 20.sp,
-                                          package: Constant.moduleEtamkawa),
-                                      const SizedBox(
-                                        height: 6,
-                                      ),
-                                      Text(
-                                        EtamKawaTranslate.successRate,
-                                        style: SharedComponent.textStyleCustom(
-                                            typographyType: TypographyType.bold,
-                                            fontColor: ColorTheme.neutral600),
-                                      ),
-                                      Text(
-                                        '${(gamificationData.accuracy ?? 0).toString()}%',
-                                        style: SharedComponent.textStyleCustom(
-                                            typographyType:
-                                                TypographyType.paragraph,
-                                            fontColor: ColorTheme.neutral500),
-                                      ),
-                                      SizedBox(height: 10.h),
-                                    ],
-                                  ),
-                                  if (gamificationData
-                                          .chapterData
-                                          ?.single
-                                          .missionData
-                                          ?.single
-                                          .missionTypeName !=
-                                      'Assignment')
-                                    addVerticalDivider(),
-                                  if (gamificationData
-                                          .chapterData
-                                          ?.single
-                                          .missionData
-                                          ?.single
-                                          .missionTypeName !=
-                                      'Assignment')
-                                    addTaskIfQuizz(gamificationData
-                                            .chapterData
-                                            ?.single
-                                            .missionData
-                                            ?.single
-                                            .taskData
-                                            ?.length ??
-                                        0),
-                                  addVerticalDivider(),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      SizedBox(height: 10.h),
-                                      SizedBox(
-                                          width: 16.sp,
-                                          height: 20.sp,
-                                          child: Icon(
-                                            Icons.calendar_month,
-                                            color: ColorTheme.danger500,
-                                          )),
-                                      const SizedBox(
-                                        height: 6,
-                                      ),
-                                      Text(
-                                        EtamKawaTranslate.submittedAt,
-                                        style: SharedComponent.textStyleCustom(
-                                            typographyType: TypographyType.bold,
-                                            fontColor: ColorTheme.neutral600),
-                                      ),
-                                      Text(
-                                        CommonUtils
-                                            .formattedDateHoursUtcToLocal(
-                                                gamificationData
-                                                        .submittedDate ??
-                                                    '',
-                                                withDay: true,
-                                                withHourMinute: true),
-                                        style: SharedComponent.textStyleCustom(
-                                            typographyType:
-                                                TypographyType.paragraph,
-                                            fontColor: ColorTheme.neutral500),
-                                      ),
-                                      SizedBox(height: 10.h),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                              child: gamificationData.chapterData?.first.missionData
+                                          ?.first.missionTypeName !=
+                                      'Performance'
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            SizedBox(height: 10.h),
+                                            SvgPicture.asset(
+                                                ImageConstant.iconAccuracy,
+                                                width: 16.sp,
+                                                height: 20.sp,
+                                                package:
+                                                    Constant.moduleEtamkawa),
+                                            const SizedBox(
+                                              height: 6,
+                                            ),
+                                            Text(
+                                              EtamKawaTranslate.successRate,
+                                              style: SharedComponent
+                                                  .textStyleCustom(
+                                                      typographyType:
+                                                          TypographyType.bold,
+                                                      fontColor: ColorTheme
+                                                          .neutral600),
+                                            ),
+                                            Text(
+                                              '${(gamificationData.accuracy ?? 0).toString()}%',
+                                              style: SharedComponent
+                                                  .textStyleCustom(
+                                                      typographyType:
+                                                          TypographyType
+                                                              .paragraph,
+                                                      fontColor: ColorTheme
+                                                          .neutral500),
+                                            ),
+                                            SizedBox(height: 10.h),
+                                          ],
+                                        ),
+                                        addVerticalDivider(),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            SizedBox(height: 10.h),
+                                            SizedBox(
+                                                width: 16.sp,
+                                                height: 20.sp,
+                                                child: Icon(
+                                                  Icons.calendar_month,
+                                                  color: ColorTheme.danger500,
+                                                )),
+                                            const SizedBox(
+                                              height: 8,
+                                            ),
+                                            Text(
+                                              EtamKawaTranslate.submittedAt,
+                                              style: SharedComponent
+                                                  .textStyleCustom(
+                                                      typographyType:
+                                                          TypographyType.bold,
+                                                      fontColor: ColorTheme
+                                                          .neutral600),
+                                            ),
+                                            Text(
+                                              CommonUtils
+                                                  .formattedDateHoursUtcToLocal(
+                                                      gamificationData
+                                                              .submittedDate ??
+                                                          '2022-04-30T12:00:00',
+                                                      withDay: true,
+                                                      withHourMinute: true),
+                                              style: SharedComponent
+                                                  .textStyleCustom(
+                                                      typographyType:
+                                                          TypographyType
+                                                              .paragraph,
+                                                      fontColor: ColorTheme
+                                                          .neutral500),
+                                            ),
+                                            SizedBox(height: 10.h),
+                                          ],
+                                        ),
+                                      ],
+                                    )
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          flex: 1,
+                                          child: Row(
+                                            children: [
+                                              gamificationData.missionStatusCode ==
+                                                      99
+                                                  ? Expanded(
+                                                      flex: 1,
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        children: [
+                                                          SvgPicture.asset(
+                                                            ImageConstant
+                                                                .iconRewardGained,
+                                                            width: 16.sp,
+                                                            height: 20.sp,
+                                                            package: Constant
+                                                                .moduleEtamkawa,
+                                                          ),
+                                                          const SizedBox(
+                                                              height: 6),
+                                                          Text(
+                                                            EtamKawaTranslate
+                                                                .gainedRewards,
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: SharedComponent
+                                                                .textStyleCustom(
+                                                              typographyType:
+                                                                  TypographyType
+                                                                      .bold,
+                                                              fontColor:
+                                                                  ColorTheme
+                                                                      .neutral600,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            '${(gamificationData.rewardGained)} total',
+                                                            style: SharedComponent
+                                                                .textStyleCustom(
+                                                              typographyType:
+                                                                  TypographyType
+                                                                      .paragraph,
+                                                              fontColor:
+                                                                  ColorTheme
+                                                                      .neutral500,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                              height: 10.h),
+                                                        ],
+                                                      ),
+                                                    )
+                                                  : const Column(),
+                                              addVerticalDivider(),
+                                              Expanded(
+                                                flex: 1,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                      ImageConstant.iconReward,
+                                                      width: 16.sp,
+                                                      height: 20.sp,
+                                                      package: Constant
+                                                          .moduleEtamkawa,
+                                                    ),
+                                                    const SizedBox(height: 6),
+                                                    Text(
+                                                      EtamKawaTranslate
+                                                          .maxRewards,
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: SharedComponent
+                                                          .textStyleCustom(
+                                                        typographyType:
+                                                            TypographyType.bold,
+                                                        fontColor: ColorTheme
+                                                            .neutral600,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      '${(gamificationData.chapterData?.single.missionData?.single.missionReward ?? 0).toString()} total',
+                                                      style: SharedComponent
+                                                          .textStyleCustom(
+                                                        typographyType:
+                                                            TypographyType
+                                                                .paragraph,
+                                                        fontColor: ColorTheme
+                                                            .neutral500,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        addVerticalDivider(),
+                                        Expanded(
+                                          flex:
+                                              gamificationData.missionStatusCode ==
+                                                      99
+                                                  ? 1
+                                                  : 2,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              SizedBox(height: 5.h),
+                                              Text(
+                                                'Periode',
+                                                style: SharedComponent
+                                                    .textStyleCustom(
+                                                  typographyType:
+                                                      TypographyType.bold,
+                                                  fontColor:
+                                                      ColorTheme.neutral600,
+                                                ),
+                                              ),
+                                              SizedBox(height: 5.h),
+                                              addHorizontalDivider(),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                          ImageConstant
+                                                              .iconStartDate,
+                                                          width: 16.sp,
+                                                          height: 20.sp,
+                                                          package: Constant
+                                                              .moduleEtamkawa,
+                                                        ),
+                                                        const SizedBox(
+                                                            height: 6),
+                                                        Text(
+                                                          EtamKawaTranslate
+                                                              .startDate,
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: SharedComponent
+                                                              .textStyleCustom(
+                                                            typographyType:
+                                                                TypographyType
+                                                                    .bold,
+                                                            fontColor:
+                                                                ColorTheme
+                                                                    .neutral600,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          CommonUtils
+                                                              .formattedDateHoursUtcToLocal(
+                                                                  gamificationData
+                                                                      .startedDate!,
+                                                                  withHourMinute:
+                                                                      false),
+                                                          style: SharedComponent
+                                                              .textStyleCustom(
+                                                            typographyType:
+                                                                TypographyType
+                                                                    .paragraph,
+                                                            fontColor:
+                                                                ColorTheme
+                                                                    .neutral500,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height:
+                                                        90, // Set this to your desired height
+                                                    child: VerticalDivider(
+                                                      thickness: 1.sp,
+                                                      width: 1.sp,
+                                                      color: ColorTheme
+                                                          .strokeTertiary,
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                          ImageConstant
+                                                              .iconEndDate,
+                                                          width: 16.sp,
+                                                          height: 20.sp,
+                                                          package: Constant
+                                                              .moduleEtamkawa,
+                                                        ),
+                                                        const SizedBox(
+                                                            height: 6),
+                                                        Text(
+                                                          EtamKawaTranslate
+                                                              .endDate,
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: SharedComponent
+                                                              .textStyleCustom(
+                                                            typographyType:
+                                                                TypographyType
+                                                                    .bold,
+                                                            fontColor:
+                                                                ColorTheme
+                                                                    .neutral600,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          CommonUtils
+                                                              .formattedDateHoursUtcToLocal(
+                                                                  gamificationData
+                                                                      .dueDate!,
+                                                                  withHourMinute:
+                                                                      false),
+                                                          style: SharedComponent
+                                                              .textStyleCustom(
+                                                            typographyType:
+                                                                TypographyType
+                                                                    .paragraph,
+                                                            fontColor:
+                                                                ColorTheme
+                                                                    .neutral500,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                             ),
                           ),
                         ],

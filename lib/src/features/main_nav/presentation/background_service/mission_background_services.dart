@@ -201,40 +201,50 @@ Future<bool> submitAnswerBg(
 
     await AsyncValue.guard(() => repoGamification).then((value) async {
       for (var element in value.value ?? []) {
-        AnswerRequestRemote answerRequestRemote = AnswerRequestRemote(
-            employeeMissionId: element.employeeMissionId,
-            employeeName: '-',
-            status: 4,
-            taskData: [],
-            submittedDate: CommonUtils.formatDateRequestParam(
-                '${(DateTime.now().toUtc().toString()).substring(0, (DateTime.now().toUtc().toString()).length - 2)}Z'));
-        final response = ConnectBackgroundService().post(
-            accessToken: accessToken,
-            path: path,
-            url: url,
-            body: answerRequestRemote.toJson());
+        if (element.chapterData?.single.missionData?.single.missionTypeCode !=
+            'Performance') {
+          AnswerRequestRemote answerRequestRemote = AnswerRequestRemote(
+              employeeMissionId: element.employeeMissionId,
+              employeeName: '-',
+              status: 4,
+              taskData: [],
+              submittedDate: CommonUtils.formatDateRequestParam(
+                  '${(DateTime.now().toUtc().toString()).substring(0, (DateTime.now().toUtc().toString()).length - 2)}Z'));
+          final response = ConnectBackgroundService().post(
+              accessToken: accessToken,
+              path: path,
+              url: url,
+              body: answerRequestRemote.toJson());
 
-        await AsyncValue.guard(() => response).then((value) async {
-          if (value.value?.statusCode == 200) {
-            await isarInstance.writeTxn(() async {
-              await isarInstance.gamificationResponseRemotes
-                  .filter()
-                  .employeeMissionIdEqualTo(element.employeeMissionId)
-                  .deleteAll();
-            });
-          } else if (value.value?.result?.content?.toLowerCase() ==
-              'already submitted') {
-            await isarInstance.writeTxn(() async {
-              await isarInstance.gamificationResponseRemotes
-                  .filter()
-                  .employeeMissionIdEqualTo(element.employeeMissionId)
-                  .deleteAll();
-            });
-          }
-          var statusSuccess = value.value?.statusCode == 200 ||
-              (value.value?.result?.isError == false);
-          listSucces.add(statusSuccess);
-        });
+          await AsyncValue.guard(() => response).then((value) async {
+            if (value.value?.statusCode == 200) {
+              await isarInstance.writeTxn(() async {
+                await isarInstance.gamificationResponseRemotes
+                    .filter()
+                    .employeeMissionIdEqualTo(element.employeeMissionId)
+                    .deleteAll();
+              });
+            } else if (value.value?.result?.content?.toLowerCase() ==
+                'already submitted') {
+              await isarInstance.writeTxn(() async {
+                await isarInstance.gamificationResponseRemotes
+                    .filter()
+                    .employeeMissionIdEqualTo(element.employeeMissionId)
+                    .deleteAll();
+              });
+            }
+            var statusSuccess = value.value?.statusCode == 200 ||
+                (value.value?.result?.isError == false);
+            listSucces.add(statusSuccess);
+          });
+        } else {
+          await isarInstance.writeTxn(() async {
+            await isarInstance.gamificationResponseRemotes
+                .filter()
+                .employeeMissionIdEqualTo(element.employeeMissionId)
+                .deleteAll();
+          });
+        }
       }
     });
 
@@ -331,18 +341,22 @@ Future<bool> fetchMission(
         int different = calculateDifferenceDate(dueDate, DateTime.now());
         if (element.missionStatusCode != null) {
           if (different > 0 && element.missionStatusCode! < 2) {
-            listAfterCheckIsIncomplete.add(GamificationResponseRemote(
-                employeeMissionId: element.employeeMissionId,
-                missionId: element.missionId,
-                missionStatusCode: 4,
-                missionStatus: 'Incomplete',
-                startedDate: element.startedDate,
-                dueDate: element.dueDate,
-                submittedBy: element.submittedBy,
-                submittedDate: element.submittedDate,
-                completedBy: element.completedBy,
-                completedDate: element.completedDate,
-                chapterData: element.chapterData));
+            if (element
+                    .chapterData?.single.missionData?.single.missionTypeCode !=
+                'Performance') {
+              listAfterCheckIsIncomplete.add(GamificationResponseRemote(
+                  employeeMissionId: element.employeeMissionId,
+                  missionId: element.missionId,
+                  missionStatusCode: 4,
+                  missionStatus: 'Incomplete',
+                  startedDate: element.startedDate,
+                  dueDate: element.dueDate,
+                  submittedBy: element.submittedBy,
+                  submittedDate: element.submittedDate,
+                  completedBy: element.completedBy,
+                  completedDate: element.completedDate,
+                  chapterData: element.chapterData));
+            }
           } else {
             listAfterCheckIsIncomplete.add(element);
           }
