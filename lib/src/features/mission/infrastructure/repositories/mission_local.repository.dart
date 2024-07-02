@@ -67,7 +67,8 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
                   "taskId": 3460000000,
                   "missionId": 973,
                   "attachmentId": 1950,
-                  "attachmentUrl": "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/image 1-02742.png?sv=2023-11-03&st=2024-06-28T01%3A01%3A48Z&se=2024-06-29T01%3A01%3A48Z&sr=b&sp=r&sig=F8R0oogYHATDVi3fL7PZ3%2FpFF8PDG95sSWUtN0lRmg4%3D",
+                  "attachmentUrl":
+                      "https://digitaldevsta003.blob.core.windows.net/etamkawa-gamification/Gamification/image 1-02742.png?sv=2023-11-03&st=2024-06-28T01%3A01%3A48Z&se=2024-06-29T01%3A01%3A48Z&sr=b&sp=r&sig=F8R0oogYHATDVi3fL7PZ3%2FpFF8PDG95sSWUtN0lRmg4%3D",
                   "taskCode": "T0003460",
                   "taskGroup": "1Rnxr8ITwuzPIvl",
                   "taskCaption":
@@ -140,7 +141,8 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
 
     listResponseAfterMerge.addAll(listResponse);
     listResponseAfterMerge.addAll(listResponseFinal);
-    for (var element in listResponseFinal) {
+    int indexListResponseAfterMerge = 0;
+    for (var element in listResponseAfterMerge) {
       DateTime dueDate = DateTime.parse(
           CommonUtils.formattedDateHoursUtcToLocalForCheck(
               element.dueDate ?? '2024-00-00T00:00:00'));
@@ -165,46 +167,49 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
         } else {
           listAfterCheckIsIncomplete.add(element);
         }
-        int index = 0;
-        for (var element in listAfterCheckIsIncomplete) {
-          List<TaskDatum> listTask =
-              element.chapterData?.single.missionData?.single.taskData ?? [];
-          if (element.missionStatusCode != 4) {
-            int indexTask = 0;
-            //List<TaskDatum> taskData = [];
-            for (var element in listTask) {
-              File file = File('');
-              if (element.attachmentUrl != null) {
-                final response = connectEtamkawa.downloadImage(
-                  url: element.attachmentUrl ?? '',
-                );
-                await AsyncValue.guard(() => response).then((value) async {
-                  file = await asyncMethodSaveFile(value.value?.data);
-                  listAfterCheckIsIncomplete[index]
-                      .chapterData
-                      ?.single
-                      .missionData
-                      ?.single
-                      .taskData?[indexTask]
-                      .attachmentPath = file.path;
-                  indexTask++;
-                });
-              } else {
-                listAfterCheckIsIncomplete[index]
-                    .chapterData
-                    ?.single
-                    .missionData
-                    ?.single
-                    .taskData?[indexTask]
-                    .attachmentPath = '';
-                indexTask++;
-              }
-            }
-          }
+      }
+      indexListResponseAfterMerge ++;
+    }
 
-          index++;
+    int index = 0;
+    for (var element in listAfterCheckIsIncomplete) {
+      var attachmentPath =  element.chapterData?.first.missionData?.first.taskData?.first.attachmentPath;
+      List<TaskDatum> listTask =
+          element.chapterData?.single.missionData?.single.taskData ?? [];
+      if (element.missionStatusCode != 4 && attachmentPath !='' && attachmentPath!=null) {
+        int indexTask = 0;
+        //List<TaskDatum> taskData = [];
+        for (var element in listTask) {
+          File file = File('');
+          if (element.attachmentUrl != null) {
+            final response = connectEtamkawa.downloadImage(
+              url: element.attachmentUrl ?? '',
+            );
+            await AsyncValue.guard(() => response).then((value) async {
+              file = await asyncMethodSaveFile(value.value?.data);
+              listAfterCheckIsIncomplete[index]
+                  .chapterData
+                  ?.single
+                  .missionData
+                  ?.single
+                  .taskData?[indexTask]
+                  .attachmentPath = file.path;
+              indexTask++;
+            });
+          } else {
+            listAfterCheckIsIncomplete[index]
+                .chapterData
+                ?.single
+                .missionData
+                ?.single
+                .taskData?[indexTask]
+                .attachmentPath = '';
+            indexTask++;
+          }
         }
       }
+
+      index++;
     }
 
     await isarInstance.writeTxn(() async {
