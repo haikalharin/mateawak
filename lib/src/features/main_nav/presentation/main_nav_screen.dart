@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazy_load_indexed_stack/lazy_load_indexed_stack.dart';
+import 'package:module_etamkawa/src/features/growth/presentation/growth.screen.dart';
 import 'package:module_etamkawa/src/features/main_nav/presentation/controller/main_nav.controller.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/mission.screen.dart';
@@ -32,7 +33,7 @@ IndexedStack pages({required int currentIndex}) {
     index: index,
     children: <Widget>[
       const OverviewScreen(),
-      const UnderConstructionEtamKawaScreen(),
+      const GrowthScreen(),
       MissionScreen(currentIndex: missionIndex),
       const ValidationScreen(),
       const UnderConstructionEtamKawaScreen(),
