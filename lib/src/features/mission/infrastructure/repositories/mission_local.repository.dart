@@ -25,6 +25,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
   if (isConnectionAvailable) {
     final connect = ref.read(connectProvider.notifier);
     final connectEtamkawa = ref.read(connectEtamkawaProvider.notifier);
+
     List<GamificationResponseRemote> listResponse = [];
     List<GamificationResponseRemote> listResponseFinal = [];
     List<GamificationResponseRemote> listResponseAfterMerge = [];
@@ -105,15 +106,18 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
           listAfterCheckIsIncomplete.add(element);
         }
       }
-      indexListResponseAfterMerge ++;
+      indexListResponseAfterMerge++;
     }
 
     int index = 0;
     for (var element in listAfterCheckIsIncomplete) {
-      var attachmentPath =  element.chapterData?.first.missionData?.first.taskData?.first.attachmentPath;
+      var attachmentPath = element
+          .chapterData?.first.missionData?.first.taskData?.first.attachmentPath;
       List<TaskDatum> listTask =
           element.chapterData?.single.missionData?.single.taskData ?? [];
-      if (element.missionStatusCode != 4 && attachmentPath !='' && attachmentPath!=null) {
+      if (element.missionStatusCode != 4 &&
+          attachmentPath != '' &&
+          attachmentPath != null) {
         int indexTask = 0;
         //List<TaskDatum> taskData = [];
         for (var element in listTask) {
