@@ -123,14 +123,20 @@ HtmlWidget customHtmlWidget(String html) {
           }
           if (element.nodes.isNotEmpty) {
             for (var element in element.nodes) {
-              if (element.toString() == '<html em>') {
+              if (element.parentNode.toString() == '<html em>') {
+                fontStyle = FontStyle.italic;
+              } else if (element.parentNode.toString() == '<html u>') {
+                textDecoration = TextDecoration.underline;
+              } else  if (element.toString() == '<html em>') {
                 fontStyle = FontStyle.italic;
               } else if (element.toString() == '<html u>') {
                 textDecoration = TextDecoration.underline;
               }
               if (element.nodes.isNotEmpty) {
                 for (var element in element.nodes) {
-                  if (element.toString() == '<html u>') {
+                  if (element.parentNode.toString() == '<html u>') {
+                    textDecoration = TextDecoration.underline;
+                  } else  if (element.toString() == '<html u>') {
                     textDecoration = TextDecoration.underline;
                   }
 
@@ -266,14 +272,20 @@ HtmlWidget customHtmlWidget(String html) {
           }
           if (element.nodes.isNotEmpty) {
             for (var element in element.nodes) {
-              if (element.toString() == '<html em>') {
+              if (element.parentNode.toString() == '<html em>') {
+                fontStyle = FontStyle.italic;
+              } else if (element.parentNode.toString() == '<html u>') {
+                textDecoration = TextDecoration.underline;
+              } else  if (element.toString() == '<html em>') {
                 fontStyle = FontStyle.italic;
               } else if (element.toString() == '<html u>') {
                 textDecoration = TextDecoration.underline;
               }
               if (element.nodes.isNotEmpty) {
                 for (var element in element.nodes) {
-                  if (element.toString() == '<html u>') {
+                  if (element.parentNode.toString() == '<html u>') {
+                    textDecoration = TextDecoration.underline;
+                  } else  if (element.toString() == '<html u>') {
                     textDecoration = TextDecoration.underline;
                   }
 
