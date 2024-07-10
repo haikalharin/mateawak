@@ -7,7 +7,7 @@ part of 'telematry.controller.dart';
 // **************************************************************************
 
 String _$telematryControllerHash() =>
-    r'e4c466559020038161e0a03a4582f3a77abb1795';
+    r'2d403809b3afdc0ec3c3f835e34c29763d486870';
 
 /// See also [TelematryController].
 @ProviderFor(TelematryController)

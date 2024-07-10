@@ -116,7 +116,11 @@ Future<bool> submitAnswerBg(
     final repoGamification = isarInstance.gamificationResponseRemotes
         .filter()
         .missionStatusCodeEqualTo(4)
+        .or()
+        .chapterDataElement((q) => q.missionDataElement(
+            (mission) => mission.missionTypeCodeEqualTo('Performance')))
         .findAll();
+
     List<bool> listSucces = [];
     await AsyncValue.guard(() => repo).then((value) async {
       for (var element in value.value ?? []) {

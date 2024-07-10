@@ -79,17 +79,17 @@ class _TaskScreenState extends ConsumerState<TaskPastScreen> {
         } else if (element.taskTypeCode == TaskType.RAT.name) {
           listWidget.add(
               TaskRatingPastScreen(index: index, taskDatum: listTask[index]));
+        // } else if (element.taskTypeCode == TaskType.ASM.name) {
+        //   if (gamificationData
+        //           .chapterData?.first.missionData?.first.missionTypeName ==
+        //       'Assignment') {
+        //     listWidget.add(TaskAssignmentPastScreen(
+        //         index: index, taskDatum: listTask[index]));
+        //   } else {
+        //     // listWidget.add(
+        //     //     TaskFilePastScreen(index: index, taskDatum: listTask[index]));
+        //   }
         } else if (element.taskTypeCode == TaskType.ASM.name) {
-          if (gamificationData
-                  .chapterData?.first.missionData?.first.missionTypeName ==
-              'Assignment') {
-            listWidget.add(TaskAssignmentPastScreen(
-                index: index, taskDatum: listTask[index]));
-          } else {
-            // listWidget.add(
-            //     TaskFilePastScreen(index: index, taskDatum: listTask[index]));
-          }
-        } else if (element.taskTypeCode == TaskType.PFM.name) {
           listWidget.add(TaskPerformancePastScreen(
               index: index, taskDatum: listTask[index]));
         }
