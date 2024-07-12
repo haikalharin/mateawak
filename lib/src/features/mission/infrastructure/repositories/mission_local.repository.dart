@@ -28,7 +28,6 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
 
     List<GamificationResponseRemote> listResponse = [];
     List<GamificationResponseRemote> listResponseFinal = [];
-    List<GamificationResponseRemote> listResponseAfterMerge = [];
     List<GamificationResponseRemote> listAfterCheckIsIncomplete = [];
     final today = CommonUtils.formatDateRequestParam(DateTime.now().toString());
 
@@ -70,6 +69,9 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
 
           if (!exists) {
             listResponseFinal.add(element);
+          } else {
+            listResponseFinal
+                .add(value.value?.first ?? GamificationResponseRemote());
           }
         } else {
           listResponseFinal.add(element);
@@ -77,10 +79,7 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
       }
     });
 
-    listResponseAfterMerge.addAll(listResponse);
-    listResponseAfterMerge.addAll(listResponseFinal);
-    int indexListResponseAfterMerge = 0;
-    for (var element in listResponseAfterMerge) {
+    for (var element in listResponseFinal) {
       DateTime dueDate = DateTime.parse(
           CommonUtils.formattedDateHoursUtcToLocalForCheck(
               element.dueDate ?? '2024-00-00T00:00:00'));
@@ -106,20 +105,20 @@ FutureOr<List<GamificationResponseRemote>> getMissionRemote(
           listAfterCheckIsIncomplete.add(element);
         }
       }
-      indexListResponseAfterMerge++;
     }
 
     int index = 0;
     for (var element in listAfterCheckIsIncomplete) {
       var attachmentPath = element
           .chapterData?.first.missionData?.first.taskData?.first.attachmentPath;
+      var attachmentUrl = element
+          .chapterData?.first.missionData?.first.taskData?.first.attachmentUrl;
       List<TaskDatum> listTask =
           element.chapterData?.single.missionData?.single.taskData ?? [];
       if (element.missionStatusCode != 4 &&
-          attachmentPath != '' &&
-          attachmentPath != null) {
+          attachmentUrl != null &&
+          (attachmentPath == '' || attachmentPath == null)) {
         int indexTask = 0;
-        //List<TaskDatum> taskData = [];
         for (var element in listTask) {
           File file = File('');
           if (element.attachmentUrl != null) {
