@@ -337,6 +337,7 @@ Future<bool> fetchMission(
 
       listResponseAfterMerge.addAll(listResponse);
       listResponseAfterMerge.addAll(listResponseFinal);
+      int indexListResponseAfterMerge = 0;
       for (var element in listResponseAfterMerge) {
         DateTime dueDate = DateTime.parse(
             CommonUtils.formattedDateHoursUtcToLocalForCheck(
@@ -363,44 +364,46 @@ Future<bool> fetchMission(
           } else {
             listAfterCheckIsIncomplete.add(element);
           }
-          int index = 0;
-          for (var element in listAfterCheckIsIncomplete) {
-            List<TaskDatum> listTask =
-                element.chapterData?.single.missionData?.single.taskData ?? [];
-            if (element.missionStatusCode != 4) {
-              int indexTask = 0;
-              for (var element in listTask) {
-                File file = File('');
-                if (element.attachmentUrl != null) {
-                  final response = ConnectBackgroundService().downloadImage(
-                    url: element.attachmentUrl ?? '',
-                  );
-                  await AsyncValue.guard(() => response).then((value) async {
-                    file = await asyncMethodSaveFile(value.value?.data);
-                    listAfterCheckIsIncomplete[index]
-                        .chapterData
-                        ?.single
-                        .missionData
-                        ?.single
-                        .taskData?[indexTask]
-                        .attachmentPath = file.path;
-                    indexTask++;
-                  });
-                } else {
-                  listAfterCheckIsIncomplete[index]
-                      .chapterData
-                      ?.single
-                      .missionData
-                      ?.single
-                      .taskData?[indexTask]
-                      .attachmentPath = '';
-                  indexTask++;
-                }
-              }
+        }
+        indexListResponseAfterMerge ++;
+      }
+      int index = 0;
+      for (var element in listResponseFinal) {
+        var attachmentPath =  element.chapterData?.first.missionData?.first.taskData?.first.attachmentPath;
+        List<TaskDatum> listTask =
+            element.chapterData?.single.missionData?.single.taskData ?? [];
+        if (element.missionStatusCode != 4 && (attachmentPath==''|| attachmentPath!=null)) {
+          int indexTask = 0;
+          for (var element in listTask) {
+            File file = File('');
+            if (element.attachmentUrl != null) {
+              final response = ConnectBackgroundService().downloadImage(
+                url: element.attachmentUrl ?? '',
+              );
+              await AsyncValue.guard(() => response).then((value) async {
+                file = await asyncMethodSaveFile(value.value?.data);
+                listAfterCheckIsIncomplete[index]
+                    .chapterData
+                    ?.single
+                    .missionData
+                    ?.single
+                    .taskData?[indexTask]
+                    .attachmentPath = file.path;
+                indexTask++;
+              });
+            } else {
+              listAfterCheckIsIncomplete[index]
+                  .chapterData
+                  ?.single
+                  .missionData
+                  ?.single
+                  .taskData?[indexTask]
+                  .attachmentPath = '';
+              indexTask++;
             }
-            index++;
           }
         }
+        index++;
       }
       await isarInstance.writeTxn(() async {
         await isarInstance.gamificationResponseRemotes
