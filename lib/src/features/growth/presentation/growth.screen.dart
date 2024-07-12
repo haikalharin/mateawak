@@ -43,7 +43,7 @@ class _GrowthScreenState extends ConsumerState<GrowthScreen>
   Widget build(BuildContext context) {
     return Consumer(
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
-          final ctrl = ref.watch(missionControllerProvider.notifier);
+      final ctrl = ref.watch(missionControllerProvider.notifier);
       return AsyncValueWidget(
           value: ref.watch(missionControllerProvider),
           data: (data) {
@@ -90,10 +90,9 @@ class _GrowthScreenState extends ConsumerState<GrowthScreen>
                                 RefreshableStarterWidget(
                                     onRefresh: () async {},
                                     slivers: [
-                                      SliverList(delegate:
-                                          SliverChildBuilderDelegate(
-                                            childCount: 1,
-                                              (context, index) {
+                                      SliverList(
+                                          delegate: SliverChildBuilderDelegate(
+                                              childCount: 1, (context, index) {
                                         return _buildListItem(index, ctrl);
                                       }))
                                     ]),
@@ -152,9 +151,10 @@ class _GrowthScreenState extends ConsumerState<GrowthScreen>
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                   child: Theme(
-                    data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                    data: Theme.of(context)
+                        .copyWith(dividerColor: Colors.transparent),
                     child: ExpansionTile(
-                      initiallyExpanded : true,
+                      initiallyExpanded: true,
                       title: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -167,12 +167,11 @@ class _GrowthScreenState extends ConsumerState<GrowthScreen>
                                 fontColor: ColorTheme.textDark),
                           ),
                           const SizedBox(
-                            height: 8,)
+                            height: 8,
+                          )
                         ],
                       ),
-                      children: const <Widget>[
-                        SummaryTeamCard()
-                      ],
+                      children: const <Widget>[SummaryTeamCard()],
                     ),
                   ),
                 ),
@@ -185,7 +184,6 @@ class _GrowthScreenState extends ConsumerState<GrowthScreen>
   }
 }
 
-
 class SummaryTeamCard extends StatelessWidget {
   const SummaryTeamCard({super.key});
 
@@ -193,44 +191,102 @@ class SummaryTeamCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(bottom: 16),
+          padding: EdgeInsets.all(10.0),
+          decoration: BoxDecoration(
+            color: Color(0xFFE3F2FD), // Light blue background color
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+
+              Icon(
+                Icons.info,
+                color: Colors.blue,
+              ),
+              // SizedBox(width: 16,),
+              Text(
+                'Last Updated',
+                style: SharedComponent.textStyleCustom(
+                    typographyType:
+                    TypographyType.largeH5,
+                    fontColor: ColorTheme.blueShade400),
+              ),
+              Text(
+                '20 Jan 2024 17:00',
+                style: SharedComponent.textStyleCustom(
+                    typographyType:
+                    TypographyType.paragraph,
+                    fontColor: ColorTheme.blueShade400),
+              ),
+            ],
+          ),
+        ),
         Stack(
           children: [
             Center(
-              child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                child: Image.network(
-                  'https://via.placeholder.com/300', // Replace with your image URL
-                  fit: BoxFit.cover,
-                  width: MediaQuery.of(context).size.width-32,
-                  height: 200,
+              child: AspectRatio(
+                aspectRatio: 3/1.29,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                  child: Image.network(
+                    'https://via.placeholder.com/300',
+                    // Replace with your image URL
+                    fit: BoxFit.cover,
+                    // height: 200,
+                  ),
                 ),
               ),
             ),
             Column(
               children: [
-                Container(height: 150,),
+                Center(
+                  child: AspectRatio(
+                    aspectRatio: 3.3/1,
+                    child: Container()
+                  ),
+                ),
+                CircleAvatar(
+                  radius: 40.h,
+                  backgroundImage: NetworkImage(
+                      'https://via.placeholder.com/60'), // Replace with your avatar image URL
+                ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     children: [
-                      CircleAvatar(
-                        radius: 30,
-                        backgroundImage: NetworkImage('https://via.placeholder.com/60'), // Replace with your avatar image URL
-                      ),
                       SizedBox(height: 10),
-                      Text(
+                      const Text(
                         'Solid Buddies',
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(
-                        'Coal Transport - KM6 - Produksi',
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                        ),
+                      Row(mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            child: Icon(
+                              Icons.location_pin,
+                              color: Colors.blue,
+                              size: 13,
+                            ),
+                          ),
+                          Text(
+                            'Coal Transport - KM6 - Produksi',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color:ColorTheme.blueShade400,
+                            ),
+                          ),
+                        ],
                       ),
                       SizedBox(height: 10),
                       Card(
@@ -238,146 +294,143 @@ class SummaryTeamCard extends StatelessWidget {
                           side: BorderSide(
                             color: ColorTheme.strokeTertiary,
                           ),
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(10.r)),
+                          borderRadius: BorderRadius.all(Radius.circular(10.r)),
                         ),
                         elevation: 0,
                         margin: const EdgeInsets.fromLTRB(0, 16, 0, 16),
                         child: IntrinsicHeight(
                           child: Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Column(
-                                mainAxisAlignment:
-                                MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   SizedBox(height: 10.h),
-
                                   const SizedBox(
                                     height: 8,
                                   ),
-                                  Text('Achievement',
-                                    style: SharedComponent
-                                        .textStyleCustom(
+                                  Text(
+                                    'Ranking',
+                                    style: SharedComponent.textStyleCustom(
                                         typographyType:
-                                        TypographyType
-                                            .paragraph,
-                                        fontColor: ColorTheme
-                                            .neutral500),
+                                        TypographyType.paragraph,
+                                        fontColor: ColorTheme.neutral500),
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
                                   ),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      SvgPicture.asset(
-                                          ImageConstant.iconAccuracy,
-                                          width: 16.sp,
-                                          height: 20.sp,
-                                          package: Constant
-                                              .moduleEtamkawa),
-                                      Text('Rank 1',
-                                        style: SharedComponent
-                                            .textStyleCustom(
+                                      Container(
+                                        margin:
+                                        EdgeInsets.symmetric(horizontal: 2),
+                                        child: SvgPicture.asset(
+                                            ImageConstant.iconRanking,
+                                            width: 16.sp,
+                                            height: 20.sp,
+                                            package: Constant.moduleEtamkawa),
+                                      ),
+                                      Text(
+                                        'Rank 1',
+                                        style: SharedComponent.textStyleCustom(
                                             typographyType:
-                                            TypographyType
-                                                .bold,
-                                            fontColor: ColorTheme
-                                                .neutral600),
+                                            TypographyType.largeH5,
+                                            fontColor: ColorTheme.neutral600),
                                       ),
                                     ],
                                   ),
-
                                   SizedBox(height: 10.h),
                                 ],
                               ),
                               addVerticalDivider(),
                               Column(
-                                mainAxisAlignment:
-                                MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   SizedBox(height: 10.h),
-
                                   const SizedBox(
                                     height: 8,
                                   ),
-                                  Text('Achievement',
-                                    style: SharedComponent
-                                        .textStyleCustom(
+                                  Text(
+                                    'Class',
+                                    style: SharedComponent.textStyleCustom(
                                         typographyType:
-                                        TypographyType
-                                            .paragraph,
-                                        fontColor: ColorTheme
-                                            .neutral500),
+                                        TypographyType.paragraph,
+                                        fontColor: ColorTheme.neutral500),
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
                                   ),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      SvgPicture.asset(
-                                          ImageConstant.iconAccuracy,
-                                          width: 16.sp,
-                                          height: 20.sp,
-                                          package: Constant
-                                              .moduleEtamkawa),
-                                      Text('Rank 1',
-                                        style: SharedComponent
-                                            .textStyleCustom(
+                                      Container(
+                                        margin:
+                                        EdgeInsets.symmetric(horizontal: 2),
+                                        child: SvgPicture.asset(
+                                            ImageConstant.iconClass,
+                                            width: 16.sp,
+                                            height: 20.sp,
+                                            package: Constant.moduleEtamkawa),
+                                      ),
+                                      Text(
+                                        'Shark',
+                                        style: SharedComponent.textStyleCustom(
                                             typographyType:
-                                            TypographyType
-                                                .bold,
-                                            fontColor: ColorTheme
-                                                .neutral600),
+                                            TypographyType.largeH5,
+                                            fontColor: ColorTheme.neutral600),
                                       ),
                                     ],
                                   ),
-
                                   SizedBox(height: 10.h),
                                 ],
                               ),
                               addVerticalDivider(),
                               Column(
-                                mainAxisAlignment:
-                                MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   SizedBox(height: 10.h),
-
                                   const SizedBox(
                                     height: 8,
                                   ),
-                                  Text('Achievement',
-                                    style: SharedComponent
-                                        .textStyleCustom(
+                                  Text(
+                                    'Achievement',
+                                    style: SharedComponent.textStyleCustom(
                                         typographyType:
-                                        TypographyType
-                                            .paragraph,
-                                        fontColor: ColorTheme
-                                            .neutral500),
+                                        TypographyType.paragraph,
+                                        fontColor: ColorTheme.neutral500),
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
                                   ),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      SvgPicture.asset(
-                                          ImageConstant.iconAccuracy,
-                                          width: 16.sp,
-                                          height: 20.sp,
-                                          package: Constant
-                                              .moduleEtamkawa),
-                                      Text('Rank 1',
-                                        style: SharedComponent
-                                            .textStyleCustom(
+                                      Container(
+                                        margin:
+                                        EdgeInsets.symmetric(horizontal: 2),
+                                        child: SvgPicture.asset(
+                                            ImageConstant.iconAchievement,
+                                            width: 16.sp,
+                                            height: 20.sp,
+                                            package: Constant.moduleEtamkawa),
+                                      ),
+                                      Text(
+                                        '89,3%',
+                                        style: SharedComponent.textStyleCustom(
                                             typographyType:
-                                            TypographyType
-                                                .bold,
-                                            fontColor: ColorTheme
-                                                .neutral600),
+                                            TypographyType.largeH5,
+                                            fontColor: ColorTheme.neutral600),
                                       ),
                                     ],
                                   ),
-
                                   SizedBox(height: 10.h),
                                 ],
                               ),
@@ -392,10 +445,10 @@ class SummaryTeamCard extends StatelessWidget {
             ),
           ],
         ),
-
       ],
     );
   }
+
   Widget addHorizontalDivider() {
     return Divider(
       thickness: 1.h,

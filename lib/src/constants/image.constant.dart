@@ -132,6 +132,11 @@ class ImageConstant {
   static const String iconEquipmentStatus =
       'assets/images/icon_equipment_status.svg';
 
+  //Growth
+  static const String iconRanking = 'assets/images/icon_ranking.svg';
+  static const String iconClass = 'assets/images/icon_class.svg';
+  static const String iconAchievement = 'assets/images/icon_achievement.svg';
+
   //emptyTable
   static const String emptyTable = 'assets/images/icon_table_empty.svg';
   static const String logoBSpace = 'assets/images/logo_bspace.png';
