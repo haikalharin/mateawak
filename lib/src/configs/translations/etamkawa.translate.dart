@@ -7,7 +7,11 @@ class EtamKawaTranslate {
 
   static String get notYetRated => '$_initial-notYetRated'.tr();
 
+  static String get apply => '$_initial-apply'.tr();
+
   static String get question => '$_initial-question'.tr();
+
+  static String get group => '$_initial-group'.tr();
 
   static String get of => '$_initial-of'.tr();
 
@@ -227,6 +231,8 @@ class EtamKawaTranslate {
     yourAnswerIsRatedAs: 'our answer is rated as',
     notYetRated: 'Not yet rated',
     question: 'Question',
+    apply: 'Apply',
+    group: 'Group',
     of: 'of',
     accuracy: 'Accuracy',
     lastSync: 'Last sync',
@@ -339,6 +345,8 @@ class EtamKawaTranslate {
     yourAnswerIsRatedAs: 'Jawabanmu diberi penilaian',
     notYetRated: 'Belum diberi penilaian',
     question: 'Pertanyaan',
+    group: 'Kelompok',
+    apply: 'Terapkan',
     of: 'dari',
     accuracy: 'Akurasi',
     lastSync: 'Pembaharuan terakhir',

@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lazy_load_indexed_stack/lazy_load_indexed_stack.dart';
 import 'package:module_etamkawa/src/features/growth/presentation/growth.screen.dart';
 import 'package:module_etamkawa/src/features/main_nav/presentation/controller/main_nav.controller.dart';
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
@@ -268,7 +267,6 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen>
                                   'CurrentIndex': '$selectedIndex'
                                 });
                               }
-                              // ctrl.onItemTapped(selectedIndex);
                               if (currentIndex == 2) {
                                 if (submitStatusMission !=
                                         SubmitStatus.inProgress &&
