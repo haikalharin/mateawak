@@ -8,6 +8,7 @@ import 'package:module_etamkawa/src/features/mission/domain/gamification_respons
 import 'package:module_etamkawa/src/features/mission/presentation/controller/mission.controller.dart';
 import 'package:module_etamkawa/src/features/mission_past/domain/mission_past_response.remote.dart';
 import 'package:module_etamkawa/src/features/mission_past/presentation/controller/mission_past.controller.dart';
+import 'package:module_etamkawa/src/features/telematry/presentation/controller/telematry.controller.dart';
 import 'package:module_etamkawa/src/utils/common_utils.dart';
 import 'package:module_shared/module_shared.dart';
 
@@ -27,7 +28,8 @@ class MissionPastScreen extends ConsumerStatefulWidget {
 }
 
 Future<void> myAsyncMethodMoved(BuildContext context) async {
-  context.goNamed(detailMissionPastv2Etamkawa, pathParameters: {'CurrentIndex': '2'});
+  context.goNamed(detailMissionPastv2Etamkawa,
+      pathParameters: {'CurrentIndex': '2'});
 }
 
 class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
@@ -275,6 +277,10 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
                               ),
                             ),
                             onPressed: () async {
+                              ref
+                                  .read(telematryControllerProvider.notifier)
+                                  .insertCustomTelematryData(
+                                      'view_mission_detail');
                               await ctrlPastMission
                                   .getDetailMission(
                                       employeeMissionId: missionPast[index]
@@ -282,6 +288,9 @@ class _MissionPastScreenState extends ConsumerState<MissionPastScreen> {
                                           0)
                                   .whenComplete(() async {
                                 await putCurrentAnswerFinal().whenComplete(() {
+                                  ref
+                                  .read(telematryControllerProvider.notifier)
+                                  .completeCustomTelematryDataThenSend();
                                   myAsyncMethodMoved(context);
                                 });
                               });

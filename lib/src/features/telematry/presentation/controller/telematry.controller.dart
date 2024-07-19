@@ -143,6 +143,82 @@ class TelematryController extends _$TelematryController {
     }
   }
 
+  Future<void> insertCustomTelematryData(String widgetEvent) async {
+    final timeNow = DateTime.now().toIso8601String();
+    final isarInstance = await ref.watch(isarInstanceProvider.future);
+
+    isarInstance.writeTxn(() async {
+      final data = TelematryDataModel();
+
+      //doesn't include checkout
+      data.sessionId = await ref.watch(helperUserProvider).getSessionLogID();
+
+      data.checkin = timeNow.split('.')[0];
+
+      data.widget = widgetEvent;
+      data.isOnline = ref.watch(isConnectionAvailableProvider);
+
+      final id = await isarInstance.telematryDataModels.put(data);
+      ref.read(lastActiveWidgetIdProvider.notifier).state = id;
+    });
+  }
+
+  Future<void> completeCustomTelematryDataThenSend() async {
+    final timeNow = DateTime.now().toIso8601String();
+    final isarInstance = await ref.watch(isarInstanceProvider.future);
+
+    final id = ref.read(lastActiveWidgetIdProvider);
+
+    if (id != null) {
+      isarInstance.writeTxn(() async {
+        final data = await isarInstance.telematryDataModels.get(id);
+
+        bool isLocationServiceEnabled =
+            await Geolocator.isLocationServiceEnabled();
+        Position? position;
+
+        try {
+          position = isLocationServiceEnabled
+              ? await Geolocator.getCurrentPosition()
+              : await Geolocator.getLastKnownPosition();
+        } catch (e) {
+          dart_dev.log('error location: $position -- $e');
+        }
+
+        final address =
+            position != null ? await _getAddressFromLatLang(position) : null;
+
+        data?.location = address;
+        data?.longitude = position?.longitude;
+        data?.latitude = position?.latitude;
+        data?.checkout = timeNow.split('.')[0];
+
+        if (data != null) {
+          await isarInstance.telematryDataModels.put(data);
+
+          final res = await submitTelematry([data]);
+          dart_dev.log('submit telematry result: $res');
+
+          await isarInstance.telematryDataModels.delete(data.id);
+
+          DateTime dateCheckIn =
+              DateTime.parse(data.checkin ?? DateTime.now().toIso8601String());
+          DateTime dateCheckOut =
+              DateTime.parse(data.checkout ?? DateTime.now().toIso8601String());
+          int getTime = dateCheckOut.difference(dateCheckIn).inSeconds;
+          Telemetry().onCapture(
+            pageName: '',
+            tabName: '',
+            widgetName: '${data.widget}',
+            checkIn: data.checkin,
+            checkOut: data.checkout,
+            durationSeconds: getTime,
+          );
+        }
+      });
+    }
+  }
+
   void onVisibilityChangedMultiWidget(
       VisibilityInfo visibilityInfo,
       BuildContext context,

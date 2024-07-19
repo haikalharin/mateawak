@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -139,16 +138,15 @@ class _TaskPerformancePastScreenState
                               typographyType: TypographyType.medium,
                               fontColor: ColorTheme.textDark),
                         ),
-                        const SizedBox(height: 10.0),
-                        Text('${EtamKawaTranslate.results}: ${gamificationData.rewardGained}%',
-                                        style: SharedComponent
-                                            .textStyleCustom(
-                                            typographyType:
-                                            TypographyType
-                                                .body,
-                                            fontColor: ColorTheme
-                                                .buttonPrimary)
-                                    ),
+                        gamificationData.missionStatusCode == 99
+                            ? const SizedBox(height: 10.0) : Container(),
+                        gamificationData.missionStatusCode == 99
+                            ? Text(
+                                '${EtamKawaTranslate.results}: ${gamificationData.rewardGained}%',
+                                style: SharedComponent.textStyleCustom(
+                                    typographyType: TypographyType.body,
+                                    fontColor: ColorTheme.buttonPrimary))
+                            : Container(),
                         const SizedBox(height: 10.0),
                         const Divider(),
                       ],

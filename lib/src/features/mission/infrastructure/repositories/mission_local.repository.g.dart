@@ -6,7 +6,7 @@ part of 'mission_local.repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getMissionRemoteHash() => r'ec1afe1a26be9d20b014a1940767f8c3fe3d7b6f';
+String _$getMissionRemoteHash() => r'7dce058f10799e4e836b9b776014696a4d38934d';
 
 /// See also [getMissionRemote].
 @ProviderFor(getMissionRemote)
