@@ -6,7 +6,7 @@ part of 'group_local.repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getGroupRemoteHash() => r'c66a5705f7e0360c263c5005dd81b627cc7c9c40';
+String _$getGroupRemoteHash() => r'5140f0802574a989e396da8773c3b42fed97816e';
 
 /// See also [getGroupRemote].
 @ProviderFor(getGroupRemote)

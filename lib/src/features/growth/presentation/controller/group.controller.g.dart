@@ -6,7 +6,7 @@ part of 'group.controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$groupControllerHash() => r'8f89e0565211c428db367b6e5038f1a6c6f759e8';
+String _$groupControllerHash() => r'25bbfd53f0d7f7c48b73280b1bfe956ab3b86319';
 
 /// See also [GroupController].
 @ProviderFor(GroupController)

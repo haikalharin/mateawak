@@ -314,47 +314,95 @@ class SummaryTeamCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
+        Container(
+          margin: const EdgeInsets.only(bottom: 16),
+          padding: const EdgeInsets.all(10.0),
+          decoration: BoxDecoration(
+            color: const Color(0xFFE3F2FD), // Light blue background color
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.info,
+                color: Colors.blue,
+              ),
+              // SizedBox(width: 16,),
+              Text(
+                'Last Updated',
+                style: SharedComponent.textStyleCustom(
+                    typographyType: TypographyType.largeH5,
+                    fontColor: ColorTheme.blueShade400),
+              ),
+              Text(
+                '20 Jan 2024 17:00',
+                style: SharedComponent.textStyleCustom(
+                    typographyType: TypographyType.paragraph,
+                    fontColor: ColorTheme.blueShade400),
+              ),
+            ],
+          ),
+        ),
         Stack(
           children: [
             Center(
-              child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                child: Image.network(
-                  'https://via.placeholder.com/300', // Replace with your image URL
-                  fit: BoxFit.cover,
-                  width: MediaQuery.of(context).size.width - 32,
-                  height: 200,
+              child: AspectRatio(
+                aspectRatio: 3 / 1.29,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                  child: Image.network(
+                    'https://via.placeholder.com/300',
+                    // Replace with your image URL
+                    fit: BoxFit.cover,
+                    // height: 200,
+                  ),
                 ),
               ),
             ),
             Column(
               children: [
-                Container(
-                  height: 150,
+                Center(
+                  child: AspectRatio(aspectRatio: 3.3 / 1, child: Container()),
+                ),
+                CircleAvatar(
+                  radius: 40.h,
+                  backgroundImage: const NetworkImage(
+                      'https://via.placeholder.com/60'), // Replace with your avatar image URL
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     children: [
-                      const CircleAvatar(
-                        radius: 30,
-                        backgroundImage: NetworkImage(
-                            'https://via.placeholder.com/60'), // Replace with your avatar image URL
-                      ),
                       const SizedBox(height: 10),
                       const Text(
                         'Solid Buddies',
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(
-                        'Coal Transport - KM6 - Produksi',
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                        ),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.location_pin,
+                            color: Colors.blue,
+                            size: 13,
+                          ),
+                          Text(
+                            'Coal Transport - KM6 - Produksi',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: ColorTheme.blueShade400,
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 10),
                       Card(
@@ -380,25 +428,77 @@ class SummaryTeamCard extends StatelessWidget {
                                     height: 8,
                                   ),
                                   Text(
-                                    'Achievement',
+                                    'Ranking',
                                     style: SharedComponent.textStyleCustom(
                                         typographyType:
                                             TypographyType.paragraph,
                                         fontColor: ColorTheme.neutral500),
                                   ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      SvgPicture.asset(
-                                          ImageConstant.iconAccuracy,
-                                          width: 16.sp,
-                                          height: 20.sp,
-                                          package: Constant.moduleEtamkawa),
+                                      Container(
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 2),
+                                        child: SvgPicture.asset(
+                                            ImageConstant.iconRanking,
+                                            width: 16.sp,
+                                            height: 20.sp,
+                                            package: Constant.moduleEtamkawa),
+                                      ),
                                       Text(
                                         'Rank 1',
                                         style: SharedComponent.textStyleCustom(
-                                            typographyType: TypographyType.bold,
+                                            typographyType:
+                                                TypographyType.largeH5,
+                                            fontColor: ColorTheme.neutral600),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 10.h),
+                                ],
+                              ),
+                              addVerticalDivider(),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(height: 10.h),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Text(
+                                    'Class',
+                                    style: SharedComponent.textStyleCustom(
+                                        typographyType:
+                                            TypographyType.paragraph,
+                                        fontColor: ColorTheme.neutral500),
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Container(
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 2),
+                                        child: SvgPicture.asset(
+                                            ImageConstant.iconClass,
+                                            width: 16.sp,
+                                            height: 20.sp,
+                                            package: Constant.moduleEtamkawa),
+                                      ),
+                                      Text(
+                                        'Shark',
+                                        style: SharedComponent.textStyleCustom(
+                                            typographyType:
+                                                TypographyType.largeH5,
                                             fontColor: ColorTheme.neutral600),
                                       ),
                                     ],
@@ -422,55 +522,27 @@ class SummaryTeamCard extends StatelessWidget {
                                             TypographyType.paragraph,
                                         fontColor: ColorTheme.neutral500),
                                   ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      SvgPicture.asset(
-                                          ImageConstant.iconAccuracy,
-                                          width: 16.sp,
-                                          height: 20.sp,
-                                          package: Constant.moduleEtamkawa),
-                                      Text(
-                                        'Rank 1',
-                                        style: SharedComponent.textStyleCustom(
-                                            typographyType: TypographyType.bold,
-                                            fontColor: ColorTheme.neutral600),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 10.h),
-                                ],
-                              ),
-                              addVerticalDivider(),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SizedBox(height: 10.h),
                                   const SizedBox(
                                     height: 8,
                                   ),
-                                  Text(
-                                    'Achievement',
-                                    style: SharedComponent.textStyleCustom(
-                                        typographyType:
-                                            TypographyType.paragraph,
-                                        fontColor: ColorTheme.neutral500),
-                                  ),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      SvgPicture.asset(
-                                          ImageConstant.iconAccuracy,
-                                          width: 16.sp,
-                                          height: 20.sp,
-                                          package: Constant.moduleEtamkawa),
+                                      Container(
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 2),
+                                        child: SvgPicture.asset(
+                                            ImageConstant.iconAchievement,
+                                            width: 16.sp,
+                                            height: 20.sp,
+                                            package: Constant.moduleEtamkawa),
+                                      ),
                                       Text(
-                                        'Rank 1',
+                                        '89,3%',
                                         style: SharedComponent.textStyleCustom(
-                                            typographyType: TypographyType.bold,
+                                            typographyType:
+                                                TypographyType.largeH5,
                                             fontColor: ColorTheme.neutral600),
                                       ),
                                     ],
